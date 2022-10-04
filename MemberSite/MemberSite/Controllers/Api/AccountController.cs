@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
 {
@@ -33,6 +34,7 @@ namespace MemberSite.Controllers.Api
         private readonly CasinoBll _casinoBll;
         private readonly BonusWalletBLL _bonusWalletBll;
         private readonly EventsBLL _eventsBll;
+        private readonly ILogger<AccountController> _logger;
 
         public AccountController(IServiceProvider provider)
         {
@@ -53,6 +55,7 @@ namespace MemberSite.Controllers.Api
             _casinoBll = provider.GetRequiredService<CasinoBll>();
             _bonusWalletBll = provider.GetRequiredService<BonusWalletBLL>();
             _eventsBll = provider.GetRequiredService<EventsBLL>();
+            _logger = provider.GetRequiredService<ILogger<AccountController>>();
         }
 
         [HttpPost]
@@ -114,7 +117,7 @@ namespace MemberSite.Controllers.Api
             var authData = _authorizeBll.GetAuthData();
             var result = _authorizeBll.Logout();
 
-            Response.Cookies.Delete($"InitializationReset{ User.Identity.Name}");
+            Response.Cookies.Delete($"InitializationReset{ User.Identity?.Name}");
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             apiResult.ErrorCode = 0;
             apiResult.Message = _selLangBll.GetMsg("msg_loggedout");
@@ -518,7 +521,7 @@ namespace MemberSite.Controllers.Api
         
         public class DelMsgReq
         {
-            public int[] MsgIds { get; set; }
+            public List<DeleteMsg> DeleteList { get; set; }
         }
 
         [HttpPost]
@@ -526,7 +529,7 @@ namespace MemberSite.Controllers.Api
         {
             var authData = _authorizeBll.GetAuthData();
             var apiResult = new ApiResult<MsgContent>();
-            if (_messageBll.DelMsg(authData.CustId, msgReq.MsgIds))
+            if (_messageBll.DelMsg(authData.CustId, msgReq.DeleteList))
             {
                 apiResult.ErrorCode = 0;
             }
@@ -847,18 +850,18 @@ namespace MemberSite.Controllers.Api
             var result = new ApiResult<object>();
             try
             {
-                if (User.Identity.IsAuthenticated)
+                var authData = _authorizeBll.GetAuthData();
+                if (authData is { CustId: > 0 })
                 {
-                    var authData = _authorizeBll.GetAuthData();
                     var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                     var data = _casinoBll.GetFavoriteGames(custInfo.CustId);
                     result.Data = data != null && data.Any() ? data.Select(x => new { x.ProviderId, x.GameId }) : null;
                     result.ErrorCode = 0;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                _logger.LogError(ex, GetCurrentMethod()); 
             }
 
             return result;
@@ -870,9 +873,9 @@ namespace MemberSite.Controllers.Api
             var result = new ApiResult();
             try
             {
-                if (User.Identity.IsAuthenticated)
+                var authData = _authorizeBll.GetAuthData();
+                if (authData is { CustId: > 0 })
                 {
-                    var authData = _authorizeBll.GetAuthData();
                     _casinoBll.SetFavoriteGames(authData.CustId, FavoriteInfo.ProviderId, FavoriteInfo.GameId, FavoriteInfo.IsRemove);
                     result.ErrorCode = 0;
                 }
@@ -887,6 +890,7 @@ namespace MemberSite.Controllers.Api
                 result.ErrorCode = 9000;
                 result.RawMessage = ex.Message;
                 result.Message = _selLangBll.GetErrMsg(result.ErrorCode);
+                _logger.LogError(ex, GetCurrentMethod());
             }
 
             return result;
@@ -1114,6 +1118,39 @@ namespace MemberSite.Controllers.Api
                 apiResult.Data = false;
                 apiResult.ErrorCode = 99;
             }
+            return apiResult;
+        }
+
+        [HttpPost]
+        public ApiResult<IEnumerable<EWalletInfoDetailRep>> GetCustEWalletInfo()
+        {
+            var apiResult = new ApiResult<IEnumerable<EWalletInfoDetailRep>>(_selLangBll);
+            List<EWalletInfoDetailRep> result = new List<EWalletInfoDetailRep>();
+            var authData = _authorizeBll.GetAuthData();
+            var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+            var eWalletInfoSysList = _bankInfoBll.GetEWalletInfoSysListByCurrency(custInfo.CurrencyId).ToList();
+
+            var custEWalletInfo = _custInfoBll.GetCustEWalletInfo(authData.CustId).ToList();
+
+            if (custEWalletInfo.Count > 0)
+            {
+                foreach (var eWalletInfo in custEWalletInfo)
+                {
+                    var refEWalletInfo = eWalletInfoSysList.FirstOrDefault(x => x.SysId == eWalletInfo.SysId);
+                    result.Add(new EWalletInfoDetailRep()
+                    {
+                        SysId = eWalletInfo.SysId,
+                        AccountNo = eWalletInfo.AccountNo,
+                        EWalletName = refEWalletInfo?.EWalletName,
+                        EWalletLogo = refEWalletInfo?.EWalletLogo,
+                        EWalletSite = refEWalletInfo?.EWalletSite
+                    });
+                }
+            }
+
+            apiResult.Data = result;
+            apiResult.ErrorCode = 0;
+
             return apiResult;
         }
     }

@@ -315,7 +315,7 @@ namespace MemberSite.Controllers.Api
                     };
                 }
 
-                Response.Cookies.Delete($"Initialization{User.Identity.Name}");
+                Response.Cookies.Delete($"Initialization{User.Identity?.Name}");
                 var claimsIdentity = new ClaimsIdentity(desktopClaims, CookieAuthenticationDefaults.AuthenticationScheme);
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
 

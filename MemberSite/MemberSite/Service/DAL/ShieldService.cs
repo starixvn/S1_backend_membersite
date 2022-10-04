@@ -1,12 +1,10 @@
-﻿using System.Data;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
 using Dapper;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using Microsoft.Extensions.Options;
-using MySql.Data.MySqlClient;
 
 namespace MemberSite.Service.DAL;
 
