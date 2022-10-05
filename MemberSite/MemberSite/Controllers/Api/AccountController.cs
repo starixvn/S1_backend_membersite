@@ -126,10 +126,13 @@ namespace MemberSite.Controllers.Api
 
             await _cacheHelper.KeyDeleteAsync(authData.CustId.ToString(), RedisDataBase.Token);
 
-            _ = Task.Run(async () =>
-              {
-                  _ = await LogoutAsync(1, authData.CustId);
-              });
+            if (authData is { CustId: > 0 })
+            {
+                _ = Task.Run(async () =>
+                {
+                    _ = await LogoutAsync(1, authData.CustId);
+                });
+            }
 
             return apiResult;
         }
@@ -144,6 +147,11 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult(_selLangBll);
             var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
+                return apiResult;
+            }
             var result = _custInfoBll.SetLanguage(authData.CustId, languageModel.LangId);
 
             if (result == -1)
@@ -202,10 +210,13 @@ namespace MemberSite.Controllers.Api
             apiResult.ErrorCode = 0;
             apiResult.Message = _selLangBll.GetMsg("msg_loggedout");
 
-            _ = Task.Run(async () =>
+            if (authData is { CustId: > 0 })
             {
-                _ = await LogoutAsync(1, authData.CustId);
-            });
+                _ = Task.Run(async () =>
+                {
+                    _ = await LogoutAsync(1, authData.CustId);
+                });
+            }
 
             return apiResult;
         }
@@ -223,6 +234,11 @@ namespace MemberSite.Controllers.Api
 
             var apiResult = new ApiResult(_selLangBll);
             var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
+                return apiResult;
+            }
 
             if (oldPassword == newPassword)
             {
