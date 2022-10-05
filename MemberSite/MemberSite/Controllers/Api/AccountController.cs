@@ -265,21 +265,6 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
 
-        public class ProfileModel
-        {
-            public string Email { set; get; }
-        }
-
-        [HttpPost]
-        public ApiResult<bool> ExistsEmail(ProfileModel profileModel)
-        {
-            var apiResult = new ApiResult<bool>(_selLangBll);
-            var authData = _authorizeBll.GetAuthData();
-            apiResult.Data = _custInfoBll.ExistsEmail(authData.CustId, profileModel.Email);
-            apiResult.ErrorCode = 0;
-            return apiResult;
-        }
-
         [HttpPost]
         public async Task<ApiResult<decimal>> GetBalanceAsync()
         {
