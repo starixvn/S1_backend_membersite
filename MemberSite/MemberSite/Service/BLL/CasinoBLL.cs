@@ -19,13 +19,13 @@ namespace MemberSite.Service.BLL
         {
             var data = _casinoService.GetFavoriteGames(custId);
             var result = new List<MemberFavorite>();
-            if(data != null)
+            if (data is { Favorite: { } })
             {
                 var tmp = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<string>>(data.Favorite);
-                foreach(var gameInfo in tmp)
+                foreach (var gameInfo in tmp)
                 {
-                    var (providerId, gameId) = SplitGameInfo(gameInfo); 
-                    if(providerId != 0 && !string.IsNullOrEmpty(gameId))
+                    var (providerId, gameId) = SplitGameInfo(gameInfo);
+                    if (providerId != 0 && !string.IsNullOrEmpty(gameId))
                         result.Add(new MemberFavorite() { ProviderId = providerId, GameId = gameId });
                 }
             }
