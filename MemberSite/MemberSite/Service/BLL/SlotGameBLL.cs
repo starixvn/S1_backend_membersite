@@ -82,17 +82,18 @@ namespace MemberSite.Service.BLL
 
         public async Task<List<SlotGameInfo>> GetSlotGameList(int siteId, int currencyId, int deviceType)
         {
-            var result = await _cacheHelper.TryGetOrCreateAsync($"GetSlotGameList:{currencyId}:{siteId}:{deviceType}",
+            var statusList = new List<int> { 1 };
+            var IsStage = _configuration.GetValue<int>("IsStage");
+            if (IsStage == 1)
+            {
+                statusList.Add(3);
+            }
+
+            var key = $"GetSlotGameList:{IsStage}:{currencyId}:{siteId}:{deviceType}";
+            var result = await _cacheHelper.TryGetOrCreateAsync(key,
                 TimeSpan.FromMinutes(10),
                 async () => 
-                {
-                    var statusList = new List<int> { 1 };
-                    var IsStage = _configuration.GetValue<int>("IsStage");
-                    if (IsStage == 1)
-                    {
-                        statusList.Add(3);
-                    }
-
+                {                
                     var result = await _reportDbClient.QueryAsync<SlotGameInfo>("Service_SlotGame_Get", new
                     {
                         CurrencyId = currencyId,
