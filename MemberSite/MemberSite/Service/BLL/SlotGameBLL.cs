@@ -86,18 +86,19 @@ namespace MemberSite.Service.BLL
                 TimeSpan.FromMinutes(10),
                 async () => 
                 {
-                    var Status = 1;
+                    var statusList = new List<int> { 1 };
                     var IsStage = _configuration.GetValue<int>("IsStage");
                     if (IsStage == 1)
                     {
-                        Status = 3;
+                        statusList.Add(3);
                     }
+
                     var result = await _reportDbClient.QueryAsync<SlotGameInfo>("Service_SlotGame_Get", new
                     {
                         CurrencyId = currencyId,
                         SiteId = siteId,
                         DeviceType = deviceType,
-                        Status 
+                        StatusJson = JsonConvert.SerializeObject(statusList)
                     });
                     return result;
                 });
