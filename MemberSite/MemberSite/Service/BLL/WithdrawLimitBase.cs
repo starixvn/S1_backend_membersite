@@ -39,7 +39,7 @@ namespace MemberSite.Service.BLL
             if (MinAmount > amount)
                 return -5;
 
-            MaxAmount = eWalletWithdrawalLimitInfo.WithdrawalMax;
+            MaxAmount = Math.Min(eWalletWithdrawalLimitInfo.WithdrawalMax, withdrawalLimitInfo.WithdrawalMax);
             if (MaxAmount < amount)
                 return -9;
 
