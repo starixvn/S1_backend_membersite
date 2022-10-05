@@ -21,8 +21,9 @@ namespace MemberSite.Service.BLL
         private readonly CustInfoBll _custInfoBll;
         private readonly GameBLL _gameBll;
         private readonly SelLangBLL _selLangBll;
-
+       
         private readonly CasinoService _casinoService;
+        private readonly IConfiguration _configuration;
 
         private readonly List<int> _excludeTp;
 
@@ -38,6 +39,7 @@ namespace MemberSite.Service.BLL
             _gameBll = provider.GetRequiredService<GameBLL>();
             _selLangBll = provider.GetRequiredService<SelLangBLL>();
             _casinoService = provider.GetRequiredService<CasinoService>();
+            _configuration = provider.GetRequiredService<IConfiguration>();
             _excludeTp = new List<int>
             {
                 1, //SABA
@@ -84,11 +86,19 @@ namespace MemberSite.Service.BLL
                 TimeSpan.FromMinutes(10),
                 async () => 
                 {
+                    var statusList = new List<int> { 1 };
+                    var IsStage = _configuration.GetValue<int>("IsStage");
+                    if (IsStage == 1)
+                    {
+                        statusList.Add(3);
+                    }
+
                     var result = await _reportDbClient.QueryAsync<SlotGameInfo>("Service_SlotGame_Get", new
                     {
                         CurrencyId = currencyId,
                         SiteId = siteId,
                         DeviceType = deviceType,
+                        StatusJson = JsonConvert.SerializeObject(statusList)
                     });
                     return result;
                 });
