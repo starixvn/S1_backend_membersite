@@ -1298,7 +1298,7 @@ namespace MemberSite.Controllers.Api
             #endregion
 
             var eWalletMin = Math.Max(output.WithdrawalMin, eWallet.WithdrawalMin);
-            var eWalletMax = Math.Min(output.WithdrawalMax, eWallet.WithdrawalMax);
+            var eWalletMax = Math.Min(output.TotalWithdrawalMax, eWallet.WithdrawalMax);
             
             var data = new WithdrawalLimitOutput
             {
