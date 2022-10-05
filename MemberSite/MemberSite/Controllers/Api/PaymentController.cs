@@ -1295,12 +1295,11 @@ namespace MemberSite.Controllers.Api
                 Status = 0
             };
 
-            var tmpEWalletAvailableAmount = eWallet.WithdrawalMax == 0
-                ? dailyCustomerWithdrawalInfo.Amount
-                : eWallet.WithdrawalMax - dailyCustomerWithdrawalInfo.Amount;
-            
             #endregion
-           
+
+            var eWalletMin = Math.Max(output.WithdrawalMin, eWallet.WithdrawalMin);
+            var eWalletMax = Math.Min(output.WithdrawalMax, eWallet.WithdrawalMax);
+            
             var data = new WithdrawalLimitOutput
             {
                 WithdrawalMin = output.WithdrawalMin,
@@ -1310,10 +1309,9 @@ namespace MemberSite.Controllers.Api
                 MaxTimes = output.Times,
                 WithdrawalTimes = dailyCustomerWithdrawalInfo.Count,
                 USDTList = cryptoList,
-                EWalletWithdrawalMin = eWallet.WithdrawalMin,
+                EWalletWithdrawalMin = eWalletMin,
                 EWalletUnlimited = eWallet.WithdrawalMax == 0,
-                EWalletWithdrawalAvailableAmount = tmpEWalletAvailableAmount < 0
-                    ? 0 : tmpEWalletAvailableAmount,
+                EWalletWithdrawalAvailableAmount = eWalletMax,
                 EWalletStatus = eWallet.Status
             };
 
