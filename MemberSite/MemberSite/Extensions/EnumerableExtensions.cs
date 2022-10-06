@@ -17,7 +17,7 @@
 
         public static T GetRandom<T>(this IEnumerable<T> source)
         {
-            int index = new Random().Next(0, source.Count());
+            var index = new Random().Next(0, source.Count());
             return source.ElementAt(index);
         }
     }

@@ -50,7 +50,7 @@ namespace MemberSite.Service.DAL
             try
             {
                 custId = 0;
-                using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+                using var conn = new MySqlConnection(_connectionString);
                 var p = new DynamicParameters(new { customer.SiteId, customer.UserName, customer.Userpwd, customer.CurrencyId, customer.UserLang, customer.AgentId, customer.AllAgentId, customer.UserLevel });
                 p.Add("CustId", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
@@ -437,21 +437,6 @@ namespace MemberSite.Service.DAL
         public async Task<bool> GetEmailVerified(int custId)
         {
             var result = await _mainDbClient.QueryFirstAsync<bool>("Member_EmailVerified_Get", new DynamicParameters(new { _CustId = custId }));
-            return result;
-        }
-
-        public int SetFireBaseTroken(int custId, int siteId, string fireBaseToken)
-        {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            return conn.Execute("Member_FireBaseToken_Set", new { CustId = custId, SiteId = siteId, FireBaseToken = fireBaseToken }, commandType: CommandType.StoredProcedure);
-        }
-        public int SetCustActStatus(int custId, string Operator)
-        {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            conn.Open();
-            using var trans = conn.BeginTransaction();
-            var result = conn.Execute("Member_CustActStatus_Set", new { CustId = custId, Operator = Operator }, transaction: trans, commandType: CommandType.StoredProcedure);
-            trans.Commit();
             return result;
         }
 
