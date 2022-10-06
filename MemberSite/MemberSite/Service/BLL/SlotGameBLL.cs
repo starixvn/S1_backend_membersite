@@ -59,7 +59,10 @@ namespace MemberSite.Service.BLL
 
             //排除不在SlotGameList的provider
             var slotGameProviderList = slotGameList.GroupBy(i => i.TpId).ToDictionary(i => i.Key,i => i.Key);
-            providerList = providerList.Where(i => slotGameProviderList.ContainsKey(i.TpId)).ToList();
+            providerList = providerList.Where(
+                i => slotGameProviderList.ContainsKey(i.TpId) ||
+                i.TpId == 22 // 針對mega888特別顯示
+            ).ToList();
             
             // 未登入狀態直接回傳
             if (custId == 0)
