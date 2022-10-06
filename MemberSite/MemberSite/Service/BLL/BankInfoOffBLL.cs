@@ -61,7 +61,7 @@ namespace MemberSite.Service.BLL
             var siteId = custInfo.SiteId;
             var currencyId = custInfo.CurrencyId;
 
-            var key = $"GetOfflineBankCardList_{siteId}_{currencyId}_{pointLevel}_{custInfo.UserLevel}";
+            var key = $"GetOfflineBankCardList:{siteId}:{currencyId}:{pointLevel}:{custInfo.UserLevel}";
             var offBankList = _redisHelper.TryGetOrCreate(key,
                 TimeSpan.FromMinutes(5),
                 () => GetOfflineBankAccountList(siteId, currencyId, pointLevel, custInfo.UserLevel));
@@ -80,7 +80,7 @@ namespace MemberSite.Service.BLL
             var siteId = custInfo.SiteId;
             var currencyId = custInfo.CurrencyId;
 
-            var key = $"GetBankInfoOffList_{siteId}_{currencyId}_{pointLevel}_{custInfo.UserLevel}_{lang}";
+            var key = $"GetBankInfoOffList:{siteId}:{currencyId}:{pointLevel}:{custInfo.UserLevel}:{lang}";
             var offBankList = _redisHelper
                 .TryGetOrCreate(key,
                 TimeSpan.FromSeconds(10),
