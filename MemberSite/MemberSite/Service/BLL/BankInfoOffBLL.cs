@@ -1,7 +1,6 @@
 ﻿using MemberSite.Service.DAL;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
-using Microsoft.Extensions.Caching.Memory;
 using System.Text.Json;
 using MemberSite.Service.Library;
 
@@ -15,7 +14,7 @@ namespace MemberSite.Service.BLL
         private readonly DepositBLL _depositBll;
         private readonly SysBankInfoOffComparer _sysBankInfoOffComparer;
         private readonly DepositService _depositService;
-        private readonly CacheHelper _cacheHelper;
+        private readonly ICacheHelper _redisHelper;
 
         public BankInfoOffBLL(IServiceProvider provider)
         {
@@ -23,7 +22,7 @@ namespace MemberSite.Service.BLL
             _bankInfoBll = provider.GetRequiredService<BankInfoBLL>();
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _depositBll = provider.GetRequiredService<DepositBLL>();
-            _cacheHelper = provider.GetRequiredService<CacheHelper>();
+            _redisHelper = provider.GetRequiredService<ICacheHelper>();
             _sysBankInfoOffComparer = new SysBankInfoOffComparer();
             _depositService = provider.GetRequiredService<DepositService>();
         }
@@ -63,9 +62,9 @@ namespace MemberSite.Service.BLL
             var currencyId = custInfo.CurrencyId;
 
             var key = $"GetOfflineBankCardList_{siteId}_{currencyId}_{pointLevel}_{custInfo.UserLevel}";
-            var offBankList = _cacheHelper.TryGetOrCreate(key,
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)),
-                i => GetOfflineBankAccountList(siteId, currencyId, pointLevel, custInfo.UserLevel));
+            var offBankList = _redisHelper.TryGetOrCreate(key,
+                TimeSpan.FromMinutes(5),
+                () => GetOfflineBankAccountList(siteId, currencyId, pointLevel, custInfo.UserLevel));
 
             var custDepositSysIds = _bankInfoService.GetCustOffDepositSysId(custId);
             var result = offBankList
@@ -82,9 +81,10 @@ namespace MemberSite.Service.BLL
             var currencyId = custInfo.CurrencyId;
 
             var key = $"GetBankInfoOffList_{siteId}_{currencyId}_{pointLevel}_{custInfo.UserLevel}_{lang}";
-            var offBankList = _cacheHelper.TryGetOrCreate(key,
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(10)),
-                i => GetBankAccountOffList(siteId, currencyId, pointLevel, custInfo.UserLevel, lang));
+            var offBankList = _redisHelper
+                .TryGetOrCreate(key,
+                TimeSpan.FromSeconds(10),
+                () => GetBankAccountOffList(siteId, currencyId, pointLevel, custInfo.UserLevel, lang));
 
             var custDepositSysIds = _bankInfoService.GetCustOffDepositSysId(custId);
             var result = offBankList

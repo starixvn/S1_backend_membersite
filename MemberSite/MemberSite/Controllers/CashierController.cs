@@ -25,6 +25,7 @@ namespace MemberSite.Controllers
         private bool isNewVersion = true;
         private readonly PayInfoBLL _payInfoBLL;
         private readonly BankInfoBLL _bankInfoBLL;
+        private readonly SelLangBLL _selLangBLL;
 
         public CashierController(IServiceProvider provider)
         {
@@ -40,6 +41,7 @@ namespace MemberSite.Controllers
             promotionBLL = provider.GetRequiredService<PromotionBll>();
             _payInfoBLL = provider.GetRequiredService<PayInfoBLL>();
             _bankInfoBLL = provider.GetRequiredService<BankInfoBLL>();
+            _selLangBLL = provider.GetRequiredService<SelLangBLL>();
 
             var configuration = provider.GetRequiredService<IConfiguration>();
             payApiUrl = configuration.GetValue<string>("PayService");

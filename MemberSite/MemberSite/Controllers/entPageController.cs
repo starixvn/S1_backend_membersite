@@ -86,14 +86,15 @@ namespace MemberSite.Controllers
 
             try
             {
-                if (User.Identity.IsAuthenticated)
+                var authData = _authorizeBll.GetAuthData();
+                if (authData is { CustId: > 0 })
                 {
-                    var authData = _authorizeBll.GetAuthData();
                     var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-                    
+
                     if (tpId == (int)Tp.TCG && string.CompareOrdinal(custInfo.AffCode, "67253") == 0)
                     {
-                        return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", new ErrorData() { Message = "Access Denied" });
+                        return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml",
+                            new ErrorData() { Message = "Access Denied" });
                     }
 
                     if (tpId == (int)Tp.AG)
@@ -146,11 +147,6 @@ namespace MemberSite.Controllers
                 return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
             }
         }
-
-        readonly Dictionary<int, bool> Bf = new Dictionary<int, bool>()
-        {
-           {1,false }
-        };
 
         public class SNameSubTable
         {

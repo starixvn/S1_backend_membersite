@@ -53,4 +53,10 @@
         public string PopupMessage { get; set; }
         public int PageNumber { get; set; }
     }
+
+    public class DeleteMsg
+    {
+        public int MsgId { get; set; }
+        public bool IsBatch { get; set; }
+    }
 }

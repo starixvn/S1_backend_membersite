@@ -60,36 +60,24 @@ namespace MemberSite.Service.BLL
         /// <returns></returns>
         public string GetLangId()
         {
-            string langId = null;
-
             var serverInfo = _serverInfoBll.GetServerInfo();
             var context = _httpContextAccessor.HttpContext;
-            if (context.User.Identity.IsAuthenticated)
-            {
-                langId = context.User.Claims.FirstOrDefault(m => m.Type == "LangId")?.Value;
-            }
-            else
-            {
-                //langId = context.Request.Cookies[$"LangId_{serverInfo.SiteId}"];
-                langId = context.Request.Cookies[$"{serverInfo.SiteName.ToLower()}LangId"];
-            }
+            
+            var langId = context?.User.Identity?.IsAuthenticated == true
+                ? context.User.Claims.FirstOrDefault(m => m.Type == "LangId")?.Value
+                : context?.Request.Cookies[$"{serverInfo.SiteName.ToLower()}LangId"];
 
             if (string.IsNullOrEmpty(langId))
             {
-                var routes = _httpContextAccessor.HttpContext.GetRouteData();
-                var routeDataLandId = routes.Values["LangId"] as string;
+                var routeDataLandId = context?.GetRouteData().Values["LangId"] as string;
                 if (!string.IsNullOrEmpty(routeDataLandId) && serverInfo.ILangList.Contains(routeDataLandId))
                 {
                     langId = routeDataLandId;
-
-                    /*CookieOptions option = new CookieOptions();
-                    option.Expires = DateTime.Now.AddDays(10);
-                    context.Response.Cookies.Append($"LangId_{serverInfo.SiteId}", langId, option);*/
                 }
             }
 
-            var userLangs = context.Request.Headers["Accept-Language"].ToString();
-            var firstLang = userLangs.Split(',').FirstOrDefault();
+            var userLangs = context?.Request.Headers["Accept-Language"].ToString();
+            var firstLang = userLangs?.Split(',').FirstOrDefault();
 
             if (string.IsNullOrEmpty(langId) && !string.IsNullOrEmpty(firstLang))
             {
