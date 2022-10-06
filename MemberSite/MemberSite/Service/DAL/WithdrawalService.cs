@@ -14,7 +14,6 @@ namespace MemberSite.Service.DAL
         private readonly IConfiguration configuration;
         private readonly Common common;
         private readonly WalletService walletService;
-        private readonly RolloverService rolloverService;
         private readonly MySqlClient _mainDbClient;
         private readonly MySqlClient _reportDbClient;
         private readonly ShieldBLL _shieldBll;
@@ -25,7 +24,6 @@ namespace MemberSite.Service.DAL
             configuration = provider.GetRequiredService<IConfiguration>();
             common = provider.GetRequiredService<Common>();
             walletService = provider.GetRequiredService<WalletService>();
-            rolloverService = provider.GetRequiredService<RolloverService>();
             _shieldBll = provider.GetRequiredService<ShieldBLL>();
             _mainDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Main);
             _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);

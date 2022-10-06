@@ -16,7 +16,6 @@ namespace MemberSite.Service.BLL
         private readonly AuthenticateService _authenticateService;
         private readonly ServerInfoBll _serverInfoBll;
         private readonly AgentInfoService _agentInfoService;
-        private readonly RolloverService _rollOverService;
         private readonly BankInfoService _bankInfoService;
         private readonly CommonBLL _commonBll;
         private readonly CacheHelper _cacheHelper;
@@ -37,7 +36,6 @@ namespace MemberSite.Service.BLL
             _authenticateService = provider.GetRequiredService<AuthenticateService>();
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
             _agentInfoService = provider.GetRequiredService<AgentInfoService>();
-            _rollOverService = provider.GetRequiredService<RolloverService>();
             _bankInfoService = provider.GetRequiredService<BankInfoService>();
             _commonBll = provider.GetRequiredService<CommonBLL>();
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
@@ -493,11 +491,7 @@ namespace MemberSite.Service.BLL
             var result = await _commonBll.SendResetPwdMailAsync(custId, resetPasswordUrl);
             return result;
         }
-
-        public CustRollOver GetCustRollOver(int custId, string bonusCode)
-        {
-            return _rollOverService.GetCustRollOver(custId, bonusCode);
-        }
+        
         public async Task<ApiResult> VerifyOTPAsync(int custId, string inputOTP)
         {
             var apiResult = await _commonBll.VerifyOTPAsync(custId, inputOTP);
@@ -631,14 +625,6 @@ namespace MemberSite.Service.BLL
             }
 
             return true;
-        }
-        public int SetFireBaseTroken(int custId, int siteId, string fireBaseToken)
-        {
-            return _custInfoService.SetFireBaseTroken(custId, siteId, fireBaseToken);
-        }
-        public int SetCustActStatus(int custId, string Operator)
-        {
-            return _custInfoService.SetCustActStatus(custId, Operator);
         }
 
         private static List<string> AddressKeys = new List<string>() { "Country", "State", "PostCode", "City", "LineFirst", "LineSecond" };
