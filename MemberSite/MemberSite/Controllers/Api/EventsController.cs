@@ -374,7 +374,7 @@ namespace MemberSite.Controllers.Api
                         var Message = _eventsBll.GetDrawPrizeMessageWithCache(eventId, _selLangBll.GetLangId());
                         if (!string.IsNullOrEmpty(Message.Tital) && !string.IsNullOrEmpty(Message.Message))
                         {
-                            string prizeName = $"{currencyName} {dAmount}";
+                            var prizeName = $"{currencyName} {dAmount}";
                             if(_selLangBll.GetLangId() == "vn")
                                 prizeName = $"{dAmount} {currencyName}";
                             Tital = Message.Tital;

@@ -1200,7 +1200,7 @@ namespace MemberSite.Controllers.Api
             [FromRoute] string langId = "en")
         {
             var authData = _authorizeBll.GetAuthData();
-            if (authData != null)
+            if (authData is { CustId: > 0 })
             {
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                 request.CurrencyId = custInfo.CurrencyId;
