@@ -53,25 +53,39 @@ namespace MemberSite.Service.DAL
                 custId = 0;
                 using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
                 var p = new DynamicParameters(new { customer.SiteId, customer.UserName, customer.Userpwd, customer.CurrencyId, customer.UserLang, customer.AgentId, customer.AllAgentId, customer.UserLevel });
-                p.Add("CustId", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                p.Add("CustId", dbType: DbType.String, direction: ParameterDirection.Output);
 
                 conn.Open();
                 using var trans = conn.BeginTransaction();
                 var result = _mainDbClient.Execute("CustInfo_Ins", p, conn, trans);
+                var strCustId = string.Empty;
 
                 if (result > 0)
                 {
-                    custId = p.Get<int?>("CustId") ?? 0;
-                    flag += $" Executed CustInfo_Ins after custId：{custId} ";
-                    if (custId == 0)
+                    strCustId = p.Get<string>("CustId") ?? "";
+                    flag += $" Executed CustInfo_Ins after strCustId：{strCustId} ";
+
+                    if (string.IsNullOrEmpty(strCustId))
                     {
                         trans.Rollback();
                         return -5;
                     }
+
+                    if (long.TryParse(strCustId, out var longCustId))
+                    {
+                        if (longCustId > int.MaxValue)
+                        {
+                            trans.Rollback();
+                            throw new Exception("CustId > int32 please check");
+                        }
+                    }
+
+                    custId = int.Parse(strCustId);
+                    flag += $" Executed CustInfo_Ins after custId：{custId} ";
                 }
                 else
                 {
-                    flag += $" Executed CustInfo_Ins Fail custId：{custId} ";
+                    flag += $" Executed CustInfo_Ins Fail，Not Retrun CustId";
                 }
 
                 if (result > 0 && (!string.IsNullOrEmpty(Email) || (!string.IsNullOrEmpty(PhoneNo) && !string.IsNullOrEmpty(AreaCode))))
@@ -113,7 +127,7 @@ namespace MemberSite.Service.DAL
                         SetCustBankInfo(custId, customer.SiteId, RealName);
                         flag += $" Executed SetCustBankInfo after custId：{custId} ";
                     }
-                        
+
                 }
 
                 if (result > 0 && (!string.IsNullOrEmpty(signupUrl) || !string.IsNullOrEmpty(referralUrl)))
@@ -137,7 +151,7 @@ namespace MemberSite.Service.DAL
                         result = _mainDbClient.Execute("Member_CustPromoCode_Ins", new DynamicParameters(new { CustId = custId, PromoCode = promoCode.Trim() }), conn, trans);
                         flag += $" Executed Member_CustPromoCode_Ins after custId：{custId} ";
                     }
-                    
+
                     if (result == 0)
                     {
                         result = -7;
@@ -184,7 +198,7 @@ namespace MemberSite.Service.DAL
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex,$"{ex.Message}，codeFlow:{flag}");
+                _logger.LogError(ex, $"{ex.Message}，codeFlow:{flag}");
                 throw;
             }
         }
