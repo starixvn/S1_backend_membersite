@@ -63,29 +63,32 @@ namespace MemberSite.Service.DAL
                 if (result > 0)
                 {
                     strCustId = p.Get<string>("CustId") ?? "";
-                    flag += $" Executed CustInfo_Ins after strCustId：{strCustId} ";
+                    flag += $" Executed CustInfo_Ins after CustId：{strCustId} ";
 
                     if (string.IsNullOrEmpty(strCustId))
                     {
                         trans.Rollback();
-                        return -5;
+                        throw new Exception("db return CustId IsNullOrEmpty");
                     }
 
                     if (long.TryParse(strCustId, out var longCustId))
                     {
-                        if (longCustId > int.MaxValue)
+                        if (longCustId > int.MaxValue || longCustId < int.MinValue)
                         {
                             trans.Rollback();
-                            throw new Exception("CustId > int32 please check");
+                            throw new Exception("CustId Out of range value int32 please check");
                         }
+                    }
+                    else
+                    {
+                        throw new Exception("CustId long TryParse fail");
                     }
 
                     custId = int.Parse(strCustId);
-                    flag += $" Executed CustInfo_Ins after custId：{custId} ";
                 }
                 else
                 {
-                    flag += $" Executed CustInfo_Ins Fail，Not Retrun CustId";
+                    flag += $" Executed CustInfo_Ins Fail，not retrun CustId";
                 }
 
                 if (result > 0 && (!string.IsNullOrEmpty(Email) || (!string.IsNullOrEmpty(PhoneNo) && !string.IsNullOrEmpty(AreaCode))))
