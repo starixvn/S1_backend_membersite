@@ -1,4 +1,5 @@
-﻿using MemberSite.Service.DAL;
+﻿using MemberSite.Extensions;
+using MemberSite.Service.DAL;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using MemberSite.Service.Library;
@@ -12,6 +13,8 @@ namespace MemberSite.Service.BLL
         private readonly DepositBLL _depositBll;
         private readonly CustInfoBll _custInfoBll;
         private readonly MobilePayGroupComparer _mobilePayGroupComparer;
+        private readonly BankInfoOffBLL _bankInfoOffBll;
+        private readonly CacheHelper _cacheHelper;
         private readonly ICacheHelper _redisHelper;
         public MobilePayInfoBll(IServiceProvider provider)
         {
@@ -19,6 +22,7 @@ namespace MemberSite.Service.BLL
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _depositService = provider.GetRequiredService<DepositService>();
             _depositBll = provider.GetRequiredService<DepositBLL>();
+            _bankInfoOffBll = provider.GetRequiredService<BankInfoOffBLL>();
             _mobilePayGroupComparer = new MobilePayGroupComparer();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
         }
@@ -78,10 +82,32 @@ namespace MemberSite.Service.BLL
                                                        {
                                                            y.MaxAmount
                                                        }).OrderByDescending(y => y.MaxAmount).FirstOrDefault().MaxAmount
-                                      }).Distinct(_mobilePayGroupComparer);
+                                      }).Distinct(_mobilePayGroupComparer).ToList();
 
+            if (custInfo.CurrencyId == (int) CurrencyId.MYR)
+            {
+                var bankCards = _bankInfoOffBll.GetOfflineBankCardListWithCache(custId)
+                    .Where(x => x.SupportQR);
+
+                if (bankCards.Any())
+                {
+                    mobilePayGroupList.Add(new MobilePayGroup
+                    {
+                        ChannelName = FakePayGroupEnum.DuitNowQR.GetDescription(),
+                        GroupId = (int) FakePayGroupEnum.DuitNowQR,
+                        GroupName = FakePayGroupEnum.DuitNowQR.ToString(),
+                        Mode = (int) PayModeEnum.QrCode,
+                        GSort = 99,
+                        MinAmount = bankCards.Min(x => x.MinAmount),
+                        MaxAmount = bankCards.Max(x => x.MaxAmount)
+                    });
+                }
+            }
+            
             return mobilePayGroupList;
         }
+        
+        
 
         public IEnumerable<MobilePayInfo> GetMobilePayInfoList(int custId, int groupId)
         {

@@ -30,6 +30,7 @@ namespace MemberSite.Controllers.Api
         private readonly FileNameBLL _fileNameBll;
         private readonly ImageEditorBLL _imageEditorBll;
         private readonly PayInfoBLL _payInfoBLL;
+        private readonly PromotionBll _promotionBll;
         private readonly CustInfoService _custInfoService;
         private readonly ILogger<PaymentController> _logger;
         private readonly CourierAdapter _courierAdapter;
@@ -51,6 +52,7 @@ namespace MemberSite.Controllers.Api
             _fileNameBll = provider.GetRequiredService<FileNameBLL>();
             _imageEditorBll = provider.GetRequiredService<ImageEditorBLL>();
             _payInfoBLL = provider.GetRequiredService<PayInfoBLL>();
+            _promotionBll = provider.GetRequiredService<PromotionBll>();
             _custInfoService = provider.GetRequiredService<CustInfoService>();
             _logger = provider.GetRequiredService<ILogger<PaymentController>>();
             _courierAdapter = provider.GetRequiredService<CourierAdapter>();
@@ -240,6 +242,86 @@ namespace MemberSite.Controllers.Api
             }
 
             return apiResult;
+        }
+        
+        public class DepositReqFakeMobilePayReq
+        {
+            public int GroupId { set; get; }
+            public decimal Amount { set; get; }
+            public string BonusCode { set; get; }
+        }
+        
+        [HttpPost]
+        public ApiResult<FakeMobilePayResp> DepositReqFakeMobilePayAsync(DepositReqFakeMobilePayReq req)
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var custId = authData.CustId;
+            var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
+            var cards = bankInfoOffBLL.GetOfflineBankCardListWithCache(custId)
+                .Where(x => x.SupportQR && req.Amount >= x.MinAmount && req.Amount <= x.MaxAmount)
+                .ToList();
+            var hasPromotion = !string.IsNullOrWhiteSpace(req.BonusCode);
+
+            if (!cards.Any())
+            {
+                return new ApiResult<FakeMobilePayResp>
+                {
+                    ErrorCode = -1,
+                    RawMessage = "No bank card available for BankQR"
+                };
+            }
+            
+            // 隨機配卡
+            var random = new Random();
+            var card = cards[random.Next(cards.Count - 1)];
+            var fakeReq = new DepositReqWireTransferReq
+            {
+                amount = req.Amount,
+                memo = "Fake MobilePay",
+                fromChannel = req.GroupId,
+                sysId = card.SysId,
+                hasPromotion = hasPromotion
+            };
+
+            var depositResult = DepositReqWireTransfer(fakeReq);
+            
+            if (depositResult.ErrorCode != 0)
+            {
+                return new ApiResult<FakeMobilePayResp>
+                {
+                    ErrorCode = -2,
+                    RawErrorCode = depositResult.ErrorCode.ToString(),
+                    RawMessage = depositResult.Message
+                };
+            }
+
+            var transId = depositResult.Data.TransId;
+            if (hasPromotion)
+            {
+                if (!_promotionBll.SetDepositPromotionQueue(
+                        transId,
+                        req.BonusCode,
+                        authData.CustId,
+                        custInfo.SiteId,
+                        custInfo.UserName,
+                        custInfo.CurrencyId,
+                        1,
+                        0))
+                {
+                    _logger.LogError($"TransId:{transId} SetDepositPromotionQueue Failed");
+                };
+            }
+            
+            return new ApiResult<FakeMobilePayResp>
+            {
+                Data = new FakeMobilePayResp
+                {
+                    Amount = req.Amount,
+                    ReturnUrl = card.QRCodeUrl,
+                    TransId = transId
+                },
+                ErrorCode = 0
+            };
         }
 
         [HttpPost]
