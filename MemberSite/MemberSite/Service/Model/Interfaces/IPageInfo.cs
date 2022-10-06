@@ -43,6 +43,10 @@
             PageNumber = pageNumber;
             var index = (Math.Abs(pageNumber) - 1) * Math.Abs(pageSize);
             var count = index + pageSize <= totalCount ? pageSize : totalCount - index;
+            if (count < 0)
+            {
+                count = 0;
+            }
             return (index, count);
         }
 
