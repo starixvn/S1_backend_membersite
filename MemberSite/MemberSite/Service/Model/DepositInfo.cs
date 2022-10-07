@@ -82,6 +82,8 @@ namespace MemberSite.Service.Model
         //public string PostScript { get; set; }
         [JsonIgnore]
         public string DepositInfo { get; set; }
+        [JsonIgnore]
+        public string Memo { get; set; }
         public dynamic DepositRep { get; set; }
         public BankInfoSys BankInfo { get; set; }
         public string ThirdId { get; set; }

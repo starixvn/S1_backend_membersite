@@ -578,6 +578,11 @@ namespace MemberSite.Service.BLL
                     var depositInfoRef = (DepositInfo3_1)depositInfo.DepositRep;
                     depositInfo.BankInfo = bankInfoBLL.GetBankInfoSysListByCurrency(CustInfo.CurrencyId).FirstOrDefault(x => x.SysId == depositInfoRef.SysId);
                 }
+
+                if ("Fake MobilePay".Equals(depositInfo.Memo, StringComparison.OrdinalIgnoreCase))
+                {
+                    depositInfo.DepositType = (int)DepositType.MobilePayment;
+                }
             }
 
             return depositInfoRecent;
