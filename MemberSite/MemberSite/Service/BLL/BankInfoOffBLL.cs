@@ -15,6 +15,7 @@ namespace MemberSite.Service.BLL
         private readonly SysBankInfoOffComparer _sysBankInfoOffComparer;
         private readonly DepositService _depositService;
         private readonly ICacheHelper _redisHelper;
+        private readonly ILogger<BankInfoOffBLL> _logger;
 
         public BankInfoOffBLL(IServiceProvider provider)
         {
@@ -25,6 +26,7 @@ namespace MemberSite.Service.BLL
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
             _sysBankInfoOffComparer = new SysBankInfoOffComparer();
             _depositService = provider.GetRequiredService<DepositService>();
+            _logger = provider.GetRequiredService<ILogger<BankInfoOffBLL>>();
         }
 
         public IEnumerable<BankInfoOff> GetBankAccountOff(int siteId, int queryType = 1)
@@ -79,7 +81,7 @@ namespace MemberSite.Service.BLL
             var siteId = custInfo.SiteId;
             var currencyId = custInfo.CurrencyId;
 
-            var key = $"GetBankInfoOffList_{siteId}_{currencyId}_{pointLevel}_{custInfo.UserLevel}_{lang}";
+            var key = $"GetBankInfoOffList:{siteId}:{currencyId}:{pointLevel}:{custInfo.UserLevel}:{lang}";
             var offBankList = _redisHelper.TryGetOrCreate(key, TimeSpan.FromSeconds(10),
                 () => GetBankAccountOffList(siteId, currencyId, pointLevel, custInfo.UserLevel, lang));
 
@@ -109,7 +111,7 @@ namespace MemberSite.Service.BLL
                     && x.VipLevel == pointLevel // DepositLimit 裡的 VipLevel 是 PointLevel
                     && x.DepositType == (int)DepositType.LocalBank
                     && x.CurrencyId == currencyId);
-
+            
             if (depositLimitInfo?.DepositStatus == 0)
             {
                 return Array.Empty<SysBankInfoFront>();
@@ -156,7 +158,7 @@ namespace MemberSite.Service.BLL
                 info.MinAmount = tmpInfo.MinAmount;
                 info.MaxAmount = tmpInfo.MaxAmount;
             }
-
+            
             return infos;
         }
         
