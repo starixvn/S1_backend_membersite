@@ -15,6 +15,7 @@ namespace MemberSite.Service.BLL
         private readonly SysBankInfoOffComparer _sysBankInfoOffComparer;
         private readonly DepositService _depositService;
         private readonly ICacheHelper _redisHelper;
+        private readonly ILogger<BankInfoOffBLL> _logger;
 
         public BankInfoOffBLL(IServiceProvider provider)
         {
@@ -25,6 +26,7 @@ namespace MemberSite.Service.BLL
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
             _sysBankInfoOffComparer = new SysBankInfoOffComparer();
             _depositService = provider.GetRequiredService<DepositService>();
+            _logger = provider.GetRequiredService<ILogger<BankInfoOffBLL>>();
         }
 
         public IEnumerable<BankInfoOff> GetBankAccountOff(int siteId, int queryType = 1)
@@ -62,8 +64,7 @@ namespace MemberSite.Service.BLL
             var currencyId = custInfo.CurrencyId;
 
             var key = $"GetOfflineBankCardList:{siteId}:{currencyId}:{pointLevel}:{custInfo.UserLevel}";
-            var offBankList = _redisHelper.TryGetOrCreate(key,
-                TimeSpan.FromMinutes(5),
+            var offBankList = _redisHelper.TryGetOrCreate(key, TimeSpan.FromMinutes(5),
                 () => GetOfflineBankAccountList(siteId, currencyId, pointLevel, custInfo.UserLevel));
 
             var custDepositSysIds = _bankInfoService.GetCustOffDepositSysId(custId);
@@ -81,9 +82,7 @@ namespace MemberSite.Service.BLL
             var currencyId = custInfo.CurrencyId;
 
             var key = $"GetBankInfoOffList:{siteId}:{currencyId}:{pointLevel}:{custInfo.UserLevel}:{lang}";
-            var offBankList = _redisHelper
-                .TryGetOrCreate(key,
-                TimeSpan.FromSeconds(10),
+            var offBankList = _redisHelper.TryGetOrCreate(key, TimeSpan.FromSeconds(10),
                 () => GetBankAccountOffList(siteId, currencyId, pointLevel, custInfo.UserLevel, lang));
 
             var custDepositSysIds = _bankInfoService.GetCustOffDepositSysId(custId);
@@ -100,6 +99,8 @@ namespace MemberSite.Service.BLL
                             && x.VipLevels.Contains(vipLevel)
                             && x.SupportChannel.Contains(OfflineBankAccountSupportChannelEnum.LocalBank))
                 .ToList();
+            
+            _logger.LogInformation("localBankList: " + (localBankList.Any() ? JsonSerializer.Serialize(localBankList) : "null"));
 
             if (siteId == (int) SiteId.Nova88
                 && currencyId == (int) CurrencyId.THB) // Nova88 泰國銀行名稱支援多語系
@@ -113,6 +114,8 @@ namespace MemberSite.Service.BLL
                     && x.DepositType == (int)DepositType.LocalBank
                     && x.CurrencyId == currencyId);
 
+            _logger.LogInformation("depositLimitInfo: " + (depositLimitInfo == null ? JsonSerializer.Serialize(depositLimitInfo) : "null"));
+            
             if (depositLimitInfo?.DepositStatus == 0)
             {
                 return Array.Empty<SysBankInfoFront>();
@@ -159,6 +162,8 @@ namespace MemberSite.Service.BLL
                 info.MinAmount = tmpInfo.MinAmount;
                 info.MaxAmount = tmpInfo.MaxAmount;
             }
+            
+            _logger.LogInformation("infos: " + (infos.Any() ? JsonSerializer.Serialize(depositLimitInfo) : "null"));
 
             return infos;
         }
