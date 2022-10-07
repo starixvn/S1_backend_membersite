@@ -99,8 +99,6 @@ namespace MemberSite.Service.BLL
                             && x.VipLevels.Contains(vipLevel)
                             && x.SupportChannel.Contains(OfflineBankAccountSupportChannelEnum.LocalBank))
                 .ToList();
-            
-            _logger.LogInformation("localBankList: " + (localBankList.Any() ? JsonSerializer.Serialize(localBankList) : "null"));
 
             if (siteId == (int) SiteId.Nova88
                 && currencyId == (int) CurrencyId.THB) // Nova88 泰國銀行名稱支援多語系
@@ -113,8 +111,6 @@ namespace MemberSite.Service.BLL
                     && x.VipLevel == pointLevel // DepositLimit 裡的 VipLevel 是 PointLevel
                     && x.DepositType == (int)DepositType.LocalBank
                     && x.CurrencyId == currencyId);
-
-            _logger.LogInformation("depositLimitInfo: " + (depositLimitInfo == null ? JsonSerializer.Serialize(depositLimitInfo) : "null"));
             
             if (depositLimitInfo?.DepositStatus == 0)
             {
@@ -163,8 +159,6 @@ namespace MemberSite.Service.BLL
                 info.MaxAmount = tmpInfo.MaxAmount;
             }
             
-            _logger.LogInformation("infos: " + (infos.Any() ? JsonSerializer.Serialize(depositLimitInfo) : "null"));
-
             return infos;
         }
         
