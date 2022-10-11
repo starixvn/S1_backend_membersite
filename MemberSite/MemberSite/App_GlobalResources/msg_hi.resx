@@ -359,4 +359,7 @@
   <data name="msg_EWalletIsMaintenance" xml:space="preserve">
     <value>ई-वॉलेट रखरखाव है, कृपया अन्य निकासी विधियों का उपयोग करें</value>
   </data>
+  <data name="msg_NotInLimit" xml:space="preserve">
+    <value>सीमा में नहीं।</value>>
+  </data>
 </root>

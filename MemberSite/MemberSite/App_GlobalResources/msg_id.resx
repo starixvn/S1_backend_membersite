@@ -361,4 +361,7 @@
   <data name="msg_EWalletIsMaintenance" xml:space="preserve">
     <value>E-Wallet adalah pemeliharaan, silakan gunakan metode penarikan lainnya</value>
   </data>
+  <data name="msg_NotInLimit" xml:space="preserve">
+    <value>Tidak dalam Limit</value>
+  </data>
 </root>

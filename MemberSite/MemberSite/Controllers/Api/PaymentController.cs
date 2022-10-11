@@ -1355,12 +1355,11 @@ namespace MemberSite.Controllers.Api
                 Status = 0
             };
 
-            var tmpEWalletAvailableAmount = eWallet.WithdrawalMax == 0
-                ? dailyCustomerWithdrawalInfo.Amount
-                : eWallet.WithdrawalMax - dailyCustomerWithdrawalInfo.Amount;
-            
             #endregion
-           
+
+            var eWalletMin = Math.Max(output.WithdrawalMin, eWallet.WithdrawalMin);
+            var eWalletMax = Math.Min(output.TotalWithdrawalMax, eWallet.WithdrawalMax);
+            
             var data = new WithdrawalLimitOutput
             {
                 WithdrawalMin = output.WithdrawalMin,
@@ -1370,10 +1369,9 @@ namespace MemberSite.Controllers.Api
                 MaxTimes = output.Times,
                 WithdrawalTimes = dailyCustomerWithdrawalInfo.Count,
                 USDTList = cryptoList,
-                EWalletWithdrawalMin = eWallet.WithdrawalMin,
+                EWalletWithdrawalMin = eWalletMin,
                 EWalletUnlimited = eWallet.WithdrawalMax == 0,
-                EWalletWithdrawalAvailableAmount = tmpEWalletAvailableAmount < 0
-                    ? 0 : tmpEWalletAvailableAmount,
+                EWalletWithdrawalAvailableAmount = eWalletMax,
                 EWalletStatus = eWallet.Status
             };
 
@@ -1614,37 +1612,32 @@ namespace MemberSite.Controllers.Api
             #endregion
 
             #region - Check WithdrawalLimit -
-            if(eWalletWithdrawalLimitInfo.Status == (int)EWalletStatus.Disable)
-            {
-                apiResult.Message = selLangBLL.GetMsg("msg_EWalletIsMaintenance");
-                apiResult.ErrorCode = -8;
-                return apiResult;
-            }
-            if (eWalletWithdrawalLimitInfo.WithdrawalMin > withdrawalReqModel.amount)
-            {
-                apiResult.Message = string.Format(selLangBLL.GetMsg("msg_LessThanWithdrawalMin"), eWalletWithdrawalLimitInfo.WithdrawalMin);
-                apiResult.ErrorCode = -5;
-                return apiResult;
-            }
 
-            if (withdrawalLimitInfo != null
-                && withdrawalLimitInfo.TotalWithdrawalMax != 0 
-                && dailyCustomerWithdrawalInfo.Amount + withdrawalReqModel.amount > withdrawalLimitInfo.TotalWithdrawalMax)
+            var withdrawLimit = WithdrawLimitFactory.Create(WithdrawalTypeStatus.EWallet);
+            var errorCode = withdrawLimit.CheckWithdrawLimit(eWalletWithdrawalLimitInfo, withdrawalLimitInfo, dailyCustomerWithdrawalInfo, withdrawalReqModel.amount);
+
+            if (errorCode != 0)
             {
-                apiResult.Message = selLangBLL.GetMsg("msg_GreaterThanWithdrawalMax");
-                apiResult.ErrorCode = -6;
+                apiResult.ErrorCode = errorCode;
+                switch (errorCode)
+                {
+                    case -8:
+                        apiResult.Message = selLangBLL.GetMsg("msg_EWalletIsMaintenance");
+                        break;
+                    case -5:
+                        apiResult.Message = string.Format(selLangBLL.GetMsg("msg_LessThanWithdrawalMin"), withdrawLimit.MinAmount);
+                        break;
+                    case -9:
+                        apiResult.Message = selLangBLL.GetMsg("msg_NotInLimit");
+                        break;
+                    case -6:
+                    case -7:
+                        apiResult.Message = selLangBLL.GetMsg("msg_GreaterThanWithdrawalMax");
+                        break;
+                }
+
                 return apiResult;
             }
-
-            if (withdrawalLimitInfo != null
-                && withdrawalLimitInfo.Times != 0
-                && dailyCustomerWithdrawalInfo.Count >= withdrawalLimitInfo.Times)
-            {
-                apiResult.Message = selLangBLL.GetMsg("msg_GreaterThanWithdrawalMax");
-                apiResult.ErrorCode = -7;
-                return apiResult;
-            }
-
             #endregion
 
             #region - Check EWalletInfo -
@@ -1655,7 +1648,6 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
             #endregion
-
             return await DoWithdrawalAsync(apiResult, authData, custInfo, withdrawalReqModel, custBankInfo, WithdrawalTypeStatus.EWallet, null);
         }
     }
