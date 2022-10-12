@@ -1,4 +1,5 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using System;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
@@ -66,7 +67,7 @@ namespace MemberSite.Controllers.Api
             var apiResult = new ApiResult(_selLangBll);
             var authData = _authorizeBll.GetAuthData();
             var fromUrl = _tools.GetFromUrl();
-            var deviceType = (int) _tools.GetDeviceId(fromUrl);
+            var deviceType = (int)_tools.GetDeviceId(fromUrl);
             var result = _authorizeBll.LoginCheckin(deviceType);
             if (!result)
             {
@@ -93,7 +94,7 @@ namespace MemberSite.Controllers.Api
             var apiResult = new ApiResult(_selLangBll);
             var authData = _authorizeBll.GetAuthData();
             var fromUrl = _tools.GetFromUrl();
-            var deviceType = (int) _tools.GetDeviceId(fromUrl);
+            var deviceType = (int)_tools.GetDeviceId(fromUrl);
             var result = _authorizeBll.LoginCheckin(deviceType);
             if (!result)
             {
@@ -119,7 +120,7 @@ namespace MemberSite.Controllers.Api
             var authData = _authorizeBll.GetAuthData();
             var result = _authorizeBll.Logout();
 
-            Response.Cookies.Delete($"InitializationReset{ User.Identity?.Name}");
+            Response.Cookies.Delete($"InitializationReset{User.Identity?.Name}");
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             apiResult.ErrorCode = 0;
             apiResult.Message = _selLangBll.GetMsg("msg_loggedout");
@@ -302,7 +303,7 @@ namespace MemberSite.Controllers.Api
                 apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
                 return apiResult;
             }
-            
+
             var limitInfo = _paymentBll.GetCustWithdrawalLimitInfo(authData.CustId);
             if (limitInfo != null)
             {
@@ -464,7 +465,9 @@ namespace MemberSite.Controllers.Api
                 apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
                 return apiResult;
             }
-            if (_messageBll.SetMsgRead(authData.CustId, msgReadReq.MsgIds))
+            var setList = msgReadReq.MsgIds.Select(x => new DeleteMsg() { MsgId = x, IsBatch = false }).ToList();
+
+            if (_messageBll.SetMsgRead(authData.CustId, setList))
             {
                 apiResult.ErrorCode = 0;
             }
@@ -475,7 +478,34 @@ namespace MemberSite.Controllers.Api
 
             return apiResult;
         }
-        
+
+        public class MsgReadReqV2
+        {
+            public List<DeleteMsg> SetList { get; set; }
+        }
+
+        [HttpPost]
+        public ApiResult SetMsgReadV2(MsgReadReqV2 msgReadReq)
+        {
+            var apiResult = new ApiResult<MsgContent>();
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
+                return apiResult;
+            }
+            if (_messageBll.SetMsgRead(authData.CustId, msgReadReq.SetList))
+            {
+                apiResult.ErrorCode = 0;
+            }
+            else
+            {
+                apiResult.ErrorCode = 99;
+            }
+
+            return apiResult;
+        }
+
         [HttpPost]
         public async Task<ApiResult<PopupMsg>> GetPopupMsg()
         {
@@ -491,7 +521,7 @@ namespace MemberSite.Controllers.Api
             apiResult.ErrorCode = 0;
             return apiResult;
         }
-        
+
         [HttpPost]
         public async Task<ApiResult> SetPopupMsgRead()
         {
@@ -506,7 +536,7 @@ namespace MemberSite.Controllers.Api
             apiResult.ErrorCode = await _messageBll.SetPopupMsgRead(authData.CustId) ? 0 : 99;
             return apiResult;
         }
-        
+
         public class DelMsgReq
         {
             public List<DeleteMsg> DeleteList { get; set; }
@@ -522,7 +552,7 @@ namespace MemberSite.Controllers.Api
                 apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
                 return apiResult;
             }
-            
+
             apiResult.ErrorCode = _messageBll.DelMsg(authData.CustId, msgReq.DeleteList) ? 0 : 99;
 
             return apiResult;
@@ -538,7 +568,7 @@ namespace MemberSite.Controllers.Api
                 apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
                 return apiResult;
             }
-            
+
             apiResult.Data = _messageBll.GetMsgCount(authData.CustId);
             apiResult.ErrorCode = 0;
             return apiResult;
@@ -632,7 +662,7 @@ namespace MemberSite.Controllers.Api
             apiResult.ErrorCode = 0;
             return apiResult;
         }
-        
+
         [HttpPost]
         public ApiResult<string> GetReferralCode()
         {
@@ -678,7 +708,7 @@ namespace MemberSite.Controllers.Api
             }
             return apiResult;
         }
-        
+
         [HttpPost]
         public async Task<ApiResult<ReferralSettingDetail>> GetReferralSettingDetail()
         {
@@ -701,7 +731,7 @@ namespace MemberSite.Controllers.Api
             }
             return apiResult;
         }
-        
+
         [HttpPost]
         public ApiResult<ReferralSummary> GetReferralSummary()
         {
@@ -785,7 +815,7 @@ namespace MemberSite.Controllers.Api
                 apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
                 return apiResult;
             }
-            
+
             if (long.TryParse(rrofileReq.PhoneNo, out var phoneNo))
             {
                 rrofileReq.PhoneNo = phoneNo.ToString();
@@ -817,7 +847,7 @@ namespace MemberSite.Controllers.Api
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, GetCurrentMethod()); 
+                _logger.LogError(ex, GetCurrentMethod());
             }
 
             return result;
@@ -943,7 +973,7 @@ namespace MemberSite.Controllers.Api
                 apiResult.Data.walletStatus = WalletStatus.Error;
                 return apiResult;
             }
-            
+
             var tpWalletBalance = await _thirdPartyBll.GetTpWalletBalanceAsync(tpWalletBalanceReq.TpId, authData.CustId);
             if (tpWalletBalance.ErrorCode == 0)
             {
@@ -976,7 +1006,7 @@ namespace MemberSite.Controllers.Api
                 apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
                 return apiResult;
             }
-            
+
             bool.TryParse(Request.Cookies[$"isHideBalance.{authData.CustId}"], out var isHideBalance);
             apiResult.Data.IsHideBalance = isHideBalance;
             var apiWalletInfo = _walletBll.GetWalletInfo(authData.CustId);
