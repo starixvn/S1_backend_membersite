@@ -26,7 +26,6 @@ namespace MemberSite.Controllers.Api
         private readonly CryptoPayInfoBll cryptoPayInfoBLL;
         private readonly LoadCardPayInfoBLL loadCardPayInfoBLL;
         private readonly string tpApiUrl;
-        private readonly int mainWalletType;
         private readonly FileNameBLL _fileNameBll;
         private readonly ImageEditorBLL _imageEditorBll;
         private readonly PayInfoBLL _payInfoBLL;
@@ -57,7 +56,6 @@ namespace MemberSite.Controllers.Api
 
             var configuration = provider.GetRequiredService<IConfiguration>();
             tpApiUrl = configuration.GetValue<string>("TpService");
-            mainWalletType = configuration.GetValue<int>("MainWalletType");
             _bonusServiceUrl = configuration.GetValue<string>("BonusService");
         }
 
@@ -411,77 +409,23 @@ namespace MemberSite.Controllers.Api
             /*Temp will be Removed*/
             var balance = walletBLL.GetBalance(authData.CustId);
             var WithdrawalAvailableBalance = paymentBLL.GetWithdrawalAvailableBalance(authData.CustId);
-            ApiResult<TransferResult> transferToSabaResult = null;
-            if (mainWalletType == 2)
+
+            if (WithdrawalAvailableBalance < withdrawalReqModel.amount)
             {
-                var sabaBalance = await Get3rdBalanceAsync(1, authData.CustId);
-                decimal transferBalance = 0;
-                WithdrawalAvailableBalance += sabaBalance;
-                if (WithdrawalAvailableBalance < withdrawalReqModel.amount)
-                {
-                    decimal DiffWithdrawalAvailableBalance = 0;
-                    if (WithdrawalAvailableBalance > 0)
-                    {
-                        DiffWithdrawalAvailableBalance = withdrawalReqModel.amount - WithdrawalAvailableBalance;
-                    }
-                    else
-                    {
-                        DiffWithdrawalAvailableBalance = withdrawalReqModel.amount;
-                    }
-
-                    apiResult.Message = $"{DiffWithdrawalAvailableBalance}";
-                    apiResult.ErrorCode = -3;
-                    return apiResult;
-                }
-                if (balance + sabaBalance < withdrawalReqModel.amount)
-                {
-                    apiResult.Message = $"{withdrawalReqModel.amount - (balance + sabaBalance)}";
-                    apiResult.ErrorCode = -2;
-                    return apiResult;
-                }
-
-                if (balance < withdrawalReqModel.amount)
-                {
-                    transferBalance = withdrawalReqModel.amount - balance;
-                }
-
-                var input = new TpTransfer
-                {
-                    Amount = transferBalance,
-                    CustId = authData.CustId,
-                    direction = TpDirection.ToMain,
-                    TpId = 1
-                };
-                transferToSabaResult = await TransferToSabaAsync(input);
+                apiResult.Message = $"{(WithdrawalAvailableBalance < 0 ? 0 : WithdrawalAvailableBalance)}";
+                apiResult.ErrorCode = -3;
+                return apiResult;
             }
-            else
+
+            if (balance < withdrawalReqModel.amount)
             {
-                if (WithdrawalAvailableBalance < withdrawalReqModel.amount)
-                {
-                    //decimal DiffWithdrawalAvailableBalance = 0;
-                    //if (WithdrawalAvailableBalance > 0)
-                    //{
-                    //    DiffWithdrawalAvailableBalance = withdrawalReqModel.amount - WithdrawalAvailableBalance;
-                    //}
-                    //else
-                    //{
-                    //    DiffWithdrawalAvailableBalance = withdrawalReqModel.amount;
-                    //}
-
-                    apiResult.Message = $"{(WithdrawalAvailableBalance < 0 ? 0 : WithdrawalAvailableBalance)}";
-                    apiResult.ErrorCode = -3;
-                    return apiResult;
-                }
-
-                if (balance < withdrawalReqModel.amount)
-                {
-                    apiResult.Message = $"{withdrawalReqModel.amount - balance}";
-                    apiResult.ErrorCode = -2;
-                    return apiResult;
-                }
-
-                transferToSabaResult = new ApiResult<TransferResult> { ErrorCode = 0 };
+                apiResult.Message = $"{withdrawalReqModel.amount - balance}";
+                apiResult.ErrorCode = -2;
+                return apiResult;
             }
+
+            var transferToSabaResult = new ApiResult<TransferResult> { ErrorCode = 0 };
+
             /*Temp*/
             if (transferToSabaResult.ErrorCode == 0)
             {
@@ -529,22 +473,6 @@ namespace MemberSite.Controllers.Api
                         _logger.LogInformation($"AfterAmount={afterAmount}, TransId={transId}");
                         break;
                 }
-                //result = isCrypto
-                //    ? paymentBLL.WithdrawalUSDTReq(authData.CustId,
-                //        custBankInfo.AccountName,
-                //        usdtDetail,
-                //        withdrawalReqModel.AccountNo,
-                //        withdrawalReqModel.amount,
-                //        withdrawalReqModel.memo, out afterAmount, out transId)
-                //    : paymentBLL.WithdrawalReq(authData.CustId,
-                //        withdrawalReqModel.sysId,
-                //        custBankInfo.AccountName,
-                //        withdrawalReqModel.AccountNo,
-                //        withdrawalReqModel.IFSCCode,
-                //        withdrawalReqModel.amount,
-                //        withdrawalReqModel.memo, out afterAmount, out transId); 
-
-                //_logger.LogInformation($"AfterAmount={afterAmount}, TransId={transId}");
 
                 switch (result)
                 {
@@ -559,19 +487,6 @@ namespace MemberSite.Controllers.Api
                         break;
                     default:
                         {
-                            if (mainWalletType == 2)
-                            {
-                                transferToSabaResult = null;
-                                var input = new TpTransfer
-                                {
-                                    Amount = walletBLL.GetBalance(authData.CustId),
-                                    CustId = authData.CustId,
-                                    direction = TpDirection.ToTp,
-                                    TpId = 1
-                                };
-                                transferToSabaResult = await TransferToSabaAsync(input);
-                            }
-
                             apiResult.ErrorCode = 9000;
                             apiResult.Message = selLangBLL.GetMsg("msg_WithdrawalFailed");
                             break;
@@ -581,7 +496,6 @@ namespace MemberSite.Controllers.Api
             else
             {
                 apiResult.ErrorCode = transferToSabaResult.ErrorCode;
-                //apiResult.Message = transferToSabaResult.Message;
                 apiResult.Message = selLangBLL.GetMsg("msg_WithdrawalNoFund");
                 apiResult.RawErrorCode = transferToSabaResult.RawErrorCode;
                 apiResult.RawMessage = transferToSabaResult.RawMessage;
@@ -951,20 +865,6 @@ namespace MemberSite.Controllers.Api
             var result = paymentBLL.SetWithdrawalCancel(authData.CustId, withdrawaltReq.TransId);
             if (result > 0)
             {
-
-                if (mainWalletType == 2)
-                {
-                    ApiResult<TransferResult> transferToSabaResult = null;
-                    var input = new TpTransfer
-                    {
-                        Amount = walletBLL.GetBalance(authData.CustId),
-                        CustId = authData.CustId,
-                        direction = TpDirection.ToTp,
-                        TpId = 1
-                    };
-                    transferToSabaResult = await TransferToSabaAsync(input);
-                }
-
                 apiResult.ErrorCode = 0;
             }
             else
@@ -1042,42 +942,6 @@ namespace MemberSite.Controllers.Api
                 Data = paymentBLL.GetPromotionCategory()
             };
             return apiResult;
-        }
-
-        public class TpTransfer
-        {
-            public int TpId { set; get; }
-            public int CustId { set; get; }
-            public decimal Amount { set; get; }
-            public TpDirection direction { set; get; }
-            public Dictionary<string, string> inputs { set; get; }
-        }
-
-        public enum TpDirection
-        {
-            ToTp = 1,
-            ToMain = 2
-        }
-        private async Task<ApiResult<TransferResult>> TransferToSabaAsync(TpTransfer inTpTransfer)
-        {
-            var amount = inTpTransfer.Amount;
-            if (amount.ToString().IndexOf(".") > -1)
-            {
-                decimal.TryParse(amount.ToString("#.##"), out amount);
-            }
-
-            var tpTransfer = new TpTransfer
-            {
-                TpId = inTpTransfer.TpId,
-                CustId = inTpTransfer.CustId,
-                Amount = amount,
-                direction = inTpTransfer.direction,
-                inputs = null
-            };
-            var myUrl = $"{tpApiUrl}Transfer";
-            var data = await courierAdapter.MyPostAsync<TransferResult, TpTransfer>(myUrl, tpTransfer);
-
-            return data;
         }
 
         public class TransferResult
