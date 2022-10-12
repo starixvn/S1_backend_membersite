@@ -112,13 +112,13 @@ namespace MemberSite.Controllers.Api
 
             var config = _lineLoginChannelConfig.Value;
 
-            if (!_lineLoginBll.IssueLineToken(request.type, out var errorCode, out string token))
+            if (!_lineLoginBll.IssueLineToken(request.type, out var errorCode, out var token))
             {
                 return new ApiResult(_selLangBll) { ErrorCode = errorCode, Message = _selLangBll.GetMsg("msg_ApiServerError") };
             }
 
             var domainUrl = _tools.GetDomainUrl();
-            string redirectUri = $"https://{domainUrl}/callback";
+            var redirectUri = $"https://{domainUrl}/callback";
 
             var lineLoginUrl = string.Format("https://access.line.me/oauth2/v2.1/authorize?" +
                 "response_type={0}"
@@ -139,7 +139,7 @@ namespace MemberSite.Controllers.Api
         public async Task<ApiResult> LineCallbackAsync(LineCallbackModel request)
         {
             var domainUrl = _tools.GetDomainUrl();
-            string redirectUri = $"https://{domainUrl}/callback";
+            var redirectUri = $"https://{domainUrl}/callback";
 
             var result = await _lineLoginBll.LineLoginCallBack(request.LineLoginResponse.code,
                 request.LineLoginResponse.state,
@@ -315,7 +315,7 @@ namespace MemberSite.Controllers.Api
                     };
                 }
 
-                Response.Cookies.Delete($"Initialization{User.Identity.Name}");
+                Response.Cookies.Delete($"Initialization{User.Identity?.Name}");
                 var claimsIdentity = new ClaimsIdentity(desktopClaims, CookieAuthenticationDefaults.AuthenticationScheme);
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
 

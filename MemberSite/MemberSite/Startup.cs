@@ -12,6 +12,7 @@ using System.Text.Encodings.Web;
 using System.Text.Unicode;
 using MemberSite.Extensions;
 using MemberSite.Service.DAL.Interface;
+using MemberSite.Service.Model.Mapping;
 using StackExchange.Redis;
 
 namespace MemberSite
@@ -87,7 +88,6 @@ namespace MemberSite
             services.AddSingleton<MessageService>();
             services.AddSingleton<ThirdPartyService>();
             services.AddSingleton<PayService>();
-            services.AddSingleton<RolloverService>();
             services.AddSingleton<PromotionService>();
             services.AddSingleton<CasinoService>();
             services.AddSingleton<StatementService>();
@@ -106,9 +106,11 @@ namespace MemberSite
             services.AddSingleton<IVerificationRewardService, VerificationRewardService>();
             services.AddTransient<WorldCupPredictionService>();
             services.AddTransient<ReCaptchaService>();
+            services.AddSingleton<PartitionService>();
 
             services.AddSingleton<IPService>();
             services.AddSingleton<ShieldService>();
+            services.AddTransient<IHotEventService, HotEventService>();
 
             /*BLL*/
             services.AddSingleton<ServerInfoBll>();
@@ -157,8 +159,10 @@ namespace MemberSite
             services.AddSingleton<IPBLL>();
             services.AddSingleton<ShieldBLL>();
             services.AddTransient<WorldCupPredictionBLL>();
+            services.AddSingleton<SlotGameBLL>();
 
             services.AddSingleton<CustomCookieAuthenticationEvents>();
+            services.AddTransient<HotEventBLL>();
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();
 
@@ -258,6 +262,7 @@ namespace MemberSite
             services.AddControllers();
 
             services.AddOptionListByDB<TpGameTypeOption>("Admin_TpGameType_Get");
+            services.AddOptionListByDB<AreaCodeMap>("Common_CountryList_Get");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

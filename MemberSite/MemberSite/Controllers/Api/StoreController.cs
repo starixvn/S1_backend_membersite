@@ -36,9 +36,9 @@ namespace MemberSite.Controllers.Api
             var custId = 0;
             var currencyId = 0;
 
-            if (User.Identity.IsAuthenticated)
+            var authData = _authorizeBLL.GetAuthData();
+            if (authData is { CustId: > 0 })
             {
-                var authData = _authorizeBLL.GetAuthData();
                 var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
                 currencyId = custInfo.CurrencyId;
                 custId = authData.CustId;
@@ -116,12 +116,12 @@ namespace MemberSite.Controllers.Api
         {
             try
             {
-                if (!User.Identity.IsAuthenticated)
+                var authData = _authorizeBLL.GetAuthData();
+                if (authData is not { CustId: > 0 })
                 {
                     return new ApiResult(-1, _selLangBLL.GetMsg("msg_LoginToAccess"));
                 }
 
-                var authData = _authorizeBLL.GetAuthData();
                 var apiRequest = new StoreSetFavoriteRequest
                 {
                     CustId = authData.CustId,
@@ -142,12 +142,12 @@ namespace MemberSite.Controllers.Api
         {
             try
             {
-                if (!User.Identity.IsAuthenticated)
+                var authData = _authorizeBLL.GetAuthData();
+                if (authData is not { CustId: > 0 })
                 {
                     return new ApiResult(-1, _selLangBLL.GetMsg("msg_LoginToAccess"));
                 }
-
-                var authData = _authorizeBLL.GetAuthData();
+            
                 var apiRequest = new StoreGetBalanceRequest
                 {
                     CustId = authData.CustId
