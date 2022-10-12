@@ -55,6 +55,12 @@ namespace MemberSite.Service.DAL
                 var p = new DynamicParameters(new { customer.SiteId, customer.UserName, customer.Userpwd, customer.CurrencyId, customer.UserLang, customer.AgentId, customer.AllAgentId, customer.UserLevel });
                 p.Add("CustId", dbType: DbType.String, direction: ParameterDirection.Output);
 
+                #region log Param
+
+                flag += @$"SiteId={customer.SiteId},UserName={customer.UserName},Userpwd={customer.Userpwd},CurrencyId={customer.CurrencyId},UserLang={customer.UserLang},AgentId={customer.AgentId},AllAgentId={customer.AllAgentId},UserLevel={customer.UserLevel},CustId={custId}";
+
+                #endregion
+
                 conn.Open();
                 using var trans = conn.BeginTransaction();
                 var result = _mainDbClient.Execute("CustInfo_Ins", p, conn, trans);
