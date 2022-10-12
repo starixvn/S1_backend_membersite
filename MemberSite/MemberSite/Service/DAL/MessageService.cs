@@ -23,7 +23,7 @@ namespace MemberSite.Service.DAL
         public bool SetRead(int msgId, int custId, bool isBatch)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            return conn.Execute("Member_MsgRead_Set_V2", new { MsgId = msgId, CustId = custId }, commandType: CommandType.StoredProcedure) > 0;
+            return conn.Execute("Member_MsgRead_Set_V2", new { MsgId = msgId, CustId = custId, IsBatch = isBatch }, commandType: CommandType.StoredProcedure) > 0;
         }
 
         public async Task<bool> SetReadPopupMessageTime(int custid, int taskId)
