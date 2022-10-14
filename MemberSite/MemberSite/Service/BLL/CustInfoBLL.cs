@@ -374,24 +374,14 @@ namespace MemberSite.Service.BLL
         }
         public CustBankInfo GetCustBankInfo(int custId)
         {
-            var custInfo = GetCustInfoWithCache(custId);
             var custBankInfo = _custInfoService.GetCustBankInfo(custId);
 
             if (custBankInfo != null)
             {
                 var bankInfoDetailList = _custInfoService.GetCustBankDetail(custId);
                 custBankInfo.bankInfoDetail = bankInfoDetailList;
-                //if (custInfo.CurrencyId == 96)
-                //{
-                //    custBankInfo.uSDTDetail = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<USDTDetail>>(custBankInfo.BankInfo);
-                //}
-                //else
-                //{
-                //    custBankInfo.bankInfoDetail = bankInfoDetailList;
-                //}
-
             }
-            if (custBankInfo != null && custBankInfo.USDTInfo != null)
+            if (custBankInfo is { USDTInfo: { } })
             {
                 var uSDTDetailList = JsonConvert.DeserializeObject<IEnumerable<USDTDetail>>(custBankInfo.USDTInfo);
                 if (uSDTDetailList != null)
@@ -402,15 +392,6 @@ namespace MemberSite.Service.BLL
                         custBankInfo.usdtDetail = uSDTDetailList;
                     }
                 }
-                //if (custInfo.CurrencyId == 96)
-                //{
-                //    custBankInfo.uSDTDetail = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<USDTDetail>>(custBankInfo.BankInfo);
-                //}
-                //else
-                //{
-                //    custBankInfo.bankInfoDetail = bankInfoDetailList;
-                //}
-
             }
             return custBankInfo;
         }
