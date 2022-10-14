@@ -875,7 +875,7 @@ namespace MemberSite.Controllers.Api
                     return apiResult;
                 }
 
-                if (_contentTypesCheck.ContainsKey(depositReceipt.Receipt.ContentType))
+                if (depositReceipt.Receipt != null && _contentTypesCheck.ContainsKey(depositReceipt.Receipt.ContentType))
                 {
                     await using var fileStream = depositReceipt.Receipt.OpenReadStream();
                     using var uploadedImage = await SixLabors.ImageSharp.Image.LoadAsync(fileStream);
@@ -896,7 +896,13 @@ namespace MemberSite.Controllers.Api
                     else
                     {
                         apiResult.ErrorCode = -1;
+                        apiResult.Message = "Upload fail.";
                     }
+                }
+                else
+                {
+                    apiResult.ErrorCode = -1;
+                    apiResult.Message = "The file is not supported.";
                 }
             }
             catch (Exception e)
