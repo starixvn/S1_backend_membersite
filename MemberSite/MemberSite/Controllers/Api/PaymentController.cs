@@ -62,14 +62,19 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiResult<IEnumerable<OfflineBankInfoFront>> GetBankInfoOffList()
         {
+            var apiResult = new ApiResult<IEnumerable<OfflineBankInfoFront>>();
             var authData = authorizeBLL.GetAuthData();
-            var apiResult = new ApiResult<IEnumerable<OfflineBankInfoFront>>
+            if (authData is not { CustId: > 0 })
             {
-                Data = bankInfoOffBLL.GetBankInfoOffList(authData.CustId),
-                ErrorCode = 0
-            };
+                apiResult.Message = selLangBLL.GetMsg("msg_ForceLogedout");
+                return apiResult;
+            }
+
+            apiResult.Data = bankInfoOffBLL.GetBankInfoOffList(authData.CustId);
+            apiResult.ErrorCode = 0;
             return apiResult;
         }
+
         public class GetBankInfoOffListReq
         {
             public int? QueryType { get; set; } // queryType: 0.only open Bank(status = 1) 1.open & suspend Bank(status = 1 or status = 2)
@@ -900,74 +905,29 @@ namespace MemberSite.Controllers.Api
             }
             return apiResult;
         }
-        private class TpInfo
-        {
-            public int TpId { set; get; }
-            public int CustId { set; get; }
-            public Dictionary<string, string> inputs { set; get; }
-        }
-
-        /*3rd Wallter*/
-        private async Task<decimal> Get3rdBalanceAsync(int tpId, int custId)
-        {
-            var myUrl = $"{tpApiUrl}GetBalance";
-            var oTpInfo = new TpInfo
-            {
-                TpId = tpId,
-                CustId = custId,
-                inputs = new Dictionary<string, string>()
-            };
-
-            var data = await courierAdapter.MyPostAsync<UserBalance, TpInfo>(myUrl, oTpInfo);
-
-            return data.ErrorCode == 0 ? data.Data.balance + data.Data.bonus : 0;
-        }
 
         [HttpPost]
         public ApiResult GetStatement(HistoryReq historyReq)
         {
-            return new ApiListResult<Statement>
-            {
-                Data = paymentBLL.GetStatement(
-                    authorizeBLL.GetAuthData().CustId, 
-                    historyReq.StartDate, 
-                    historyReq.EndDate, 
-                    historyReq.PageNumber, 
-                    5,
-                    out var pageInfo),
-                PageNumber = pageInfo.PageNumber,
-                TotalPages = pageInfo.TotalPages,
-                RowCount = pageInfo.RowCount,
-                ErrorCode = 0,
-            };
-        }
-
-        public class BounsLogReq
-        {
-            public long StartDate { get; set; }
-            public long EndDate { get; set; }
-            public int PageNumber { get; set; }
-            public int PromoCategoryId { get; set; }
-        }
-        public ApiResult GetBounsLogStatement(BounsLogReq bounsLogReq)
-        {
+            var apiResult = new ApiListResult<Statement>();
             var authData = authorizeBLL.GetAuthData();
-            var apiResult = new ApiListResult<BounsLogStatement>();
-            var pageNumber = bounsLogReq.PageNumber;
-            apiResult.Data = paymentBLL.GetBounsLogStatement(authData.CustId, bounsLogReq.PromoCategoryId, bounsLogReq.StartDate, bounsLogReq.EndDate, ref pageNumber, out var totalPages, out var rowCount);
-            apiResult.PageNumber = pageNumber;
-            apiResult.TotalPages = totalPages;
-            apiResult.RowCount = rowCount;
-            apiResult.ErrorCode = 0;
-            return apiResult;
-        }
-        public ApiResult<IEnumerable<PromotionCategory>> GetPromotionCategory()
-        {
-
-            var apiResult = new ApiResult<IEnumerable<PromotionCategory>>
+            if (authData is not { CustId: > 0 })
             {
-                Data = paymentBLL.GetPromotionCategory()
-            };
+                apiResult.Message = selLangBLL.GetMsg("msg_ForceLogedout");
+                return apiResult;
+            }
+
+            apiResult.Data = paymentBLL.GetStatement(
+                authData.CustId,
+                historyReq.StartDate,
+                historyReq.EndDate,
+                historyReq.PageNumber,
+                5,
+                out var pageInfo);
+            apiResult.PageNumber = pageInfo.PageNumber;
+            apiResult.TotalPages = pageInfo.TotalPages;
+            apiResult.RowCount = pageInfo.RowCount;
+            apiResult.ErrorCode = 0;
             return apiResult;
         }
 
@@ -994,21 +954,16 @@ namespace MemberSite.Controllers.Api
         {
             var result = new ApiResult();
             var authData = authorizeBLL.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                result.Message = selLangBLL.GetMsg("msg_ForceLogedout");
+                return result;
+            }
             result.ErrorCode = custInfoBLL.SubmittedCustPhotoId(authData.CustId);
 
             return result;
         }
-        [HttpPost]
-        public ApiResult<IEnumerable<TpBetRecordListOneWeek>> GetCustTpBetRecordListOneWeek()
-        {
-            var authData = authorizeBLL.GetAuthData();
-            var apiResult = new ApiResult<IEnumerable<TpBetRecordListOneWeek>>
-            {
-                ErrorCode = 0,
-                Data = paymentBLL.GetCustTpBetRecordListOneWeek(authData.CustId)
-            };
-            return apiResult;
-        }
+
         public class CustTpBetRecordListOneDayReq
         {
             public string SelDate { get; set; }
@@ -1018,8 +973,13 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiListResult<TpBetRecordListOneDay> GetCustTpBetRecordListOneDay(CustTpBetRecordListOneDayReq custTpBetRecordListOneDayReq)
         {
-            var authData = authorizeBLL.GetAuthData();
             var apiResult = new ApiListResult<TpBetRecordListOneDay>();
+            var authData = authorizeBLL.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                apiResult.Message = selLangBLL.GetMsg("msg_ForceLogedout");
+                return apiResult;
+            }
             var PageSize = custTpBetRecordListOneDayReq.PageSize;
             var TotalPages = 0;
             var RowCount = 0;
@@ -1043,8 +1003,13 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiListResult<TpBetRecordbyCategoryId> GetCustTpBetRecordListbyCategoryId(CustTpBetRecordListbyCategoryIdReq custTpBetRecordListbyCategoryIdReq)
         {
-            var authData = authorizeBLL.GetAuthData();
             var apiResult = new ApiListResult<TpBetRecordbyCategoryId>();
+            var authData = authorizeBLL.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                apiResult.Message = selLangBLL.GetMsg("msg_ForceLogedout");
+                return apiResult;
+            }
             var PageSize = custTpBetRecordListbyCategoryIdReq.PageSize;
             var TotalPages = 0;
             var RowCount = 0;
@@ -1068,8 +1033,13 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiListResult<TpBetRecordDetailbyGameType> GetCustTpBetRecordDetailListbyGameType(CustTpBetRecordDetailListbyGameTypeReq custTpBetRecordDetailListbyGameTypeReq)
         {
-            var authData = authorizeBLL.GetAuthData();
             var apiResult = new ApiListResult<TpBetRecordDetailbyGameType>();
+            var authData = authorizeBLL.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                apiResult.Message = selLangBLL.GetMsg("msg_ForceLogedout");
+                return apiResult;
+            }
             var PageSize = custTpBetRecordDetailListbyGameTypeReq.PageSize;
             var TotalPages = 0;
             var RowCount = 0;
@@ -1094,8 +1064,13 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiListResult<TpBetRecordListDateRange> CustTpBetRecordListDateRange(TpBetRecordDateRangeReq tpBetRecordDateRangeReq)
         {
-            var authData = authorizeBLL.GetAuthData();
             var apiResult = new ApiListResult<TpBetRecordListDateRange>();
+            var authData = authorizeBLL.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                apiResult.Message = selLangBLL.GetMsg("msg_ForceLogedout");
+                return apiResult;
+            }
             var PageSize = tpBetRecordDateRangeReq.PageSize;
             var TotalPages = 0;
             var RowCount = 0;
@@ -1112,8 +1087,14 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiResult<WithdrawalLimitOutput> GetWithdrawalLimit()
         {
+            var apiResult = new ApiResult<WithdrawalLimitOutput>();
             var cryptoList = new List<CryptoWithdrawalLimitOutput>();
             var authData = authorizeBLL.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                apiResult.Message = selLangBLL.GetMsg("msg_ForceLogedout");
+                return apiResult;
+            }
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
 
             #region Limitation
@@ -1213,11 +1194,8 @@ namespace MemberSite.Controllers.Api
                 EWalletStatus = eWallet.Status
             };
 
-            var apiResult = new ApiResult<WithdrawalLimitOutput>
-            {
-                Data = data,
-                ErrorCode = 0
-            };
+            apiResult.Data = data;
+            apiResult.ErrorCode = 0;
 
             return apiResult;
         }
@@ -1233,8 +1211,13 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public async Task<ApiResult<ExchangeInfo>> GetExchangeInfoAsync(GetExchangeReq getExchangeReq)
         {
-            var authData = authorizeBLL.GetAuthData();
             var apiResult = new ApiResult<ExchangeInfo>();
+            var authData = authorizeBLL.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                apiResult.Message = selLangBLL.GetMsg("msg_ForceLogedout");
+                return apiResult;
+            }
             var payId = 22; // 先留著讓新舊相容
             var channelName =
                 getExchangeReq.CurrencyName == getExchangeReq.Network
@@ -1243,25 +1226,11 @@ namespace MemberSite.Controllers.Api
 
             var result = await cryptoPayInfoBLL.GetExchangeInfoAsync(authData.CustId,
                 getExchangeReq.Amount, payId, channelName);
-            if (result != null && result.Data != null)
+            if (result is { Data: { } })
             {
                 apiResult.Data = result.Data.formData;
                 apiResult.ErrorCode = result.ErrorCode;
             }
-            return apiResult;
-        }
-        public class GetSupportNetworkReq
-        {
-            public int CurrencyId { get; set; }
-        }
-        public ApiResult<IEnumerable<NetworkList>> GetSupportNetwork(GetSupportNetworkReq getSupportNetworkReq)
-        {
-
-            var apiResult = new ApiResult<IEnumerable<NetworkList>>
-            {
-                Data = paymentBLL.GetSupportNetwork(getSupportNetworkReq.CurrencyId),
-                ErrorCode = 0
-            };
             return apiResult;
         }
 
@@ -1292,6 +1261,11 @@ namespace MemberSite.Controllers.Api
             try
             {
                 var authData = authorizeBLL.GetAuthData();
+                if (authData is not { CustId: > 0 })
+                {
+                    result.Message = selLangBLL.GetMsg("msg_ForceLogedout");
+                    return result;
+                }
                 var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
                 var custInfoProfile = custInfoBLL.GetCustInfoProfile(authData.CustId);
 
@@ -1338,27 +1312,46 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiResult<IEnumerable<PayGroup>> GetQRPayGroupList()
         {
-            return new ApiResult<IEnumerable<PayGroup>>
+            var result = new ApiResult<IEnumerable<PayGroup>>();
+            var authData = authorizeBLL.GetAuthData();
+            if (authData is not { CustId: > 0 })
             {
-                Data = _payInfoBLL.GetPayGroupList(authorizeBLL.GetAuthData().CustId, DepositType.QRPayPayment),
-                ErrorCode = 0
-            };
+                result.Message = selLangBLL.GetMsg("msg_ForceLogedout");
+                return result;
+            }
+
+            result.Data = _payInfoBLL.GetPayGroupList(authorizeBLL.GetAuthData().CustId, DepositType.QRPayPayment);
+            result.ErrorCode = 0;
+            return result;
         }
 
         [HttpPost]
         public ApiResult<IEnumerable<PayInfo>> GetQRPayInfoList(PayInfoReq payInfoReq)
         {
-            return new ApiResult<IEnumerable<PayInfo>>
+            var result = new ApiResult<IEnumerable<PayInfo>>();
+            var authData = authorizeBLL.GetAuthData();
+            if (authData is not { CustId: > 0 })
             {
-                Data = _payInfoBLL.GetPayInfoList(authorizeBLL.GetAuthData().CustId, payInfoReq.groupId, DepositType.QRPayPayment),
-                ErrorCode = 0
-            };
+                result.Message = selLangBLL.GetMsg("msg_ForceLogedout");
+                return result;
+            }
+
+            result.Data = _payInfoBLL.GetPayInfoList(authorizeBLL.GetAuthData().CustId, payInfoReq.groupId, DepositType.QRPayPayment);
+            result.ErrorCode = 0;
+            return result;
         }
 
         [HttpPost]
         public ApiResult<IEnumerable<SysBankInfoFront>> GetAutoChannelBankGroupList()
         {
+            var apiResult = new ApiResult<IEnumerable<SysBankInfoFront>>();
             var authData = authorizeBLL.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                apiResult.Message = selLangBLL.GetMsg("msg_ForceLogedout");
+                return apiResult;
+            }
+
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             var vipLevel = custInfoBLL.GetPointLevelWithCache(authData.CustId);
             var result = bankInfoBLL.GetAutoChannelBankGroupList(custInfo, vipLevel).ToList();
@@ -1367,11 +1360,9 @@ namespace MemberSite.Controllers.Api
                 bankInfoBLL.BankNameLocalization(result, authData.LangId);
             }
 
-            return new ApiResult<IEnumerable<SysBankInfoFront>>
-            {
-                Data = result,
-                ErrorCode = 0
-            };
+            apiResult.Data = result;
+            apiResult.ErrorCode = 0;
+            return apiResult;
         }
 
         /// <summary>
@@ -1382,7 +1373,7 @@ namespace MemberSite.Controllers.Api
         public ApiResult<LineChannel> GetLineChannelForDpeosit()
         {
             var authData = authorizeBLL.GetAuthData();
-            if (authData.CustId == 0)
+            if (authData is not { CustId: > 0 })
                 return new ApiResult<LineChannel>
                 {
                     ErrorCode = -1,
@@ -1415,8 +1406,13 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiResult<IEnumerable<EWalletInfoSys>> GetEWalletInfoSysList()
         {
-            var authData = authorizeBLL.GetAuthData();
             var apiResult = new ApiResult<IEnumerable<EWalletInfoSys>>();
+            var authData = authorizeBLL.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                apiResult.Message = selLangBLL.GetMsg("msg_ForceLogedout");
+                return apiResult;
+            }
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             var result = bankInfoBLL.GetEWalletInfoSysListByCurrency(custInfo.CurrencyId)
                 .ToList();
