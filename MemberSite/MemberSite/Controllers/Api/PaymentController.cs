@@ -865,38 +865,47 @@ namespace MemberSite.Controllers.Api
         public async Task<ApiResult> UploadReceipt([FromForm] DepositReceiptFile depositReceipt)
         {
             var apiResult = new ApiResult();
-            var authData = authorizeBLL.GetAuthData();
-            if (authData is not { CustId: > 0 })
+            try
             {
-                apiResult.ErrorCode = -1;
-                apiResult.Message = selLangBLL.GetMsg("msg_ForceLogedout");
-                return apiResult;
-            }
-
-            if (_contentTypesCheck.ContainsKey(depositReceipt.Receipt.ContentType))
-            {
-                await using var fileStream = depositReceipt.Receipt.OpenReadStream();
-                using var uploadedImage = await SixLabors.ImageSharp.Image.LoadAsync(fileStream);
-                var fileBytes = await _imageEditorBll.Resize(uploadedImage);
-
-                var fileName = _fileNameBll
-                    .SetFileName(depositReceipt.Receipt.FileName)
-                    .ExcludePath()
-                    .SetFilenameExtension("jpg")
-                    .FileName;
-
-                var result = await paymentBLL.SetDepositReceiptPic(authData.CustId, depositReceipt.TransId, fileName, fileBytes);
-
-                if (result > 0)
-                {
-                    apiResult.ErrorCode = 0;
-                }
-                else
+                var authData = authorizeBLL.GetAuthData();
+                if (authData is not { CustId: > 0 })
                 {
                     apiResult.ErrorCode = -1;
+                    apiResult.Message = selLangBLL.GetMsg("msg_ForceLogedout");
+                    return apiResult;
+                }
+
+                if (_contentTypesCheck.ContainsKey(depositReceipt.Receipt.ContentType))
+                {
+                    await using var fileStream = depositReceipt.Receipt.OpenReadStream();
+                    using var uploadedImage = await SixLabors.ImageSharp.Image.LoadAsync(fileStream);
+                    var fileBytes = await _imageEditorBll.Resize(uploadedImage);
+
+                    var fileName = _fileNameBll
+                        .SetFileName(depositReceipt.Receipt.FileName)
+                        .ExcludePath()
+                        .SetFilenameExtension("jpg")
+                        .FileName;
+
+                    var result = await paymentBLL.SetDepositReceiptPic(authData.CustId, depositReceipt.TransId, fileName, fileBytes);
+
+                    if (result > 0)
+                    {
+                        apiResult.ErrorCode = 0;
+                    }
+                    else
+                    {
+                        apiResult.ErrorCode = -1;
+                    }
                 }
             }
-
+            catch (Exception e)
+            {
+                apiResult.ErrorCode = -1;
+                apiResult.Message = "The file is not supported.";
+                _logger.LogError(e, GetCurrentAsyncMethod());
+            }
+           
             return apiResult;
         }
 
