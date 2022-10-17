@@ -9,6 +9,8 @@ namespace MemberSite.Service.Model.Game
         /// 裝置類型
         /// </summary>
         public int DeviceType { get; set; }
+
+        public int? CurrencyId { get; set; }
     }
 
     public class GetSlotGamePageResponse
