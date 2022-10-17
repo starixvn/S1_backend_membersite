@@ -21,6 +21,7 @@ namespace MemberSite.Service.BLL
         private readonly ICacheHelper _cacheHelper;
         private readonly IReadOnlyDictionary<int, string> _tpList;
         private readonly IReadOnlyDictionary<int, string> _gameTypeList;
+        private readonly ILogger<PaymentBLL> _logger;
 
         public PaymentBLL(IServiceProvider provider)
         {
@@ -45,6 +46,7 @@ namespace MemberSite.Service.BLL
 
             _tpList = statementService.GetTpListWithCache().ToDictionary(i => i.Id , i =>i.TpName);
             _gameTypeList = statementService.GetGameTypeListWithCache().ToDictionary(i => i.Type, i => i.TypeName);
+            _logger = provider.GetRequiredService<ILogger<PaymentBLL>>();
         }
 
         /// <summary>
@@ -625,8 +627,18 @@ namespace MemberSite.Service.BLL
                 _cacheHelper.InsertList(key, cacheTime, list, RedisDataBase.Shared);
             });
 
+
             var (index, count) = pageInfo.ListPagination(list.Count, pageNumber, pageSize);
-            var datas = list.GetRange(index, count);
+            var datas = new List<Statement>();
+            try
+            {              
+                datas = list.GetRange(index, count);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"list.Count = {list.Count}, pageNumber = {pageNumber}, pageSize = {pageSize}, index = {index}, count = {count}");
+            }
+
             foreach (var item in datas)
             {
                 item.TypeName = GetTransTypeNameV2(item.Type, item.TypeName);
