@@ -48,12 +48,25 @@ namespace MemberSite.Service.DAL
         public int AddCustInfo(Customer customer, string Email, string lineUserId, out int custId, string signupUrl = null, string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null, int Birth_d = 0, int Birth_m = 0, int Birth_y = 0)
         {
             var flag = string.Empty;
+            var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             try
             {
                 custId = 0;
-                using var conn = new MySqlConnection(_connectionString);
-                var p = new DynamicParameters(new { customer.SiteId, customer.UserName, customer.Userpwd, customer.CurrencyId, customer.UserLang, customer.AgentId, customer.AllAgentId, customer.UserLevel });
-                p.Add("CustId", dbType: DbType.String, direction: ParameterDirection.Output);
+
+                var p = new DynamicParameters(new
+                {
+                    customer.SiteId, customer.UserName, customer.Userpwd, customer.CurrencyId, customer.UserLang,
+                    customer.AgentId, customer.AllAgentId, customer.UserLevel
+                });
+                p.Add("CustId", dbType: DbType.String,
+                    direction: ParameterDirection.Output); //todo 如果log 拔掉之後，改回 int回傳型別
+
+                #region log Param
+
+                flag +=
+                    @$"SiteId={customer.SiteId},UserName={customer.UserName},Userpwd={customer.Userpwd},CurrencyId={customer.CurrencyId},UserLang={customer.UserLang},AgentId={customer.AgentId},AllAgentId={customer.AllAgentId},UserLevel={customer.UserLevel},CustId={custId}";
+
+                #endregion
 
                 conn.Open();
                 using var trans = conn.BeginTransaction();
@@ -68,6 +81,7 @@ namespace MemberSite.Service.DAL
                     if (string.IsNullOrEmpty(strCustId))
                     {
                         trans.Rollback();
+                        conn.Close();
                         throw new Exception("db return CustId IsNullOrEmpty");
                     }
 
@@ -76,22 +90,36 @@ namespace MemberSite.Service.DAL
                         if (longCustId > int.MaxValue || longCustId < int.MinValue)
                         {
                             trans.Rollback();
+                            conn.Close();
                             throw new Exception("CustId Out of range value int32 please check");
                         }
                     }
                     else
                     {
+                        trans.Rollback();
+                        conn.Close();
                         throw new Exception("CustId long TryParse fail");
                     }
 
                     custId = int.Parse(strCustId);
+
+                    if (custId == 0)
+                    {
+                        trans.Rollback();
+                        conn.Close();
+                        return -5;
+                    }
                 }
                 else
                 {
                     flag += $" Executed CustInfo_Ins Fail，not retrun CustId";
+                    trans.Rollback();
+                    conn.Close();
+                    return -5;
                 }
 
-                if (result > 0 && (!string.IsNullOrEmpty(Email) || (!string.IsNullOrEmpty(PhoneNo) && !string.IsNullOrEmpty(AreaCode))))
+                if (result > 0 && (!string.IsNullOrEmpty(Email) ||
+                                   (!string.IsNullOrEmpty(PhoneNo) && !string.IsNullOrEmpty(AreaCode))))
                 {
                     if (string.IsNullOrEmpty(Email))
                     {
@@ -135,7 +163,10 @@ namespace MemberSite.Service.DAL
 
                 if (result > 0 && (!string.IsNullOrEmpty(signupUrl) || !string.IsNullOrEmpty(referralUrl)))
                 {
-                    result = _mainDbClient.Execute("Member_CustRegInfo_Ins_V2", new DynamicParameters(new { CustId = custId, customer.SiteId, SignupUrl = signupUrl, ReferralUrl = referralUrl }), conn, trans);
+                    result = _mainDbClient.Execute("Member_CustRegInfo_Ins_V2",
+                        new DynamicParameters(new
+                            { CustId = custId, customer.SiteId, SignupUrl = signupUrl, ReferralUrl = referralUrl }),
+                        conn, trans);
                     flag += $" Executed Member_CustRegInfo_Ins_V2 after custId：{custId} ";
                 }
 
@@ -143,7 +174,8 @@ namespace MemberSite.Service.DAL
                 {
                     if (promotionService.CheckScratchCardCode(promoCode))
                     {
-                        var parameters = new DynamicParameters(new { CustId = custId, ScratchCardCode = promoCode, DeviceType = 1 });
+                        var parameters = new DynamicParameters(new
+                            { CustId = custId, ScratchCardCode = promoCode, DeviceType = 1 });
                         parameters.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
                         _mainDbClient.Execute("Member_CustScratchCardCodeV3_Ins", parameters, conn, trans);
                         result = parameters.Get<int>("Result") == 0 ? 1 : 0;
@@ -151,7 +183,8 @@ namespace MemberSite.Service.DAL
                     }
                     else
                     {
-                        result = _mainDbClient.Execute("Member_CustPromoCode_Ins", new DynamicParameters(new { CustId = custId, PromoCode = promoCode.Trim() }), conn, trans);
+                        result = _mainDbClient.Execute("Member_CustPromoCode_Ins",
+                            new DynamicParameters(new { CustId = custId, PromoCode = promoCode.Trim() }), conn, trans);
                         flag += $" Executed Member_CustPromoCode_Ins after custId：{custId} ";
                     }
 
@@ -163,7 +196,9 @@ namespace MemberSite.Service.DAL
 
                 if (result > 0 && (int.TryParse(customer.Aff, out var iAff) || !string.IsNullOrEmpty(customer.AffCode)))
                 {
-                    result = _mainDbClient.Execute("Member_VNAffiliate_Ins", new DynamicParameters(new { CustId = custId, customer.SiteId, AffId = iAff, customer.AffCode }), conn, trans);
+                    result = _mainDbClient.Execute("Member_VNAffiliate_Ins",
+                        new DynamicParameters(new { CustId = custId, customer.SiteId, AffId = iAff, customer.AffCode }),
+                        conn, trans);
                     flag += $" Executed Member_VNAffiliate_Ins after custId：{custId} ";
                 }
 
@@ -203,6 +238,11 @@ namespace MemberSite.Service.DAL
             {
                 _logger.LogError(ex, $"{ex.Message}，codeFlow:{flag}");
                 throw;
+            }
+            finally
+            {
+                conn.Close();
+                conn.Dispose();
             }
         }
         public Customer GetCustInfo(int custId, bool forceUseMainDb = false)
