@@ -87,7 +87,6 @@ namespace MemberSite
             services.AddSingleton<MessageService>();
             services.AddSingleton<ThirdPartyService>();
             services.AddSingleton<PayService>();
-            services.AddSingleton<RolloverService>();
             services.AddSingleton<PromotionService>();
             services.AddSingleton<CasinoService>();
             services.AddSingleton<StatementService>();
@@ -158,6 +157,7 @@ namespace MemberSite
             services.AddSingleton<IPBLL>();
             services.AddSingleton<ShieldBLL>();
             services.AddTransient<WorldCupPredictionBLL>();
+            services.AddSingleton<SlotGameBLL>();
 
             services.AddSingleton<CustomCookieAuthenticationEvents>();
             services.AddTransient<HotEventBLL>();

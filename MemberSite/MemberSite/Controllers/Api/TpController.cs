@@ -274,8 +274,8 @@ namespace MemberSite.Controllers.Api
             var activeTpId = 0;
             var fromWallet = TpWalletList.FirstOrDefault(x => x.TpId == inTpTransfer.FromTpId);
             var toWallet = TpWalletList.FirstOrDefault(x => x.TpId == inTpTransfer.ToTpId);
-            int fromWalletmode = fromWallet == null?0: fromWallet.WalletMode;
-            int toWalletmode = toWallet == null ? 0 : toWallet.WalletMode;
+            var fromWalletmode = fromWallet == null?0: fromWallet.WalletMode;
+            var toWalletmode = toWallet == null ? 0 : toWallet.WalletMode;
 
             if (inTpTransfer.TransferAction != (int)TransferAction.Manual && ((fromWalletmode == (int)WalletMode.Manual) || toWalletmode == (int)WalletMode.Manual)) //restore all not support  Wallet which WalletMode = Manual
             {

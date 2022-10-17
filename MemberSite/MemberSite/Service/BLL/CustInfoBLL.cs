@@ -16,7 +16,6 @@ namespace MemberSite.Service.BLL
         private readonly AuthenticateService _authenticateService;
         private readonly ServerInfoBll _serverInfoBll;
         private readonly AgentInfoService _agentInfoService;
-        private readonly RolloverService _rollOverService;
         private readonly BankInfoService _bankInfoService;
         private readonly CommonBLL _commonBll;
         private readonly CacheHelper _cacheHelper;
@@ -37,7 +36,6 @@ namespace MemberSite.Service.BLL
             _authenticateService = provider.GetRequiredService<AuthenticateService>();
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
             _agentInfoService = provider.GetRequiredService<AgentInfoService>();
-            _rollOverService = provider.GetRequiredService<RolloverService>();
             _bankInfoService = provider.GetRequiredService<BankInfoService>();
             _commonBll = provider.GetRequiredService<CommonBLL>();
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
@@ -376,24 +374,14 @@ namespace MemberSite.Service.BLL
         }
         public CustBankInfo GetCustBankInfo(int custId)
         {
-            var custInfo = GetCustInfoWithCache(custId);
             var custBankInfo = _custInfoService.GetCustBankInfo(custId);
 
             if (custBankInfo != null)
             {
                 var bankInfoDetailList = _custInfoService.GetCustBankDetail(custId);
                 custBankInfo.bankInfoDetail = bankInfoDetailList;
-                //if (custInfo.CurrencyId == 96)
-                //{
-                //    custBankInfo.uSDTDetail = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<USDTDetail>>(custBankInfo.BankInfo);
-                //}
-                //else
-                //{
-                //    custBankInfo.bankInfoDetail = bankInfoDetailList;
-                //}
-
             }
-            if (custBankInfo != null && custBankInfo.USDTInfo != null)
+            if (custBankInfo is { USDTInfo: { } })
             {
                 var uSDTDetailList = JsonConvert.DeserializeObject<IEnumerable<USDTDetail>>(custBankInfo.USDTInfo);
                 if (uSDTDetailList != null)
@@ -404,15 +392,6 @@ namespace MemberSite.Service.BLL
                         custBankInfo.usdtDetail = uSDTDetailList;
                     }
                 }
-                //if (custInfo.CurrencyId == 96)
-                //{
-                //    custBankInfo.uSDTDetail = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<USDTDetail>>(custBankInfo.BankInfo);
-                //}
-                //else
-                //{
-                //    custBankInfo.bankInfoDetail = bankInfoDetailList;
-                //}
-
             }
             return custBankInfo;
         }
@@ -493,11 +472,7 @@ namespace MemberSite.Service.BLL
             var result = await _commonBll.SendResetPwdMailAsync(custId, resetPasswordUrl);
             return result;
         }
-
-        public CustRollOver GetCustRollOver(int custId, string bonusCode)
-        {
-            return _rollOverService.GetCustRollOver(custId, bonusCode);
-        }
+        
         public async Task<ApiResult> VerifyOTPAsync(int custId, string inputOTP)
         {
             var apiResult = await _commonBll.VerifyOTPAsync(custId, inputOTP);
@@ -604,15 +579,11 @@ namespace MemberSite.Service.BLL
                 {
                     return -19;
                 }
-                else
-                {
-                    return agent.CurrencyId;
-                }
+
+                return agent.CurrencyId;
             }
-            else
-            {
-                return -1;
-            }
+
+            return -1;
 
         }
         public void GetReferralSummary(int custId, out int referralCount, out int conditionCount, out int amountCount, out int amountSum)
@@ -635,14 +606,6 @@ namespace MemberSite.Service.BLL
             }
 
             return true;
-        }
-        public int SetFireBaseTroken(int custId, int siteId, string fireBaseToken)
-        {
-            return _custInfoService.SetFireBaseTroken(custId, siteId, fireBaseToken);
-        }
-        public int SetCustActStatus(int custId, string Operator)
-        {
-            return _custInfoService.SetCustActStatus(custId, Operator);
         }
 
         private static List<string> AddressKeys = new List<string>() { "Country", "State", "PostCode", "City", "LineFirst", "LineSecond" };

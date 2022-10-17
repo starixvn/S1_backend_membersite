@@ -633,33 +633,7 @@ namespace MemberSite.Service.BLL
             }
             return datas;
         }
-
-        public IEnumerable<BounsLogStatement> GetBounsLogStatement(int custId,int PromoCategoryId, long startDate, long endDate, ref int pageNumber, out int totalPages, out int rowCount)
-        {
-            var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var datas = statementService.GetBounsLogStatement(CustInfo.CustId, PromoCategoryId, startDate, endDate, CustInfo.SiteId, 5, ref pageNumber, out totalPages, out rowCount);
-            //var tpList = statementService.GetTpList();
-
-            //Dictionary<string, string> singleWalletTransType = new Dictionary<string, string>()
-            //{
-            //    {"1", selLangBLL.GetResourceValue("lbl_Stake")  },
-            //    {"2", selLangBLL.GetResourceValue("lbl_Refund") },
-            //    {"3", selLangBLL.GetResourceValue("lbl_Settled")},
-            //    {"4", selLangBLL.GetResourceValue("lbl_Prize")  },
-            //    {"5", selLangBLL.GetResourceValue("lbl_UnSettle")}
-            //};
-
-            return datas.Select(x => new BounsLogStatement
-            {
-                BeforeBonus = x.BeforeBonus,
-                ChangeBonus = x.ChangeBonus,
-                CreateTime = x.CreateTime,
-                Direction = x.Direction,
-                RefTransId = x.RefTransId,
-                AfterBonus = x.AfterBonus,
-                TypeName = GetTransTypeNameV2(x.Type, x.TypeName)
-            });
-        }
+        
         private string GetTransTypeNameV2(string Type, string TypeName)
         {
             if (Type.Length < 5)
@@ -685,10 +659,6 @@ namespace MemberSite.Service.BLL
             }
         }
 
-        public IEnumerable<PromotionCategory> GetPromotionCategory()
-        {
-            return statementService.GetPromotionCategory();
-        }
         public int SetDepositReceipt(int custId, string transId, string refNo, long depositTime)
         {
             var depositId = 0;
@@ -762,10 +732,7 @@ namespace MemberSite.Service.BLL
                 }
             }
         }
-        public IEnumerable<TpBetRecordListOneWeek> GetCustTpBetRecordListOneWeek(int custId)
-        {
-            return statementService.GetCustTpBetRecordListOneWeek(custId);
-        }
+
         public IEnumerable<TpBetRecordListOneDay> GetCustTpBetRecordListOneDay(int custId, string selDate, int PageSize, ref int PageNumber, ref int TotalPages, ref int RowCount)
         {
             return statementService.GetCustTpBetRecordListOneDay(custId, selDate, PageSize, ref PageNumber, ref TotalPages, ref RowCount);
@@ -794,10 +761,7 @@ namespace MemberSite.Service.BLL
         {
             return withdrawalService.GetWithdrawalInfoCheck(input);
         }
-        public IEnumerable<NetworkList> GetSupportNetwork( int currencyId)
-        {
-            return statementService.GetSupportNetwork(currencyId);
-        }
+
         public CryptoInfoData GetSupportCryptoInfo()
         {
             var infos = statementService.GetSupportCryptoInfo();
@@ -824,11 +788,6 @@ namespace MemberSite.Service.BLL
         public IEnumerable<USDTWithdrawalLimitInfoOutput> GetUSDTWithdrawalLimitInfoV2(USDTWithdrawalLimitInfoInput input)
         {
             return withdrawalService.GetUSDTWithdrawalLimitInfoV2(input);
-        }
-
-        public IEnumerable<USDTWithdrawalLimitInfoOutput> GetUSDTWithdrawalLimitInfoList(USDTWithdrawalLimitInfoInput input)
-        {
-            return withdrawalService.GetUSDTWithdrawalLimitInfoList(input);
         }
 
         public EWalletWithdrawalLimitInfoOutput GetEWalletWithdrawalLimitInfo(WithdrawalLimitInfoInput input)

@@ -323,7 +323,7 @@ namespace MemberSite.Controllers.Api
         public ApiResult<bool> ExistsUserName(RegisteredModel registeredModel)
         {
             var apiResult = new ApiResult<bool>(_selLangBll);
-            if (!_regexUserName.IsMatch(registeredModel.UserName))
+            if (string.IsNullOrWhiteSpace(registeredModel.UserName) || !_regexUserName.IsMatch(registeredModel.UserName))
             {
                 apiResult.Data = true;
                 apiResult.ErrorCode = 0;
@@ -1075,25 +1075,28 @@ namespace MemberSite.Controllers.Api
             {
                 Data = new AffiliateAgent()
             };
+
+            if (string.IsNullOrWhiteSpace(affiliateAgentReq.AffId) || affiliateAgentReq.AffId.Length > 32)
+            {
+                apiResult.ErrorCode = -1;
+                apiResult.Message = "no AffId";
+                return apiResult;
+            }
+            
             var result = _custInfoBll.GetAffiliateAgentBll(affiliateAgentReq.AffId);
             apiResult.ErrorCode = 0;
-            if (result > 0)
+            switch (result)
             {
-                apiResult.Data.CurrencyId = result;
-            }
-            else if (result == -1)
-            {
-                apiResult.ErrorCode = result;
-                apiResult.Message = "no AffId";
-            }
-            else if (result == -19)
-            {
-                apiResult.ErrorCode = result;
-                apiResult.Message = _selLangBll.GetMsg("mag_AffiliateNotExist");
-            }
-            else
-            {
-                apiResult.ErrorCode = result;
+                case > 0:
+                    apiResult.Data.CurrencyId = result;
+                    break;
+                case -19:
+                    apiResult.ErrorCode = result;
+                    apiResult.Message = _selLangBll.GetMsg("mag_AffiliateNotExist");
+                    break;
+                default:
+                    apiResult.ErrorCode = result;
+                    break;
             }
 
             return apiResult;
@@ -1197,7 +1200,7 @@ namespace MemberSite.Controllers.Api
             [FromRoute] string langId = "en")
         {
             var authData = _authorizeBll.GetAuthData();
-            if (authData != null)
+            if (authData is { CustId: > 0 })
             {
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                 request.CurrencyId = custInfo.CurrencyId;

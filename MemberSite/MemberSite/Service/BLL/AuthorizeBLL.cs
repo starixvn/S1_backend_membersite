@@ -114,10 +114,10 @@ namespace MemberSite.Service.BLL
                 var jwtSecurityToken = (JwtSecurityToken)validatedToken;
                 appAuthData = new AuthData()
                 {
-                    UserName = jwtSecurityToken.Claims.First(claim => claim.Type == ClaimTypes.Name)?.Value,
-                    CustId = int.Parse(jwtSecurityToken.Claims.First(claim => claim.Type == ClaimTypes.NameIdentifier)?.Value),
-                    Token = jwtSecurityToken.Claims.First(claim => claim.Type == "Token")?.Value,
-                    LangId = jwtSecurityToken.Claims.First(claim => claim.Type == "LangId")?.Value,
+                    UserName = jwtSecurityToken.Claims.First(claim => claim.Type == ClaimTypes.Name).Value,
+                    CustId = int.Parse(jwtSecurityToken.Claims.First(claim => claim.Type == ClaimTypes.NameIdentifier).Value),
+                    Token = jwtSecurityToken.Claims.First(claim => claim.Type == "Token").Value,
+                    LangId = jwtSecurityToken.Claims.First(claim => claim.Type == "LangId").Value,
                 };
                 return true;
             }
