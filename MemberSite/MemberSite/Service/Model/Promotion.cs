@@ -75,7 +75,6 @@ namespace MemberSite.Service.Model
         public string TpName { get; set; }
         public decimal LossAmount { get; set; }
         public decimal LossAmountWithBonus { get; set; }
-        public string PercentageName { get; set; }
     }
 
     public class Ref
