@@ -77,11 +77,6 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
 
-        public class GetBankInfoOffListReq
-        {
-            public int? QueryType { get; set; } // queryType: 0.only open Bank(status = 1) 1.open & suspend Bank(status = 1 or status = 2)
-        }
-
         [HttpPost]
         public ApiResult<IEnumerable<OfflineBankInfoFront>> GetBankInfoOffListStatus()
         {
