@@ -316,4 +316,7 @@
   <data name="msg_EWalletIsMaintenance" xml:space="preserve">
     <value>E-Wallet is maintenance, please use other withdrawal methods</value>
   </data>
+  <data name="msg_NotInLimit" xml:space="preserve">
+    <value>Not in Limit</value>
+  </data>
 </root>
