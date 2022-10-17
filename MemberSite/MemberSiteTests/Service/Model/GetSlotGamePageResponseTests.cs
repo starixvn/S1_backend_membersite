@@ -64,7 +64,7 @@ namespace MemberSite.Service.Model.Tests
         [Test]
         public void NoLoginSlotGamePageTests()
         {
-            var actual = new GetSlotGamePageResponse(_imgUrl, _providerList, _slotGameList);
+            var actual = new GetSlotGamePageResponse(0, _imgUrl, _providerList, _slotGameList);
 
             Assert.AreEqual("test", actual.ImgUrl);
             Assert.AreEqual(6, actual.ProviderList.Count);
@@ -87,7 +87,7 @@ namespace MemberSite.Service.Model.Tests
         [Test]
         public void GetSlotGamePageTests()
         {
-           var actual = new GetSlotGamePageResponse(_imgUrl, _providerList, _slotGameList, _favorite, _recentlyPlayed, _disableGame);
+           var actual = new GetSlotGamePageResponse(0, _imgUrl, _providerList, _slotGameList, _favorite, _recentlyPlayed, _disableGame);
 
            Assert.AreEqual("test", actual.ImgUrl);
            Assert.AreEqual(5, actual.ProviderList.Count);
