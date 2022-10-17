@@ -296,4 +296,7 @@
   <data name="msg_EWalletIsMaintenance" xml:space="preserve">
     <value>目前E-Wallet正在維護中，請使用其它提款方式</value>
   </data>
+  <data name="msg_NotInLimit" xml:space="preserve">
+    <value>不在设定范围</value>
+  </data>
 </root>
