@@ -33,7 +33,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     var CurrencyId = 0;
-    var mainWalletType = configuration.GetValue<int>("MainWalletType");
     Customer customer = null;
 
     if (User.Identity.IsAuthenticated)
