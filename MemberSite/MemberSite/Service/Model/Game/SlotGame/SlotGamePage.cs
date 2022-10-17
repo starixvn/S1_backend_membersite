@@ -14,6 +14,7 @@ namespace MemberSite.Service.Model.Game
     public class GetSlotGamePageResponse
     {
         public string ImgUrl { get; set; }
+        public int CurrencyId { get; set; }       
         public List<GameProvider> ProviderList { get; set; } = new List<GameProvider>();
         public List<SlotGameInfo> All { get; set; } = new List<SlotGameInfo>();
         public List<SlotGameInfo> Random { get; set; } = new List<SlotGameInfo>();
@@ -33,8 +34,9 @@ namespace MemberSite.Service.Model.Game
         /// <summary>
         /// 未登入回傳的SlotGamePage
         /// </summary>
-        public GetSlotGamePageResponse(string imgUrl, List<GameProvider> providerList, List<SlotGameInfo> slotGameList)
+        public GetSlotGamePageResponse(int currencyId, string imgUrl, List<GameProvider> providerList, List<SlotGameInfo> slotGameList)
         {
+            CurrencyId = currencyId;
             ImgUrl = imgUrl;
             ProviderList = providerList;
             SetSlotGameCategory(slotGameList, null, null);
@@ -43,8 +45,9 @@ namespace MemberSite.Service.Model.Game
         /// <summary>
         /// 登入回傳的SlotGamePage
         /// </summary>
-        public GetSlotGamePageResponse(string imgUrl, List<GameProvider> providerList, List<SlotGameInfo> slotGameList, List<UserGameInfo> favorite, List<UserGameInfo> recentlyPlayed, IEnumerable<DisableTpGame> disableGame)
+        public GetSlotGamePageResponse(int currencyId, string imgUrl, List<GameProvider> providerList, List<SlotGameInfo> slotGameList, List<UserGameInfo> favorite, List<UserGameInfo> recentlyPlayed, IEnumerable<DisableTpGame> disableGame)
         {
+            CurrencyId = currencyId;
             ImgUrl = imgUrl;
             ExcludeBlockGames(slotGameList, providerList, disableGame);
 
