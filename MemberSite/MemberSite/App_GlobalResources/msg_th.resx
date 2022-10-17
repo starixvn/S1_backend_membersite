@@ -306,4 +306,7 @@
   <data name="msg_EWalletIsMaintenance" xml:space="preserve">
     <value>E-Wallet คือการบำรุงรักษา โปรดใช้วิธีถอนเงินแบบอื่น</value>
   </data>
+  <data name="msg_NotInLimit" xml:space="preserve">
+    <value>จำนวนเงินมากกว่าหรือน้อยกว่าที่กำหนดไว้</value>
+  </data>
 </root>
