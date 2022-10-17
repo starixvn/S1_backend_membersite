@@ -14,7 +14,6 @@ namespace MemberSite.Service.DAL
         private readonly IConfiguration configuration;
         private readonly Common common;
         private readonly WalletService walletService;
-        private readonly RolloverService rolloverService;
         private readonly MySqlClient _mainDbClient;
         private readonly MySqlClient _reportDbClient;
         private readonly ShieldBLL _shieldBll;
@@ -25,7 +24,6 @@ namespace MemberSite.Service.DAL
             configuration = provider.GetRequiredService<IConfiguration>();
             common = provider.GetRequiredService<Common>();
             walletService = provider.GetRequiredService<WalletService>();
-            rolloverService = provider.GetRequiredService<RolloverService>();
             _shieldBll = provider.GetRequiredService<ShieldBLL>();
             _mainDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Main);
             _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
@@ -312,13 +310,6 @@ namespace MemberSite.Service.DAL
                     _CryptoCurrencyId = input.CryptoCurrencyId,
                     _Network = input.Network
                 }, commandType: CommandType.StoredProcedure);
-        }
-
-        public IEnumerable<USDTWithdrawalLimitInfoOutput> GetUSDTWithdrawalLimitInfoList(USDTWithdrawalLimitInfoInput input)
-        {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<USDTWithdrawalLimitInfoOutput>("Member_USDTWithdrawalLimitInfo_Get",
-                new { input.SiteId, input.CurrencyId, input.VipLevel, input.Network }, commandType: CommandType.StoredProcedure);
         }
 
         public EWalletWithdrawalLimitInfoOutput GetEWalletWithdrawalLimitInfo(WithdrawalLimitInfoInput input)

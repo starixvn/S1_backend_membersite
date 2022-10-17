@@ -21,7 +21,7 @@ namespace MemberSite.Service.Library
             DataBase = dataBase;
         }
 
-        public async Task<T> QueryFirstAsync<T>(string name, SqlMapper.IDynamicParameters parameters)
+        public async Task<T> QueryFirstAsync<T>(string name, object parameters)
         {
             T result;
             var sw = Stopwatch.StartNew();
@@ -42,7 +42,7 @@ namespace MemberSite.Service.Library
             return result;
         }
 
-        public T QueryFirst<T>(string name, SqlMapper.IDynamicParameters parameters)
+        public T QueryFirst<T>(string name, object parameters)
         {
             T result;
             var sw = Stopwatch.StartNew();
@@ -246,7 +246,7 @@ namespace MemberSite.Service.Library
             return result;
         }
 
-        public async Task<IEnumerable<T>> QueryAsync<T>(string name, SqlMapper.IDynamicParameters parameters)
+        public async Task<IEnumerable<T>> QueryAsync<T>(string name, object parameters)
         {
             IEnumerable<T> result;
             var sw = Stopwatch.StartNew();

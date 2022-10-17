@@ -5,6 +5,7 @@ using MemberSite.Service.Model.Mapping;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
 {
@@ -26,7 +27,7 @@ namespace MemberSite.Controllers.Api
         private readonly CryptoPayInfoBll _cryptoPayInfoBLL;
         private readonly LineLoginBLL _lineLoginBll;
         private readonly IEnumerable<AreaCodeMap> _areaCodeMap;
-        
+        private readonly ILogger<AccountStrictController> _logger;
 
         public AccountStrictController(IServiceProvider provider)
         {
@@ -42,6 +43,7 @@ namespace MemberSite.Controllers.Api
             _cryptoPayInfoBLL = provider.GetRequiredService<CryptoPayInfoBll>();
             _lineLoginBll = provider.GetRequiredService<LineLoginBLL>();
             _areaCodeMap = provider.GetRequiredService<IEnumerable<AreaCodeMap>>();
+            _logger = provider.GetRequiredService<ILogger<AccountStrictController>>();
         }
 
         public class BankInfo
@@ -316,48 +318,6 @@ namespace MemberSite.Controllers.Api
             apiResult.Message = _selLangBLL.GetMsg("msg_Updatesuccessful");
             return apiResult;
         }
-        //        public class SetAccountNameReq
-        //        {
-        //            public string Name { get; set; }
-        //        }
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        ///// <param name="content"></param>
-        ///// <returns></returns>
-        //        [HttpPost]
-        //        public ApiResult SetAccountName(SetAccountNameReq content)
-        //        {
-        //            var apiResult = new ApiResult(selLangBLL);
-        //            var authData = authorizeBLL.GetAuthData();
-        //            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-        //            //check input
-        //            if (string.IsNullOrEmpty(content.Name))
-        //            {
-        //                apiResult.ErrorCode = -3;
-        //                apiResult.Message = selLangBLL.GetMsg("msg_NeedAccountName");
-        //                return apiResult;
-        //            }
-
-        //            if (content.Name.Length > 50)
-        //            {
-        //                apiResult.ErrorCode = -4;
-        //                return apiResult;
-        //            }
-
-        //            //check AccountName exist or not
-        //            //existed
-        //            if (custInfoBLL.GetCustBankInfo(authData.CustId) != null)
-        //            {
-        //                apiResult.ErrorCode = -5;
-        //                return apiResult;
-        //            }
-        //            //not existed, update (custInfoBLL.SetCustBankInfo only return 0 or -1)
-        //            apiResult.ErrorCode = custInfoBLL.SetCustBankInfo(authData.CustId, content.Name, null);
-        //            apiResult.Message = selLangBLL.GetMsg(apiResult.ErrorCode == 0 ? "msg_Updatesuccessful" : "msg_UpdateFailed");
-
-        //            return apiResult;
-        //        }
 
         public class SetAccountNameReq
         {
@@ -852,31 +812,7 @@ namespace MemberSite.Controllers.Api
 
             return apiResult;
         }
-
-        [HttpPost]
-        public async Task<ApiResult> SendVerifySMSAsync()
-        {
-            var authData = _authorizeBLL.GetAuthData();
-            var apiResult = await _custInfoBLL.SendVerifySMSAsync(authData.CustId);
-
-            return apiResult;
-        }
-
-        public class VerifyPhoneReq
-        {
-            public string request_id { set; get; }
-            public string code { set; get; }
-        }
-        [HttpPost]
-        public async Task<ApiResult> VerifyPhoneAsync(VerifyPhoneReq verifyPhoneReq)
-        {
-            var authData = _authorizeBLL.GetAuthData();
-            var apiResult = await _custInfoBLL.AcknowledgeVerifySMS(authData.CustId, _serverInfoBLL.GetServerInfo().SiteName, verifyPhoneReq.request_id, verifyPhoneReq.code);
-
-            return apiResult;
-        }
-
-
+        
         [HttpPost]
         public async Task<ApiResult<SendOTPSMSResult>> SendOTPSMSAsync()
         {
@@ -947,29 +883,38 @@ namespace MemberSite.Controllers.Api
         public async Task<ApiResult> VerifyEmailAsync(VerifyEmailReq req, [FromRoute] string langId)
         {
             var apiResult = new ApiResult(_selLangBll);
-            if (_authBll.Authenticate(req.key, out CustInfoProfile custInfoProfile))
+            try
             {
-                Customer customer = null;
-                var result = _custInfoBLL.GetCustomer(custInfoProfile.UserName, ref customer);
-                if (result != 0)
+                if (_authBll.Authenticate(req.key, out CustInfoProfile custInfoProfile))
                 {
-                    apiResult.ErrorCode = result;
-                    return apiResult;
-                }
+                    Customer customer = null;
+                    var result = _custInfoBLL.GetCustomer(custInfoProfile.UserName, ref customer);
+                    if (result != 0)
+                    {
+                        apiResult.ErrorCode = result;
+                        return apiResult;
+                    }
 
-                if (User.Identity.IsAuthenticated && _authorizeBLL.GetAuthData().CustId != customer.CustId)
-                {
-                    apiResult.ErrorCode = 1;
+                    var authData = _authorizeBLL.GetAuthData();
+                    if (authData is { CustId: > 0 } && authData.CustId != customer.CustId)
+                    {
+                        apiResult.ErrorCode = 1;
+                    }
+                    else
+                    {
+                        var verifyResult = await _custInfoBLL.VerifyEmailAsync(customer.CustId, req.code);
+                        apiResult.ErrorCode = verifyResult.ErrorCode;
+                    }
                 }
                 else
                 {
-                    var verifyResult = await _custInfoBLL.VerifyEmailAsync(customer.CustId, req.code);
-                    apiResult.ErrorCode = verifyResult.ErrorCode;
+                    apiResult.ErrorCode = 403;
                 }
             }
-            else
+            catch (Exception e)
             {
                 apiResult.ErrorCode = 403;
+                _logger.LogError(e, GetCurrentMethod());
             }
 
             return apiResult;

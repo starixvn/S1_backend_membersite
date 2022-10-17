@@ -1,6 +1,8 @@
 ﻿using MemberSite.Service.DAL;
+using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
+using MemberSite.Service.Model.Interfaces;
 using System.Text.RegularExpressions;
 
 namespace MemberSite.Service.BLL
@@ -12,21 +14,23 @@ namespace MemberSite.Service.BLL
         private readonly DepositService _depositService;
         private readonly WithdrawalService withdrawalService;
         private readonly BankInfoBLL bankInfoBLL;
-        private readonly RolloverService rollOverService;
         private readonly StatementService statementService;
         private readonly SelLangBLL selLangBLL;
-        private readonly Dictionary<string, string> singleWalletType;
+        private readonly IReadOnlyDictionary<string, string> singleWalletType;
+        private readonly PartitionService _partitionService;
+        private readonly ICacheHelper _cacheHelper;
+        private readonly IReadOnlyDictionary<int, string> _tpList;
+        private readonly IReadOnlyDictionary<int, string> _gameTypeList;
 
-        public PaymentBLL(BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, CustInfoBll custInfoBLL, DepositService depositService, WithdrawalService withdrawalService, RolloverService rollOverService, StatementService statementService, SelLangBLL selLangBLL)
+        public PaymentBLL(IServiceProvider provider)
         {
-            this.bankInfoOffBLL = bankInfoOffBLL;
-            this.custInfoBLL = custInfoBLL;
-            this._depositService = depositService;
-            this.withdrawalService = withdrawalService;
-            this.bankInfoBLL = bankInfoBLL;
-            this.rollOverService = rollOverService;
-            this.statementService = statementService;
-            this.selLangBLL = selLangBLL;
+            bankInfoOffBLL = provider.GetRequiredService<BankInfoOffBLL>();
+            custInfoBLL = provider.GetRequiredService<CustInfoBll>();
+            _depositService = provider.GetRequiredService<DepositService>();
+            withdrawalService = provider.GetRequiredService<WithdrawalService>();
+            bankInfoBLL = provider.GetRequiredService<BankInfoBLL>();
+            statementService = provider.GetRequiredService<StatementService>();
+            selLangBLL = provider.GetRequiredService<SelLangBLL>();
           
             singleWalletType = new Dictionary<string, string>
             {
@@ -36,6 +40,11 @@ namespace MemberSite.Service.BLL
                 {"4", "lbl_Prize"  },
                 {"5", "lbl_UnSettle"}
             };
+            _partitionService = provider.GetRequiredService<PartitionService>();
+            _cacheHelper = provider.GetRequiredService<ICacheHelper>();
+
+            _tpList = statementService.GetTpListWithCache().ToDictionary(i => i.Id , i =>i.TpName);
+            _gameTypeList = statementService.GetGameTypeListWithCache().ToDictionary(i => i.Type, i => i.TypeName);
         }
 
         /// <summary>
@@ -579,44 +588,52 @@ namespace MemberSite.Service.BLL
             return withdrawalInfoHistory;
         }
 
-        public IEnumerable<Statement> GetStatement(int custId, long startDate, long endDate, ref int pageNumber, out int totalPages, out int rowCount)
+        public IEnumerable<Statement> GetStatement(int custId, long start, long end, int pageNumber, int pageSize, out IPageInfo pageInfo)
         {
-            var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var datas = statementService.GetStatement(CustInfo.CustId, startDate, endDate, CustInfo.SiteId, 5, ref pageNumber, out totalPages, out rowCount);
+            pageInfo = new PageInfo();
+            var (startDate, endDate) = CheckTimeRange(start, end);
+            var key = $"GetFinancialLog:{custId}:{startDate:yyyyMMddHHmmssfff}:{endDate:yyyyMMddHHmmssfff}";
+            var cacheTime = TimeSpan.FromMinutes(1);
+
+            if (_cacheHelper.KeyExists(key, RedisDataBase.Shared))
+            {
+                //Redis Pagination
+                var total = (int)_cacheHelper.GetListLength(key, RedisDataBase.Shared);
+                var (startIndex, endIndex) = pageInfo.RedisPagination(total, pageNumber, pageSize);
+                var cacheList = _cacheHelper.GetListByRange<Statement>(key, startIndex, endIndex, RedisDataBase.Shared);
+                foreach (var item in cacheList)
+                {
+                    item.TypeName = GetTransTypeNameV2(item.Type, item.TypeName);
+                }
+                return cacheList;
+            }
+            object RefTransId = null;
+            //Search range table
+            var parameters = new
+            {
+                CustId = custId,
+                StartDate = startDate,
+                EndDate = endDate,
+                RefTransId,
+            };
+            var data = _partitionService.MonthlyQuery<Statement>(startDate, endDate, "Service_FinancialLog_Get", parameters);
+            var list = data.OrderByDescending(i => i.CreateTime).ToList();
+
+            // Add Cache by List      
+            _ = Task.Run(() =>
+            {
+                _cacheHelper.InsertList(key, cacheTime, list, RedisDataBase.Shared);
+            });
+
+            var (index, count) = pageInfo.ListPagination(list.Count, pageNumber, pageSize);
+            var datas = list.GetRange(index, count);
             foreach (var item in datas)
             {
                 item.TypeName = GetTransTypeNameV2(item.Type, item.TypeName);
             }
             return datas;
         }
-
-        public IEnumerable<BounsLogStatement> GetBounsLogStatement(int custId,int PromoCategoryId, long startDate, long endDate, ref int pageNumber, out int totalPages, out int rowCount)
-        {
-            var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var datas = statementService.GetBounsLogStatement(CustInfo.CustId, PromoCategoryId, startDate, endDate, CustInfo.SiteId, 5, ref pageNumber, out totalPages, out rowCount);
-            //var tpList = statementService.GetTpList();
-
-            //Dictionary<string, string> singleWalletTransType = new Dictionary<string, string>()
-            //{
-            //    {"1", selLangBLL.GetResourceValue("lbl_Stake")  },
-            //    {"2", selLangBLL.GetResourceValue("lbl_Refund") },
-            //    {"3", selLangBLL.GetResourceValue("lbl_Settled")},
-            //    {"4", selLangBLL.GetResourceValue("lbl_Prize")  },
-            //    {"5", selLangBLL.GetResourceValue("lbl_UnSettle")}
-            //};
-
-            return datas.Select(x => new BounsLogStatement
-            {
-                BeforeBonus = x.BeforeBonus,
-                ChangeBonus = x.ChangeBonus,
-                CreateTime = x.CreateTime,
-                Direction = x.Direction,
-                RefTransId = x.RefTransId,
-                AfterBonus = x.AfterBonus,
-                //TypeName = GetTransTypeName(x.Type, x.TypeName, ref tpList, ref singleWalletTransType)
-                TypeName = GetTransTypeNameV2(x.Type, x.TypeName)
-            });
-        }
+        
         private string GetTransTypeNameV2(string Type, string TypeName)
         {
             if (Type.Length < 5)
@@ -625,30 +642,23 @@ namespace MemberSite.Service.BLL
             }
             else
             {
-                var tpList = statementService.GetTpListWithCache();
-                var gameTypeList = statementService.GetGameTypeListWithCache();
-
                 singleWalletType.TryGetValue(Type.Substring(1, 1), out var WalletType);
                 int.TryParse(Type.Substring(2), out var tempId);
                 string tpName = null;
 
                 if (Type.StartsWith("1"))
                 {
-                    tpName = tpList.FirstOrDefault(x => x.Id == tempId)?.TpName;
+                    tpName = _tpList.GetValueOrDefault(tempId, string.Empty);
                 }
                 else if (Type.StartsWith("2"))
                 {
-                    tpName = gameTypeList.FirstOrDefault(x => x.Type == tempId)?.TypeName;
+                    tpName = _gameTypeList.GetValueOrDefault(tempId, string.Empty);
                 }
 
                 return $"{tpName} {selLangBLL.GetResourceValue(WalletType)}";
             }
         }
 
-        public IEnumerable<PromotionCategory> GetPromotionCategory()
-        {
-            return statementService.GetPromotionCategory();
-        }
         public int SetDepositReceipt(int custId, string transId, string refNo, long depositTime)
         {
             var depositId = 0;
@@ -722,10 +732,7 @@ namespace MemberSite.Service.BLL
                 }
             }
         }
-        public IEnumerable<TpBetRecordListOneWeek> GetCustTpBetRecordListOneWeek(int custId)
-        {
-            return statementService.GetCustTpBetRecordListOneWeek(custId);
-        }
+
         public IEnumerable<TpBetRecordListOneDay> GetCustTpBetRecordListOneDay(int custId, string selDate, int PageSize, ref int PageNumber, ref int TotalPages, ref int RowCount)
         {
             return statementService.GetCustTpBetRecordListOneDay(custId, selDate, PageSize, ref PageNumber, ref TotalPages, ref RowCount);
@@ -754,10 +761,7 @@ namespace MemberSite.Service.BLL
         {
             return withdrawalService.GetWithdrawalInfoCheck(input);
         }
-        public IEnumerable<NetworkList> GetSupportNetwork( int currencyId)
-        {
-            return statementService.GetSupportNetwork(currencyId);
-        }
+
         public CryptoInfoData GetSupportCryptoInfo()
         {
             var infos = statementService.GetSupportCryptoInfo();
@@ -786,14 +790,38 @@ namespace MemberSite.Service.BLL
             return withdrawalService.GetUSDTWithdrawalLimitInfoV2(input);
         }
 
-        public IEnumerable<USDTWithdrawalLimitInfoOutput> GetUSDTWithdrawalLimitInfoList(USDTWithdrawalLimitInfoInput input)
-        {
-            return withdrawalService.GetUSDTWithdrawalLimitInfoList(input);
-        }
-
         public EWalletWithdrawalLimitInfoOutput GetEWalletWithdrawalLimitInfo(WithdrawalLimitInfoInput input)
         {
             return withdrawalService.GetEWalletWithdrawalLimitInfo(input);
         }
+
+        private (DateTime startDate, DateTime endDate) CheckTimeRange(long start, long end)
+        {
+            var startDate = DateTimeOffset.FromUnixTimeSeconds(start).DateTime;
+            var endDate = DateTimeOffset.FromUnixTimeSeconds(end).DateTime;
+
+            var oneYear = DateTime.UtcNow.AddYears(-1);//不可超過一年
+            var tomorrow = DateTime.UtcNow.AddDays(1).AddMilliseconds(-1);//不可超過今天
+
+            if (startDate < oneYear)
+            {
+                startDate = oneYear;
+            }
+            if (endDate < oneYear)
+            {
+                endDate = oneYear;
+            }
+
+            if (startDate > tomorrow)
+            {
+                startDate = tomorrow;
+            }
+            if (endDate > tomorrow)
+            {
+                endDate = tomorrow;
+            }
+            return (startDate, endDate);
+        }
+
     }
 }

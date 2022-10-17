@@ -34,7 +34,7 @@ namespace MemberSite.Service.Model
         {
             get
             {
-                return _createTime.ToOffset(CustTimeZone);
+                return _createTime.ToDateTimeOffset(CustTimeZone);
             }
             set
             {
@@ -62,12 +62,6 @@ namespace MemberSite.Service.Model
         public decimal Balance { get; set; }
     }
 
-    public class WithdrawalKyc
-    {
-        public int CurrencyId { get; set; }
-        public int SiteId { get; set; }
-        public decimal Amount { get; set; }
-    }
     public class WithdrawalLimitInfoInput
     {
         public int SiteId { get; set; }
