@@ -355,16 +355,7 @@ namespace MemberSite.Service.DAL
             result = conn.Execute("Service_CustBankInfo_SetV3", new { CustId = custId, SiteId = siteId, AccountName = accountName }, commandType: CommandType.StoredProcedure);
             return result > 0;
         }
-
-        public bool SetCustUSDTInfo(int custId, int siteId, string accountName, IEnumerable<USDTDetail> uSDTInfo)
-        {
-            var result = 0;
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            var tmp = Newtonsoft.Json.JsonConvert.SerializeObject(uSDTInfo);
-            result = conn.Execute("Service_CustUSDTInfo_Set", new { CustId = custId, SiteId = siteId, AccountName = accountName, USDTInfo = Newtonsoft.Json.JsonConvert.SerializeObject(uSDTInfo) }, commandType: CommandType.StoredProcedure);
-            return result > 0;
-        }
-
+        
         public bool InsertCustBankInfo(int custId, int siteId, string accountName, int sysId, string accountNum, string iFSCCode, CustBankInfoLogStatus status)
         {
             using var conn = new MySqlConnection(_connectionString);
@@ -401,18 +392,18 @@ namespace MemberSite.Service.DAL
             result = _mainDbClient.Execute("Service_CustBankInfoLog_Set_V2", parameter, conn, trans);
             return result > 0;
         }
-        public bool InsertCustUSDTInfo(int custId, int siteId, string accountName, IEnumerable<USDTDetail> uSDTInfo, IEnumerable<USDTDetail> uSDTInfoLog)
+        public bool SettCustUSDTInfo(int custId, int siteId, string accountName, IEnumerable<USDTDetail> uSDTInfo, IEnumerable<USDTDetailLog> uSDTInfoLog)
         {
             using var conn = new MySqlConnection(_connectionString);
             conn.Open();
             using var trans = conn.BeginTransaction();
             var custUsdtInfoResult = SetCustUSDTInfo(custId, siteId, accountName, uSDTInfo, conn, trans);
-            var custUsdtInfologResult = SetCustUSDTInfoLog(custId, siteId, accountName, uSDTInfoLog, conn, trans);
-            if (custUsdtInfoResult & custUsdtInfologResult)
+            var custUsdtInfoLogResult = SetCustUSDTInfoLog(custId, siteId, accountName, uSDTInfoLog, conn, trans);
+            if (custUsdtInfoResult & custUsdtInfoLogResult)
             {
                 trans.Commit();
             }
-            return custUsdtInfoResult & custUsdtInfologResult;
+            return custUsdtInfoResult & custUsdtInfoLogResult;
         }
         private bool SetCustUSDTInfo(int custId, int siteId, string accountName, IEnumerable<USDTDetail> uSDTInfo, MySqlConnection conn, MySqlTransaction trans)
         {
@@ -427,7 +418,7 @@ namespace MemberSite.Service.DAL
             result = _mainDbClient.Execute("Service_CustUSDTInfo_Set", parameter, conn, trans);
             return result > 0;
         }
-        private bool SetCustUSDTInfoLog(int custId, int siteId, string accountName, IEnumerable<USDTDetail> uSDTInfo, MySqlConnection conn, MySqlTransaction trans)
+        private bool SetCustUSDTInfoLog(int custId, int siteId, string accountName, IEnumerable<USDTDetailLog> uSDTInfo, MySqlConnection conn, MySqlTransaction trans)
         {
             var result = 0;
             var parameter = new DynamicParameters(new
@@ -437,7 +428,7 @@ namespace MemberSite.Service.DAL
                 AccountName = accountName,
                 USDTInfo = Newtonsoft.Json.JsonConvert.SerializeObject(uSDTInfo)
             });
-            result = _mainDbClient.Execute("Service_CustUSDTInfoLog_Set", parameter, conn, trans);
+            result = _mainDbClient.Execute("Service_CustUSDTInfoLog_Set_V2", parameter, conn, trans);
             return result > 0;
         }
 

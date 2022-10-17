@@ -162,7 +162,7 @@ namespace MemberSite.Controllers.Api
             var authData = _authorizeBLL.GetAuthData();
 
             List<USDTDetail> uSDTInfoList = null;
-            var uSDTInfoLogList = new List<USDTDetail>();
+            var uSDTInfoLogList = new List<USDTDetailLog>();
 
             var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
             //if (custInfo.CurrencyId != 96)
@@ -205,9 +205,9 @@ namespace MemberSite.Controllers.Api
 
             var currencyId = uSDTDetailreq.CurrencyId == 0 ? 96 : uSDTDetailreq.CurrencyId;
             uSDTInfoList.Add(new USDTDetail { NickName = uSDTDetailreq.NickName, USDTAddress = uSDTDetailreq.USDTAddress, Network = uSDTDetailreq.Network, CurrencyId = currencyId });
-            uSDTInfoLogList.Add(new USDTDetail { NickName = uSDTDetailreq.NickName, USDTAddress = uSDTDetailreq.USDTAddress, Network = uSDTDetailreq.Network, CurrencyId = currencyId });
+            uSDTInfoLogList.Add(new USDTDetailLog { NickName = uSDTDetailreq.NickName, USDTAddress = uSDTDetailreq.USDTAddress, Network = uSDTDetailreq.Network, CurrencyId = currencyId , Status = 1});
 
-            apiResult.ErrorCode = _custInfoBLL.InsertCustUSDTInfo(authData.CustId, uSDTDetailreq.AccountName, uSDTInfoList, uSDTInfoLogList);
+            apiResult.ErrorCode = _custInfoBLL.SetCustUSDTInfo(authData.CustId, uSDTDetailreq.AccountName, uSDTInfoList, uSDTInfoLogList);
             apiResult.Message = _selLangBLL.GetMsg("msg_Updatesuccessful");
             return apiResult;
         }
@@ -224,7 +224,7 @@ namespace MemberSite.Controllers.Api
             var authData = _authorizeBLL.GetAuthData();
 
             List<USDTDetail> uSDTInfoList = null;
-            var uSDTInfoLogList = new List<USDTDetail>();
+            var uSDTInfoLogList = new List<USDTDetailLog>();
 
             if (custUSDTInfoBatchreq.USDTInfo.Any(x =>
                     !_cryptoPayInfoBLL.CryptoAddressValidation(x.Network, x.USDTAddress)))
@@ -276,10 +276,10 @@ namespace MemberSite.Controllers.Api
             foreach (var custUSDTInfo in custUSDTInfoBatchreq.USDTInfo)
             {
                 uSDTInfoList.Add(new USDTDetail { NickName = custUSDTInfo.NickName, USDTAddress = custUSDTInfo.USDTAddress, Network = custUSDTInfo.Network, CurrencyId = custUSDTInfo.CurrencyId });
-                uSDTInfoLogList.Add(new USDTDetail { NickName = custUSDTInfo.NickName, USDTAddress = custUSDTInfo.USDTAddress, Network = custUSDTInfo.Network, CurrencyId = custUSDTInfo.CurrencyId });
+                uSDTInfoLogList.Add(new USDTDetailLog { NickName = custUSDTInfo.NickName, USDTAddress = custUSDTInfo.USDTAddress, Network = custUSDTInfo.Network, CurrencyId = custUSDTInfo.CurrencyId ,Status = 1});
             }
 
-            apiResult.ErrorCode = _custInfoBLL.InsertCustUSDTInfo(authData.CustId, custUSDTInfoBatchreq.AccountName, uSDTInfoList, uSDTInfoLogList);
+            apiResult.ErrorCode = _custInfoBLL.SetCustUSDTInfo(authData.CustId, custUSDTInfoBatchreq.AccountName, uSDTInfoList, uSDTInfoLogList);
             apiResult.Message = _selLangBLL.GetMsg("msg_Updatesuccessful");
             return apiResult;
         }
@@ -288,19 +288,12 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult(_selLangBLL);
             var authData = _authorizeBLL.GetAuthData();
-
-            var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
-            //if (custInfo.CurrencyId != 96)
-            //{
-            //    apiResult.ErrorCode = -6;
-            //    apiResult.Message = "Error Currency ";
-            //    return apiResult;
-            //}
-
+            
             IEnumerable<USDTDetail> USDTInfoList = null;
-
+            var uSDTInfoLogList = new List<USDTDetailLog>();
+            
             var custBankInfo = _custInfoBLL.GetCustBankInfo(authData.CustId);
-            if (custBankInfo == null || custBankInfo.usdtDetail == null)
+            if (custBankInfo?.usdtDetail == null)
             {
                 apiResult.ErrorCode = -2;
                 apiResult.Message = _selLangBLL.GetMsg("msg_UpdateFailed");
@@ -314,7 +307,8 @@ namespace MemberSite.Controllers.Api
                     x.CurrencyId == uSDTDetailreq.CurrencyId));
             }
 
-            apiResult.ErrorCode = _custInfoBLL.SetCustUSDTInfo(authData.CustId, custBankInfo.AccountName, USDTInfoList);
+            uSDTInfoLogList.Add(new USDTDetailLog { NickName = uSDTDetailreq.NickName, USDTAddress = uSDTDetailreq.USDTAddress, Network = uSDTDetailreq.Network, CurrencyId = uSDTDetailreq.CurrencyId ,Status = 2 });
+            apiResult.ErrorCode = _custInfoBLL.SetCustUSDTInfo(authData.CustId, custBankInfo.AccountName, USDTInfoList ,uSDTInfoLogList);
             apiResult.Message = _selLangBLL.GetMsg("msg_Updatesuccessful");
             return apiResult;
         }
