@@ -67,7 +67,7 @@ namespace MemberSite.Service.BLL
             // 未登入狀態直接回傳
             if (custId == 0)
             {
-                return new GetSlotGamePageResponse(imgUrl, providerList, slotGameList);
+                return new GetSlotGamePageResponse(currencyId, imgUrl, providerList, slotGameList);
             }
 
             //取得User Slot Game相關資料         
@@ -75,6 +75,7 @@ namespace MemberSite.Service.BLL
             var favoriteAndRecentlyPlayed = await GetFavoriteAndRecentlyPlayed(custId);
 
             return new GetSlotGamePageResponse(
+                currencyId: currencyId,
                 imgUrl: imgUrl, 
                 providerList: providerList,
                 slotGameList: slotGameList,
