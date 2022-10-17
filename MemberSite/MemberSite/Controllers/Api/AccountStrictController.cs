@@ -305,9 +305,13 @@ namespace MemberSite.Controllers.Api
                 USDTInfoList = custBankInfo.usdtDetail.Where(x =>
                     !(x.USDTAddress == uSDTDetailreq.USDTAddress &&
                     x.CurrencyId == uSDTDetailreq.CurrencyId));
+                
+                var deluSDTInfo = custBankInfo.usdtDetail.FirstOrDefault(x => 
+                    (x.USDTAddress == uSDTDetailreq.USDTAddress &&
+                     x.CurrencyId == uSDTDetailreq.CurrencyId));
+                uSDTInfoLogList.Add(new USDTDetailLog { NickName = deluSDTInfo.NickName, USDTAddress = deluSDTInfo.USDTAddress, Network = deluSDTInfo.Network, CurrencyId = deluSDTInfo.CurrencyId ,Status = 2 });
             }
-
-            uSDTInfoLogList.Add(new USDTDetailLog { NickName = uSDTDetailreq.NickName, USDTAddress = uSDTDetailreq.USDTAddress, Network = uSDTDetailreq.Network, CurrencyId = uSDTDetailreq.CurrencyId ,Status = 2 });
+            
             apiResult.ErrorCode = _custInfoBLL.SetCustUSDTInfo(authData.CustId, custBankInfo.AccountName, USDTInfoList ,uSDTInfoLogList);
             apiResult.Message = _selLangBLL.GetMsg("msg_Updatesuccessful");
             return apiResult;
