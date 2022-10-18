@@ -7,7 +7,7 @@ namespace MemberSite.Service.DAL;
 
 public class ReCaptchaService
 {
-    private readonly IOptions<Dictionary<string, ReCaptchaSetting>> _reCaptcha;
+    private readonly IOptions<ReCaptchaSetting> _reCaptcha;
     private readonly ServerInfoBll _serverInfo;
     private readonly IHttpHelper _httpHelper;
 
@@ -17,7 +17,7 @@ public class ReCaptchaService
         "nova88mas801.com", "nova88bkk801.com", "nova88india801.com", "localhost"
     };
 
-    public ReCaptchaService(IOptions<Dictionary<string, ReCaptchaSetting>> reCaptcha, IHttpHelper httpHelper, ServerInfoBll serverInfo)
+    public ReCaptchaService(IOptions<ReCaptchaSetting> reCaptcha, IHttpHelper httpHelper, ServerInfoBll serverInfo)
     {
         _reCaptcha = reCaptcha;
         _httpHelper = httpHelper;
@@ -26,15 +26,16 @@ public class ReCaptchaService
 
     public RecaptchaResponse Verify(string token)
     {
+        var recaptcha = _reCaptcha.Value;
         var domain = _serverInfo.GetMainDomain();
         var serverInfo = _serverInfo.GetServerInfo();
-        var reCaptchaConfig = _reCaptcha.Value[serverInfo.SiteName];
+        var site = recaptcha.Groups[serverInfo.SiteName];
         if (_extraDomain.Contains(domain))
         {
-            reCaptchaConfig = _reCaptcha.Value[$"{serverInfo.SiteName}-2"];
+            site = recaptcha.Groups[$"{serverInfo.SiteName}-2"];
         }
-        var postBody = $"secret={reCaptchaConfig.Secret}&response={token}";
-        var response = _httpHelper.FormPost<string ,RecaptchaResponse>(reCaptchaConfig.ApiUrl, postBody);
+        var postBody = $"secret={site.Secret}&response={token}";
+        var response = _httpHelper.FormPost<string ,RecaptchaResponse>(recaptcha.ApiUrl, postBody);
 
         return response.Result;
     }
