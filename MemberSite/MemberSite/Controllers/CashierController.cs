@@ -22,7 +22,6 @@ namespace MemberSite.Controllers
         private readonly CryptoPayInfoBll cryptoPayInfoBLL;
         private readonly LoadCardPayInfoBLL loadCardPayInfoBLL;
         private readonly PromotionBll promotionBLL;
-        private bool isNewVersion = true;
         private readonly PayInfoBLL _payInfoBLL;
         private readonly BankInfoBLL _bankInfoBLL;
         private readonly SelLangBLL _selLangBLL;
@@ -128,10 +127,7 @@ namespace MemberSite.Controllers
                 model.Message = "DepositReqOnlineBanking Error";
             }
 
-            if (isNewVersion)
-                return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
-            else
-                return View(apiResult);
+            return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
         }
         public async Task<IActionResult> DepositReqMobilePayAsync(int ChannelId, decimal Amount, string BonusCode, string PayAccount)
         {
@@ -184,10 +180,7 @@ namespace MemberSite.Controllers
                 model.Message = "DepositReqMobilePay Error";
             }
 
-            if (isNewVersion)
-                return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
-            else
-                return View(apiResult);
+            return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
         }
 
         public class ReqDepositCrypto : ReqDeposit
@@ -247,10 +240,7 @@ namespace MemberSite.Controllers
                 model.Message = "DepositReqCryptoPay Error";
             }
 
-            if (isNewVersion)
-                return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
-            else
-                return View(apiResult);
+            return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
         }
 
         public async Task<IActionResult> DepositReqLoadCardPayAsync(int ChannelId, string Code, string Serial, decimal Amount, string BonusCode)
@@ -306,10 +296,7 @@ namespace MemberSite.Controllers
                 model.Message = "DepositReqLoadCardPay Error";
             }
 
-            if (isNewVersion)
-                return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
-            else
-                return View(apiResult);
+            return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
         }
 
         [Route("[controller]/DepositReceip.jpg")]
