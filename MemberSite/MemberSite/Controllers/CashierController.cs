@@ -127,7 +127,7 @@ namespace MemberSite.Controllers
                 model.Message = "DepositReqOnlineBanking Error";
             }
 
-            return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
+            return View($"~/Views/entPage/{serverInfo.SiteName}PaymentErrorPage.cshtml", model);
         }
         public async Task<IActionResult> DepositReqMobilePayAsync(int ChannelId, decimal Amount, string BonusCode, string PayAccount)
         {
@@ -180,7 +180,7 @@ namespace MemberSite.Controllers
                 model.Message = "DepositReqMobilePay Error";
             }
 
-            return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
+            return View($"~/Views/entPage/{serverInfo.SiteName}PaymentErrorPage.cshtml", model);
         }
 
         public class ReqDepositCrypto : ReqDeposit
@@ -240,7 +240,7 @@ namespace MemberSite.Controllers
                 model.Message = "DepositReqCryptoPay Error";
             }
 
-            return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
+            return View($"~/Views/entPage/{serverInfo.SiteName}PaymentErrorPage.cshtml", model);
         }
 
         public async Task<IActionResult> DepositReqLoadCardPayAsync(int ChannelId, string Code, string Serial, decimal Amount, string BonusCode)
@@ -296,7 +296,7 @@ namespace MemberSite.Controllers
                 model.Message = "DepositReqLoadCardPay Error";
             }
 
-            return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
+            return View($"~/Views/entPage/{serverInfo.SiteName}PaymentErrorPage.cshtml", model);
         }
 
         [Route("[controller]/DepositReceip.jpg")]
@@ -356,7 +356,7 @@ namespace MemberSite.Controllers
             var result = _payInfoBLL.DepositReqPay(authData.CustId, ChannelId, Amount, out var transId, out var payInfo, DepositType.QRPayPayment);
             if (result != 0)
             {
-                return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", new ErrorData
+                return View($"~/Views/entPage/{serverInfo.SiteName}PaymentErrorPage.cshtml", new ErrorData
                 {
                     Message = "DepositReqQRPayAsync Error"
                 });
@@ -400,7 +400,7 @@ namespace MemberSite.Controllers
             }
             else
             {
-                return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", new ErrorData
+                return View($"~/Views/entPage/{serverInfo.SiteName}PaymentErrorPage.cshtml", new ErrorData
                 {
                     Message = apiResult.RawMessage
                 });
@@ -465,7 +465,7 @@ namespace MemberSite.Controllers
                 }
             }
 
-            return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", new ErrorData
+            return View($"~/Views/entPage/{serverInfo.SiteName}PaymentErrorPage.cshtml", new ErrorData
             {
                 Message = "All Channel fail."
             });
