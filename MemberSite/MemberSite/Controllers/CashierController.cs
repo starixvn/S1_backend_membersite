@@ -124,7 +124,6 @@ namespace MemberSite.Controllers
             {
                 apiResult.ErrorCode = result;
                 apiResult.Message = "Error.";
-                model.Message = "DepositReqOnlineBanking Error";
             }
 
             return View($"~/Views/entPage/{serverInfo.SiteName}PaymentErrorPage.cshtml", model);
@@ -177,7 +176,6 @@ namespace MemberSite.Controllers
             {
                 apiResult.ErrorCode = result;
                 apiResult.Message = "Error.";
-                model.Message = "DepositReqMobilePay Error";
             }
 
             return View($"~/Views/entPage/{serverInfo.SiteName}PaymentErrorPage.cshtml", model);
@@ -237,7 +235,6 @@ namespace MemberSite.Controllers
             {
                 apiResult.ErrorCode = result;
                 apiResult.Message = "Error.";
-                model.Message = "DepositReqCryptoPay Error";
             }
 
             return View($"~/Views/entPage/{serverInfo.SiteName}PaymentErrorPage.cshtml", model);
@@ -293,7 +290,6 @@ namespace MemberSite.Controllers
             {
                 apiResult.ErrorCode = result;
                 apiResult.Message = "Error.";
-                model.Message = "DepositReqLoadCardPay Error";
             }
 
             return View($"~/Views/entPage/{serverInfo.SiteName}PaymentErrorPage.cshtml", model);
