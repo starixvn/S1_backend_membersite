@@ -119,6 +119,8 @@ namespace MemberSite.Controllers
                 {
                     return Json(apiResult);
                 }
+                
+                model.Message = apiResult.RawMessage;
             }
             else
             {
@@ -348,7 +350,7 @@ namespace MemberSite.Controllers
             var serverInfo = serverInfoBLL.GetServerInfo();
             var authData = authorizeBLL.GetAuthData();
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-
+            var model = new ErrorData();
             var result = _payInfoBLL.DepositReqPay(authData.CustId, ChannelId, Amount, out var transId, out var payInfo, DepositType.QRPayPayment);
             if (result != 0)
             {
@@ -396,6 +398,7 @@ namespace MemberSite.Controllers
             }
             else
             {
+                model.Message = apiResult.RawMessage;
                 return View($"~/Views/entPage/{serverInfo.SiteName}PaymentErrorPage.cshtml", new ErrorData
                 {
                     Message = apiResult.RawMessage
@@ -412,6 +415,7 @@ namespace MemberSite.Controllers
             var vipLevel = custInfoBLL.GetPointLevelWithCache(authData.CustId);
             var depositType = _bankInfoBLL.GetAutoChannelDepositType(custInfo.SiteId);
             var url = depositType == DepositType.BankAutoChannel ? $"{payApiUrl}BankAutoChannel" : $"{payApiUrl}ReqDepositBank";
+            var model = new ErrorData();
             
             //取得可用銀行列表
             var bankList = _bankInfoBLL.GetAutoChannelBankList(custInfo, vipLevel)
@@ -459,6 +463,8 @@ namespace MemberSite.Controllers
                 {
                     return Json(apiResult);
                 }
+                
+                model.Message = apiResult.RawMessage;
             }
 
             return View($"~/Views/entPage/{serverInfo.SiteName}PaymentErrorPage.cshtml", new ErrorData
