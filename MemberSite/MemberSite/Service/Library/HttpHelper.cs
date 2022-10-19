@@ -58,14 +58,13 @@ namespace MemberSite.Service.Library
                 throw;
             }
         }
-
-        public async Task<(TResult Result, HttpStatusCode StatusCode)> PostAsync<TBody, TResult>(string url, TBody body)
+        public (TResult Result, HttpStatusCode StatusCode) FormPost<TBody, TResult>(string url, TBody body)
             where TResult : class
         {
             try
             {
-                var returnObj = await PostDataAsync(url, body, "string");
-                var result = _serializer.DeserializeFormStream<TResult>(returnObj.Result);
+                var returnObj = PostData(url, body, "x-www-form-urlencoded");
+                var result = JsonConvert.DeserializeObject<TResult>(returnObj.Result);
 
                 return (result, returnObj.StatusCode);
             }
@@ -76,25 +75,7 @@ namespace MemberSite.Service.Library
             }
         }
 
-        public (TResult Result, HttpStatusCode StatusCode) Post<TBody, TResult>(string url, TBody body,
-            Func<XDocument, TResult> selector) where TResult : class
-        {
-            try
-            {
-                var returnObj = PostData(url, body, "string");
-                var xml = XDocument.Parse(returnObj.Result);
-                var result = selector(xml);
-
-                return (result, returnObj.StatusCode);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"Ex massage: {ex.Message}, StackTrace: {ex.StackTrace}");
-                throw;
-            }
-        }
-
-        public (TResult Result, HttpStatusCode StatusCode) PostJson<TBody, TResult>(string url, TBody data)
+        public (TResult Result, HttpStatusCode StatusCode) JsonPost<TBody, TResult>(string url, TBody data)
             where TResult : class
         {
             try
@@ -111,36 +92,6 @@ namespace MemberSite.Service.Library
             
         }
 
-        public async Task<(TResult Result, HttpStatusCode StatusCode)> PostJsonAsync<TBody, TResult>(string url,
-            TBody data)
-            where TResult : class
-        {
-            try
-            {
-                var returnObj = await PostDataAsync(url, data, "json");
-                var result = _serializer.DeserializeFormStream<TResult>(returnObj.Result);
-                return (result, returnObj.StatusCode);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"Ex massage: {ex.Message}, StackTrace: {ex.StackTrace}");
-                throw;
-            }
-        }
-
-        public (TResult Result, HttpStatusCode StatusCode) PostJson<TResult>(string url, string data,
-            string loggerContent = "") where TResult : class
-        {
-            var returnObj = PostJsonFromString<TResult>(url, data, loggerContent);
-            return returnObj;
-        }
-
-        public IHttpHelper WithOAuthBearerToken(string token)
-        {
-            _authToken = token;
-            return this;
-        }
-
         public IHttpHelper WithHeader(string key, string value)
         {
             if (!_header.ContainsKey(key))
@@ -151,21 +102,6 @@ namespace MemberSite.Service.Library
             if (_header.ContainsKey(key) && _header[key] != value)
             {
                 _header[key] = value;
-            }
-
-            return this;
-        }
-
-        public IHttpHelper WithJsonHeader()
-        {
-            if (!_header.ContainsKey("Content-Type"))
-            {
-                _header.Add("Content-Type", "application/json");
-            }
-
-            if (_header.ContainsKey("Content-Type") && _header["Content-Type"] != "application/json")
-            {
-                _header["Content-Type"] = "application/json";
             }
 
             return this;
@@ -197,58 +133,15 @@ namespace MemberSite.Service.Library
                 var content = data.ToString();
                 response = request.PostStringAsync(content).ConfigureAwait(false).GetAwaiter().GetResult();
             }
-
-            var result = response.Content.ReadAsStringAsync().Result;
-            _header.Clear();
-            return (Result: result, response.StatusCode);
-        }
-
-        private async Task<(Stream Result, HttpStatusCode StatusCode)> PostDataAsync<TBody>(string url, TBody data,
-            string postType)
-        {
-            var request = CreateFlurlRequest(url);
-            request = _header.Aggregate(request, (current, item) => current.WithHeader(item.Key, item.Value));
-
-            var response = default(HttpResponseMessage);
-            if (postType == "json")
-            {
-                _logger.LogInformation($"api url: {url}, Request: {JsonConvert.SerializeObject(data)}");
-                response = await request.PostJsonAsync(data);
-            }
-            else if (postType == "string")
+            else if (postType == "x-www-form-urlencoded")
             {
                 var content = data.ToString();
-                _logger.LogInformation($"api url: {url}, Request: {content}");
-                response = await request.PostStringAsync(content);
+                response = request.PostUrlEncodedAsync(content).ConfigureAwait(false).GetAwaiter().GetResult();
             }
 
-            var rawResult = await response.Content.ReadAsStringAsync();
-            _logger.LogInformation($"api Response: {rawResult}");
-            var result = await response.Content.ReadAsStreamAsync();
+            var result = response.Content.ReadAsStringAsync().Result;
             _header.Clear();
             return (Result: result, response.StatusCode);
-        }
-
-        private (TResult Result, HttpStatusCode StatusCode) PostJsonFromString<TResult>(string url, string data,
-            string loggerContent)
-        {
-            var request = CreateFlurlRequest(url);
-            request = _header.Aggregate(request, (current, item) => current.WithHeader(item.Key, item.Value));
-
-            var cancellationToken = default(CancellationToken);
-            var completionOption = HttpCompletionOption.ResponseContentRead;
-            var capturedJsonContent = new CapturedJsonContent(data);
-            var response = request
-                .SendAsync(HttpMethod.Post, capturedJsonContent, cancellationToken, completionOption)
-                .ConfigureAwait(false)
-                .GetAwaiter()
-                .GetResult();
-
-            var result = response.Content.ReadAsStringAsync().Result;
-
-            var returnObj = JsonConvert.DeserializeObject<TResult>(result);
-            _header.Clear();
-            return (Result: returnObj, response.StatusCode);
         }
 
         private async Task<(Stream ContentStream, HttpStatusCode StatusCode)> GetDataAsync(string url, string query)

@@ -249,6 +249,7 @@ namespace MemberSite.Controllers.Api
             public string AffCode { get; set; }
             public string blackbox { get; set; }
             public string LineUserId { get; set; }
+            public string ReCaptchaToken { get; set; }
         }
 
         public class SignupModel : RegisteredModel
