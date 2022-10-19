@@ -1,8 +1,8 @@
 ﻿using MemberSite.Service.Model;
 
-namespace MemberSite.Service.BLL
+namespace MemberSite.Service.BLL.Interface
 {
-    public interface IGeoIpApiBLL
+    public interface IGeoIpApi
     {
         Task<IpCountry> CheckIp(string clientIp);
     }
