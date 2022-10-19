@@ -51,6 +51,12 @@
     public class ReCaptchaSetting
     {
         public string ApiUrl { get; set; }
+        public Dictionary<string, ReCaptchaGroup> Groups { get; set; }
+    }
+
+    public class ReCaptchaGroup
+    {
+        public string SiteKey { get; set; }
         public string Secret { get; set; }
     }
 }
