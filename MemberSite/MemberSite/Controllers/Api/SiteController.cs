@@ -39,6 +39,7 @@ namespace MemberSite.Controllers.Api
         private readonly Regex _regexUserName = new(@"^[a-zA-Z0-9]{6,18}$");
         private readonly ThirdPartyBll _thirdPartyBll;
         private readonly SiteBll _siteBll;
+        private readonly RecaptchaBLL _recaptchaBll;
         private readonly ILogger<SiteController> _logger;
         private readonly ICacheHelper _cacheHelper;
 
@@ -58,6 +59,7 @@ namespace MemberSite.Controllers.Api
             _siteConfig = provider.GetRequiredService<IOptions<Dictionary<string, SiteConfig>>>();
             _thirdPartyBll = provider.GetRequiredService<ThirdPartyBll>();
             _siteBll = provider.GetRequiredService<SiteBll>();
+            _recaptchaBll = provider.GetRequiredService<RecaptchaBLL>();
             _logger = provider.GetRequiredService<ILogger<SiteController>>();
             _cacheHelper = provider.GetRequiredService<ICacheHelper>();
         }
@@ -1239,6 +1241,20 @@ namespace MemberSite.Controllers.Api
                 apiResult.Data = data;
             }
 
+            return apiResult;
+        }
+        
+        [HttpPost]
+        public async Task<ApiResult<RecaptchaSiteInfo>> GetRecaptchaInfo()
+        {
+            var clientIp = _tools.GetClientIP();
+            var siteInfo = await _recaptchaBll.GetInfo(clientIp);
+            var apiResult = new ApiResult<RecaptchaSiteInfo>()
+            {
+                
+                ErrorCode = 0,
+                Data = siteInfo
+            };
             return apiResult;
         }
     }
