@@ -24,7 +24,6 @@ namespace MemberSite.Controllers
         private readonly PromotionBll _promotionBll;
         private readonly PayInfoBLL _payInfoBll;
         private readonly BankInfoBLL _bankInfoBll;
-        private readonly SelLangBLL _selLangBLL;
 
         public CashierController(IServiceProvider provider)
         {
@@ -40,7 +39,6 @@ namespace MemberSite.Controllers
             _promotionBll = provider.GetRequiredService<PromotionBll>();
             _payInfoBll = provider.GetRequiredService<PayInfoBLL>();
             _bankInfoBll = provider.GetRequiredService<BankInfoBLL>();
-            _selLangBLL = provider.GetRequiredService<SelLangBLL>();
 
             var configuration = provider.GetRequiredService<IConfiguration>();
             _payApiUrl = configuration.GetValue<string>("PayService");
