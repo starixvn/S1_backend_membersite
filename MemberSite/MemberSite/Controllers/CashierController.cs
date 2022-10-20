@@ -153,22 +153,7 @@ namespace MemberSite.Controllers
 
                 var myUrl = $"{_payApiUrl}ReqDepositMobile";
                 apiResult = await _courierAdapter.MyPostAsync<PayResult, ReqDepositMobile>(myUrl, reqDepositMobile);
-                if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 1)
-                {
-                    return View(apiResult);
-                }
-                else if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 2)
-                {
-                    return Redirect(apiResult.Data.Url);
-                }
-                else if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 3)
-                {
-                    return Json(apiResult);
-                }
-                else
-                {
-                    model.Message = apiResult.RawMessage;
-                }
+                if (ActionResult(apiResult, model, out var actionResult)) return actionResult;
             }
             else
             {
@@ -177,6 +162,32 @@ namespace MemberSite.Controllers
             }
 
             return View($"~/Views/entPage/{serverInfo.SiteName}PaymentErrorPage.cshtml", model);
+        }
+
+        private bool ActionResult(ApiResult<PayResult> apiResult, ErrorData model, out IActionResult actionResult)
+        {
+            switch (apiResult.ErrorCode)
+            {
+                case 0 when apiResult.Data.Mode == 1:
+                {
+                    actionResult = View(apiResult);
+                    return true;
+                }
+                case 0 when apiResult.Data.Mode == 2:
+                {
+                    actionResult = Redirect(apiResult.Data.Url);
+                    return true;
+                }
+                case 0 when apiResult.Data.Mode == 3:
+                {
+                    actionResult = Json(apiResult);
+                    return true;
+                }
+                default:
+                    model.Message = apiResult.RawMessage;
+                    actionResult = null;
+                    return false;
+            }
         }
 
         public class ReqDepositCrypto : ReqDeposit
