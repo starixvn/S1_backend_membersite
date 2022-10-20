@@ -76,10 +76,8 @@ namespace MemberSite.Controllers
             var serverInfo = serverInfoBLL.GetServerInfo();
             var authData = authorizeBLL.GetAuthData();
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-            string transId = null;
-            BankInfoPay onlineBank = null;
             var model = new ErrorData();
-            var result = paymentBLL.DepositReqOnlineBanking(authData.CustId, sysId, payId, ChannelId, Amount, out transId, out onlineBank);
+            var result = paymentBLL.DepositReqOnlineBanking(authData.CustId, sysId, payId, ChannelId, Amount, out var transId, out var onlineBank);
 
             var apiResult = new ApiResult<PayResult>();
             if (result == 0)
@@ -194,10 +192,8 @@ namespace MemberSite.Controllers
             var apiResult = new ApiResult<PayResult>();
             var authData = authorizeBLL.GetAuthData();
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-            string transId = null;
-            CryptoPayInfo cryptoPayInfo = null;
             var model = new ErrorData();
-            var result = cryptoPayInfoBLL.DepositReqCryptoPay(authData.CustId, ChannelId, Amount, out transId, out cryptoPayInfo);
+            var result = cryptoPayInfoBLL.DepositReqCryptoPay(authData.CustId, ChannelId, Amount, out var transId, out var cryptoPayInfo);
             if (result == 0)
             {
                 if (!string.IsNullOrEmpty(BonusCode))
@@ -248,10 +244,8 @@ namespace MemberSite.Controllers
             var apiResult = new ApiResult<PayResult>();
             var authData = authorizeBLL.GetAuthData();
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-            string transId = null;
-            LoadCardPayInfo loadCardPayInfo = null;
             var model = new ErrorData();
-            var result = loadCardPayInfoBLL.DepositReqLoadCardPay(authData.CustId, ChannelId, Code, Serial, Amount, out transId, out loadCardPayInfo);
+            var result = loadCardPayInfoBLL.DepositReqLoadCardPay(authData.CustId, ChannelId, Code, Serial, Amount, out var transId, out var loadCardPayInfo);
             if (result == 0)
             {
                 if (!string.IsNullOrEmpty(BonusCode))
