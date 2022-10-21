@@ -11,6 +11,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
 using MemberSite.Extensions;
+using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Model.Mapping;
 using StackExchange.Redis;
@@ -56,7 +57,7 @@ namespace MemberSite
             services.Configure<LineLoginChannelConfig>(configuration.GetSection("LineLoginChannelConfig"));
             services.Configure<LineLoginConfig>(configuration.GetSection("LineLoginConfig"));
             services.Configure<ShieldConfig>(configuration.GetSection("ShieldConfig"));
-            services.Configure<ReCaptchaSetting>(configuration.GetSection("ReCaptchaSetting"));
+            services.Configure<RecaptchaSetting>(configuration.GetSection("ReCaptchaSetting"));
             services.Configure<Dictionary<string, SiteConfig>>(configuration.GetSection("SiteConfig"));
             services.Configure<Dictionary<string, string>>(configuration.GetSection("LoginDeviceConfig"));
             services.AddMemoryCache();
@@ -105,7 +106,7 @@ namespace MemberSite
             services.AddSingleton<DeepLinkService>();
             services.AddSingleton<IVerificationRewardService, VerificationRewardService>();
             services.AddTransient<WorldCupPredictionService>();
-            services.AddTransient<ReCaptchaService>();
+            services.AddTransient<RecaptchaService>();
             services.AddSingleton<PartitionService>();
 
             services.AddSingleton<IPService>();
@@ -146,7 +147,8 @@ namespace MemberSite
             services.AddSingleton<LiveStreamingBll>();
             services.AddSingleton<LatestHighlightDataBll>();
             services.AddSingleton<GameBLL>();
-            services.AddTransient<IGeoIpApiBLL, GeoIpApiBLL>();
+            services.AddTransient<IGeoIpApi, GeoIpApi>();
+            services.AddTransient<IRecaptchaApi, RecaptchaApi>();
             services.AddTransient<GeoIpBLL>();
             services.AddTransient<AppLinkBLL>();
             services.AddTransient<FileNameBLL>();
@@ -160,6 +162,7 @@ namespace MemberSite
             services.AddSingleton<ShieldBLL>();
             services.AddTransient<WorldCupPredictionBLL>();
             services.AddSingleton<SlotGameBLL>();
+            services.AddTransient<RecaptchaBLL>();
 
             services.AddSingleton<CustomCookieAuthenticationEvents>();
             services.AddTransient<HotEventBLL>();

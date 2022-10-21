@@ -1,13 +1,14 @@
-﻿using MemberSite.Service.Model;
+﻿using MemberSite.Service.BLL.Interface;
+using MemberSite.Service.Model;
 
 namespace MemberSite.Service.BLL
 {
     public class GeoIpBLL
     {
-        private readonly IGeoIpApiBLL _geoIpApi;
+        private readonly IGeoIpApi _geoIpApi;
         public GeoIpBLL(IServiceProvider provider)
         {
-            _geoIpApi = provider.GetRequiredService<IGeoIpApiBLL>();
+            _geoIpApi = provider.GetRequiredService<IGeoIpApi>();
         }
 
         public async Task<ApiResult<IpCountryModel>> CheckIp(string clientIp)
