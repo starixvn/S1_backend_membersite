@@ -10,12 +10,14 @@
     Layout = "~/_Views/Bwing/Mobile/Shared/_Layout.cshtml";
 }
 @{
-    var i18n = new Dictionary<string, string>();
-    i18n.Add("lbl_SelectAll", selLangBLL.GetResourceValue("lbl_SelectAll"));
-    i18n.Add("lbl_Page", selLangBLL.GetResourceValue("lbl_Page"));
-    i18n.Add("lbl_Of", selLangBLL.GetResourceValue("lbl_Of"));
-    i18n.Add("msg_NoData", selLangBLL.GetMsg("msg_NoData"));
-    i18n.Add("lbl_Announcement", selLangBLL.GetResourceValue("lbl_Announcement"));
+    var i18n = new Dictionary<string, string>
+    {
+        { "lbl_SelectAll", selLangBLL.GetResourceValue("lbl_SelectAll") },
+        { "lbl_Page", selLangBLL.GetResourceValue("lbl_Page") },
+        { "lbl_Of", selLangBLL.GetResourceValue("lbl_Of") },
+        { "msg_NoData", selLangBLL.GetMsg("msg_NoData") },
+        { "lbl_Announcement", selLangBLL.GetResourceValue("lbl_Announcement") }
+    };
 }
 
 @section Style{

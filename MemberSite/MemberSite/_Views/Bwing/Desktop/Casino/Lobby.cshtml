@@ -113,20 +113,22 @@
         tpIds = casinoBLL.GetProviderIdByCurrency(0, serverInfo.SiteId);
     }
 
-    var i18n = new Dictionary<string, string>();
-    i18n.Add("lbl_Feature", selLangBLL.GetResourceValue("lbl_Feature"));
-    i18n.Add("lbl_AllGames", selLangBLL.GetResourceValue("lbl_AllGames"));
-    i18n.Add("lbl_Favourite", selLangBLL.GetResourceValue("lbl_Favourite"));
-    i18n.Add("lbl_Slots", selLangBLL.GetResourceValue("lbl_Slots"));
-    i18n.Add("lbl_Provider", selLangBLL.GetResourceValue("lbl_Provider"));
-    i18n.Add("lbl_GPI", selLangBLL.GetResourceValue("lbl_GPI"));
-    i18n.Add("lbl_PlayNow", selLangBLL.GetResourceValue("lbl_PlayNow"));
-    i18n.Add("lbl_Free", selLangBLL.GetResourceValue("lbl_Free"));
-    i18n.Add("lbl_NoMatching", selLangBLL.GetResourceValue("lbl_NoMatching"));
-    i18n.Add("lbl_All", selLangBLL.GetResourceValue("lbl_All"));
-    i18n.Add("lbl_Table", selLangBLL.GetResourceValue("lbl_Table"));
-    i18n.Add("lbl_Arcade", selLangBLL.GetResourceValue("lbl_Arcade"));
-    i18n.Add("lbl_Promo", selLangBLL.GetResourceValue("lbl_Promo"));
+    var i18n = new Dictionary<string, string>
+    {
+        { "lbl_Feature", selLangBLL.GetResourceValue("lbl_Feature") },
+        { "lbl_AllGames", selLangBLL.GetResourceValue("lbl_AllGames") },
+        { "lbl_Favourite", selLangBLL.GetResourceValue("lbl_Favourite") },
+        { "lbl_Slots", selLangBLL.GetResourceValue("lbl_Slots") },
+        { "lbl_Provider", selLangBLL.GetResourceValue("lbl_Provider") },
+        { "lbl_GPI", selLangBLL.GetResourceValue("lbl_GPI") },
+        { "lbl_PlayNow", selLangBLL.GetResourceValue("lbl_PlayNow") },
+        { "lbl_Free", selLangBLL.GetResourceValue("lbl_Free") },
+        { "lbl_NoMatching", selLangBLL.GetResourceValue("lbl_NoMatching") },
+        { "lbl_All", selLangBLL.GetResourceValue("lbl_All") },
+        { "lbl_Table", selLangBLL.GetResourceValue("lbl_Table") },
+        { "lbl_Arcade", selLangBLL.GetResourceValue("lbl_Arcade") },
+        { "lbl_Promo", selLangBLL.GetResourceValue("lbl_Promo") }
+    };
 
 }
 @section Scripts{

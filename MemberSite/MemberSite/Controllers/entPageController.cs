@@ -182,8 +182,7 @@ namespace MemberSite.Controllers
             SNameTable.TryGetValue(SportName, out sNameSubTable);
             if (sNameSubTable != null)
             {
-                var inputs = new Dictionary<string, string>();
-                inputs.Add("gameId", sNameSubTable.gameId);
+                var inputs = new Dictionary<string, string> { { "gameId", sNameSubTable.gameId } };
                 return await IndexAsync(sNameSubTable.tpId, inputs);//.ConfigureAwait(false)
             }
             return StatusCode(400);

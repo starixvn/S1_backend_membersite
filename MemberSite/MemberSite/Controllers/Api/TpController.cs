@@ -223,9 +223,11 @@ namespace MemberSite.Controllers.Api
                 {
                     decimal.TryParse(amount.ToString("#.##"), out amount);
                 }
-                var input = new Dictionary<string, string>();
-                input.Add("Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}");
-                input.Add("ClientIP", _tools.GetClientIP());
+                var input = new Dictionary<string, string>
+                {
+                    { "Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}" },
+                    { "ClientIP", _tools.GetClientIP() }
+                };
 
                 var tpTransfer = new TpTransfer
                 {
@@ -330,9 +332,11 @@ namespace MemberSite.Controllers.Api
                 {
                     decimal.TryParse(amount.ToString("#.##"), out amount);
                 }
-                var input = new Dictionary<string, string>();
-                input.Add("Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}");
-                input.Add("ClientIP", _tools.GetClientIP());
+                var input = new Dictionary<string, string>
+                {
+                    { "Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}" },
+                    { "ClientIP", _tools.GetClientIP() }
+                };
 
                 var tpTransfer = new TpTransfer
                 {
@@ -402,9 +406,11 @@ namespace MemberSite.Controllers.Api
                 {
                     decimal.TryParse(amount.ToString("#.##"), out amount);
                 }
-                var input = new Dictionary<string, string>();
-                input.Add("Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}");
-                input.Add("ClientIP", _tools.GetClientIP());
+                var input = new Dictionary<string, string>
+                {
+                    { "Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}" },
+                    { "ClientIP", _tools.GetClientIP() }
+                };
 
                 var tpTransfer = new TpTransfer
                 {
@@ -459,9 +465,11 @@ namespace MemberSite.Controllers.Api
                 {
                     decimal.TryParse(amount.ToString("#.##"), out amount);
                 }
-                var input = new Dictionary<string, string>();
-                input.Add("Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}");
-                input.Add("ClientIP", _tools.GetClientIP());
+                var input = new Dictionary<string, string>
+                {
+                    { "Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}" },
+                    { "ClientIP", _tools.GetClientIP() }
+                };
 
                 var tpTransfer = new TpTransfer
                 {
@@ -485,9 +493,11 @@ namespace MemberSite.Controllers.Api
             {
                 decimal.TryParse(amount1.ToString("#.##"), out amount1);
             }
-            var input1 = new Dictionary<string, string>();
-            input1.Add("Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}");
-            input1.Add("ClientIP", _tools.GetClientIP());
+            var input1 = new Dictionary<string, string>
+            {
+                { "Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}" },
+                { "ClientIP", _tools.GetClientIP() }
+            };
 
             var tpTransfer1 = new TpTransfer
             {
@@ -531,9 +541,11 @@ namespace MemberSite.Controllers.Api
             {
                 decimal.TryParse(amount.ToString("#.##"), out amount);
             }
-            var input = new Dictionary<string, string>();
-            input.Add("Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}");
-            input.Add("ClientIP", _tools.GetClientIP());
+            var input = new Dictionary<string, string>
+            {
+                { "Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}" },
+                { "ClientIP", _tools.GetClientIP() }
+            };
 
             var tpTransfer = new TpTransfer
             {

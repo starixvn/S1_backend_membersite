@@ -57,34 +57,36 @@
     BannerList = BannerList.Where(x => x.refId != null && x.refId.Any(r => string.Equals(r, "nova88c", StringComparison.OrdinalIgnoreCase)));
     var langId = selLangBLL.GetLangId();
 
-    var i18n = new Dictionary<string, string>();
-    i18n.Add("lbl_CompleteRegistration", selLangBLL.GetResourceValue("lbl_CompleteRegistration"));
-    i18n.Add("lbl_Username", selLangBLL.GetResourceValue("lbl_Username"));
-    i18n.Add("lbl_UsernameTooltip", selLangBLL.GetResourceValue("lbl_UsernameTooltip"));
-    i18n.Add("lbl_Password", selLangBLL.GetResourceValue("lbl_Password"));
-    i18n.Add("lbl_PasswordTooltip", selLangBLL.GetResourceValue("lbl_PasswordTooltip"));
-    i18n.Add("lbl_Email", selLangBLL.GetResourceValue("lbl_Email"));
-    i18n.Add("lbl_EmailToolTip", selLangBLL.GetResourceValue("lbl_EmailToolTip"));
-    i18n.Add("lbl_PrefferedCurrency", selLangBLL.GetResourceValue("lbl_PrefferedCurrency"));
-    i18n.Add("lbl_PreferredCurrencyToolTip", selLangBLL.GetResourceValue("lbl_PreferredCurrencyToolTip"));
-    i18n.Add("lbl_CheckTCTooltip", selLangBLL.GetResourceValue("lbl_CheckTCTooltip"));
-    i18n.Add("lbl_Check18TC1", selLangBLL.GetResourceValue("lbl_Check18TC1"));
-    i18n.Add("lbl_Check18TC2", selLangBLL.GetResourceValue("lbl_Check18TC2"));
-    i18n.Add("lbl_Check18TC3", selLangBLL.GetResourceValue("lbl_Check18TC3"));
-    i18n.Add("lbl_Check18TC4", selLangBLL.GetResourceValue("lbl_Check18TC4"));
-    i18n.Add("lbl_TermsConditions", selLangBLL.GetResourceValue("lbl_TermsConditions"));
-    i18n.Add("lbl_RuleRegulations", selLangBLL.GetResourceValue("lbl_RuleRegulations"));
-    i18n.Add("lbl_Check18TCTooltip", selLangBLL.GetResourceValue("lbl_Check18TCTooltip"));
-    i18n.Add("msg_UsernameReq", selLangBLL.GetMsg("msg_UsernameReq"));
-    i18n.Add("msg_UsernameLength", selLangBLL.GetMsg("msg_UsernameLength"));
-    i18n.Add("msg_UsernameValidate", selLangBLL.GetMsg("msg_UsernameValidate"));
-    i18n.Add("msg_UsernameNotAvailable", selLangBLL.GetMsg("msg_UsernameNotAvailable"));
-    i18n.Add("msg_PasswordReq", selLangBLL.GetMsg("msg_PasswordReq"));
-    i18n.Add("msg_PasswordLength", selLangBLL.GetMsg("msg_PasswordLength"));
-    i18n.Add("msg_PasswordValidate", selLangBLL.GetMsg("msg_PasswordValidate"));
-    i18n.Add("msg_MailReq", selLangBLL.GetMsg("msg_MailReq"));
-    i18n.Add("msg_MailWrongFormat", selLangBLL.GetMsg("msg_MailWrongFormat"));
-    i18n.Add("msg_MailExisted", selLangBLL.GetMsg("msg_MailExisted"));
+    var i18n = new Dictionary<string, string>
+    {
+        { "lbl_CompleteRegistration", selLangBLL.GetResourceValue("lbl_CompleteRegistration") },
+        { "lbl_Username", selLangBLL.GetResourceValue("lbl_Username") },
+        { "lbl_UsernameTooltip", selLangBLL.GetResourceValue("lbl_UsernameTooltip") },
+        { "lbl_Password", selLangBLL.GetResourceValue("lbl_Password") },
+        { "lbl_PasswordTooltip", selLangBLL.GetResourceValue("lbl_PasswordTooltip") },
+        { "lbl_Email", selLangBLL.GetResourceValue("lbl_Email") },
+        { "lbl_EmailToolTip", selLangBLL.GetResourceValue("lbl_EmailToolTip") },
+        { "lbl_PrefferedCurrency", selLangBLL.GetResourceValue("lbl_PrefferedCurrency") },
+        { "lbl_PreferredCurrencyToolTip", selLangBLL.GetResourceValue("lbl_PreferredCurrencyToolTip") },
+        { "lbl_CheckTCTooltip", selLangBLL.GetResourceValue("lbl_CheckTCTooltip") },
+        { "lbl_Check18TC1", selLangBLL.GetResourceValue("lbl_Check18TC1") },
+        { "lbl_Check18TC2", selLangBLL.GetResourceValue("lbl_Check18TC2") },
+        { "lbl_Check18TC3", selLangBLL.GetResourceValue("lbl_Check18TC3") },
+        { "lbl_Check18TC4", selLangBLL.GetResourceValue("lbl_Check18TC4") },
+        { "lbl_TermsConditions", selLangBLL.GetResourceValue("lbl_TermsConditions") },
+        { "lbl_RuleRegulations", selLangBLL.GetResourceValue("lbl_RuleRegulations") },
+        { "lbl_Check18TCTooltip", selLangBLL.GetResourceValue("lbl_Check18TCTooltip") },
+        { "msg_UsernameReq", selLangBLL.GetMsg("msg_UsernameReq") },
+        { "msg_UsernameLength", selLangBLL.GetMsg("msg_UsernameLength") },
+        { "msg_UsernameValidate", selLangBLL.GetMsg("msg_UsernameValidate") },
+        { "msg_UsernameNotAvailable", selLangBLL.GetMsg("msg_UsernameNotAvailable") },
+        { "msg_PasswordReq", selLangBLL.GetMsg("msg_PasswordReq") },
+        { "msg_PasswordLength", selLangBLL.GetMsg("msg_PasswordLength") },
+        { "msg_PasswordValidate", selLangBLL.GetMsg("msg_PasswordValidate") },
+        { "msg_MailReq", selLangBLL.GetMsg("msg_MailReq") },
+        { "msg_MailWrongFormat", selLangBLL.GetMsg("msg_MailWrongFormat") },
+        { "msg_MailExisted", selLangBLL.GetMsg("msg_MailExisted") }
+    };
 }
 
 <div class="main">

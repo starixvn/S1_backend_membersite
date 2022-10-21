@@ -9,13 +9,15 @@
     Layout = "~/_Views/Bwing/Desktop/Shared/_Layout.cshtml";
 }
 @{
-    var i18n = new Dictionary<string, string>();
-    i18n.Add("lbl_NewPassword", selLangBLL.GetResourceValue("lbl_NewPassword"));
-    i18n.Add("lbl_PasswordTooltip", selLangBLL.GetResourceValue("lbl_PasswordTooltip"));
-    i18n.Add("lbl_Submit", selLangBLL.GetResourceValue("lbl_Submit"));
-    i18n.Add("msg_PasswordReq", selLangBLL.GetMsg("msg_PasswordReq"));
-    i18n.Add("msg_PasswordLength", selLangBLL.GetMsg("msg_PasswordLength"));
-    i18n.Add("msg_PasswordValidate", selLangBLL.GetMsg("msg_PasswordValidate"));
+    var i18n = new Dictionary<string, string>
+    {
+        { "lbl_NewPassword", selLangBLL.GetResourceValue("lbl_NewPassword") },
+        { "lbl_PasswordTooltip", selLangBLL.GetResourceValue("lbl_PasswordTooltip") },
+        { "lbl_Submit", selLangBLL.GetResourceValue("lbl_Submit") },
+        { "msg_PasswordReq", selLangBLL.GetMsg("msg_PasswordReq") },
+        { "msg_PasswordLength", selLangBLL.GetMsg("msg_PasswordLength") },
+        { "msg_PasswordValidate", selLangBLL.GetMsg("msg_PasswordValidate") }
+    };
 }
     <div class="system-content">
         <partial name="~/_Views/Bwing/Desktop/Shared/_DesktopLeftMenu.cshtml" />
