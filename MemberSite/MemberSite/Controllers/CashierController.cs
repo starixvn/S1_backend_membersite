@@ -360,7 +360,7 @@ namespace MemberSite.Controllers
 
             return View($"~/Views/entPage/{serverInfo.SiteName}PaymentErrorPage.cshtml", new ErrorData
             {
-                Message = $"{transId} All Channel fail."
+                Message = $"{transId} All channel unavailable."
             });
         }
         
