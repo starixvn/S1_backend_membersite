@@ -62,26 +62,6 @@ namespace MemberSite.Service.Library
             _logger.LogDebug($"{name} {sw.Elapsed:c}");
             return result;
         }
-
-        public int Execute(string name, SqlMapper.IDynamicParameters parameters)
-        {
-            var result = 0;
-            var sw = Stopwatch.StartNew();
-            try
-            {
-                using var connection = new MySqlConnection(_connectionString);
-                result = connection.Execute(name, parameters, commandType: CommandType.StoredProcedure);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, name);
-                throw;
-            }
-
-            LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
-            _logger.LogDebug($"{name} {sw.Elapsed:c}");
-            return result;
-        }
         
         public int Execute(string name, object parameters)
         {
@@ -144,7 +124,7 @@ namespace MemberSite.Service.Library
             return result;
         }
 
-        public async Task<int> ExecuteAsync(string name, DynamicParameters parameters)
+        public async Task<int> ExecuteAsync(string name, object parameters)
         {
             var result = 0;
             var sw = Stopwatch.StartNew();
@@ -183,27 +163,7 @@ namespace MemberSite.Service.Library
             _logger.LogDebug(name);
             return result;
         }
-
-        public IEnumerable<T> Query<T>(string name, SqlMapper.IDynamicParameters parameters)
-        {
-            IEnumerable<T> result;
-            var sw = Stopwatch.StartNew();
-            try
-            {
-                using var connection = new MySqlConnection(_connectionString);
-                result = connection.Query<T>(name, parameters, commandType: CommandType.StoredProcedure);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, name);
-                throw;
-            }
-
-            LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
-            _logger.LogDebug($"{name} {sw.Elapsed:c}");
-            return result;
-        }
-
+        
         public IEnumerable<T> Query<T>(string sql, object parameters, CommandType commandType = CommandType.StoredProcedure)
         {
             IEnumerable<T> result;
@@ -224,8 +184,7 @@ namespace MemberSite.Service.Library
             return result;
         }
 
-        public T Query<T>(string name, SqlMapper.IDynamicParameters parameters,
-            Func<SqlMapper.GridReader, T> func)
+        public T Query<T>(string name, object parameters, Func<SqlMapper.GridReader, T> func)
         {
             T result;
             var sw = Stopwatch.StartNew();
@@ -266,8 +225,7 @@ namespace MemberSite.Service.Library
             return result;
         }
 
-        public async Task<T> QueryAsync<T>(string name, SqlMapper.IDynamicParameters parameters,
-            Func<SqlMapper.GridReader, T> func)
+        public async Task<T> QueryAsync<T>(string name, object parameters, Func<SqlMapper.GridReader, T> func)
         {
             T result;
             var sw = Stopwatch.StartNew();

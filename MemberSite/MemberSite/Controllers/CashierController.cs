@@ -334,7 +334,7 @@ namespace MemberSite.Controllers
             foreach (var bank in bankList.OrderBy(i => i.SSort))
             {
                 var result = _paymentBll.DepositReqOnlineBanking(authData.CustId, sysId, bank.PayId, bank.ChannelId, Amount, out transId, out var onlineBank, depositType);
-                if (result != 0)
+                if (result != (int)ErrorCode.Success)
                 {
                     continue;
                 }
@@ -360,7 +360,7 @@ namespace MemberSite.Controllers
 
             return View($"~/Views/entPage/{serverInfo.SiteName}PaymentErrorPage.cshtml", new ErrorData
             {
-                Message = $"{transId} All Channel fail."
+                Message = $"{transId} All channel unavailable."
             });
         }
         
