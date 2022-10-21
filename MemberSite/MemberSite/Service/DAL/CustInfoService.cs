@@ -278,8 +278,7 @@ namespace MemberSite.Service.DAL
         }
         public int GetPointLevel(int custId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.ExecuteScalar<int>("Member_PointLevel_Get", new { CustId = custId }, commandType: CommandType.StoredProcedure);
+            return _reportDbClient.ExecuteScalar<int>("Member_PointLevel_Get", new { CustId = custId });
         }
         public bool SetPassword(int custId, string md5OldPassword, string md5NewPassword, out string md5Userpwd)
         {

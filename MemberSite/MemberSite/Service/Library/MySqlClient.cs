@@ -246,5 +246,47 @@ namespace MemberSite.Service.Library
             _logger.LogDebug($"{name} {sw.Elapsed:c}");
             return result;
         }
+        
+        public T ExecuteScalar<T>(string name, object parameters)
+        {
+            T result;
+            var sw = Stopwatch.StartNew();
+            try
+            {
+                using var connection = new MySqlConnection(_connectionString);
+                result = connection.ExecuteScalar<T>(name, parameters,
+                    commandType: CommandType.StoredProcedure);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, name);
+                throw;
+            }
+
+            LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
+            _logger.LogDebug($"{name} {sw.Elapsed:c}");
+            return result;
+        }
+        
+        public async Task<T> ExecuteScalarAsync<T>(string name, object parameters)
+        {
+            T result;
+            var sw = Stopwatch.StartNew();
+            try
+            {
+                await using var connection = new MySqlConnection(_connectionString);
+                result = await connection.ExecuteScalarAsync<T>(name, parameters,
+                    commandType: CommandType.StoredProcedure);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, name);
+                throw;
+            }
+
+            LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
+            _logger.LogDebug($"{name} {sw.Elapsed:c}");
+            return result;
+        }
     }
 }
