@@ -301,12 +301,14 @@
 
         }
         CurrencyId = custInfo.CurrencyId;
-        var i18n = new Dictionary<string, string>();
-        i18n.Add("lbl_LastTransaction", selLangBLL.GetResourceValue("lbl_LastTransaction"));
-        i18n.Add("lbl_LastLogin", selLangBLL.GetResourceValue("lbl_LastLogin"));
-        i18n.Add("lbl_ShowBalance", selLangBLL.GetResourceValue("lbl_ShowBalance"));
-        i18n.Add("lbl_Currency", selLangBLL.GetResourceValue($"Currency_{CurrencyId}"));
-        
+        var i18n = new Dictionary<string, string>
+        {
+            { "lbl_LastTransaction", selLangBLL.GetResourceValue("lbl_LastTransaction") },
+            { "lbl_LastLogin", selLangBLL.GetResourceValue("lbl_LastLogin") },
+            { "lbl_ShowBalance", selLangBLL.GetResourceValue("lbl_ShowBalance") },
+            { "lbl_Currency", selLangBLL.GetResourceValue($"Currency_{CurrencyId}") }
+        };
+
         var lbl_Txts = new string[] { "lbl_Deposit", "lbl_TransferFunds", "lbl_PromoCategory_1", "lbl_PromoCategory_2", "lbl_PromoCategory_3", "lbl_PromoCategory_4" };
         foreach (var lbl_Txt in lbl_Txts)
         {

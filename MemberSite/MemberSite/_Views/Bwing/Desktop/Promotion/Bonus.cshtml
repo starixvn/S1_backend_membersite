@@ -71,14 +71,16 @@
 }
 
 @{
-    var i18n = new Dictionary<string, string>();
+    var i18n = new Dictionary<string, string>
+    {
+        { "lbl_OTPCertification", selLangBLL.GetResourceValue("lbl_OTPCertification") },
+        { "msg_OTPSendCode", selLangBLL.GetMsg("msg_OTPSendCode") },
+        { "msg_OTPEnterCode", selLangBLL.GetMsg("msg_OTPEnterCode") },
+        { "lbl_Resend", selLangBLL.GetResourceValue("lbl_Resend") },
+        { "lbl_Submit", selLangBLL.GetResourceValue("lbl_Submit") },
+        { "msg_EnterOTPCode", selLangBLL.GetResourceValue("msg_EnterOTPCode") }
+    };
 
-    i18n.Add("lbl_OTPCertification", selLangBLL.GetResourceValue("lbl_OTPCertification"));
-    i18n.Add("msg_OTPSendCode", selLangBLL.GetMsg("msg_OTPSendCode"));
-    i18n.Add("msg_OTPEnterCode", selLangBLL.GetMsg("msg_OTPEnterCode"));
-    i18n.Add("lbl_Resend", selLangBLL.GetResourceValue("lbl_Resend"));
-    i18n.Add("lbl_Submit", selLangBLL.GetResourceValue("lbl_Submit"));
-    i18n.Add("msg_EnterOTPCode", selLangBLL.GetResourceValue("msg_EnterOTPCode"));
 }
 
 <div class="system-content">

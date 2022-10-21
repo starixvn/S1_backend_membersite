@@ -10,51 +10,52 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @{
-    var i18n = new Dictionary<string, string>();
-    i18n.Add("lbl_TransactionHistory", selLangBLL.GetResourceValue("lbl_TransactionHistory"));
-    i18n.Add("lbl_TransactionHint", selLangBLL.GetResourceValue("lbl_TransactionHint"));
-    i18n.Add("lbl_RecentTransactions", selLangBLL.GetResourceValue("lbl_RecentTransactions"));
-    i18n.Add("lbl_Transaction", selLangBLL.GetResourceValue("lbl_Transaction"));
-    i18n.Add("lbl_Deposit", selLangBLL.GetResourceValue("lbl_Deposit"));
-    i18n.Add("lbl_Date", selLangBLL.GetResourceValue("lbl_Date"));
-    i18n.Add("lbl_Time", selLangBLL.GetResourceValue("lbl_Time"));
-    i18n.Add("lbl_From", selLangBLL.GetResourceValue("lbl_From"));
-    i18n.Add("lbl_To", selLangBLL.GetResourceValue("lbl_To"));
-    i18n.Add("lbl_ID", selLangBLL.GetResourceValue("lbl_ID"));
-    i18n.Add("lbl_Method", selLangBLL.GetResourceValue("lbl_Method"));
-    i18n.Add("lbl_Amount", selLangBLL.GetResourceValue("lbl_Amount"));
-    i18n.Add("lbl_DepositAmount", selLangBLL.GetResourceValue("lbl_DepositAmount"));
-    i18n.Add("lbl_Status", selLangBLL.GetResourceValue("lbl_Status"));
-    i18n.Add("lbl_Submit", selLangBLL.GetResourceValue("lbl_Submit"));
-    i18n.Add("lbl_Back", selLangBLL.GetResourceValue("lbl_Back"));
-    i18n.Add("lbl_Refno", selLangBLL.GetResourceValue("lbl_Refno"));
-    i18n.Add("lbl_RefnoToolTip", selLangBLL.GetResourceValue("lbl_RefnoToolTip"));
-    i18n.Add("lbl_DepositTime", selLangBLL.GetResourceValue("lbl_DepositTime"));
-    i18n.Add("lbl_DepositTimeToolTip", selLangBLL.GetResourceValue("lbl_DepositTimeToolTip"));
-    i18n.Add("lbl_Required", selLangBLL.GetResourceValue("lbl_Required"));
-    i18n.Add("lbl_UploadSuccess", selLangBLL.GetResourceValue("lbl_UploadSuccess"));
-    i18n.Add("lbl_UploadFile", selLangBLL.GetResourceValue("lbl_UploadFile"));
-    i18n.Add("lbl_UpdateSuccess", selLangBLL.GetResourceValue("lbl_UpdateSuccess"));
-    i18n.Add("lbl_AttachFile", selLangBLL.GetResourceValue("lbl_AttachFile"));
-    i18n.Add("lbl_CancelConfirm", selLangBLL.GetResourceValue("lbl_CancelConfirm"));
-    i18n.Add("lbl_Optional", selLangBLL.GetResourceValue("lbl_Optional"));
-    i18n.Add("lbl_BankAccountName", selLangBLL.GetResourceValue("lbl_BankAccountName"));
-    i18n.Add("lbl_BankNumber", selLangBLL.GetResourceValue("lbl_BankNumber"));
-    i18n.Add("lbl_DateMissing", selLangBLL.GetResourceValue("lbl_DateMissing"));
-    i18n.Add("lbl_Cancel", selLangBLL.GetResourceValue("lbl_Cancel"));
-    i18n.Add("lbl_Close", selLangBLL.GetResourceValue("lbl_Close"));
-    i18n.Add("lbl_SubmitProof", selLangBLL.GetResourceValue("lbl_SubmitProof"));
-    i18n.Add("lbl_Page", selLangBLL.GetResourceValue("lbl_Page"));
-    i18n.Add("lbl_Of", selLangBLL.GetResourceValue("lbl_Of"));
-    i18n.Add("msg_NoData", selLangBLL.GetMsg("msg_NoData"));
-
-    i18n.Add("lbl_QuickPick", selLangBLL.GetResourceValue("lbl_QuickPick"));
-    i18n.Add("lbl_Today", selLangBLL.GetResourceValue("lbl_Today"));
-    i18n.Add("lbl_YesterDay", selLangBLL.GetResourceValue("lbl_YesterDay"));
-    i18n.Add("lbl_ThisWeek", selLangBLL.GetResourceValue("lbl_ThisWeek"));
-    i18n.Add("lbl_LastWeek", selLangBLL.GetResourceValue("lbl_LastWeek"));
-    i18n.Add("lbl_ThisMonth", selLangBLL.GetResourceValue("lbl_ThisMonth"));
-    i18n.Add("lbl_LastMonth", selLangBLL.GetResourceValue("lbl_LastMonth"));
+    var i18n = new Dictionary<string, string>
+    {
+        { "lbl_TransactionHistory", selLangBLL.GetResourceValue("lbl_TransactionHistory") },
+        { "lbl_TransactionHint", selLangBLL.GetResourceValue("lbl_TransactionHint") },
+        { "lbl_RecentTransactions", selLangBLL.GetResourceValue("lbl_RecentTransactions") },
+        { "lbl_Transaction", selLangBLL.GetResourceValue("lbl_Transaction") },
+        { "lbl_Deposit", selLangBLL.GetResourceValue("lbl_Deposit") },
+        { "lbl_Date", selLangBLL.GetResourceValue("lbl_Date") },
+        { "lbl_Time", selLangBLL.GetResourceValue("lbl_Time") },
+        { "lbl_From", selLangBLL.GetResourceValue("lbl_From") },
+        { "lbl_To", selLangBLL.GetResourceValue("lbl_To") },
+        { "lbl_ID", selLangBLL.GetResourceValue("lbl_ID") },
+        { "lbl_Method", selLangBLL.GetResourceValue("lbl_Method") },
+        { "lbl_Amount", selLangBLL.GetResourceValue("lbl_Amount") },
+        { "lbl_DepositAmount", selLangBLL.GetResourceValue("lbl_DepositAmount") },
+        { "lbl_Status", selLangBLL.GetResourceValue("lbl_Status") },
+        { "lbl_Submit", selLangBLL.GetResourceValue("lbl_Submit") },
+        { "lbl_Back", selLangBLL.GetResourceValue("lbl_Back") },
+        { "lbl_Refno", selLangBLL.GetResourceValue("lbl_Refno") },
+        { "lbl_RefnoToolTip", selLangBLL.GetResourceValue("lbl_RefnoToolTip") },
+        { "lbl_DepositTime", selLangBLL.GetResourceValue("lbl_DepositTime") },
+        { "lbl_DepositTimeToolTip", selLangBLL.GetResourceValue("lbl_DepositTimeToolTip") },
+        { "lbl_Required", selLangBLL.GetResourceValue("lbl_Required") },
+        { "lbl_UploadSuccess", selLangBLL.GetResourceValue("lbl_UploadSuccess") },
+        { "lbl_UploadFile", selLangBLL.GetResourceValue("lbl_UploadFile") },
+        { "lbl_UpdateSuccess", selLangBLL.GetResourceValue("lbl_UpdateSuccess") },
+        { "lbl_AttachFile", selLangBLL.GetResourceValue("lbl_AttachFile") },
+        { "lbl_CancelConfirm", selLangBLL.GetResourceValue("lbl_CancelConfirm") },
+        { "lbl_Optional", selLangBLL.GetResourceValue("lbl_Optional") },
+        { "lbl_BankAccountName", selLangBLL.GetResourceValue("lbl_BankAccountName") },
+        { "lbl_BankNumber", selLangBLL.GetResourceValue("lbl_BankNumber") },
+        { "lbl_DateMissing", selLangBLL.GetResourceValue("lbl_DateMissing") },
+        { "lbl_Cancel", selLangBLL.GetResourceValue("lbl_Cancel") },
+        { "lbl_Close", selLangBLL.GetResourceValue("lbl_Close") },
+        { "lbl_SubmitProof", selLangBLL.GetResourceValue("lbl_SubmitProof") },
+        { "lbl_Page", selLangBLL.GetResourceValue("lbl_Page") },
+        { "lbl_Of", selLangBLL.GetResourceValue("lbl_Of") },
+        { "msg_NoData", selLangBLL.GetMsg("msg_NoData") },
+        { "lbl_QuickPick", selLangBLL.GetResourceValue("lbl_QuickPick") },
+        { "lbl_Today", selLangBLL.GetResourceValue("lbl_Today") },
+        { "lbl_YesterDay", selLangBLL.GetResourceValue("lbl_YesterDay") },
+        { "lbl_ThisWeek", selLangBLL.GetResourceValue("lbl_ThisWeek") },
+        { "lbl_LastWeek", selLangBLL.GetResourceValue("lbl_LastWeek") },
+        { "lbl_ThisMonth", selLangBLL.GetResourceValue("lbl_ThisMonth") },
+        { "lbl_LastMonth", selLangBLL.GetResourceValue("lbl_LastMonth") }
+    };
 
     for (var depositStatus = 0; depositStatus <= 8; depositStatus++)
     {

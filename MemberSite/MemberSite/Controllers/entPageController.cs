@@ -61,7 +61,7 @@ namespace MemberSite.Controllers
             var tpMaintainList = _thirdPartyBll.GetTpMaintainListWithCache(serverInfo.SiteId);
             if (_gameBll.IsMaintain(tpMaintainList, tpId, inputs.GetValueOrDefault("tpGameType"), out var tpMaintain))
             {
-                var tpName = _statementService.GetTpListWithCache()?.First(i => i.Id == tpMaintain.TpId)?.TpName;
+                var tpName = _statementService.GetTpListWithCache()?.First(i => i.Id == tpMaintain.TpId).TpName;
                 var host = _siteConfig.Value[serverInfo.SiteName].MaintainURL;
                 var maintainUrl = $"{host}/index_{_selLangBll.GetLangId() ?? "en"}.html" +
                     $"?t={HttpUtility.UrlEncode(tpName)}&e={HttpUtility.UrlEncode($"{tpMaintain.EndDate:u}")}";
@@ -182,8 +182,7 @@ namespace MemberSite.Controllers
             SNameTable.TryGetValue(SportName, out sNameSubTable);
             if (sNameSubTable != null)
             {
-                var inputs = new Dictionary<string, string>();
-                inputs.Add("gameId", sNameSubTable.gameId);
+                var inputs = new Dictionary<string, string> { { "gameId", sNameSubTable.gameId } };
                 return await IndexAsync(sNameSubTable.tpId, inputs);//.ConfigureAwait(false)
             }
             return StatusCode(400);

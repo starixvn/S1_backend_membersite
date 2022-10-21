@@ -15,21 +15,23 @@
 }
 @{
 
-    var i18n = new Dictionary<string, string>();
-    i18n.Add("lbl_TransferFrom", selLangBLL.GetResourceValue("lbl_TransferFrom"));
-    i18n.Add("lbl_TransferTo", selLangBLL.GetResourceValue("lbl_TransferTo"));
-    i18n.Add("lbl_MaxAmount", selLangBLL.GetResourceValue("lbl_MaxAmount"));
-    i18n.Add("lbl_TransferFunds", selLangBLL.GetResourceValue("lbl_TransferFunds"));
-    i18n.Add("lbl_OtherWallet", selLangBLL.GetResourceValue("lbl_OtherWallet"));
-    i18n.Add("lbl_RetriveAllIn", selLangBLL.GetResourceValue("lbl_RetriveAllIn"));
-    i18n.Add("lbl_TransferIn", selLangBLL.GetResourceValue("lbl_TransferIn"));
-    i18n.Add("lbl_TransferOut", selLangBLL.GetResourceValue("lbl_TransferOut"));
-    i18n.Add("lbl_SabaWalletHint", selLangBLL.GetResourceValue("lbl_SabaWalletHint"));
-    i18n.Add("lbl_LastTransaction", selLangBLL.GetResourceValue("lbl_LastTransaction"));
-    i18n.Add("lbl_TurnoverAccmulateHint", selLangBLL.GetResourceValue("lbl_TurnoverAccmulateHint"));
-    i18n.Add("lbl_Req", selLangBLL.GetResourceValue("lbl_Req"));
-    i18n.Add("lbl_Currency", selLangBLL.GetResourceValue($"Currency_{custInfo.CurrencyId}"));
-    i18n.Add("lbl_TurnoverAccumulated", selLangBLL.GetResourceValue("lbl_TurnoverAccumulated"));
+    var i18n = new Dictionary<string, string>
+    {
+        { "lbl_TransferFrom", selLangBLL.GetResourceValue("lbl_TransferFrom") },
+        { "lbl_TransferTo", selLangBLL.GetResourceValue("lbl_TransferTo") },
+        { "lbl_MaxAmount", selLangBLL.GetResourceValue("lbl_MaxAmount") },
+        { "lbl_TransferFunds", selLangBLL.GetResourceValue("lbl_TransferFunds") },
+        { "lbl_OtherWallet", selLangBLL.GetResourceValue("lbl_OtherWallet") },
+        { "lbl_RetriveAllIn", selLangBLL.GetResourceValue("lbl_RetriveAllIn") },
+        { "lbl_TransferIn", selLangBLL.GetResourceValue("lbl_TransferIn") },
+        { "lbl_TransferOut", selLangBLL.GetResourceValue("lbl_TransferOut") },
+        { "lbl_SabaWalletHint", selLangBLL.GetResourceValue("lbl_SabaWalletHint") },
+        { "lbl_LastTransaction", selLangBLL.GetResourceValue("lbl_LastTransaction") },
+        { "lbl_TurnoverAccmulateHint", selLangBLL.GetResourceValue("lbl_TurnoverAccmulateHint") },
+        { "lbl_Req", selLangBLL.GetResourceValue("lbl_Req") },
+        { "lbl_Currency", selLangBLL.GetResourceValue($"Currency_{custInfo.CurrencyId}") },
+        { "lbl_TurnoverAccumulated", selLangBLL.GetResourceValue("lbl_TurnoverAccumulated") }
+    };
 
     var lbl_Txts = new string[] { "lbl_Close", "lbl_AllTranscations", "lbl_Status", "lbl_Amount", "lbl_ID", "lbl_Time", "lbl_Date",
             "lbl_RecentTransactions", "lbl_Wallet_Saba", "lbl_MainWallet", "lbl_Transfer", "lbl_Balance", "lbl_Memo", "lbl_Direction",

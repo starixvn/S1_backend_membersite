@@ -20,10 +20,12 @@ namespace MemberSite.Controllers
         }
         public IActionResult Index()
         {
-            var ServerInfoData = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-            ServerInfoData.Add("Now", DateTime.Now.ToString());
-            ServerInfoData.Add("EnvironmentName", environment.EnvironmentName);
-            ServerInfoData.Add("LangId", selLangBLL.GetLangId());
+            var ServerInfoData = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+            {
+                { "Now", DateTime.Now.ToString() },
+                { "EnvironmentName", environment.EnvironmentName },
+                { "LangId", selLangBLL.GetLangId() }
+            };
             var host = Dns.GetHostEntry(Dns.GetHostName());
             var i = 1;
             foreach (var ip in host.AddressList)
