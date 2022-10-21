@@ -17,9 +17,8 @@ public class SiteBll
     private readonly ShieldBLL _ShieldBll;
     private readonly Regex _regexUserName = new(@"^[a-zA-Z0-9]{6,18}$");
     private readonly Regex _regexAffCode = new(@"^[0-9]{5,20}$");
-    private readonly ReCaptchaService _reCaptcha;
-    private readonly IHostEnvironment _environment;
-    
+    private readonly RecaptchaBLL _recaptcha;
+
     public SiteBll(IServiceProvider provider)
     {
         _custInfoBLL = provider.GetRequiredService<CustInfoBll>();
@@ -28,8 +27,7 @@ public class SiteBll
         _commonBll = provider.GetRequiredService<CommonBLL>();
         _tools = provider.GetRequiredService<Tools>();
         _ShieldBll = provider.GetRequiredService<ShieldBLL>();
-        _reCaptcha = provider.GetRequiredService<ReCaptchaService>();
-        _environment = provider.GetRequiredService<IHostEnvironment>();
+        _recaptcha = provider.GetRequiredService<RecaptchaBLL>();
     }
 
     public Customer Signup(SiteController.SignupModel signupModel, ApiResult apiResult, bool isAuthenticated,
@@ -45,10 +43,10 @@ public class SiteBll
 
         if (!string.IsNullOrEmpty(signupModel.ReCaptchaToken))
         {
-            var verifyResult = _reCaptcha.Verify(signupModel.ReCaptchaToken);
+            var verifyResult = _recaptcha.Verify(signupModel.ReCaptchaToken);
             if (!verifyResult.success)
             {
-                apiResult.ErrorCode = -99;
+                apiResult.ErrorCode = -97;
                 apiResult.Message = verifyResult.errorCodes.FirstOrDefault();
                 return customer;
             }
