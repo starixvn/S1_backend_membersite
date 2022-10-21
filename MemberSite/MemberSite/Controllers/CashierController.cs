@@ -78,7 +78,7 @@ namespace MemberSite.Controllers
             var result = _paymentBll.DepositReqOnlineBanking(authData.CustId, sysId, payId, ChannelId, Amount, out var transId, out var onlineBank);
 
             var apiResult = new ApiResult<PayResult>();
-            if (result == 0)
+            if (result == (int)ErrorCode.Success)
             {
                 if (!string.IsNullOrEmpty(BonusCode))
                     _promotionBll.SetDepositPromotionQueue(transId, BonusCode, authData.CustId, custInfo.SiteId, custInfo.UserName, custInfo.CurrencyId, 1, 0);
@@ -96,27 +96,7 @@ namespace MemberSite.Controllers
 
                 var myUrl = $"{_payApiUrl}ReqDepositBank";
                 apiResult = await _courierAdapter.MyPostAsync<PayResult, ReqDepositBank>(myUrl, reqDepositBank);
-                if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 1)
-                {
-                    if (string.IsNullOrEmpty(apiResult.Data.Message))
-                    {
-                        return View(apiResult);
-                    }
-                    else
-                    {
-                        return Content(apiResult.Data.Message, "text/html");
-                    }
-                }
-                else if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 2)
-                {
-                    return Redirect(apiResult.Data.Url);
-                }
-                else if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 3)
-                {
-                    return Json(apiResult);
-                }
-                
-                model.Message = apiResult.RawMessage;
+                if (ActionResult(apiResult, transId, model, PaymentView.DepositReqOnlineBanking, out var actionResult)) return actionResult;
             }
             else
             {
@@ -135,7 +115,7 @@ namespace MemberSite.Controllers
 
             var model = new ErrorData();
             var result = _payInfoBll.DepositReqPay(authData.CustId, ChannelId, Amount, out var transId, out var payInfo, DepositType.MobilePayment);
-            if (result == 0)
+            if (result == (int)ErrorCode.Success)
             {
                 if (!string.IsNullOrEmpty(BonusCode))
                     _promotionBll.SetDepositPromotionQueue(transId, BonusCode, authData.CustId, custInfo.SiteId, custInfo.UserName, custInfo.CurrencyId, 1, 0);
@@ -153,7 +133,7 @@ namespace MemberSite.Controllers
 
                 var myUrl = $"{_payApiUrl}ReqDepositMobile";
                 apiResult = await _courierAdapter.MyPostAsync<PayResult, ReqDepositMobile>(myUrl, reqDepositMobile);
-                if (ActionResult(apiResult, model, out var actionResult)) return actionResult;
+                if (ActionResult(apiResult, transId, model, PaymentView.DepositReqMobilePay, out var actionResult)) return actionResult;
             }
             else
             {
@@ -162,32 +142,6 @@ namespace MemberSite.Controllers
             }
 
             return View($"~/Views/entPage/{serverInfo.SiteName}PaymentErrorPage.cshtml", model);
-        }
-
-        private bool ActionResult(ApiResult<PayResult> apiResult, ErrorData model, out IActionResult actionResult)
-        {
-            switch (apiResult.ErrorCode)
-            {
-                case 0 when apiResult.Data.Mode == 1:
-                {
-                    actionResult = View(apiResult);
-                    return true;
-                }
-                case 0 when apiResult.Data.Mode == 2:
-                {
-                    actionResult = Redirect(apiResult.Data.Url);
-                    return true;
-                }
-                case 0 when apiResult.Data.Mode == 3:
-                {
-                    actionResult = Json(apiResult);
-                    return true;
-                }
-                default:
-                    model.Message = apiResult.RawMessage;
-                    actionResult = null;
-                    return false;
-            }
         }
 
         public class ReqDepositCrypto : ReqDeposit
@@ -203,7 +157,7 @@ namespace MemberSite.Controllers
             var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
             var model = new ErrorData();
             var result = _cryptoPayInfoBll.DepositReqCryptoPay(authData.CustId, ChannelId, Amount, out var transId, out var cryptoPayInfo);
-            if (result == 0)
+            if (result == (int)ErrorCode.Success)
             {
                 if (!string.IsNullOrEmpty(BonusCode))
                     _promotionBll.SetDepositPromotionQueue(transId, BonusCode, authData.CustId, custInfo.SiteId, custInfo.UserName, custInfo.CurrencyId, 1, 0);
@@ -221,22 +175,7 @@ namespace MemberSite.Controllers
 
                 var myUrl = $"{_payApiUrl}ReqDepositCrpyto";
                 apiResult = await _courierAdapter.MyPostAsync<PayResult, ReqDepositCrypto>(myUrl, reqDepositCrypto);
-                if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 1)
-                {
-                    return View(apiResult);
-                }
-                else if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 2)
-                {
-                    return Redirect(apiResult.Data.Url);
-                }
-                else if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 3)
-                {
-                    return Json(apiResult);
-                }
-                else
-                {
-                    model.Message = apiResult.RawMessage;
-                }
+                if (ActionResult(apiResult, transId, model, PaymentView.DepositReqCryptoPay, out var actionResult)) return actionResult;
             }
             else
             {
@@ -255,7 +194,7 @@ namespace MemberSite.Controllers
             var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
             var model = new ErrorData();
             var result = _loadCardPayInfoBll.DepositReqLoadCardPay(authData.CustId, ChannelId, Code, Serial, Amount, out var transId, out var loadCardPayInfo);
-            if (result == 0)
+            if (result == (int)ErrorCode.Success)
             {
                 if (!string.IsNullOrEmpty(BonusCode))
                     _promotionBll.SetDepositPromotionQueue(transId, BonusCode, authData.CustId, custInfo.SiteId, custInfo.UserName, custInfo.CurrencyId, 1, 0);
@@ -274,22 +213,7 @@ namespace MemberSite.Controllers
 
                 var myUrl = $"{_payApiUrl}ReqDepositLoadCard";
                 apiResult = await _courierAdapter.MyPostAsync<PayResult, dynamic>(myUrl, reqDeposit);
-                if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 1)
-                {
-                    return View(apiResult);
-                }
-                else if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 2)
-                {
-                    return Redirect(apiResult.Data.Url);
-                }
-                else if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 3)
-                {
-                    return Json(apiResult);
-                }
-                else
-                {
-                    model.Message = apiResult.RawMessage;
-                }
+                if (ActionResult(apiResult, transId, model, PaymentView.DepositReqLoadCardPay, out var actionResult)) return actionResult;
             }
             else
             {
@@ -353,8 +277,9 @@ namespace MemberSite.Controllers
             var serverInfo = _serverInfoBll.GetServerInfo();
             var authData = _authorizeBll.GetAuthData();
             var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+            var model = new ErrorData();
             var result = _payInfoBll.DepositReqPay(authData.CustId, ChannelId, Amount, out var transId, out var payInfo, DepositType.QRPayPayment);
-            if (result != 0)
+            if (result != (int)ErrorCode.Success)
             {
                 return View($"~/Views/entPage/{serverInfo.SiteName}PaymentErrorPage.cshtml", new ErrorData
                 {
@@ -386,25 +311,9 @@ namespace MemberSite.Controllers
                 ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", custInfo.UserLang }, protocol: Request.Scheme, host: Request.Host.Port == 80 ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}")
             });
 
-            if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 1)
-            {
-                return View("DepositReqMobilePay", apiResult);
-            }
-            else if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 2)
-            {
-                return Redirect(apiResult.Data.Url);
-            }
-            else if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 3)
-            {
-                return Json(apiResult);
-            }
-            else
-            {
-                return View($"~/Views/entPage/{serverInfo.SiteName}PaymentErrorPage.cshtml", new ErrorData
-                {
-                    Message = apiResult.RawMessage
-                });
-            }
+            return ActionResult(apiResult, transId, model, PaymentView.DepositReqMobilePay, out var actionResult)
+                ? actionResult
+                : View($"~/Views/entPage/{serverInfo.SiteName}PaymentErrorPage.cshtml", model);
         }
 
 
@@ -416,6 +325,7 @@ namespace MemberSite.Controllers
             var vipLevel = _custInfoBll.GetPointLevelWithCache(authData.CustId);
             var depositType = _bankInfoBll.GetAutoChannelDepositType(custInfo.SiteId);
             var url = depositType == DepositType.BankAutoChannel ? $"{_payApiUrl}BankAutoChannel" : $"{_payApiUrl}ReqDepositBank";
+            var transId = "";
             
             //取得可用銀行列表
             var bankList = _bankInfoBll.GetAutoChannelBankList(custInfo, vipLevel)
@@ -423,7 +333,7 @@ namespace MemberSite.Controllers
           
             foreach (var bank in bankList.OrderBy(i => i.SSort))
             {
-                var result = _paymentBll.DepositReqOnlineBanking(authData.CustId, sysId, bank.PayId, bank.ChannelId, Amount, out var transId, out var onlineBank, depositType);
+                var result = _paymentBll.DepositReqOnlineBanking(authData.CustId, sysId, bank.PayId, bank.ChannelId, Amount, out transId, out var onlineBank, depositType);
                 if (result != 0)
                 {
                     continue;
@@ -444,32 +354,50 @@ namespace MemberSite.Controllers
                     ClientIP = _tools.GetClientIP(),
                     ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", custInfo.UserLang }, protocol: Request.Scheme, host: Request.Host.Port == 80 ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}")
                 });
-                if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 1)
-                {
-                    if (string.IsNullOrEmpty(apiResult.Data.Message))
-                    {
-                        return View("DepositReqOnlineBanking",apiResult);
-                    }
-                    else
-                    {
-                        return Content(apiResult.Data.Message, "text/html");
-                    }
-                }
-                else if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 2)
-                {
-                    return Redirect(apiResult.Data.Url);
-                }
-                else if (apiResult.ErrorCode == 0 && apiResult.Data.Mode == 3)
-                {
-                    return Json(apiResult);
-                }
+                
+                if (ActionResult(apiResult, transId, new ErrorData(), PaymentView.DepositReqOnlineBanking, out var actionResult)) return actionResult;
             }
 
             return View($"~/Views/entPage/{serverInfo.SiteName}PaymentErrorPage.cshtml", new ErrorData
             {
-                Message = "All Channel fail."
+                Message = $"{transId} All Channel fail."
             });
+        }
+        
+        private bool ActionResult(ApiResult<PayResult> apiResult, string transId, ErrorData model, PaymentView paymentView, out IActionResult actionResult)
+        {
+            switch (apiResult.ErrorCode)
+            {
+                case (int)ErrorCode.Success when apiResult.Data.Mode == (int)PayChannelMode.OpenView:
+                {
 
+                    if (paymentView == PaymentView.DepositReqOnlineBanking &&
+                        !string.IsNullOrEmpty(apiResult.Data.Message))
+                    {
+                        actionResult = Content(apiResult.Data.Message, "text/html");
+                    }
+                    else
+                    {
+                        actionResult = View(paymentView.ToString(), apiResult);
+                    }
+
+                    return true;
+                }
+                case (int)ErrorCode.Success when apiResult.Data.Mode == (int)PayChannelMode.Redirect:
+                {
+                    actionResult = Redirect(apiResult.Data.Url);
+                    return true;
+                }
+                case (int)ErrorCode.Success when apiResult.Data.Mode == (int)PayChannelMode.ShowQrCode:
+                {
+                    actionResult = Json(apiResult);
+                    return true;
+                }
+                default:
+                    model.Message = $"{transId} {apiResult.RawMessage}";
+                    actionResult = null;
+                    return false;
+            }
         }
     }
 }
