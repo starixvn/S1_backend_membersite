@@ -71,10 +71,10 @@ namespace MemberSite.Controllers
         [HttpGet]
         public async Task<IActionResult> DepositReqOnlineBankingAsync(int sysId, int payId, int ChannelId, decimal Amount, string BonusCode)
         {
-            var serverInfo = _serverInfoBll.GetServerInfo();
-            var authData = _authorizeBll.GetAuthData();
-            var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
             var model = new ErrorData();
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 }) return RedirectErrorPage(model);
+            var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
             var result = _paymentBll.DepositReqOnlineBanking(authData.CustId, sysId, payId, ChannelId, Amount, out var transId, out var onlineBank);
 
             var apiResult = new ApiResult<PayResult>();
@@ -96,7 +96,8 @@ namespace MemberSite.Controllers
 
                 var myUrl = $"{_payApiUrl}ReqDepositBank";
                 apiResult = await _courierAdapter.MyPostAsync<PayResult, ReqDepositBank>(myUrl, reqDepositBank);
-                if (ActionResult(apiResult, transId, model, PaymentView.DepositReqOnlineBanking, out var actionResult)) return actionResult;
+                if (ActionResult(apiResult, transId, model, PaymentView.DepositReqOnlineBanking, out var actionResult)) 
+                    return actionResult;
             }
             else
             {
@@ -104,16 +105,16 @@ namespace MemberSite.Controllers
                 apiResult.Message = "Error.";
             }
 
-            return View($"~/Views/entPage/{serverInfo.SiteName}PaymentErrorPage.cshtml", model);
+            return RedirectErrorPage(model);
         }
+
         public async Task<IActionResult> DepositReqMobilePayAsync(int ChannelId, decimal Amount, string BonusCode, string PayAccount)
         {
-            var serverInfo = _serverInfoBll.GetServerInfo();
             var apiResult = new ApiResult<PayResult>();
-            var authData = _authorizeBll.GetAuthData();
-            var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-
             var model = new ErrorData();
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 }) return RedirectErrorPage(model);
+            var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
             var result = _payInfoBll.DepositReqPay(authData.CustId, ChannelId, Amount, out var transId, out var payInfo, DepositType.MobilePayment);
             if (result == (int)ErrorCode.Success)
             {
@@ -133,7 +134,8 @@ namespace MemberSite.Controllers
 
                 var myUrl = $"{_payApiUrl}ReqDepositMobile";
                 apiResult = await _courierAdapter.MyPostAsync<PayResult, ReqDepositMobile>(myUrl, reqDepositMobile);
-                if (ActionResult(apiResult, transId, model, PaymentView.DepositReqMobilePay, out var actionResult)) return actionResult;
+                if (ActionResult(apiResult, transId, model, PaymentView.DepositReqMobilePay, out var actionResult))
+                    return actionResult;
             }
             else
             {
@@ -141,7 +143,7 @@ namespace MemberSite.Controllers
                 apiResult.Message = "Error.";
             }
 
-            return View($"~/Views/entPage/{serverInfo.SiteName}PaymentErrorPage.cshtml", model);
+            return RedirectErrorPage(model);
         }
 
         public class ReqDepositCrypto : ReqDeposit
@@ -151,11 +153,11 @@ namespace MemberSite.Controllers
         }
         public async Task<IActionResult> DepositReqCryptoPayAsync(int ChannelId, decimal Amount, string BonusCode)
         {
-            var serverInfo = _serverInfoBll.GetServerInfo();
             var apiResult = new ApiResult<PayResult>();
-            var authData = _authorizeBll.GetAuthData();
-            var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
             var model = new ErrorData();
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 }) return RedirectErrorPage(model);
+            var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
             var result = _cryptoPayInfoBll.DepositReqCryptoPay(authData.CustId, ChannelId, Amount, out var transId, out var cryptoPayInfo);
             if (result == (int)ErrorCode.Success)
             {
@@ -175,7 +177,8 @@ namespace MemberSite.Controllers
 
                 var myUrl = $"{_payApiUrl}ReqDepositCrpyto";
                 apiResult = await _courierAdapter.MyPostAsync<PayResult, ReqDepositCrypto>(myUrl, reqDepositCrypto);
-                if (ActionResult(apiResult, transId, model, PaymentView.DepositReqCryptoPay, out var actionResult)) return actionResult;
+                if (ActionResult(apiResult, transId, model, PaymentView.DepositReqCryptoPay, out var actionResult))
+                    return actionResult;
             }
             else
             {
@@ -183,17 +186,18 @@ namespace MemberSite.Controllers
                 apiResult.Message = "Error.";
             }
 
-            return View($"~/Views/entPage/{serverInfo.SiteName}PaymentErrorPage.cshtml", model);
+            return RedirectErrorPage(model);
         }
 
         public async Task<IActionResult> DepositReqLoadCardPayAsync(int ChannelId, string Code, string Serial, decimal Amount, string BonusCode)
         {
-            var serverInfo = _serverInfoBll.GetServerInfo();
             var apiResult = new ApiResult<PayResult>();
-            var authData = _authorizeBll.GetAuthData();
-            var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
             var model = new ErrorData();
-            var result = _loadCardPayInfoBll.DepositReqLoadCardPay(authData.CustId, ChannelId, Code, Serial, Amount, out var transId, out var loadCardPayInfo);
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 }) return RedirectErrorPage(model);
+            var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+            var result = _loadCardPayInfoBll.DepositReqLoadCardPay(authData.CustId, ChannelId, Code, Serial, Amount,
+                out var transId, out var loadCardPayInfo);
             if (result == (int)ErrorCode.Success)
             {
                 if (!string.IsNullOrEmpty(BonusCode))
@@ -213,15 +217,11 @@ namespace MemberSite.Controllers
 
                 var myUrl = $"{_payApiUrl}ReqDepositLoadCard";
                 apiResult = await _courierAdapter.MyPostAsync<PayResult, dynamic>(myUrl, reqDeposit);
-                if (ActionResult(apiResult, transId, model, PaymentView.DepositReqLoadCardPay, out var actionResult)) return actionResult;
-            }
-            else
-            {
-                apiResult.ErrorCode = result;
-                apiResult.Message = "Error.";
+                if (ActionResult(apiResult, transId, model, PaymentView.DepositReqLoadCardPay, out var actionResult)) 
+                    return actionResult;
             }
 
-            return View($"~/Views/entPage/{serverInfo.SiteName}PaymentErrorPage.cshtml", model);
+            return RedirectErrorPage(model);
         }
 
         [Route("[controller]/DepositReceip.jpg")]
@@ -229,6 +229,10 @@ namespace MemberSite.Controllers
         public IActionResult GetDepositReceiptPic(string transId)
         {
             var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                return StatusCode(404);
+            }
             var depositReceipt = _paymentBll.GetDepositReceipt(transId, authData.CustId);
             if (depositReceipt == null)
             {
@@ -263,6 +267,10 @@ namespace MemberSite.Controllers
         public IActionResult GetDepositReceiptPicV2(string transId)
         {
             var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                return StatusCode(404);
+            }
             var depositReceipt = _paymentBll.GetDepositReceipt(transId, authData.CustId);
             if (depositReceipt == null)
             {
@@ -274,17 +282,14 @@ namespace MemberSite.Controllers
 
         public async Task<IActionResult> DepositReqQRPayAsync(int ChannelId, decimal Amount, string BonusCode)
         {
-            var serverInfo = _serverInfoBll.GetServerInfo();
-            var authData = _authorizeBll.GetAuthData();
-            var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
             var model = new ErrorData();
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 }) return RedirectErrorPage(model);
+            var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
             var result = _payInfoBll.DepositReqPay(authData.CustId, ChannelId, Amount, out var transId, out var payInfo, DepositType.QRPayPayment);
             if (result != (int)ErrorCode.Success)
             {
-                return View($"~/Views/entPage/{serverInfo.SiteName}PaymentErrorPage.cshtml", new ErrorData
-                {
-                    Message = string.Empty
-                });
+                return RedirectErrorPage(model);
             }
 
             if (!string.IsNullOrEmpty(BonusCode))
@@ -313,14 +318,17 @@ namespace MemberSite.Controllers
 
             return ActionResult(apiResult, transId, model, PaymentView.DepositReqMobilePay, out var actionResult)
                 ? actionResult
-                : View($"~/Views/entPage/{serverInfo.SiteName}PaymentErrorPage.cshtml", model);
+                : RedirectErrorPage(model);
         }
 
 
         public async Task<IActionResult> DepositReqBankAutoChannelAsync(int sysId, decimal Amount, string BonusCode)
         {
-            var serverInfo = _serverInfoBll.GetServerInfo();
             var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                return RedirectErrorPage(new ErrorData());
+            }
             var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
             var vipLevel = _custInfoBll.GetPointLevelWithCache(authData.CustId);
             var depositType = _bankInfoBll.GetAutoChannelDepositType(custInfo.SiteId);
@@ -355,13 +363,11 @@ namespace MemberSite.Controllers
                     ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", custInfo.UserLang }, protocol: Request.Scheme, host: Request.Host.Port == 80 ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}")
                 });
                 
-                if (ActionResult(apiResult, transId, new ErrorData(), PaymentView.DepositReqOnlineBanking, out var actionResult)) return actionResult;
+                if (ActionResult(apiResult, transId, new ErrorData(), PaymentView.DepositReqOnlineBanking, out var actionResult)) 
+                    return actionResult;
             }
 
-            return View($"~/Views/entPage/{serverInfo.SiteName}PaymentErrorPage.cshtml", new ErrorData
-            {
-                Message = $"{transId} All channel unavailable."
-            });
+            return RedirectErrorPage(new ErrorData { Message = $"{transId} All channel unavailable." });
         }
         
         private bool ActionResult(ApiResult<PayResult> apiResult, string transId, ErrorData model, PaymentView paymentView, out IActionResult actionResult)
@@ -398,6 +404,12 @@ namespace MemberSite.Controllers
                     actionResult = null;
                     return false;
             }
+        }
+        
+        private ViewResult RedirectErrorPage(ErrorData model)
+        {
+            var serverInfo = _serverInfoBll.GetServerInfo();
+            return View($"~/Views/entPage/{serverInfo.SiteName}PaymentErrorPage.cshtml", model);
         }
     }
 }
