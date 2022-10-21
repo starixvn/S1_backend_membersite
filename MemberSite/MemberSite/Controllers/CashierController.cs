@@ -77,7 +77,6 @@ namespace MemberSite.Controllers
             var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
             var result = _paymentBll.DepositReqOnlineBanking(authData.CustId, sysId, payId, ChannelId, Amount, out var transId, out var onlineBank);
 
-            var apiResult = new ApiResult<PayResult>();
             if (result == (int)ErrorCode.Success)
             {
                 if (!string.IsNullOrEmpty(BonusCode))
@@ -95,14 +94,9 @@ namespace MemberSite.Controllers
                 };
 
                 var myUrl = $"{_payApiUrl}ReqDepositBank";
-                apiResult = await _courierAdapter.MyPostAsync<PayResult, ReqDepositBank>(myUrl, reqDepositBank);
+                var apiResult = await _courierAdapter.MyPostAsync<PayResult, ReqDepositBank>(myUrl, reqDepositBank);
                 if (ActionResult(apiResult, transId, model, PaymentView.DepositReqOnlineBanking, out var actionResult)) 
                     return actionResult;
-            }
-            else
-            {
-                apiResult.ErrorCode = result;
-                apiResult.Message = "Error.";
             }
 
             return RedirectErrorPage(model);
@@ -110,7 +104,6 @@ namespace MemberSite.Controllers
 
         public async Task<IActionResult> DepositReqMobilePayAsync(int ChannelId, decimal Amount, string BonusCode, string PayAccount)
         {
-            var apiResult = new ApiResult<PayResult>();
             var model = new ErrorData();
             var authData = _authorizeBll.GetAuthData();
             if (authData is not { CustId: > 0 }) return RedirectErrorPage(model);
@@ -133,14 +126,9 @@ namespace MemberSite.Controllers
                 };
 
                 var myUrl = $"{_payApiUrl}ReqDepositMobile";
-                apiResult = await _courierAdapter.MyPostAsync<PayResult, ReqDepositMobile>(myUrl, reqDepositMobile);
+                var apiResult = await _courierAdapter.MyPostAsync<PayResult, ReqDepositMobile>(myUrl, reqDepositMobile);
                 if (ActionResult(apiResult, transId, model, PaymentView.DepositReqMobilePay, out var actionResult))
                     return actionResult;
-            }
-            else
-            {
-                apiResult.ErrorCode = result;
-                apiResult.Message = "Error.";
             }
 
             return RedirectErrorPage(model);
@@ -153,7 +141,6 @@ namespace MemberSite.Controllers
         }
         public async Task<IActionResult> DepositReqCryptoPayAsync(int ChannelId, decimal Amount, string BonusCode)
         {
-            var apiResult = new ApiResult<PayResult>();
             var model = new ErrorData();
             var authData = _authorizeBll.GetAuthData();
             if (authData is not { CustId: > 0 }) return RedirectErrorPage(model);
@@ -176,14 +163,9 @@ namespace MemberSite.Controllers
                 };
 
                 var myUrl = $"{_payApiUrl}ReqDepositCrpyto";
-                apiResult = await _courierAdapter.MyPostAsync<PayResult, ReqDepositCrypto>(myUrl, reqDepositCrypto);
+                var apiResult = await _courierAdapter.MyPostAsync<PayResult, ReqDepositCrypto>(myUrl, reqDepositCrypto);
                 if (ActionResult(apiResult, transId, model, PaymentView.DepositReqCryptoPay, out var actionResult))
                     return actionResult;
-            }
-            else
-            {
-                apiResult.ErrorCode = result;
-                apiResult.Message = "Error.";
             }
 
             return RedirectErrorPage(model);
@@ -191,7 +173,6 @@ namespace MemberSite.Controllers
 
         public async Task<IActionResult> DepositReqLoadCardPayAsync(int ChannelId, string Code, string Serial, decimal Amount, string BonusCode)
         {
-            var apiResult = new ApiResult<PayResult>();
             var model = new ErrorData();
             var authData = _authorizeBll.GetAuthData();
             if (authData is not { CustId: > 0 }) return RedirectErrorPage(model);
@@ -216,7 +197,7 @@ namespace MemberSite.Controllers
                 };
 
                 var myUrl = $"{_payApiUrl}ReqDepositLoadCard";
-                apiResult = await _courierAdapter.MyPostAsync<PayResult, dynamic>(myUrl, reqDeposit);
+                var apiResult = await _courierAdapter.MyPostAsync<PayResult, dynamic>(myUrl, reqDeposit);
                 if (ActionResult(apiResult, transId, model, PaymentView.DepositReqLoadCardPay, out var actionResult)) 
                     return actionResult;
             }
