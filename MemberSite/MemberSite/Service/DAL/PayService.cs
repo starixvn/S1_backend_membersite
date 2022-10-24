@@ -21,7 +21,7 @@ namespace MemberSite.Service.DAL
         public IEnumerable<MobilePayInfo> GetMobilePayInfo(int siteId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<MobilePayInfo>("Member_MobilePayV2_Get", new { SiteId = siteId }, commandType: CommandType.StoredProcedure);
+            return conn.Query<MobilePayInfo>("Member_MobilePay_Get_V3", new { _SiteId = siteId }, commandType: CommandType.StoredProcedure);
         }
         public IEnumerable<CryptoPayInfo> GetCryptoPayInfo(int siteId)
         {
@@ -37,7 +37,7 @@ namespace MemberSite.Service.DAL
         public IEnumerable<PayInfo> GetPayInfo(int siteId, DepositType depositType)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<PayInfo>("Service_PayInfo_Get", new { SiteId = siteId , DepositType = (int)depositType }, commandType: CommandType.StoredProcedure);
+            return conn.Query<PayInfo>("Service_PayInfo_Get_V2", new { _SiteId = siteId , _DepositType = (int)depositType }, commandType: CommandType.StoredProcedure);
         }
 
         public LineChannel? GetLineChannel(int siteId, int currencyId)
