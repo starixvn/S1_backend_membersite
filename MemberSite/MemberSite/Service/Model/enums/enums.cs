@@ -21,6 +21,22 @@ namespace MemberSite.Service.Model.enums
         Closed = 3,
         Lock = 4
     }
+
+    public enum PaymentView
+    {
+        DepositReqOnlineBanking = 1,
+        DepositReqMobilePay = 2,
+        DepositReqCryptoPay = 3,
+        DepositReqLoadCardPay = 4
+    }
+
+    public enum PayChannelMode
+    {
+        OpenView = 1,
+        Redirect = 2,
+        ShowQrCode = 3
+    }
+    
     public enum DepositType
     {
         OnlineBanking = 1,

@@ -296,10 +296,9 @@ namespace MemberSite.Service.BLL
 
         public int GetPointLevelWithCache(int custId)
         {
-            var key = $"PointLevelCache_{custId}";
-            return _cacheHelper.TryGetOrCreate(key,
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30)),
-                i => _custInfoService.GetPointLevel(custId));
+            return _redisHelper.TryGetOrCreate($"PointLevel:{custId}", TimeSpan.FromMinutes(1),
+                () => _custInfoService.GetPointLevel(custId),
+                RedisDataBase.Shared);
         }
 
         public int SetPassword(int custId, string oldPassword, string newPassword)
