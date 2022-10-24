@@ -1,5 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using MemberSite.Controllers.Api;
+using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
@@ -16,6 +17,7 @@ public class SiteBll
     private readonly ShieldBLL _ShieldBll;
     private readonly Regex _regexUserName = new(@"^[a-zA-Z0-9]{6,18}$");
     private readonly Regex _regexAffCode = new(@"^[0-9]{5,20}$");
+    private readonly RecaptchaBLL _recaptcha;
 
     public SiteBll(IServiceProvider provider)
     {
@@ -25,6 +27,7 @@ public class SiteBll
         _commonBll = provider.GetRequiredService<CommonBLL>();
         _tools = provider.GetRequiredService<Tools>();
         _ShieldBll = provider.GetRequiredService<ShieldBLL>();
+        _recaptcha = provider.GetRequiredService<RecaptchaBLL>();
     }
 
     public Customer Signup(SiteController.SignupModel signupModel, ApiResult apiResult, bool isAuthenticated,
@@ -36,6 +39,17 @@ public class SiteBll
         {
             apiResult.ErrorCode = 9000;
             return customer;
+        }
+
+        if (!string.IsNullOrEmpty(signupModel.ReCaptchaToken))
+        {
+            var verifyResult = _recaptcha.Verify(signupModel.ReCaptchaToken);
+            if (!verifyResult.success)
+            {
+                apiResult.ErrorCode = -97;
+                apiResult.Message = verifyResult.errorCodes.FirstOrDefault();
+                return customer;
+            }
         }
 
         if (!_regexUserName.IsMatch(signupModel.UserName))
