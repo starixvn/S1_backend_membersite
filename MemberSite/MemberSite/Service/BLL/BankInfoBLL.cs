@@ -224,7 +224,7 @@ namespace MemberSite.Service.BLL
         {
             var key = $"BankInfoPayList:{siteId}";
             var dbData = _redisHelper.TryGetOrCreate<IEnumerable<BankInfoPay>>(key, TimeSpan.FromSeconds(10),
-                () => _bankInfoService.GetBankInfoPayList(siteId).OrderBy(x => x.MSort).ThenBy(x => x.SSort),
+                () => _bankInfoService.GetBankInfoPayList(siteId, DepositType.OnlineBanking).OrderBy(x => x.MSort).ThenBy(x => x.SSort),
                 RedisDataBase.Shared);
             return dbData;
         }
@@ -250,7 +250,7 @@ namespace MemberSite.Service.BLL
                     });
         }
 
-        public IEnumerable<AutoChannelBankInfo> GetAutoChannelBankList(Customer customer, int vipLevel)
+        public IEnumerable<BankInfoPay> GetAutoChannelBankList(Customer customer, int vipLevel)
         {
             return GetAutoChannelBankInfoList(customer.SiteId, GetAutoChannelDepositType(customer.SiteId))
                     .Where(i => vipLevel >= i.PointLevel && i.CurrencyId == customer.CurrencyId && (i.Method == 0 || i.Method == 1) && i.SelBank);
@@ -262,11 +262,11 @@ namespace MemberSite.Service.BLL
             return siteId == 1 ? DepositType.BankAutoChannel : DepositType.OnlineBanking;
         }
 
-        public IEnumerable<AutoChannelBankInfo> GetAutoChannelBankInfoList(int siteId, DepositType depositType)
+        public IEnumerable<BankInfoPay> GetAutoChannelBankInfoList(int siteId, DepositType depositType)
         {
             var key = $"BankInfoPayList:{siteId}:{depositType}";
             var dbData = _redisHelper.TryGetOrCreate(key, TimeSpan.FromSeconds(10),
-                () => _bankInfoService.GetAutoChannelBankInfoList(siteId, depositType),
+                () => _bankInfoService.GetBankInfoPayList(siteId, depositType),
                 RedisDataBase.Shared);
             return dbData;
         }
