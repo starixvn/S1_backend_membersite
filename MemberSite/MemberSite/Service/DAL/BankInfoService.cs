@@ -30,7 +30,7 @@ namespace MemberSite.Service.DAL
         public IEnumerable<BankInfoPay> GetBankInfoPayList(int siteId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<BankInfoPay>("Common_BankInfoPay_Get_V2", new { SiteId = siteId }, commandType: CommandType.StoredProcedure);
+            return conn.Query<BankInfoPay>("Common_BankInfoPay_Get_V2", new { _SiteId = siteId }, commandType: CommandType.StoredProcedure);
         }
         
         public IEnumerable<BankInfoName> GetBankInfoNameList(string lang)
