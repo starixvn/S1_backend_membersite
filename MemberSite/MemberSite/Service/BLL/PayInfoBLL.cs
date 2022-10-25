@@ -66,14 +66,14 @@ namespace MemberSite.Service.BLL
                         GroupId = (int) FakePayGroupEnum.DuitNowQR,
                         GroupName = FakePayGroupEnum.DuitNowQR.ToString(),
                         Mode = (int) PayModeEnum.QrCode,
-                        GSort = 99,
+                        GSort = -1,
                         MinAmount = bankCards.Min(x => x.MinAmount),
                         MaxAmount = bankCards.Max(x => x.MaxAmount)
                     });
                 }
             }
             
-            return payGroupList;
+            return payGroupList.OrderBy(x => x.GSort);
         }
 
         public IEnumerable<PayInfo> GetPayInfoList(int custId, int groupId, DepositType depositType)
