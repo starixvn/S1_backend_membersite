@@ -26,7 +26,7 @@ namespace MemberSite.Service.BLL
         private readonly IConfiguration _configuration;
 
         private readonly List<int> _excludeTp;
-        private readonly Dictionary<string, string> _changeTpName;
+        private readonly Dictionary<string, string> _changeGameImgName;
 
         public SlotGameBLL(IServiceProvider provider)
         {
@@ -47,7 +47,7 @@ namespace MemberSite.Service.BLL
                 41,//SBSW
                 42,//SBO
             };
-            _changeTpName = new Dictionary<string, string>()
+            _changeGameImgName = new Dictionary<string, string>()
             {
               {"Iconic","AT" },
               {"Kiss918","918Kiss" },
@@ -124,7 +124,7 @@ namespace MemberSite.Service.BLL
             var result = providerList.Where(i => !_excludeTp.Contains(i.TpId)).ToList();
             foreach (var provider in result)
             {
-                provider.TpName = _changeTpName.TryGetValue(provider.TpName, out var changeName) ? changeName : provider.TpName;
+                provider.GameImgDisplayText = _changeGameImgName.TryGetValue(provider.TpName, out var changeName) ? changeName : provider.TpName;
             }
             return result;
         }
