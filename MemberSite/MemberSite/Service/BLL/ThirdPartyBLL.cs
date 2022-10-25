@@ -15,22 +15,8 @@ namespace MemberSite.Service.BLL
         private readonly CustInfoBll _custInfoBll;
         private readonly CourierAdapter _courierAdapter;
         private readonly string _apiUrl;
-        private readonly ILogger<ThirdPartyBll> _logger;
         private readonly CacheHelper _cacheHelper;
 
-        readonly Dictionary<string, string> _sportTypeDic = new Dictionary<string, string>() {
-            {"1","soccer" },
-            {"2","basketball" },
-            {"3","football" },
-            {"4","icehockey" },
-            {"5","tennis" },
-            {"8","baseball" } ,
-            {"9","badminton" } ,
-            {"43","esports" },
-            {"50", "indiancricket" },
-            {"161","numbergame" },
-            {"180","virtualsports" }
-        };
         public ThirdPartyBll(IServiceProvider provider)
         {
             _thirdPartyService = provider.GetRequiredService<ThirdPartyService>();
@@ -41,7 +27,6 @@ namespace MemberSite.Service.BLL
             _courierAdapter = provider.GetRequiredService<CourierAdapter>();
             var configuration = provider.GetRequiredService<IConfiguration>();
             _apiUrl = configuration.GetValue<string>("TpService");
-            _logger = provider.GetRequiredService<ILogger<ThirdPartyBll>>();
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
         }
 
