@@ -73,7 +73,7 @@ namespace MemberSite.Service.BLL
                 }
             }
             
-            return payGroupList;
+            return payGroupList.OrderBy(x => x.GSort);
         }
 
         public IEnumerable<PayInfo> GetPayInfoList(int custId, int groupId, DepositType depositType)

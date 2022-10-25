@@ -103,7 +103,7 @@ namespace MemberSite.Service.BLL
                 }
             }
             
-            return mobilePayGroupList;
+            return mobilePayGroupList.OrderBy(x => x.GSort);
         }
         
         
