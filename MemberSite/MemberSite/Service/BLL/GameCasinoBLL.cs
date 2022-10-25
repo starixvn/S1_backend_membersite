@@ -20,6 +20,7 @@ namespace MemberSite.Service.BLL
             _changeDisplayName = new Dictionary<string, string>()
             {
               {"Iconic","AT" },
+              {"Kiss918","918Kiss" },
             };
         }
 
