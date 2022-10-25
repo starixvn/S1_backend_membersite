@@ -93,8 +93,7 @@ namespace MemberSite.Controllers
 
                     if (tpId == (int)Tp.TCG && string.CompareOrdinal(custInfo.AffCode, "67253") == 0)
                     {
-                        return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml",
-                            new ErrorData() { Message = "Access Denied" });
+                        return RedirectErrorPage(new ErrorData() { Message = "Access Denied" });
                     }
 
                     if (tpId == (int)Tp.AG)
@@ -137,14 +136,12 @@ namespace MemberSite.Controllers
                     return Redirect(entryUrl);
                 }
 
-                var model = new ErrorData() { Message = data.RawMessage };
-                return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
+                return RedirectErrorPage(new ErrorData() { Message = data.RawMessage });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                var model = new ErrorData() { Message = ex.Message };
-                return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
+                return RedirectErrorPage(new ErrorData() { Message = ex.Message });
             }
         }
 
@@ -192,6 +189,12 @@ namespace MemberSite.Controllers
         public class ErrorData
         {
             public string Message { get; set; }
+        }
+        
+        private ViewResult RedirectErrorPage(ErrorData model)
+        {
+            var serverInfo = _serverInfoBll.GetServerInfo();
+            return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
         }
     }
 }
