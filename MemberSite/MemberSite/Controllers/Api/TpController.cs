@@ -68,7 +68,7 @@ namespace MemberSite.Controllers.Api
                 if (_gameBll.IsMaintain(tpMaintainList, inInfo.TpId, inInfo.inputs.GetValueOrDefault("tpGameType"),
                         out var tpMaintain))
                 {
-                    var tpName = _statementService.GetTpListWithCache()?.First(i => i.Id == tpMaintain.TpId)?.TpName;
+                    var tpName = _statementService.GetTpListWithCache()?.First(i => i.Id == tpMaintain.TpId).TpName;
                     var host = _siteConfig.Value[serverInfo.SiteName].MaintainURL;
                     var maintainUrl = $"{host}/index_{_selLangBll.GetLangId() ?? "en"}.html" +
                                       $"?t={HttpUtility.UrlEncode(tpName)}&e={HttpUtility.UrlEncode($"{tpMaintain.EndDate:u}")}";
