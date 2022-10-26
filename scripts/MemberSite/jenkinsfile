@@ -20,8 +20,8 @@ pipeline {
         stage('Deploy') {
             agent { node { label 'master' } }
             steps {
-                sh 'ansible-playbook -i ${ansible_path}/DEV.AWS.yml ${ansible_path}/deploy.yml --extra-vars "host=linux-dev docker_name=dev_membersite img=${registry}:${version} env=${env} docker_ports=5068:80 volume=/logs/membersite:/membersite"'
-                sh 'ansible-playbook -i ${ansible_path}/DEV.AWS.yml ${ansible_path}/deploy.yml --extra-vars "host=linux-dev docker_name=dev_membersite_app img=${registry}:${version} env=Development.APP docker_ports=5069:80 volume=/logs/membersiteApp:/membersiteApp"'
+                sh 'ansible-playbook -i ${ansible_path}/DEV.AWS.yml ${ansible_path}/deploy.yml --extra-vars "host=linux-dev docker_name=dev_membersite image=membersite/membersite:${version} env=${env} docker_ports=5068:80 volume=/logs/membersite:/membersite"'
+                sh 'ansible-playbook -i ${ansible_path}/DEV.AWS.yml ${ansible_path}/deploy.yml --extra-vars "host=linux-dev docker_name=dev_membersite_app image=membersite/membersite:${version} env=Development.APP docker_ports=5069:80 volume=/logs/membersiteApp:/membersiteApp"'
             }
         }
     }
