@@ -43,20 +43,8 @@ namespace MemberSite.Service.Model
         public int? PromotionAction { set; get; }
         public CashBackDetails CashBackDetails { get; set; }
         public bool BeenUsed { get; set; }
-
-        public string TierAmount { get; set; }
-        public IEnumerable<TierAmount> TierAmountList
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(TierAmount))
-                {
-                    return default;
-                }
-
-                return JsonConvert.DeserializeObject<IEnumerable<TierAmount>>(TierAmount);
-            }
-        }
+        public IEnumerable<TierAmount> TierAmountList { get; set; }
+        public IEnumerable<CanJoinTierAmount> CanJoinTierAmountList { get; set; }
     }
 
     public class CashBackDetails
@@ -116,5 +104,13 @@ namespace MemberSite.Service.Model
         public decimal RequiredAmount { get; set; }
         public int RollOver { get; set; }
         public int WinOver { get; set; }
+    }
+
+    public class CanJoinTierAmount
+    {
+        public decimal RequiredAmount { get; set; }
+        public decimal Bonus { get; set; }
+        public decimal BonusAmount { get; set; }
+        public decimal LockedAmount { get; set; }
     }
 }
