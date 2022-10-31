@@ -64,33 +64,41 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiResult<IEnumerable<OfflineBankInfoFront>> GetBankInfoOffList()
         {
-            var apiResult = new ApiResult<IEnumerable<OfflineBankInfoFront>>();
             var authData = authorizeBLL.GetAuthData();
+            
             if (authData is not { CustId: > 0 })
             {
-                apiResult.Message = selLangBLL.GetMsg("msg_ForceLogedout");
-                return apiResult;
+                return new ApiResult<IEnumerable<OfflineBankInfoFront>>
+                {
+                	Message = selLangBLL.GetMsg("msg_ForceLogedout")
+                };
             }
-
-            apiResult.Data = bankInfoOffBLL.GetBankInfoOffListWithCache(authData.CustId, authData.LangId);
-            apiResult.ErrorCode = 0;
-            return apiResult;
+            
+            return new ApiResult<IEnumerable<OfflineBankInfoFront>>
+            {
+                Data = bankInfoOffBLL.GetBankInfoOffListWithCache(authData.CustId, authData.LangId),
+                ErrorCode = 0
+            };
         }
 
         [HttpPost]
         public ApiResult<IEnumerable<OfflineBankInfoFront>> GetBankInfoOffListStatus()
         {
-        	var apiResult = new ApiResult<IEnumerable<OfflineBankInfoFront>>();
             var authData = authorizeBLL.GetAuthData();
             if (authData is not { CustId: > 0 })
             {
-                apiResult.Message = selLangBLL.GetMsg("msg_ForceLogedout");
-                return apiResult;
+                return new ApiResult<IEnumerable<OfflineBankInfoFront>>
+                {
+                	Message = selLangBLL.GetMsg("msg_ForceLogedout")
+                };
             }
+            
             // 220804: 詢問市場說給用戶使用只有open，所以把queryType這段拔掉
-            apiResult.Data = bankInfoOffBLL.GetBankInfoOffListWithCache(authData.CustId, authData.LangId);
-            apiResult.ErrorCode = 0;
-            return apiResult;
+            return new ApiResult<IEnumerable<OfflineBankInfoFront>>
+            {
+                Data = bankInfoOffBLL.GetBankInfoOffListWithCache(authData.CustId, authData.LangId),
+                ErrorCode = 0
+            };
         }
 
         [HttpPost]
