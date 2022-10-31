@@ -51,6 +51,14 @@ namespace MemberSite.Service.Model
         public decimal MinAmount { get; set; }
         public decimal MaxAmount { get; set; }
     }
+    
+    public class FakeMobilePayResp
+    {
+        
+        public string TransId { get; set; }
+        public decimal Amount { get; set; }
+        public string ReturnUrl { set; get; }
+    }
 
     public class DepositInfoHistory
     {
@@ -74,6 +82,8 @@ namespace MemberSite.Service.Model
         //public string PostScript { get; set; }
         [JsonIgnore]
         public string DepositInfo { get; set; }
+        [JsonIgnore]
+        public string Memo { get; set; }
         public dynamic DepositRep { get; set; }
         public BankInfoSys BankInfo { get; set; }
         public string ThirdId { get; set; }

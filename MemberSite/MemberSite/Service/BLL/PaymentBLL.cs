@@ -64,13 +64,18 @@ namespace MemberSite.Service.BLL
 
             if (amount <= 0)
                 return -1;
+            
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var vipLevel = custInfoBLL.GetPointLevelWithCache(custId);
-            var bankAccountOffList = bankInfoOffBLL.GetBankAccountOff(custInfo.SiteId);
-            var localBankList = bankAccountOffList?.ToList();
+            var pointLevel = custInfoBLL.GetPointLevelWithCache(custId);
+            var localBankList = bankInfoOffBLL.GetOfflineBankAccount(custInfo.SiteId)
+                .Where(x => x.CurrencyId == custInfo.CurrencyId
+                            && x.PointLevels.Contains(pointLevel)
+                            && x.VipLevels.Contains(custInfo.UserLevel)
+                            && x.SysId == sysId)
+                .ToList();
             var depositLimitInfoList = _depositService.GetDepositLimitInfoList();
             var depositLimitInfo = depositLimitInfoList?.FirstOrDefault(x =>
-                x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.LocalBank &&
+                x.SiteId == custInfo.SiteId && x.VipLevel == pointLevel && x.DepositType == (int)DepositType.LocalBank &&
                 x.CurrencyId == custInfo.CurrencyId);
 
             if (depositLimitInfo?.DepositStatus == 0)
@@ -78,7 +83,7 @@ namespace MemberSite.Service.BLL
                 return -4;
             }
 
-            if (depositLimitInfo != null && localBankList != null)
+            if (depositLimitInfo != null)
             {
                 foreach (var localBack in localBankList)
                 {
@@ -86,22 +91,22 @@ namespace MemberSite.Service.BLL
                 }
             }
 
-            var _info = (from x in localBankList
-                         where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.SysId == sysId && ((x.MinAmount == 0 && x.MaxAmount == 0) || (amount >= x.MinAmount && amount <= x.MaxAmount))
-                         orderby x.PointLevel descending, x.BSort
-                         select new
-                         {
-                             x.SysId,
-                             x.BankId,
-                             x.BankLogo,
-                             x.BankName,
-                             x.BankSite,
-                             x.AccountName,
-                             x.AccountNo,
-                             x.IFSCCode
-                         }).FirstOrDefault();
-
-            if (_info != null)
+            var info = localBankList
+                .Where(x => (x.MinAmount == 0 && x.MaxAmount == 0) || (amount >= x.MinAmount && amount <= x.MaxAmount))
+                .OrderBy(x => x.BSort)
+                .Select(x => new
+                {
+                    x.SysId,
+                    x.BankId,
+                    x.BankLogo,
+                    x.BankName,
+                    x.BankSite,
+                    x.AccountName,
+                    x.AccountNo,
+                    IFSCCode = x.AccountCode
+                }).FirstOrDefault();
+                
+            if (info != null)
             {
                 var depositDetailInfo = new DepositDetailInfo
                 {
@@ -116,11 +121,11 @@ namespace MemberSite.Service.BLL
 
                 var depositInfo3_1 = new DepositInfo3_1
                 {
-                    AccountName = _info.AccountName,
+                    AccountName = info.AccountName,
                     CurrencyId = custInfo.CurrencyId,
-                    SysId = _info.SysId,
-                    AccountNo = _info.AccountNo,
-                    IFSCCode = _info.IFSCCode,
+                    SysId = info.SysId,
+                    AccountNo = info.AccountNo,
+                    IFSCCode = info.IFSCCode,
                     Ver = 1
                 };
                 depositDetailInfo.DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(depositInfo3_1);
@@ -131,38 +136,42 @@ namespace MemberSite.Service.BLL
                 depositRep3.AccountNo = depositInfo3_1.AccountNo;
                 depositRep3.AccountName = depositInfo3_1.AccountName;
                 depositRep3.IFSCCode = depositInfo3_1.IFSCCode;
-                depositRep3.BankName = _info.BankName;
-                depositRep3.BankLogo = _info.BankLogo;
-                depositRep3.BankSite = _info.BankSite;
+                depositRep3.BankName = info.BankName;
+                depositRep3.BankLogo = info.BankLogo;
+                depositRep3.BankSite = info.BankSite;
 
                 return 0;
             }
+            
+            var tmpInfo = localBankList.
+                Select(x => new
+                {
+                    x.SysId,
+                    x.BankId,
+                    x.BankLogo,
+                    x.BankName,
+                    x.BankSite,
+                    x.BSort,
+                    x.AccountName,
+                    x.AccountNo,
+                    IFSCCode = x.AccountCode,
+                    x.MinAmount,
+                    x.MaxAmount
+                })
+                .OrderByDescending(x => x.MaxAmount)
+                .ThenBy(x => x.MinAmount)
+                .ThenBy(x => x.BSort)
+                .FirstOrDefault();
 
-            var _info1 = (from x in localBankList
-                          where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.SysId == sysId
-                          select new
-                          {
-                              x.SysId,
-                              x.BankId,
-                              x.BankLogo,
-                              x.BankName,
-                              x.BankSite,
-                              x.BSort,
-                              x.AccountName,
-                              x.AccountNo,
-                              x.IFSCCode,
-                              x.MinAmount,
-                              x.MaxAmount
-                          }).OrderByDescending(x => x.MaxAmount).ThenBy(x => x.MinAmount).ThenBy(x => x.BSort).FirstOrDefault();
-            if (_info == null && _info1 == null)
+            if (info == null && tmpInfo == null)
             {
                 return -2;
             }
 
-            if (_info == null && _info1 != null)
+            if (info == null && tmpInfo != null)
             {
-                depositRep3.MaxAmount = _info1.MaxAmount;
-                depositRep3.MinAmount = _info1.MinAmount;
+                depositRep3.MaxAmount = tmpInfo.MaxAmount;
+                depositRep3.MinAmount = tmpInfo.MinAmount;
 
                 return -3;
             }
@@ -176,11 +185,17 @@ namespace MemberSite.Service.BLL
 
             if (amount <= 0)
                 return -1;
+            
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var vipLevel = custInfoBLL.GetPointLevelWithCache(custId);
-            var localBankList = bankInfoOffBLL.GetBankAccountOff(custInfo.SiteId);
+            var pointLevel = custInfoBLL.GetPointLevelWithCache(custId);
+            var localBankList = bankInfoOffBLL.GetOfflineBankAccount(custInfo.SiteId)
+                .Where(x => x.CurrencyId == custInfo.CurrencyId
+                            && x.PointLevels.Contains(pointLevel)
+                            && x.VipLevels.Contains(custInfo.UserLevel)
+                            && x.SysId == sysId)
+                .ToList();
             var depositLimitInfoList = _depositService.GetDepositLimitInfoList();
-            var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.LocalBank && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
+            var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == pointLevel && x.DepositType == (int)DepositType.LocalBank && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
 
             if (depositLimitInfo?.DepositStatus == 0)
             {
@@ -195,22 +210,22 @@ namespace MemberSite.Service.BLL
                 }
             }
 
-            var _info = (from x in localBankList
-                         where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.SysId == sysId && ((x.MinAmount == 0 && x.MaxAmount == 0) || (amount >= x.MinAmount && amount <= x.MaxAmount))
-                         orderby x.PointLevel descending, x.BSort
-                         select new
-                         {
-                             x.SysId,
-                             x.BankId,
-                             x.BankLogo,
-                             x.BankName,
-                             x.BankSite,
-                             x.AccountName,
-                             x.AccountNo,
-                             x.IFSCCode
-                         }).FirstOrDefault();
+            var info = localBankList
+                .Where(x => (x.MinAmount == 0 && x.MaxAmount == 0) || (amount >= x.MinAmount && amount <= x.MaxAmount))
+                .OrderBy(x => x.BSort)
+                .Select(x => new
+                {
+                    x.SysId,
+                    x.BankId,
+                    x.BankLogo,
+                    x.BankName,
+                    x.BankSite,
+                    x.AccountName,
+                    x.AccountNo,
+                    IFSCCode = x.AccountCode
+                }).FirstOrDefault();
 
-            if (_info != null)
+            if (info != null)
             {
                 var depositDetailInfo = new DepositDetailInfo
                 {
@@ -225,11 +240,11 @@ namespace MemberSite.Service.BLL
 
                 var depositInfo3_1 = new DepositInfo3_1
                 {
-                    AccountName = _info.AccountName,
+                    AccountName = info.AccountName,
                     CurrencyId = custInfo.CurrencyId,
-                    SysId = _info.SysId,
-                    AccountNo = _info.AccountNo,
-                    IFSCCode = _info.IFSCCode,
+                    SysId = info.SysId,
+                    AccountNo = info.AccountNo,
+                    IFSCCode = info.IFSCCode,
                     Ver = 1
                 };
                 depositDetailInfo.DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(depositInfo3_1);
@@ -241,38 +256,42 @@ namespace MemberSite.Service.BLL
                 depositRep3.AccountNo = depositInfo3_1.AccountNo;
                 depositRep3.AccountName = depositInfo3_1.AccountName;
                 depositRep3.IFSCCode = depositInfo3_1.IFSCCode;
-                depositRep3.BankName = _info.BankName;
-                depositRep3.BankLogo = _info.BankLogo;
-                depositRep3.BankSite = _info.BankSite;
+                depositRep3.BankName = info.BankName;
+                depositRep3.BankLogo = info.BankLogo;
+                depositRep3.BankSite = info.BankSite;
 
                 return 0;
             }
 
-            var _info1 = (from x in localBankList
-                          where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.SysId == sysId
-                          select new
-                          {
-                              x.SysId,
-                              x.BankId,
-                              x.BankLogo,
-                              x.BankName,
-                              x.BankSite,
-                              x.BSort,
-                              x.AccountName,
-                              x.AccountNo,
-                              x.IFSCCode,
-                              x.MinAmount,
-                              x.MaxAmount
-                          }).OrderByDescending(x => x.MaxAmount).ThenBy(x => x.MinAmount).ThenBy(x => x.BSort).FirstOrDefault();
-            if (_info == null && _info1 == null)
+            var tmpInfo = localBankList.
+                Select(x => new
+                {
+                    x.SysId,
+                    x.BankId,
+                    x.BankLogo,
+                    x.BankName,
+                    x.BankSite,
+                    x.BSort,
+                    x.AccountName,
+                    x.AccountNo,
+                    IFSCCode = x.AccountCode,
+                    x.MinAmount,
+                    x.MaxAmount
+                })
+                .OrderByDescending(x => x.MaxAmount)
+                .ThenBy(x => x.MinAmount)
+                .ThenBy(x => x.BSort)
+                .FirstOrDefault();
+
+            if (info == null && tmpInfo == null)
             {
                 return -2;
             }
 
-            if (_info == null && _info1 != null)
+            if (info == null && tmpInfo != null)
             {
-                depositRep3.MaxAmount = _info1.MaxAmount;
-                depositRep3.MinAmount = _info1.MinAmount;
+                depositRep3.MaxAmount = tmpInfo.MaxAmount;
+                depositRep3.MinAmount = tmpInfo.MinAmount;
 
                 return -3;
             }
@@ -285,11 +304,15 @@ namespace MemberSite.Service.BLL
             depositRep3 = new DepositRep3();
 
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var vipLevel = custInfoBLL.GetPointLevelWithCache(custId);
-            var bankAccountOffList = bankInfoOffBLL.GetBankAccountOff(custInfo.SiteId);
-            var localBankList = bankAccountOffList?.ToList();
+            var pointLevel = custInfoBLL.GetPointLevelWithCache(custId);
+            var localBankList = bankInfoOffBLL.GetOfflineBankAccount(custInfo.SiteId)
+                .Where(x => x.CurrencyId == custInfo.CurrencyId
+                            && x.PointLevels.Contains(pointLevel)
+                            && x.VipLevels.Contains(custInfo.UserLevel)
+                            && x.SysId == sysId)
+                .ToList();
             var depositLimitInfoList = _depositService.GetDepositLimitInfoList();
-            var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.LocalBank && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
+            var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == pointLevel && x.DepositType == (int)DepositType.LocalBank && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
 
             if (depositLimitInfo?.DepositStatus == 0)
             {
@@ -304,22 +327,21 @@ namespace MemberSite.Service.BLL
                 }
             }
 
-            var _info = (from x in localBankList
-                         where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.SysId == sysId 
-                         orderby x.PointLevel descending, x.BSort
-                         select new
-                         {
-                             x.SysId,
-                             x.BankId,
-                             x.BankLogo,
-                             x.BankName,
-                             x.BankSite,
-                             x.AccountName,
-                             x.AccountNo,
-                             x.IFSCCode
-                         }).FirstOrDefault();
+            var info = localBankList
+                .OrderBy(x => x.BSort)
+                .Select(x => new
+                {
+                    x.SysId,
+                    x.BankId,
+                    x.BankLogo,
+                    x.BankName,
+                    x.BankSite,
+                    x.AccountName,
+                    x.AccountNo,
+                    IFSCCode = x.AccountCode
+                }).FirstOrDefault();
 
-            if (_info != null)
+            if (info != null)
             {
                 var depositDetailInfo = new DepositDetailInfo
                 {
@@ -333,16 +355,15 @@ namespace MemberSite.Service.BLL
 
                 var depositInfo3_1 = new DepositInfo3_1
                 {
-                    AccountName = _info.AccountName,
+                    AccountName = info.AccountName,
                     CurrencyId = custInfo.CurrencyId,
-                    SysId = _info.SysId,
-                    AccountNo = _info.AccountNo,
-                    IFSCCode = _info.IFSCCode,
+                    SysId = info.SysId,
+                    AccountNo = info.AccountNo,
+                    IFSCCode = info.IFSCCode,
                     Ver = 1
                 };
                 depositDetailInfo.DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(depositInfo3_1);
 
-                //depositService.DepositReq(depositDetailInfo, out var transId, out var postScript);
                 var transId = "";
                 var postScript = "";
                 depositRep3.TransId = transId;
@@ -350,38 +371,42 @@ namespace MemberSite.Service.BLL
                 depositRep3.AccountNo = depositInfo3_1.AccountNo;
                 depositRep3.AccountName = depositInfo3_1.AccountName;
                 depositRep3.IFSCCode = depositInfo3_1.IFSCCode;
-                depositRep3.BankName = _info.BankName;
-                depositRep3.BankLogo = _info.BankLogo;
-                depositRep3.BankSite = _info.BankSite;
+                depositRep3.BankName = info.BankName;
+                depositRep3.BankLogo = info.BankLogo;
+                depositRep3.BankSite = info.BankSite;
 
                 return 0;
             }
 
-            var _info1 = (from x in localBankList
-                          where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.SysId == sysId
-                          select new
-                          {
-                              x.SysId,
-                              x.BankId,
-                              x.BankLogo,
-                              x.BankName,
-                              x.BankSite,
-                              x.BSort,
-                              x.AccountName,
-                              x.AccountNo,
-                              x.IFSCCode,
-                              x.MinAmount,
-                              x.MaxAmount
-                          }).OrderByDescending(x => x.MaxAmount).ThenBy(x => x.MinAmount).ThenBy(x => x.BSort).FirstOrDefault();
-            if (_info == null && _info1 == null)
+            var tmpInfo = localBankList.
+                Select(x => new
+                {
+                    x.SysId,
+                    x.BankId,
+                    x.BankLogo,
+                    x.BankName,
+                    x.BankSite,
+                    x.BSort,
+                    x.AccountName,
+                    x.AccountNo,
+                    IFSCCode = x.AccountCode,
+                    x.MinAmount,
+                    x.MaxAmount
+                })
+                .OrderByDescending(x => x.MaxAmount)
+                .ThenBy(x => x.MinAmount)
+                .ThenBy(x => x.BSort)
+                .FirstOrDefault();
+            
+            if (info == null && tmpInfo == null)
             {
                 return -2;
             }
 
-            if (_info == null && _info1 != null)
+            if (info == null && tmpInfo != null)
             {
-                depositRep3.MaxAmount = _info1.MaxAmount;
-                depositRep3.MinAmount = _info1.MinAmount;
+                depositRep3.MaxAmount = tmpInfo.MaxAmount;
+                depositRep3.MinAmount = tmpInfo.MinAmount;
 
                 return -3;
             }
@@ -554,6 +579,11 @@ namespace MemberSite.Service.BLL
                     depositInfo.DepositRep = Newtonsoft.Json.JsonConvert.DeserializeObject<DepositInfo3_1>(depositInfo.DepositInfo);
                     var depositInfoRef = (DepositInfo3_1)depositInfo.DepositRep;
                     depositInfo.BankInfo = bankInfoBLL.GetBankInfoSysListByCurrency(CustInfo.CurrencyId).FirstOrDefault(x => x.SysId == depositInfoRef.SysId);
+                }
+
+                if ("Fake MobilePay".Equals(depositInfo.Memo, StringComparison.OrdinalIgnoreCase))
+                {
+                    depositInfo.DepositType = (int)DepositType.MobilePayment;
                 }
             }
 
