@@ -39,14 +39,14 @@ namespace MemberSite.Controllers
                 SiteName = serverInfo.SiteName
             };
 
-            switch (User.Identity.IsAuthenticated)
+            var authData = _authorizeBll.GetAuthData();
+            switch (authData is { CustId: > 0 })
             {
                 case false:
                     return Content("Please Log In");
                 
                 case true:
                 {
-                    var authData = _authorizeBll.GetAuthData();
                     var uid = $"{serverInfo.SiteName}_{authData.CustId}";
                     liveStreamingLinkReq.Uid = uid;
                     var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);

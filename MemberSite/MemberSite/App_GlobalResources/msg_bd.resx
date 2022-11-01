@@ -298,4 +298,7 @@
   <data name="msg_BankAccountDuplicate" xml:space="preserve">
     <value>নকল ব্যাংক অ্যাকাউন্ট নম্বর অনুমোদিত নয়। অনুগ্রহ করে আরেকটি অ্যাকাউন্ট নম্বর চেষ্টা করুন.</value>
   </data>
+  <data name="msg_NotInLimit" xml:space="preserve">
+    <value>লিমিট শেষ</value>
+  </data>
 </root>

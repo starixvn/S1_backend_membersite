@@ -16,7 +16,6 @@ namespace MemberSite.Service.BLL
         private readonly AuthenticateService _authenticateService;
         private readonly ServerInfoBll _serverInfoBll;
         private readonly AgentInfoService _agentInfoService;
-        private readonly RolloverService _rollOverService;
         private readonly BankInfoService _bankInfoService;
         private readonly CommonBLL _commonBll;
         private readonly CacheHelper _cacheHelper;
@@ -26,8 +25,7 @@ namespace MemberSite.Service.BLL
             { 51, false },
             { 15, false }
         };
-
-        private readonly Dictionary<string, string> _areaCodeCountryList;
+        private readonly IEnumerable<AreaCodeMap> _areaCodeMap;
         private readonly ShieldBLL _shieldBll;
 
         public CustInfoBll(IServiceProvider provider)
@@ -38,26 +36,23 @@ namespace MemberSite.Service.BLL
             _authenticateService = provider.GetRequiredService<AuthenticateService>();
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
             _agentInfoService = provider.GetRequiredService<AgentInfoService>();
-            _rollOverService = provider.GetRequiredService<RolloverService>();
             _bankInfoService = provider.GetRequiredService<BankInfoService>();
             _commonBll = provider.GetRequiredService<CommonBLL>();
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
-            _areaCodeCountryList = new CurrencyMapping().AreaCodeMap;
+            _areaCodeMap = provider.GetRequiredService<IEnumerable<AreaCodeMap>>();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
             _shieldBll = provider.GetRequiredService<ShieldBLL>();
         }
         public string GetCountryNameByAreaCode(string areaCode)
         {
-            string countryName = null;
-            if (areaCode != null)
-                _areaCodeCountryList.TryGetValue(areaCode, out countryName);
-            return countryName;
+            var countryName = _areaCodeMap.FirstOrDefault(x => x.AreaCode == areaCode);
+            return countryName?.Code;
         }
 
         public string GetAreaCodeByCountryName(string countryName)
         {
-            var areaCode = _areaCodeCountryList.FirstOrDefault(x => x.Value == countryName).Key;
-            return areaCode;
+            var areaCode = _areaCodeMap.FirstOrDefault(x => x.Code == countryName);
+            return areaCode?.AreaCode;
         }
 
         public bool IsConvertRequired(int currencyId)
@@ -143,7 +138,7 @@ namespace MemberSite.Service.BLL
             var result = _custInfoService.AddCustInfo(regCustInfo, Email, lineUserId, out custId, signupUrl, referralUrl, PhoneNo, AreaCode,
                 RealName, promoCode, Birth_d, Birth_m, Birth_y);
 
-            if (result == 0 && regCustInfo.SiteId == (int) SiteId.Goal123)
+            if (result == 0 && regCustInfo.SiteId == (int)SiteId.Goal123)
             {
                 regCustInfo.CustId = custId;
                 _ = Task.Run(async () =>
@@ -204,7 +199,7 @@ namespace MemberSite.Service.BLL
                 return -3;
             }
 
-            if (customer is {SiteId: (int) SiteId.Goal123})
+            if (customer is { SiteId: (int)SiteId.Goal123 })
             {
                 var info = customer;
                 _ = Task.Run(async () =>
@@ -223,7 +218,7 @@ namespace MemberSite.Service.BLL
                     var result = await _shieldBll.SendShieldAttributes(request);
                 });
             }
-            
+
             _authenticateService.AddLoginRecord(customer.CustId, customer.SiteId, ip, deviceType, out token);
             _authenticateService.AddUserLoginLog(customer.CustId, customer.UserName, customer.SiteId, ip, fromUrl, userAgent);
             return 0;
@@ -273,10 +268,10 @@ namespace MemberSite.Service.BLL
 
             return 0;
         }
-        public Customer GetCustInfoWithCache(int custId)
+        public Customer GetCustInfoWithCache(int custId, bool forceUseMainDb = false)
         {
             return _redisHelper.TryGetOrCreate($"CustInfo:{custId}", TimeSpan.FromMinutes(1),
-                () => _custInfoService.GetCustInfo(custId),
+                () => _custInfoService.GetCustInfo(custId, forceUseMainDb),
                 RedisDataBase.Shared);
         }
 
@@ -301,10 +296,9 @@ namespace MemberSite.Service.BLL
 
         public int GetPointLevelWithCache(int custId)
         {
-            var key = $"PointLevelCache_{custId}";
-            return _cacheHelper.TryGetOrCreate(key,
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30)),
-                i => _custInfoService.GetPointLevel(custId));
+            return _redisHelper.TryGetOrCreate($"PointLevel:{custId}", TimeSpan.FromMinutes(1),
+                () => _custInfoService.GetPointLevel(custId),
+                RedisDataBase.Shared);
         }
 
         public int SetPassword(int custId, string oldPassword, string newPassword)
@@ -356,9 +350,9 @@ namespace MemberSite.Service.BLL
             return _custInfoService.SetAddress(custId, custInfo.SiteId, ConvertAddress(custProfile)) ? 0 : -1;
         }
 
-        public int SetCustBankInfo(int custId, string accountName)
+        public int SetCustBankInfo(int custId, string accountName, bool forceUseMainDb = false)
         {
-            var custInfo = GetCustInfoWithCache(custId);
+            var custInfo = GetCustInfoWithCache(custId, forceUseMainDb);
             return _custInfoService.SetCustBankInfo(custId, custInfo.SiteId, accountName) ? 0 : -1;
         }
         public int InsertCustBankInfo(int custId, string accountName, int sysId, string accountNum, string iFSCCode, CustBankInfoLogStatus status)
@@ -379,24 +373,14 @@ namespace MemberSite.Service.BLL
         }
         public CustBankInfo GetCustBankInfo(int custId)
         {
-            var custInfo = GetCustInfoWithCache(custId);
             var custBankInfo = _custInfoService.GetCustBankInfo(custId);
 
             if (custBankInfo != null)
             {
                 var bankInfoDetailList = _custInfoService.GetCustBankDetail(custId);
                 custBankInfo.bankInfoDetail = bankInfoDetailList;
-                //if (custInfo.CurrencyId == 96)
-                //{
-                //    custBankInfo.uSDTDetail = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<USDTDetail>>(custBankInfo.BankInfo);
-                //}
-                //else
-                //{
-                //    custBankInfo.bankInfoDetail = bankInfoDetailList;
-                //}
-
             }
-            if (custBankInfo != null && custBankInfo.USDTInfo != null)
+            if (custBankInfo is { USDTInfo: { } })
             {
                 var uSDTDetailList = JsonConvert.DeserializeObject<IEnumerable<USDTDetail>>(custBankInfo.USDTInfo);
                 if (uSDTDetailList != null)
@@ -407,15 +391,6 @@ namespace MemberSite.Service.BLL
                         custBankInfo.usdtDetail = uSDTDetailList;
                     }
                 }
-                //if (custInfo.CurrencyId == 96)
-                //{
-                //    custBankInfo.uSDTDetail = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<USDTDetail>>(custBankInfo.BankInfo);
-                //}
-                //else
-                //{
-                //    custBankInfo.bankInfoDetail = bankInfoDetailList;
-                //}
-
             }
             return custBankInfo;
         }
@@ -496,28 +471,7 @@ namespace MemberSite.Service.BLL
             var result = await _commonBll.SendResetPwdMailAsync(custId, resetPasswordUrl);
             return result;
         }
-        public async Task<ApiResult> SendVerifySMSAsync(int custId)
-        {
-            var custInfo = GetCustInfoWithCache(custId);
-            var apiResult = await _commonBll.SendVerifySMSAsync(custInfo);
-            return apiResult;
-        }
-        public async Task<ApiResult> AcknowledgeVerifySMS(int custId, string siteName, string request_id, string code)
-        {
-            var custInfo = GetCustInfoWithCache(custId);
-            var apiResult = await _commonBll.AcknowledgeVerifySMS(custInfo, siteName, request_id, code);
-
-            if (apiResult.ErrorCode == 0)
-            {
-                _custInfoService.SetPhoneVerified(custId);
-            }
-
-            return apiResult;
-        }
-        public CustRollOver GetCustRollOver(int custId, string bonusCode)
-        {
-            return _rollOverService.GetCustRollOver(custId, bonusCode);
-        }
+        
         public async Task<ApiResult> VerifyOTPAsync(int custId, string inputOTP)
         {
             var apiResult = await _commonBll.VerifyOTPAsync(custId, inputOTP);
@@ -586,7 +540,7 @@ namespace MemberSite.Service.BLL
         {
             return _agentInfoService.GetReferralSetting(siteId, currencyId);
         }
-        
+
         public async Task<ReferralSettingDetail> GetReferralSettingDetailAsync(int siteId, int currencyId, string langId)
         {
             var referralData = await _agentInfoService.GetReferralSettingDetailAsync(siteId, currencyId);
@@ -624,15 +578,11 @@ namespace MemberSite.Service.BLL
                 {
                     return -19;
                 }
-                else
-                {
-                    return agent.CurrencyId;
-                }
+
+                return agent.CurrencyId;
             }
-            else
-            {
-                return -1;
-            }
+
+            return -1;
 
         }
         public void GetReferralSummary(int custId, out int referralCount, out int conditionCount, out int amountCount, out int amountSum)
@@ -656,20 +606,12 @@ namespace MemberSite.Service.BLL
 
             return true;
         }
-        public int SetFireBaseTroken(int custId, int siteId, string fireBaseToken)
-        {
-            return _custInfoService.SetFireBaseTroken(custId, siteId, fireBaseToken);
-        }
-        public int SetCustActStatus(int custId, string Operator)
-        {
-            return _custInfoService.SetCustActStatus(custId, Operator);
-        }
 
         private static List<string> AddressKeys = new List<string>() { "Country", "State", "PostCode", "City", "LineFirst", "LineSecond" };
         private Dictionary<string, string> ConvertAddress(Dictionary<string, string> addressProfile)
         {
             var result = new Dictionary<string, string>();
-            foreach(var key in AddressKeys)
+            foreach (var key in AddressKeys)
             {
                 if (addressProfile.ContainsKey($"Address{key}"))
                 {

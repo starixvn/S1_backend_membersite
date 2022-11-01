@@ -34,7 +34,7 @@ namespace MemberSite.Service.Model
         {
             get
             {
-                return _createTime.ToOffset(CustTimeZone);
+                return _createTime.ToDateTimeOffset(CustTimeZone);
             }
             set
             {
@@ -62,12 +62,6 @@ namespace MemberSite.Service.Model
         public decimal Balance { get; set; }
     }
 
-    public class WithdrawalKyc
-    {
-        public int CurrencyId { get; set; }
-        public int SiteId { get; set; }
-        public decimal Amount { get; set; }
-    }
     public class WithdrawalLimitInfoInput
     {
         public int SiteId { get; set; }
@@ -84,6 +78,7 @@ namespace MemberSite.Service.Model
     {
         public decimal WithdrawalMin { get; set; }
         public decimal WithdrawalMax { get; set; }
+        public decimal TotalWithdrawalMax { get; set; }
         public int Times { get; set; }
 
     }
@@ -112,6 +107,7 @@ namespace MemberSite.Service.Model
         public bool EWalletUnlimited { get; set; }
         public decimal EWalletWithdrawalAvailableAmount { get; set; }
         public EWalletStatus EWalletStatus { get; set; }
+        public decimal TotalWithdrawalMax { get; set; }
     }
 
     public class DailyCustomerWithdrawalInfoInput
