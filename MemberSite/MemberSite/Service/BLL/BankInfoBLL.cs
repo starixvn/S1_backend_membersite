@@ -195,7 +195,9 @@ namespace MemberSite.Service.BLL
                                 BankLogo = x.BankLogo,
                                 BankName = x.SysBankName,/*x.SysBankCode*/
                                 ChannelId = x.ChannelId
-                            }).FirstOrDefault();
+                            })
+                .OrderByDescending(x => x.SysId)
+                .FirstOrDefault();
 
             var payCurrency = GetPayCurrency().FirstOrDefault(x => x.CurrencyId == custInfo.CurrencyId && x.ChannelId == bankInfo.ChannelId);
 
