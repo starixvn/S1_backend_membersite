@@ -95,7 +95,7 @@ namespace MemberSite.Service.BLL
         {
             var localBankList = GetOfflineBankAccount(siteId)
                 .Where(x => x.CurrencyId == currencyId 
-                            && (vipLevel > pointLevel || x.PointLevels.Contains(pointLevel))
+                            && (vipLevel > pointLevel || pointLevel == 8 || x.PointLevels.Contains(pointLevel))
                             && x.VipLevels.Contains(vipLevel)
                             && x.SupportChannel.Contains(OfflineBankAccountSupportChannelEnum.LocalBank))
                 .ToList();
@@ -166,7 +166,7 @@ namespace MemberSite.Service.BLL
         {
             var localBankList = GetOfflineBankAccount(siteId)
                 .Where(x => x.CurrencyId == currencyId 
-                            && (vipLevel > pointLevel || x.PointLevels.Contains(pointLevel)) // vipLevel > pointLevle 就先不檢查此條件，之後會改
+                            && (vipLevel > pointLevel || pointLevel == 8 || x.PointLevels.Contains(pointLevel)) // vipLevel > pointLevle 就先不檢查此條件，之後會改
                             && x.VipLevels.Contains(vipLevel))
                 .ToList();
 
