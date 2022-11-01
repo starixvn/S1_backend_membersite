@@ -64,7 +64,7 @@ namespace MemberSite.Service.BLL
             var currencyId = custInfo.CurrencyId;
 
             var key = $"GetOfflineBankCardList:{siteId}:{currencyId}:{pointLevel}:{custInfo.UserLevel}";
-            var offBankList = _redisHelper.TryGetOrCreate(key, TimeSpan.FromMinutes(5),
+            var offBankList = _redisHelper.TryGetOrCreate(key, TimeSpan.FromSeconds(10),
                 () => GetOfflineBankAccountList(siteId, currencyId, pointLevel, custInfo.UserLevel));
 
             var custDepositSysIds = _bankInfoService.GetCustOffDepositSysId(custId);
@@ -95,7 +95,7 @@ namespace MemberSite.Service.BLL
         {
             var localBankList = GetOfflineBankAccount(siteId)
                 .Where(x => x.CurrencyId == currencyId 
-                            && x.PointLevels.Contains(pointLevel)
+                            && (vipLevel > pointLevel || pointLevel == 8 || x.PointLevels.Contains(pointLevel))
                             && x.VipLevels.Contains(vipLevel)
                             && x.SupportChannel.Contains(OfflineBankAccountSupportChannelEnum.LocalBank))
                 .ToList();
@@ -166,7 +166,7 @@ namespace MemberSite.Service.BLL
         {
             var localBankList = GetOfflineBankAccount(siteId)
                 .Where(x => x.CurrencyId == currencyId 
-                            && x.PointLevels.Contains(pointLevel)
+                            && (vipLevel > pointLevel || pointLevel == 8 || x.PointLevels.Contains(pointLevel)) // vipLevel > pointLevle 就先不檢查此條件，之後會改
                             && x.VipLevels.Contains(vipLevel))
                 .ToList();
 
