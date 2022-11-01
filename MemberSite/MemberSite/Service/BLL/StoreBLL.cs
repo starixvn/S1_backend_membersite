@@ -1,0 +1,68 @@
+﻿using MemberSite.Service.Library;
+using MemberSite.Service.Model.Store.Frontend;
+
+namespace MemberSite.Service.BLL;
+
+public class StoreBLL
+{
+    private readonly ILogger<StoreBLL> _logger;
+    private readonly CourierAdapter _courierAdapter;
+    private readonly string _storeSiteUrl;
+
+
+    public StoreBLL(IServiceProvider provider)
+    {
+        var configuration = provider.GetRequiredService<IConfiguration>();
+        _logger = provider.GetRequiredService<ILogger<StoreBLL>>();
+        _storeSiteUrl = configuration.GetValue<string>("StoreService");
+        _courierAdapter = provider.GetRequiredService<CourierAdapter>();
+    }
+
+    public async Task<object> GetGiftListAsync(StoreGetGiftListRequest request)
+    {
+        var url = _storeSiteUrl + "Frontend/GetGiftList";
+        var result = await _courierAdapter.PostAsync(url, request);
+
+        return result;
+    }
+
+    public async Task<object> GetMyCoinAsync(StoreGetMyCoinRequest request)
+    {
+        var url = _storeSiteUrl + "Frontend/GetMyCoin";
+        var result = await _courierAdapter.PostAsync(url, request);
+
+        return result;
+    }
+
+    public async Task<object> GetMyPurchesAsync(StoreGetMyPurchesRequest request)
+    {
+        var url = _storeSiteUrl + "Frontend/GetMyPurches";
+        var result = await _courierAdapter.PostAsync(url, request);
+
+        return result;
+    }
+    
+    public async Task<object> SetFavoriteAsync(StoreSetFavoriteRequest request)
+    {
+        var url = _storeSiteUrl + "Frontend/SetFavorite";
+        var result = await _courierAdapter.PostAsync(url, request);
+
+        return result;
+    }
+    
+    public async Task<object> GetBalanceAsync(StoreGetBalanceRequest request)
+    {
+        var url = _storeSiteUrl + "Member/GetBalance";
+        var result = await _courierAdapter.PostAsync(url, request);
+
+        return result;
+    }
+
+    public async Task<object> GetGiftTagsAsync(StoreGetTagsRequest request)
+    {
+        var url = _storeSiteUrl + "Frontend/GetTags";
+        var result = await _courierAdapter.PostAsync(url, request);
+
+        return result;
+    }
+}

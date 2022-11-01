@@ -268,4 +268,7 @@
   <data name="msg_DecimalOutOfRange" xml:space="preserve">
     <value>轉賬失敗由於小數點多於二位數</value>
   </data>
+  <data name="msg_NotInLimit" xml:space="preserve">
+    <value>不在設定範圍</value>>
+  </data>
 </root>

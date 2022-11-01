@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.Model;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
@@ -13,7 +14,7 @@ namespace MemberSite.Service.BLL.Tests
         public async Task Test_CheckIp_And_Return_Succeed()
         {
             var serviceCollection = new ServiceCollection();
-            var geoIpApi = Substitute.For<IGeoIpApiBLL>();
+            var geoIpApi = Substitute.For<IGeoIpApi>();
             geoIpApi.CheckIp(Arg.Any<string>()).Returns(a => 
                 new IpCountry() { Code = "TW", Forbidden = false, Message = "Succeed"});
             serviceCollection.AddTransient(p => geoIpApi);
@@ -29,7 +30,7 @@ namespace MemberSite.Service.BLL.Tests
         public async Task Test_CheckIp_And_Return_Failed()
         {
             var serviceCollection = new ServiceCollection();
-            var geoIpApi = Substitute.For<IGeoIpApiBLL>();
+            var geoIpApi = Substitute.For<IGeoIpApi>();
             geoIpApi.CheckIp(Arg.Any<string>()).Returns(a => 
                 new IpCountry() { Message = "IP format error"});
             serviceCollection.AddTransient(p => geoIpApi);
