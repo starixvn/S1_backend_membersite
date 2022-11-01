@@ -491,8 +491,8 @@ namespace MemberSite.Controllers.Api
                     _ = Task.Run(async () =>
                     {
                         var apiResultIovation = await iovationBLL.IovationChecks(authData.CustId, custInfo.CurrencyId, custInfo.UserName, withdrawalReqModel.blackbox, IovationType.withdrawal);
-                        if (apiResultIovation.ErrorCode == 0)
-                            iovationBLL.SetIovation(authData.CustId, apiResultIovation.Message, IovationType.withdrawal);
+                        if (apiResultIovation.ErrorCode == 0 && apiResultIovation.Data != null)
+                            iovationBLL.SetIovation(authData.CustId, IovationType.withdrawal, apiResultIovation.Data);
 
                     });
                 }
