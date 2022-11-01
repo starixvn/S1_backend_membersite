@@ -156,7 +156,7 @@ namespace MemberSite.Controllers.Api
                 });
             }
 
-            await _cacheHelper.StringSetAsync(customer.CustId.ToString(), token, TimeSpan.FromMinutes(30), RedisDataBase.Token);
+            await _cacheHelper.StringFireAndForgetSetAsync(customer.CustId.ToString(), token, TimeSpan.FromMinutes(30), RedisDataBase.Token);
             Response.Cookies.Delete($"Initialization{User.Identity?.Name}");
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
@@ -292,7 +292,7 @@ namespace MemberSite.Controllers.Api
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                 new ClaimsPrincipal(claimsIdentity));
-            await _cacheHelper.StringSetAsync(customer.CustId.ToString(), customer.Token, TimeSpan.FromMinutes(30), RedisDataBase.Token);
+            await _cacheHelper.StringFireAndForgetSetAsync(customer.CustId.ToString(), customer.Token, TimeSpan.FromMinutes(30), RedisDataBase.Token);
             return apiResult;
         }
 

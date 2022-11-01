@@ -79,7 +79,7 @@ namespace MemberSite.Controllers.Api
             }
             else
             {
-                await _cacheHelper.StringSetAsync(authData.CustId.ToString(), authData.Token, TimeSpan.FromMinutes(30), RedisDataBase.Token);
+                await _cacheHelper.StringFireAndForgetSetAsync(authData.CustId.ToString(), authData.Token, TimeSpan.FromMinutes(30), RedisDataBase.Token);
                 apiResult.ErrorCode = 0;
             }
 
