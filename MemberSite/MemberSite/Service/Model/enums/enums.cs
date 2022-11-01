@@ -290,7 +290,8 @@ namespace MemberSite.Service.Model.enums
         Tp = 2,
         Bonus = 3,
         Admin = 4,
-        Payment = 5
+        Payment = 5,
+        Token = 6
     }
     
     public enum AppLinkAppType
