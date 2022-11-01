@@ -74,14 +74,14 @@ namespace MemberSite.Service.Library
             }
         }
 
-        public async Task<bool> StringSetAsync(string key, RedisValue value, TimeSpan? timeSpan,
+        public async Task<bool> StringFireAndForgetSetAsync(string key, RedisValue value, TimeSpan? timeSpan, 
             RedisDataBase redisDataBase = RedisDataBase.Member)
         {
             key = $"{redisDataBase}:{RemoveSpecialChars(key)}";
             try
             {
                 var db = _multiplexer.GetDatabase((int)redisDataBase);
-                return await db.StringSetAsync(key, value, timeSpan);
+                return await db.StringSetAsync(key, value, timeSpan, When.Always, CommandFlags.FireAndForget);
             }
             catch (Exception ex)
             {
