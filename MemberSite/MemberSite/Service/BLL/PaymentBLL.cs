@@ -69,7 +69,7 @@ namespace MemberSite.Service.BLL
             var pointLevel = custInfoBLL.GetPointLevelWithCache(custId);
             var localBankList = bankInfoOffBLL.GetOfflineBankAccount(custInfo.SiteId)
                 .Where(x => x.CurrencyId == custInfo.CurrencyId
-                            && x.PointLevels.Contains(pointLevel)
+                            && (custInfo.UserLevel > pointLevel || x.PointLevels.Contains(pointLevel))
                             && x.VipLevels.Contains(custInfo.UserLevel)
                             && x.SysId == sysId)
                 .ToList();
@@ -190,7 +190,7 @@ namespace MemberSite.Service.BLL
             var pointLevel = custInfoBLL.GetPointLevelWithCache(custId);
             var localBankList = bankInfoOffBLL.GetOfflineBankAccount(custInfo.SiteId)
                 .Where(x => x.CurrencyId == custInfo.CurrencyId
-                            && x.PointLevels.Contains(pointLevel)
+                            && (custInfo.UserLevel > pointLevel || x.PointLevels.Contains(pointLevel))
                             && x.VipLevels.Contains(custInfo.UserLevel)
                             && x.SysId == sysId)
                 .ToList();
@@ -307,7 +307,7 @@ namespace MemberSite.Service.BLL
             var pointLevel = custInfoBLL.GetPointLevelWithCache(custId);
             var localBankList = bankInfoOffBLL.GetOfflineBankAccount(custInfo.SiteId)
                 .Where(x => x.CurrencyId == custInfo.CurrencyId
-                            && x.PointLevels.Contains(pointLevel)
+                            && (custInfo.UserLevel > pointLevel || x.PointLevels.Contains(pointLevel))
                             && x.VipLevels.Contains(custInfo.UserLevel)
                             && x.SysId == sysId)
                 .ToList();
