@@ -8,5 +8,6 @@
         public string DisplayText { get; set; }
         public string ImgName { get; set; }
         public string OpenPath { get; set; }
+        public string GameImgDisplayText { get; set; }
     }
 }

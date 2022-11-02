@@ -26,6 +26,7 @@ namespace MemberSite.Service.BLL
         private readonly IConfiguration _configuration;
 
         private readonly List<int> _excludeTp;
+        private readonly Dictionary<string, string> _changeGameImgName;
 
         public SlotGameBLL(IServiceProvider provider)
         {
@@ -45,6 +46,11 @@ namespace MemberSite.Service.BLL
                 1, //SABA
                 41,//SBSW
                 42,//SBO
+            };
+            _changeGameImgName = new Dictionary<string, string>()
+            {
+              {"Iconic","AT" },
+              {"Kiss918","918Kiss" },
             };
         }
 
@@ -115,7 +121,12 @@ namespace MemberSite.Service.BLL
         public async Task<List<GameProvider>> GetSlotGameProviderList(int siteId, int currencyId, TpCategory tpCategory)
         {
             var providerList = await _gameBll.GetGameProviderByCategory(siteId, currencyId, tpCategory);
-            return providerList.Where(i => !_excludeTp.Contains(i.TpId)).ToList();
+            var result = providerList.Where(i => !_excludeTp.Contains(i.TpId)).ToList();
+            foreach (var provider in result)
+            {
+                provider.GameImgDisplayText = _changeGameImgName.TryGetValue(provider.TpName, out var changeName) ? changeName : provider.TpName;
+            }
+            return result;
         }
 
         /// <summary>

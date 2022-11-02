@@ -1,4 +1,6 @@
-﻿namespace MemberSite.Service.Model.enums
+﻿using System.ComponentModel;
+
+namespace MemberSite.Service.Model.enums
 {
     public enum WalletStatus
     {
@@ -288,7 +290,8 @@
         Tp = 2,
         Bonus = 3,
         Admin = 4,
-        Payment = 5
+        Payment = 5,
+        Token = 6
     }
     
     public enum AppLinkAppType
@@ -518,5 +521,34 @@
         /// </summary>
         Manual = 4,
         System = 5
+    }
+    
+    public enum OfflineBankAccountPurposeEnum
+    {
+        Deposit = 1,
+        Withdrawal = 2,
+        Transfer = 3
+    }
+    
+    public enum OfflineBankAccountSupportChannelEnum
+    {
+        LocalBank = 0,
+        EWallet = 1
+    }
+    
+    public enum FakePayGroupEnum
+    {
+        [Description("DuitNowQR")]
+        DuitNowQR = 53,
+    }
+
+    public enum PayModeEnum
+    {
+        //開新視窗，將html內容置入
+        Html = 1,
+        //開新視窗，導頁至該Url
+        Redirect = 2,
+        //將 url 以QrCode 呈現
+        QrCode = 3
     }
 }
