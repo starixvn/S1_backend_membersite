@@ -83,6 +83,12 @@ namespace MemberSite.Service.BLL
             {
                 foreach (var tpTransferInfo in tpTransferInfoHistory)
                 {
+                    if (tpTransferInfo.IsAdjustment)
+                    {
+                        tpTransferInfo.Amount = tpTransferInfo.Direction == 1
+                            ? tpTransferInfo.Amount
+                            : tpTransferInfo.Amount * -1;
+                    }
                     tpTransferInfo.TpName = _selLangBll.GetResourceValue($"lbl_Wallet_{GetThirdPartyModel(tpTransferInfo.TpId, custInfo.SiteId).TpName}");
                 }
             }
