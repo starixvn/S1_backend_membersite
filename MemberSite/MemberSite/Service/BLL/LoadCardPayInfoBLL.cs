@@ -2,7 +2,6 @@
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace MemberSite.Service.BLL
 {
@@ -13,7 +12,7 @@ namespace MemberSite.Service.BLL
         private readonly PayService _payService;
         private readonly DepositService _depositService;
         private readonly LoadCardPayGroupComparer _loadCardGroupComparer;
-        private readonly CacheHelper _cacheHelper;
+        private readonly ICacheHelper _redisHelper;
         
         public LoadCardPayInfoBLL(IServiceProvider provider)
         {
@@ -22,14 +21,16 @@ namespace MemberSite.Service.BLL
             _payService = provider.GetRequiredService<PayService>();
             _depositService = provider.GetRequiredService<DepositService>();
             _loadCardGroupComparer = new LoadCardPayGroupComparer();
-            _cacheHelper = provider.GetRequiredService<CacheHelper>();
+            _redisHelper = provider.GetRequiredService<ICacheHelper>();
         }
-        public IEnumerable<LoadCardPayInfo> GetLoadCardPayInfoList(int siteId)
+
+        private IEnumerable<LoadCardPayInfo> GetLoadCardPayInfoList(int siteId)
         {
-            var key = $"LoadCardPayInfoList_{siteId}";
-            return _cacheHelper.TryGetOrCreate<IEnumerable<LoadCardPayInfo>>(key,
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(10)),
-                i => _payService.GetLoadCardPayInfo(siteId).OrderBy(x => x.GSort).ThenBy(x => x.SSort));
+            var key = $"LoadCardPayInfoList:{siteId}";
+            var dbData = _redisHelper.TryGetOrCreate<IEnumerable<LoadCardPayInfo>>(key, TimeSpan.FromSeconds(10),
+                () => _payService.GetLoadCardPayInfo(siteId).OrderBy(x => x.GSort).ThenBy(x => x.SSort),
+                RedisDataBase.Shared);
+            return dbData;
         }
         private class LoadCardPayGroupComparer : IEqualityComparer<LoadCardPayGroup>
         {

@@ -25,7 +25,7 @@ namespace MemberSite.Service.BLL
             var slotsLobbyUrl = urlHelper.RouteUrl("desktop", new { action = "Lobby", controller = "Casino", LangId = selLangBLL.GetLangId() }, protocol: urlHelper.ActionContext.HttpContext.Request.Scheme, host: urlHelper.ActionContext.HttpContext.Request.Host.Host);
             string entPageUrl;
             int.TryParse(gameId, out var iGameId);
-            if (!urlHelper.ActionContext.HttpContext.User.Identity.IsAuthenticated)
+            if (urlHelper.ActionContext.HttpContext.User.Identity?.IsAuthenticated == false)
             {
                 if (tools.IsMobile())
                 {
@@ -79,7 +79,7 @@ namespace MemberSite.Service.BLL
             if (tpId == 1)
             {
                 int.TryParse(gameId, out var iGameId);
-                if (!urlHelper.ActionContext.HttpContext.User.Identity.IsAuthenticated)
+                if (urlHelper.ActionContext.HttpContext.User.Identity?.IsAuthenticated == false)
                 {
                     if (iGameId >= 200)/*3RD Game or RNG Game*/
                     {
@@ -171,7 +171,7 @@ namespace MemberSite.Service.BLL
                 }
                 else if (gameType == GameType.Slots)
                 {
-                    if (urlHelper.ActionContext.HttpContext.User.Identity.IsAuthenticated)
+                    if (urlHelper.ActionContext.HttpContext.User.Identity?.IsAuthenticated == true)
                     {
                         entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl, CashierUrl = cashierUrl, LobbyUrl = slotsLobbyUrl, gameType = gameType.ToString() });
                     }
@@ -183,7 +183,7 @@ namespace MemberSite.Service.BLL
                 }
                 else if (gameType == GameType.Fishing)
                 {
-                    if (urlHelper.ActionContext.HttpContext.User.Identity.IsAuthenticated)
+                    if (urlHelper.ActionContext.HttpContext.User.Identity?.IsAuthenticated == true)
                     {
                         entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(),
                             homeUrl, CashierUrl = cashierUrl, LobbyUrl = slotsLobbyUrl,
@@ -198,7 +198,7 @@ namespace MemberSite.Service.BLL
                 }
                 else
                 {
-                    if (urlHelper.ActionContext.HttpContext.User.Identity.IsAuthenticated)
+                    if (urlHelper.ActionContext.HttpContext.User.Identity?.IsAuthenticated == true)
                     {
                         entPageUrl = urlHelper.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(),
                             homeUrl,

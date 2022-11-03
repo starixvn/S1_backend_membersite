@@ -116,34 +116,6 @@ namespace MemberSite.Service.BLL
         }
 
         /*Sports Wallet*/
-        public async Task<ApiResult<UserBalance>> GetSportsBalanceAsync(int custId)
-        {
-            var myUrl = $"{_apiUrl}GetBalance";
-            var apiResult = new ApiResult<UserBalance>();
-            var oTpInfo = new TpInfo
-            {
-                TpId = 1,
-                CustId = custId,
-                Inputs = new Dictionary<string, string>()
-            };
-
-            try
-            {
-                var data = await _courierAdapter.MyPostAsync<UserBalance, TpInfo>(myUrl, oTpInfo);
-                apiResult.Data = data.Data;
-                apiResult.ErrorCode = data.ErrorCode;
-                apiResult.RawErrorCode = data.RawErrorCode;
-                apiResult.RawMessage = data.RawMessage;
-            }
-            catch (Exception ex)
-            {
-                apiResult.ErrorCode = 9000;
-                apiResult.RawMessage = ex.Message;
-            }
-
-            return apiResult;
-        }
-        /*Sports Wallet*/
         public async Task<ApiResult<UserBalance>> GetTpWalletBalanceAsync(int tpId, int custId)
         {
             var myUrl = $"{_apiUrl}GetBalance";

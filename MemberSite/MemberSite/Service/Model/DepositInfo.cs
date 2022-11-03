@@ -51,6 +51,14 @@ namespace MemberSite.Service.Model
         public decimal MinAmount { get; set; }
         public decimal MaxAmount { get; set; }
     }
+    
+    public class FakeMobilePayResp
+    {
+        
+        public string TransId { get; set; }
+        public decimal Amount { get; set; }
+        public string ReturnUrl { set; get; }
+    }
 
     public class DepositInfoHistory
     {
@@ -58,7 +66,7 @@ namespace MemberSite.Service.Model
         {
             get
             {
-                return _createTime.ToOffset(CustTimeZone);
+                return _createTime.ToDateTimeOffset(CustTimeZone);
             }
             set 
             {
@@ -74,6 +82,8 @@ namespace MemberSite.Service.Model
         //public string PostScript { get; set; }
         [JsonIgnore]
         public string DepositInfo { get; set; }
+        [JsonIgnore]
+        public string Memo { get; set; }
         public dynamic DepositRep { get; set; }
         public BankInfoSys BankInfo { get; set; }
         public string ThirdId { get; set; }
@@ -82,7 +92,7 @@ namespace MemberSite.Service.Model
         {
             get
             {
-                return _depositTime != null ? _depositTime.Value.ToOffset(CustTimeZone) : null;
+                return _depositTime != null ? _depositTime.Value.ToDateTimeOffset(CustTimeZone) : null;
             }
             set
             {

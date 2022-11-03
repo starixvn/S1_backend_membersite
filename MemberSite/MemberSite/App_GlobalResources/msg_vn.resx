@@ -273,4 +273,10 @@ Hãy chuyển tiền từ ví chính sang ví Thể thao để trải nghiệm c
   <data name="msg_BankAccountDuplicate" xml:space="preserve">
     <value>Tài khoản ngân hàng này đã tồn tại</value>
   </data>
+  <data name="msg_EWalletIsMaintenance" xml:space="preserve">
+    <value>Ví điện tử đang bảo trì, vui lòng sử dụng các phương thức rút tiền khác</value>
+  </data>
+  <data name="msg_NotInLimit" xml:space="preserve">
+    <value>ngoài hạn mức.</value>
+  </data>
 </root>

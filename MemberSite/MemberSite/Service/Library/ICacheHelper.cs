@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using MemberSite.Service.Model.enums;
 namespace MemberSite.Service.Library;
 using StackExchange.Redis;
@@ -13,7 +10,7 @@ public interface ICacheHelper
     Task<TItem> TryGetOrCreateAsync<TItem>(string key, TimeSpan? timeSpan, Func<Task<TItem>> factory,
         RedisDataBase redisDataBase = RedisDataBase.Member);
 
-    Task<bool> StringSetAsync(string key, RedisValue value, TimeSpan? timeSpan,
+    Task<bool> StringFireAndForgetSetAsync(string key, RedisValue value, TimeSpan? timeSpan,
             RedisDataBase redisDataBase = RedisDataBase.Member);
 
     bool StringSet(string key, RedisValue value, TimeSpan? timeSpan,
@@ -34,4 +31,6 @@ public interface ICacheHelper
         RedisDataBase redisDataBase = RedisDataBase.Member);
 
     long GetListLength(string key, RedisDataBase redisDataBase = RedisDataBase.Member);
+
+    Task<bool> KeyDeleteAsync(string key, RedisDataBase redisDataBase = RedisDataBase.Member);
 }
