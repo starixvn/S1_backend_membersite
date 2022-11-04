@@ -10,7 +10,7 @@ namespace MemberSite.Service.BLL
     public class SelLangBLL : ISelLang
     {
         private readonly Dictionary<string, int> _langMapCurr =
-        new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase)
+        new(StringComparer.OrdinalIgnoreCase)
         {
             {"th", 4}, {"th_en", 4 }, {"cs", 13}, {"ch", 2}, {"id", 15}, {"id_en", 15},{"jp", 32},
             {"ko", 45}, {"vn", 51},{"hi", 61}, {"hi_en", 61}
@@ -18,34 +18,21 @@ namespace MemberSite.Service.BLL
 
         private readonly ServerInfoBll _serverInfoBll;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly ConcurrentDictionary<string, ResourceManager> _rm = new ConcurrentDictionary<string, ResourceManager>();
-        private string _sLangId;
+        private readonly ConcurrentDictionary<string, ResourceManager> _rm = new();
         private readonly CacheHelper _cacheHelper;
 
         public SelLangBLL(IServiceProvider provider)
         {
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
             _httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
-            _sLangId = null;
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
         }
 
         public IEnumerable<SiteLanguage> GetLangIdList()
         {
-            var list = new List<SiteLanguage>();
             var serverInfo = _serverInfoBll.GetServerInfo();
 
-            foreach (var langId in serverInfo.ILangList)
-            {
-                var siteLanguage = new SiteLanguage
-                {
-                    LangId = langId,
-                    Language = GetLan_Info(langId)
-                };
-                list.Add(siteLanguage);
-            }
-
-            return list;
+            return serverInfo.ILangList.Select(langId => new SiteLanguage { LangId = langId, Language = GetLan_Info(langId) }).ToList();
         }
 
         public bool CheckLangId(string langId)
@@ -81,11 +68,7 @@ namespace MemberSite.Service.BLL
 
             if (string.IsNullOrEmpty(langId) && !string.IsNullOrEmpty(firstLang))
             {
-                if (firstLang.StartsWith("ms", StringComparison.OrdinalIgnoreCase) || firstLang.StartsWith("zh-tw", StringComparison.OrdinalIgnoreCase) || firstLang.StartsWith("zh-hk", StringComparison.OrdinalIgnoreCase))
-                {
-                    langId = "ch";
-                }
-                else if (firstLang.StartsWith("zh", StringComparison.OrdinalIgnoreCase))
+                if (firstLang.StartsWith("zh", StringComparison.OrdinalIgnoreCase))
                 {
                     langId = "cs";
                 }
@@ -143,23 +126,20 @@ namespace MemberSite.Service.BLL
             return langId;
         }
 
-        public string GetLan_Info(string key)
+        private string GetLan_Info(string key)
         {
-            //
-            var labelString = string.Empty;
             var sKey = $"{Assembly.GetExecutingAssembly().GetName().Name}.App_GlobalResources.Lan_Info";
             if (!_rm.ContainsKey(sKey))
             {
                 _rm.TryAdd(sKey, new ResourceManager(sKey, Assembly.GetExecutingAssembly()));
             }
-            labelString = _rm[sKey].GetString(key);
+            var labelString = _rm[sKey].GetString(key);
 
             return labelString;
         }
 
         private string GetResourceValue(string key, string categoryId, string langId)
         {
-            //
             var labelString = string.Empty;
             var sKey = $"{Assembly.GetExecutingAssembly().GetName().Name}.App_GlobalResources.{categoryId}_{langId}";
             if (!_rm.ContainsKey(sKey))
@@ -171,7 +151,7 @@ namespace MemberSite.Service.BLL
             {
                 labelString = _rm[sKey].GetString(key);
             }
-            catch (MissingManifestResourceException mme)
+            catch (MissingManifestResourceException)
             {
 
             }
@@ -197,9 +177,9 @@ namespace MemberSite.Service.BLL
                 {
                     labelString = GetResourceValue(key, $"{serverInfo.SiteName}_lan", GetLangId());
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-
+                    // ignored
                 }
 
                 if (string.IsNullOrEmpty(labelString))
@@ -207,7 +187,6 @@ namespace MemberSite.Service.BLL
                     labelString = GetResourceValue(key, "MemberSite_lan", GetLangId());
                 }
             }
-            //
 
             return labelString;
         }
@@ -225,9 +204,9 @@ namespace MemberSite.Service.BLL
                 {
                     msgString = GetResourceValue(key, $"{serverInfo.SiteName}_msg", GetLangId());
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-
+                    // ignored
                 }
 
                 if (string.IsNullOrEmpty(msgString))
@@ -256,38 +235,24 @@ namespace MemberSite.Service.BLL
             var langId = GetLangId();
             var defCurrencyId = serverInfo.DefCurrency;
 
-            var userLangs = _httpContextAccessor.HttpContext.Request.Headers["Accept-Language"].ToString();
+            var userLangs = _httpContextAccessor.HttpContext?.Request.Headers["Accept-Language"].ToString();
 
-            if (userLangs.StartsWith("ms", StringComparison.OrdinalIgnoreCase) && serverInfo.ICurrencyList.Contains(2))/*Malay (Malaysia)*/
+            if (userLangs != null && userLangs.StartsWith("ms", StringComparison.OrdinalIgnoreCase) && serverInfo.ICurrencyList.Contains(2))/*Malay (Malaysia)*/
             {
                 return 2;
             }
-            else if (_langMapCurr.ContainsKey(langId) && serverInfo.ICurrencyList.Contains(_langMapCurr[langId]))
+
+            if (_langMapCurr.ContainsKey(langId) && serverInfo.ICurrencyList.Contains(_langMapCurr[langId]))
             {
                 return _langMapCurr[langId];
             }
-            else if (defCurrencyId != 0 && serverInfo.ICurrencyList.Contains(defCurrencyId))
+
+            if (defCurrencyId != 0 && serverInfo.ICurrencyList.Contains(defCurrencyId))
             {
                 return defCurrencyId;
             }
-            else if (serverInfo.ICurrencyList.Any())
-            {
-                foreach (var currencyId in serverInfo.ICurrencyList)
-                {
-                    return currencyId;
-                }
-            }
 
-            return 0;
-        }
-
-        public int GetPreferCurrencyIdByLang(string langId)
-        {
-            if (_langMapCurr.ContainsKey(langId))
-            {
-                return _langMapCurr[langId];
-            }
-            return 2;
+            return serverInfo.ICurrencyList.Any() ? serverInfo.ICurrencyList.FirstOrDefault() : 0;
         }
 
         public IEnumerable<Country> GetCountryList()
