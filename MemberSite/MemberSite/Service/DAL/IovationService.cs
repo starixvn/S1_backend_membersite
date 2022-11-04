@@ -1,29 +1,30 @@
 ﻿using Dapper;
 using MySql.Data.MySqlClient;
 using System.Data;
+using MemberSite.Service.Library;
+using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.DAL
 {
     public class IovationService
     {
-        private readonly IConfiguration configuration;
-
-        public IovationService(IConfiguration configuration)
+        private readonly MySqlClient _mainDbClient;
+        private readonly MySqlClient _logDbClient;
+        public IovationService(IEnumerable<MySqlClient> dbClients)
         {
-            this.configuration = configuration;
+            _mainDbClient = dbClients.First(a => a.DataBase == DataBase.Main);
+            _logDbClient = dbClients.First(a => a.DataBase == DataBase.Log);
         }
-        public void SetIovation(int custId, string iovation, string actionType)
+        public void SetIovation(int custId, string iovation, string actionType, string deviceId, string reason, string deviceType, int score)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            var p = new DynamicParameters(new { CustId = custId, ActionType = actionType, Iovation = iovation });
+            var p = new DynamicParameters(new { CustId = custId, DeviceId = deviceId, Iovation = iovation, Reason = reason, DeviceType = deviceType,  Score = score });
             p.Add("IovationOLD", dbType: DbType.String, direction: ParameterDirection.Output);
-            var result = conn.Execute("Service_CustIovation_Set", p, commandType: CommandType.StoredProcedure);
+            var result = _mainDbClient.Execute("Service_CustIovation_Set_V2", p);
             var iovationOLD = p.Get<string>("IovationOLD");
             //SetIovationChange
             if (result > 0)
             {
-                using var connLog = new MySqlConnection(configuration.GetConnectionString("ConnectionStringLog"));
-                connLog.Execute("Service_LogIovationChange_Ins", new { CustId = custId, ActionType = actionType, Iovation = iovation, IovationOLD = iovationOLD }, commandType: CommandType.StoredProcedure);
+                _logDbClient.Execute("Service_LogIovationChange_Ins", new { CustId = custId, ActionType = actionType, Iovation = iovation, IovationOLD = iovationOLD });
             }
         }
     }
