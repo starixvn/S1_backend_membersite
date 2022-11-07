@@ -62,6 +62,7 @@ namespace MemberSite.Controllers.Api
             public bool IsLogin { set; get; }
             public string LangId { set; get; }
             public string DefLang { set; get; }
+            public int PromotionType { set; get; } 
         }
         
         public class PromotionDetailRequest : CustPromotionRequest
