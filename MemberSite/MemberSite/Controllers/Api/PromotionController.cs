@@ -353,6 +353,13 @@ namespace MemberSite.Controllers.Api
             };
             try
             {
+                if (!_promotionBLL.VerifyBonusCode(request.BonusCode))
+                {
+                    result.ErrorCode = 9000;
+                    result.Message = _selLangBLL.GetMsg("msg_Ineligible");
+                    return result;
+                }
+                
                 var authData = _authorizeBLL.GetAuthData();
                 var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
                 var req = new DepositPromotionQueue
