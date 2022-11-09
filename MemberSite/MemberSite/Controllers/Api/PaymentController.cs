@@ -278,7 +278,7 @@ namespace MemberSite.Controllers.Api
             var cards = bankInfoOffBLL.GetOfflineBankCardListWithCache(custId)
                 .Where(x => x.SupportQR && req.Amount >= x.MinAmount && req.Amount <= x.MaxAmount)
                 .ToList();
-            var hasPromotion = !string.IsNullOrWhiteSpace(req.BonusCode);
+            var hasPromotion = _promotionBll.VerifyBonusCode(req.BonusCode);
 
             if (!cards.Any())
             {
