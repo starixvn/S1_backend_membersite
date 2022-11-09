@@ -312,13 +312,6 @@ namespace MemberSite.Service.DAL
                 }, commandType: CommandType.StoredProcedure);
         }
 
-        public IEnumerable<USDTWithdrawalLimitInfoOutput> GetUSDTWithdrawalLimitInfoList(USDTWithdrawalLimitInfoInput input)
-        {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<USDTWithdrawalLimitInfoOutput>("Member_USDTWithdrawalLimitInfo_Get",
-                new { input.SiteId, input.CurrencyId, input.VipLevel, input.Network }, commandType: CommandType.StoredProcedure);
-        }
-
         public EWalletWithdrawalLimitInfoOutput GetEWalletWithdrawalLimitInfo(WithdrawalLimitInfoInput input)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));

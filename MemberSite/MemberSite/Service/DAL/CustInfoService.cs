@@ -47,51 +47,43 @@ namespace MemberSite.Service.DAL
 
         public int AddCustInfo(Customer customer, string Email, string lineUserId, out int custId, string signupUrl = null, string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null, int Birth_d = 0, int Birth_m = 0, int Birth_y = 0)
         {
-            var flag = string.Empty;
+            var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             try
             {
                 custId = 0;
-                using var conn = new MySqlConnection(_connectionString);
-                var p = new DynamicParameters(new { customer.SiteId, customer.UserName, customer.Userpwd, customer.CurrencyId, customer.UserLang, customer.AgentId, customer.AllAgentId, customer.UserLevel });
+                var p = new DynamicParameters(new
+                {
+                    customer.SiteId, customer.UserName, customer.Userpwd, customer.CurrencyId, customer.UserLang,
+                    customer.AgentId, customer.AllAgentId, customer.UserLevel
+                });
                 p.Add("CustId", dbType: DbType.String, direction: ParameterDirection.Output);
 
                 conn.Open();
                 using var trans = conn.BeginTransaction();
                 var result = _mainDbClient.Execute("CustInfo_Ins", p, conn, trans);
-                var strCustId = string.Empty;
 
                 if (result > 0)
                 {
+                    string strCustId;
                     strCustId = p.Get<string>("CustId") ?? "";
-                    flag += $" Executed CustInfo_Ins after CustId：{strCustId} ";
+                    custId = int.Parse(strCustId);
 
-                    if (string.IsNullOrEmpty(strCustId))
+                    if (custId == 0)
                     {
                         trans.Rollback();
-                        throw new Exception("db return CustId IsNullOrEmpty");
+                        conn.Close();
+                        return -5;
                     }
-
-                    if (long.TryParse(strCustId, out var longCustId))
-                    {
-                        if (longCustId > int.MaxValue || longCustId < int.MinValue)
-                        {
-                            trans.Rollback();
-                            throw new Exception("CustId Out of range value int32 please check");
-                        }
-                    }
-                    else
-                    {
-                        throw new Exception("CustId long TryParse fail");
-                    }
-
-                    custId = int.Parse(strCustId);
                 }
                 else
                 {
-                    flag += $" Executed CustInfo_Ins Fail，not retrun CustId";
+                    trans.Rollback();
+                    conn.Close();
+                    return -5;
                 }
 
-                if (result > 0 && (!string.IsNullOrEmpty(Email) || (!string.IsNullOrEmpty(PhoneNo) && !string.IsNullOrEmpty(AreaCode))))
+                if (result > 0 && (!string.IsNullOrEmpty(Email) ||
+                                   (!string.IsNullOrEmpty(PhoneNo) && !string.IsNullOrEmpty(AreaCode))))
                 {
                     if (string.IsNullOrEmpty(Email))
                     {
@@ -123,36 +115,36 @@ namespace MemberSite.Service.DAL
                         PhoneNo,
                         AreaCode
                     }), conn, trans);
-                    flag += $" Executed Member_CustProfile_Ins after custId：{custId} ";
 
                     if (!string.IsNullOrEmpty(RealName))
                     {
                         SetCustBankInfo(custId, customer.SiteId, RealName);
-                        flag += $" Executed SetCustBankInfo after custId：{custId} ";
                     }
 
                 }
 
                 if (result > 0 && (!string.IsNullOrEmpty(signupUrl) || !string.IsNullOrEmpty(referralUrl)))
                 {
-                    result = _mainDbClient.Execute("Member_CustRegInfo_Ins_V2", new DynamicParameters(new { CustId = custId, customer.SiteId, SignupUrl = signupUrl, ReferralUrl = referralUrl }), conn, trans);
-                    flag += $" Executed Member_CustRegInfo_Ins_V2 after custId：{custId} ";
+                    result = _mainDbClient.Execute("Member_CustRegInfo_Ins_V2",
+                        new DynamicParameters(new
+                            { CustId = custId, customer.SiteId, SignupUrl = signupUrl, ReferralUrl = referralUrl }),
+                        conn, trans);
                 }
 
                 if (result > 0 && !string.IsNullOrEmpty(promoCode) && promotionService.CheckSpecialCode(promoCode))
                 {
                     if (promotionService.CheckScratchCardCode(promoCode))
                     {
-                        var parameters = new DynamicParameters(new { CustId = custId, ScratchCardCode = promoCode, DeviceType = 1 });
+                        var parameters = new DynamicParameters(new
+                            { CustId = custId, ScratchCardCode = promoCode, DeviceType = 1 });
                         parameters.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
                         _mainDbClient.Execute("Member_CustScratchCardCodeV3_Ins", parameters, conn, trans);
                         result = parameters.Get<int>("Result") == 0 ? 1 : 0;
-                        flag += $" Executed Member_CustScratchCardCodeV3_Ins after custId：{custId} ";
                     }
                     else
                     {
-                        result = _mainDbClient.Execute("Member_CustPromoCode_Ins", new DynamicParameters(new { CustId = custId, PromoCode = promoCode.Trim() }), conn, trans);
-                        flag += $" Executed Member_CustPromoCode_Ins after custId：{custId} ";
+                        result = _mainDbClient.Execute("Member_CustPromoCode_Ins",
+                            new DynamicParameters(new { CustId = custId, PromoCode = promoCode.Trim() }), conn, trans);
                     }
 
                     if (result == 0)
@@ -163,8 +155,9 @@ namespace MemberSite.Service.DAL
 
                 if (result > 0 && (int.TryParse(customer.Aff, out var iAff) || !string.IsNullOrEmpty(customer.AffCode)))
                 {
-                    result = _mainDbClient.Execute("Member_VNAffiliate_Ins", new DynamicParameters(new { CustId = custId, customer.SiteId, AffId = iAff, customer.AffCode }), conn, trans);
-                    flag += $" Executed Member_VNAffiliate_Ins after custId：{custId} ";
+                    result = _mainDbClient.Execute("Member_VNAffiliate_Ins",
+                        new DynamicParameters(new { CustId = custId, customer.SiteId, AffId = iAff, customer.AffCode }),
+                        conn, trans);
                 }
 
                 if (result > 0 && !string.IsNullOrWhiteSpace(lineUserId))
@@ -172,12 +165,10 @@ namespace MemberSite.Service.DAL
                     if (GetCustLineProfile(0, lineUserId) != null)
                     {
                         result = -3002;
-                        flag += $" Executed GetCustLineProfile after custId：{custId} ";
                     }
                     else
                     {
                         result = InsertCustLineProfile(custId, lineUserId, conn, trans) ? 1 : 0;
-                        flag += $" Executed InsertCustLineProfile after custId：{custId} ";
                     }
                 }
 
@@ -189,6 +180,8 @@ namespace MemberSite.Service.DAL
                 {
                     trans.Rollback();
                 }
+                conn.Close();
+                conn.Dispose();
 
                 result = result switch
                 {
@@ -201,7 +194,9 @@ namespace MemberSite.Service.DAL
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"{ex.Message}，codeFlow:{flag}");
+                _logger.LogError(ex, $"{ex.Message}");
+                conn.Close();
+                conn.Dispose();
                 throw;
             }
         }
@@ -238,8 +233,7 @@ namespace MemberSite.Service.DAL
         }
         public int GetPointLevel(int custId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.ExecuteScalar<int>("Member_PointLevel_Get", new { CustId = custId }, commandType: CommandType.StoredProcedure);
+            return _reportDbClient.ExecuteScalar<int>("Member_PointLevel_Get", new { CustId = custId });
         }
         public bool SetPassword(int custId, string md5OldPassword, string md5NewPassword, out string md5Userpwd)
         {

@@ -1,17 +1,18 @@
-﻿using MemberSite.Service.Library;
+﻿using MemberSite.Service.BLL.Interface;
+using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 
 namespace MemberSite.Service.BLL
 {
-    public class GeoIpApiBLL : IGeoIpApiBLL
+    public class GeoIpApi : IGeoIpApi
     {
         private readonly IHttpHelper _httpHelper;
-        private readonly ILogger<GeoIpApiBLL> _logger;
+        private readonly ILogger<GeoIpApi> _logger;
         private readonly string _geoIpUrl;
-        public GeoIpApiBLL(IServiceProvider provider, IConfiguration configuration)
+        public GeoIpApi(IServiceProvider provider, IConfiguration configuration)
         {
             _httpHelper = provider.GetRequiredService<IHttpHelper>();
-            _logger = provider.GetRequiredService<ILogger<GeoIpApiBLL>>();
+            _logger = provider.GetRequiredService<ILogger<GeoIpApi>>();
             _geoIpUrl = configuration.GetValue<string>("GeoIpService");
         }
 

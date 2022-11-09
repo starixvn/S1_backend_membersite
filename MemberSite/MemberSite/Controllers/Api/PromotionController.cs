@@ -62,6 +62,7 @@ namespace MemberSite.Controllers.Api
             public bool IsLogin { set; get; }
             public string LangId { set; get; }
             public string DefLang { set; get; }
+            public int PromotionType { set; get; } 
         }
         
         public class PromotionDetailRequest : CustPromotionRequest
@@ -352,6 +353,13 @@ namespace MemberSite.Controllers.Api
             };
             try
             {
+                if (!_promotionBLL.VerifyBonusCode(request.BonusCode))
+                {
+                    result.ErrorCode = 9000;
+                    result.Message = _selLangBLL.GetMsg("msg_Ineligible");
+                    return result;
+                }
+                
                 var authData = _authorizeBLL.GetAuthData();
                 var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
                 var req = new DepositPromotionQueue

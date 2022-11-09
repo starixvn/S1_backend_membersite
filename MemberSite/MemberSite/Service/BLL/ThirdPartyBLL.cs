@@ -83,6 +83,12 @@ namespace MemberSite.Service.BLL
             {
                 foreach (var tpTransferInfo in tpTransferInfoHistory)
                 {
+                    if (tpTransferInfo.IsAdjustment)
+                    {
+                        tpTransferInfo.Amount = tpTransferInfo.Direction == 1
+                            ? tpTransferInfo.Amount
+                            : tpTransferInfo.Amount * -1;
+                    }
                     tpTransferInfo.TpName = _selLangBll.GetResourceValue($"lbl_Wallet_{GetThirdPartyModel(tpTransferInfo.TpId, custInfo.SiteId).TpName}");
                 }
             }
@@ -109,34 +115,6 @@ namespace MemberSite.Service.BLL
             public Dictionary<string, string> Inputs { set; get; }
         }
 
-        /*Sports Wallet*/
-        public async Task<ApiResult<UserBalance>> GetSportsBalanceAsync(int custId)
-        {
-            var myUrl = $"{_apiUrl}GetBalance";
-            var apiResult = new ApiResult<UserBalance>();
-            var oTpInfo = new TpInfo
-            {
-                TpId = 1,
-                CustId = custId,
-                Inputs = new Dictionary<string, string>()
-            };
-
-            try
-            {
-                var data = await _courierAdapter.MyPostAsync<UserBalance, TpInfo>(myUrl, oTpInfo);
-                apiResult.Data = data.Data;
-                apiResult.ErrorCode = data.ErrorCode;
-                apiResult.RawErrorCode = data.RawErrorCode;
-                apiResult.RawMessage = data.RawMessage;
-            }
-            catch (Exception ex)
-            {
-                apiResult.ErrorCode = 9000;
-                apiResult.RawMessage = ex.Message;
-            }
-
-            return apiResult;
-        }
         /*Sports Wallet*/
         public async Task<ApiResult<UserBalance>> GetTpWalletBalanceAsync(int tpId, int custId)
         {

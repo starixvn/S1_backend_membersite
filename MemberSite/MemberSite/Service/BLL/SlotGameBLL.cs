@@ -26,6 +26,7 @@ namespace MemberSite.Service.BLL
         private readonly IConfiguration _configuration;
 
         private readonly List<int> _excludeTp;
+        private readonly Dictionary<string, string> _changeGameImgName;
 
         public SlotGameBLL(IServiceProvider provider)
         {
@@ -46,12 +47,17 @@ namespace MemberSite.Service.BLL
                 41,//SBSW
                 42,//SBO
             };
+            _changeGameImgName = new Dictionary<string, string>()
+            {
+              {"Iconic","AT" },
+              {"Kiss918","918Kiss" },
+            };
         }
 
         public async Task<GetSlotGamePageResponse> GetSlotGamePage(GetSlotGamePageRequest request, ClaimsPrincipal user)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
-            var (siteId, currencyId, custId) = GetUserInfo(user, serverInfo);
+            var (siteId, currencyId, custId) = GetUserInfo(request.CurrencyId, user, serverInfo);
             var imgUrl = _siteConfig.Value[serverInfo.SiteName].ImageURL;
 
             var providerList = await GetSlotGameProviderList(siteId, currencyId, TpCategory.Casino);
@@ -115,13 +121,18 @@ namespace MemberSite.Service.BLL
         public async Task<List<GameProvider>> GetSlotGameProviderList(int siteId, int currencyId, TpCategory tpCategory)
         {
             var providerList = await _gameBll.GetGameProviderByCategory(siteId, currencyId, tpCategory);
-            return providerList.Where(i => !_excludeTp.Contains(i.TpId)).ToList();
+            var result = providerList.Where(i => !_excludeTp.Contains(i.TpId)).ToList();
+            foreach (var provider in result)
+            {
+                provider.GameImgDisplayText = _changeGameImgName.TryGetValue(provider.TpName, out var changeName) ? changeName : provider.TpName;
+            }
+            return result;
         }
 
         /// <summary>
         /// 根據登入狀態回傳SiteId與CurrencyId
         /// </summary>
-        private (int SiteId, int CurrencyId, int CustId) GetUserInfo(ClaimsPrincipal user, ServerInfo serverInfo)
+        private (int SiteId, int CurrencyId, int CustId) GetUserInfo(int? inputCurrencyId, ClaimsPrincipal user, ServerInfo serverInfo)
         {
             if (user.Identity.IsAuthenticated)
             {
@@ -131,8 +142,12 @@ namespace MemberSite.Service.BLL
             }
             else
             {
-
-                return (serverInfo.SiteId, _selLangBll.GetPreferCurrencyId(), 0);
+                var currencyId = _selLangBll.GetPreferCurrencyId();
+                if (inputCurrencyId.HasValue)
+                {
+                    currencyId = inputCurrencyId.Value;
+                }
+                return (serverInfo.SiteId, currencyId, 0);
             }
         }
 

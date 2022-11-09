@@ -39,6 +39,8 @@ namespace MemberSite.Controllers.Api
         private readonly Regex _regexUserName = new(@"^[a-zA-Z0-9]{6,18}$");
         private readonly ThirdPartyBll _thirdPartyBll;
         private readonly SiteBll _siteBll;
+        private readonly ICacheHelper _cacheHelper;
+        private readonly RecaptchaBLL _recaptchaBll;
         private readonly ILogger<SiteController> _logger;
 
         public SiteController(IServiceProvider provider)
@@ -57,6 +59,8 @@ namespace MemberSite.Controllers.Api
             _siteConfig = provider.GetRequiredService<IOptions<Dictionary<string, SiteConfig>>>();
             _thirdPartyBll = provider.GetRequiredService<ThirdPartyBll>();
             _siteBll = provider.GetRequiredService<SiteBll>();
+            _cacheHelper = provider.GetRequiredService<ICacheHelper>();
+            _recaptchaBll = provider.GetRequiredService<RecaptchaBLL>();
             _logger = provider.GetRequiredService<ILogger<SiteController>>();
         }
 
@@ -151,6 +155,8 @@ namespace MemberSite.Controllers.Api
                     await _sFpsBll.FPSChecksAsync(customer.CustId, "login", "Successfully", loginModel.url, loginModel.platform, loginModel.userAgent, loginModel.screen, loginModel.di, ip);
                 });
             }
+
+            await _cacheHelper.StringFireAndForgetSetAsync(customer.CustId.ToString(), token, TimeSpan.FromMinutes(30), RedisDataBase.Token);
 
             Response.Cookies.Delete($"Initialization{User.Identity?.Name}");
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -249,6 +255,7 @@ namespace MemberSite.Controllers.Api
             public string AffCode { get; set; }
             public string blackbox { get; set; }
             public string LineUserId { get; set; }
+            public string ReCaptchaToken { get; set; }
         }
 
         public class SignupModel : RegisteredModel
@@ -286,7 +293,7 @@ namespace MemberSite.Controllers.Api
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                 new ClaimsPrincipal(claimsIdentity));
-
+            await _cacheHelper.StringFireAndForgetSetAsync(customer.CustId.ToString(), customer.Token, TimeSpan.FromMinutes(30), RedisDataBase.Token);
             return apiResult;
         }
 
@@ -1226,6 +1233,20 @@ namespace MemberSite.Controllers.Api
                 apiResult.Data = data;
             }
 
+            return apiResult;
+        }
+        
+        [HttpPost]
+        public async Task<ApiResult<RecaptchaSiteInfo>> GetRecaptchaInfo()
+        {
+            var clientIp = _tools.GetClientIP();
+            var siteInfo = await _recaptchaBll.GetInfo(clientIp);
+            var apiResult = new ApiResult<RecaptchaSiteInfo>()
+            {
+                
+                ErrorCode = 0,
+                Data = siteInfo
+            };
             return apiResult;
         }
     }

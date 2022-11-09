@@ -296,10 +296,9 @@ namespace MemberSite.Service.BLL
 
         public int GetPointLevelWithCache(int custId)
         {
-            var key = $"PointLevelCache_{custId}";
-            return _cacheHelper.TryGetOrCreate(key,
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30)),
-                i => _custInfoService.GetPointLevel(custId));
+            return _redisHelper.TryGetOrCreate($"PointLevel:{custId}", TimeSpan.FromMinutes(1),
+                () => _custInfoService.GetPointLevel(custId),
+                RedisDataBase.Shared);
         }
 
         public int SetPassword(int custId, string oldPassword, string newPassword)
@@ -374,24 +373,14 @@ namespace MemberSite.Service.BLL
         }
         public CustBankInfo GetCustBankInfo(int custId)
         {
-            var custInfo = GetCustInfoWithCache(custId);
             var custBankInfo = _custInfoService.GetCustBankInfo(custId);
 
             if (custBankInfo != null)
             {
                 var bankInfoDetailList = _custInfoService.GetCustBankDetail(custId);
                 custBankInfo.bankInfoDetail = bankInfoDetailList;
-                //if (custInfo.CurrencyId == 96)
-                //{
-                //    custBankInfo.uSDTDetail = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<USDTDetail>>(custBankInfo.BankInfo);
-                //}
-                //else
-                //{
-                //    custBankInfo.bankInfoDetail = bankInfoDetailList;
-                //}
-
             }
-            if (custBankInfo != null && custBankInfo.USDTInfo != null)
+            if (custBankInfo is { USDTInfo: { } })
             {
                 var uSDTDetailList = JsonConvert.DeserializeObject<IEnumerable<USDTDetail>>(custBankInfo.USDTInfo);
                 if (uSDTDetailList != null)
@@ -402,15 +391,6 @@ namespace MemberSite.Service.BLL
                         custBankInfo.usdtDetail = uSDTDetailList;
                     }
                 }
-                //if (custInfo.CurrencyId == 96)
-                //{
-                //    custBankInfo.uSDTDetail = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<USDTDetail>>(custBankInfo.BankInfo);
-                //}
-                //else
-                //{
-                //    custBankInfo.bankInfoDetail = bankInfoDetailList;
-                //}
-
             }
             return custBankInfo;
         }
