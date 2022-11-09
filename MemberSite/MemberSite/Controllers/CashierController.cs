@@ -79,7 +79,7 @@ namespace MemberSite.Controllers
 
             if (result == (int)ErrorCode.Success)
             {
-                if (!string.IsNullOrEmpty(BonusCode))
+                if (_promotionBll.VerifyBonusCode(BonusCode))
                     _promotionBll.SetDepositPromotionQueue(transId, BonusCode, authData.CustId, custInfo.SiteId, custInfo.UserName, custInfo.CurrencyId, 1, 0);
 
                 var reqDepositBank = new ReqDepositBank
@@ -111,7 +111,7 @@ namespace MemberSite.Controllers
             var result = _payInfoBll.DepositReqPay(authData.CustId, ChannelId, Amount, out var transId, out var payInfo, DepositType.MobilePayment);
             if (result == (int)ErrorCode.Success)
             {
-                if (!string.IsNullOrEmpty(BonusCode))
+                if (_promotionBll.VerifyBonusCode(BonusCode))
                     _promotionBll.SetDepositPromotionQueue(transId, BonusCode, authData.CustId, custInfo.SiteId, custInfo.UserName, custInfo.CurrencyId, 1, 0);
                 var reqDepositMobile = new ReqDepositMobile
                 {
@@ -148,7 +148,7 @@ namespace MemberSite.Controllers
             var result = _cryptoPayInfoBll.DepositReqCryptoPay(authData.CustId, ChannelId, Amount, out var transId, out var cryptoPayInfo);
             if (result == (int)ErrorCode.Success)
             {
-                if (!string.IsNullOrEmpty(BonusCode))
+                if (_promotionBll.VerifyBonusCode(BonusCode))
                     _promotionBll.SetDepositPromotionQueue(transId, BonusCode, authData.CustId, custInfo.SiteId, custInfo.UserName, custInfo.CurrencyId, 1, 0);
                 var reqDepositCrypto = new ReqDepositCrypto
                 {
@@ -181,7 +181,7 @@ namespace MemberSite.Controllers
                 out var transId, out var loadCardPayInfo);
             if (result == (int)ErrorCode.Success)
             {
-                if (!string.IsNullOrEmpty(BonusCode))
+                if (_promotionBll.VerifyBonusCode(BonusCode))
                     _promotionBll.SetDepositPromotionQueue(transId, BonusCode, authData.CustId, custInfo.SiteId, custInfo.UserName, custInfo.CurrencyId, 1, 0);
                 var reqDeposit = new
                 {
@@ -273,7 +273,7 @@ namespace MemberSite.Controllers
                 return RedirectErrorPage(model);
             }
 
-            if (!string.IsNullOrEmpty(BonusCode))
+            if (_promotionBll.VerifyBonusCode(BonusCode))
             {
                 _promotionBll.SetDepositPromotionQueue(
                     transId,
@@ -328,7 +328,7 @@ namespace MemberSite.Controllers
                     continue;
                 }
 
-                if (!string.IsNullOrEmpty(BonusCode))
+                if (_promotionBll.VerifyBonusCode(BonusCode))
                 {
                     _promotionBll.SetDepositPromotionQueue(transId, BonusCode, authData.CustId, custInfo.SiteId, custInfo.UserName, custInfo.CurrencyId, 1, 0);
                 }
