@@ -288,8 +288,10 @@ namespace MemberSite
 
             app.UseEndpoints(endpoints =>
             {
-                //endpoints.MapControllers();
-                //endpoints.MapAreaControllerRoute("areaRoute", "{area:exists}", "{area:exists}/{controller=Home}/{action=Index}");
+                endpoints.MapGet("/health", async context =>
+                {
+                    await context.Response.WriteAsync("OK");
+                });
                 endpoints.MapAreaControllerRoute(name: "areaRoute", "{area:exists}", "{LangId?}/{area:exists}/{controller=Home}/{action=Index}");
                 endpoints.MapControllerRoute(
                     name: "desktop",
