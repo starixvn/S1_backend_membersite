@@ -290,12 +290,11 @@ namespace MemberSite
             {
                 endpoints.MapGet("/health", async context =>
                 {
-                    await context.Response.WriteAsync("OK");
+                    await context.Response.WriteAsync($"{env.EnvironmentName}-{DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")}");
                 });
                 endpoints.MapAreaControllerRoute(name: "areaRoute", "{area:exists}", "{LangId?}/{area:exists}/{controller=Home}/{action=Index}");
                 endpoints.MapControllerRoute(
                     name: "desktop",
-                //pattern: "{controller=Home}/{action=Index}");
                 pattern: "{LangId?}/{controller=Home}/{action=Index}");
             });
         }
