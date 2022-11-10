@@ -44,7 +44,7 @@ namespace MemberSite.Service.BLL
             return dbData;
         }
         
-        public IEnumerable<CryptoPayInfo> GetCryptoPayInfoList(int custId/*, int groupId*/)
+        public IEnumerable<CryptoPayInfo> GetCryptoPayInfoList(int custId)
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
@@ -57,35 +57,9 @@ namespace MemberSite.Service.BLL
                 return new CryptoPayInfo[] { };
             }
 
-            var cryptoPayInfoList = GetCryptoPayInfoListWithCache(custInfo.SiteId).Where(x => vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId/* && x.GroupId == groupId*/).ToList();
-            var payid = cryptoPayInfoList.FirstOrDefault()?.PayId;
-
-            //if (payid != null)
-            //{
-            //    try
-            //    {
-            //        var myUrl = $"{payApiUrl}ReqExchangeRate";
-            //        var apiResult = await courierAdapter.MyPostAsync<Dictionary<string, ExchangeRate>, dynamic>(myUrl, new { PayId = payid, CustId = custId });
-
-            //        if (apiResult.ErrorCode == 0)
-            //        {
-            //            var exchangeRate = apiResult.Data;
-            //            foreach (var cryptoPayInfo in cryptoPayInfoList)
-            //            {
-            //                if (exchangeRate.ContainsKey(cryptoPayInfo.GroupName))
-            //                {
-            //                    cryptoPayInfo.Updated_timestamp = exchangeRate[cryptoPayInfo.GroupName].Updated_timestamp;
-            //                    cryptoPayInfo.BuyRate = exchangeRate[cryptoPayInfo.GroupName].BuyRate;
-            //                    cryptoPayInfo.SellRate = exchangeRate[cryptoPayInfo.GroupName].SellRate;
-            //                }
-            //            }
-            //        }
-            //    }
-            //    catch
-            //    {
-
-            //    }
-            //}
+            var cryptoPayInfoList = GetCryptoPayInfoListWithCache(custInfo.SiteId)
+                .Where(x => vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId).ToList();
+       
 
             if (depositLimitInfo != null)
             {
@@ -125,7 +99,8 @@ namespace MemberSite.Service.BLL
             {
                 return -2;
             }
-            else if (cryptoPayInfo.AmountRule == 3 && !cryptoPayInfo.AmountList.Contains(amount))
+            
+            if (cryptoPayInfo.AmountRule == 3 && !cryptoPayInfo.AmountList.Contains(amount))
             {
                 return -2;
             }

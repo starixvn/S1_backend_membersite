@@ -1,6 +1,6 @@
 ﻿namespace MemberSite.Service.Model
 {
-    public class BankInfoPay
+    public class BankInfoPay : IPaymentLimit
     {
         public int SysId { get; set; }
         public int CurrencyId { get; set; }
