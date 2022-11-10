@@ -26,12 +26,14 @@ namespace MemberSite.Service.DAL
         public IEnumerable<CryptoPayInfo> GetCryptoPayInfo(int siteId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<CryptoPayInfo>("Common_CryptoPay_Get", new { SiteId = siteId }, commandType: CommandType.StoredProcedure);
+            return conn.Query<CryptoPayInfo>("Service_DepositPaySetting_Get",
+                new { _SiteId = siteId, _DepositType = DepositType.CryptoPayment }, commandType: CommandType.StoredProcedure);
         }
         public IEnumerable<LoadCardPayInfo> GetLoadCardPayInfo(int siteId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<LoadCardPayInfo>("Common_LoadCardPay_Get", new { SiteId = siteId }, commandType: CommandType.StoredProcedure);
+            return conn.Query<LoadCardPayInfo>("Service_DepositPaySetting_Get",
+                new { _SiteId = siteId, _DepositType = DepositType.LoadCardPayment }, commandType: CommandType.StoredProcedure);
         }
 
         public IEnumerable<PayInfo> GetPayInfo(int siteId, DepositType depositType)
