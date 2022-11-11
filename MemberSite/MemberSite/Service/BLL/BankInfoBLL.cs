@@ -10,8 +10,6 @@ namespace MemberSite.Service.BLL
         private readonly BankInfoService _bankInfoService;
         private readonly ServerInfoBll _serverInfoBll;
         private readonly CustInfoBll _custInfoBll;
-        private readonly SysBankInfoOffComparer _sysBankInfoOffComparer;
-        private readonly PaymentOffComparer _paymentOffComparer;
         private readonly PayService _payService;
         private readonly DepositBLL _depositBll;
         private readonly ICacheHelper _redisHelper;
@@ -24,8 +22,6 @@ namespace MemberSite.Service.BLL
             _payService = provider.GetRequiredService<PayService>();
             _depositBll = provider.GetRequiredService<DepositBLL>();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
-            _sysBankInfoOffComparer = new SysBankInfoOffComparer();
-            _paymentOffComparer = new PaymentOffComparer();
         }
         public IEnumerable<BankInfoSys> GetBankInfoSysListByCurrency(int currencyId)
         {
@@ -75,78 +71,48 @@ namespace MemberSite.Service.BLL
             }
         }
 
-        private class SysBankInfoOffComparer : IEqualityComparer<SysBankInfoFront>
-        {
-            public bool Equals(SysBankInfoFront t1, SysBankInfoFront t2)
-            {
-                return (t1.SysId == t2.SysId && t1.BankCode == t2.BankCode);
-            }
-
-            public int GetHashCode(SysBankInfoFront t)
-            {
-                return t.ToString().GetHashCode();
-            }
-        }
-
-        private class PaymentOffComparer : IEqualityComparer<PaymentFront>
-        {
-            public bool Equals(PaymentFront t1, PaymentFront t2)
-            {
-                return (t1.PayId == t2.PayId);
-            }
-
-            public int GetHashCode(PaymentFront t)
-            {
-                return t.ToString().GetHashCode();
-            }
-        }
-
         public IEnumerable<PaymentFront> GetOnlinePaymentList(int custId)
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
-            var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
+            var pointLevel = _custInfoBll.GetPointLevelWithCache(custId);
             var depositLimitInfoList = _depositBll.GetDepositLimitInfoList(custInfo.SiteId);
             var depositLimitInfo = depositLimitInfoList?.FirstOrDefault(x =>
-                x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel &&
+                x.SiteId == custInfo.SiteId && x.VipLevel == pointLevel &&
                 x.DepositType == (int)DepositType.OnlineBanking && x.CurrencyId == custInfo.CurrencyId);
 
             if (depositLimitInfo?.DepositStatus == 0)
             {
-                return new PaymentFront[] { };
+                return Array.Empty<PaymentFront>();
             }
 
-            var bankInfoPayList = GetOnlineBankList(custInfo.SiteId);
+            var bankInfoPayList = GetOnlineBankList(custInfo.SiteId)
+                .Where(x => pointLevel >= x.PointLevel
+                    && (x.CurrencyId == custInfo.CurrencyId || x.CurrencyId == 0));
 
-            var onlinePaymentList = (from x in bankInfoPayList
-                                     where vipLevel >= x.PointLevel && (x.CurrencyId == custInfo.CurrencyId || x.CurrencyId == 0)
-                                     select new PaymentFront
-                                     {
-                                         PayName = x.PayName,
-                                         PayId = x.PayId,
-                                         ChannelId = x.ChannelId,
-                                         SelBank = x.SelBank,
-                                         Mode = x.Mode
-                                     }).Distinct(_paymentOffComparer).ToArray();
-            var payCurrency = GetPayCurrency();//.Where(x => x.CurrencyId == custInfo.CurrencyId && x.ChannelId == payId).FirstOrDefault()
-
-            if (onlinePaymentList != null)
-            {
-                foreach (var onlinePayment in onlinePaymentList)
+            var onlinePaymentList = bankInfoPayList
+                .GroupBy(x => x.ChannelId)
+                .Select(x =>
                 {
-                    var iPayCurrency = payCurrency.FirstOrDefault(x => x.CurrencyId == custInfo.CurrencyId && x.ChannelId == onlinePayment.ChannelId);
-                    if (iPayCurrency != null)
+                    var item = x.First();
+                    var p = new PaymentFront
                     {
-                        onlinePayment.MaxAmount = iPayCurrency.MaxAmount;
-                        onlinePayment.MinAmount = iPayCurrency.MinAmount;
-
-                        if (depositLimitInfo != null)
-                        {
-                            _depositBll.FixDepositLimit(onlinePayment, depositLimitInfo);
-                        }
+                        PayName = item.PayName,
+                        PayId = item.PayId,
+                        ChannelId = item.ChannelId,
+                        SelBank = item.SelBank,
+                        Mode = item.Mode,
+                        MaxAmount = item.MaxAmount,
+                        MinAmount = item.MinAmount
+                    };
+                    
+                    if (depositLimitInfo != null)
+                    {
+                        _depositBll.FixDepositLimit(p, depositLimitInfo);
                     }
-                }
-            }
-
+                    
+                    return p;
+                });
+            
             return onlinePaymentList.Where(x => x.MaxAmount > 0);
         }
 
@@ -156,27 +122,33 @@ namespace MemberSite.Service.BLL
             var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
             var bankInfoPayList = GetOnlineBankList(custInfo.SiteId);
 
-            var bankInfoList = (from x in bankInfoPayList
-                                where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.PayId == payId && (x.Method == 0 || x.Method == 1)
-                                select new SysBankInfoFront
-                                {
-                                    SysId = x.SysId,
-                                    BankCode = x.SysBankCode,
-                                    BankLogo = x.BankLogo,
-                                    BankName = x.SysBankName,
-                                }).Distinct(_sysBankInfoOffComparer);
-
+            var bankInfoList = bankInfoPayList
+                .Where(x => vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.PayId == payId &&
+                            x.Method is 0 or 1)
+                .GroupBy(x => new {x.SysId, x.BankCode})
+                .Select(x =>
+                {
+                    var d = x.First();
+                    return new SysBankInfoFront
+                    {
+                        SysId = d.SysId,
+                        BankCode = d.SysBankCode,
+                        BankLogo = d.BankLogo,
+                        BankName = d.SysBankName,
+                    };
+                });
+                
             return bankInfoList;
         }
 
         public BankInfoPayFront GetOnlineBankInfo(int custId, int sysId, int payId)
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
-            var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
+            var pointLevel = _custInfoBll.GetPointLevelWithCache(custId);
 
             var depositLimitInfoList = _depositBll.GetDepositLimitInfoList(custInfo.SiteId);
             var depositLimitInfo = depositLimitInfoList?.FirstOrDefault(x =>
-                x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel &&
+                x.SiteId == custInfo.SiteId && x.VipLevel == pointLevel &&
                 x.DepositType == (int)DepositType.OnlineBanking && x.CurrencyId == custInfo.CurrencyId);
 
             if (depositLimitInfo?.DepositStatus == 0)
@@ -184,38 +156,37 @@ namespace MemberSite.Service.BLL
                 return null;
             }
 
-            var bankInfoPayList = GetOnlineBankList(custInfo.SiteId);
-            var bankInfo = (from x in bankInfoPayList
-                            where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.SysId == sysId && x.PayId == payId
-                            select new BankInfoPayFront
-                            {
-                                SysId = x.SysId,
-                                PayId = x.PayId,
-                                BankCode = x.BankCode,
-                                BankLogo = x.BankLogo,
-                                BankName = x.SysBankName,/*x.SysBankCode*/
-                                ChannelId = x.ChannelId
-                            })
+            var bankInfoPayList = GetOnlineBankList(custInfo.SiteId)
+                .Where(x => pointLevel >= x.PointLevel
+                            && x.CurrencyId == custInfo.CurrencyId
+                            && x.SysId == sysId
+                            && x.PayId == payId);
+
+            var bankInfo = bankInfoPayList
+                .Select(x =>
+                {
+                    var p = new BankInfoPayFront
+                    {
+                        SysId = x.SysId,
+                        PayId = x.PayId,
+                        BankCode = x.BankCode,
+                        BankLogo = x.BankLogo,
+                        BankName = x.SysBankName,
+                        ChannelId = x.ChannelId,
+                        MaxAmount = x.MaxAmount,
+                        MinAmount = x.MinAmount
+                    };
+                    
+                    if (depositLimitInfo != null)
+                    {
+                        _depositBll.FixDepositLimit(p, depositLimitInfo);
+                    }
+                    
+                    return p;
+                })
+                .Where(x => x.MaxAmount >= 0)
                 .OrderByDescending(x => x.SysId)
                 .FirstOrDefault();
-
-            var payCurrency = GetPayCurrency().FirstOrDefault(x => x.CurrencyId == custInfo.CurrencyId && x.ChannelId == bankInfo.ChannelId);
-
-            if (payCurrency != null)
-            {
-                bankInfo.MinAmount = payCurrency.MinAmount;
-                bankInfo.MaxAmount = payCurrency.MaxAmount;
-
-                if (depositLimitInfo != null)
-                {
-                    _depositBll.FixDepositLimit(bankInfo, depositLimitInfo);
-                }
-
-                if (bankInfo.MaxAmount < 0)
-                {
-                    return null;
-                }
-            }
 
             return bankInfo;
         }
@@ -230,13 +201,6 @@ namespace MemberSite.Service.BLL
                 RedisDataBase.Shared);
             return dbData;
         }
-        public IEnumerable<PayCurrency> GetPayCurrency()
-        {
-            var dbData = _redisHelper.TryGetOrCreate("PayCurrency", TimeSpan.FromMinutes(5),
-                () => _payService.GetPayCurrency(),RedisDataBase.Shared);
-            return dbData;
-        }
-        
         public IEnumerable<SysBankInfoFront> GetAutoChannelBankGroupList(Customer customer, int vipLevel)
         {
             return GetAutoChannelBankList(customer, vipLevel)

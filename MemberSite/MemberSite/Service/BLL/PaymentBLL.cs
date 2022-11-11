@@ -421,62 +421,68 @@ namespace MemberSite.Service.BLL
             if (amount <= 0)
                 return -1;
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var payCurrency = bankInfoBLL.GetPayCurrency().FirstOrDefault(x => x.ChannelId == channelId && custInfo.CurrencyId == x.CurrencyId);
-
+            
+            
             var depositLimitInfoList = _depositService.GetDepositLimitInfoList();
-            var vipLevel = custInfoBLL.GetPointLevelWithCache(custId);
+            var pointLevel = custInfoBLL.GetPointLevelWithCache(custId);
+            var onlineBankList = depositType == DepositType.OnlineBanking ? 
+                bankInfoBLL.GetOnlineBankList(custInfo.SiteId) : 
+                bankInfoBLL.GetAutoChannelBankInfoList(custInfo.SiteId, depositType);
+            
+            onlineBank = onlineBankList
+                .FirstOrDefault(x => pointLevel >= x.PointLevel
+                                     && x.ChannelId == channelId
+                                     && (x.SysId == sysId || !x.SelBank)
+                                     && x.PayId == payId
+                                     && (x.CurrencyId == custInfo.CurrencyId || !x.SelBank));
 
-            var depositLimitInfo = depositLimitInfoList?.FirstOrDefault(x => x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)depositType && x.CurrencyId == custInfo.CurrencyId);
+            
+            
+            var depositLimitInfo = depositLimitInfoList?
+                .FirstOrDefault(x => x.SiteId == custInfo.SiteId
+                                     && x.VipLevel == pointLevel
+                                     && x.DepositType == (int)depositType
+                                     && x.CurrencyId == custInfo.CurrencyId);
 
             if (depositLimitInfo?.DepositStatus == 0)
             {
                 return -3;
             }
 
-            if (depositLimitInfo != null && payCurrency != null)
+            if (depositLimitInfo != null && onlineBank != null)
             {
-                FixDepositLimit(payCurrency, depositLimitInfo);
+                FixDepositLimit(onlineBank, depositLimitInfo);
             }
 
-            if (payCurrency == null || payCurrency.MaxAmount < amount || payCurrency.MinAmount > amount)
+            if (onlineBank == null || onlineBank.MaxAmount < amount || onlineBank.MinAmount > amount)
             {
                 return -2;
             }
 
-            var onlineBankList = depositType == DepositType.OnlineBanking ? 
-                bankInfoBLL.GetOnlineBankList(custInfo.SiteId) : 
-                bankInfoBLL.GetAutoChannelBankInfoList(custInfo.SiteId, depositType);
-            onlineBank = onlineBankList.FirstOrDefault(x => vipLevel >= x.PointLevel && x.ChannelId == channelId && (x.SysId == sysId || !x.SelBank) && x.PayId == payId && (x.CurrencyId == custInfo.CurrencyId || !x.SelBank));
-
-            if (onlineBank != null)
+            if (sysId == 0)
             {
-                if (sysId == 0)
-                {
-                    onlineBank.SelBank = false;
-                    onlineBank.SysId = 0;
-                    onlineBank.SysBankCode = "";
-                    onlineBank.SysBankName = "";
-                    onlineBank.BankLogo = "";
-                    onlineBank.BankName = "";
-                }
-
-                var depositDetailInfo = new DepositDetailInfo
-                {
-                    Amount = amount,
-                    CustId = custId,
-                    DepositType = (int)depositType,
-                    Memo = null,
-                    SiteId = custInfo.SiteId,
-                    UserName = custInfo.UserName,
-                    CurrencyId = custInfo.CurrencyId,
-                    DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(onlineBank)
-                };
-
-                _depositService.DepositReq(depositDetailInfo, out transId, out var postScript);
-                return 0;
+                onlineBank.SelBank = false;
+                onlineBank.SysId = 0;
+                onlineBank.SysBankCode = "";
+                onlineBank.SysBankName = "";
+                onlineBank.BankLogo = "";
+                onlineBank.BankName = "";
             }
 
-            return -99;
+            var depositDetailInfo = new DepositDetailInfo
+            {
+                Amount = amount,
+                CustId = custId,
+                DepositType = (int)depositType,
+                Memo = null,
+                SiteId = custInfo.SiteId,
+                UserName = custInfo.UserName,
+                CurrencyId = custInfo.CurrencyId,
+                DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(onlineBank)
+            };
+
+            _depositService.DepositReq(depositDetailInfo, out transId, out var postScript);
+            return 0;
         }
         public int WithdrawalReq(int custId, int sysId, string accountName, string accountNo, string iFSCCode, decimal amount, string memo, out decimal afterAmount, out string transId)
         {
@@ -810,11 +816,12 @@ namespace MemberSite.Service.BLL
         {
             var infos = statementService.GetSupportCryptoInfo();
             var cryptoCurrency = infos
+                .GroupBy(x => new { x.CurrencyId, x.CurrencyName})
                 .Select(x => new CryptoCurrency
                 {
-                    CurrencyId = x.CurrencyId,
-                    CurrencyName = x.CurrencyName
-                }).Distinct(new CryptoCurrencyComparer());
+                    CurrencyId = x.Key.CurrencyId,
+                    CurrencyName = x.Key.CurrencyName
+                });
 
             var cryptoNetwork = infos.Select(x => new CryptoNetwork
             {

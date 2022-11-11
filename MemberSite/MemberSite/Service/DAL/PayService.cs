@@ -13,11 +13,6 @@ namespace MemberSite.Service.DAL
         {
             this.configuration = configuration;
         }
-        public IEnumerable<PayCurrency> GetPayCurrency()
-        {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<PayCurrency>("PayCurrency_Get", commandType: CommandType.StoredProcedure);
-        }
         public IEnumerable<MobilePayInfo> GetMobilePayInfo(int siteId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));

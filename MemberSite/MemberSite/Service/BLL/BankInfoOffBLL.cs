@@ -1,7 +1,6 @@
 ﻿using MemberSite.Service.DAL;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
-using System.Text.Json;
 using MemberSite.Service.Library;
 
 namespace MemberSite.Service.BLL
@@ -12,7 +11,6 @@ namespace MemberSite.Service.BLL
         private readonly BankInfoBLL _bankInfoBll;
         private readonly CustInfoBll _custInfoBll;
         private readonly DepositBLL _depositBll;
-        private readonly SysBankInfoOffComparer _sysBankInfoOffComparer;
         private readonly DepositService _depositService;
         private readonly ICacheHelper _redisHelper;
         private readonly ILogger<BankInfoOffBLL> _logger;
@@ -24,36 +22,14 @@ namespace MemberSite.Service.BLL
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _depositBll = provider.GetRequiredService<DepositBLL>();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
-            _sysBankInfoOffComparer = new SysBankInfoOffComparer();
             _depositService = provider.GetRequiredService<DepositService>();
             _logger = provider.GetRequiredService<ILogger<BankInfoOffBLL>>();
         }
 
-        public IEnumerable<BankInfoOff> GetBankAccountOff(int siteId, int queryType = 1)
-        {
-            return _bankInfoService.GetBankAccountOff(siteId, queryType).Where(x => (x.Purpose & 1) == 1);
-        }
-        
-        /// <summary>
-        /// 取代 GetBankAccountOff
-        /// </summary>
         public IEnumerable<OfflineBankAccountInfo> GetOfflineBankAccount(int siteId)
         {
             return _bankInfoService.GetOfflineBankAccount(siteId)
                 .Where(x => x.Purposes.Contains(OfflineBankAccountPurposeEnum.Deposit));
-        }
-
-        private class SysBankInfoOffComparer : IEqualityComparer<SysBankInfoFront>
-        {
-            public bool Equals(SysBankInfoFront t1, SysBankInfoFront t2)
-            {
-                return (t1.SysId == t2.SysId && t1.BankCode == t2.BankCode);
-            }
-
-            public int GetHashCode(SysBankInfoFront t)
-            {
-                return t.ToString().GetHashCode();
-            }
         }
         
         public IEnumerable<SysBankInfoFront> GetOfflineBankCardListWithCache(int custId)
@@ -126,38 +102,27 @@ namespace MemberSite.Service.BLL
             }
 
             var infos = localBankList
-                .OrderBy(x => x.BSort)
-                .Select( x => new SysBankInfoFront
+                .GroupBy(x => new {x.SysId, x.BankCode})
+                .Select(x =>
                 {
-                    SysId = x.SysId,
-                    BankCode = x.BankCode,
-                    BankLogo = x.BankLogo,
-                    BankName = x.BankName,
-                    IFSCCode = x.AccountCode,
-                    BankSite = x.BankSite,
-                    Status = x.Status,
-                    QRCodeUrl = x.QRCodeUrl,
-                    SupportQR = x.SupportChannel.Any(y => y == OfflineBankAccountSupportChannelEnum.EWallet)
-                })
-                .Distinct(_sysBankInfoOffComparer)
-                .ToList();
+                    var d = x.OrderBy(y => y.BSort).First();
 
-            foreach (var info in infos)
-            {
-                var tmpInfo = localBankList
-                    .Where(x => x.SysId == info.SysId)
-                    .Select(x => new
+                    return new SysBankInfoFront
                     {
-                        x.MinAmount,
-                        x.MaxAmount
-                    })
-                    .OrderByDescending(x => x.MaxAmount == 0 ? decimal.MaxValue : x.MaxAmount)
-                    .ThenBy(x => x.MinAmount)
-                    .First();
+                        SysId = d.SysId,
+                        BankCode = d.BankCode,
+                        BankLogo = d.BankLogo,
+                        BankName = d.BankName,
+                        IFSCCode = d.AccountCode,
+                        BankSite = d.BankSite,
+                        Status = d.Status,
+                        QRCodeUrl = d.QRCodeUrl,
+                        SupportQR = d.SupportChannel.Any(y => y == OfflineBankAccountSupportChannelEnum.EWallet),
+                        MinAmount = x.Min(y => y.MinAmount),
+                        MaxAmount = x.Max(y => y.MaxAmount)
+                    };
+                });
 
-                info.MinAmount = tmpInfo.MinAmount;
-                info.MaxAmount = tmpInfo.MaxAmount;
-            }
             
             return infos;
         }
