@@ -285,7 +285,7 @@ namespace MemberSite.Service.BLL
 
         public IEnumerable<EWalletInfoSys> GetEWalletInfoSysListByCurrency(int currencyId)
         {
-            var dbData = _redisHelper.TryGetOrCreate("EWalletInfoSysList", TimeSpan.FromMinutes(1),
+            var dbData = _redisHelper.TryGetOrCreate("EWalletInfoSysList", TimeSpan.FromSeconds(10),
                 () => _bankInfoService.GetEWalletInfoSysList());
             return dbData?.Where(x => x.CurrencyId == currencyId);
         }
