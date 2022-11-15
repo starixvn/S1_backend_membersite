@@ -13,7 +13,6 @@ namespace MemberSite.Service.BLL
         private readonly DepositBLL _depositBll;
         private readonly CustInfoBll _custInfoBll;
         private readonly BankInfoOffBLL _bankInfoOffBll;
-        private readonly CacheHelper _cacheHelper;
         private readonly ICacheHelper _redisHelper;
         public MobilePayInfoBll(IServiceProvider provider)
         {
@@ -28,7 +27,7 @@ namespace MemberSite.Service.BLL
         public IEnumerable<MobilePayInfo> GetMobilePayInfoList(int siteId)
         {
             var key = $"MobilePayInfoList:{siteId}";
-            var dbData = _redisHelper.TryGetOrCreate<IEnumerable<MobilePayInfo>>(key, TimeSpan.FromSeconds(10),
+            var dbData = _redisHelper.TryGetOrCreate<IEnumerable<MobilePayInfo>>(key, TimeSpan.FromMinutes(5),
                 () => _payService.GetMobilePayInfo(siteId).OrderBy(x => x.GSort).ThenBy(x => x.SSort));
             return dbData;
         }
