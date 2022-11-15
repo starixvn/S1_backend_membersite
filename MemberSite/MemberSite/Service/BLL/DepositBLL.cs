@@ -18,7 +18,7 @@ namespace MemberSite.Service.BLL
         public IEnumerable<DepositLimitInfo> GetDepositLimitInfoList(int siteId)
         {
             var key = $"DepositLimitInfoList:{siteId}";
-            var dbData = _redisHelper.TryGetOrCreate(key, TimeSpan.FromMinutes(1),
+            var dbData = _redisHelper.TryGetOrCreate(key, TimeSpan.FromSeconds(10),
                 () => _depositService.GetDepositLimitInfoList().Where(x => x.SiteId == siteId));
             return dbData;
         }
