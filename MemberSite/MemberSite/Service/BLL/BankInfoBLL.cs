@@ -28,7 +28,7 @@ namespace MemberSite.Service.BLL
             var serverInfo = _serverInfoBll.GetServerInfo();
 
             var key = $"BankInfoSysList:{serverInfo.SiteId}";
-            var dbData = _redisHelper.TryGetOrCreate(key, TimeSpan.FromMinutes(1),
+            var dbData = _redisHelper.TryGetOrCreate(key, TimeSpan.FromMinutes(5),
                 () => _bankInfoService.GetBankInfoSysList(serverInfo.SiteId));
             return dbData?.Where(x => x.CurrencyId == currencyId);
         }
@@ -38,7 +38,7 @@ namespace MemberSite.Service.BLL
             var serverInfo = _serverInfoBll.GetServerInfo();
             
             var key = $"BankInfoSysListForCtrl:{serverInfo.SiteId}";
-            var dbData = _redisHelper.TryGetOrCreate(key, TimeSpan.FromSeconds(10),
+            var dbData = _redisHelper.TryGetOrCreate(key, TimeSpan.FromMinutes(1), // BankInfoSys後台不能開關
                 () => _bankInfoService.GetBankInfoSysListForCtrl(serverInfo.SiteId));
             return dbData?.Where(x => x.CurrencyId == currencyId);
         }
@@ -195,8 +195,8 @@ namespace MemberSite.Service.BLL
         #endregion
         public IEnumerable<BankInfoPay> GetOnlineBankList(int siteId)
         {
-            var key = $"BankInfoPayList:{siteId}";
-            var dbData = _redisHelper.TryGetOrCreate<IEnumerable<BankInfoPay>>(key, TimeSpan.FromSeconds(10),
+            var key = $"PaySetting:OnlineBanking:{siteId}";
+            var dbData = _redisHelper.TryGetOrCreate<IEnumerable<BankInfoPay>>(key, TimeSpan.FromMinutes(5),
                 () => _bankInfoService.GetBankInfoPayList(siteId, DepositType.OnlineBanking).OrderBy(x => x.MSort).ThenBy(x => x.SSort),
                 RedisDataBase.Shared);
             return dbData;
@@ -230,8 +230,8 @@ namespace MemberSite.Service.BLL
 
         public IEnumerable<BankInfoPay> GetAutoChannelBankInfoList(int siteId, DepositType depositType)
         {
-            var key = $"BankInfoPayList:{siteId}:{depositType}";
-            var dbData = _redisHelper.TryGetOrCreate(key, TimeSpan.FromSeconds(10),
+            var key = $"PaySetting:OnlineBanking:{siteId}:{depositType}";
+            var dbData = _redisHelper.TryGetOrCreate(key, TimeSpan.FromMinutes(5),
                 () => _bankInfoService.GetBankInfoPayList(siteId, depositType),
                 RedisDataBase.Shared);
             return dbData;
@@ -249,7 +249,7 @@ namespace MemberSite.Service.BLL
 
         public IEnumerable<EWalletInfoSys> GetEWalletInfoSysListByCurrency(int currencyId)
         {
-            var dbData = _redisHelper.TryGetOrCreate("EWalletInfoSysList", TimeSpan.FromMinutes(1),
+            var dbData = _redisHelper.TryGetOrCreate("EWalletInfoSysList", TimeSpan.FromMinutes(5),
                 () => _bankInfoService.GetEWalletInfoSysList());
             return dbData?.Where(x => x.CurrencyId == currencyId);
         }

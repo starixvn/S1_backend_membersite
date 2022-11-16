@@ -37,8 +37,8 @@ namespace MemberSite.Service.BLL
 
         private IEnumerable<CryptoPayInfo> GetCryptoPayInfoListWithCache(int siteId)
         {
-            var key = $"CryptoPayInfoList:{siteId}";
-            var dbData = _redisHelper.TryGetOrCreate<IEnumerable<CryptoPayInfo>>(key, TimeSpan.FromSeconds(10),
+            var key = $"PaySetting:Crypto:{siteId}";
+            var dbData = _redisHelper.TryGetOrCreate<IEnumerable<CryptoPayInfo>>(key, TimeSpan.FromMinutes(5),
                 () => _payService.GetCryptoPayInfo(siteId).OrderBy(x => x.GSort).ThenBy(x => x.SSort),
                 RedisDataBase.Shared);
             return dbData;
