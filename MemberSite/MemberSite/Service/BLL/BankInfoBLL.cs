@@ -195,7 +195,7 @@ namespace MemberSite.Service.BLL
         #endregion
         public IEnumerable<BankInfoPay> GetOnlineBankList(int siteId)
         {
-            var key = $"BankInfoPayList:{siteId}";
+            var key = $"PaySetting:OnlineBanking:{siteId}";
             var dbData = _redisHelper.TryGetOrCreate<IEnumerable<BankInfoPay>>(key, TimeSpan.FromMinutes(5),
                 () => _bankInfoService.GetBankInfoPayList(siteId, DepositType.OnlineBanking).OrderBy(x => x.MSort).ThenBy(x => x.SSort),
                 RedisDataBase.Shared);
@@ -230,7 +230,7 @@ namespace MemberSite.Service.BLL
 
         public IEnumerable<BankInfoPay> GetAutoChannelBankInfoList(int siteId, DepositType depositType)
         {
-            var key = $"BankInfoPayList:{siteId}:{depositType}";
+            var key = $"PaySetting:OnlineBanking:{siteId}:{depositType}";
             var dbData = _redisHelper.TryGetOrCreate(key, TimeSpan.FromMinutes(5),
                 () => _bankInfoService.GetBankInfoPayList(siteId, depositType),
                 RedisDataBase.Shared);

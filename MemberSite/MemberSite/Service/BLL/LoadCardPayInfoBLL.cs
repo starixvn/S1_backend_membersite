@@ -24,7 +24,7 @@ namespace MemberSite.Service.BLL
 
         private IEnumerable<LoadCardPayInfo> GetLoadCardPayInfoList(int siteId)
         {
-            var key = $"LoadCardPayInfoList:{siteId}";
+            var key = $"PaySetting:LoadCard:{siteId}";
             var dbData = _redisHelper.TryGetOrCreate<IEnumerable<LoadCardPayInfo>>(key, TimeSpan.FromMinutes(5),
                 () => _payService.GetLoadCardPayInfo(siteId).OrderBy(x => x.GSort).ThenBy(x => x.SSort),
                 RedisDataBase.Shared);

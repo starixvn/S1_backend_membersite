@@ -26,7 +26,7 @@ namespace MemberSite.Service.BLL
 
         public IEnumerable<MobilePayInfo> GetMobilePayInfoList(int siteId)
         {
-            var key = $"MobilePayInfoList:{siteId}";
+            var key = $"PaySetting:MobilePay:{siteId}";
             var dbData = _redisHelper.TryGetOrCreate<IEnumerable<MobilePayInfo>>(key, TimeSpan.FromMinutes(5),
                 () => _payService.GetMobilePayInfo(siteId).OrderBy(x => x.GSort).ThenBy(x => x.SSort));
             return dbData;
