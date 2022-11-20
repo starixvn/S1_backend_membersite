@@ -914,9 +914,9 @@ namespace MemberSite.Controllers.Api
             {
                 var serverInfo = _serverInfoBll.GetServerInfo();
                 var clientIp = _tools.GetClientIP();
-                var checkCountForOneMinutes = _cacheHelper.StringIncrementAsync($"IP:{clientIp}", TimeSpan.FromMinutes(1)).Result;
-                var checkCountForTenMinutes = _cacheHelper.StringIncrementAsync($"IP:10:{clientIp}", TimeSpan.FromHours(10)).Result;
-                if (checkCountForOneMinutes >= 3 || checkCountForTenMinutes >= 15)
+                var checkCountForShortTime = _cacheHelper.StringIncrementAsync($"IP:{clientIp}", TimeSpan.FromMinutes(1)).Result;
+                var checkCountForLongTime = _cacheHelper.StringIncrementAsync($"IP:10:{clientIp}", TimeSpan.FromMinutes(20)).Result;
+                if (checkCountForShortTime >= 3 || checkCountForLongTime >= 15)
                 {
                     _cacheHelper.StringFireAndForgetSetAsync($"block:{clientIp}", string.Empty, TimeSpan.FromHours(1));
                 }
@@ -926,8 +926,8 @@ namespace MemberSite.Controllers.Api
                     || (serverInfo.SiteId is (int)SiteId.Nova88 && _serverInfoBll.GetRequestUrl().Contains("indo") && req.AreaCode != "+62" && req.AreaCode != "+91")
                     || Request.Headers["User-Agent"].ToString().Contains("Dart")
                     || _areaCodeMap.All(i => i.AreaCode != req.AreaCode)
-                    || checkCountForOneMinutes >= 3
-                    || checkCountForTenMinutes >= 15
+                    || checkCountForShortTime >= 3
+                    || checkCountForLongTime >= 15
                     || _cacheHelper.KeyExists($"block:{clientIp}"))
                 {
                     _logger.LogInformation($"Attack: AreaCode:{req.AreaCode}, PhoneNo:{req.PhoneNo}, REQUEST URL:{_serverInfoBll.GetRequestUrl()}");
