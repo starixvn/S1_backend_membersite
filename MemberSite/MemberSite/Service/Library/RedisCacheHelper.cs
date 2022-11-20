@@ -106,6 +106,24 @@ namespace MemberSite.Service.Library
             }
         }
 
+        public async Task<long> StringIncrementAsync(string key, TimeSpan? timeSpan,
+            RedisDataBase redisDataBase = RedisDataBase.Member)
+        {
+            key = $"{redisDataBase}:{RemoveSpecialChars(key)}";
+            try
+            {
+                var db = _multiplexer.GetDatabase((int)redisDataBase);
+                var count = await db.StringIncrementAsync(key);
+                await db.KeyExpireAsync(key, timeSpan, CommandFlags.FireAndForget);
+                return count;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"{key} | {ex.Message}");
+                return 0;
+            }
+        }
+
         public bool KeyExists(string key, RedisDataBase redisDataBase = RedisDataBase.Member)
         {
             key = $"{redisDataBase}:{RemoveSpecialChars(key)}";

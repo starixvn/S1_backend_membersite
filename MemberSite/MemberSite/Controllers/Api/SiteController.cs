@@ -13,6 +13,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Security.Claims;
 using System.Text.RegularExpressions;
+using MemberSite.Service.Model.Mapping;
 using Microsoft.AspNetCore.Cors;
 using static MemberSite.Extensions.MethodExtension;
 
@@ -42,6 +43,8 @@ namespace MemberSite.Controllers.Api
         private readonly ICacheHelper _cacheHelper;
         private readonly RecaptchaBLL _recaptchaBll;
         private readonly ILogger<SiteController> _logger;
+        private readonly Random _random = new();
+        private readonly IEnumerable<AreaCodeMap> _areaCodeMap;
 
         public SiteController(IServiceProvider provider)
         {
@@ -62,6 +65,7 @@ namespace MemberSite.Controllers.Api
             _cacheHelper = provider.GetRequiredService<ICacheHelper>();
             _recaptchaBll = provider.GetRequiredService<RecaptchaBLL>();
             _logger = provider.GetRequiredService<ILogger<SiteController>>();
+            _areaCodeMap = provider.GetRequiredService<IEnumerable<AreaCodeMap>>();
         }
 
         public class LoginModel
@@ -901,14 +905,25 @@ namespace MemberSite.Controllers.Api
             try
             {
                 var serverInfo = _serverInfoBll.GetServerInfo();
+                var clientIp = _tools.GetClientIP();
+                var count = _cacheHelper.StringIncrementAsync($"IP:{clientIp}", TimeSpan.FromMinutes(1)).Result;
+                if (count >= 3)
+                {
+                    _cacheHelper.StringFireAndForgetSetAsync($"block:{clientIp}", string.Empty, TimeSpan.FromHours(1));
+                }
 
                 //攻擊一律回傳此號碼已存在
                 if ((serverInfo.SiteId is (int)SiteId.Bwing or (int)SiteId.Goal123 && req.AreaCode != "+84")
-                    || serverInfo.SiteId is (int)SiteId.Nova88 && _serverInfoBll.GetRequestUrl().Contains("indo") && req.AreaCode != "+62" && req.AreaCode != "+91"
-                    || Request.Headers["User-Agent"].ToString().Contains("Dart"))
+                    || (serverInfo.SiteId is (int)SiteId.Nova88 && _serverInfoBll.GetRequestUrl().Contains("indo") && req.AreaCode != "+62" && req.AreaCode != "+91")
+                    || Request.Headers["User-Agent"].ToString().Contains("Dart")
+                    || _areaCodeMap.All(i => i.AreaCode != req.AreaCode)
+                    || count >= 3
+                    || _cacheHelper.KeyExists($"block:{clientIp}"))
                 {
+                    _logger.LogInformation($"Attack: AreaCode:{req.AreaCode}, PhoneNo:{req.PhoneNo}, REQUEST URL:{_serverInfoBll.GetRequestUrl()}");
+                    
                     apiResult.ErrorCode = 0;
-                    apiResult.Data = true;
+                    apiResult.Data = _random.NextDouble() >= 0.5;
                     return apiResult;
                 }
 
