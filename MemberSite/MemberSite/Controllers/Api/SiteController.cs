@@ -905,17 +905,36 @@ namespace MemberSite.Controllers.Api
         public ApiResult<bool> ExistsPhoneNo(RrofileReq req)
         {
             var apiResult = new ApiResult<bool>(_selLangBll);
-            if (long.TryParse(req.PhoneNo, out var phoneNo))
+
+            try
             {
-                req.PhoneNo = phoneNo.ToString();
-                apiResult.Data = _custInfoBll.ExistsPhoneNo(0, req.AreaCode, req.PhoneNo);
+                var serverInfo = _serverInfoBll.GetServerInfo();
+
+                if ((serverInfo.SiteId is (int)SiteId.Bwing or (int)SiteId.Goal123 && req.AreaCode != "+84")
+                    || serverInfo.SiteId is (int)SiteId.Nova88 && _serverInfoBll.GetRequestUrl().Contains("indo") && req.AreaCode != "+62" && req.AreaCode != "+91"
+                    || Request.Headers["User-Agent"].ToString().Contains("Dart")
+            )
+                {
+                    return apiResult;
+                }
+
+                if (long.TryParse(req.PhoneNo, out var phoneNo))
+                {
+                    req.PhoneNo = phoneNo.ToString();
+                    apiResult.Data = _custInfoBll.ExistsPhoneNo(0, req.AreaCode, req.PhoneNo);
+                }
+                else
+                {
+                    apiResult.Data = true;
+                }
+                apiResult.ErrorCode = 0;
+                return apiResult;
             }
-            else
+            catch (Exception e)
             {
-                apiResult.Data = true;
+                _logger.LogError(e, GetCurrentMethod());
+                return apiResult;
             }
-            apiResult.ErrorCode = 0;
-            return apiResult;
         }
 
         [HttpPost]
