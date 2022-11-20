@@ -42,6 +42,7 @@ namespace MemberSite.Controllers.Api
         private readonly ICacheHelper _cacheHelper;
         private readonly RecaptchaBLL _recaptchaBll;
         private readonly ILogger<SiteController> _logger;
+        private Random random = new();
 
         public SiteController(IServiceProvider provider)
         {
@@ -908,7 +909,7 @@ namespace MemberSite.Controllers.Api
                     || Request.Headers["User-Agent"].ToString().Contains("Dart"))
                 {
                     apiResult.ErrorCode = 0;
-                    apiResult.Data = true;
+                    apiResult.Data = random.NextDouble() >= 0.5;
                     return apiResult;
                 }
 
