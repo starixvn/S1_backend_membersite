@@ -902,11 +902,13 @@ namespace MemberSite.Controllers.Api
             {
                 var serverInfo = _serverInfoBll.GetServerInfo();
 
+                //攻擊一律回傳此號碼已存在
                 if ((serverInfo.SiteId is (int)SiteId.Bwing or (int)SiteId.Goal123 && req.AreaCode != "+84")
                     || serverInfo.SiteId is (int)SiteId.Nova88 && _serverInfoBll.GetRequestUrl().Contains("indo") && req.AreaCode != "+62" && req.AreaCode != "+91"
-                    || Request.Headers["User-Agent"].ToString().Contains("Dart")
-            )
+                    || Request.Headers["User-Agent"].ToString().Contains("Dart"))
                 {
+                    apiResult.ErrorCode = 0;
+                    apiResult.Data = true;
                     return apiResult;
                 }
 
