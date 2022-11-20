@@ -905,14 +905,23 @@ namespace MemberSite.Controllers.Api
             try
             {
                 var serverInfo = _serverInfoBll.GetServerInfo();
+                var clientIp = _tools.GetClientIP();
+                var count = _cacheHelper.StringIncrementAsync($"IP:{clientIp}", TimeSpan.FromMinutes(1)).Result;
+                if (count >= 3)
+                {
+                    _cacheHelper.StringFireAndForgetSetAsync($"block:{clientIp}", string.Empty, TimeSpan.FromHours(1));
+                }
 
                 //攻擊一律回傳此號碼已存在
                 if ((serverInfo.SiteId is (int)SiteId.Bwing or (int)SiteId.Goal123 && req.AreaCode != "+84")
                     || (serverInfo.SiteId is (int)SiteId.Nova88 && _serverInfoBll.GetRequestUrl().Contains("indo") && req.AreaCode != "+62" && req.AreaCode != "+91")
                     || Request.Headers["User-Agent"].ToString().Contains("Dart")
-                    || _areaCodeMap.All(i => i.AreaCode != req.AreaCode))
+                    || _areaCodeMap.All(i => i.AreaCode != req.AreaCode)
+                    || count >= 3
+                    || _cacheHelper.KeyExists($"block:{clientIp}"))
                 {
-                    _logger.LogInformation($"Attack: AreaCode {req.AreaCode}, PhoneNo {req.PhoneNo}, ClientIp:{_tools.GetClientIP()}, REQUEST URL: {_serverInfoBll.GetRequestUrl()}");
+                    _logger.LogInformation($"Attack: AreaCode:{req.AreaCode}, PhoneNo:{req.PhoneNo}, REQUEST URL:{_serverInfoBll.GetRequestUrl()}");
+                    
                     apiResult.ErrorCode = 0;
                     apiResult.Data = _random.NextDouble() >= 0.5;
                     return apiResult;
