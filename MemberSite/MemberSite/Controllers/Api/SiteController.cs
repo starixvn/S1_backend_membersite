@@ -915,7 +915,7 @@ namespace MemberSite.Controllers.Api
                 var serverInfo = _serverInfoBll.GetServerInfo();
                 var clientIp = _tools.GetClientIP();
                 var checkCountForOneMinutes = _cacheHelper.StringIncrementAsync($"IP:{clientIp}", TimeSpan.FromMinutes(1)).Result;
-                var checkCountForTenMinutes = _cacheHelper.StringIncrementAsync($"IP:{clientIp}", TimeSpan.FromHours(10)).Result;
+                var checkCountForTenMinutes = _cacheHelper.StringIncrementAsync($"IP:10:{clientIp}", TimeSpan.FromHours(10)).Result;
                 if (checkCountForOneMinutes >= 3 || checkCountForTenMinutes >= 15)
                 {
                     _cacheHelper.StringFireAndForgetSetAsync($"block:{clientIp}", string.Empty, TimeSpan.FromHours(1));
