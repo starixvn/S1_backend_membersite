@@ -45,6 +45,7 @@ namespace MemberSite.Controllers.Api
         private readonly ILogger<SiteController> _logger;
         private readonly Random _random = new();
         private readonly IEnumerable<AreaCodeMap> _areaCodeMap;
+        private readonly IpHelper _ipHelper;
 
         public SiteController(IServiceProvider provider)
         {
@@ -66,6 +67,7 @@ namespace MemberSite.Controllers.Api
             _recaptchaBll = provider.GetRequiredService<RecaptchaBLL>();
             _logger = provider.GetRequiredService<ILogger<SiteController>>();
             _areaCodeMap = provider.GetRequiredService<IEnumerable<AreaCodeMap>>();
+            _ipHelper = provider.GetRequiredService<IpHelper>();
         }
 
         public class LoginModel
@@ -904,29 +906,9 @@ namespace MemberSite.Controllers.Api
 
             try
             {
-                var serverInfo = _serverInfoBll.GetServerInfo();
-                var clientIp = _tools.GetClientIP();
-                var checkCountForShortTime = _cacheHelper.StringIncrementAsync($"IP:{clientIp}", TimeSpan.FromMinutes(1)).Result;
-                var checkCountForLongTime = _cacheHelper.StringIncrementAsync($"IP:10:{clientIp}", TimeSpan.FromMinutes(20)).Result;
-                if (checkCountForShortTime >= 3 || checkCountForLongTime >= 15)
+                if (CheckAttack(req, out var result))
                 {
-                    _cacheHelper.StringFireAndForgetSetAsync($"block:{clientIp}", string.Empty, TimeSpan.FromHours(1));
-                }
-
-                //攻擊一律回傳此號碼已存在
-                if ((serverInfo.SiteId is (int)SiteId.Bwing or (int)SiteId.Goal123 && req.AreaCode != "+84")
-                    || (serverInfo.SiteId is (int)SiteId.Nova88 && _serverInfoBll.GetRequestUrl().Contains("indo") && req.AreaCode != "+62" && req.AreaCode != "+91")
-                    || Request.Headers["User-Agent"].ToString().Contains("Dart")
-                    || _areaCodeMap.All(i => i.AreaCode != req.AreaCode)
-                    || checkCountForShortTime >= 3
-                    || checkCountForLongTime >= 15
-                    || _cacheHelper.KeyExists($"block:{clientIp}"))
-                {
-                    _logger.LogInformation($"Attack: AreaCode:{req.AreaCode}, PhoneNo:{req.PhoneNo}, REQUEST URL:{_serverInfoBll.GetRequestUrl()}");
-                    
-                    apiResult.ErrorCode = 0;
-                    apiResult.Data = _random.NextDouble() >= 0.5;
-                    return apiResult;
+                    return result;
                 }
 
                 if (long.TryParse(req.PhoneNo, out var phoneNo))
@@ -946,6 +928,42 @@ namespace MemberSite.Controllers.Api
                 _logger.LogError(e, GetCurrentMethod());
                 return apiResult;
             }
+        }
+
+        private bool CheckAttack(RrofileReq req, out ApiResult<bool> result)
+        {
+            result = new ApiResult<bool>();
+            var clientIp = _tools.GetClientIP();
+            if (_ipHelper.IpInRange(clientIp))
+            {
+                return false;
+            }
+            
+            var serverInfo = _serverInfoBll.GetServerInfo();
+            var checkCountForShortTime = _cacheHelper.StringIncrementAsync($"IP:{clientIp}", TimeSpan.FromMinutes(1)).Result;
+            var checkCountForLongTime = _cacheHelper.StringIncrementAsync($"IP:10:{clientIp}", TimeSpan.FromMinutes(20)).Result;
+            if (checkCountForShortTime >= 3 || checkCountForLongTime >= 15)
+            {
+                _cacheHelper.StringFireAndForgetSetAsync($"block:{clientIp}", string.Empty, TimeSpan.FromHours(1));
+            }
+
+            if ((serverInfo.SiteId is (int)SiteId.Bwing or (int)SiteId.Goal123 && req.AreaCode != "+84")
+                || (serverInfo.SiteId is (int)SiteId.Nova88 && _serverInfoBll.GetRequestUrl().Contains("indo") &&
+                    req.AreaCode != "+62" && req.AreaCode != "+91")
+                || Request.Headers["User-Agent"].ToString().Contains("Dart")
+                || _areaCodeMap.All(i => i.AreaCode != req.AreaCode)
+                || checkCountForShortTime >= 3
+                || checkCountForLongTime >= 15
+                || _cacheHelper.KeyExists($"block:{clientIp}"))
+            {
+                _logger.LogInformation($"Attack: AreaCode:{req.AreaCode}, PhoneNo:{req.PhoneNo}, REQUEST URL:{_serverInfoBll.GetRequestUrl()}");
+
+                result.ErrorCode = 0;
+                result.Data = _random.NextDouble() >= 0.5; //亂數回傳 true false
+                return true;
+            }
+
+            return false;
         }
 
         [HttpPost]
