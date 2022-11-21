@@ -47,4 +47,9 @@
         public string SecretKey { get; set; }
         public string ShieldService { get; set; }
     }
+    
+    public class AllowIpList
+    {
+        public List<string> IpRange { get; set; }
+    }
 }

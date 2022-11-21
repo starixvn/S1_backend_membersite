@@ -61,6 +61,7 @@ namespace MemberSite
             services.Configure<RecaptchaSetting>(configuration.GetSection("ReCaptchaSetting"));
             services.Configure<Dictionary<string, SiteConfig>>(configuration.GetSection("SiteConfig"));
             services.Configure<Dictionary<string, string>>(configuration.GetSection("LoginDeviceConfig"));
+            services.Configure<AllowIpList>(configuration.GetSection("AllowIpList"));
             services.AddMemoryCache();
             services.AddDatabaseConnection(configuration);
             services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(configuration.GetValue<string>("RedisConnection")));
@@ -74,6 +75,7 @@ namespace MemberSite
             services.AddSingleton<IHttpHelper, HttpHelper>();
             services.AddSingleton<CacheHelper>();
             services.AddSingleton<TpGameTypeHelper>();
+            services.AddSingleton<IpHelper>();
 
             /*DAL*/
             services.AddSingleton<IServerInfoService, ServerInfoService>();
