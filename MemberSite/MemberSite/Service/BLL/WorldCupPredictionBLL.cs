@@ -269,29 +269,13 @@ namespace MemberSite.Service.BLL
         }
 
         /// <summary>
-        /// 取得玩家當前時間，並依據玩家所在地做時區偏移
+        /// 取得玩家當前UTC時區時間
         /// </summary>
         /// <param name="worldCupDateSetting"></param>
         /// <returns></returns>
         private DateTimeOffset GetUserCurrentTime(WorldCupDateSettingDto worldCupDateSetting)
         {
-            var timeZoneHour = 0;
-            var timeZoneMinute = 0;
-
-            if (worldCupDateSetting.TimeZone.Contains(":"))
-            {
-                timeZoneHour = int.Parse(worldCupDateSetting.TimeZone.Split(":")[0]);
-                timeZoneMinute = int.Parse(worldCupDateSetting.TimeZone.Split(":")[1]);
-            }
-            else
-            {
-                timeZoneHour = int.Parse(worldCupDateSetting.TimeZone);
-            }
-
-            var utcTime = new DateTimeOffset(DateTime.UtcNow, new TimeSpan(0, 0, 0));
-            var userCurrentTime = utcTime.ToOffset(new TimeSpan(timeZoneHour, timeZoneMinute, 0));
-
-            return userCurrentTime;
+            return new DateTimeOffset(DateTime.UtcNow, new TimeSpan(0, 0, 0));
         }
 
         private IEnumerable<WorldCupDateSettingDto> GetWorldCupDateSetting()
