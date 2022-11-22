@@ -22,17 +22,9 @@ public class IpHelper
             var parts = subnet.Split('/');
             var ipRange = IPAddress.Parse(parts[0]);
             var mask = Convert.ToInt32(parts[1]);
-            if (mask == 0)
-            {
-                if (ip == ipRange.ToString())
-                    return true;
-            }
-            else
-            {
-                var network = new IPNetwork(ipRange, mask);
-                if (network.Contains(incomingIp))
-                    return true;
-            }
+            var network = new IPNetwork(ipRange, mask);
+            if (network.Contains(incomingIp))
+                return true;
         }
         return false;
     }
