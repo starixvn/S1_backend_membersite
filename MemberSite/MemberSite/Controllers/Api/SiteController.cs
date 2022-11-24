@@ -965,8 +965,9 @@ namespace MemberSite.Controllers.Api
                 var reason = isDart ? "agent use Dart" : "too many requests";
                 var memo = $"Auto Deny - Attack: get user phone number, reason is {reason}";
                 var setResult = _iPBll.SetBlockIp(new BlockIpRequest { IP = clientIp, Memo = memo, Operator = "System" });
-                if (setResult > 0)
+                if (setResult > 0 && !_cacheHelper.KeyExists($"AutoDeny:{clientIp}"))
                 {
+                    _cacheHelper.StringFireAndForgetSetAsync($"AutoDeny:{clientIp}", string.Empty, TimeSpan.FromMinutes(1));
                     _ = Task.Run(async () => { _ = await Upload(); });
                 }
             }
