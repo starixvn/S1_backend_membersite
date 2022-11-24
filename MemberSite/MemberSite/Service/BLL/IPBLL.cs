@@ -11,9 +11,14 @@ namespace MemberSite.Service.BLL
             _iPService = provider.GetRequiredService<IPService>();
         }
 
-        public IEnumerable<BlockIP> GetBlockIP()
+        public IEnumerable<BlockIP> GetBlockIp(bool forceUseMainDb = false)
         {
-            return _iPService.GetBlockIP();
+            return _iPService.GetBlockIp(forceUseMainDb);
+        }
+        
+        public int SetBlockIp(BlockIpRequest request)
+        {
+            return _iPService.SetBlockIp(request);
         }
     }
 }

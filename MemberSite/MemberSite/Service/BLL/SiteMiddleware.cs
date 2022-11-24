@@ -128,7 +128,7 @@ namespace MemberSite.Service.BLL
             var key = $"GetBlockIP";
             var _blockIp = _cacheHelper.TryGetOrCreate(key,
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)),
-                i => _iPBLL.GetBlockIP());
+                i => _iPBLL.GetBlockIp());
             if (_blockIp == null || !_blockIp.Any())
             {
                 return false;
