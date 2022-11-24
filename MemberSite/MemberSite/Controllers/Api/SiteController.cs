@@ -973,8 +973,8 @@ namespace MemberSite.Controllers.Api
             }
 
             if ((serverInfo.SiteId is (int)SiteId.Bwing or (int)SiteId.Goal123 && req.AreaCode != "+84")
-                || (serverInfo.SiteId is (int)SiteId.Nova88 && _serverInfoBll.GetRequestUrl().Contains("indo") &&
-                    req.AreaCode != "+62" && req.AreaCode != "+91")
+                // || (serverInfo.SiteId is (int)SiteId.Nova88 && _serverInfoBll.GetRequestUrl().Contains("indo") &&
+                //     req.AreaCode != "+62" && req.AreaCode != "+91")
                 || isDart
                 || _areaCodeMap.All(i => i.AreaCode != req.AreaCode)
                 || checkCountForShortTime >= 5
@@ -986,7 +986,7 @@ namespace MemberSite.Controllers.Api
                                        $"IP: {Request.Headers["X-Forwarded-For"]}, {Request.Headers["HTTP_X_FORWARDED_FOR"]}, {Request.Headers["HTTP_INCAP_CLIENT_IP"]}, {Request.Headers["HTTP_TRUE_CLIENT_IP"]}, {Request.Headers["HTTP_X_REAL_IP"]}, {Request.Headers["REMOTE_ADDR"]}, {HttpContext.Connection.RemoteIpAddress?.MapToIPv4().ToString()}");
 
                 result.ErrorCode = 0;
-                result.Data = _random.NextDouble() >= 0.5; //亂數回傳 true false
+                result.Data = false;//_random.NextDouble() >= 0.5; //亂數回傳 true false
                 return true;
             }
 
