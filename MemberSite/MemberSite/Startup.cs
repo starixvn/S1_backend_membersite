@@ -62,6 +62,7 @@ namespace MemberSite
             services.Configure<Dictionary<string, SiteConfig>>(configuration.GetSection("SiteConfig"));
             services.Configure<Dictionary<string, string>>(configuration.GetSection("LoginDeviceConfig"));
             services.Configure<AllowIpList>(configuration.GetSection("AllowIpList"));
+            services.Configure<Dictionary<string, AWSKeyConfig>>(configuration.GetSection("AwsKeyConfig"));
             services.AddMemoryCache();
             services.AddDatabaseConnection(configuration);
             services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(configuration.GetValue<string>("RedisConnection")));
@@ -76,6 +77,7 @@ namespace MemberSite
             services.AddSingleton<CacheHelper>();
             services.AddSingleton<TpGameTypeHelper>();
             services.AddSingleton<IpHelper>();
+            services.AddSingleton<AWSS3Helper>();
 
             /*DAL*/
             services.AddSingleton<IServerInfoService, ServerInfoService>();

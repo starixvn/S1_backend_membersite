@@ -13,6 +13,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Security.Claims;
 using System.Text.RegularExpressions;
+using Amazon.S3.Model;
 using MemberSite.Service.Model.Mapping;
 using Microsoft.AspNetCore.Cors;
 using static MemberSite.Extensions.MethodExtension;
@@ -46,6 +47,10 @@ namespace MemberSite.Controllers.Api
         private readonly Random _random = new();
         private readonly IEnumerable<AreaCodeMap> _areaCodeMap;
         private readonly IpHelper _ipHelper;
+        private readonly IPBLL _iPBll;
+        private readonly AWSS3Helper _s3Helper;
+        private readonly string _fileName;
+        private readonly string _folder;
 
         public SiteController(IServiceProvider provider)
         {
@@ -68,6 +73,11 @@ namespace MemberSite.Controllers.Api
             _cacheHelper = provider.GetRequiredService<ICacheHelper>();
             _areaCodeMap = provider.GetRequiredService<IEnumerable<AreaCodeMap>>();
             _ipHelper = provider.GetRequiredService<IpHelper>();
+            _iPBll = provider.GetRequiredService<IPBLL>();
+            _s3Helper = provider.GetRequiredService<AWSS3Helper>();
+            var env = provider.GetRequiredService<IWebHostEnvironment>(); 
+            _fileName = env.IsProduction() || env.EnvironmentName == "Release" ? "blockIp.txt" : "blockIp_test.txt";
+            _folder = Path.Combine(env.ContentRootPath, "NginxConfig");
         }
 
         public class LoginModel
@@ -950,18 +960,33 @@ namespace MemberSite.Controllers.Api
             var serverInfo = _serverInfoBll.GetServerInfo();
             var checkCountForShortTime = _cacheHelper.StringIncrementAsync($"IP:{clientIp}", TimeSpan.FromMinutes(1)).Result;
             var checkCountForLongTime = _cacheHelper.StringIncrementAsync($"IP:10:{clientIp}", TimeSpan.FromMinutes(20)).Result;
-            if (checkCountForShortTime >= 3 || checkCountForLongTime >= 15)
+            var checkCountForBlock = _cacheHelper.StringIncrementAsync($"IP:hour:{clientIp}", TimeSpan.FromHours(1)).Result;
+            if (checkCountForShortTime >= 5 || checkCountForLongTime >= 15)
             {
                 _cacheHelper.StringFireAndForgetSetAsync($"block:{clientIp}", string.Empty, TimeSpan.FromHours(1));
+            }
+
+            var isDart = Request.Headers["User-Agent"].ToString().Contains("Dart");
+
+            if (checkCountForBlock >= 60 || isDart)
+            {
+                var reason = isDart ? "agent use Dart" : "too many requests";
+                var memo = $"Auto Deny - Attack: get user phone number, reason is {reason}";
+                var setResult = _iPBll.SetBlockIp(new BlockIpRequest { IP = clientIp, Memo = memo, Operator = "System" });
+                if (setResult > 0)
+                {
+                    _ = Task.Run(async () => { _ = await Upload(); });
+                }
             }
 
             if ((serverInfo.SiteId is (int)SiteId.Bwing or (int)SiteId.Goal123 && req.AreaCode != "+84")
                 || (serverInfo.SiteId is (int)SiteId.Nova88 && _serverInfoBll.GetRequestUrl().Contains("indo") &&
                     req.AreaCode != "+62" && req.AreaCode != "+91")
-                || Request.Headers["User-Agent"].ToString().Contains("Dart")
+                || isDart
                 || _areaCodeMap.All(i => i.AreaCode != req.AreaCode)
-                || checkCountForShortTime >= 3
+                || checkCountForShortTime >= 5
                 || checkCountForLongTime >= 15
+                || checkCountForBlock >= 60
                 || _cacheHelper.KeyExists($"block:{clientIp}"))
             {
                 _logger.LogInformation($"Attack: AreaCode:{req.AreaCode}, PhoneNo:{req.PhoneNo}, REQUEST URL:{_serverInfoBll.GetRequestUrl()}, " +
@@ -973,6 +998,36 @@ namespace MemberSite.Controllers.Api
             }
 
             return false;
+        }
+
+        private async Task<bool> Upload()
+        {
+            try
+            {
+                var ipList = _iPBll.GetBlockIp(true).Select(i => i.IP).ToList();
+                Directory.CreateDirectory(_folder);
+                var filePath = Path.Combine(_folder, _fileName);
+                await System.IO.File.WriteAllLinesAsync(filePath, ipList);
+                using var destination = new MemoryStream();
+                await using (var source = System.IO.File.Open(filePath, FileMode.Open))
+                {
+                    await source.CopyToAsync(destination);
+                }
+
+                var putRequest = new PutObjectRequest
+                {
+                    BucketName = "ailab-config",
+                    ContentType = "text/plain",
+                    InputStream = destination,
+                    Key = _fileName
+                };
+                return await _s3Helper.PutObjectAsync(putRequest);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Upload S3 Fail.");
+                return false;
+            }
         }
 
         [HttpPost]
