@@ -952,7 +952,7 @@ namespace MemberSite.Controllers.Api
             var serverInfo = _serverInfoBll.GetServerInfo();
             var checkCountForShortTime = _cacheHelper.StringIncrementAsync($"IP:{clientIp}", TimeSpan.FromMinutes(1)).Result;
             var checkCountForLongTime = _cacheHelper.StringIncrementAsync($"IP:10:{clientIp}", TimeSpan.FromMinutes(20)).Result;
-            var checkCountForBlock = _cacheHelper.StringIncrementAsync($"IP:hour:{clientIp}", TimeSpan.FromHours(1)).Result;
+            var checkCountForBlock = _cacheHelper.StringIncrementAsync($"IP:hour:{clientIp}", TimeSpan.FromMinutes(30)).Result;
             if (checkCountForShortTime >= 5 || checkCountForLongTime >= 15)
             {
                 _cacheHelper.StringFireAndForgetSetAsync($"block:{clientIp}", string.Empty, TimeSpan.FromHours(1));
@@ -960,10 +960,10 @@ namespace MemberSite.Controllers.Api
 
             var isDart = Request.Headers["User-Agent"].ToString().Contains("Dart");
 
-            if (checkCountForBlock >= 60 || isDart)
+            if (checkCountForBlock >= 120 || isDart)
             {
                 var reason = isDart ? "agent use Dart" : "too many requests";
-                var memo = $"Auto Deny - Attack: get user phone number, reason is {reason}";
+                var memo = $"Auto Deny (/Site/ExistsPhoneNo) - Attack: get user phone number, reason is {reason}";
                 var setResult = _iPBll.SetBlockIp(new BlockIpRequest { IP = clientIp, Memo = memo, Operator = "System" });
                 if (setResult > 0 && !_cacheHelper.KeyExists($"AutoDeny:{clientIp}"))
                 {
@@ -973,8 +973,6 @@ namespace MemberSite.Controllers.Api
             }
 
             if ((serverInfo.SiteId is (int)SiteId.Bwing or (int)SiteId.Goal123 && req.AreaCode != "+84")
-                // || (serverInfo.SiteId is (int)SiteId.Nova88 && _serverInfoBll.GetRequestUrl().Contains("indo") &&
-                //     req.AreaCode != "+62" && req.AreaCode != "+91")
                 || isDart
                 || _areaCodeMap.All(i => i.AreaCode != req.AreaCode)
                 || checkCountForShortTime >= 5
@@ -986,7 +984,7 @@ namespace MemberSite.Controllers.Api
                                        $"IP: {Request.Headers["X-Forwarded-For"]}, {Request.Headers["HTTP_X_FORWARDED_FOR"]}, {Request.Headers["HTTP_INCAP_CLIENT_IP"]}, {Request.Headers["HTTP_TRUE_CLIENT_IP"]}, {Request.Headers["HTTP_X_REAL_IP"]}, {Request.Headers["REMOTE_ADDR"]}, {HttpContext.Connection.RemoteIpAddress?.MapToIPv4().ToString()}");
 
                 result.ErrorCode = 0;
-                result.Data = false;//_random.NextDouble() >= 0.5; //亂數回傳 true false
+                result.Data = false;
                 return true;
             }
 
