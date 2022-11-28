@@ -203,9 +203,14 @@ namespace MemberSite.Controllers.Api
                 _cacheHelper.StringFireAndForgetSetAsync($"block:SignIn:{clientIp}", string.Empty, TimeSpan.FromHours(1));
             }
 
-            if (checkCountForBlock >= 30)
+            var isAttack = string.Compare(req.platform, "x", StringComparison.OrdinalIgnoreCase) == 0 ||
+                           string.Compare(req.userAgent, "x", StringComparison.OrdinalIgnoreCase) == 0 ||
+                           string.Compare(req.screen, "x", StringComparison.OrdinalIgnoreCase) == 0;
+
+            if (checkCountForBlock >= 30 || isAttack)
             {
-                var memo = "Auto Deny (/Site/SignIn or /Site/SignInApp) - Attack: try login, reason is too many requests";
+                var reason = isAttack ? "platform or userAgent or screen use x" : "too many requests";
+                var memo = $"Auto Deny (/Site/SignIn or /Site/SignInApp) - Attack: try login, reason is {reason}";
                 var setResult = _iPBll.SetBlockIp(new BlockIpRequest { IP = clientIp, Memo = memo, Operator = "System" });
                 if (setResult > 0 && !_cacheHelper.KeyExists($"AutoDeny:SignIn:{clientIp}"))
                 {
