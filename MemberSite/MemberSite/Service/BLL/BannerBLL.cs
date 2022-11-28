@@ -102,7 +102,6 @@ namespace MemberSite.Service.BLL
                             BannerType = bannerDetail.BannerType,
                             ActionMode = bannerDetail.ActionMode,
                             BonusCode = bannerDetail.BonusCode,
-                            MatchId = bannerDetail.MatchId,
                             TpId = bannerDetail.TpId,
                             GameId = bannerDetail.GameId,
                             UrlRouter = bannerDetail.UrlRouter,
@@ -113,55 +112,6 @@ namespace MemberSite.Service.BLL
                         });
                     }
                 }
-                else if (bannerDetail.SportLeaguesId != null && bannerDetail.SportTeamsHome != null && bannerDetail.SportTeamsAway != null && bannerDetail.BannerType == 2)
-                {
-                    var sportLeaguesId = JsonConvert.DeserializeObject<Dictionary<string, string>>(bannerDetail.SportLeaguesId);
-                    var sportTeamsHome = JsonConvert.DeserializeObject<Dictionary<string, string>>(bannerDetail.SportTeamsHome);
-                    var sportTeamsAway = JsonConvert.DeserializeObject<Dictionary<string, string>>(bannerDetail.SportTeamsAway);
-                    var logoPic = "";
-                    var backgroundPic = "";
-                    if (sportLeaguesId.ContainsKey(langId) && sportTeamsHome.ContainsKey(langId) && sportTeamsAway.ContainsKey(langId))
-                    {
-                        if (serverInfo.SiteId == 1 && bannerDetail.LeaguesId != 6)
-                        {
-                            logoPic = $"{siteConfig.Value[serverInfo.SiteName].ImageURL}/Sports/{sportLeaguesId["en"]}/{serverInfo.SiteName}/Logo.png";
-                            backgroundPic = $"{siteConfig.Value[serverInfo.SiteName].ImageURL}/Sports/{sportLeaguesId["en"]}/{serverInfo.SiteName}/Background.jpg";
-                        }
-                        var leagues = sportLeaguesId[langId];
-                        var teamsHome = sportTeamsHome[langId];
-                        var teamsHomePic = $"{siteConfig.Value[serverInfo.SiteName].ImageURL}/Sports/{sportLeaguesId["en"]}/{sportTeamsHome["en"]}.png";
-                        var teamsAway = sportTeamsAway[langId];
-                        var teamsAwayPic = $"{siteConfig.Value[serverInfo.SiteName].ImageURL}/Sports/{sportLeaguesId["en"]}/{sportTeamsAway["en"]}.png";
-                        banner.Add(new BannerV3()
-                        {
-                            BannerName = bannerDetail.BannerName,
-                            BannerType = bannerDetail.BannerType,
-                            ActionMode = bannerDetail.ActionMode,
-                            BonusCode = bannerDetail.BonusCode,
-                            MatchId = bannerDetail.MatchId,
-                            TpId = bannerDetail.TpId,
-                            GameId = bannerDetail.GameId,
-                            UrlRouter = bannerDetail.UrlRouter,
-                            SportBattleDateTime = bannerDetail.SportBattleDateTime,
-                            LeaguesId = bannerDetail.LeaguesId,
-                            SportLeaguesId = leagues,
-                            SportTeamsHome = teamsHome,
-                            SportTeamsHomePic = teamsHomePic,
-                            SportTeamsAway = teamsAway,
-                            SportTeamsAwayPic = teamsAwayPic,
-                            HomeOdds = bannerDetail.HomeOdds,
-                            AwayOdds = bannerDetail.AwayOdds,
-                            Handicap = bannerDetail.Handicap,
-                            Logo = logoPic,
-                            BackgroundPic = backgroundPic,
-                            tpGameType = tpGameTypeHelper.GetTpGameType(bannerDetail, currencyId)
-                        });
-                    }
-                }
-            }
-            if (bannerType == 2)
-            {
-                banner = banner.OrderBy(x => x.SportBattleDateTime).ToList();
             }
             return banner;
         }
