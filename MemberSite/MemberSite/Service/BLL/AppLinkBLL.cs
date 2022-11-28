@@ -13,7 +13,7 @@ namespace MemberSite.Service.BLL
         }
         public List<GetAppLinkRep> GetAppLink(int SiteId)
         {
-            List<GetAppLinkRep> result = new List<GetAppLinkRep>();
+            var result = new List<GetAppLinkRep>();
             var applink = appLinkService.GetAppLink(SiteId);
 
             applink.FindAll(item => !string.IsNullOrWhiteSpace(item.Domain)).ForEach(x =>

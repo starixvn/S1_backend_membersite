@@ -1,7 +1,6 @@
 ﻿using MemberSite.Service.DAL;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
-using Microsoft.Extensions.Caching.Memory;
 using System.Text.Json;
 using MemberSite.Service.Library;
 
@@ -15,7 +14,8 @@ namespace MemberSite.Service.BLL
         private readonly DepositBLL _depositBll;
         private readonly SysBankInfoOffComparer _sysBankInfoOffComparer;
         private readonly DepositService _depositService;
-        private readonly CacheHelper _cacheHelper;
+        private readonly ICacheHelper _redisHelper;
+        private readonly ILogger<BankInfoOffBLL> _logger;
 
         public BankInfoOffBLL(IServiceProvider provider)
         {
@@ -23,14 +23,24 @@ namespace MemberSite.Service.BLL
             _bankInfoBll = provider.GetRequiredService<BankInfoBLL>();
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _depositBll = provider.GetRequiredService<DepositBLL>();
-            _cacheHelper = provider.GetRequiredService<CacheHelper>();
+            _redisHelper = provider.GetRequiredService<ICacheHelper>();
             _sysBankInfoOffComparer = new SysBankInfoOffComparer();
             _depositService = provider.GetRequiredService<DepositService>();
+            _logger = provider.GetRequiredService<ILogger<BankInfoOffBLL>>();
         }
 
         public IEnumerable<BankInfoOff> GetBankAccountOff(int siteId, int queryType = 1)
         {
             return _bankInfoService.GetBankAccountOff(siteId, queryType).Where(x => (x.Purpose & 1) == 1);
+        }
+        
+        /// <summary>
+        /// 取代 GetBankAccountOff
+        /// </summary>
+        public IEnumerable<OfflineBankAccountInfo> GetOfflineBankAccount(int siteId)
+        {
+            return _bankInfoService.GetOfflineBankAccount(siteId)
+                .Where(x => x.Purposes.Contains(OfflineBankAccountPurposeEnum.Deposit));
         }
 
         private class SysBankInfoOffComparer : IEqualityComparer<SysBankInfoFront>
@@ -45,81 +55,35 @@ namespace MemberSite.Service.BLL
                 return t.ToString().GetHashCode();
             }
         }
-
-        public IEnumerable<OfflineBankInfoFront> GetBankInfoOffList(int custId, int queryType = 0)
+        
+        public IEnumerable<SysBankInfoFront> GetOfflineBankCardListWithCache(int custId)
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
-            var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
-            var bankAccountOffList = GetBankAccountOff(custInfo.SiteId, queryType);
+            var pointLevel = _custInfoBll.GetPointLevelWithCache(custId);
+            var siteId = custInfo.SiteId;
+            var currencyId = custInfo.CurrencyId;
 
-            var newbankAccountOffList = JsonSerializer.Deserialize<IEnumerable<BankInfoOff>>(JsonSerializer.Serialize(bankAccountOffList));
-            var localBankList = new List<BankInfoOff>(newbankAccountOffList?.ToList());
+            var key = $"GetOfflineBankCardList:{siteId}:{currencyId}:{pointLevel}:{custInfo.UserLevel}";
+            var offBankList = _redisHelper.TryGetOrCreate(key, TimeSpan.FromSeconds(10),
+                () => GetOfflineBankAccountList(siteId, currencyId, pointLevel, custInfo.UserLevel));
 
-            var depositLimitInfoList = JsonSerializer.Deserialize<IEnumerable<DepositLimitInfo>>(
-                    JsonSerializer.Serialize(_depositBll.GetDepositLimitInfoList(custInfo.SiteId))).ToList();
-            var depositLimitInfo = depositLimitInfoList.FirstOrDefault(x =>
-                x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.LocalBank &&
-                x.CurrencyId == custInfo.CurrencyId);
             var custDepositSysIds = _bankInfoService.GetCustOffDepositSysId(custId);
-            
-            if (depositLimitInfo?.DepositStatus == 0)
-            {
-                return new OfflineBankInfoFront[] { };
-            }
+            var result = offBankList
+                .Where(x => !custDepositSysIds.Contains(x.SysId));
 
-            if (depositLimitInfo != null && localBankList.Any())
-            {
-                foreach (var localBack in localBankList)
-                {
-                    _depositBll.FixDepositLimit(localBack, depositLimitInfo);
-                }
-            }
-
-            var _info = (from x in localBankList
-                         where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.MaxAmount > 0
-                         orderby x.PointLevel descending, x.BSort
-                         select new SysBankInfoFront
-                         {
-                             SysId = x.SysId,
-                             BankCode = x.BankCode,
-                             BankLogo = x.BankLogo,
-                             BankName = x.BankName,
-                             IFSCCode = x.IFSCCode,
-                             BankSite = x.BankSite,
-                             Status = x.Status,
-                         }).Distinct(_sysBankInfoOffComparer).ToList();
-
-            for (var i = 0; i < _info.Count; i++)
-            {
-                var _info1 = (from x in localBankList
-                              where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && _info[i].SysId == x.SysId && x.MaxAmount > 0
-                              select new
-                              {
-                                  x.MinAmount,
-                                  x.MaxAmount
-                              }).OrderByDescending(x => x.MaxAmount == 0 ? decimal.MaxValue : x.MaxAmount).ThenBy(x => x.MinAmount).FirstOrDefault();
-
-                _info[i].MinAmount = _info1.MinAmount;
-                _info[i].MaxAmount = _info1.MaxAmount;
-            }
-
-            var result =
-                _info.Select(x => new OfflineBankInfoFront(x, !custDepositSysIds.Contains(x.SysId)));
-            
             return result;
         }
-
-        public IEnumerable<OfflineBankInfoFront> GetBankInfoOffListWithCache(int custId, string lang, int queryType = 0)
+        
+        public IEnumerable<OfflineBankInfoFront> GetBankInfoOffListWithCache(int custId, string lang)
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
-            var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
-            int SiteId = custInfo.SiteId;
-            int CurrencyId = custInfo.CurrencyId;
+            var pointLevel = _custInfoBll.GetPointLevelWithCache(custId);
+            var siteId = custInfo.SiteId;
+            var currencyId = custInfo.CurrencyId;
 
-            var key = $"GetBankInfoOffList_{SiteId}_{CurrencyId}_{vipLevel}_{lang}_{queryType}";
-            var offBankList = _cacheHelper.TryGetOrCreate(key,
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(10)),
-                i => GetBankAccountOffList(SiteId, CurrencyId, vipLevel, lang, queryType));
+            var key = $"GetBankInfoOffList:{siteId}:{currencyId}:{pointLevel}:{custInfo.UserLevel}:{lang}";
+            var offBankList = _redisHelper.TryGetOrCreate(key, TimeSpan.FromSeconds(10),
+                () => GetBankAccountOffList(siteId, currencyId, pointLevel, custInfo.UserLevel, lang));
 
             var custDepositSysIds = _bankInfoService.GetCustOffDepositSysId(custId);
             var result = offBankList
@@ -127,40 +91,41 @@ namespace MemberSite.Service.BLL
             return result;
         }
 
-        public IEnumerable<SysBankInfoFront> GetBankAccountOffList(int siteId, int currencyId, int vipLevel, string lang, int queryType = 0)
+        private IEnumerable<SysBankInfoFront> GetBankAccountOffList(int siteId, int currencyId, int pointLevel, int vipLevel, string lang)
         {
-            var newbankAccountOffList = _bankInfoService.GetBankAccountOff(siteId, queryType)
-                .Where(x => (x.Purpose & 1) == 1) //(x.Purpose & 1):選出x.Purpose為奇數的項目
+            var localBankList = GetOfflineBankAccount(siteId)
+                .Where(x => x.CurrencyId == currencyId 
+                            && (vipLevel > pointLevel || pointLevel == 8 || x.PointLevels.Contains(pointLevel))
+                            && x.VipLevels.Contains(vipLevel)
+                            && x.SupportChannel.Contains(OfflineBankAccountSupportChannelEnum.LocalBank))
                 .ToList();
 
             if (siteId == (int) SiteId.Nova88
                 && currencyId == (int) CurrencyId.THB) // Nova88 泰國銀行名稱支援多語系
             {
-                BankNameLocalization(newbankAccountOffList, lang);
+                BankNameLocalization(localBankList, lang);
             }
-
-            var localBankList = new List<BankInfoOff>(newbankAccountOffList);
-
-            var depositLimitInfoList = _depositService.GetDepositLimitInfoList().Where(x => x.SiteId == siteId)?.ToList();
-            var depositLimitInfo = depositLimitInfoList.FirstOrDefault(x =>
-                x.SiteId == siteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.LocalBank &&
-                x.CurrencyId == currencyId);
-
+            
+            var depositLimitInfo = _depositService.GetDepositLimitInfoList()
+                .FirstOrDefault(x => x.SiteId == siteId
+                    && x.VipLevel == pointLevel // DepositLimit 裡的 VipLevel 是 PointLevel
+                    && x.DepositType == (int)DepositType.LocalBank
+                    && x.CurrencyId == currencyId);
+            
             if (depositLimitInfo?.DepositStatus == 0)
             {
-                return new SysBankInfoFront[] { };
+                return Array.Empty<SysBankInfoFront>();
             }
 
             if (depositLimitInfo != null && localBankList.Any())
             {
-                foreach (var localBack in localBankList)
+                foreach (var localBank in localBankList)
                 {
-                    _depositBll.FixDepositLimit(localBack, depositLimitInfo);
+                    _depositBll.FixDepositLimit(localBank, depositLimitInfo);
                 }
             }
 
-            var _info = localBankList
-                .Where(x => vipLevel >= x.PointLevel && x.CurrencyId == currencyId && x.MaxAmount > 0)
+            var infos = localBankList
                 .OrderBy(x => x.BSort)
                 .Select( x => new SysBankInfoFront
                 {
@@ -168,32 +133,87 @@ namespace MemberSite.Service.BLL
                     BankCode = x.BankCode,
                     BankLogo = x.BankLogo,
                     BankName = x.BankName,
-                    IFSCCode = x.IFSCCode,
+                    IFSCCode = x.AccountCode,
                     BankSite = x.BankSite,
                     Status = x.Status,
+                    QRCodeUrl = x.QRCodeUrl,
+                    SupportQR = x.SupportChannel.Any(y => y == OfflineBankAccountSupportChannelEnum.EWallet)
                 })
-                .Distinct(_sysBankInfoOffComparer).ToList();
+                .Distinct(_sysBankInfoOffComparer)
+                .ToList();
 
-            for (var i = 0; i < _info.Count; i++)
+            foreach (var info in infos)
             {
-                var _info1 = (from x in localBankList
-                              where vipLevel >= x.PointLevel && x.CurrencyId == currencyId && _info[i].SysId == x.SysId && x.MaxAmount > 0
-                              select new
-                              {
-                                  x.MinAmount,
-                                  x.MaxAmount
-                              }).OrderByDescending(x => x.MaxAmount == 0 ? decimal.MaxValue : x.MaxAmount).ThenBy(x => x.MinAmount).FirstOrDefault();
+                var tmpInfo = localBankList
+                    .Where(x => x.SysId == info.SysId)
+                    .Select(x => new
+                    {
+                        x.MinAmount,
+                        x.MaxAmount
+                    })
+                    .OrderByDescending(x => x.MaxAmount == 0 ? decimal.MaxValue : x.MaxAmount)
+                    .ThenBy(x => x.MinAmount)
+                    .First();
 
-                _info[i].MinAmount = _info1.MinAmount;
-                _info[i].MaxAmount = _info1.MaxAmount;
+                info.MinAmount = tmpInfo.MinAmount;
+                info.MaxAmount = tmpInfo.MaxAmount;
+            }
+            
+            return infos;
+        }
+        
+        private IEnumerable<SysBankInfoFront> GetOfflineBankAccountList(int siteId, int currencyId, int pointLevel, int vipLevel)
+        {
+            var localBankList = GetOfflineBankAccount(siteId)
+                .Where(x => x.CurrencyId == currencyId 
+                            && (vipLevel > pointLevel || pointLevel == 8 || x.PointLevels.Contains(pointLevel)) // vipLevel > pointLevle 就先不檢查此條件，之後會改
+                            && x.VipLevels.Contains(vipLevel))
+                .ToList();
+
+            var depositLimitInfo = _depositService.GetDepositLimitInfoList()
+                .FirstOrDefault(x => x.SiteId == siteId
+                    && x.VipLevel == pointLevel // DepositLimit 裡的 VipLevel 是 PointLevel
+                    && x.DepositType == (int)DepositType.LocalBank
+                    && x.CurrencyId == currencyId);
+
+            if (depositLimitInfo?.DepositStatus == 0)
+            {
+                return Array.Empty<SysBankInfoFront>();
             }
 
-            return _info;
+            if (depositLimitInfo != null && localBankList.Any())
+            {
+                foreach (var localBank in localBankList)
+                {
+                    _depositBll.FixDepositLimit(localBank, depositLimitInfo);
+                }
+            }
+
+            var infos = localBankList
+                .OrderBy(x => x.BSort)
+                .Select( x => new SysBankInfoFront
+                {
+                    SysId = x.SysId,
+                    BankCode = x.BankCode,
+                    BankLogo = x.BankLogo,
+                    BankName = x.BankName,
+                    IFSCCode = x.AccountCode,
+                    BankSite = x.BankSite,
+                    Status = x.Status,
+                    QRCodeUrl = x.QRCodeUrl,
+                    SupportQR = x.SupportChannel.Any(y => y == OfflineBankAccountSupportChannelEnum.EWallet),
+                    MinAmount = x.MinAmount,
+                    MaxAmount = x.MaxAmount
+                })
+                .ToList();
+
+            return infos;
         }
 
-        private void BankNameLocalization(in List<BankInfoOff> list, string lang)
+        private void BankNameLocalization(in List<OfflineBankAccountInfo> list, string lang)
         {
             var bankNameList = _bankInfoBll.GetBankInfoName(lang);
+            
             if (bankNameList.Any())
             {
                 list.ForEach(x => x.BankName =

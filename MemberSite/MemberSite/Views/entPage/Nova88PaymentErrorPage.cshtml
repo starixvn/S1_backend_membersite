@@ -1,0 +1,25 @@
+﻿@model MemberSite.Controllers.entPageController.ErrorData
+@using MemberSite.Service.BLL
+@inject SelLangBLL selLangBLL
+<html>
+<head>
+    <title>@selLangBLL.GetResourceValue("lbl_Title")</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" href="https://error.0814media.net/404/img/favicon.ico" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="https://error.0814media.net/404/css/reset.css">
+    <link rel="stylesheet" href="https://error.0814media.net/404/css/style.css">
+</head>
+<body>
+    <div class="wallpaper">
+        <img src="https://error.0814media.net/404/img/logo.png" alt="Logo">
+        <div class="title">@selLangBLL.GetResourceValue("lbl_Error_Title")</div>
+        <div class="stitle">@selLangBLL.GetResourceValue("lbl_Error_Message")</div>
+        <div class="stitle">@Model.Message</div>
+        <a href="https://direct.lc.chat/11638088/1">
+            <img src="https://error.0814media.net/404/img/button.jpg" alt="LiveChat">
+        </a>
+    </div>
+</body>
+</html>

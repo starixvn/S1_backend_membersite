@@ -7,6 +7,7 @@ using MemberSite.Service.Model.enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
 {
@@ -28,7 +29,8 @@ namespace MemberSite.Controllers.Api
         private readonly ServerInfoBll _serverInfoBll;
         private readonly StatementService _statementService;
         private readonly IOptions<Dictionary<string, SiteConfig>> _siteConfig;
-
+        private readonly ILogger<TpController> _logger;
+        
         public TpController(IServiceProvider provider)
         {
             _courierAdapter = provider.GetRequiredService<CourierAdapter>();
@@ -44,6 +46,7 @@ namespace MemberSite.Controllers.Api
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
             _statementService = provider.GetRequiredService<StatementService>();
             _siteConfig = provider.GetRequiredService<IOptions<Dictionary<string, SiteConfig>>>();
+            _logger = provider.GetRequiredService<ILogger<TpController>>();
         }
 
         public class TpInfo
@@ -57,87 +60,97 @@ namespace MemberSite.Controllers.Api
         [AllowAnonymous]
         public async Task<ApiResult> GotoGame(TpInfo inInfo)
         {
-            var serverInfo = _serverInfoBll.GetServerInfo();
-            var tpMaintainList = _thirdPartyBll.GetTpMaintainListWithCache(serverInfo.SiteId);
-            if (_gameBll.IsMaintain(tpMaintainList, inInfo.TpId, inInfo.inputs.GetValueOrDefault("tpGameType"), out var tpMaintain))
+            var result = new ApiResult<bool>();
+            try
             {
-                var tpName = _statementService.GetTpListWithCache()?.First(i => i.Id == tpMaintain.TpId)?.TpName;
-                var host = _siteConfig.Value[serverInfo.SiteName].MaintainURL;
-                var maintainUrl = $"{host}/index_{_selLangBll.GetLangId() ?? "en"}.html" +
-                    $"?t={HttpUtility.UrlEncode(tpName)}&e={HttpUtility.UrlEncode($"{tpMaintain.EndDate:u}")}";    
-                return new ApiResult(3000, maintainUrl);
-            }
+                var serverInfo = _serverInfoBll.GetServerInfo();
+                var tpMaintainList = _thirdPartyBll.GetTpMaintainListWithCache(serverInfo.SiteId);
+                if (_gameBll.IsMaintain(tpMaintainList, inInfo.TpId, inInfo.inputs.GetValueOrDefault("tpGameType"),
+                        out var tpMaintain))
+                {
+                    var tpName = _statementService.GetTpListWithCache()?.First(i => i.Id == tpMaintain.TpId)?.TpName;
+                    var host = _siteConfig.Value[serverInfo.SiteName].MaintainURL;
+                    var maintainUrl = $"{host}/index_{_selLangBll.GetLangId() ?? "en"}.html" +
+                                      $"?t={HttpUtility.UrlEncode(tpName)}&e={HttpUtility.UrlEncode($"{tpMaintain.EndDate:u}")}";
+                    return new ApiResult(3000, maintainUrl);
+                }
 
-            var input = new Dictionary<string, string>();
-            var custId = 0;
-            var langId = "";
-            if (inInfo.inputs.ContainsKey("AppType") && int.TryParse(inInfo.inputs["AppType"], out var appType))
-            {
-                inInfo.AppType = appType;
-            }
-            if (inInfo.inputs != null)
-            {
-                input = inInfo.inputs;
-            }
+                var input = new Dictionary<string, string>();
+                var custId = 0;
+                var langId = "";
+                if (inInfo.inputs.ContainsKey("AppType") && int.TryParse(inInfo.inputs["AppType"], out var appType))
+                {
+                    inInfo.AppType = appType;
+                }
 
-            input.Add("Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}");
-            input.Add("ClientIP", _tools.GetClientIP());
+                if (inInfo.inputs != null)
+                {
+                    input = inInfo.inputs;
+                }
 
-            if (input.TryGetValue("fun", out var fun) && fun.Equals("1"))
-            {
-                langId = _selLangBll.GetLangId();
-            }
-            else if (User.Identity.IsAuthenticated)
-            {
+                input.Add("Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}");
+                input.Add("ClientIP", _tools.GetClientIP());
                 var authData = _authorizeBll.GetAuthData();
-                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-                langId = custInfo.UserLang;
-                custId = authData.CustId;
-                if (inInfo.TpId == (int)Tp.AG)
+
+                if (input.TryGetValue("fun", out var fun) && fun.Equals("1"))
                 {
-                    var tpCurrency = _thirdPartyBll.GetTpCurrency(inInfo.TpId, custInfo.CurrencyId);
-                    var balance = _walletBll.GetBalance(authData.CustId);
-                    var bonusAmount = _walletBll.GetBonus(authData.CustId, 2);
-
-                    balance += bonusAmount;
-
-                    if (tpCurrency.ExchangeRate != 0 && tpCurrency.ExchangeRate != 1)
+                    langId = _selLangBll.GetLangId();
+                }
+                else if (authData is { CustId: > 0 })
+                {
+                    var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                    langId = custInfo.UserLang;
+                    custId = authData.CustId;
+                    if (inInfo.TpId == (int)Tp.AG)
                     {
-                        balance /= tpCurrency.ExchangeRate;
+                        var tpCurrency = _thirdPartyBll.GetTpCurrency(inInfo.TpId, custInfo.CurrencyId);
+                        var balance = _walletBll.GetBalance(authData.CustId);
+                        var bonusAmount = _walletBll.GetBonus(authData.CustId, 2);
+
+                        balance += bonusAmount;
+
+                        if (tpCurrency.ExchangeRate != 0 && tpCurrency.ExchangeRate != 1)
+                        {
+                            balance /= tpCurrency.ExchangeRate;
+                        }
+
+                        input.Add("Balance", _tools.Floor(balance, 2).ToString());
+                        input.Add("Token", authData.Token);
                     }
-
-                    input.Add("Balance", _tools.Floor(balance, 2).ToString());
-                    input.Add("Token", authData.Token);
+                    else
+                    {
+                        input.Add("Token", authData.Token);
+                    }
                 }
-                else
+                else if (input.TryGetValue("token", out var jwtToken)
+                         && _authorizeBll.TryValidateJwtToken(jwtToken, out var appAuthData))
                 {
-                    input.Add("Token", authData.Token);
+                    //將inputs參數的token換成jwtToken避免與原本的Token混淆
+                    input.Remove("token");
+                    input.Add("jwtToken", jwtToken);
+
+                    langId = appAuthData.LangId;
+                    custId = appAuthData.CustId;
+                    input.Add("Token", appAuthData.Token);
                 }
+
+                var myUrl = $"{_apiUrl}GotoGame";
+                var tpInfo = new
+                {
+                    inInfo.TpId,
+                    CustId = custId,
+                    LangId = langId,
+                    inInfo.AppType,
+                    inputs = input
+                };
+
+                result = await _courierAdapter.MyPostAsync<bool, dynamic>(myUrl, tpInfo);
+                result.SetSelLang(_selLangBll);
             }
-            else if (input.TryGetValue("token", out var jwtToken) 
-                && _authorizeBll.TryValidateJwtToken(jwtToken, out var appAuthData))
+            catch (Exception e)
             {
-                //將inputs參數的token換成jwtToken避免與原本的Token混淆
-                input.Remove("token");
-                input.Add("jwtToken", jwtToken);
-
-                langId = appAuthData.LangId;
-                custId = appAuthData.CustId;
-                input.Add("Token", appAuthData.Token);
+                _logger.LogError(e, GetCurrentAsyncMethod());
             }
-
-            var myUrl = $"{_apiUrl}GotoGame";
-            var tpInfo = new
-            {
-                inInfo.TpId,
-                CustId = custId,
-                LangId = langId,
-                inInfo.AppType,
-                inputs = input
-            };
-
-            var result = await _courierAdapter.MyPostAsync<bool, dynamic>(myUrl, tpInfo);
-            result.SetSelLang(_selLangBll);
 
             return result;
         }
@@ -261,8 +274,8 @@ namespace MemberSite.Controllers.Api
             var activeTpId = 0;
             var fromWallet = TpWalletList.FirstOrDefault(x => x.TpId == inTpTransfer.FromTpId);
             var toWallet = TpWalletList.FirstOrDefault(x => x.TpId == inTpTransfer.ToTpId);
-            int fromWalletmode = fromWallet == null?0: fromWallet.WalletMode;
-            int toWalletmode = toWallet == null ? 0 : toWallet.WalletMode;
+            var fromWalletmode = fromWallet == null?0: fromWallet.WalletMode;
+            var toWalletmode = toWallet == null ? 0 : toWallet.WalletMode;
 
             if (inTpTransfer.TransferAction != (int)TransferAction.Manual && ((fromWalletmode == (int)WalletMode.Manual) || toWalletmode == (int)WalletMode.Manual)) //restore all not support  Wallet which WalletMode = Manual
             {

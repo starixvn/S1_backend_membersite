@@ -21,27 +21,27 @@ namespace MemberSite.Service.BLL
             return _messageService.GetMsgList(custId, pageSize, ref pageNumber, out totalPages, out rowCount);
         }
 
-        public MsgContent GetMsgContent(int custId, int msgId ,int isBatch)
+        public MsgContent GetMsgContent(int custId, int msgId, int isBatch)
         {
             return _messageService.GetMsgContent(custId, msgId, isBatch);
         }
-        
+
         public async Task<PopupMsg> GetPopupMessage(int custId)
         {
             return await _messageService.GetPopupMessage(custId);
         }
-        
-        public bool SetMsgRead(int custId, int[] msgIds)
+
+        public bool SetMsgRead(int custId, List<DeleteMsg> list)
         {
             var result = true;
-            foreach (var msgId in msgIds)
+            foreach (var item in list)
             {
-                result &= _messageService.SetRead( msgId, custId);
+                result &= _messageService.SetRead(item.MsgId, custId, item.IsBatch);
             }
 
             return result;
         }
-        
+
         public async Task<bool> SetPopupMsgRead(int custId)
         {
             return await _messageService.SetReadPopupMessageTime(custId, 1);

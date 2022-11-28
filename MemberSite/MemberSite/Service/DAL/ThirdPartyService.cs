@@ -56,15 +56,22 @@ namespace MemberSite.Service.DAL
         public IEnumerable<TpTransferInfoHistory> GetTransferHistory(int custId, long startDate, long endDate, int siteId, int pageSize, ref int pageNumber, out int totalPages, out int rowCount)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            var p = new DynamicParameters(new { CustId = custId, StartDate = startDate, EndDate = endDate, SiteId = siteId, PageSize = pageSize });
-            p.Add("PageNumber", pageNumber, dbType: DbType.Int32, direction: ParameterDirection.InputOutput);
-            p.Add("TotalPages", dbType: DbType.Int32, direction: ParameterDirection.Output);
-            p.Add("RowCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
-            p.Add("StartIndex", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            var p = new DynamicParameters(new
+            {
+                _CustId = custId,
+                _StartDate = startDate,
+                _EndDate = endDate,
+                _SiteId = siteId,
+                _PageSize = pageSize
+            });
+            p.Add("_PageNumber", pageNumber, dbType: DbType.Int32, direction: ParameterDirection.InputOutput);
+            p.Add("_TotalPages", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            p.Add("_RowCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            p.Add("_StartIndex", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
-            var tpTransferInfoHistoryResult = conn.Query<TpTransferInfoHistory>("Member_TpTransferInfoSearch_Get_V2", p, commandType: CommandType.StoredProcedure);
-            totalPages = p.Get<int?>("TotalPages") ?? 0;
-            rowCount = p.Get<int?>("RowCount") ?? 0;
+            var tpTransferInfoHistoryResult = conn.Query<TpTransferInfoHistory>("Member_TpTransferInfoSearch_Get_V3", p, commandType: CommandType.StoredProcedure);
+            totalPages = p.Get<int?>("_TotalPages") ?? 0;
+            rowCount = p.Get<int?>("_RowCount") ?? 0;
             return tpTransferInfoHistoryResult;
         }
         public IEnumerable<TpTransferInfoHistory> GetTransferRecent(int custId, int siteId, int topNum)

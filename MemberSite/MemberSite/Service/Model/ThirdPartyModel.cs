@@ -30,7 +30,7 @@ namespace MemberSite.Service.Model
         {
             get
             {
-                return _createTime.ToOffset(CustTimeZone);
+                return _createTime.ToDateTimeOffset(CustTimeZone);
             }
             set
             {
@@ -40,6 +40,7 @@ namespace MemberSite.Service.Model
         private DateTime _createTime { get; set; }
         public int Status { set; get; }
         public string Memo { set; get; }
+        public bool IsAdjustment { set; get; }
 
         [JsonIgnore]
         public string CustTimeZone { get; set; }

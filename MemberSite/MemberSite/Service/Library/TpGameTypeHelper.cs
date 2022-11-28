@@ -87,7 +87,7 @@ namespace MemberSite.Service.Library
             }
 
             //Get by Saba 
-            if (banner.TpId == "1" && int.TryParse(banner.GameId, out int gameId))
+            if (banner.TpId == "1" && int.TryParse(banner.GameId, out var gameId))
             {
                 var (_, tpCategoryId) = GetSabaDetailByGameId(gameId);
                 return tpCategoryId;
@@ -111,7 +111,7 @@ namespace MemberSite.Service.Library
 
         private int GetSabaGameType(BannerV3 banner, int currencyId)
         {
-            if (!int.TryParse(banner.GameId, out int gameId))
+            if (!int.TryParse(banner.GameId, out var gameId))
             {
                 return 1;
             }

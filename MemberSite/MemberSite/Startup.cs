@@ -11,7 +11,9 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
 using MemberSite.Extensions;
+using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.DAL.Interface;
+using MemberSite.Service.Model.Mapping;
 using StackExchange.Redis;
 
 namespace MemberSite
@@ -55,8 +57,11 @@ namespace MemberSite
             services.Configure<LineLoginChannelConfig>(configuration.GetSection("LineLoginChannelConfig"));
             services.Configure<LineLoginConfig>(configuration.GetSection("LineLoginConfig"));
             services.Configure<ShieldConfig>(configuration.GetSection("ShieldConfig"));
+            services.Configure<RecaptchaSetting>(configuration.GetSection("ReCaptchaSetting"));
             services.Configure<Dictionary<string, SiteConfig>>(configuration.GetSection("SiteConfig"));
             services.Configure<Dictionary<string, string>>(configuration.GetSection("LoginDeviceConfig"));
+            services.Configure<AllowIpList>(configuration.GetSection("AllowIpList"));
+            services.Configure<Dictionary<string, AWSKeyConfig>>(configuration.GetSection("AwsKeyConfig"));
             services.AddMemoryCache();
             services.AddDatabaseConnection(configuration);
             services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(configuration.GetValue<string>("RedisConnection")));
@@ -70,6 +75,8 @@ namespace MemberSite
             services.AddSingleton<IHttpHelper, HttpHelper>();
             services.AddSingleton<CacheHelper>();
             services.AddSingleton<TpGameTypeHelper>();
+            services.AddSingleton<IpHelper>();
+            services.AddSingleton<AWSS3Helper>();
 
             /*DAL*/
             services.AddSingleton<IServerInfoService, ServerInfoService>();
@@ -86,7 +93,6 @@ namespace MemberSite
             services.AddSingleton<MessageService>();
             services.AddSingleton<ThirdPartyService>();
             services.AddSingleton<PayService>();
-            services.AddSingleton<RolloverService>();
             services.AddSingleton<PromotionService>();
             services.AddSingleton<CasinoService>();
             services.AddSingleton<StatementService>();
@@ -104,9 +110,12 @@ namespace MemberSite
             services.AddSingleton<DeepLinkService>();
             services.AddSingleton<IVerificationRewardService, VerificationRewardService>();
             services.AddTransient<WorldCupPredictionService>();
+            services.AddTransient<RecaptchaService>();
+            services.AddSingleton<PartitionService>();
 
             services.AddSingleton<IPService>();
             services.AddSingleton<ShieldService>();
+            services.AddTransient<IHotEventService, HotEventService>();
 
             /*BLL*/
             services.AddSingleton<ServerInfoBll>();
@@ -142,7 +151,8 @@ namespace MemberSite
             services.AddSingleton<LiveStreamingBll>();
             services.AddSingleton<LatestHighlightDataBll>();
             services.AddSingleton<GameBLL>();
-            services.AddTransient<IGeoIpApiBLL, GeoIpApiBLL>();
+            services.AddTransient<IGeoIpApi, GeoIpApi>();
+            services.AddTransient<IRecaptchaApi, RecaptchaApi>();
             services.AddTransient<GeoIpBLL>();
             services.AddTransient<AppLinkBLL>();
             services.AddTransient<FileNameBLL>();
@@ -155,8 +165,11 @@ namespace MemberSite
             services.AddSingleton<IPBLL>();
             services.AddSingleton<ShieldBLL>();
             services.AddTransient<WorldCupPredictionBLL>();
+            services.AddSingleton<SlotGameBLL>();
+            services.AddTransient<RecaptchaBLL>();
 
             services.AddSingleton<CustomCookieAuthenticationEvents>();
+            services.AddTransient<HotEventBLL>();
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();
 
@@ -256,6 +269,7 @@ namespace MemberSite
             services.AddControllers();
 
             services.AddOptionListByDB<TpGameTypeOption>("Admin_TpGameType_Get");
+            services.AddOptionListByDB<AreaCodeMap>("Common_CountryList_Get");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -278,12 +292,13 @@ namespace MemberSite
 
             app.UseEndpoints(endpoints =>
             {
-                //endpoints.MapControllers();
-                //endpoints.MapAreaControllerRoute("areaRoute", "{area:exists}", "{area:exists}/{controller=Home}/{action=Index}");
+                endpoints.MapGet("/health", async context =>
+                {
+                    await context.Response.WriteAsync($"{env.EnvironmentName}-{DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")}");
+                });
                 endpoints.MapAreaControllerRoute(name: "areaRoute", "{area:exists}", "{LangId?}/{area:exists}/{controller=Home}/{action=Index}");
                 endpoints.MapControllerRoute(
                     name: "desktop",
-                //pattern: "{controller=Home}/{action=Index}");
                 pattern: "{LangId?}/{controller=Home}/{action=Index}");
             });
         }

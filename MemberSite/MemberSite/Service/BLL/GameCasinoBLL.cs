@@ -22,13 +22,7 @@ namespace MemberSite.Service.BLL
               {"Iconic","AT" },
             };
         }
-        public List<GameCasinoListData> GetGameCasinoList()
-        {
-            var key = $"GameCasinoList";
-            return _cacheHelper.TryGetOrCreate(key,
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromHours(1)),
-                i => _gameCasinoService.GetGameCasinoList());
-        }
+
         public List<GameCasinoListData> GetGameCasinoListByDevice(int deviceType)
         {
             var key = $"GetGameCasinoListByDevice_{deviceType}";

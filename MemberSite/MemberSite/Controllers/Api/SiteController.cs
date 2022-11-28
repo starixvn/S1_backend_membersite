@@ -13,7 +13,10 @@ using System.Net;
 using System.Net.Sockets;
 using System.Security.Claims;
 using System.Text.RegularExpressions;
+using Amazon.S3.Model;
+using MemberSite.Service.Model.Mapping;
 using Microsoft.AspNetCore.Cors;
+using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
 {
@@ -34,12 +37,20 @@ namespace MemberSite.Controllers.Api
         private readonly AuthBLL _authBll;
         private readonly FPSBLL _sFpsBll;
         private readonly GameCasinoBll _gameCasinoBll;
-        private readonly LineLoginBLL _lineLoginBll;
         private readonly IOptions<Dictionary<string, SiteConfig>> _siteConfig;
-        private readonly IOptions<Dictionary<string, string>> _loginDeviceConfig;
         private readonly Regex _regexUserName = new(@"^[a-zA-Z0-9]{6,18}$");
         private readonly ThirdPartyBll _thirdPartyBll;
         private readonly SiteBll _siteBll;
+        private readonly ICacheHelper _cacheHelper;
+        private readonly RecaptchaBLL _recaptchaBll;
+        private readonly ILogger<SiteController> _logger;
+        private readonly Random _random = new();
+        private readonly IEnumerable<AreaCodeMap> _areaCodeMap;
+        private readonly IpHelper _ipHelper;
+        private readonly IPBLL _iPBll;
+        private readonly AWSS3Helper _s3Helper;
+        private readonly string _fileName;
+        private readonly string _folder;
 
         public SiteController(IServiceProvider provider)
         {
@@ -54,11 +65,19 @@ namespace MemberSite.Controllers.Api
             _authBll = provider.GetRequiredService<AuthBLL>();
             _sFpsBll = provider.GetRequiredService<FPSBLL>();
             _gameCasinoBll = provider.GetRequiredService<GameCasinoBll>();
-            _lineLoginBll = provider.GetRequiredService<LineLoginBLL>();
             _siteConfig = provider.GetRequiredService<IOptions<Dictionary<string, SiteConfig>>>();
-            _loginDeviceConfig = provider.GetRequiredService<IOptions<Dictionary<string, string>>>();
             _thirdPartyBll = provider.GetRequiredService<ThirdPartyBll>();
             _siteBll = provider.GetRequiredService<SiteBll>();
+            _cacheHelper = provider.GetRequiredService<ICacheHelper>();
+            _recaptchaBll = provider.GetRequiredService<RecaptchaBLL>();
+            _logger = provider.GetRequiredService<ILogger<SiteController>>();
+            _areaCodeMap = provider.GetRequiredService<IEnumerable<AreaCodeMap>>();
+            _ipHelper = provider.GetRequiredService<IpHelper>();
+            _iPBll = provider.GetRequiredService<IPBLL>();
+            _s3Helper = provider.GetRequiredService<AWSS3Helper>();
+            var env = provider.GetRequiredService<IWebHostEnvironment>(); 
+            _fileName = env.IsProduction() || env.EnvironmentName == "Release" ? "blockIp.txt" : "blockIp_test.txt";
+            _folder = Path.Combine(env.ContentRootPath, "NginxConfig");
         }
 
         public class LoginModel
@@ -153,7 +172,9 @@ namespace MemberSite.Controllers.Api
                 });
             }
 
-            Response.Cookies.Delete($"Initialization{User.Identity.Name}");
+            await _cacheHelper.StringFireAndForgetSetAsync(customer.CustId.ToString(), token, TimeSpan.FromMinutes(30), RedisDataBase.Token);
+
+            Response.Cookies.Delete($"Initialization{User.Identity?.Name}");
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
             apiResult.Message = Url.RouteUrl("desktop", new { action = "Index", controller = "Home", LangId = _selLangBll.GetLangId() });
@@ -250,6 +271,7 @@ namespace MemberSite.Controllers.Api
             public string AffCode { get; set; }
             public string blackbox { get; set; }
             public string LineUserId { get; set; }
+            public string ReCaptchaToken { get; set; }
         }
 
         public class SignupModel : RegisteredModel
@@ -287,7 +309,7 @@ namespace MemberSite.Controllers.Api
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                 new ClaimsPrincipal(claimsIdentity));
-
+            await _cacheHelper.StringFireAndForgetSetAsync(customer.CustId.ToString(), customer.Token, TimeSpan.FromMinutes(30), RedisDataBase.Token);
             return apiResult;
         }
 
@@ -324,7 +346,7 @@ namespace MemberSite.Controllers.Api
         public ApiResult<bool> ExistsUserName(RegisteredModel registeredModel)
         {
             var apiResult = new ApiResult<bool>(_selLangBll);
-            if (!_regexUserName.IsMatch(registeredModel.UserName))
+            if (string.IsNullOrWhiteSpace(registeredModel.UserName) || !_regexUserName.IsMatch(registeredModel.UserName))
             {
                 apiResult.Data = true;
                 apiResult.ErrorCode = 0;
@@ -569,7 +591,7 @@ namespace MemberSite.Controllers.Api
             var result = new ApiResult();
             try
             {
-                if (User.Identity.IsAuthenticated)
+                if (User.Identity?.IsAuthenticated == true)
                 {
                     result.ErrorCode = 0;
                 }
@@ -587,65 +609,32 @@ namespace MemberSite.Controllers.Api
             return result;
         }
 
-        public ApiResult<List<Provider>> GetGameList()
-        {
-            var apiResult = new ApiResult<List<Provider>>();
-
-            var providers = new List<Provider> {
-                new() { Value = 6, Name = "GPI", DisplayText = _selLangBll.GetResourceValue("lbl_GPI"), PlayFree = true, DisplayKey = "lbl_GPI" },
-                new() { Value = 8, Name = "YGG", DisplayText = "YGG", PlayFree = true },
-                new() { Value = 9, Name = "Joker", DisplayText = "Joker", PlayFree = false },
-                new() { Value = 10, Name = "SG", DisplayText = "SG", PlayFree = true },
-                new() { Value = 5, Name = "PP", DisplayText = "PP", PlayFree = true },
-                new() { Value = 14, Name = "PG", DisplayText = "PG", PlayFree = true },
-                new() { Value = 16, Name = "CQ9", DisplayText = "CQ9", PlayFree = true },
-                new() { Value = 24, Name = "Iconic", DisplayText = "ICG", PlayFree = true }
-            };
-
-            IEnumerable<int> tpIds = new int[] { };
-
-            if (User.Identity.IsAuthenticated)
-            {
-                var authData = _authorizeBll.GetAuthData();
-                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-                tpIds = _casinoBll.GetProviderIdByCurrency(custInfo.CurrencyId, custInfo.SiteId);
-            }
-            else
-            {
-                var serverInfo = _serverInfoBll.GetServerInfo();
-                tpIds = _casinoBll.GetProviderIdByCurrency(0, serverInfo.SiteId);
-            }
-
-            apiResult.Data = providers?.Where(x => tpIds.Contains(x.Value)).ToList();
-            foreach (var provider in providers)
-            {
-                var datePath = Path.Combine(_environment.WebRootPath, "datas", provider.Name, "GameList.json");
-                if (System.IO.File.Exists(datePath))
-                    provider.GameList = JsonConvert.DeserializeObject<GameDesc>(System.IO.File.ReadAllText(datePath));
-            }
-            apiResult.ErrorCode = 0;
-            return apiResult;
-        }
-
         public ApiResult<IEnumerable<int>> GetTpIds()
         {
             var apiResult = new ApiResult<IEnumerable<int>>();
-            if (User.Identity.IsAuthenticated)
+            try
             {
                 var authData = _authorizeBll.GetAuthData();
-                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-                var tpIds = _casinoBll.GetProviderIdByCurrency(custInfo.CurrencyId, custInfo.SiteId).ToList();
-                if (string.CompareOrdinal(custInfo.AffCode, "67253") == 0)
+                if (authData is { CustId: > 0 })
                 {
-                    tpIds.RemoveAll(item => item == (int)Tp.TCG);
-                }
+                    var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                    var tpIds = _casinoBll.GetProviderIdByCurrency(custInfo.CurrencyId, custInfo.SiteId).ToList();
+                    if (string.CompareOrdinal(custInfo.AffCode, "67253") == 0)
+                    {
+                        tpIds.RemoveAll(item => item == (int)Tp.TCG);
+                    }
 
-                apiResult.Data = tpIds;
+                    apiResult.Data = tpIds;
+                }
+                else
+                {
+                    var serverInfo = _serverInfoBll.GetServerInfo();
+                    apiResult.Data = _casinoBll.GetProviderIdByCurrency(0, serverInfo.SiteId);
+                }
             }
-            else
+            catch (Exception e)
             {
-                var serverInfo = _serverInfoBll.GetServerInfo();
-                apiResult.Data = _casinoBll.GetProviderIdByCurrency(0, serverInfo.SiteId);
+                _logger.LogError(e, GetCurrentMethod());
             }
 
             apiResult.ErrorCode = 0;
@@ -659,17 +648,17 @@ namespace MemberSite.Controllers.Api
 
             var serverInfo = _serverInfoBll.GetServerInfo();
             var dataPath = Path.Combine(_environment.WebRootPath, $"datas/{serverInfo.SiteName}_bannerSetting.json");
-            var _bannerSetting = new BannerSetting();
+            var bannerSetting = new BannerSetting();
             if (System.IO.File.Exists(dataPath))
             {
-                _bannerSetting = JsonConvert.DeserializeObject<BannerSetting>(System.IO.File.ReadAllText(dataPath));
+                bannerSetting = JsonConvert.DeserializeObject<BannerSetting>(System.IO.File.ReadAllText(dataPath));
             }
 
             var perferCurr = 0;
             var beforeLogin = true;
-            if (User.Identity.IsAuthenticated)
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is { CustId: > 0 })
             {
-                var authData = _authorizeBll.GetAuthData();
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                 perferCurr = custInfo.CurrencyId;
                 beforeLogin = false;
@@ -681,10 +670,7 @@ namespace MemberSite.Controllers.Api
 
             if (FolderName == "Promotion")
             {
-                var banner_CurrencyId = !User.Identity.IsAuthenticated && perferCurr == 13 ? 2 : perferCurr;
-                //var bannerFromDB = bannerBLL.GetBannerFromDB(banner_CurrencyId, selLangBLL.GetLangId());
-                var bannerFromJSON = _bannerSetting.Promotion.Where(x => x.currencyId == null || beforeLogin || x.currencyId.Any(y => y == perferCurr));
-                //result.Data = bannerFromJSON.Concat(bannerFromDB);
+                var bannerFromJSON = bannerSetting.Promotion.Where(x => x.currencyId == null || beforeLogin || x.currencyId.Any(y => y == perferCurr));
                 result.Data = bannerFromJSON;
 
                 if (filterHideInHome)
@@ -694,11 +680,11 @@ namespace MemberSite.Controllers.Api
             }
             else if (FolderName == "Casino")
             {
-                result.Data = _bannerSetting.Casino.Where(x => x.currencyId == null || beforeLogin || x.currencyId.Any(y => y == perferCurr));
+                result.Data = bannerSetting.Casino.Where(x => x.currencyId == null || beforeLogin || x.currencyId.Any(y => y == perferCurr));
             }
             else if (FolderName == "Sports")
             {
-                result.Data = _bannerSetting.Sports.Where(x => x.currencyId == null || beforeLogin || x.currencyId.Any(y => y == perferCurr));
+                result.Data = bannerSetting.Sports.Where(x => x.currencyId == null || beforeLogin || x.currencyId.Any(y => y == perferCurr));
             }
 
             if (!string.IsNullOrEmpty(refId))
@@ -713,6 +699,8 @@ namespace MemberSite.Controllers.Api
         public class BannerReq
         {
             public int BannerType { get; set; }
+
+            public int? CurrencyId { get; set; }
         }
 
         [HttpPost]
@@ -720,39 +708,44 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<IEnumerable<BannerV3>>();
 
-            var serverInfo = _serverInfoBll.GetServerInfo();
-            int preferCurr;
             int siteId;
-            var showStatus = 1;
-            if (User.Identity.IsAuthenticated)
+            try
             {
+                var serverInfo = _serverInfoBll.GetServerInfo();
+                int perferCurr;
+                var ShowStatus = 1;
                 var authData = _authorizeBll.GetAuthData();
-                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-                siteId = custInfo.SiteId;
-                preferCurr = custInfo.CurrencyId;
-                showStatus = 2;
-                langId = _selLangBll.GetLangId();
-            }
-            else
-            {
-                preferCurr = _selLangBll.GetPreferCurrencyId();
-                siteId = serverInfo.SiteId;
-                langId = _selLangBll.CheckLangId(langId) ? langId : _selLangBll.GetLangId();
-            }
-
-            var bannerCurrencyId = !User.Identity.IsAuthenticated && preferCurr == 13 ? 2 : preferCurr;
-
-            apiResult.ErrorCode = 0;
-            apiResult.Data = _bannerBll.GetBannerV3(siteId, bannerReq.BannerType, showStatus, bannerCurrencyId, langId, serverInfo);
-
-            var domain = _serverInfoBll.GetHttpDomain();
-            foreach (var data in apiResult.Data)
-            {
-                if (!string.IsNullOrEmpty(data.BannerLink))
+                if (authData is { CustId: > 0 })
                 {
-                    data.BannerLink = data.BannerLink.Trim().TrimStart('/');
+                    var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                    siteId = custInfo.SiteId;
+                    perferCurr = custInfo.CurrencyId;
+                    ShowStatus = 2;
+                    langId = _selLangBll.GetLangId();
                 }
-                data.BannerLink = $"{domain}/{data.BannerLink}";
+                else
+                {
+                    perferCurr = bannerReq.CurrencyId ?? _selLangBll.GetPreferCurrencyId();
+                    siteId = serverInfo.SiteId;
+                    langId = _selLangBll.CheckLangId(langId) ? langId : _selLangBll.GetLangId();
+                }
+                apiResult.Data = _bannerBll.GetBannerV3(siteId, bannerReq.BannerType, ShowStatus, perferCurr, langId, serverInfo);
+                
+                var domain = _serverInfoBll.GetHttpDomain();
+	            foreach (var data in apiResult.Data)
+	            {
+	                if (!string.IsNullOrEmpty(data.BannerLink))
+	                {
+	                    data.BannerLink = data.BannerLink.Trim().TrimStart('/');
+	                }
+	                data.BannerLink = $"{domain}/{data.BannerLink}";
+	            }
+            
+                apiResult.ErrorCode = 0;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, GetCurrentMethod());
             }
             
             return apiResult;
@@ -761,33 +754,42 @@ namespace MemberSite.Controllers.Api
         public class HotGameReq
         {
             public int DeviceType { get; set; }
+            public int? CurrencyId { get; set; }
         }
 
         [HttpPost]
         public async Task<ApiResult<IEnumerable<HotGame>>> GetHotGames(HotGameReq req)
         {
-            int currencyId;
-            int siteId;
-            if (User.Identity.IsAuthenticated)
+            var apiResult = new ApiResult<IEnumerable<HotGame>>();
+            try
             {
+                int currencyId;
+                int siteId;
                 var authData = _authorizeBll.GetAuthData();
-                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-                siteId = custInfo.SiteId;
-                currencyId = custInfo.CurrencyId;
-            }
-            else
-            {
-                var serverInfo = _serverInfoBll.GetServerInfo();
-                siteId = serverInfo.SiteId;
-                currencyId = _selLangBll.GetPreferCurrencyId();
-                currencyId = currencyId == 13 ? 2 : currencyId;
-            }
+                if (authData is { CustId: > 0 })
+                {
+                    var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                    siteId = custInfo.SiteId;
+                    currencyId = custInfo.CurrencyId;
+                }
+                else
+                {
+                    var serverInfo = _serverInfoBll.GetServerInfo();
+                    siteId = serverInfo.SiteId;
+                    currencyId = _selLangBll.GetPreferCurrencyId();
+                    if (req.CurrencyId.HasValue)
+                    {
+                        currencyId = req.CurrencyId.Value;
+                    }
+                }
 
-            var apiResult = new ApiResult<IEnumerable<HotGame>>
+                apiResult.ErrorCode = 0;
+                apiResult.Data = await _bannerBll.GetHotGames(siteId, currencyId, req.DeviceType);
+            }
+            catch (Exception e)
             {
-                ErrorCode = 0,
-                Data = await _bannerBll.GetHotGames(siteId, currencyId, req.DeviceType)
-            };
+                _logger.LogError(e, GetCurrentAsyncMethod());
+            }
 
             return apiResult;
         }
@@ -796,45 +798,56 @@ namespace MemberSite.Controllers.Api
         public async Task<ApiResult> CheckResetPwdTokenAsync([FromForm] string key)
         {
             var apiResult = new ApiResult(_selLangBll);
-            if (_authBll.Authenticate(key, out CustInfoProfile custInfoProfile))
+            try
             {
-                Customer customer = null;
-                var fromUrl = _tools.GetFromUrl();
-                var deviceType = (int)_tools.GetDeviceId(fromUrl);
-                var userLoginResult = _custInfoBll.UserLoginForResetPwd(custInfoProfile.UserName, _tools.GetClientIP(), fromUrl, Request.Headers["User-Agent"], deviceType, ref customer, out var token);
-                switch (userLoginResult)
+                if (_authBll.Authenticate(key, out CustInfoProfile custInfoProfile))
                 {
-                    case 0:
+                    Customer customer = null;
+                    var fromUrl = _tools.GetFromUrl();
+                    var deviceType = (int)_tools.GetDeviceId(fromUrl);
+                    var userLoginResult = _custInfoBll.UserLoginForResetPwd(custInfoProfile.UserName, _tools.GetClientIP(), fromUrl, Request.Headers["User-Agent"], deviceType, ref customer, out var token);
+                    switch (userLoginResult)
+                    {
+                        case 0:
                         {
-                            if (User.Identity.IsAuthenticated && _authorizeBll.GetAuthData().CustId != customer.CustId)
+                            var authData = _authorizeBll.GetAuthData();
+                            if (authData is { CustId: > 0 } && authData.CustId != customer.CustId)
                             {
                                 apiResult.ErrorCode = 1;
                             }
                             else
                             {
                                 var claims = new List<Claim>
-                            {
-                                new(ClaimTypes.Name, custInfoProfile.UserName),
-                                new(ClaimTypes.NameIdentifier, customer.CustId.ToString()),
-                                new("Token", token),
-                                new("LangId", custInfoProfile.UserLang)
-                            };
-                                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+                                {
+                                    new(ClaimTypes.Name, custInfoProfile.UserName),
+                                    new(ClaimTypes.NameIdentifier, customer.CustId.ToString()),
+                                    new("Token", token),
+                                    new("LangId", custInfoProfile.UserLang)
+                                };
+                                var claimsIdentity = new ClaimsIdentity(claims,
+                                    CookieAuthenticationDefaults.AuthenticationScheme);
+                                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                                    new ClaimsPrincipal(claimsIdentity));
                                 apiResult.ErrorCode = 0;
                             }
 
                             break;
                         }
 
-                    case -3:
-                        apiResult.ErrorCode = 401;
-                        break;
+                        case -3:
+                            apiResult.ErrorCode = 401;
+                            break;
+                    }
+                }
+                else
+                {
+                    apiResult.ErrorCode = 403;
                 }
             }
-            else
+            catch (Exception e)
             {
                 apiResult.ErrorCode = 403;
+                _logger.LogError(e, GetCurrentAsyncMethod());
             }
 
             return apiResult;
@@ -911,17 +924,112 @@ namespace MemberSite.Controllers.Api
         public ApiResult<bool> ExistsPhoneNo(RrofileReq req)
         {
             var apiResult = new ApiResult<bool>(_selLangBll);
-            if (long.TryParse(req.PhoneNo, out var phoneNo))
+
+            try
             {
-                req.PhoneNo = phoneNo.ToString();
-                apiResult.Data = _custInfoBll.ExistsPhoneNo(0, req.AreaCode, req.PhoneNo);
+                if (CheckAttack(req, out var result))
+                {
+                    return result;
+                }
+
+                if (long.TryParse(req.PhoneNo, out var phoneNo))
+                {
+                    req.PhoneNo = phoneNo.ToString();
+                    apiResult.Data = _custInfoBll.ExistsPhoneNo(0, req.AreaCode, req.PhoneNo);
+                }
+                else
+                {
+                    apiResult.Data = true;
+                }
+                apiResult.ErrorCode = 0;
+                return apiResult;
             }
-            else
+            catch (Exception e)
             {
-                apiResult.Data = true;
+                _logger.LogError(e, GetCurrentMethod());
+                return apiResult;
             }
-            apiResult.ErrorCode = 0;
-            return apiResult;
+        }
+
+        private bool CheckAttack(RrofileReq req, out ApiResult<bool> result)
+        {
+            result = new ApiResult<bool>();
+            var clientIp = _tools.GetClientIP();
+            if (_ipHelper.IpInRange(clientIp))
+            {
+                return false;
+            }
+            
+            var serverInfo = _serverInfoBll.GetServerInfo();
+            var checkCountForShortTime = _cacheHelper.StringIncrementAsync($"IP:{clientIp}", TimeSpan.FromMinutes(1)).Result;
+            var checkCountForLongTime = _cacheHelper.StringIncrementAsync($"IP:10:{clientIp}", TimeSpan.FromMinutes(20)).Result;
+            var checkCountForBlock = _cacheHelper.StringIncrementAsync($"IP:hour:{clientIp}", TimeSpan.FromMinutes(30)).Result;
+            if (checkCountForShortTime >= 5 || checkCountForLongTime >= 15)
+            {
+                _cacheHelper.StringFireAndForgetSetAsync($"block:{clientIp}", string.Empty, TimeSpan.FromHours(1));
+            }
+
+            var isDart = Request.Headers["User-Agent"].ToString().Contains("Dart");
+
+            if (checkCountForBlock >= 120 || isDart)
+            {
+                var reason = isDart ? "agent use Dart" : "too many requests";
+                var memo = $"Auto Deny (/Site/ExistsPhoneNo) - Attack: get user phone number, reason is {reason}";
+                var setResult = _iPBll.SetBlockIp(new BlockIpRequest { IP = clientIp, Memo = memo, Operator = "System" });
+                if (setResult > 0 && !_cacheHelper.KeyExists($"AutoDeny:{clientIp}"))
+                {
+                    _cacheHelper.StringFireAndForgetSetAsync($"AutoDeny:{clientIp}", string.Empty, TimeSpan.FromMinutes(1));
+                    _ = Task.Run(async () => { _ = await Upload(); });
+                }
+            }
+
+            if ((serverInfo.SiteId is (int)SiteId.Bwing or (int)SiteId.Goal123 && req.AreaCode != "+84")
+                || isDart
+                || _areaCodeMap.All(i => i.AreaCode != req.AreaCode)
+                || checkCountForShortTime >= 5
+                || checkCountForLongTime >= 15
+                || checkCountForBlock >= 60
+                || _cacheHelper.KeyExists($"block:{clientIp}"))
+            {
+                _logger.LogInformation($"Attack: AreaCode:{req.AreaCode}, PhoneNo:{req.PhoneNo}, REQUEST URL:{_serverInfoBll.GetRequestUrl()}, " +
+                                       $"IP: {Request.Headers["X-Forwarded-For"]}, {Request.Headers["HTTP_X_FORWARDED_FOR"]}, {Request.Headers["HTTP_INCAP_CLIENT_IP"]}, {Request.Headers["HTTP_TRUE_CLIENT_IP"]}, {Request.Headers["HTTP_X_REAL_IP"]}, {Request.Headers["REMOTE_ADDR"]}, {HttpContext.Connection.RemoteIpAddress?.MapToIPv4().ToString()}");
+
+                result.ErrorCode = 0;
+                result.Data = false;
+                return true;
+            }
+
+            return false;
+        }
+
+        private async Task<bool> Upload()
+        {
+            try
+            {
+                var ipList = _iPBll.GetBlockIp(true).Select(i => i.IP).ToList();
+                Directory.CreateDirectory(_folder);
+                var filePath = Path.Combine(_folder, _fileName);
+                await System.IO.File.WriteAllLinesAsync(filePath, ipList);
+                using var destination = new MemoryStream();
+                await using (var source = System.IO.File.Open(filePath, FileMode.Open))
+                {
+                    await source.CopyToAsync(destination);
+                }
+
+                var putRequest = new PutObjectRequest
+                {
+                    BucketName = "ailab-config",
+                    ContentType = "text/plain",
+                    InputStream = destination,
+                    Key = _fileName
+                };
+                return await _s3Helper.PutObjectAsync(putRequest);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Upload S3 Fail.");
+                return false;
+            }
         }
 
         [HttpPost]
@@ -940,118 +1048,6 @@ namespace MemberSite.Controllers.Api
             Arcade = 2,
             Table = 3,
             ScratchCard = 4
-        }
-        public ApiResult<GameInfo> GetGameListV2()
-        {
-            var apiResult = new ApiResult<GameInfo>();
-            var resultData = new GameInfo
-            {
-                ProviderList = new List<Provider>()
-            };
-
-            //不分Tpid取出GameCasino資料
-            var GameCasinoList = _gameCasinoBll.GetGameCasinoList();
-
-            //GameCasinoList裡總共有多少種TpId
-            var GameCasinoHasTpid = GameCasinoList.Select(x => x.TpId).Distinct();
-            var providers = _gameCasinoBll.GetProviderList();
-
-            IEnumerable<int> tpIds = null;
-            IEnumerable<GameCasionByCurrencyAndSite> gameCasionByCurrencyAndSite = null;
-
-            var serverInfo = _serverInfoBll.GetServerInfo();
-            if (User.Identity.IsAuthenticated)
-            {
-                var authData = _authorizeBll.GetAuthData();
-                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-                tpIds = _casinoBll.GetProviderIdByCurrency(custInfo.CurrencyId, custInfo.SiteId);
-                //取出有byCurrency跟Site設定的遊戲資訊
-                gameCasionByCurrencyAndSite = _casinoBll.GetGameCasinoByCurrencyAndSite(custInfo.CurrencyId, custInfo.SiteId);
-            }
-            else
-            {
-                tpIds = _casinoBll.GetProviderIdByCurrency(0, serverInfo.SiteId);
-                //取出有byCurrency跟Site設定的遊戲資訊
-                gameCasionByCurrencyAndSite = _casinoBll.GetGameCasinoByCurrencyAndSite(_selLangBll.GetPreferCurrencyId(), serverInfo.SiteId);
-            }
-
-            //濾掉不符合權限的
-
-            var filterCon = GameCasinoHasTpid?.Where(x => tpIds.Contains(x)).ToDictionary(x => Convert.ToInt16(x), x => false);
-
-            var dictgameCasionByCurrencyAndSite = gameCasionByCurrencyAndSite?.ToDictionary(x => Convert.ToInt32(x.GameCasinoId), x => x);
-
-            foreach (var provider in providers?.Where(thisProvider => filterCon.ContainsKey(thisProvider.Value)))
-            {
-                provider.GameList = new GameDesc
-                {
-                    ImgUrl = "",
-                    Data = new List<Datum>()
-                };
-
-                GameCasinoList.FindAll(x => x.TpId == provider.Value).ForEach(y =>
-                {
-                    var nameItem = JsonConvert.DeserializeObject<Dictionary<string, string>>(y.Name);
-                    string imgName = null;
-
-                    if (nameItem.ContainsKey("en"))
-                    {
-                        imgName = nameItem["en"];
-                    }
-
-                    var imgNameD = nameItem.ToDictionary(x => x.Key, x => $"{OrgFileNameFilter($"{imgName}-{x.Key}")}.jpg");
-                    if (dictgameCasionByCurrencyAndSite != null && dictgameCasionByCurrencyAndSite.ContainsKey(y.GameCasinoId))
-                    {
-                        if (dictgameCasionByCurrencyAndSite[y.GameCasinoId].Status)
-                        {
-                            provider.GameList.Data.Add(new Datum
-                            {
-                                Name = nameItem,
-                                ImgName = imgNameD,
-                                AppId = y.AppId,
-                                GameId = y.GameId,
-                                Category1 = Enum.GetName(typeof(TypeId), y.TypeId),
-                                Paylines = y.Paylines,
-                                Rtp = y.Rtp,
-                                Reels = string.IsNullOrWhiteSpace(y.Reel) ? string.Empty : y.Reel,
-                                LaunchDate = y.LaunchDate,
-                                Hot = dictgameCasionByCurrencyAndSite[y.GameCasinoId].Hot,
-                                New = y.LaunchDate.AddDays(30) > DateTime.Now,
-                                ImageExist = true,
-                                promotion = dictgameCasionByCurrencyAndSite[y.GameCasinoId].Promotion ? 1 : 0,
-                                featured = dictgameCasionByCurrencyAndSite[y.GameCasinoId].Featured,
-                                PlayFree = y.Fun
-                            });
-                        }
-                    }
-                    else
-                    {
-                        provider.GameList.Data.Add(new Datum
-                        {
-                            Name = nameItem,
-                            ImgName = imgNameD,
-                            AppId = y.AppId,
-                            GameId = y.GameId,
-                            Category1 = Enum.GetName(typeof(TypeId), y.TypeId),
-                            Paylines = y.Paylines,
-                            Rtp = y.Rtp,
-                            Reels = string.IsNullOrWhiteSpace(y.Reel) ? string.Empty : y.Reel,
-                            LaunchDate = y.LaunchDate,
-                            Hot = y.Hot,
-                            New = y.LaunchDate.AddDays(30) > DateTime.Now,
-                            ImageExist = true,
-                            promotion = y.promotion ? 1 : 0,
-                            featured = y.featured,
-                            PlayFree = y.Fun
-                        });
-                    }
-                });
-                resultData.ProviderList.Add(provider);
-            }
-            apiResult.Data = resultData;
-            apiResult.Data.ImgUrl = _siteConfig.Value[serverInfo.SiteName].ImageURL;
-            apiResult.ErrorCode = 0;
-            return apiResult;
         }
 
         public class GetGameListByDeviceReq
@@ -1082,13 +1078,14 @@ namespace MemberSite.Controllers.Api
             IEnumerable<GameCasionByCurrencyAndSite> gameCasionByCurrencyAndSite = null;
 
             var serverInfo = _serverInfoBll.GetServerInfo();
-            if (User.Identity.IsAuthenticated)
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is { CustId: > 0 })
             {
-                var authData = _authorizeBll.GetAuthData();
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                 tpIds = _casinoBll.GetProviderIdByCurrency(custInfo.CurrencyId, custInfo.SiteId);
                 //取出有byCurrency跟Site設定的遊戲資訊
-                gameCasionByCurrencyAndSite = _casinoBll.GetGameCasinoByCurrencyAndSite(custInfo.CurrencyId, custInfo.SiteId);
+                gameCasionByCurrencyAndSite =
+                    _casinoBll.GetGameCasinoByCurrencyAndSite(custInfo.CurrencyId, custInfo.SiteId);
 
                 var blockGames = _casinoBll.GetTpDisableUserByCustId(custInfo.CustId);
                 _casinoBll.ExcludeBlockGames(GameCasinoList, providers, blockGames);
@@ -1207,25 +1204,28 @@ namespace MemberSite.Controllers.Api
             {
                 Data = new AffiliateAgent()
             };
+
+            if (string.IsNullOrWhiteSpace(affiliateAgentReq.AffId) || affiliateAgentReq.AffId.Length > 32)
+            {
+                apiResult.ErrorCode = -1;
+                apiResult.Message = "no AffId";
+                return apiResult;
+            }
+            
             var result = _custInfoBll.GetAffiliateAgentBll(affiliateAgentReq.AffId);
             apiResult.ErrorCode = 0;
-            if (result > 0)
+            switch (result)
             {
-                apiResult.Data.CurrencyId = result;
-            }
-            else if (result == -1)
-            {
-                apiResult.ErrorCode = result;
-                apiResult.Message = "no AffId";
-            }
-            else if (result == -19)
-            {
-                apiResult.ErrorCode = result;
-                apiResult.Message = _selLangBll.GetMsg("mag_AffiliateNotExist");
-            }
-            else
-            {
-                apiResult.ErrorCode = result;
+                case > 0:
+                    apiResult.Data.CurrencyId = result;
+                    break;
+                case -19:
+                    apiResult.ErrorCode = result;
+                    apiResult.Message = _selLangBll.GetMsg("mag_AffiliateNotExist");
+                    break;
+                default:
+                    apiResult.ErrorCode = result;
+                    break;
             }
 
             return apiResult;
@@ -1237,9 +1237,9 @@ namespace MemberSite.Controllers.Api
             var apiResult = new ApiResult<IEnumerable<Domainlist>>();
             var siteId = 0;
             var currencyId = 0;
-            if (User.Identity.IsAuthenticated)
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is { CustId: > 0 })
             {
-                var authData = _authorizeBll.GetAuthData();
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                 siteId = custInfo.SiteId;
                 currencyId = custInfo.CurrencyId;
@@ -1329,7 +1329,7 @@ namespace MemberSite.Controllers.Api
             [FromRoute] string langId = "en")
         {
             var authData = _authorizeBll.GetAuthData();
-            if (authData != null)
+            if (authData is { CustId: > 0 })
             {
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                 request.CurrencyId = custInfo.CurrencyId;
@@ -1355,6 +1355,20 @@ namespace MemberSite.Controllers.Api
                 apiResult.Data = data;
             }
 
+            return apiResult;
+        }
+        
+        [HttpPost]
+        public async Task<ApiResult<RecaptchaSiteInfo>> GetRecaptchaInfo()
+        {
+            var clientIp = _tools.GetClientIP();
+            var siteInfo = await _recaptchaBll.GetInfo(clientIp);
+            var apiResult = new ApiResult<RecaptchaSiteInfo>()
+            {
+                
+                ErrorCode = 0,
+                Data = siteInfo
+            };
             return apiResult;
         }
     }

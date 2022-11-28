@@ -1,7 +1,7 @@
-﻿using MemberSite.Service.DAL;
+﻿using MemberSite.Extensions;
+using MemberSite.Service.DAL;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
-using Microsoft.Extensions.Caching.Memory;
 using MemberSite.Service.Library;
 
 namespace MemberSite.Service.BLL
@@ -13,23 +13,26 @@ namespace MemberSite.Service.BLL
         private readonly DepositBLL _depositBll;
         private readonly CustInfoBll _custInfoBll;
         private readonly MobilePayGroupComparer _mobilePayGroupComparer;
+        private readonly BankInfoOffBLL _bankInfoOffBll;
         private readonly CacheHelper _cacheHelper;
+        private readonly ICacheHelper _redisHelper;
         public MobilePayInfoBll(IServiceProvider provider)
         {
             _payService = provider.GetRequiredService<PayService>();
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _depositService = provider.GetRequiredService<DepositService>();
             _depositBll = provider.GetRequiredService<DepositBLL>();
+            _bankInfoOffBll = provider.GetRequiredService<BankInfoOffBLL>();
             _mobilePayGroupComparer = new MobilePayGroupComparer();
-            _cacheHelper = provider.GetRequiredService<CacheHelper>();
+            _redisHelper = provider.GetRequiredService<ICacheHelper>();
         }
 
         public IEnumerable<MobilePayInfo> GetMobilePayInfoList(int siteId)
         {
-            var key = $"MobilePayInfoList_{siteId}";
-            return _cacheHelper.TryGetOrCreate<IEnumerable<MobilePayInfo>>(key,
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)),
-                i => _payService.GetMobilePayInfo(siteId).OrderBy(x => x.GSort).ThenBy(x => x.SSort));
+            var key = $"MobilePayInfoList:{siteId}";
+            var dbData = _redisHelper.TryGetOrCreate<IEnumerable<MobilePayInfo>>(key, TimeSpan.FromSeconds(10),
+                () => _payService.GetMobilePayInfo(siteId).OrderBy(x => x.GSort).ThenBy(x => x.SSort));
+            return dbData;
         }
         private class MobilePayGroupComparer : IEqualityComparer<MobilePayGroup>
         {
@@ -79,10 +82,32 @@ namespace MemberSite.Service.BLL
                                                        {
                                                            y.MaxAmount
                                                        }).OrderByDescending(y => y.MaxAmount).FirstOrDefault().MaxAmount
-                                      }).Distinct(_mobilePayGroupComparer);
+                                      }).Distinct(_mobilePayGroupComparer).ToList();
 
-            return mobilePayGroupList;
+            if (custInfo.CurrencyId == (int) CurrencyId.MYR)
+            {
+                var bankCards = _bankInfoOffBll.GetOfflineBankCardListWithCache(custId)
+                    .Where(x => x.SupportQR);
+
+                if (bankCards.Any())
+                {
+                    mobilePayGroupList.Add(new MobilePayGroup
+                    {
+                        ChannelName = FakePayGroupEnum.DuitNowQR.GetDescription(),
+                        GroupId = (int) FakePayGroupEnum.DuitNowQR,
+                        GroupName = FakePayGroupEnum.DuitNowQR.ToString(),
+                        Mode = (int) PayModeEnum.QrCode,
+                        GSort = -1,
+                        MinAmount = bankCards.Min(x => x.MinAmount),
+                        MaxAmount = bankCards.Max(x => x.MaxAmount)
+                    });
+                }
+            }
+            
+            return mobilePayGroupList.OrderBy(x => x.GSort);
         }
+        
+        
 
         public IEnumerable<MobilePayInfo> GetMobilePayInfoList(int custId, int groupId)
         {

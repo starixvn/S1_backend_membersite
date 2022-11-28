@@ -93,29 +93,28 @@ namespace MemberSite.Service.BLL
                 if (bannerDetail.Details != null && bannerDetail.BannerType != 2)
                 {
                     var details = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(bannerDetail.Details);
-                    if (details.ContainsKey(langId))
+                    if (!details.ContainsKey(langId)) continue;
+                    var settings = details[langId];
+                    banner.Add(new BannerV3()
                     {
-                        var settings = details[langId];
-                        banner.Add(new BannerV3()
-                        {
-                            BannerName = bannerDetail.BannerName,
-                            BannerType = bannerDetail.BannerType,
-                            ActionMode = bannerDetail.ActionMode,
-                            BonusCode = bannerDetail.BonusCode,
-                            TpId = bannerDetail.TpId,
-                            GameId = bannerDetail.GameId,
-                            UrlRouter = bannerDetail.UrlRouter,
-                            BannerLink = settings["bannerLink"],
-                            BannerPCUrl = settings["bannerPCUrl"],
-                            BannerMobileUrl = settings["bannerMobileUrl"],
-                            tpGameType = tpGameTypeHelper.GetTpGameType(bannerDetail, currencyId),
-                        });
-                    }
+                        BannerName = bannerDetail.BannerName,
+                        BannerType = bannerDetail.BannerType,
+                        ActionMode = bannerDetail.ActionMode,
+                        BonusCode = bannerDetail.BonusCode,
+                        TpId = bannerDetail.TpId,
+                        GameId = bannerDetail.GameId,
+                        UrlRouter = bannerDetail.UrlRouter,
+                        BannerLink = settings["bannerLink"],
+                        BannerPCUrl = settings["bannerPCUrl"],
+                        BannerMobileUrl = settings["bannerMobileUrl"],
+                        tpGameType = tpGameTypeHelper.GetTpGameType(bannerDetail, currencyId),
+                    });
                 }
             }
+            
             return banner;
         }
-
+        
         public async Task<IEnumerable<HotGame>> GetHotGames(int siteId, int currencyId, int deviceType)
         {
             var key = $"GetHotGames:{siteId}:{currencyId}";

@@ -53,7 +53,7 @@ namespace MemberSite.Service.BLL
                     league = liveStreamingDetail.League;
                 }
 
-                bool exists = ((IList)passBetType).Contains(liveStreamingDetail.Type);
+                var exists = ((IList)passBetType).Contains(liveStreamingDetail.Type);
 
                 if (!exists)
                 {

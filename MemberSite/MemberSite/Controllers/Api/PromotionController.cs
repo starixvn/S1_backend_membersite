@@ -62,6 +62,7 @@ namespace MemberSite.Controllers.Api
             public bool IsLogin { set; get; }
             public string LangId { set; get; }
             public string DefLang { set; get; }
+            public int PromotionType { set; get; } 
         }
         
         public class PromotionDetailRequest : CustPromotionRequest
@@ -152,12 +153,12 @@ namespace MemberSite.Controllers.Api
             try
             {
                 var serverInfo = _serverInfoBLL.GetServerInfo();
-                var isLogin = User.Identity.IsAuthenticated;
+                var authData = _authorizeBLL.GetAuthData();
+                var isLogin = authData is { CustId: > 0 };
                 var custId = 0;
                 int currencyId;
                 if (isLogin)
                 {
-                    var authData = _authorizeBLL.GetAuthData();
                     var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
                     custId = authData.CustId;
                     currencyId = custInfo.CurrencyId;
@@ -201,12 +202,12 @@ namespace MemberSite.Controllers.Api
             try
             {
                 var serverInfo = _serverInfoBLL.GetServerInfo();
-                var isLogin = User.Identity.IsAuthenticated;
+                var authData = _authorizeBLL.GetAuthData();
+                var isLogin = authData is { CustId: > 0 };
                 var custId = 0;
                 int currencyId;
                 if (isLogin)
                 {
-                    var authData = _authorizeBLL.GetAuthData();
                     var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
                     custId = authData.CustId;
                     currencyId = custInfo.CurrencyId;
@@ -214,8 +215,6 @@ namespace MemberSite.Controllers.Api
                 else
                 {
                     currencyId = _selLangBLL.GetPreferCurrencyId();
-                    currencyId = currencyId == 13 ? 2 : currencyId; // Todo 暫時解 HardCode，之後前端有空，請前端協助帶入是哪 cs 語系的哪一種幣別
-
                     if (data.CurrencyId.HasValue)
                     {
                         currencyId = data.CurrencyId.Value;
@@ -354,6 +353,13 @@ namespace MemberSite.Controllers.Api
             };
             try
             {
+                if (!_promotionBLL.VerifyBonusCode(request.BonusCode))
+                {
+                    result.ErrorCode = 9000;
+                    result.Message = _selLangBLL.GetMsg("msg_Ineligible");
+                    return result;
+                }
+                
                 var authData = _authorizeBLL.GetAuthData();
                 var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
                 var req = new DepositPromotionQueue

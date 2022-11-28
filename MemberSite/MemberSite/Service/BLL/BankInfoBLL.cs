@@ -1,7 +1,6 @@
 ﻿using MemberSite.Service.DAL;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
-using Microsoft.Extensions.Caching.Memory;
 using MemberSite.Service.Library;
 
 namespace MemberSite.Service.BLL
@@ -15,8 +14,7 @@ namespace MemberSite.Service.BLL
         private readonly PaymentOffComparer _paymentOffComparer;
         private readonly PayService _payService;
         private readonly DepositBLL _depositBll;
-        private readonly CacheHelper _cacheHelper;
-        private readonly IMemoryCache _cache;
+        private readonly ICacheHelper _redisHelper;
 
         public BankInfoBLL(IServiceProvider provider)
         {
@@ -25,41 +23,36 @@ namespace MemberSite.Service.BLL
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _payService = provider.GetRequiredService<PayService>();
             _depositBll = provider.GetRequiredService<DepositBLL>();
-            _cacheHelper = provider.GetRequiredService<CacheHelper>();
+            _redisHelper = provider.GetRequiredService<ICacheHelper>();
             _sysBankInfoOffComparer = new SysBankInfoOffComparer();
             _paymentOffComparer = new PaymentOffComparer();
-            _cache = provider.GetRequiredService<IMemoryCache>();
         }
         public IEnumerable<BankInfoSys> GetBankInfoSysListByCurrency(int currencyId)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
 
-            var key = $"BankInfoSysList_{serverInfo.SiteId}";
-            var result = _cacheHelper.TryGetOrCreate(key,
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)),
-                i => _bankInfoService.GetBankInfoSysList(serverInfo.SiteId));
-            return result?.Where(x => x.CurrencyId == currencyId);
+            var key = $"BankInfoSysList:{serverInfo.SiteId}";
+            var dbData = _redisHelper.TryGetOrCreate(key, TimeSpan.FromMinutes(1),
+                () => _bankInfoService.GetBankInfoSysList(serverInfo.SiteId));
+            return dbData?.Where(x => x.CurrencyId == currencyId);
         }
 
         public IEnumerable<BankInfoSys> GetBankInfoSysListByCurrencyForCtrl(int currencyId)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
-
-            var key = $"BankInfoSysListForCtrl_{serverInfo.SiteId}";
-            var result = _cacheHelper.TryGetOrCreate(key,
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(10)),
-                i => _bankInfoService.GetBankInfoSysListForCtrl(serverInfo.SiteId));
-            return result?.Where(x => x.CurrencyId == currencyId);
+            
+            var key = $"BankInfoSysListForCtrl:{serverInfo.SiteId}";
+            var dbData = _redisHelper.TryGetOrCreate(key, TimeSpan.FromSeconds(10),
+                () => _bankInfoService.GetBankInfoSysListForCtrl(serverInfo.SiteId));
+            return dbData?.Where(x => x.CurrencyId == currencyId);
         }
 
         public IEnumerable<BankInfoName> GetBankInfoName(string lang)
         {
-            var key = $"BankInfoNameList_{lang}";
-            var result = _cacheHelper.TryGetOrCreate(key,
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)),
-                i => _bankInfoService.GetBankInfoNameList(lang));
-
-            return result;
+            var key = $"BankInfoNameList:{lang}";
+            var dbData = _redisHelper.TryGetOrCreate(key, TimeSpan.FromMinutes(5),
+                () => _bankInfoService.GetBankInfoNameList(lang));
+            return dbData;
         }
 
         public void BankNameLocalization(in List<BankInfoSys> list, string lang)
@@ -202,7 +195,9 @@ namespace MemberSite.Service.BLL
                                 BankLogo = x.BankLogo,
                                 BankName = x.SysBankName,/*x.SysBankCode*/
                                 ChannelId = x.ChannelId
-                            }).FirstOrDefault();
+                            })
+                .OrderByDescending(x => x.SysId)
+                .FirstOrDefault();
 
             var payCurrency = GetPayCurrency().FirstOrDefault(x => x.CurrencyId == custInfo.CurrencyId && x.ChannelId == bankInfo.ChannelId);
 
@@ -229,20 +224,19 @@ namespace MemberSite.Service.BLL
         #endregion
         public IEnumerable<BankInfoPay> GetOnlineBankList(int siteId)
         {
-            var key = $"BankInfoPayList_{siteId}";
-            return _cacheHelper.TryGetOrCreate<IEnumerable<BankInfoPay>>(key,
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(10)),
-                i => _bankInfoService.GetBankInfoPayList(siteId).OrderBy(x => x.MSort).ThenBy(x => x.SSort));
+            var key = $"BankInfoPayList:{siteId}";
+            var dbData = _redisHelper.TryGetOrCreate<IEnumerable<BankInfoPay>>(key, TimeSpan.FromSeconds(10),
+                () => _bankInfoService.GetBankInfoPayList(siteId).OrderBy(x => x.MSort).ThenBy(x => x.SSort),
+                RedisDataBase.Shared);
+            return dbData;
         }
         public IEnumerable<PayCurrency> GetPayCurrency()
         {
-            var key = "PayCurrency";
-            return _cacheHelper.TryGetOrCreate(key,
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)),
-                i => _payService.GetPayCurrency());
+            var dbData = _redisHelper.TryGetOrCreate("PayCurrency", TimeSpan.FromMinutes(5),
+                () => _payService.GetPayCurrency(),RedisDataBase.Shared);
+            return dbData;
         }
-
-
+        
         public IEnumerable<SysBankInfoFront> GetAutoChannelBankGroupList(Customer customer, int vipLevel)
         {
             return GetAutoChannelBankList(customer, vipLevel)
@@ -272,9 +266,11 @@ namespace MemberSite.Service.BLL
 
         public IEnumerable<AutoChannelBankInfo> GetAutoChannelBankInfoList(int siteId, DepositType depositType)
         {
-            return _cacheHelper.TryGetOrCreate($"BankInfoPayList_{siteId}_{depositType}",
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(10)),
-                i => _bankInfoService.GetAutoChannelBankInfoList(siteId, depositType));
+            var key = $"BankInfoPayList:{siteId}:{depositType}";
+            var dbData = _redisHelper.TryGetOrCreate(key, TimeSpan.FromSeconds(10),
+                () => _bankInfoService.GetAutoChannelBankInfoList(siteId, depositType),
+                RedisDataBase.Shared);
+            return dbData;
         }
 
         public LineChannel? GetLineChannel(int siteId, int currencyId)
@@ -289,11 +285,9 @@ namespace MemberSite.Service.BLL
 
         public IEnumerable<EWalletInfoSys> GetEWalletInfoSysListByCurrency(int currencyId)
         {
-            var key = $"EWalletInfoSysList";
-            var result = _cacheHelper.TryGetOrCreate(key,
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)),
-                i => _bankInfoService.GetEWalletInfoSysList());
-            return result?.Where(x => x.CurrencyId == currencyId);
+            var dbData = _redisHelper.TryGetOrCreate("EWalletInfoSysList", TimeSpan.FromSeconds(10),
+                () => _bankInfoService.GetEWalletInfoSysList());
+            return dbData?.Where(x => x.CurrencyId == currencyId);
         }
 
         public IEnumerable<BlockAccount> GetBlockEWalletAccount(int sysId, string accountNum)

@@ -1,6 +1,8 @@
 ﻿using MemberSite.Service.DAL;
+using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
+using MemberSite.Service.Model.Interfaces;
 using System.Text.RegularExpressions;
 
 namespace MemberSite.Service.BLL
@@ -12,21 +14,24 @@ namespace MemberSite.Service.BLL
         private readonly DepositService _depositService;
         private readonly WithdrawalService withdrawalService;
         private readonly BankInfoBLL bankInfoBLL;
-        private readonly RolloverService rollOverService;
         private readonly StatementService statementService;
         private readonly SelLangBLL selLangBLL;
-        private readonly Dictionary<string, string> singleWalletType;
+        private readonly IReadOnlyDictionary<string, string> singleWalletType;
+        private readonly PartitionService _partitionService;
+        private readonly ICacheHelper _cacheHelper;
+        private readonly IReadOnlyDictionary<int, string> _tpList;
+        private readonly IReadOnlyDictionary<int, string> _gameTypeList;
+        private readonly ILogger<PaymentBLL> _logger;
 
-        public PaymentBLL(BankInfoBLL bankInfoBLL, BankInfoOffBLL bankInfoOffBLL, CustInfoBll custInfoBLL, DepositService depositService, WithdrawalService withdrawalService, RolloverService rollOverService, StatementService statementService, SelLangBLL selLangBLL)
+        public PaymentBLL(IServiceProvider provider)
         {
-            this.bankInfoOffBLL = bankInfoOffBLL;
-            this.custInfoBLL = custInfoBLL;
-            this._depositService = depositService;
-            this.withdrawalService = withdrawalService;
-            this.bankInfoBLL = bankInfoBLL;
-            this.rollOverService = rollOverService;
-            this.statementService = statementService;
-            this.selLangBLL = selLangBLL;
+            bankInfoOffBLL = provider.GetRequiredService<BankInfoOffBLL>();
+            custInfoBLL = provider.GetRequiredService<CustInfoBll>();
+            _depositService = provider.GetRequiredService<DepositService>();
+            withdrawalService = provider.GetRequiredService<WithdrawalService>();
+            bankInfoBLL = provider.GetRequiredService<BankInfoBLL>();
+            statementService = provider.GetRequiredService<StatementService>();
+            selLangBLL = provider.GetRequiredService<SelLangBLL>();
           
             singleWalletType = new Dictionary<string, string>
             {
@@ -36,6 +41,12 @@ namespace MemberSite.Service.BLL
                 {"4", "lbl_Prize"  },
                 {"5", "lbl_UnSettle"}
             };
+            _partitionService = provider.GetRequiredService<PartitionService>();
+            _cacheHelper = provider.GetRequiredService<ICacheHelper>();
+
+            _tpList = statementService.GetTpListWithCache().ToDictionary(i => i.Id , i =>i.TpName);
+            _gameTypeList = statementService.GetGameTypeListWithCache().ToDictionary(i => i.Type, i => i.TypeName);
+            _logger = provider.GetRequiredService<ILogger<PaymentBLL>>();
         }
 
         /// <summary>
@@ -53,13 +64,18 @@ namespace MemberSite.Service.BLL
 
             if (amount <= 0)
                 return -1;
+            
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var vipLevel = custInfoBLL.GetPointLevelWithCache(custId);
-            var bankAccountOffList = bankInfoOffBLL.GetBankAccountOff(custInfo.SiteId);
-            var localBankList = bankAccountOffList?.ToList();
+            var pointLevel = custInfoBLL.GetPointLevelWithCache(custId);
+            var localBankList = bankInfoOffBLL.GetOfflineBankAccount(custInfo.SiteId)
+                .Where(x => x.CurrencyId == custInfo.CurrencyId
+                            && (custInfo.UserLevel > pointLevel || pointLevel == 8 || x.PointLevels.Contains(pointLevel))
+                            && x.VipLevels.Contains(custInfo.UserLevel)
+                            && x.SysId == sysId)
+                .ToList();
             var depositLimitInfoList = _depositService.GetDepositLimitInfoList();
             var depositLimitInfo = depositLimitInfoList?.FirstOrDefault(x =>
-                x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.LocalBank &&
+                x.SiteId == custInfo.SiteId && x.VipLevel == pointLevel && x.DepositType == (int)DepositType.LocalBank &&
                 x.CurrencyId == custInfo.CurrencyId);
 
             if (depositLimitInfo?.DepositStatus == 0)
@@ -67,7 +83,7 @@ namespace MemberSite.Service.BLL
                 return -4;
             }
 
-            if (depositLimitInfo != null && localBankList != null)
+            if (depositLimitInfo != null)
             {
                 foreach (var localBack in localBankList)
                 {
@@ -75,22 +91,22 @@ namespace MemberSite.Service.BLL
                 }
             }
 
-            var _info = (from x in localBankList
-                         where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.SysId == sysId && ((x.MinAmount == 0 && x.MaxAmount == 0) || (amount >= x.MinAmount && amount <= x.MaxAmount))
-                         orderby x.PointLevel descending, x.BSort
-                         select new
-                         {
-                             x.SysId,
-                             x.BankId,
-                             x.BankLogo,
-                             x.BankName,
-                             x.BankSite,
-                             x.AccountName,
-                             x.AccountNo,
-                             x.IFSCCode
-                         }).FirstOrDefault();
-
-            if (_info != null)
+            var info = localBankList
+                .Where(x => (x.MinAmount == 0 && x.MaxAmount == 0) || (amount >= x.MinAmount && amount <= x.MaxAmount))
+                .OrderBy(x => x.BSort)
+                .Select(x => new
+                {
+                    x.SysId,
+                    x.BankId,
+                    x.BankLogo,
+                    x.BankName,
+                    x.BankSite,
+                    x.AccountName,
+                    x.AccountNo,
+                    IFSCCode = x.AccountCode
+                }).FirstOrDefault();
+                
+            if (info != null)
             {
                 var depositDetailInfo = new DepositDetailInfo
                 {
@@ -105,11 +121,11 @@ namespace MemberSite.Service.BLL
 
                 var depositInfo3_1 = new DepositInfo3_1
                 {
-                    AccountName = _info.AccountName,
+                    AccountName = info.AccountName,
                     CurrencyId = custInfo.CurrencyId,
-                    SysId = _info.SysId,
-                    AccountNo = _info.AccountNo,
-                    IFSCCode = _info.IFSCCode,
+                    SysId = info.SysId,
+                    AccountNo = info.AccountNo,
+                    IFSCCode = info.IFSCCode,
                     Ver = 1
                 };
                 depositDetailInfo.DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(depositInfo3_1);
@@ -120,38 +136,42 @@ namespace MemberSite.Service.BLL
                 depositRep3.AccountNo = depositInfo3_1.AccountNo;
                 depositRep3.AccountName = depositInfo3_1.AccountName;
                 depositRep3.IFSCCode = depositInfo3_1.IFSCCode;
-                depositRep3.BankName = _info.BankName;
-                depositRep3.BankLogo = _info.BankLogo;
-                depositRep3.BankSite = _info.BankSite;
+                depositRep3.BankName = info.BankName;
+                depositRep3.BankLogo = info.BankLogo;
+                depositRep3.BankSite = info.BankSite;
 
                 return 0;
             }
+            
+            var tmpInfo = localBankList.
+                Select(x => new
+                {
+                    x.SysId,
+                    x.BankId,
+                    x.BankLogo,
+                    x.BankName,
+                    x.BankSite,
+                    x.BSort,
+                    x.AccountName,
+                    x.AccountNo,
+                    IFSCCode = x.AccountCode,
+                    x.MinAmount,
+                    x.MaxAmount
+                })
+                .OrderByDescending(x => x.MaxAmount)
+                .ThenBy(x => x.MinAmount)
+                .ThenBy(x => x.BSort)
+                .FirstOrDefault();
 
-            var _info1 = (from x in localBankList
-                          where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.SysId == sysId
-                          select new
-                          {
-                              x.SysId,
-                              x.BankId,
-                              x.BankLogo,
-                              x.BankName,
-                              x.BankSite,
-                              x.BSort,
-                              x.AccountName,
-                              x.AccountNo,
-                              x.IFSCCode,
-                              x.MinAmount,
-                              x.MaxAmount
-                          }).OrderByDescending(x => x.MaxAmount).ThenBy(x => x.MinAmount).ThenBy(x => x.BSort).FirstOrDefault();
-            if (_info == null && _info1 == null)
+            if (info == null && tmpInfo == null)
             {
                 return -2;
             }
 
-            if (_info == null && _info1 != null)
+            if (info == null && tmpInfo != null)
             {
-                depositRep3.MaxAmount = _info1.MaxAmount;
-                depositRep3.MinAmount = _info1.MinAmount;
+                depositRep3.MaxAmount = tmpInfo.MaxAmount;
+                depositRep3.MinAmount = tmpInfo.MinAmount;
 
                 return -3;
             }
@@ -165,11 +185,17 @@ namespace MemberSite.Service.BLL
 
             if (amount <= 0)
                 return -1;
+            
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var vipLevel = custInfoBLL.GetPointLevelWithCache(custId);
-            var localBankList = bankInfoOffBLL.GetBankAccountOff(custInfo.SiteId);
+            var pointLevel = custInfoBLL.GetPointLevelWithCache(custId);
+            var localBankList = bankInfoOffBLL.GetOfflineBankAccount(custInfo.SiteId)
+                .Where(x => x.CurrencyId == custInfo.CurrencyId
+                            && (custInfo.UserLevel > pointLevel || pointLevel == 8 || x.PointLevels.Contains(pointLevel))
+                            && x.VipLevels.Contains(custInfo.UserLevel)
+                            && x.SysId == sysId)
+                .ToList();
             var depositLimitInfoList = _depositService.GetDepositLimitInfoList();
-            var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.LocalBank && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
+            var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == pointLevel && x.DepositType == (int)DepositType.LocalBank && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
 
             if (depositLimitInfo?.DepositStatus == 0)
             {
@@ -184,22 +210,22 @@ namespace MemberSite.Service.BLL
                 }
             }
 
-            var _info = (from x in localBankList
-                         where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.SysId == sysId && ((x.MinAmount == 0 && x.MaxAmount == 0) || (amount >= x.MinAmount && amount <= x.MaxAmount))
-                         orderby x.PointLevel descending, x.BSort
-                         select new
-                         {
-                             x.SysId,
-                             x.BankId,
-                             x.BankLogo,
-                             x.BankName,
-                             x.BankSite,
-                             x.AccountName,
-                             x.AccountNo,
-                             x.IFSCCode
-                         }).FirstOrDefault();
+            var info = localBankList
+                .Where(x => (x.MinAmount == 0 && x.MaxAmount == 0) || (amount >= x.MinAmount && amount <= x.MaxAmount))
+                .OrderBy(x => x.BSort)
+                .Select(x => new
+                {
+                    x.SysId,
+                    x.BankId,
+                    x.BankLogo,
+                    x.BankName,
+                    x.BankSite,
+                    x.AccountName,
+                    x.AccountNo,
+                    IFSCCode = x.AccountCode
+                }).FirstOrDefault();
 
-            if (_info != null)
+            if (info != null)
             {
                 var depositDetailInfo = new DepositDetailInfo
                 {
@@ -214,11 +240,11 @@ namespace MemberSite.Service.BLL
 
                 var depositInfo3_1 = new DepositInfo3_1
                 {
-                    AccountName = _info.AccountName,
+                    AccountName = info.AccountName,
                     CurrencyId = custInfo.CurrencyId,
-                    SysId = _info.SysId,
-                    AccountNo = _info.AccountNo,
-                    IFSCCode = _info.IFSCCode,
+                    SysId = info.SysId,
+                    AccountNo = info.AccountNo,
+                    IFSCCode = info.IFSCCode,
                     Ver = 1
                 };
                 depositDetailInfo.DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(depositInfo3_1);
@@ -230,38 +256,42 @@ namespace MemberSite.Service.BLL
                 depositRep3.AccountNo = depositInfo3_1.AccountNo;
                 depositRep3.AccountName = depositInfo3_1.AccountName;
                 depositRep3.IFSCCode = depositInfo3_1.IFSCCode;
-                depositRep3.BankName = _info.BankName;
-                depositRep3.BankLogo = _info.BankLogo;
-                depositRep3.BankSite = _info.BankSite;
+                depositRep3.BankName = info.BankName;
+                depositRep3.BankLogo = info.BankLogo;
+                depositRep3.BankSite = info.BankSite;
 
                 return 0;
             }
 
-            var _info1 = (from x in localBankList
-                          where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.SysId == sysId
-                          select new
-                          {
-                              x.SysId,
-                              x.BankId,
-                              x.BankLogo,
-                              x.BankName,
-                              x.BankSite,
-                              x.BSort,
-                              x.AccountName,
-                              x.AccountNo,
-                              x.IFSCCode,
-                              x.MinAmount,
-                              x.MaxAmount
-                          }).OrderByDescending(x => x.MaxAmount).ThenBy(x => x.MinAmount).ThenBy(x => x.BSort).FirstOrDefault();
-            if (_info == null && _info1 == null)
+            var tmpInfo = localBankList.
+                Select(x => new
+                {
+                    x.SysId,
+                    x.BankId,
+                    x.BankLogo,
+                    x.BankName,
+                    x.BankSite,
+                    x.BSort,
+                    x.AccountName,
+                    x.AccountNo,
+                    IFSCCode = x.AccountCode,
+                    x.MinAmount,
+                    x.MaxAmount
+                })
+                .OrderByDescending(x => x.MaxAmount)
+                .ThenBy(x => x.MinAmount)
+                .ThenBy(x => x.BSort)
+                .FirstOrDefault();
+
+            if (info == null && tmpInfo == null)
             {
                 return -2;
             }
 
-            if (_info == null && _info1 != null)
+            if (info == null && tmpInfo != null)
             {
-                depositRep3.MaxAmount = _info1.MaxAmount;
-                depositRep3.MinAmount = _info1.MinAmount;
+                depositRep3.MaxAmount = tmpInfo.MaxAmount;
+                depositRep3.MinAmount = tmpInfo.MinAmount;
 
                 return -3;
             }
@@ -274,11 +304,15 @@ namespace MemberSite.Service.BLL
             depositRep3 = new DepositRep3();
 
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var vipLevel = custInfoBLL.GetPointLevelWithCache(custId);
-            var bankAccountOffList = bankInfoOffBLL.GetBankAccountOff(custInfo.SiteId);
-            var localBankList = bankAccountOffList?.ToList();
+            var pointLevel = custInfoBLL.GetPointLevelWithCache(custId);
+            var localBankList = bankInfoOffBLL.GetOfflineBankAccount(custInfo.SiteId)
+                .Where(x => x.CurrencyId == custInfo.CurrencyId
+                            && (custInfo.UserLevel > pointLevel || pointLevel == 8 || x.PointLevels.Contains(pointLevel))
+                            && x.VipLevels.Contains(custInfo.UserLevel)
+                            && x.SysId == sysId)
+                .ToList();
             var depositLimitInfoList = _depositService.GetDepositLimitInfoList();
-            var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.LocalBank && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
+            var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == pointLevel && x.DepositType == (int)DepositType.LocalBank && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
 
             if (depositLimitInfo?.DepositStatus == 0)
             {
@@ -293,22 +327,21 @@ namespace MemberSite.Service.BLL
                 }
             }
 
-            var _info = (from x in localBankList
-                         where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.SysId == sysId 
-                         orderby x.PointLevel descending, x.BSort
-                         select new
-                         {
-                             x.SysId,
-                             x.BankId,
-                             x.BankLogo,
-                             x.BankName,
-                             x.BankSite,
-                             x.AccountName,
-                             x.AccountNo,
-                             x.IFSCCode
-                         }).FirstOrDefault();
+            var info = localBankList
+                .OrderBy(x => x.BSort)
+                .Select(x => new
+                {
+                    x.SysId,
+                    x.BankId,
+                    x.BankLogo,
+                    x.BankName,
+                    x.BankSite,
+                    x.AccountName,
+                    x.AccountNo,
+                    IFSCCode = x.AccountCode
+                }).FirstOrDefault();
 
-            if (_info != null)
+            if (info != null)
             {
                 var depositDetailInfo = new DepositDetailInfo
                 {
@@ -322,16 +355,15 @@ namespace MemberSite.Service.BLL
 
                 var depositInfo3_1 = new DepositInfo3_1
                 {
-                    AccountName = _info.AccountName,
+                    AccountName = info.AccountName,
                     CurrencyId = custInfo.CurrencyId,
-                    SysId = _info.SysId,
-                    AccountNo = _info.AccountNo,
-                    IFSCCode = _info.IFSCCode,
+                    SysId = info.SysId,
+                    AccountNo = info.AccountNo,
+                    IFSCCode = info.IFSCCode,
                     Ver = 1
                 };
                 depositDetailInfo.DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(depositInfo3_1);
 
-                //depositService.DepositReq(depositDetailInfo, out var transId, out var postScript);
                 var transId = "";
                 var postScript = "";
                 depositRep3.TransId = transId;
@@ -339,38 +371,42 @@ namespace MemberSite.Service.BLL
                 depositRep3.AccountNo = depositInfo3_1.AccountNo;
                 depositRep3.AccountName = depositInfo3_1.AccountName;
                 depositRep3.IFSCCode = depositInfo3_1.IFSCCode;
-                depositRep3.BankName = _info.BankName;
-                depositRep3.BankLogo = _info.BankLogo;
-                depositRep3.BankSite = _info.BankSite;
+                depositRep3.BankName = info.BankName;
+                depositRep3.BankLogo = info.BankLogo;
+                depositRep3.BankSite = info.BankSite;
 
                 return 0;
             }
 
-            var _info1 = (from x in localBankList
-                          where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.SysId == sysId
-                          select new
-                          {
-                              x.SysId,
-                              x.BankId,
-                              x.BankLogo,
-                              x.BankName,
-                              x.BankSite,
-                              x.BSort,
-                              x.AccountName,
-                              x.AccountNo,
-                              x.IFSCCode,
-                              x.MinAmount,
-                              x.MaxAmount
-                          }).OrderByDescending(x => x.MaxAmount).ThenBy(x => x.MinAmount).ThenBy(x => x.BSort).FirstOrDefault();
-            if (_info == null && _info1 == null)
+            var tmpInfo = localBankList.
+                Select(x => new
+                {
+                    x.SysId,
+                    x.BankId,
+                    x.BankLogo,
+                    x.BankName,
+                    x.BankSite,
+                    x.BSort,
+                    x.AccountName,
+                    x.AccountNo,
+                    IFSCCode = x.AccountCode,
+                    x.MinAmount,
+                    x.MaxAmount
+                })
+                .OrderByDescending(x => x.MaxAmount)
+                .ThenBy(x => x.MinAmount)
+                .ThenBy(x => x.BSort)
+                .FirstOrDefault();
+            
+            if (info == null && tmpInfo == null)
             {
                 return -2;
             }
 
-            if (_info == null && _info1 != null)
+            if (info == null && tmpInfo != null)
             {
-                depositRep3.MaxAmount = _info1.MaxAmount;
-                depositRep3.MinAmount = _info1.MinAmount;
+                depositRep3.MaxAmount = tmpInfo.MaxAmount;
+                depositRep3.MinAmount = tmpInfo.MinAmount;
 
                 return -3;
             }
@@ -544,6 +580,11 @@ namespace MemberSite.Service.BLL
                     var depositInfoRef = (DepositInfo3_1)depositInfo.DepositRep;
                     depositInfo.BankInfo = bankInfoBLL.GetBankInfoSysListByCurrency(CustInfo.CurrencyId).FirstOrDefault(x => x.SysId == depositInfoRef.SysId);
                 }
+
+                if ("Fake MobilePay".Equals(depositInfo.Memo, StringComparison.OrdinalIgnoreCase))
+                {
+                    depositInfo.DepositType = (int)DepositType.MobilePayment;
+                }
             }
 
             return depositInfoRecent;
@@ -579,44 +620,62 @@ namespace MemberSite.Service.BLL
             return withdrawalInfoHistory;
         }
 
-        public IEnumerable<Statement> GetStatement(int custId, long startDate, long endDate, ref int pageNumber, out int totalPages, out int rowCount)
+        public IEnumerable<Statement> GetStatement(int custId, long start, long end, int pageNumber, int pageSize, out IPageInfo pageInfo)
         {
-            var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var datas = statementService.GetStatement(CustInfo.CustId, startDate, endDate, CustInfo.SiteId, 5, ref pageNumber, out totalPages, out rowCount);
+            pageInfo = new PageInfo();
+            var (startDate, endDate) = CheckTimeRange(start, end);
+            var key = $"GetFinancialLog:{custId}:{startDate:yyyyMMddHHmmssfff}:{endDate:yyyyMMddHHmmssfff}";
+            var cacheTime = TimeSpan.FromMinutes(1);
+
+            if (_cacheHelper.KeyExists(key, RedisDataBase.Shared))
+            {
+                //Redis Pagination
+                var total = (int)_cacheHelper.GetListLength(key, RedisDataBase.Shared);
+                var (startIndex, endIndex) = pageInfo.RedisPagination(total, pageNumber, pageSize);
+                var cacheList = _cacheHelper.GetListByRange<Statement>(key, startIndex, endIndex, RedisDataBase.Shared);
+                foreach (var item in cacheList)
+                {
+                    item.TypeName = GetTransTypeNameV2(item.Type, item.TypeName);
+                }
+                return cacheList;
+            }
+            object RefTransId = null;
+            //Search range table
+            var parameters = new
+            {
+                CustId = custId,
+                StartDate = startDate,
+                EndDate = endDate,
+                RefTransId,
+            };
+            var data = _partitionService.MonthlyQuery<Statement>(startDate, endDate, "Service_FinancialLog_Get", parameters);
+            var list = data.OrderByDescending(i => i.CreateTime).ToList();
+
+            // Add Cache by List      
+            _ = Task.Run(() =>
+            {
+                _cacheHelper.InsertList(key, cacheTime, list, RedisDataBase.Shared);
+            });
+
+
+            var (index, count) = pageInfo.ListPagination(list.Count, pageNumber, pageSize);
+            var datas = new List<Statement>();
+            try
+            {              
+                datas = list.GetRange(index, count);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"list.Count = {list.Count}, pageNumber = {pageNumber}, pageSize = {pageSize}, index = {index}, count = {count}");
+            }
+
             foreach (var item in datas)
             {
                 item.TypeName = GetTransTypeNameV2(item.Type, item.TypeName);
             }
             return datas;
         }
-
-        public IEnumerable<BounsLogStatement> GetBounsLogStatement(int custId,int PromoCategoryId, long startDate, long endDate, ref int pageNumber, out int totalPages, out int rowCount)
-        {
-            var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var datas = statementService.GetBounsLogStatement(CustInfo.CustId, PromoCategoryId, startDate, endDate, CustInfo.SiteId, 5, ref pageNumber, out totalPages, out rowCount);
-            //var tpList = statementService.GetTpList();
-
-            //Dictionary<string, string> singleWalletTransType = new Dictionary<string, string>()
-            //{
-            //    {"1", selLangBLL.GetResourceValue("lbl_Stake")  },
-            //    {"2", selLangBLL.GetResourceValue("lbl_Refund") },
-            //    {"3", selLangBLL.GetResourceValue("lbl_Settled")},
-            //    {"4", selLangBLL.GetResourceValue("lbl_Prize")  },
-            //    {"5", selLangBLL.GetResourceValue("lbl_UnSettle")}
-            //};
-
-            return datas.Select(x => new BounsLogStatement
-            {
-                BeforeBonus = x.BeforeBonus,
-                ChangeBonus = x.ChangeBonus,
-                CreateTime = x.CreateTime,
-                Direction = x.Direction,
-                RefTransId = x.RefTransId,
-                AfterBonus = x.AfterBonus,
-                //TypeName = GetTransTypeName(x.Type, x.TypeName, ref tpList, ref singleWalletTransType)
-                TypeName = GetTransTypeNameV2(x.Type, x.TypeName)
-            });
-        }
+        
         private string GetTransTypeNameV2(string Type, string TypeName)
         {
             if (Type.Length < 5)
@@ -625,30 +684,23 @@ namespace MemberSite.Service.BLL
             }
             else
             {
-                var tpList = statementService.GetTpListWithCache();
-                var gameTypeList = statementService.GetGameTypeListWithCache();
-
                 singleWalletType.TryGetValue(Type.Substring(1, 1), out var WalletType);
                 int.TryParse(Type.Substring(2), out var tempId);
                 string tpName = null;
 
                 if (Type.StartsWith("1"))
                 {
-                    tpName = tpList.FirstOrDefault(x => x.Id == tempId)?.TpName;
+                    tpName = _tpList.GetValueOrDefault(tempId, string.Empty);
                 }
                 else if (Type.StartsWith("2"))
                 {
-                    tpName = gameTypeList.FirstOrDefault(x => x.Type == tempId)?.TypeName;
+                    tpName = _gameTypeList.GetValueOrDefault(tempId, string.Empty);
                 }
 
                 return $"{tpName} {selLangBLL.GetResourceValue(WalletType)}";
             }
         }
 
-        public IEnumerable<PromotionCategory> GetPromotionCategory()
-        {
-            return statementService.GetPromotionCategory();
-        }
         public int SetDepositReceipt(int custId, string transId, string refNo, long depositTime)
         {
             var depositId = 0;
@@ -722,10 +774,7 @@ namespace MemberSite.Service.BLL
                 }
             }
         }
-        public IEnumerable<TpBetRecordListOneWeek> GetCustTpBetRecordListOneWeek(int custId)
-        {
-            return statementService.GetCustTpBetRecordListOneWeek(custId);
-        }
+
         public IEnumerable<TpBetRecordListOneDay> GetCustTpBetRecordListOneDay(int custId, string selDate, int PageSize, ref int PageNumber, ref int TotalPages, ref int RowCount)
         {
             return statementService.GetCustTpBetRecordListOneDay(custId, selDate, PageSize, ref PageNumber, ref TotalPages, ref RowCount);
@@ -754,10 +803,7 @@ namespace MemberSite.Service.BLL
         {
             return withdrawalService.GetWithdrawalInfoCheck(input);
         }
-        public IEnumerable<NetworkList> GetSupportNetwork( int currencyId)
-        {
-            return statementService.GetSupportNetwork(currencyId);
-        }
+
         public CryptoInfoData GetSupportCryptoInfo()
         {
             var infos = statementService.GetSupportCryptoInfo();
@@ -786,14 +832,38 @@ namespace MemberSite.Service.BLL
             return withdrawalService.GetUSDTWithdrawalLimitInfoV2(input);
         }
 
-        public IEnumerable<USDTWithdrawalLimitInfoOutput> GetUSDTWithdrawalLimitInfoList(USDTWithdrawalLimitInfoInput input)
-        {
-            return withdrawalService.GetUSDTWithdrawalLimitInfoList(input);
-        }
-
         public EWalletWithdrawalLimitInfoOutput GetEWalletWithdrawalLimitInfo(WithdrawalLimitInfoInput input)
         {
             return withdrawalService.GetEWalletWithdrawalLimitInfo(input);
         }
+
+        private (DateTime startDate, DateTime endDate) CheckTimeRange(long start, long end)
+        {
+            var startDate = DateTimeOffset.FromUnixTimeSeconds(start).DateTime;
+            var endDate = DateTimeOffset.FromUnixTimeSeconds(end).DateTime;
+
+            var oneYear = DateTime.UtcNow.AddYears(-1);//不可超過一年
+            var tomorrow = DateTime.UtcNow.AddDays(1).AddMilliseconds(-1);//不可超過今天
+
+            if (startDate < oneYear)
+            {
+                startDate = oneYear;
+            }
+            if (endDate < oneYear)
+            {
+                endDate = oneYear;
+            }
+
+            if (startDate > tomorrow)
+            {
+                startDate = tomorrow;
+            }
+            if (endDate > tomorrow)
+            {
+                endDate = tomorrow;
+            }
+            return (startDate, endDate);
+        }
+
     }
 }

@@ -14,7 +14,9 @@ namespace MemberSite.Service.Model
         {
             get
             {
-                return _createTime.ToOffset(CustTimeZone);
+                //先取得時區再進行時間位移
+                var offset = DateTime.Now.ToDateTimeOffset(CustTimeZone).Offset;
+                return  new DateTimeOffset(_createTime).ToOffset(offset);
             }
             set
             {
@@ -30,70 +32,20 @@ namespace MemberSite.Service.Model
         public string CustTimeZone { get; set; }
     }
 
-    public class BounsLogStatement
-    {
-        public string Type { get; set; }
-        public decimal ChangeBonus { get; set; }
-        public decimal BeforeBonus { get; set; }
-        public decimal AfterBonus { get; set; }
-        public string RefTransId { get; set; }
-        public DateTimeOffset CreateTime
-        {
-            get
-            {
-                return _createTime.ToOffset(CustTimeZone);
-            }
-            set
-            {
-                _createTime = value.DateTime;
-            }
-        }
-        private DateTime _createTime { get; set; }
-        public int Direction { get; set; }
-
-        public string TypeName { get; set; }
-
-        [JsonIgnore]
-        public string CustTimeZone { get; set; }
-    }
     public class TpList
     {
         public int Id { get; set; }
         public string TpName { get; set; }
         public bool Fun { get; set; }
     }
-    public class PromotionCategory
-    {
-        public int id { get; set; }
-        public string Name { get; set; }
-    }
-    public class TpBetRecordListOneWeek
-    {
-        public DateTimeOffset SettledDate
-        {
-            get
-            {
-                return _settledDate.ToOffset(CustTimeZone);
-            }
-            set
-            {
-                _settledDate = value.DateTime;
-            }
-        }
-        private DateTime _settledDate { get; set; }
-        public decimal TurnOver { get; set; }
-        public decimal ValidBet { get; set; }
-        public decimal WinlostAmount { get; set; }
-        [JsonIgnore]
-        public string CustTimeZone { get; set; }
-    }
+
     public class TpBetRecordListOneDay
     {
         public DateTimeOffset SettledDate
         {
             get
             {
-                return _settledDate.ToOffset(CustTimeZone);
+                return _settledDate.ToDateTimeOffset(CustTimeZone);
             }
             set
             {
@@ -115,7 +67,7 @@ namespace MemberSite.Service.Model
         {
             get
             {
-                return _settledDate.ToOffset(CustTimeZone);
+                return _settledDate.ToDateTimeOffset(CustTimeZone);
             }
             set
             {
@@ -143,7 +95,7 @@ namespace MemberSite.Service.Model
         {
             get
             {
-                return _transTime.ToOffset(CustTimeZone);
+                return _transTime.ToDateTimeOffset(CustTimeZone);
             }
             set
             {
@@ -155,7 +107,7 @@ namespace MemberSite.Service.Model
         {
             get
             {
-                return _settledTime.ToOffset(CustTimeZone);
+                return _settledTime.ToDateTimeOffset(CustTimeZone);
             }
             set
             {
@@ -173,7 +125,7 @@ namespace MemberSite.Service.Model
         {
             get
             {
-                return _settledDate.ToOffset(CustTimeZone);
+                return _settledDate.ToDateTimeOffset(CustTimeZone);
             }
             set
             {
@@ -191,10 +143,6 @@ namespace MemberSite.Service.Model
     {
         public int Type { get; set; }
         public string TypeName { get; set; }
-    }
-    public class NetworkList
-    {
-        public string network { get; set; }
     }
 
     public class CryptoInfo

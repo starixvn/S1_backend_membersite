@@ -15,6 +15,7 @@ namespace MemberSite.Service.BLL
         private readonly Tools tools;
         private readonly AuthenticateService authenticateService;
         private readonly JwtConfig _jwtConfig;
+        private readonly ILogger<AuthorizeBLL> _logger;
 
         public AuthorizeBLL(IServiceProvider provider)
         {
@@ -22,11 +23,16 @@ namespace MemberSite.Service.BLL
             tools = provider.GetRequiredService<Tools>();
             authenticateService = provider.GetRequiredService<AuthenticateService>();
             _jwtConfig = provider.GetRequiredService<IOptions<JwtConfig>>()?.Value;
+            _logger = provider.GetRequiredService<ILogger<AuthorizeBLL>>();
         }
 
         public bool LoginCheckin(int? deviceType)
         {
             var authData = GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                return false;
+            }
             var ip = tools.GetClientIP();
             var result = authenticateService.UpdateOnline(authData.CustId, true, authData.Token, ip, deviceType);
 
@@ -36,23 +42,36 @@ namespace MemberSite.Service.BLL
         public AuthData GetAuthData(bool checkOnUser = false)
         {
             AuthData authData = null;
-            if (httpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
+            try
             {
-                authData = new AuthData();
-                int.TryParse(httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(m => m.Type == ClaimTypes.NameIdentifier)?.Value, out var custId);
-                authData.CustId = custId;
-                authData.UserName = httpContextAccessor.HttpContext.User.Identity.Name;
-                authData.Token = httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(m => m.Type == "Token")?.Value;
-                authData.LangId = httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(m => m.Type == "LangId")?.Value;
-
-                if (_jwtConfig.IsJwt || checkOnUser)
+                if (httpContextAccessor.HttpContext?.User.Identity?.IsAuthenticated == true)
                 {
-                    var onUser = GetOnUser(custId);
-                    if (onUser == null)
+                    if (!int.TryParse(httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(m => m.Type == ClaimTypes.NameIdentifier)?.Value, out var custId))
                     {
-                        authData.CustId = 0;
+                        return new AuthData();
+                    }
+
+                    authData = new AuthData
+                    {
+                        CustId = custId,
+                        UserName = httpContextAccessor.HttpContext.User.Identity.Name,
+                        Token = httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(m => m.Type == "Token")?.Value,
+                        LangId = httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(m => m.Type == "LangId")?.Value
+                    };
+
+                    if (_jwtConfig.IsJwt || checkOnUser)
+                    {
+                        var onUser = GetOnUser(custId);
+                        if (onUser == null)
+                        {
+                            authData.CustId = 0;
+                        }
                     }
                 }
+            }
+            catch (Exception e)
+            {
+               _logger.LogError(e, "GetAuthData");
             }
 
             return authData;
@@ -95,10 +114,10 @@ namespace MemberSite.Service.BLL
                 var jwtSecurityToken = (JwtSecurityToken)validatedToken;
                 appAuthData = new AuthData()
                 {
-                    UserName = jwtSecurityToken.Claims.First(claim => claim.Type == ClaimTypes.Name)?.Value,
-                    CustId = int.Parse(jwtSecurityToken.Claims.First(claim => claim.Type == ClaimTypes.NameIdentifier)?.Value),
-                    Token = jwtSecurityToken.Claims.First(claim => claim.Type == "Token")?.Value,
-                    LangId = jwtSecurityToken.Claims.First(claim => claim.Type == "LangId")?.Value,
+                    UserName = jwtSecurityToken.Claims.First(claim => claim.Type == ClaimTypes.Name).Value,
+                    CustId = int.Parse(jwtSecurityToken.Claims.First(claim => claim.Type == ClaimTypes.NameIdentifier).Value),
+                    Token = jwtSecurityToken.Claims.First(claim => claim.Type == "Token").Value,
+                    LangId = jwtSecurityToken.Claims.First(claim => claim.Type == "LangId").Value,
                 };
                 return true;
             }

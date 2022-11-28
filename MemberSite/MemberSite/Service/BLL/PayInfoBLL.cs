@@ -1,7 +1,6 @@
 ﻿using MemberSite.Service.DAL;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
-using Microsoft.Extensions.Caching.Memory;
 using MemberSite.Service.Library;
 using MemberSite.Extensions;
 
@@ -12,8 +11,9 @@ namespace MemberSite.Service.BLL
         private readonly PayService _payService;
         private readonly DepositService _depositService;
         private readonly DepositBLL _depositBll;
+        private readonly BankInfoOffBLL _bankInfoOffBll;
         private readonly CustInfoBll _custInfoBll;
-        private readonly CacheHelper _cacheHelper;
+        private readonly ICacheHelper _redisHelper;
 
         public PayInfoBLL(IServiceProvider provider)
         {
@@ -21,7 +21,8 @@ namespace MemberSite.Service.BLL
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _depositService = provider.GetRequiredService<DepositService>();
             _depositBll = provider.GetRequiredService<DepositBLL>();
-            _cacheHelper = provider.GetRequiredService<CacheHelper>();
+            _bankInfoOffBll = provider.GetRequiredService<BankInfoOffBLL>();
+            _redisHelper = provider.GetRequiredService<ICacheHelper>();
         }
 
         public IEnumerable<PayGroup> GetPayGroupList(int custId, DepositType depositType)
@@ -38,8 +39,8 @@ namespace MemberSite.Service.BLL
             var payInfoList = GetPayInfoList(custInfo.SiteId, depositType)
                 .Where(info=> vipLevel >= info.PointLevel && info.CurrencyId == custInfo.CurrencyId);
 
-            return payInfoList
-                .Select(x => new PayGroup()
+            var payGroupList = payInfoList
+                .Select(x => new PayGroup
                 {
                     GroupId = x.GroupId,
                     GroupName = x.GroupName,
@@ -49,7 +50,30 @@ namespace MemberSite.Service.BLL
                     MinAmount = payInfoList.Where(y => x.GroupId == y.GroupId).OrderBy(y => y.MinAmount).First().MinAmount,
                     MaxAmount = payInfoList.Where(y => x.GroupId == y.GroupId).OrderByDescending(y => y.MaxAmount).First().MaxAmount
                 })
-                .Distinct(i => i.GroupId);
+                .Distinct(i => i.GroupId)
+                .ToList();
+            // BankQR
+            if (custInfo.CurrencyId == (int) CurrencyId.MYR && depositType == DepositType.MobilePayment)
+            {
+                var bankCards = _bankInfoOffBll.GetOfflineBankCardListWithCache(custId)
+                    .Where(x => x.SupportQR);
+
+                if (bankCards.Any())
+                {
+                    payGroupList.Add(new PayGroup
+                    {
+                        ChannelName = FakePayGroupEnum.DuitNowQR.GetDescription(),
+                        GroupId = (int) FakePayGroupEnum.DuitNowQR,
+                        GroupName = FakePayGroupEnum.DuitNowQR.ToString(),
+                        Mode = (int) PayModeEnum.QrCode,
+                        GSort = -1,
+                        MinAmount = bankCards.Min(x => x.MinAmount),
+                        MaxAmount = bankCards.Max(x => x.MaxAmount)
+                    });
+                }
+            }
+            
+            return payGroupList.OrderBy(x => x.GSort);
         }
 
         public IEnumerable<PayInfo> GetPayInfoList(int custId, int groupId, DepositType depositType)
@@ -61,6 +85,19 @@ namespace MemberSite.Service.BLL
             if (depositLimitInfo?.DepositStatus == 0)
             {
                 return new List<PayInfo>();
+            }
+            
+            if (depositType == DepositType.MobilePayment && FakeMobilePay.FakeMobilePayInfoMap.Keys.Any(x => (int)x == groupId))
+            {
+                var bankCards = _bankInfoOffBll.GetOfflineBankCardListWithCache(custId)
+                    .Where(x => x.SupportQR);
+
+                var payInfo = FakeMobilePay.FakeMobilePayInfoMap[(FakePayGroupEnum) groupId];
+                payInfo.MinAmount = bankCards.Min(x => x.MinAmount);
+                payInfo.MaxAmount = bankCards.Max(x => x.MaxAmount);
+                _depositBll.FixDepositLimit(payInfo, depositLimitInfo);
+                
+                return new[] { payInfo };
             }
 
             var payInfoList = GetPayInfoList(custInfo.SiteId, depositType)
@@ -131,9 +168,11 @@ namespace MemberSite.Service.BLL
 
         private IEnumerable<PayInfo> GetPayInfoList(int siteId, DepositType depositType)
         {
-            return _cacheHelper.TryGetOrCreate<IEnumerable<PayInfo>>($"PayInfoList_{siteId}_{depositType}",
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(10)),
-                i => _payService.GetPayInfo(siteId, depositType).OrderBy(x => x.GSort).ThenBy(x => x.SSort));
+            var key = $"PayInfoList:{siteId}:{depositType}";
+            var dbData = _redisHelper.TryGetOrCreate<IEnumerable<PayInfo>>(key, TimeSpan.FromSeconds(10),
+                () => _payService.GetPayInfo(siteId, depositType).OrderBy(x => x.GSort).ThenBy(x => x.SSort),
+                RedisDataBase.Shared);
+            return dbData;
         }
 
         private DepositLimitInfo GetDepositLimitInfo(Customer custInfo, int vipLevel, DepositType depositType)

@@ -12,17 +12,7 @@ namespace MemberSite.Service.DAL
         {
             this.configuration = configuration;
         }
-        public List<GameCasinoListData> GetGameCasinoList()
-        {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            var IsStage = configuration.GetValue<int>("IsStage");
-            var SPName = "Member_GameCasinoList_Get";
-            if (IsStage == 1)
-            {
-                SPName = "Member_GameCasinoListStag_Get";
-            }
-            return conn.Query<GameCasinoListData>(SPName, null, commandType: CommandType.StoredProcedure).ToList();
-        }
+        
         public List<GameCasinoListData> GetGameCasinoListByDevice(int deviceType)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));

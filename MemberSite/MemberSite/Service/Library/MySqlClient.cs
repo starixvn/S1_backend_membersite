@@ -21,7 +21,7 @@ namespace MemberSite.Service.Library
             DataBase = dataBase;
         }
 
-        public async Task<T> QueryFirstAsync<T>(string name, SqlMapper.IDynamicParameters parameters)
+        public async Task<T> QueryFirstAsync<T>(string name, object parameters)
         {
             T result;
             var sw = Stopwatch.StartNew();
@@ -42,7 +42,7 @@ namespace MemberSite.Service.Library
             return result;
         }
 
-        public T QueryFirst<T>(string name, SqlMapper.IDynamicParameters parameters)
+        public T QueryFirst<T>(string name, object parameters)
         {
             T result;
             var sw = Stopwatch.StartNew();
@@ -51,26 +51,6 @@ namespace MemberSite.Service.Library
                 using var connection = new MySqlConnection(_connectionString);
                 result = connection.QueryFirstOrDefault<T>(name, parameters,
                     commandType: CommandType.StoredProcedure);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, name);
-                throw;
-            }
-
-            LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
-            _logger.LogDebug($"{name} {sw.Elapsed:c}");
-            return result;
-        }
-
-        public int Execute(string name, SqlMapper.IDynamicParameters parameters)
-        {
-            var result = 0;
-            var sw = Stopwatch.StartNew();
-            try
-            {
-                using var connection = new MySqlConnection(_connectionString);
-                result = connection.Execute(name, parameters, commandType: CommandType.StoredProcedure);
             }
             catch (Exception e)
             {
@@ -103,7 +83,7 @@ namespace MemberSite.Service.Library
             return result;
         }
         
-        public int Execute(string name, DynamicParameters parameters, MySqlConnection connection,
+        public int Execute(string name, object parameters, MySqlConnection connection,
             MySqlTransaction trans)
         {
             var result = 0;
@@ -144,7 +124,7 @@ namespace MemberSite.Service.Library
             return result;
         }
 
-        public async Task<int> ExecuteAsync(string name, DynamicParameters parameters)
+        public async Task<int> ExecuteAsync(string name, object parameters)
         {
             var result = 0;
             var sw = Stopwatch.StartNew();
@@ -183,27 +163,7 @@ namespace MemberSite.Service.Library
             _logger.LogDebug(name);
             return result;
         }
-
-        public IEnumerable<T> Query<T>(string name, SqlMapper.IDynamicParameters parameters)
-        {
-            IEnumerable<T> result;
-            var sw = Stopwatch.StartNew();
-            try
-            {
-                using var connection = new MySqlConnection(_connectionString);
-                result = connection.Query<T>(name, parameters, commandType: CommandType.StoredProcedure);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, name);
-                throw;
-            }
-
-            LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
-            _logger.LogDebug($"{name} {sw.Elapsed:c}");
-            return result;
-        }
-
+        
         public IEnumerable<T> Query<T>(string sql, object parameters, CommandType commandType = CommandType.StoredProcedure)
         {
             IEnumerable<T> result;
@@ -224,8 +184,7 @@ namespace MemberSite.Service.Library
             return result;
         }
 
-        public T Query<T>(string name, SqlMapper.IDynamicParameters parameters,
-            Func<SqlMapper.GridReader, T> func)
+        public T Query<T>(string name, object parameters, Func<SqlMapper.GridReader, T> func)
         {
             T result;
             var sw = Stopwatch.StartNew();
@@ -246,7 +205,7 @@ namespace MemberSite.Service.Library
             return result;
         }
 
-        public async Task<IEnumerable<T>> QueryAsync<T>(string name, SqlMapper.IDynamicParameters parameters)
+        public async Task<IEnumerable<T>> QueryAsync<T>(string name, object parameters)
         {
             IEnumerable<T> result;
             var sw = Stopwatch.StartNew();
@@ -266,8 +225,7 @@ namespace MemberSite.Service.Library
             return result;
         }
 
-        public async Task<T> QueryAsync<T>(string name, SqlMapper.IDynamicParameters parameters,
-            Func<SqlMapper.GridReader, T> func)
+        public async Task<T> QueryAsync<T>(string name, object parameters, Func<SqlMapper.GridReader, T> func)
         {
             T result;
             var sw = Stopwatch.StartNew();
@@ -277,6 +235,48 @@ namespace MemberSite.Service.Library
                 var multiple =
                     connection.QueryMultipleAsync(name, parameters, commandType: CommandType.StoredProcedure);
                 result = func.Invoke(await multiple);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, name);
+                throw;
+            }
+
+            LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
+            _logger.LogDebug($"{name} {sw.Elapsed:c}");
+            return result;
+        }
+        
+        public T ExecuteScalar<T>(string name, object parameters)
+        {
+            T result;
+            var sw = Stopwatch.StartNew();
+            try
+            {
+                using var connection = new MySqlConnection(_connectionString);
+                result = connection.ExecuteScalar<T>(name, parameters,
+                    commandType: CommandType.StoredProcedure);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, name);
+                throw;
+            }
+
+            LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
+            _logger.LogDebug($"{name} {sw.Elapsed:c}");
+            return result;
+        }
+        
+        public async Task<T> ExecuteScalarAsync<T>(string name, object parameters)
+        {
+            T result;
+            var sw = Stopwatch.StartNew();
+            try
+            {
+                await using var connection = new MySqlConnection(_connectionString);
+                result = await connection.ExecuteScalarAsync<T>(name, parameters,
+                    commandType: CommandType.StoredProcedure);
             }
             catch (Exception e)
             {

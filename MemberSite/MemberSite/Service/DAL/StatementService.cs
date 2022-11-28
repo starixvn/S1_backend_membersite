@@ -19,20 +19,6 @@ namespace MemberSite.Service.DAL
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
         }
 
-        public IEnumerable<Statement> GetStatement(int custId, long startDate, long endDate, int siteId, int pageSize, ref int pageNumber, out int totalPages, out int rowCount)
-        {
-            using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport"));
-            var p = new DynamicParameters(new { CustId = custId, StartDate = startDate, EndDate = endDate, SiteId = siteId, PageSize = pageSize });
-            p.Add("PageNumber", pageNumber, dbType: DbType.Int32, direction: ParameterDirection.InputOutput);
-            p.Add("TotalPages", dbType: DbType.Int32, direction: ParameterDirection.Output);
-            p.Add("RowCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
-            p.Add("StartIndex", dbType: DbType.Int32, direction: ParameterDirection.Output);
-
-            var result = conn.Query<Statement>("Member_FinacialLog_Get_V2", p, commandType: CommandType.StoredProcedure);
-            totalPages = p.Get<int?>("TotalPages") ?? 0;
-            rowCount = p.Get<int?>("RowCount") ?? 0;
-            return result;
-        }
         public IEnumerable<TpList> GetTpListWithCache()
         {
             var key = $"CustInfo_TpList";
@@ -58,33 +44,6 @@ namespace MemberSite.Service.DAL
             return conn.Query<GameTypeList>("Common_TpGameType_Get", commandType: CommandType.StoredProcedure);
         }
 
-        public IEnumerable<BounsLogStatement> GetBounsLogStatement(int custId,int PromoCategoryId, long startDate, long endDate, int siteId, int pageSize, ref int pageNumber, out int totalPages, out int rowCount)
-        {
-            using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport"));
-            var p = new DynamicParameters(new { CustId = custId, PromoCategoryId, StartDate = startDate, EndDate = endDate, SiteId = siteId, PageSize = pageSize });
-            p.Add("PageNumber", pageNumber, dbType: DbType.Int32, direction: ParameterDirection.InputOutput);
-            p.Add("TotalPages", dbType: DbType.Int32, direction: ParameterDirection.Output);
-            p.Add("RowCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
-            p.Add("StartIndex", dbType: DbType.Int32, direction: ParameterDirection.Output);
-
-            var result = conn.Query<BounsLogStatement>("Member_BonusLog_Get_V2", p, commandType: CommandType.StoredProcedure);
-            totalPages = p.Get<int?>("TotalPages") ?? 0;
-            rowCount = p.Get<int?>("RowCount") ?? 0;
-            return result;
-        }
-
-        public IEnumerable<PromotionCategory> GetPromotionCategory()
-        {
-            using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport"));
-            var result = conn.Query<PromotionCategory>("Member_PromotionCategory_Get", commandType: CommandType.StoredProcedure);
-            return result;
-        }
-        public IEnumerable<TpBetRecordListOneWeek> GetCustTpBetRecordListOneWeek(int custId)
-        {
-            using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport"));
-            var result = conn.Query<TpBetRecordListOneWeek>("Member_TpBetRecord_byCustIDOneWeek_Get_V2", new { CustId = custId }, commandType: CommandType.StoredProcedure);
-            return result;
-        }
         public IEnumerable<TpBetRecordListOneDay> GetCustTpBetRecordListOneDay(int custId, string selDate, int PageSize, ref int PageNumber, ref int TotalPages, ref int RowCount)
         {
             IEnumerable<TpBetRecordListOneDay> result = null;
@@ -166,13 +125,7 @@ namespace MemberSite.Service.DAL
             }
             return result;
         }
-        public IEnumerable<NetworkList> GetSupportNetwork(int currencyId)
-        {
-            using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport"));
-            var result = conn.Query<NetworkList>("Member_SupportNetwork_Get", new { CurrencyId = currencyId }, commandType: CommandType.StoredProcedure);
-            return result;
-        }
-        
+
         public IEnumerable<CryptoInfo> GetSupportCryptoInfo()
         {
             using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport"));

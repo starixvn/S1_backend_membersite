@@ -1,4 +1,5 @@
 ﻿using MemberSite.Service.Model.enums;
+using Newtonsoft.Json;
 
 namespace MemberSite.Service.Model
 {
@@ -11,6 +12,8 @@ namespace MemberSite.Service.Model
         public string Banner { get; set; }
         public long PeriodFrom { get; set; }
         public long PeriodTo { get; set; }
+        public long DisplayFrom { get; set; }
+        public long DisplayTo { get; set; }
         public int WinOver { get; set; }
         public int RollOver { get; set; }
         public string Details { get; set; }
@@ -40,25 +43,26 @@ namespace MemberSite.Service.Model
         public int? PromotionAction { set; get; }
         public CashBackDetails CashBackDetails { get; set; }
         public bool BeenUsed { get; set; }
+        public IEnumerable<TierAmount> TierAmountList { get; set; }
+        public IEnumerable<CanJoinTierAmount> CanJoinTierAmountList { get; set; }
     }
 
     public class CashBackDetails
     {
         public decimal TotalBonus { get; set; }
         public decimal MaxBonus { get; set; }
+        public decimal TotalLossAmount { get; set; }
+        public decimal MinLossAmount { get; set; }
+        public decimal OriginalTotalBonus { get; set; }
+        public string Percentage { get; set; }
         public IEnumerable<CashBackDetail> CashBackDetail { get; set; }
     }
 
     public class CashBackDetail
     {
-        public int CategoryId { get; set; }
-        public int TpId { get; set; }
         public string TpName { get; set; }
-        public string PeriodFrom { get; set; }
-        public string PeriodTo { get; set; }
         public decimal LossAmount { get; set; }
-        public string PercentageName { get; set; }
-        public decimal BonusAmount { get; set; }
+        public decimal LossAmountWithBonus { get; set; }
     }
 
     public class Ref
@@ -91,5 +95,22 @@ namespace MemberSite.Service.Model
         public string UserName { set; get; }
         public int CurrencyId { set; get; }
         public string ClientIp { set; get; }
+    }
+
+    public class TierAmount
+    {
+        public decimal Bonus { get; set; }
+        public decimal MaxBonus { get; set; }
+        public decimal RequiredAmount { get; set; }
+        public int RollOver { get; set; }
+        public int WinOver { get; set; }
+    }
+
+    public class CanJoinTierAmount
+    {
+        public decimal RequiredAmount { get; set; }
+        public decimal Bonus { get; set; }
+        public decimal BonusAmount { get; set; }
+        public decimal LockedAmount { get; set; }
     }
 }

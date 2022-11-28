@@ -20,15 +20,15 @@ namespace MemberSite.Service.DAL
             _reportClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
         }
 
-        public bool SetRead(int msgId, int custId)
+        public bool SetRead(int msgId, int custId, bool isBatch)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            return conn.Execute("Member_MsgRead_Set", new { MsgId = msgId, CustId = custId }, commandType: CommandType.StoredProcedure) > 0;
+            return conn.Execute("Member_MsgRead_Set_V2", new { MsgId = msgId, CustId = custId, IsBatch = isBatch }, commandType: CommandType.StoredProcedure) > 0;
         }
 
         public async Task<bool> SetReadPopupMessageTime(int custid, int taskId)
         {
-            var p = new DynamicParameters(new {_CustId = custid, _TaskId = taskId});
+            var p = new DynamicParameters(new { _CustId = custid, _TaskId = taskId });
             return await _mainDbClient.ExecuteAsync("Member_PopupMsgRead_Set", p) > 0;
         }
 
@@ -49,17 +49,17 @@ namespace MemberSite.Service.DAL
             rowCount = p.Get<int?>("RowCount") ?? 0;
             return msgList;
         }
-        public MsgContent GetMsgContent(int custId, int msgId , int isBatch)
+        public MsgContent GetMsgContent(int custId, int msgId, int isBatch)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            var msgContent = conn.QueryFirstOrDefault<MsgContent>("MsgContent_Get_V2", new { MsgId = msgId, CustId = custId ,IsBatch = isBatch }, commandType: CommandType.StoredProcedure);
+            var msgContent = conn.QueryFirstOrDefault<MsgContent>("MsgContent_Get_V2", new { MsgId = msgId, CustId = custId, IsBatch = isBatch }, commandType: CommandType.StoredProcedure);
             return msgContent;
         }
-        
+
         public async Task<PopupMsg> GetPopupMessage(int custId, int pageSize = 5)
         {
             var pageNumber = 0;
-            var p = new DynamicParameters(new {_CustId = custId, _PageSize = pageSize});
+            var p = new DynamicParameters(new { _CustId = custId, _PageSize = pageSize });
             p.Add("_PageNumber", pageNumber, dbType: DbType.Int32, direction: ParameterDirection.Output);
             var msg = await _reportClient.QueryFirstAsync<PopupMsg>("Member_PopupMsg_Get_V3", p);
             if (msg == null) return null;
@@ -67,7 +67,7 @@ namespace MemberSite.Service.DAL
             msg.PageNumber = pageNumber;
             return msg;
         }
-        
+
         public bool DelMsg(int CustId, DeleteMsg msg)
         {
             return _mainDbClient.Execute("Msg_Del_V2", new { msg.MsgId, CustId, msg.IsBatch }) > 0;
@@ -81,14 +81,14 @@ namespace MemberSite.Service.DAL
         public IEnumerable<Announcement> GetAnnouncement(string LangCode, string DefaultLangCode, int LimitRow, bool IsTest, int SiteId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<Announcement>("Member_Announcement_Get", new { DefaultLangCode, LangCode, LimitRow, IsTest, SiteId}, commandType: CommandType.StoredProcedure);
+            return conn.Query<Announcement>("Member_Announcement_Get", new { DefaultLangCode, LangCode, LimitRow, IsTest, SiteId }, commandType: CommandType.StoredProcedure);
         }
         public int SendMessage(int siteId, string sender, string title, string content, int custId, string CustUserName, string lang)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             return conn.Execute("Msg_Ins", new { Type = 99, SiteId = siteId, LangId = lang, RecipientCustId = custId, Recipient = CustUserName, SenderCustId = siteId, Sender = sender, Title = title, Content = content, MainId = 0 }, commandType: CommandType.StoredProcedure);
         }
-        
+
         public async Task<int> SendMessageAsync(Message message)
         {
             var parameter = new DynamicParameters();

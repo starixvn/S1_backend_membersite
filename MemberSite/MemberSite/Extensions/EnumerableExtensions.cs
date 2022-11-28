@@ -14,5 +14,11 @@
                 }
             }
         }
+
+        public static T GetRandom<T>(this IEnumerable<T> source)
+        {
+            var index = new Random().Next(0, source.Count());
+            return source.ElementAt(index);
+        }
     }
 }

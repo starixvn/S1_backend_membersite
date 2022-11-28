@@ -13,7 +13,7 @@ namespace MemberSite.Service.BLL
         }
         public List<GetDeepLinkRep> GetDeepLink(int SiteId, int DeepLinkId)
         {
-            List<GetDeepLinkRep> result = new List<GetDeepLinkRep>();
+            var result = new List<GetDeepLinkRep>();
             var deeplink = deepLinkService.GetDeepLink(SiteId, DeepLinkId);
 
             deeplink.FindAll(item => !string.IsNullOrWhiteSpace(item.Domain)).ForEach(x =>

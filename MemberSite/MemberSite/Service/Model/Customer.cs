@@ -6,6 +6,7 @@ namespace MemberSite.Service.Model
 {
     public class Customer
     {
+        public string SiteName { get; set; }
         public int CustId { get; set; }
         public int SiteId { get; set; }
         public string UserName { get; set; }
@@ -264,7 +265,7 @@ namespace MemberSite.Service.Model
         {
             get
             {
-                return _registerDate.ToOffset(CustTimeZone);
+                return _registerDate.ToDateTimeOffset(CustTimeZone);
             }
             set
             {

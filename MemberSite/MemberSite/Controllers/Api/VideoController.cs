@@ -32,9 +32,9 @@ namespace MemberSite.Controllers.Api
 
             var serverInfo = serverInfoBLL.GetServerInfo();
             int SiteId;
-            if (User.Identity.IsAuthenticated)
+            var authData = authorizeBLL.GetAuthData();
+            if (authData is { CustId: > 0 })
             {
-                var authData = authorizeBLL.GetAuthData();
                 var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
                 SiteId = custInfo.SiteId;
             }
@@ -55,9 +55,9 @@ namespace MemberSite.Controllers.Api
 
             var serverInfo = serverInfoBLL.GetServerInfo();
             int SiteId;
-            if (User.Identity.IsAuthenticated)
+            var authData = authorizeBLL.GetAuthData();
+            if (authData is { CustId: > 0 })
             {
-                var authData = authorizeBLL.GetAuthData();
                 var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
                 SiteId = custInfo.SiteId;
             }

@@ -22,31 +22,6 @@ namespace MemberSite.Service.DAL
             _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
         }
 
-        public bool RewardBonus(int bonusId, int promoCategoryId, int tpId, int custId, int siteId, string userName, decimal bonusAmount, decimal lockedAmount, decimal rollover, long expiryTime, int type, string Memo, string RefTransId, MySqlConnection conn, MySqlTransaction trans)
-        {
-            var p = new DynamicParameters(new { BonusId = bonusId, PromoCategoryId = promoCategoryId, TpId = tpId, CustId = custId, SiteId = siteId, UserName = userName, BonusAmount = bonusAmount, LockedAmount = lockedAmount, Rollover = rollover, ExpiryTime = expiryTime, Type = type,
-                Memo,
-                RefTransId });
-            return _mainDbClient.Execute("Common_Bonus_Ins", p, conn, trans) > 0;
-        }
-        public bool RewardRebate(string bonusCode, int rebateType, int custId, string userName, int siteId, int currencyId, MySqlConnection conn, MySqlTransaction trans)
-        {
-            var p = new DynamicParameters(new { BonusCode = bonusCode, RebateType = rebateType, CustId = custId, UserName = userName, SiteId = siteId, CurrencyId = currencyId });
-            return _mainDbClient.Execute("Common_Rebate_Ins", p, conn, trans) > 0;
-        }
-
-        public int RewardCashBack(CustCashBackInput custCashBackInput, MySqlConnection connection, MySqlTransaction trans)
-        {
-            var parameter = new DynamicParameters(new
-            {
-                custCashBackInput.CustId,
-                custCashBackInput.BonusCode,
-                custCashBackInput.PromoCategoryId,
-                custCashBackInput.CalculateDate
-            });
-            return _mainDbClient.Execute("Member_CustCashBack_Set", parameter, connection, trans);
-        }
-
         public IEnumerable<BonusWallet> GetCustBonusWallet(int CustId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
