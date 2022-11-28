@@ -96,6 +96,13 @@ namespace MemberSite.Controllers.Api
         public async Task<ApiResult> SignIn(LoginModel loginModel)
         {
             var apiResult = new ApiResult(_selLangBll);
+            if (CheckAttackForSignIn(loginModel))
+            {
+                apiResult.ErrorCode = 1101;
+                apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_LoginFailed");
+                return apiResult;
+            }
+            
             if (!_regexUserName.IsMatch(loginModel.UserName))
             {
                 apiResult.ErrorCode = 1103;
@@ -181,11 +188,57 @@ namespace MemberSite.Controllers.Api
             apiResult.ErrorCode = 0;
             return apiResult;
         }
+        
+        private bool CheckAttackForSignIn(LoginModel req)
+        {
+            var clientIp = _tools.GetClientIP();
+            if (_ipHelper.IpInRange(clientIp))
+            {
+                return false;
+            }
+            
+            var checkCountForShortTime = _cacheHelper.StringIncrementAsync($"IP:SignIn:{clientIp}", TimeSpan.FromMinutes(1)).Result;
+            var checkCountForBlock = _cacheHelper.StringIncrementAsync($"IP:SignIn:long:{clientIp}", TimeSpan.FromMinutes(10)).Result;
+            if (checkCountForShortTime >= 10)
+            {
+                _cacheHelper.StringFireAndForgetSetAsync($"block:SignIn:{clientIp}", string.Empty, TimeSpan.FromHours(1));
+            }
+
+            if (checkCountForBlock >= 30)
+            {
+                var memo = "Auto Deny (/Site/SignIn or /Site/SignInApp) - Attack: try login, reason is too many requests";
+                var setResult = _iPBll.SetBlockIp(new BlockIpRequest { IP = clientIp, Memo = memo, Operator = "System" });
+                if (setResult > 0 && !_cacheHelper.KeyExists($"AutoDeny:SignIn:{clientIp}"))
+                {
+                    _cacheHelper.StringFireAndForgetSetAsync($"AutoDeny:SignIn:{clientIp}", string.Empty, TimeSpan.FromMinutes(1));
+                    _ = Task.Run(async () => { _ = await Upload(); });
+                }
+            }
+
+            if (checkCountForShortTime >= 10
+                || checkCountForBlock >= 30
+                || _cacheHelper.KeyExists($"block:SignIn:{clientIp}"))
+            {
+                _logger.LogInformation($"Attack: AreaCode:{req.UserName}, PhoneNo:{req.Userpwd}, REQUEST URL:{_serverInfoBll.GetRequestUrl()}, " +
+                                       $"IP: {Request.Headers["X-Forwarded-For"]}, {Request.Headers["HTTP_X_FORWARDED_FOR"]}, {Request.Headers["HTTP_INCAP_CLIENT_IP"]}, {Request.Headers["HTTP_TRUE_CLIENT_IP"]}, {Request.Headers["HTTP_X_REAL_IP"]}, {Request.Headers["REMOTE_ADDR"]}, {HttpContext.Connection.RemoteIpAddress?.MapToIPv4().ToString()}");
+
+                return true;
+            }
+
+            return false;
+        }
 
         [HttpPost]
         public ApiResult<JwtAuthData> SignInApp(LoginModel loginModel)
         {
             var apiResult = new ApiResult<JwtAuthData>(_selLangBll);
+            if (CheckAttackForSignIn(loginModel))
+            {
+                apiResult.ErrorCode = 1101;
+                apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_LoginFailed");
+                return apiResult;
+            }
+            
             if (!_regexUserName.IsMatch(loginModel.UserName))
             {
                 apiResult.ErrorCode = -8;
