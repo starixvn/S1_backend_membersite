@@ -225,7 +225,7 @@ namespace MemberSite.Controllers.Api
                 || checkCountForBlock >= 30
                 || _cacheHelper.KeyExists($"block:SignIn:{clientIp}"))
             {
-                _logger.LogInformation($"Attack: AreaCode:{req.UserName}, PhoneNo:{req.Userpwd}, REQUEST URL:{_serverInfoBll.GetRequestUrl()}, " +
+                _logger.LogInformation($"Attack: UserName:{req.UserName}, Userpwd:{req.Userpwd}, REQUEST URL:{_serverInfoBll.GetRequestUrl()}, " +
                                        $"IP: {Request.Headers["X-Forwarded-For"]}, {Request.Headers["HTTP_X_FORWARDED_FOR"]}, {Request.Headers["HTTP_INCAP_CLIENT_IP"]}, {Request.Headers["HTTP_TRUE_CLIENT_IP"]}, {Request.Headers["HTTP_X_REAL_IP"]}, {Request.Headers["REMOTE_ADDR"]}, {HttpContext.Connection.RemoteIpAddress?.MapToIPv4().ToString()}");
 
                 return true;
