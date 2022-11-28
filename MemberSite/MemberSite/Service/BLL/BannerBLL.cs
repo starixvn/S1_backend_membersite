@@ -101,7 +101,6 @@ namespace MemberSite.Service.BLL
                         BannerType = bannerDetail.BannerType,
                         ActionMode = bannerDetail.ActionMode,
                         BonusCode = bannerDetail.BonusCode,
-                        MatchId = bannerDetail.MatchId,
                         TpId = bannerDetail.TpId,
                         GameId = bannerDetail.GameId,
                         UrlRouter = bannerDetail.UrlRouter,
