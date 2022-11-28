@@ -220,7 +220,8 @@ namespace MemberSite.Controllers.Api
                 }
             }
 
-            if (checkCountForShortTime >= 10
+            if (isAttack
+                || checkCountForShortTime >= 10
                 || checkCountForBlock >= 30
                 || _cacheHelper.KeyExists($"block:SignIn:{clientIp}"))
             {
