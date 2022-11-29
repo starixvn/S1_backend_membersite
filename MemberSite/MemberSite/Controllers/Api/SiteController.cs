@@ -98,9 +98,8 @@ namespace MemberSite.Controllers.Api
             var apiResult = new ApiResult(_selLangBll);
             if (CheckAttackForSignIn(loginModel, true))
             {
-                apiResult.ErrorCode = 1101;
-                apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_LoginFailed");
-                return apiResult;
+                Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return null;
             }
             
             if (!_regexUserName.IsMatch(loginModel.UserName))
@@ -244,9 +243,8 @@ namespace MemberSite.Controllers.Api
             var apiResult = new ApiResult<JwtAuthData>(_selLangBll);
             if (CheckAttackForSignIn(loginModel, false))
             {
-                apiResult.ErrorCode = 1101;
-                apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_LoginFailed");
-                return apiResult;
+                Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return null;
             }
             
             if (!_regexUserName.IsMatch(loginModel.UserName))
