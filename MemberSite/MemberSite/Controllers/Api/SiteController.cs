@@ -96,7 +96,7 @@ namespace MemberSite.Controllers.Api
         public async Task<ApiResult> SignIn(LoginModel loginModel)
         {
             var apiResult = new ApiResult(_selLangBll);
-            if (CheckAttackForSignIn(loginModel))
+            if (CheckAttackForSignIn(loginModel, true))
             {
                 apiResult.ErrorCode = 1101;
                 apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_LoginFailed");
@@ -189,7 +189,7 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
         
-        private bool CheckAttackForSignIn(LoginModel req)
+        private bool CheckAttackForSignIn(LoginModel req, bool checkReferer)
         {
             var clientIp = _tools.GetClientIP();
             if (_ipHelper.IpInRange(clientIp))
@@ -208,6 +208,9 @@ namespace MemberSite.Controllers.Api
                            string.Compare(req.userAgent, "x", StringComparison.OrdinalIgnoreCase) == 0 ||
                            string.Compare(req.screen, "x", StringComparison.OrdinalIgnoreCase) == 0;
 
+            var isWrong = req.UserName.Contains("@") ||
+                          (checkReferer && string.IsNullOrWhiteSpace(Request.Headers["Referer"].ToString()));
+
             if (checkCountForBlock >= 30 || isAttack)
             {
                 var reason = isAttack ? "platform or userAgent or screen use x" : "too many requests";
@@ -221,6 +224,7 @@ namespace MemberSite.Controllers.Api
             }
 
             if (isAttack
+                || isWrong
                 || checkCountForShortTime >= 10
                 || checkCountForBlock >= 30
                 || _cacheHelper.KeyExists($"block:SignIn:{clientIp}"))
@@ -238,7 +242,7 @@ namespace MemberSite.Controllers.Api
         public ApiResult<JwtAuthData> SignInApp(LoginModel loginModel)
         {
             var apiResult = new ApiResult<JwtAuthData>(_selLangBll);
-            if (CheckAttackForSignIn(loginModel))
+            if (CheckAttackForSignIn(loginModel, false))
             {
                 apiResult.ErrorCode = 1101;
                 apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_LoginFailed");
