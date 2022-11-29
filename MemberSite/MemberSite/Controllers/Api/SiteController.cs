@@ -198,7 +198,7 @@ namespace MemberSite.Controllers.Api
             
             var checkCountForShortTime = _cacheHelper.StringIncrementAsync($"IP:SignIn:{clientIp}", TimeSpan.FromMinutes(1)).Result;
             var checkCountForBlock = _cacheHelper.StringIncrementAsync($"IP:SignIn:long:{clientIp}", TimeSpan.FromMinutes(10)).Result;
-            if (checkCountForShortTime >= 10)
+            if (checkCountForShortTime >= 20)
             {
                 _cacheHelper.StringFireAndForgetSetAsync($"block:SignIn:{clientIp}", string.Empty, TimeSpan.FromHours(1));
             }
@@ -210,7 +210,7 @@ namespace MemberSite.Controllers.Api
             var isWrong = req.UserName.Contains("@") ||
                           (checkReferer && string.IsNullOrWhiteSpace(Request.Headers["Referer"].ToString()));
 
-            if (checkCountForBlock >= 30 || isAttack)
+            if (checkCountForBlock >= 60 || isAttack)
             {
                 var reason = isAttack ? "platform or userAgent or screen use x" : "too many requests";
                 var memo = $"Auto Deny (/Site/SignIn or /Site/SignInApp) - Attack: try login, reason is {reason}";
@@ -224,8 +224,8 @@ namespace MemberSite.Controllers.Api
 
             if (isAttack
                 || isWrong
-                || checkCountForShortTime >= 10
-                || checkCountForBlock >= 30
+                || checkCountForShortTime >= 20
+                || checkCountForBlock >= 60
                 || _cacheHelper.KeyExists($"block:SignIn:{clientIp}"))
             {
                 _logger.LogInformation($"Attack: UserName:{req.UserName}, Userpwd:{req.Userpwd}, REQUEST URL:{_serverInfoBll.GetRequestUrl()}, " +
