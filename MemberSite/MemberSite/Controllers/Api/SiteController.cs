@@ -793,12 +793,12 @@ namespace MemberSite.Controllers.Api
                 var domain = _serverInfoBll.GetHttpDomain();
 	            foreach (var data in apiResult.Data)
 	            {
-	                if (!string.IsNullOrEmpty(data.BannerLink))
+	                if (!string.IsNullOrEmpty(data.BannerLink) && data.ActionMode == 6)
 	                {
 	                    data.BannerLink = data.BannerLink.Trim().TrimStart('/');
+                        data.BannerLink = $"{domain}/{data.BannerLink}";
 	                }
-	                data.BannerLink = $"{domain}/{data.BannerLink}";
-	            }
+                }
                 apiResult.ErrorCode = 0;
             }
             catch (Exception e)
