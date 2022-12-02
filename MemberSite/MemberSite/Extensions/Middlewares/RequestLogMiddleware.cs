@@ -3,6 +3,8 @@ using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
 using Microsoft.AspNetCore.Http.Extensions;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+
 using Serilog.Context;
 
 namespace MemberSite.Extensions.Middlewares
@@ -68,6 +70,33 @@ namespace MemberSite.Extensions.Middlewares
                     using (LogContext.PushProperty("ClientAgent", context.Request.Headers["User-Agent"].ToString()))
                     using (LogContext.PushProperty("Referer", context.Request.Headers["Referer"].ToString()))
                     {
+                        // log需將登入密碼隱碼
+                        if (path.Contains("/api/Site/SignIn", StringComparison.OrdinalIgnoreCase) ||
+                            path.Contains("/api/Site/SignInApp", StringComparison.OrdinalIgnoreCase) ||
+                            path.Contains("/api/Site/Signup", StringComparison.OrdinalIgnoreCase) ||
+                            path.Contains("/api/Site/SignupApp", StringComparison.OrdinalIgnoreCase) ||
+                            path.Contains("/api/Extra/Signup", StringComparison.OrdinalIgnoreCase) ||
+                            path.Contains("/api/Account/ChangePassword", StringComparison.OrdinalIgnoreCase)) 
+                        {
+                            var jbody = JObject.Parse(content);
+                            if (jbody.TryGetValue("Userpwd", StringComparison.OrdinalIgnoreCase, out var pwd)
+                                && !string.IsNullOrEmpty(pwd.ToString()))
+                            {
+                                jbody["Userpwd"] = "********";
+                            }
+                            if (jbody.TryGetValue("OldPassword", StringComparison.OrdinalIgnoreCase, out var opwd)
+                               && !string.IsNullOrEmpty(opwd.ToString()))
+                            {
+                                jbody["OldPassword"] = "********";
+                            }
+                            if (jbody.TryGetValue("NewPassword", StringComparison.OrdinalIgnoreCase, out var npwd)
+                               && !string.IsNullOrEmpty(npwd.ToString()))
+                            {
+                                jbody["NewPassword"] = "********";        
+                            }
+                            content = jbody.ToString();
+                        }
+
                         _logger.LogInformation(
                             $"REQUEST METHOD: {context.Request.Method}, CodePage: {codePage}, REQUEST BODY: {content}, REQUEST URL: {url}, ES: {context.Request.Cookies[".ES"]}, JWT: {context.Request.Headers?["authorization"].ToString()}");
                     }
