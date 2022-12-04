@@ -131,7 +131,7 @@ namespace MemberSite.Service.BLL
                         SelBank = d.SelBank,
                         Mode = d.Mode
                     };
-                });
+                }).ToList();
             
             var payCurrency = GetPayCurrency();//.Where(x => x.CurrencyId == custInfo.CurrencyId && x.ChannelId == payId).FirstOrDefault()
 
