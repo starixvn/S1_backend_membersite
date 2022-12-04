@@ -195,13 +195,15 @@ namespace MemberSite.Controllers.Api
             {
                 return false;
             }
-            
-            var checkCountForShortTime = _cacheHelper.StringIncrementAsync($"IP:SignIn:{clientIp}", TimeSpan.FromMinutes(1)).Result;
-            var checkCountForBlock = _cacheHelper.StringIncrementAsync($"IP:SignIn:long:{clientIp}", TimeSpan.FromMinutes(10)).Result;
-            if (checkCountForShortTime >= 20)
-            {
-                _cacheHelper.StringFireAndForgetSetAsync($"block:SignIn:{clientIp}", string.Empty, TimeSpan.FromHours(1));
-            }
+
+            var checkCountForShortTime = 0;
+            var checkCountForBlock = 0;
+            // var checkCountForShortTime = _cacheHelper.StringIncrementAsync($"IP:SignIn:{clientIp}", TimeSpan.FromMinutes(1)).Result;
+            // var checkCountForBlock = _cacheHelper.StringIncrementAsync($"IP:SignIn:long:{clientIp}", TimeSpan.FromMinutes(10)).Result;
+            // if (checkCountForShortTime >= 20)
+            // {
+            //     _cacheHelper.StringFireAndForgetSetAsync($"block:SignIn:{clientIp}", string.Empty, TimeSpan.FromHours(1));
+            // }
 
             var isAttack = string.Compare(req.platform, "x", StringComparison.OrdinalIgnoreCase) == 0 ||
                            string.Compare(req.userAgent, "x", StringComparison.OrdinalIgnoreCase) == 0 ||
