@@ -117,16 +117,22 @@ namespace MemberSite.Service.BLL
 
             var bankInfoPayList = GetOnlineBankList(custInfo.SiteId);
 
-            var onlinePaymentList = (from x in bankInfoPayList
-                                     where vipLevel >= x.PointLevel && (x.CurrencyId == custInfo.CurrencyId || x.CurrencyId == 0)
-                                     select new PaymentFront
-                                     {
-                                         PayName = x.PayName,
-                                         PayId = x.PayId,
-                                         ChannelId = x.ChannelId,
-                                         SelBank = x.SelBank,
-                                         Mode = x.Mode
-                                     }).Distinct(_paymentOffComparer).ToArray();
+            var onlinePaymentList = bankInfoPayList
+                .Where(x => vipLevel >= x.PointLevel && (x.CurrencyId == custInfo.CurrencyId || x.CurrencyId == 0))
+                .GroupBy(x => x.PayId)
+                .Select(x =>
+                {
+                    var d = x.OrderByDescending(g => g.CurrencyId).First();
+                    return new PaymentFront
+                    {
+                        PayName = d.PayName,
+                        PayId = d.PayId,
+                        ChannelId = d.ChannelId,
+                        SelBank = d.SelBank,
+                        Mode = d.Mode
+                    };
+                });
+            
             var payCurrency = GetPayCurrency();//.Where(x => x.CurrencyId == custInfo.CurrencyId && x.ChannelId == payId).FirstOrDefault()
 
             if (onlinePaymentList != null)
