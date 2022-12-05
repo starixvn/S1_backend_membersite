@@ -24,7 +24,8 @@ namespace MemberSite.Service.BLL
         }
         public void FixDepositLimit(IPaymentLimit paymentLimit, DepositLimitInfo depositLimitInfo)
         {
-            if (depositLimitInfo.DepositMin > paymentLimit.MaxAmount || depositLimitInfo.DepositMax < paymentLimit.MinAmount)
+            if ((paymentLimit.MaxAmount != 0 && depositLimitInfo.DepositMin > paymentLimit.MaxAmount)
+                || depositLimitInfo.DepositMax < paymentLimit.MinAmount)
             {
                 paymentLimit.MaxAmount = -1;
             }
