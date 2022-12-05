@@ -354,7 +354,7 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
 
-            apiResult.ErrorCode = paymentBLL.LocalBankinfo(authData.CustId, depositReqWireTransferReq.sysId, depositReqWireTransferReq.memo, out var depositRep3);
+            apiResult.ErrorCode = bankInfoOffBLL.LocalBankinfo(authData.CustId, depositReqWireTransferReq.sysId, depositReqWireTransferReq.memo, out var depositRep3);
             if (apiResult.ErrorCode == (int)ErrorCode.Success)
             {
                 apiResult.Data = depositRep3;
