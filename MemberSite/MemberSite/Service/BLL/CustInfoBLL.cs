@@ -108,7 +108,7 @@ namespace MemberSite.Service.BLL
                 if (agent?.CurrencyId != CurrencyId)
                 {
                     custId = 0;
-                    return -6; /*agent Currency != CurrencyId*/
+                    return -19; /*agent Currency != CurrencyId*/
                 }
             }
 
