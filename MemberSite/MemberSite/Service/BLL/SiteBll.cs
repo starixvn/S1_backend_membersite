@@ -40,47 +40,7 @@ public class SiteBll
             apiResult.ErrorCode = 9000;
             return customer;
         }
-
-        if (!string.IsNullOrEmpty(signupModel.ReCaptchaToken))
-        {
-            var verifyResult = _recaptcha.Verify(signupModel.ReCaptchaToken);
-            if (!verifyResult.success)
-            {
-                apiResult.ErrorCode = -97;
-                apiResult.Message = verifyResult.errorCodes.FirstOrDefault();
-                return customer;
-            }
-        }
-
-        if (!_regexUserName.IsMatch(signupModel.UserName))
-        {
-            apiResult.ErrorCode = -8;
-            apiResult.Message = _selLangBll.GetMsg("msg_UsernameValidate");
-            return customer;
-        }
-
-        if (!string.IsNullOrEmpty(signupModel.AffCode?.Trim()))
-        {
-            signupModel.AffCode = signupModel.AffCode.Trim();
-            if (!_regexAffCode.IsMatch(signupModel.AffCode))
-            {
-                apiResult.ErrorCode = -9;
-                apiResult.Message = _selLangBll.GetMsg("msg_AffCodeValidate");
-                return customer;
-            }
-        }
-
-        if (string.IsNullOrEmpty(signupModel.SignupUrl))
-        {
-            signupModel.SignupUrl = host;
-        }
-
-        // URL tag with specific affcode
-        if (host is "www.nova88fun.com" or "m.nova88fun.com")
-        {
-            signupModel.AffCode = "nova88tvads";
-        }
-
+        
         var custId = 0;
         var result = -99;
         var phoneExists = false;
@@ -107,6 +67,47 @@ public class SiteBll
             if (mailExists)
                 result = -10;
         }
+        
+        if (!_regexUserName.IsMatch(signupModel.UserName))
+        {
+            apiResult.ErrorCode = -8;
+            apiResult.Message = _selLangBll.GetMsg("msg_UsernameValidate");
+            return customer;
+        }
+
+        if (!string.IsNullOrEmpty(signupModel.ReCaptchaToken))
+        {
+            var verifyResult = _recaptcha.Verify(signupModel.ReCaptchaToken);
+            if (!verifyResult.success)
+            {
+                apiResult.ErrorCode = -97;
+                apiResult.Message = verifyResult.errorCodes.FirstOrDefault();
+                return customer;
+            }
+        }
+
+        if (!string.IsNullOrEmpty(signupModel.AffCode?.Trim()))
+        {
+            signupModel.AffCode = signupModel.AffCode.Trim();
+            if (!_regexAffCode.IsMatch(signupModel.AffCode))
+            {
+                apiResult.ErrorCode = -9;
+                apiResult.Message = _selLangBll.GetMsg("msg_AffCodeValidate");
+                return customer;
+            }
+        }
+
+        if (string.IsNullOrEmpty(signupModel.SignupUrl))
+        {
+            signupModel.SignupUrl = host;
+        }
+
+        // URL tag with specific affcode
+        if (host is "www.nova88fun.com" or "m.nova88fun.com")
+        {
+            signupModel.AffCode = "nova88tvads";
+        }
+        
 
         var fromUrl = _tools.GetFromUrl();
         var deviceType = (int)_tools.GetDeviceId(fromUrl);
