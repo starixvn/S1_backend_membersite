@@ -34,8 +34,8 @@ namespace MemberSite.Controllers.Api
         private readonly CasinoBll _casinoBll;
         private readonly BonusWalletBLL _bonusWalletBll;
         private readonly EventsBLL _eventsBll;
-        private readonly ICacheHelper _cacheHelper;
         private readonly ILogger<AccountController> _logger;
+        private readonly ICacheHelper _cacheHelper;
 
         public AccountController(IServiceProvider provider)
         {
@@ -55,8 +55,8 @@ namespace MemberSite.Controllers.Api
             _casinoBll = provider.GetRequiredService<CasinoBll>();
             _bonusWalletBll = provider.GetRequiredService<BonusWalletBLL>();
             _eventsBll = provider.GetRequiredService<EventsBLL>();
-            _cacheHelper = provider.GetRequiredService<ICacheHelper>();
             _logger = provider.GetRequiredService<ILogger<AccountController>>();
+            _cacheHelper = provider.GetRequiredService<ICacheHelper>();
         }
 
         [HttpPost]
@@ -122,7 +122,7 @@ namespace MemberSite.Controllers.Api
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             apiResult.ErrorCode = 0;
             apiResult.Message = _selLangBll.GetMsg("msg_loggedout");
-            
+
             await _cacheHelper.KeyDeleteAsync(authData.CustId.ToString(), RedisDataBase.Token);
 
             if (authData is { CustId: > 0 })

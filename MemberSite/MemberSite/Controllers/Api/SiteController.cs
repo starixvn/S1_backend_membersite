@@ -41,9 +41,9 @@ namespace MemberSite.Controllers.Api
         private readonly Regex _regexUserName = new(@"^[a-zA-Z0-9]{6,18}$");
         private readonly ThirdPartyBll _thirdPartyBll;
         private readonly SiteBll _siteBll;
-        private readonly ICacheHelper _cacheHelper;
         private readonly RecaptchaBLL _recaptchaBll;
         private readonly ILogger<SiteController> _logger;
+        private readonly ICacheHelper _cacheHelper;
         private readonly Random _random = new();
         private readonly IEnumerable<AreaCodeMap> _areaCodeMap;
         private readonly IpHelper _ipHelper;
@@ -68,9 +68,9 @@ namespace MemberSite.Controllers.Api
             _siteConfig = provider.GetRequiredService<IOptions<Dictionary<string, SiteConfig>>>();
             _thirdPartyBll = provider.GetRequiredService<ThirdPartyBll>();
             _siteBll = provider.GetRequiredService<SiteBll>();
-            _cacheHelper = provider.GetRequiredService<ICacheHelper>();
             _recaptchaBll = provider.GetRequiredService<RecaptchaBLL>();
             _logger = provider.GetRequiredService<ILogger<SiteController>>();
+            _cacheHelper = provider.GetRequiredService<ICacheHelper>();
             _areaCodeMap = provider.GetRequiredService<IEnumerable<AreaCodeMap>>();
             _ipHelper = provider.GetRequiredService<IpHelper>();
             _iPBll = provider.GetRequiredService<IPBLL>();
@@ -179,7 +179,6 @@ namespace MemberSite.Controllers.Api
             }
 
             await _cacheHelper.StringFireAndForgetSetAsync(customer.CustId.ToString(), token, TimeSpan.FromMinutes(30), RedisDataBase.Token);
-
             Response.Cookies.Delete($"Initialization{User.Identity?.Name}");
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
@@ -774,25 +773,34 @@ namespace MemberSite.Controllers.Api
             try
             {
                 var serverInfo = _serverInfoBll.GetServerInfo();
-                var perferCurr = 0;
-                var SiteId = 0;
-                var ShowStatus = 1;
+                int preferCurr;
+            	int siteId;
+                var showStatus = 1;
                 var authData = _authorizeBll.GetAuthData();
                 if (authData is { CustId: > 0 })
                 {
                     var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-                    SiteId = custInfo.SiteId;
-                    perferCurr = custInfo.CurrencyId;
-                    ShowStatus = 2;
+                    siteId = custInfo.SiteId;
+                    preferCurr = custInfo.CurrencyId;
+                    showStatus = 2;
                     langId = _selLangBll.GetLangId();
                 }
                 else
                 {
-                    perferCurr = bannerReq.CurrencyId ?? _selLangBll.GetPreferCurrencyId();
-                    SiteId = serverInfo.SiteId;
+                    preferCurr = bannerReq.CurrencyId ?? _selLangBll.GetPreferCurrencyId();
+                    siteId = serverInfo.SiteId;
                     langId = _selLangBll.CheckLangId(langId) ? langId : _selLangBll.GetLangId();
                 }
-                apiResult.Data = _bannerBll.GetBannerV3(SiteId, bannerReq.BannerType, ShowStatus, perferCurr, langId, serverInfo);
+                apiResult.Data = _bannerBll.GetBannerV3(siteId, bannerReq.BannerType, showStatus, preferCurr, langId, serverInfo);
+                var domain = _serverInfoBll.GetHttpDomain();
+	            foreach (var data in apiResult.Data)
+	            {
+	                if (!string.IsNullOrEmpty(data.BannerLink) && data.ActionMode == 6)
+	                {
+	                    data.BannerLink = data.BannerLink.Trim().TrimStart('/');
+                        data.BannerLink = $"{domain}/{data.BannerLink}";
+	                }
+                }
                 apiResult.ErrorCode = 0;
             }
             catch (Exception e)

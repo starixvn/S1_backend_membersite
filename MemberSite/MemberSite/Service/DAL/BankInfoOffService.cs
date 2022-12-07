@@ -13,14 +13,6 @@ namespace MemberSite.Service.DAL
         {
             this.configuration = configuration;
         }
-        public IEnumerable<BankInfoOff> GetBankAccountOff(int siteId, int queryType = 1)
-        {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            if (queryType == 0)
-                return conn.Query<BankInfoOff>("BankAccountOff_Get", new { SiteId = siteId }, commandType: CommandType.StoredProcedure);
-            else
-                return conn.Query<BankInfoOff>("Member_BankAccountOffAllStatus_Get", new { SiteId = siteId }, commandType: CommandType.StoredProcedure);
-        }
         
         public IEnumerable<OfflineBankAccountInfo> GetOfflineBankAccount(int siteId)
         {
@@ -35,6 +27,20 @@ namespace MemberSite.Service.DAL
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
       
             return conn.Query<int>("Member_CustOffDepositSysId_Get", new { _CustId = custId }, commandType: CommandType.StoredProcedure);
+        }
+        
+        public IEnumerable<OfflineBankAccountDailyDeposit> GetOfflineBankAccountDailyDeposit(
+            int siteId, int currencyId, string bankIds)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            
+            return conn.Query<OfflineBankAccountDailyDeposit>("Member_OfflineBankAccount_DailyDepositSummary_Get",
+                new
+                {
+                    _SiteId = siteId,
+                    _CurrencyId = currencyId,
+                    _BankIds = bankIds
+                }, commandType: CommandType.StoredProcedure);
         }
     }
 }

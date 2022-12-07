@@ -15,6 +15,7 @@ using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Model.Mapping;
 using StackExchange.Redis;
+using MemberSite.Service.Model.Mapping;
 
 namespace MemberSite
 {
@@ -117,6 +118,8 @@ namespace MemberSite
             services.AddSingleton<ShieldService>();
             services.AddTransient<IHotEventService, HotEventService>();
 
+            services.AddTransient<IHotGameService, HotGameService>();
+            
             /*BLL*/
             services.AddSingleton<ServerInfoBll>();
             services.AddSingleton<CustInfoBll>();
@@ -162,10 +165,12 @@ namespace MemberSite
             services.AddSingleton<PayInfoBLL>();
             services.AddSingleton<LineLoginBLL>();
             services.AddSingleton<SiteBll>();
+            services.AddTransient<WorldCupPredictionBLL>();
             services.AddSingleton<IPBLL>();
             services.AddSingleton<ShieldBLL>();
             services.AddTransient<WorldCupPredictionBLL>();
             services.AddSingleton<SlotGameBLL>();
+            services.AddTransient<IHotGameBLL, HotGameBLL>();
             services.AddTransient<RecaptchaBLL>();
 
             services.AddSingleton<CustomCookieAuthenticationEvents>();
@@ -269,6 +274,9 @@ namespace MemberSite
             services.AddControllers();
 
             services.AddOptionListByDB<TpGameTypeOption>("Admin_TpGameType_Get");
+
+            services.AddOptionListByDB<BlockIP>("Member_BlockIP_Get");
+
             services.AddOptionListByDB<AreaCodeMap>("Common_CountryList_Get");
         }
 

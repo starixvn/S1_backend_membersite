@@ -168,8 +168,8 @@ namespace MemberSite.Service.BLL
 
         private IEnumerable<PayInfo> GetPayInfoList(int siteId, DepositType depositType)
         {
-            var key = $"PayInfoList:{siteId}:{depositType}";
-            var dbData = _redisHelper.TryGetOrCreate<IEnumerable<PayInfo>>(key, TimeSpan.FromSeconds(10),
+            var key = $"PaySetting:{siteId}:{depositType}";
+            var dbData = _redisHelper.TryGetOrCreate<IEnumerable<PayInfo>>(key, TimeSpan.FromMinutes(5),
                 () => _payService.GetPayInfo(siteId, depositType).OrderBy(x => x.GSort).ThenBy(x => x.SSort),
                 RedisDataBase.Shared);
             return dbData;

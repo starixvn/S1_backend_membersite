@@ -61,7 +61,7 @@ namespace MemberSite.Service.BLL
         }
 
         public int AddCustInfo(string UserName, string Userpwd, string Email, int CurrencyId, string UserLang,
-            string refId, string affId, string aff, string affCode, string lineUserId, out int custId, string signupUrl = null,
+            string refId, string affId, string aff, string affCode, string lineUserId,int deviceType, out int custId, string signupUrl = null,
             string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null,
             int Birth_d = 0, int Birth_m = 0, int Birth_y = 0)
         {
@@ -135,7 +135,7 @@ namespace MemberSite.Service.BLL
                 signupUrl = _tools.GetFromUrl();
             }
 
-            var result = _custInfoService.AddCustInfo(regCustInfo, Email, lineUserId, out custId, signupUrl, referralUrl, PhoneNo, AreaCode,
+            var result = _custInfoService.AddCustInfo(regCustInfo, Email, lineUserId, deviceType, out custId, signupUrl, referralUrl, PhoneNo, AreaCode,
                 RealName, promoCode, Birth_d, Birth_m, Birth_y);
 
             if (result == 0 && regCustInfo.SiteId == (int)SiteId.Goal123)
@@ -360,16 +360,11 @@ namespace MemberSite.Service.BLL
             var custInfo = GetCustInfoWithCache(custId);
             return _custInfoService.InsertCustBankInfo(custId, custInfo.SiteId, accountName, sysId, accountNum, iFSCCode, status) ? 0 : -1;
         }
-
-        public int SetCustUSDTInfo(int custId, string accountName, IEnumerable<USDTDetail> uSDTInfo)
+        
+        public int SetCustUSDTInfo(int custId, string accountName, IEnumerable<USDTDetail> uSDTInfo, IEnumerable<USDTDetailLog> uSDTInfoLog)
         {
             var custInfo = GetCustInfoWithCache(custId);
-            return _custInfoService.SetCustUSDTInfo(custId, custInfo.SiteId, accountName, uSDTInfo) ? 0 : -1;
-        }
-        public int InsertCustUSDTInfo(int custId, string accountName, IEnumerable<USDTDetail> uSDTInfo, IEnumerable<USDTDetail> uSDTInfoLog)
-        {
-            var custInfo = GetCustInfoWithCache(custId);
-            return _custInfoService.InsertCustUSDTInfo(custId, custInfo.SiteId, accountName, uSDTInfo, uSDTInfoLog) ? 0 : -1;
+            return _custInfoService.SettCustUSDTInfo(custId, custInfo.SiteId, accountName, uSDTInfo, uSDTInfoLog) ? 0 : -1;
         }
         public CustBankInfo GetCustBankInfo(int custId)
         {
@@ -607,9 +602,21 @@ namespace MemberSite.Service.BLL
             return true;
         }
 
+        public IEnumerable<BankInfoDetailData> GetCustBankDetail(int sysId, string accountNo, int siteId)
+        {
+            return _custInfoService.GetCustBankDetail(sysId, accountNo, siteId);
+        }
+
+        public int DeleteCustBankInfo(int custId, int sysId, string accountNum, string iFSCCode, CustBankDetailStatus status)
+        {
+            var custInfo = GetCustInfoWithCache(custId);
+            return _custInfoService.DeleteCustBankInfo(custId, custInfo.SiteId, sysId, accountNum, iFSCCode, status) ? 0 : -1;
+        }
+
         private static List<string> AddressKeys = new List<string>() { "Country", "State", "PostCode", "City", "LineFirst", "LineSecond" };
         private Dictionary<string, string> ConvertAddress(Dictionary<string, string> addressProfile)
         {
+
             var result = new Dictionary<string, string>();
             foreach (var key in AddressKeys)
             {
@@ -625,18 +632,6 @@ namespace MemberSite.Service.BLL
             }
 
             return result;
-            ;
-        }
-
-        public IEnumerable<BankInfoDetailData> GetCustBankDetail(int sysId, string accountNo, int siteId)
-        {
-            return _custInfoService.GetCustBankDetail(sysId, accountNo, siteId);
-        }
-
-        public int DeleteCustBankInfo(int custId, int sysId, string accountNum, string iFSCCode, CustBankDetailStatus status)
-        {
-            var custInfo = GetCustInfoWithCache(custId);
-            return _custInfoService.DeleteCustBankInfo(custId, custInfo.SiteId, sysId, accountNum, iFSCCode, status) ? 0 : -1;
         }
 
         public IEnumerable<EWalletInfoDetail> GetCustEWalletInfo(int custId)

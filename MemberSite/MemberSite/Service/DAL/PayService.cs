@@ -13,31 +13,28 @@ namespace MemberSite.Service.DAL
         {
             this.configuration = configuration;
         }
-        public IEnumerable<PayCurrency> GetPayCurrency()
-        {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<PayCurrency>("PayCurrency_Get", commandType: CommandType.StoredProcedure);
-        }
         public IEnumerable<MobilePayInfo> GetMobilePayInfo(int siteId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<MobilePayInfo>("Member_MobilePayV2_Get", new { SiteId = siteId }, commandType: CommandType.StoredProcedure);
+            return conn.Query<MobilePayInfo>("Member_MobilePay_Get_V3", new { _SiteId = siteId }, commandType: CommandType.StoredProcedure);
         }
         public IEnumerable<CryptoPayInfo> GetCryptoPayInfo(int siteId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<CryptoPayInfo>("Common_CryptoPay_Get", new { SiteId = siteId }, commandType: CommandType.StoredProcedure);
+            return conn.Query<CryptoPayInfo>("Service_PayInfo_Get_V2",
+                new { _SiteId = siteId, _DepositType = DepositType.CryptoPayment }, commandType: CommandType.StoredProcedure);
         }
         public IEnumerable<LoadCardPayInfo> GetLoadCardPayInfo(int siteId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<LoadCardPayInfo>("Common_LoadCardPay_Get", new { SiteId = siteId }, commandType: CommandType.StoredProcedure);
+            return conn.Query<LoadCardPayInfo>("Service_PayInfo_Get_V2",
+                new { _SiteId = siteId, _DepositType = DepositType.LoadCardPayment }, commandType: CommandType.StoredProcedure);
         }
 
         public IEnumerable<PayInfo> GetPayInfo(int siteId, DepositType depositType)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<PayInfo>("Service_PayInfo_Get", new { SiteId = siteId , DepositType = (int)depositType }, commandType: CommandType.StoredProcedure);
+            return conn.Query<PayInfo>("Service_PayInfo_Get_V2", new { _SiteId = siteId , _DepositType = (int)depositType }, commandType: CommandType.StoredProcedure);
         }
 
         public LineChannel? GetLineChannel(int siteId, int currencyId)

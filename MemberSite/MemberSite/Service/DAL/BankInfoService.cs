@@ -27,22 +27,17 @@ namespace MemberSite.Service.DAL
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.Query<BankInfoSys>("BankInfoSysListForCtrl_Get", new { SiteId = siteId }, commandType: CommandType.StoredProcedure);
         }
-        public IEnumerable<BankInfoPay> GetBankInfoPayList(int siteId)
+        public IEnumerable<BankInfoPay> GetBankInfoPayList(int siteId, DepositType depositType)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<BankInfoPay>("Common_BankInfoPay_Get", new { SiteId = siteId }, commandType: CommandType.StoredProcedure);
+            return conn.Query<BankInfoPay>("Common_BankInfoPay_Get_V2"
+                , new { _SiteId = siteId, _DepositType = (int)depositType }, commandType: CommandType.StoredProcedure);
         }
         
         public IEnumerable<BankInfoName> GetBankInfoNameList(string lang)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.Query<BankInfoName>("Member_BankInfoName_Get", new { _Lang = lang }, commandType: CommandType.StoredProcedure);
-        }
-
-        public IEnumerable<AutoChannelBankInfo> GetAutoChannelBankInfoList(int siteId, DepositType depositType)
-        {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<AutoChannelBankInfo>("Service_AutoChannelBankInfo_Get", new { SiteId = siteId, DepositType = (int)depositType }, commandType: CommandType.StoredProcedure);
         }
 
         public IEnumerable<BlockAccount> GetBlockBankAccount(int sysId, string accountNum)
