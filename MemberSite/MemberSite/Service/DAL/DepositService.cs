@@ -35,8 +35,8 @@ namespace MemberSite.Service.DAL
 
             var result = conn.Execute("DepositInfo_Ins", p, transaction: trans, commandType: CommandType.StoredProcedure);
             trans.Commit();
-            
-            if (depositDetailInfo is {SiteId: (int) SiteId.Goal123})
+
+            if (depositDetailInfo is { SiteId: (int)SiteId.Goal123 })
             {
                 _ = Task.Run(async () =>
                 {
@@ -51,7 +51,7 @@ namespace MemberSite.Service.DAL
                         ShieldRiskTaggedIssue.HighRisk);
                 });
             }
-            
+
             postScript = p.Get<string>("vPostScript");
             transId = p.Get<string>("vTransId");
 
@@ -70,8 +70,8 @@ namespace MemberSite.Service.DAL
 
             var result = conn.Execute("DepositInfoWithFrom_Ins", p, transaction: trans, commandType: CommandType.StoredProcedure);
             trans.Commit();
-            
-            if (depositDetailInfo is {SiteId: (int) SiteId.Goal123})
+
+            if (depositDetailInfo is { SiteId: (int)SiteId.Goal123 })
             {
                 _ = Task.Run(async () =>
                 {
@@ -99,7 +99,7 @@ namespace MemberSite.Service.DAL
             return conn.Query<DepositInfoHistory>("DepositInfoRecent_Get_V2", new { CustId = custId, SiteId = siteId, TopNum = topNum }, commandType: CommandType.StoredProcedure);
         }
 
-        public IEnumerable<DepositInfoHistory> GetDepositInfoHistory(int custId, long startDate, long endDate, int siteId, int pageSize, ref int pageNumber, out int totalPages,out int rowCount)
+        public IEnumerable<DepositInfoHistory> GetDepositInfoHistory(int custId, long startDate, long endDate, int siteId, int pageSize, ref int pageNumber, out int totalPages, out int rowCount)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             var p = new DynamicParameters(new { CustId = custId, StartDate = startDate, EndDate = endDate, SiteId = siteId, PageSize = pageSize });
@@ -122,7 +122,7 @@ namespace MemberSite.Service.DAL
         public async Task<int> SetDepositReceiptPic(int custId, int depositId, string picFileName, byte[] depositPic)
         {
             var p = new DynamicParameters(new
-                {CustId = custId, DepositId = depositId, PicFileName = picFileName, DepositPic = depositPic});
+            { CustId = custId, DepositId = depositId, PicFileName = picFileName, DepositPic = depositPic });
             return await _mainDbClient.ExecuteAsync("DepositReceiptPic_Set", p);
         }
         public int SetDepositCancel(int custId, int depositId, int siteid)
@@ -145,6 +145,12 @@ namespace MemberSite.Service.DAL
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.Query<DepositLimitInfo>("Member_DepositLimitInfo_Get", commandType: CommandType.StoredProcedure);
+        }
+
+        public IEnumerable<DepositMessage> GetDepositMessage(int depositId)
+        {
+            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
+            return conn.Query<DepositMessage>("Member_DepositMessage_Get", new { _DepositId = depositId }, commandType: CommandType.StoredProcedure);
         }
     }
 }
