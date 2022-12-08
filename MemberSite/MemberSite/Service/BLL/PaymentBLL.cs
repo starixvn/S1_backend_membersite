@@ -1,4 +1,5 @@
-﻿using MemberSite.Service.DAL;
+﻿using MemberSite.Extensions;
+using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
@@ -476,6 +477,22 @@ namespace MemberSite.Service.BLL
                 {
                     depositInfo.DepositType = (int)DepositType.MobilePayment;
                 }
+                var depositId = 0;
+                var m = Regex.Match(depositInfo.TransId, @"\d+");
+                int.TryParse(m.Value, out depositId);
+                var depositMessage = _depositService.GetDepositMessage(depositId).ToList();
+                List<DepositMessageDetail> depositMessageDetails = new List<DepositMessageDetail>();
+                depositMessage.ForEach(x =>
+                {
+                    var offset = DateTime.Now.ToDateTimeOffset(depositInfo.CustTimeZone).Offset;
+                    depositMessageDetails.Add(new DepositMessageDetail()
+                    {
+                        CreateTime = new DateTimeOffset(x.CreateTime).ToOffset(offset),
+                        ErrorTypeName = selLangBLL.GetMsg($"msg_{x.Status.ToString()}"),
+                        Message = selLangBLL.GetMsg($"msg_{x.Status.ToString()}_Detail"),
+                    });
+                });
+                depositInfo.DepositMessageDetail = depositMessageDetails;
             }
 
             return depositInfoRecent;
