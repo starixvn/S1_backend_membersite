@@ -37,11 +37,26 @@ public class SiteBll
         string host, string userAgent, bool checkReCaptchaToken)
     {
         Customer customer = null;
+        var verifyToken = false;
         if (isAuthenticated ||
             (string.IsNullOrEmpty(signupModel.AreaCode) && !string.IsNullOrEmpty(signupModel.PhoneNo)))
         {
             apiResult.ErrorCode = 9000;
             return customer;
+        }
+        
+        if (checkReCaptchaToken)
+        {
+            var country = _geoIpApi.CheckIp(_tools.GetClientIP()).Result;
+            if (country.Code != "CN")
+            {
+                verifyToken = true;
+                if (string.IsNullOrWhiteSpace(signupModel.ReCaptchaToken) || signupModel.ReCaptchaToken.Length < 500)
+                {
+                    apiResult.ErrorCode = (int)ErrorCode.Attack;
+                    return customer;
+                }
+            }
         }
 
         if (long.TryParse(signupModel.PhoneNo, out var phoneNo))
@@ -78,27 +93,15 @@ public class SiteBll
             return customer;
         }
         
-        if (checkReCaptchaToken)
+        if (verifyToken)
         {
-            var country = _geoIpApi.CheckIp(_tools.GetClientIP()).Result;
-
-            if (country.Code != "CN")
+            var verifyResult = _recaptcha.Verify(signupModel.ReCaptchaToken);
+            if (!verifyResult.success)
             {
-                if (string.IsNullOrEmpty(signupModel.ReCaptchaToken))
-                {
-                    apiResult.ErrorCode = -97;
-                    apiResult.Message = "Not Auth";
-                    return customer;
-                }
-            
-                var verifyResult = _recaptcha.Verify(signupModel.ReCaptchaToken);
-                if (!verifyResult.success)
-                {
-                    apiResult.ErrorCode = -97;
-                    apiResult.Message = verifyResult.errorCodes.FirstOrDefault();
-                    return customer;
-                } 
-            }
+                apiResult.ErrorCode = -97;
+                apiResult.Message = verifyResult.errorCodes.FirstOrDefault();
+                return customer;
+            } 
         }
 
         if (!string.IsNullOrEmpty(signupModel.AffCode?.Trim()))
