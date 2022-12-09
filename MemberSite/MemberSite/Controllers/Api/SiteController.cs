@@ -353,6 +353,12 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public async Task<ApiResult> SignupAsync(SignupModel signupModel)
         {
+            if (CheckAttackForSignup())
+            {
+                Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return null;
+            }
+            
             var apiResult = new ApiResult(_selLangBll);
             var isAuthenticated = User.Identity is { IsAuthenticated: true };
             var customer = _siteBll.Signup(signupModel, apiResult, isAuthenticated, Request.Host.Host,
@@ -378,6 +384,42 @@ namespace MemberSite.Controllers.Api
                 new ClaimsPrincipal(claimsIdentity));
             await _cacheHelper.StringFireAndForgetSetAsync(customer.CustId.ToString(), customer.Token, TimeSpan.FromMinutes(30), RedisDataBase.Token);
             return apiResult;
+        }
+        
+        private bool CheckAttackForSignup()
+        {
+            var clientIp = _tools.GetClientIP();
+            if (_ipHelper.IpInRange(clientIp))
+            {
+                return false;
+            }
+        
+            var checkCountForShortTime = _cacheHelper.StringIncrementAsync($"IP:Signup:{clientIp}", TimeSpan.FromMinutes(10)).Result;
+            var checkCountForBlock = _cacheHelper.StringIncrementAsync($"IP:Signup:long:{clientIp}", TimeSpan.FromHours(1)).Result;
+            if (checkCountForShortTime >= 20)
+            {
+                _cacheHelper.StringFireAndForgetSetAsync($"block:Signup:{clientIp}", string.Empty, TimeSpan.FromHours(1));
+            }
+        
+            if (checkCountForBlock >= 60)
+            {
+                var memo = $"Auto Deny (/Site/Signup) - Attack: try login, reason is too many requests";
+                var setResult = _iPBll.SetBlockIp(new BlockIpRequest { IP = clientIp, Memo = memo, Operator = "System" });
+                if (setResult > 0 && !_cacheHelper.KeyExists($"AutoDeny:Signup:{clientIp}"))
+                {
+                    _cacheHelper.StringFireAndForgetSetAsync($"AutoDeny:Signup:{clientIp}", string.Empty, TimeSpan.FromMinutes(1));
+                    _ = Task.Run(async () => { _ = await Upload(); });
+                }
+            }
+        
+            if (checkCountForShortTime >= 20
+                || checkCountForBlock >= 60
+                || _cacheHelper.KeyExists($"block:Signup:{clientIp}"))
+            {
+                return true;
+            }
+        
+            return false;
         }
 
         [HttpPost]
