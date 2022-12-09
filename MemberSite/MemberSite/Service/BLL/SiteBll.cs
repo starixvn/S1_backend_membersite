@@ -37,7 +37,6 @@ public class SiteBll
         string host, string userAgent, bool checkReCaptchaToken)
     {
         Customer customer = null;
-        var verifyToken = false;
         if (isAuthenticated ||
             (string.IsNullOrEmpty(signupModel.AreaCode) && !string.IsNullOrEmpty(signupModel.PhoneNo)))
         {
@@ -50,23 +49,19 @@ public class SiteBll
             var country = _geoIpApi.CheckIp(_tools.GetClientIP()).Result;
             if (country.Code != "CN")
             {
-                verifyToken = true;
                 if (string.IsNullOrWhiteSpace(signupModel.ReCaptchaToken) || signupModel.ReCaptchaToken.Length < 500)
                 {
                     apiResult.ErrorCode = (int)ErrorCode.Attack;
                     return customer;
                 }
                 
-                if (verifyToken)
+                var verifyResult = _recaptcha.Verify(signupModel.ReCaptchaToken);
+                if (!verifyResult.success)
                 {
-                    var verifyResult = _recaptcha.Verify(signupModel.ReCaptchaToken);
-                    if (!verifyResult.success)
-                    {
-                        apiResult.ErrorCode = -97;
-                        apiResult.Message = verifyResult.errorCodes.FirstOrDefault();
-                        return customer;
-                    } 
-                }
+                    apiResult.ErrorCode = -97;
+                    apiResult.Message = verifyResult.errorCodes.FirstOrDefault();
+                    return customer;
+                } 
             }
         }
 
