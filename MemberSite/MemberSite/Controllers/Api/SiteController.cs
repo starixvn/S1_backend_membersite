@@ -356,7 +356,7 @@ namespace MemberSite.Controllers.Api
             var apiResult = new ApiResult(_selLangBll);
             var isAuthenticated = User.Identity is { IsAuthenticated: true };
             var customer = _siteBll.Signup(signupModel, apiResult, isAuthenticated, Request.Host.Host,
-                Request.Headers["User-Agent"]);
+                Request.Headers["User-Agent"], true);
             
             if (apiResult.ErrorCode != 0 || customer == null) return apiResult;
             
@@ -381,7 +381,7 @@ namespace MemberSite.Controllers.Api
             var apiResult = new ApiResult<JwtAuthData>(_selLangBll);
             var isAuthenticated = User.Identity is { IsAuthenticated: true };
             var customer = _siteBll.Signup(signupModel, apiResult, isAuthenticated, Request.Host.Host,
-                Request.Headers["User-Agent"]);
+                Request.Headers["User-Agent"], false);
             
             if (apiResult.ErrorCode != 0 || customer == null) return apiResult;
             
