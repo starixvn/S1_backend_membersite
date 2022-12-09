@@ -56,6 +56,17 @@ public class SiteBll
                     apiResult.ErrorCode = (int)ErrorCode.Attack;
                     return customer;
                 }
+                
+                if (verifyToken)
+                {
+                    var verifyResult = _recaptcha.Verify(signupModel.ReCaptchaToken);
+                    if (!verifyResult.success)
+                    {
+                        apiResult.ErrorCode = -97;
+                        apiResult.Message = verifyResult.errorCodes.FirstOrDefault();
+                        return customer;
+                    } 
+                }
             }
         }
 
@@ -91,17 +102,6 @@ public class SiteBll
             apiResult.ErrorCode = -8;
             apiResult.Message = _selLangBll.GetMsg("msg_UsernameValidate");
             return customer;
-        }
-        
-        if (verifyToken)
-        {
-            var verifyResult = _recaptcha.Verify(signupModel.ReCaptchaToken);
-            if (!verifyResult.success)
-            {
-                apiResult.ErrorCode = -97;
-                apiResult.Message = verifyResult.errorCodes.FirstOrDefault();
-                return customer;
-            } 
         }
 
         if (!string.IsNullOrEmpty(signupModel.AffCode?.Trim()))
