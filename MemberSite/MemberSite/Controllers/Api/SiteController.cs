@@ -358,6 +358,11 @@ namespace MemberSite.Controllers.Api
             var isAuthenticated = User.Identity is { IsAuthenticated: true };
             var customer = _siteBll.Signup(signupModel, apiResult, isAuthenticated, Request.Host.Host,
                 Request.Headers["User-Agent"], true);
+            if (apiResult.ErrorCode == (int)ErrorCode.Attack)
+            {
+                Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return null;
+            }
             
             if (apiResult.ErrorCode != 0 || customer == null) return apiResult;
             
