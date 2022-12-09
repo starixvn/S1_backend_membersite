@@ -47,9 +47,9 @@ public class SiteBll
         
         if (checkReCaptchaToken)
         {
-            // var country = _geoIpApi.CheckIp(_tools.GetClientIP()).Result;
-            // if (country.Code != "CN")
-            // {
+            var country = _geoIpApi.CheckIp(_tools.GetClientIP()).Result;
+            if (country.Code != "CN")
+            {
                 verifyToken = true;
                 if (string.IsNullOrWhiteSpace(signupModel.ReCaptchaToken) || signupModel.ReCaptchaToken.Length < 500)
                 {
@@ -67,7 +67,7 @@ public class SiteBll
                         return customer;
                     } 
                 }
-            // }
+            }
         }
 
         if (long.TryParse(signupModel.PhoneNo, out var phoneNo))
