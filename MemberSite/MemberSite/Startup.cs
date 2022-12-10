@@ -172,7 +172,8 @@ namespace MemberSite
             services.AddSingleton<SlotGameBLL>();
             services.AddTransient<IHotGameBLL, HotGameBLL>();
             services.AddTransient<RecaptchaBLL>();
-
+            services.AddTransient<CheckAttackBLL>();
+            
             services.AddSingleton<CustomCookieAuthenticationEvents>();
             services.AddTransient<HotEventBLL>();
             services.AddControllersWithViews();
