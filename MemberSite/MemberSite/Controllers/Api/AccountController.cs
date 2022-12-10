@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using System.Security.Claims;
 using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
@@ -780,9 +781,10 @@ namespace MemberSite.Controllers.Api
 
             try
             {
-                if (_checkAttackBll.CheckAttack(rrofileReq, out var result, Request))
+                if (_checkAttackBll.CheckAttack(rrofileReq,Request))
                 {
-                    return result;
+                    Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                    return null;
                 }
 
                 var authData = _authorizeBll.GetAuthData(checkOnUser: true);
