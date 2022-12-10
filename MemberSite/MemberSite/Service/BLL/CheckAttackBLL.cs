@@ -67,9 +67,9 @@ namespace MemberSite.Service.BLL
                 }
             }
 
-            if ((serverInfo.SiteId is (int)SiteId.Bwing or (int)SiteId.Goal123 && req.AreaCode != "+84")
-                || isDart
-                || _areaCodeMap.All(i => i.AreaCode != req.AreaCode)
+            if (/*(serverInfo.SiteId is (int)SiteId.Bwing or (int)SiteId.Goal123 && req.AreaCode != "+84")*/
+                isDart
+                //|| _areaCodeMap.All(i => i.AreaCode != req.AreaCode)
                 || checkCountForShortTime >= 5
                 || checkCountForLongTime >= 15
                 || checkCountForBlock >= 60
