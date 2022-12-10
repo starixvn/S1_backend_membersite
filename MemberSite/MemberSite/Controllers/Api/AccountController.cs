@@ -58,7 +58,6 @@ namespace MemberSite.Controllers.Api
             _eventsBll = provider.GetRequiredService<EventsBLL>();
             _logger = provider.GetRequiredService<ILogger<AccountController>>();
             _cacheHelper = provider.GetRequiredService<ICacheHelper>();
-            _logger = provider.GetRequiredService<ILogger<AccountController>>();
             _checkAttackBll = provider.GetRequiredService<CheckAttackBLL>();
         }
 

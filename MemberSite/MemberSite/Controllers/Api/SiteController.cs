@@ -13,8 +13,6 @@ using System.Net;
 using System.Net.Sockets;
 using System.Security.Claims;
 using System.Text.RegularExpressions;
-using Amazon.S3.Model;
-using MemberSite.Service.Model.Mapping;
 using Microsoft.AspNetCore.Cors;
 using static MemberSite.Extensions.MethodExtension;
 
@@ -44,14 +42,8 @@ namespace MemberSite.Controllers.Api
         private readonly RecaptchaBLL _recaptchaBll;
         private readonly ILogger<SiteController> _logger;
         private readonly ICacheHelper _cacheHelper;
-        private readonly Random _random = new();
-        private readonly IEnumerable<AreaCodeMap> _areaCodeMap;
-        private readonly IpHelper _ipHelper;
-        private readonly IPBLL _iPBll;
-        private readonly AWSS3Helper _s3Helper;
         private readonly CheckAttackBLL _checkAttackBll;
-        private readonly string _fileName;
-        private readonly string _folder;
+
 
         public SiteController(IServiceProvider provider)
         {
@@ -72,13 +64,6 @@ namespace MemberSite.Controllers.Api
             _recaptchaBll = provider.GetRequiredService<RecaptchaBLL>();
             _logger = provider.GetRequiredService<ILogger<SiteController>>();
             _cacheHelper = provider.GetRequiredService<ICacheHelper>();
-            _areaCodeMap = provider.GetRequiredService<IEnumerable<AreaCodeMap>>();
-            _ipHelper = provider.GetRequiredService<IpHelper>();
-            _iPBll = provider.GetRequiredService<IPBLL>();
-            _s3Helper = provider.GetRequiredService<AWSS3Helper>();
-            var env = provider.GetRequiredService<IWebHostEnvironment>();
-            _fileName = env.IsProduction() || env.EnvironmentName == "Release" ? "blockIp.txt" : "blockIp_test.txt";
-            _folder = Path.Combine(env.ContentRootPath, "NginxConfig");
             _checkAttackBll = provider.GetRequiredService<CheckAttackBLL>();
         }
 
@@ -188,57 +173,6 @@ namespace MemberSite.Controllers.Api
             apiResult.ErrorCode = 0;
             return apiResult;
         }
-
-        //private bool CheckAttackForSignIn(LoginModel req, bool checkReferer)
-        //{
-        //    var clientIp = _tools.GetClientIP();
-        //    if (_ipHelper.IpInRange(clientIp))
-        //    {
-        //        return false;
-        //    }
-
-        //    var checkCountForShortTime = 0;
-        //    var checkCountForBlock = 0;
-        //    // var checkCountForShortTime = _cacheHelper.StringIncrementAsync($"IP:SignIn:{clientIp}", TimeSpan.FromMinutes(1)).Result;
-        //    // var checkCountForBlock = _cacheHelper.StringIncrementAsync($"IP:SignIn:long:{clientIp}", TimeSpan.FromMinutes(10)).Result;
-        //    // if (checkCountForShortTime >= 20)
-        //    // {
-        //    //     _cacheHelper.StringFireAndForgetSetAsync($"block:SignIn:{clientIp}", string.Empty, TimeSpan.FromHours(1));
-        //    // }
-
-        //    var isAttack = string.Compare(req.platform, "x", StringComparison.OrdinalIgnoreCase) == 0 ||
-        //                   string.Compare(req.userAgent, "x", StringComparison.OrdinalIgnoreCase) == 0 ||
-        //                   string.Compare(req.screen, "x", StringComparison.OrdinalIgnoreCase) == 0;
-
-        //    var isWrong = req.UserName.Contains("@") ||
-        //                  (checkReferer && string.IsNullOrWhiteSpace(Request.Headers["Referer"].ToString()));
-
-        //    if (checkCountForBlock >= 60 || isAttack)
-        //    {
-        //        var reason = isAttack ? "platform or userAgent or screen use x" : "too many requests";
-        //        var memo = $"Auto Deny (/Site/SignIn or /Site/SignInApp) - Attack: try login, reason is {reason}";
-        //        var setResult = _iPBll.SetBlockIp(new BlockIpRequest { IP = clientIp, Memo = memo, Operator = "System" });
-        //        if (setResult > 0 && !_cacheHelper.KeyExists($"AutoDeny:SignIn:{clientIp}"))
-        //        {
-        //            _cacheHelper.StringFireAndForgetSetAsync($"AutoDeny:SignIn:{clientIp}", string.Empty, TimeSpan.FromMinutes(1));
-        //            _ = Task.Run(async () => { _ = await Upload(); });
-        //        }
-        //    }
-
-        //    if (isAttack
-        //        || isWrong
-        //        || checkCountForShortTime >= 20
-        //        || checkCountForBlock >= 60
-        //        || _cacheHelper.KeyExists($"block:SignIn:{clientIp}"))
-        //    {
-        //        _logger.LogInformation($"Attack: UserName:{req.UserName}, Userpwd:{req.Userpwd}, REQUEST URL:{_serverInfoBll.GetRequestUrl()}, " +
-        //                               $"IP: {Request.Headers["X-Forwarded-For"]}, {Request.Headers["HTTP_X_FORWARDED_FOR"]}, {Request.Headers["HTTP_INCAP_CLIENT_IP"]}, {Request.Headers["HTTP_TRUE_CLIENT_IP"]}, {Request.Headers["HTTP_X_REAL_IP"]}, {Request.Headers["REMOTE_ADDR"]}, {HttpContext.Connection.RemoteIpAddress?.MapToIPv4().ToString()}");
-
-        //        return true;
-        //    }
-
-        //    return false;
-        //}
 
         [HttpPost]
         public ApiResult<JwtAuthData> SignInApp(LoginModel loginModel)
@@ -387,42 +321,6 @@ namespace MemberSite.Controllers.Api
             await _cacheHelper.StringFireAndForgetSetAsync(customer.CustId.ToString(), customer.Token, TimeSpan.FromMinutes(30), RedisDataBase.Token);
             return apiResult;
         }
-
-        //private bool CheckAttackForSignup()
-        //{
-        //    var clientIp = _tools.GetClientIP();
-        //    if (_ipHelper.IpInRange(clientIp))
-        //    {
-        //        return false;
-        //    }
-
-        //    var checkCountForShortTime = _cacheHelper.StringIncrementAsync($"IP:Signup:{clientIp}", TimeSpan.FromMinutes(10)).Result;
-        //    var checkCountForBlock = _cacheHelper.StringIncrementAsync($"IP:Signup:long:{clientIp}", TimeSpan.FromHours(1)).Result;
-        //    if (checkCountForShortTime >= 20)
-        //    {
-        //        _cacheHelper.StringFireAndForgetSetAsync($"block:Signup:{clientIp}", string.Empty, TimeSpan.FromHours(1));
-        //    }
-
-        //    if (checkCountForBlock >= 60)
-        //    {
-        //        var memo = $"Auto Deny (/Site/Signup) - Attack: try login, reason is too many requests";
-        //        var setResult = _iPBll.SetBlockIp(new BlockIpRequest { IP = clientIp, Memo = memo, Operator = "System" });
-        //        if (setResult > 0 && !_cacheHelper.KeyExists($"AutoDeny:Signup:{clientIp}"))
-        //        {
-        //            _cacheHelper.StringFireAndForgetSetAsync($"AutoDeny:Signup:{clientIp}", string.Empty, TimeSpan.FromMinutes(1));
-        //            _ = Task.Run(async () => { _ = await Upload(); });
-        //        }
-        //    }
-
-        //    if (checkCountForShortTime >= 20
-        //        || checkCountForBlock >= 60
-        //        || _cacheHelper.KeyExists($"block:Signup:{clientIp}"))
-        //    {
-        //        return true;
-        //    }
-
-        //    return false;
-        //}
 
         [HttpPost]
         public ApiResult<JwtAuthData> SignupApp(SignupModel signupModel)
@@ -1059,87 +957,6 @@ namespace MemberSite.Controllers.Api
         //         return apiResult;
         //     }
         // }
-
-        private bool CheckAttack(RrofileReq req, out ApiResult<bool> result)
-        {
-            result = new ApiResult<bool>();
-            var clientIp = _tools.GetClientIP();
-            if (_ipHelper.IpInRange(clientIp))
-            {
-                return false;
-            }
-
-            var serverInfo = _serverInfoBll.GetServerInfo();
-            var checkCountForShortTime = _cacheHelper.StringIncrementAsync($"IP:{clientIp}", TimeSpan.FromMinutes(1)).Result;
-            var checkCountForLongTime = _cacheHelper.StringIncrementAsync($"IP:10:{clientIp}", TimeSpan.FromMinutes(20)).Result;
-            var checkCountForBlock = _cacheHelper.StringIncrementAsync($"IP:hour:{clientIp}", TimeSpan.FromMinutes(30)).Result;
-            if (checkCountForShortTime >= 5 || checkCountForLongTime >= 15)
-            {
-                _cacheHelper.StringFireAndForgetSetAsync($"block:{clientIp}", string.Empty, TimeSpan.FromHours(1));
-            }
-
-            var isDart = Request.Headers["User-Agent"].ToString().Contains("Dart");
-
-            if (checkCountForBlock >= 120 || isDart)
-            {
-                var reason = isDart ? "agent use Dart" : "too many requests";
-                var memo = $"Auto Deny (/Site/ExistsPhoneNo) - Attack: get user phone number, reason is {reason}";
-                var setResult = _iPBll.SetBlockIp(new BlockIpRequest { IP = clientIp, Memo = memo, Operator = "System" });
-                if (setResult > 0 && !_cacheHelper.KeyExists($"AutoDeny:{clientIp}"))
-                {
-                    _cacheHelper.StringFireAndForgetSetAsync($"AutoDeny:{clientIp}", string.Empty, TimeSpan.FromMinutes(1));
-                    _ = Task.Run(async () => { _ = await Upload(); });
-                }
-            }
-
-            if ((serverInfo.SiteId is (int)SiteId.Bwing or (int)SiteId.Goal123 && req.AreaCode != "+84")
-                || isDart
-                || _areaCodeMap.All(i => i.AreaCode != req.AreaCode)
-                || checkCountForShortTime >= 5
-                || checkCountForLongTime >= 15
-                || checkCountForBlock >= 60
-                || _cacheHelper.KeyExists($"block:{clientIp}"))
-            {
-                _logger.LogInformation($"Attack: AreaCode:{req.AreaCode}, PhoneNo:{req.PhoneNo}, REQUEST URL:{_serverInfoBll.GetRequestUrl()}, " +
-                                       $"IP: {Request.Headers["X-Forwarded-For"]}, {Request.Headers["HTTP_X_FORWARDED_FOR"]}, {Request.Headers["HTTP_INCAP_CLIENT_IP"]}, {Request.Headers["HTTP_TRUE_CLIENT_IP"]}, {Request.Headers["HTTP_X_REAL_IP"]}, {Request.Headers["REMOTE_ADDR"]}, {HttpContext.Connection.RemoteIpAddress?.MapToIPv4().ToString()}");
-
-                result.ErrorCode = 0;
-                result.Data = false;
-                return true;
-            }
-
-            return false;
-        }
-
-        private async Task<bool> Upload()
-        {
-            try
-            {
-                var ipList = _iPBll.GetBlockIp(true).Select(i => i.IP).ToList();
-                Directory.CreateDirectory(_folder);
-                var filePath = Path.Combine(_folder, _fileName);
-                await System.IO.File.WriteAllLinesAsync(filePath, ipList);
-                using var destination = new MemoryStream();
-                await using (var source = System.IO.File.Open(filePath, FileMode.Open))
-                {
-                    await source.CopyToAsync(destination);
-                }
-
-                var putRequest = new PutObjectRequest
-                {
-                    BucketName = "ailab-config",
-                    ContentType = "text/plain",
-                    InputStream = destination,
-                    Key = _fileName
-                };
-                return await _s3Helper.PutObjectAsync(putRequest);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Upload S3 Fail.");
-                return false;
-            }
-        }
 
         [HttpPost]
         public ApiResult<IEnumerable<Country>> GetCountryList()
