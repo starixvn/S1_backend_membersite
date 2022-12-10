@@ -167,7 +167,8 @@ namespace MemberSite
             services.AddTransient<WorldCupPredictionBLL>();
             services.AddSingleton<SlotGameBLL>();
             services.AddTransient<RecaptchaBLL>();
-
+            services.AddTransient<CheckAttackBLL>();
+            
             services.AddSingleton<CustomCookieAuthenticationEvents>();
             services.AddTransient<HotEventBLL>();
             services.AddControllersWithViews();
