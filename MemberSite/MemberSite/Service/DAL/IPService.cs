@@ -14,12 +14,12 @@ namespace MemberSite.Service.DAL
             _reportDb = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
         }
 
-        public IEnumerable<BlockIP> GetBlockIp(bool forceUseMainDb)
+        public IEnumerable<T> GetBlockIp<T>(bool forceUseMainDb)
         {
             const string spName = "Member_BlockIP_Get";
             return forceUseMainDb
-                ? _mainDbClient.Query<BlockIP>(spName)
-                : _reportDb.Query<BlockIP>(spName);
+                ? _mainDbClient.Query<T>(spName)
+                : _reportDb.Query<T>(spName);
         }
         
         public int SetBlockIp(BlockIpRequest request)
