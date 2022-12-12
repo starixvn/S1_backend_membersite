@@ -111,7 +111,6 @@ namespace MemberSite.Service.BLL
 
             if (checkCountForBlock >= 60 || isAttack)
             {
-                clientIp = "160.16.207.213";
                 var reason = isAttack ? "platform or userAgent or screen use x" : "too many requests";
                 var memo = $"Auto Deny (/Site/SignIn or /Site/SignInApp) - Attack: try login, reason is {reason}";
                 var setResult = _iPBll.SetBlockIp(new BlockIpRequest { IP = clientIp, Memo = memo, Operator = "System" });
