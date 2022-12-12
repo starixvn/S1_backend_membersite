@@ -180,7 +180,7 @@ namespace MemberSite.Service.BLL
                 var ipList = _iPBll.GetBlockIp<BlockIPForUpload>(true).Select(i => i.IP).ToList();
                 Directory.CreateDirectory(_folder);
                 var filePath = Path.Combine(_folder, _fileName);
-                await File.WriteAllTextAsync(filePath, "#### 白名單 0:為開放 1:為封鎖 -1:預設值\r\n" +
+                await File.WriteAllTextAsync(filePath, "#### Block List 0:open 1:block -1:default\r\n" +
                                                        $"geo {_nginxIpKey} $ipcheck " +
                                                        "{ \r\n" +
                                                        "default -1;\r\n");
