@@ -32,7 +32,7 @@ namespace MemberSite.Controllers
                 return RedirectToRoute(new { action = "Index", controller = "Home" });
             }
             var customer = _siteBll.Signup(signupModel, apiResult, isAuthenticated, Request.Host.Host,
-                Request.Headers["User-Agent"]);
+                Request.Headers["User-Agent"], false);
 
             if (apiResult.ErrorCode != 0 || customer == null)
             {

@@ -60,6 +60,8 @@ namespace MemberSite
             services.Configure<RecaptchaSetting>(configuration.GetSection("ReCaptchaSetting"));
             services.Configure<Dictionary<string, SiteConfig>>(configuration.GetSection("SiteConfig"));
             services.Configure<Dictionary<string, string>>(configuration.GetSection("LoginDeviceConfig"));
+            services.Configure<AllowIpList>(configuration.GetSection("AllowIpList"));
+            services.Configure<Dictionary<string, AWSKeyConfig>>(configuration.GetSection("AwsKeyConfig"));
             services.AddMemoryCache();
             services.AddDatabaseConnection(configuration);
             services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(configuration.GetValue<string>("RedisConnection")));
@@ -73,6 +75,8 @@ namespace MemberSite
             services.AddSingleton<IHttpHelper, HttpHelper>();
             services.AddSingleton<CacheHelper>();
             services.AddSingleton<TpGameTypeHelper>();
+            services.AddSingleton<IpHelper>();
+            services.AddSingleton<AWSS3Helper>();
 
             /*DAL*/
             services.AddSingleton<IServerInfoService, ServerInfoService>();
@@ -163,7 +167,8 @@ namespace MemberSite
             services.AddTransient<WorldCupPredictionBLL>();
             services.AddSingleton<SlotGameBLL>();
             services.AddTransient<RecaptchaBLL>();
-
+            services.AddTransient<CheckAttackBLL>();
+            
             services.AddSingleton<CustomCookieAuthenticationEvents>();
             services.AddTransient<HotEventBLL>();
             services.AddControllersWithViews();

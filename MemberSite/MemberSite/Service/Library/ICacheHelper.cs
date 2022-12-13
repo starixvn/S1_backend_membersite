@@ -16,6 +16,9 @@ public interface ICacheHelper
     bool StringSet(string key, RedisValue value, TimeSpan? timeSpan,
         RedisDataBase redisDataBase = RedisDataBase.Member);
 
+    Task<long> StringIncrementAsync(string key, TimeSpan? timeSpan,
+        RedisDataBase redisDataBase = RedisDataBase.Member);
+
     bool KeyExists(string key, RedisDataBase redisDataBase = RedisDataBase.Member);
 
     Task<TItem> StringGetAsync<TItem>(string key, RedisDataBase redisDataBase = RedisDataBase.Member);

@@ -1,7 +1,4 @@
-﻿using Dapper;
-using MemberSite.Service.Model;
-using MySql.Data.MySqlClient;
-using System.Data;
+﻿using MemberSite.Service.Model;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model.enums;
 
@@ -9,20 +6,25 @@ namespace MemberSite.Service.DAL
 {
     public class IPService
     {
-        private readonly IConfiguration configuration;
         private readonly MySqlClient _mainDbClient;
         private readonly MySqlClient _reportDb;
         public IPService(IServiceProvider provider)
         {
-            configuration = provider.GetRequiredService<IConfiguration>();
             _mainDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Main);
             _reportDb = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
         }
 
-        public IEnumerable<BlockIP> GetBlockIP()
+        public IEnumerable<T> GetBlockIp<T>(bool forceUseMainDb)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<BlockIP>("Member_BlockIP_Get", commandType: CommandType.StoredProcedure);
+            const string spName = "Member_BlockIP_Get";
+            return forceUseMainDb
+                ? _mainDbClient.Query<T>(spName)
+                : _reportDb.Query<T>(spName);
+        }
+        
+        public int SetBlockIp(BlockIpRequest request)
+        {
+            return _mainDbClient.Execute("Admin_BlockIP_Set", new { request.IP, request.Operator, request.Memo });
         }
     }
 }
