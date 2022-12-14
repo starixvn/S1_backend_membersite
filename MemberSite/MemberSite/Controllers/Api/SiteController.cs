@@ -15,6 +15,7 @@ using System.Security.Claims;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Cors;
 using static MemberSite.Extensions.MethodExtension;
+using MemberSite.Attributes;
 
 namespace MemberSite.Controllers.Api
 {
@@ -80,6 +81,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
+        [PublicAuthAttribute]
         public async Task<ApiResult> SignIn(LoginModel loginModel)
         {
             var apiResult = new ApiResult(_selLangBll);
