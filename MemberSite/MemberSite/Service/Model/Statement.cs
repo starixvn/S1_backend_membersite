@@ -14,9 +14,17 @@ namespace MemberSite.Service.Model
         {
             get
             {
-                //先取得時區再進行時間位移
-                var offset = DateTime.Now.ToDateTimeOffset(CustTimeZone).Offset;
-                return  new DateTimeOffset(_createTime).ToOffset(offset);
+                
+                if (!string.IsNullOrEmpty(CustTimeZone))//第一次從DB拿有CustTimeZone需要時區位移
+                {
+                    //先用目前時間組合取得時區來進行時間位移
+                    var offset = DateTime.Now.ToDateTimeOffset(CustTimeZone).Offset;
+                    return new DateTimeOffset(_createTime).ToOffset(offset);
+                }
+                else//從redis拿的cache資料已經位移過，沒有CustTimeZone不需要時區位移
+                {   
+                    return new DateTimeOffset(_createTime);
+                }              
             }
             set
             {
