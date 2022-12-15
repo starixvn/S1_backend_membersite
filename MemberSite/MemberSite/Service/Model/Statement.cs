@@ -14,29 +14,29 @@ namespace MemberSite.Service.Model
         {
             get
             {
-                
-                if (!string.IsNullOrEmpty(CustTimeZone))//第一次從DB拿有CustTimeZone需要時區位移
+                if (CreateTimeOffset != null)//從redis拿的cache資料已經位移過，不需要時區位移
                 {
-                    //先用目前時間組合取得時區來進行時間位移
-                    var offset = DateTime.Now.ToDateTimeOffset(CustTimeZone).Offset;
-                    return new DateTimeOffset(_createTime).ToOffset(offset);
+                    return CreateTimeOffset.Value;
                 }
-                else//從redis拿的cache資料已經位移過，沒有CustTimeZone不需要時區位移
-                {   
-                    return new DateTimeOffset(_createTime);
-                }              
+
+                //先用目前時間組合取得時區來進行時間位移
+                var offset = DateTime.Now.ToDateTimeOffset(CustTimeZone).Offset;
+                CreateTimeOffset = new DateTimeOffset(_createTime).ToOffset(offset);
+                return CreateTimeOffset.Value;    
             }
             set
             {
                 _createTime = value.DateTime;
             }
         }
+        public DateTimeOffset? CreateTimeOffset { get; set; } = null;
+
         private DateTime _createTime { get; set; }
+
         public int Direction { get; set; }
 
         public string TypeName { get; set; }
 
-        [JsonIgnore]
         public string CustTimeZone { get; set; }
     }
 
