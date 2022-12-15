@@ -1,5 +1,5 @@
 ﻿using MemberSite.Extensions;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace MemberSite.Service.Model
 {
