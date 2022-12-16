@@ -126,11 +126,11 @@ namespace MemberSite.Service.DAL
             return result;
         }
 
-        public IEnumerable<CryptoInfo> GetSupportCryptoInfo()
+        public IEnumerable<CryptoInfo> GetSupportCryptoInfo(int siteId)
         {
             using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport"));
             var result = conn.Query<CryptoInfo>(
-                "Member_SupportCryptoInfo_Get", 
+                "Member_SupportCryptoInfo_Get_V2", new { _SiteId = siteId },
                 commandType: CommandType.StoredProcedure);
             
             return result;
