@@ -1334,15 +1334,23 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiResult<CryptoInfoData> GetSupportCryptoInfo()
         {
-            var result = paymentBLL.GetSupportCryptoInfo();
-
-            var apiResult = new ApiResult<CryptoInfoData>
+            var authData = authorizeBLL.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                return new ApiResult<CryptoInfoData>
+                {
+                    Message = selLangBLL.GetMsg("msg_ForceLogedout")
+                };
+            }
+            
+            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+            var result = paymentBLL.GetSupportCryptoInfo(custInfo.SiteId);
+ 
+            return new ApiResult<CryptoInfoData>
             {
                 Data = result,
                 ErrorCode = 0
             };
-
-            return apiResult;
         }
 
         public class CheckDepositSpecialCodeReq

@@ -696,9 +696,9 @@ namespace MemberSite.Service.BLL
             return withdrawalService.GetWithdrawalInfoCheck(input);
         }
 
-        public CryptoInfoData GetSupportCryptoInfo()
+        public CryptoInfoData GetSupportCryptoInfo(int siteId)
         {
-            var infos = statementService.GetSupportCryptoInfo();
+            var infos = statementService.GetSupportCryptoInfo(siteId);
             var cryptoCurrency = infos
                 .GroupBy(x => new { x.CurrencyId, x.CurrencyName})
                 .Select(x => new CryptoCurrency
