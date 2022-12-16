@@ -21,11 +21,9 @@ public class PublicAuthAttribute : Attribute, IAuthorizationFilter
         using var reader = new StreamReader(context.HttpContext.Request.Body, Encoding.UTF8);
         var content = reader.ReadToEndAsync().Result;
         var jbody = JObject.Parse(content);
-        var request = JsonConvert.DeserializeObject<dynamic>(content);
+        //var request = JsonConvert.DeserializeObject<dynamic>(content);
         var token = jbody["Token"].ToString();
-        request["Token"] = "1qaz2wsx";
-        var requestStr = request.ToString();
-        requestStr = requestStr.Replace(" \"", "\"").Replace("\r", "").Replace("\n", "");
+        var requestStr = content.Replace(token,"1qaz2wsx");
         var checkToken = SHA256(requestStr);
         if (token == checkToken)
         {
