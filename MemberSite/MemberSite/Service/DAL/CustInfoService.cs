@@ -416,10 +416,9 @@ namespace MemberSite.Service.DAL
             return conn.ExecuteScalar<int>("Member_SubmittedCustPhotoId_GetV2", new { CustId = custId, SiteId = siteId, CurrencyId = currencyId }, commandType: CommandType.StoredProcedure);
         }
 
-        public int SetCustPhotoId(int custId, int siteId, string picFileName, byte[] photoIdPic)
+        public async Task<int> SetCustPhotoId(int custId, int siteId, string picFileName, byte[] photoIdPic)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            return conn.Execute("Member_CustPhotoId_Set", new { CustId = custId, SiteId = siteId, PicFileName = picFileName, PhotoIdPic = photoIdPic }, commandType: CommandType.StoredProcedure);
+            return await _mainDbClient.ExecuteAsync("Member_CustPhotoId_Set", new { CustId = custId, SiteId = siteId, PicFileName = picFileName, PhotoIdPic = photoIdPic });
         }
         public bool SetResetPwd(int custId, string md5NewPassword)
         {

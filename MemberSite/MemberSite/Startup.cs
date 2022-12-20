@@ -153,6 +153,7 @@ namespace MemberSite
             services.AddSingleton<GameBLL>();
             services.AddTransient<IGeoIpApi, GeoIpApi>();
             services.AddTransient<IRecaptchaApi, RecaptchaApi>();
+            services.AddTransient<ICustPhotoIdBLL, CustPhotoIdBLL>();
             services.AddTransient<GeoIpBLL>();
             services.AddTransient<AppLinkBLL>();
             services.AddTransient<FileNameBLL>();
