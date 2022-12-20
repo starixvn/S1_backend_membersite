@@ -19,6 +19,7 @@ namespace MemberSite.Service.BLL
         private readonly AWSS3Helper _s3Helper;
         private readonly string _fileName;
         private readonly string _folder;
+        private readonly string _nginxIpKey;
 
         public CheckAttackBLL(IServiceProvider provider)
         {
@@ -31,7 +32,8 @@ namespace MemberSite.Service.BLL
             _areaCodeMap = provider.GetRequiredService<IEnumerable<AreaCodeMap>>();
             _s3Helper = provider.GetRequiredService<AWSS3Helper>();
             var env = provider.GetRequiredService<IWebHostEnvironment>();
-            _fileName = env.IsProduction() || env.EnvironmentName == "Release" ? "blockIp.txt" : "blockIp_test.txt";
+            _fileName = env.IsProduction() || env.EnvironmentName == "Release" ? "geoblockIp.txt" : "geoblockIp_test.txt";
+            _nginxIpKey = env.IsProduction() || env.EnvironmentName == "Release" ? "$remote_addr" : "$real_ip";
             _folder = Path.Combine(env.ContentRootPath, "NginxConfig");
 
         }
@@ -175,12 +177,25 @@ namespace MemberSite.Service.BLL
         {
             try
             {
-                var ipList = _iPBll.GetBlockIp(true).Select(i => i.IP).ToList();
+                var ipList = _iPBll.GetBlockIp<BlockIPForUpload>(true).Select(i => i.IP).ToList();
                 Directory.CreateDirectory(_folder);
                 var filePath = Path.Combine(_folder, _fileName);
-                await System.IO.File.WriteAllLinesAsync(filePath, ipList);
+                await File.WriteAllTextAsync(filePath, "#### Block List 0:open 1:block -1:default\r\n" +
+                                                       $"geo {_nginxIpKey} $ipcheck " +
+                                                       "{ \r\n" +
+                                                       "default -1;\r\n");
+                await File.AppendAllLinesAsync(filePath, ipList);
+                await File.AppendAllTextAsync(filePath, "}\r\n" + 
+                                                        "\r\n" +
+                                                        "map $ip_geoblock:$ipcheck $geoblock {\r\n" +
+                                                        "default $default_geoblock;\r\n" +
+                                                        "0:0 0;\r\n" +
+                                                        "0:1 0;\r\n" +
+                                                        "0:-1 0;\r\n" +
+                                                        "-1:1 1;\r\n" +
+                                                        "}\r\n");
                 using var destination = new MemoryStream();
-                await using (var source = System.IO.File.Open(filePath, FileMode.Open))
+                await using (var source = File.Open(filePath, FileMode.Open))
                 {
                     await source.CopyToAsync(destination);
                 }
