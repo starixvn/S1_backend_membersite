@@ -416,9 +416,20 @@ namespace MemberSite.Service.DAL
             return conn.ExecuteScalar<int>("Member_SubmittedCustPhotoId_GetV2", new { CustId = custId, SiteId = siteId, CurrencyId = currencyId }, commandType: CommandType.StoredProcedure);
         }
 
-        public async Task<int> SetCustPhotoId(int custId, int siteId, string picFileName, byte[] photoIdPic)
+        public async Task<long> SetCustPhotoId(int custId, int siteId, string picFileName, byte[] photoIdPic)
         {
-            return await _mainDbClient.ExecuteAsync("Member_CustPhotoId_Set", new { CustId = custId, SiteId = siteId, PicFileName = picFileName, PhotoIdPic = photoIdPic });
+            var p = new DynamicParameters();
+            p.Add("_CustId", custId);
+            p.Add("_SiteId", siteId);
+            p.Add("_PicFileName", picFileName);
+            p.Add("_PhotoIdPic", photoIdPic);
+            p.Add("_SQ", dbType: DbType.Int64, direction: ParameterDirection.Output);
+
+            var result = await _mainDbClient.ExecuteAsync("Member_CustPhotoId_Set_V2", p);
+            if (result <= 0) return 0;
+        
+            var sq = p.Get<long>("_SQ");
+            return sq > 0 ? sq : 0;
         }
         public bool SetResetPwd(int custId, string md5NewPassword)
         {

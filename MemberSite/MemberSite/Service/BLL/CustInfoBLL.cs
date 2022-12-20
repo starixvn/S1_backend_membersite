@@ -456,7 +456,7 @@ namespace MemberSite.Service.BLL
             var custInfo = GetCustInfoWithCache(custId);
             return _custInfoService.SubmittedCustPhotoId(custId, custInfo.SiteId, custInfo.CurrencyId);
         }
-        public async Task<int> SetCustPhotoId(int custId, int siteId, string picFileName, byte[] photoIdPic)
+        public async Task<long> SetCustPhotoId(int custId, int siteId, string picFileName, byte[] photoIdPic)
         {
             return await _custInfoService.SetCustPhotoId(custId, siteId, picFileName, photoIdPic);
         }
