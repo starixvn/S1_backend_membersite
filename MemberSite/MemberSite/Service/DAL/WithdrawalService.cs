@@ -89,14 +89,14 @@ namespace MemberSite.Service.DAL
             }
         }
 
-        public int WithdrawalUSDTReq(int custId, string userName, int currencyId, int siteId, decimal amount, string memo, WithdrawalUSDTInfo withdrawalUSDTInfo, out decimal afterAmount, out string transId)
+        public int WithdrawalCryptoReq(int custId, string userName, int currencyId, int siteId, decimal amount, string memo, WithdrawalCryptoInfo withdrawalCryptoInfo, out decimal afterAmount, out string transId)
         {
             transId = "";
             afterAmount = 0;
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             conn.Open();
             using var trans = conn.BeginTransaction();
-            var p = new DynamicParameters(new { CustId = custId, UserName = userName, CurrencyId = currencyId, SiteId = siteId, Amount = amount, Memo = memo, WithdrawalInfo = Newtonsoft.Json.JsonConvert.SerializeObject(withdrawalUSDTInfo), Prefix = $"W{common.GetEnv()}" });
+            var p = new DynamicParameters(new { CustId = custId, UserName = userName, CurrencyId = currencyId, SiteId = siteId, Amount = amount, Memo = memo, WithdrawalInfo = Newtonsoft.Json.JsonConvert.SerializeObject(withdrawalCryptoInfo), Prefix = $"W{common.GetEnv()}" });
             p.Add("vTransId", dbType: DbType.String, direction: ParameterDirection.Output);
             p.Add("ToKyc", dbType: DbType.Boolean, direction: ParameterDirection.Output);
 
