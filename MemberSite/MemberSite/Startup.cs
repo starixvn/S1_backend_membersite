@@ -109,6 +109,7 @@ namespace MemberSite
             services.AddSingleton<AppLinkService>();
             services.AddSingleton<DeepLinkService>();
             services.AddSingleton<IVerificationRewardService, VerificationRewardService>();
+            services.AddSingleton<ICustPhotoIdService, CustPhotoIdService>();
             services.AddTransient<WorldCupPredictionService>();
             services.AddTransient<RecaptchaService>();
             services.AddSingleton<PartitionService>();

@@ -1,5 +1,6 @@
 using Amazon.S3.Model;
 using MemberSite.Service.BLL.Interface;
+using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model.enums;
 
@@ -8,16 +9,16 @@ namespace MemberSite.Service.BLL;
 public class CustPhotoIdBLL : ICustPhotoIdBLL
 {
     private readonly ImageEditorBLL _imageEditorBll;
-    private readonly CustInfoBll _custInfoBLL;
+    private readonly ICustPhotoIdService _custPhotoIdService;
     private readonly AWSS3Helper _s3Helper;
     private readonly ILogger<CustPhotoIdBLL> _logger;
     private readonly string _environment;
 
-    public CustPhotoIdBLL(ImageEditorBLL imageEditorBll, CustInfoBll custPhoto, AWSS3Helper s3Helper, IWebHostEnvironment env, ILogger<CustPhotoIdBLL> logger)
+    public CustPhotoIdBLL(ImageEditorBLL imageEditorBll, ICustPhotoIdService custPhotoIdService, AWSS3Helper s3Helper, IWebHostEnvironment env, ILogger<CustPhotoIdBLL> logger)
     {
         _imageEditorBll = imageEditorBll;
-        _custInfoBLL = custPhoto;
         _logger = logger;
+        _custPhotoIdService = custPhotoIdService;
         _s3Helper = s3Helper;
         _environment = env.IsProduction() || env.EnvironmentName == "Release" ? "PRD" : "DEV";
     }
@@ -32,7 +33,7 @@ public class CustPhotoIdBLL : ICustPhotoIdBLL
         fileName = fileName.Substring(fileName.LastIndexOf('\\') + 1);
         fileName = $"{fileName.Substring(0, fileName.LastIndexOf('.'))}.jpg";
 
-        var sq = await _custInfoBLL.SetCustPhotoId(custId, siteId, fileName, fileBytes);
+        var sq = await _custPhotoIdService.SetCustPhotoId(custId, siteId, fileName, fileBytes);
         if (sq <= 0)
         {
             _logger.LogError("insert CustPhotoId failed");
