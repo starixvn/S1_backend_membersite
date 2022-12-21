@@ -506,7 +506,8 @@ namespace MemberSite.Service.BLL
 
             return withdrawalService.WithdrawalReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, withdrawalInfo, out afterAmount, out transId);
         }
-        public int WithdrawalUSDTReq(int custId, string accountName, USDTDetail uSDTDetail, string accountNo, decimal amount, string memo, out decimal afterAmount, out string transId)
+        public int WithdrawalCryptoReq(int custId, string accountName, USDTDetail cryptoDetail, string accountNo, decimal amount, string memo,
+            decimal tmpRate, decimal tmpCryptoAmount, out decimal afterAmount, out string transId)
         {
             afterAmount = 0;
             transId = "";
@@ -514,7 +515,7 @@ namespace MemberSite.Service.BLL
             if (amount <= 0)
                 return -99;
 
-            var withdrawalUSDTInfo = new WithdrawalUSDTInfo();
+            var withdrawalCryptoInfo = new WithdrawalCryptoInfo();
             var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
             var checkAmount = amount;
             if (custInfoBLL.IsConvertRequired(CustInfo.CurrencyId))
@@ -527,14 +528,16 @@ namespace MemberSite.Service.BLL
                 return -1;
             }
             
-            withdrawalUSDTInfo.AccountType = "crypto";
-            withdrawalUSDTInfo.AccountName = accountName;
-            withdrawalUSDTInfo.NickName = uSDTDetail.NickName;
-            withdrawalUSDTInfo.AccountNo = accountNo;
-            withdrawalUSDTInfo.Network = uSDTDetail.Network;
-            withdrawalUSDTInfo.CurrencyId = uSDTDetail.CurrencyId;
+            withdrawalCryptoInfo.AccountType = "crypto";
+            withdrawalCryptoInfo.AccountName = accountName;
+            withdrawalCryptoInfo.NickName = cryptoDetail.NickName;
+            withdrawalCryptoInfo.AccountNo = accountNo;
+            withdrawalCryptoInfo.Network = cryptoDetail.Network;
+            withdrawalCryptoInfo.CurrencyId = cryptoDetail.CurrencyId;
+            withdrawalCryptoInfo.TempExchangeAmount = tmpCryptoAmount;
+            withdrawalCryptoInfo.TempExchangeRate = tmpRate;
             
-            return withdrawalService.WithdrawalUSDTReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, withdrawalUSDTInfo, out afterAmount, out transId);
+            return withdrawalService.WithdrawalCryptoReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, withdrawalCryptoInfo, out afterAmount, out transId);
         }
 
         public int WithdrawalEWalletReq(int custId, string accountName, int sysId, string accountNo, decimal amount, string memo, out decimal afterAmount, out string transId)
