@@ -406,12 +406,6 @@ namespace MemberSite.Service.DAL
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.ExecuteScalar<int>("Member_SubmittedCustPhotoId_GetV2", new { CustId = custId, SiteId = siteId, CurrencyId = currencyId }, commandType: CommandType.StoredProcedure);
         }
-
-        public int SetCustPhotoId(int custId, int siteId, string picFileName, byte[] photoIdPic)
-        {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            return conn.Execute("Member_CustPhotoId_Set", new { CustId = custId, SiteId = siteId, PicFileName = picFileName, PhotoIdPic = photoIdPic }, commandType: CommandType.StoredProcedure);
-        }
         public bool SetResetPwd(int custId, string md5NewPassword)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));

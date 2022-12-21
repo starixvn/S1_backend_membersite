@@ -1,4 +1,5 @@
 ﻿using MemberSite.Service.BLL;
+using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Mapping;
@@ -21,13 +22,13 @@ namespace MemberSite.Controllers.Api
         private readonly BankInfoBLL _bankInfoBLL;
         private readonly CommonBLL _commonBLL;
         private readonly ServerInfoBll _serverInfoBLL;
-        private readonly ImageEditorBLL _imageEditorBll;
         private readonly SelLangBLL _selLangBll;
         private readonly AuthBLL _authBll;
         private readonly CryptoPayInfoBll _cryptoPayInfoBLL;
         private readonly LineLoginBLL _lineLoginBll;
         private readonly IEnumerable<AreaCodeMap> _areaCodeMap;
         private readonly ILogger<AccountStrictController> _logger;
+        private readonly ICustPhotoIdBLL _custPhoto;
 
         public AccountStrictController(IServiceProvider provider)
         {
@@ -37,11 +38,11 @@ namespace MemberSite.Controllers.Api
             _bankInfoBLL = provider.GetRequiredService<BankInfoBLL>();
             _commonBLL = provider.GetRequiredService<CommonBLL>();
             _serverInfoBLL = provider.GetRequiredService<ServerInfoBll>();
-            _imageEditorBll = provider.GetRequiredService<ImageEditorBLL>();
             _selLangBll = provider.GetRequiredService<SelLangBLL>();
             _authBll = provider.GetRequiredService<AuthBLL>();
             _cryptoPayInfoBLL = provider.GetRequiredService<CryptoPayInfoBll>();
             _lineLoginBll = provider.GetRequiredService<LineLoginBLL>();
+            _custPhoto = provider.GetRequiredService<ICustPhotoIdBLL>();
             _areaCodeMap = provider.GetRequiredService<IEnumerable<AreaCodeMap>>();
             _logger = provider.GetRequiredService<ILogger<AccountStrictController>>();
         }
@@ -764,16 +765,8 @@ namespace MemberSite.Controllers.Api
             {
                 return new ApiResult { ErrorCode = -1, Message = _selLangBLL.GetMsg("msg_UpdateFailed") };
             }
-
-            using var fileStream = custPhotoIdReq.PhotoId.OpenReadStream();
-            using var uploadedImage = await SixLabors.ImageSharp.Image.LoadAsync(fileStream);
-            var fileBytes = await _imageEditorBll.Resize(uploadedImage);
-
-            var fileName = custPhotoIdReq.PhotoId.FileName;
-            fileName = fileName.Substring(fileName.LastIndexOf('\\') + 1);
-            fileName = $"{fileName.Substring(0, fileName.LastIndexOf('.'))}.jpg";
-
-            var result = _custInfoBLL.SetCustPhotoId(custInfo.CustId, custInfo.SiteId, fileName, fileBytes);
+            
+            var result = await _custPhoto.UploadPhotoIdAsync(custInfo.CustId, custInfo.SiteId, custPhotoIdReq.PhotoId);
 
             if (result > 0)
             {
