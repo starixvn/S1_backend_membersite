@@ -14,12 +14,14 @@ using System.Security.Claims;
 using System;
 using System.Text;
 using System.Security.Cryptography;
+using MemberSite.Helpers;
 
 namespace MemberSiteTests.Service.BLL;
 
 internal class AuthBLLTests
 {
     private readonly IConfiguration _configuration;
+    private readonly CryptoHelper _cryptoHelper;
     private readonly AuthBLL _authBll;
 
     public AuthBLLTests()
@@ -46,6 +48,7 @@ internal class AuthBLLTests
         var provider = services.BuildServiceProvider();
 
         _authBll = provider.GetRequiredService<AuthBLL>();
+        _cryptoHelper = provider.GetRequiredService<CryptoHelper>();
     }
 
     private static string requestPlainText = "{\"UserName\":\"EttaTestMYR\"," +
@@ -57,7 +60,7 @@ internal class AuthBLLTests
             "\"screen\":\"1280:720:24\",";
     private static string requestPlainToken = "\"Token\":\"1qaz2wsx\",";
     private static string requestTimestamp = "\"Timestamp\":" + ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeSeconds() + "}";
-    private static string request = requestPlainText + "\"Token\":\"" + SHA256(requestPlainText + requestPlainToken + requestTimestamp) + "\"," + requestTimestamp;
+    private static string request = requestPlainText + "\"Token\":\"" + _cryptoHelper.SHA256(requestPlainText + requestPlainToken + requestTimestamp) + "\"," + requestTimestamp;
 
     static object[] TestCases =
    {
@@ -70,12 +73,5 @@ internal class AuthBLLTests
     {
         var result = _authBll.RequestAuth(content);
         Assert.AreEqual(result, expectedResult);
-    }
-
-    private static string SHA256(string input)
-    {
-        var inputBytes = Encoding.UTF8.GetBytes(input);
-        var outputBytes = new SHA256CryptoServiceProvider().ComputeHash(inputBytes);
-        return BitConverter.ToString(outputBytes).Replace("-", "").ToLower();
     }
 }

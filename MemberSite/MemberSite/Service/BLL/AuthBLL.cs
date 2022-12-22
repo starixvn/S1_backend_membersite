@@ -1,17 +1,23 @@
-﻿using MemberSite.Service.DAL;
+﻿using MemberSite.Controllers;
+using MemberSite.Helpers;
+using MemberSite.Service.DAL;
+using MemberSite.Service.Model;
 using Newtonsoft.Json.Linq;
 using System.Text;
-using System.Security.Cryptography;
 
 namespace MemberSite.Service.BLL
 {
     public class AuthBLL
     {
         private readonly AuthService authService;
+        private readonly CryptoHelper _cryptoHelper;
+        private readonly ILogger<AuthBLL> _logger;
 
-        public AuthBLL(AuthService authService)
+        public AuthBLL(AuthService authService, CryptoHelper cryptoHelper, ILogger<AuthBLL> logger)
         {
             this.authService = authService;
+            _cryptoHelper = cryptoHelper;
+            _logger = logger;
         }
 
         public bool Authenticate<T>(string sToken, out T t)
@@ -32,16 +38,36 @@ namespace MemberSite.Service.BLL
         public bool RequestAuth(string content)
         {
             if (string.IsNullOrWhiteSpace(content)) return false;
-            var jbody = JObject.Parse(content);
-            var timestamp = long.Parse(jbody["Timestamp"].ToString());
+
+            if (!ConvertToJObject(content, out JObject jbody)) return false;
+
+            if (jbody["Timestamp"] == null) return false;
+
+            long.TryParse(jbody["Timestamp"].ToString(), out long timestamp);
             if (!CheckTimestamp(timestamp)) return false;
+
+            if (jbody["Token"] == null) return false;
 
             var token = jbody["Token"].ToString();
             var requestStr = content.Replace(token, "1qaz2wsx");
-            if (token == SHA256(requestStr))
+            if (token != _cryptoHelper.SHA256(requestStr)) return false;
+
+            return true;
+        }
+
+        private bool ConvertToJObject(string content, out JObject jObject)
+        {
+            jObject = null;
+            try
+            {
+                jObject = JObject.Parse(content);
                 return true;
-            else
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message, "Unable to parse jsonObject.");
                 return false;
+            }
         }
 
         private bool CheckTimestamp(long timestamp)
@@ -51,13 +77,6 @@ namespace MemberSite.Service.BLL
                 return true;
             else
                 return false;
-        }
-
-        private string SHA256(string input)
-        {
-            var inputBytes = Encoding.UTF8.GetBytes(input);
-            var outputBytes = new SHA256CryptoServiceProvider().ComputeHash(inputBytes);
-            return BitConverter.ToString(outputBytes).Replace("-", "").ToLower();
         }
     }
 }
