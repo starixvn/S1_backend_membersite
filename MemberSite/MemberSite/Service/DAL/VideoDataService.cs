@@ -5,17 +5,17 @@ using MySql.Data.MySqlClient;
 
 namespace MemberSite.Service.DAL
 {
-    public class LatestHighlightDataService
+    public class VideoDataService
     {
         private readonly IConfiguration configuration;
-        public LatestHighlightDataService(IConfiguration configuration)
+        public VideoDataService(IConfiguration configuration)
         {
             this.configuration = configuration;
         }
-        public LatestHighlightData GetLatestHighlightData(int SiteId, string LangId)
+        public VideoData GetVideoData(int SiteId,int CurrencyId, string LangId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.QueryFirstOrDefault<LatestHighlightData>("Member_LatestHighlightVideo_Get", new { SiteId, LangId }, commandType: CommandType.StoredProcedure);
+            return conn.QueryFirstOrDefault<VideoData>("Member_VideoInfo_Get", new { SiteId,CurrencyId,LangId }, commandType: CommandType.StoredProcedure);
         }
     }
 }
