@@ -50,16 +50,16 @@ namespace MemberSite.Service.BLL
                 return false;
             }
 
-            if (!jbody.ContainsKey("Timestamp") 
-                || !jbody.ContainsKey("Token"))
+            if (!jbody.ContainsKey("timestamp") 
+                || !jbody.ContainsKey("token"))
             {
-                _logger.LogError("Request vaild fail：Lost Key (Timestamp and Token).");
+                _logger.LogError("Request vaild fail：Lost Key (timestamp and token).");
                 return false;
             }
 
-            if (!long.TryParse(jbody["Timestamp"].ToString(), out long timestamp))
+            if (!long.TryParse(jbody["timestamp"].ToString(), out long timestamp))
             {
-                _logger.LogError("Request vaild fail：Lost Key (Timestamp and Token).");
+                _logger.LogError("Request vaild fail：Convert timestamp fail.");
                 return false;
             }
             if (!CheckTimestamp(timestamp))
@@ -68,11 +68,11 @@ namespace MemberSite.Service.BLL
                 return false;
             }
 
-            var token = jbody["Token"].ToString();
+            var token = jbody["token"].ToString();
             var requestStr = content.Replace(token, _publicApiAuthToken);
             if (token != _cryptoHelper.SHA256(requestStr))
             {
-                _logger.LogError("Request vaild fail：Check Crypto fail.");
+                _logger.LogError("Request vaild fail：Check crypto token fail.");
                 return false;
             }
             return true;

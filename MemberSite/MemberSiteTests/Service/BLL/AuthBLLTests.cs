@@ -12,7 +12,7 @@ using Microsoft.Extensions.Logging;
 using NUnit.Framework;
 using System;
 
-namespace MemberSiteTests.Service.BLL;
+namespace MemberSite.Service.BLL.Tests;
 
 internal class AuthBLLTests
 {
@@ -60,7 +60,7 @@ internal class AuthBLLTests
             "\"platform\":\"Win32\"," +
             "\"userAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36\"," +
             "\"screen\":\"1280:720:24\",";
-    private string requestTimestamp = "\"Timestamp\":" + ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeSeconds() + "}";
+    private string requestTimestamp = "\"timestamp\":" + ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeSeconds() + "}";
 
 
     /// <summary>
@@ -83,9 +83,9 @@ internal class AuthBLLTests
     public void RequestAuthTestWithVaildContent()
     {
         var content = requestPlainText
-            + "\"Token\":\""
+            + "\"token\":\""
             + _cryptoHelper.SHA256(requestPlainText
-            + "\"Token\":\"" + _publicApiAuthToken + "\","
+            + "\"token\":\"" + _publicApiAuthToken + "\","
             + requestTimestamp)
             + "\","
             + requestTimestamp;
@@ -100,9 +100,9 @@ internal class AuthBLLTests
     public void RequestAuthTestWithoutTimestamp()
     {
         var content = requestPlainText
-            + "\"Token\":\""
+            + "\"token\":\""
             + _cryptoHelper.SHA256(requestPlainText
-            + "\"Token\":\"" + _publicApiAuthToken + "\","
+            + "\"token\":\"" + _publicApiAuthToken + "\","
             + requestTimestamp)
             + "\"}";
         var result = _authBll.RequestAuth(content);
@@ -116,12 +116,12 @@ internal class AuthBLLTests
     public void RequestAuthTestWithInVaildTimestampNumber()
     {
         var content = requestPlainText
-            + "\"Token\":\""
+            + "\"token\":\""
             + _cryptoHelper.SHA256(requestPlainText
-            + "\"Token\":\"" + _publicApiAuthToken + "\","
+            + "\"token\":\"" + _publicApiAuthToken + "\","
             + requestTimestamp)
             + "\","
-            + "\"Timestamp\":" + 1640995200 + "}"; //2022-01-01 00:00:00 GMT+8
+            + "\"timestamp\":" + 1640995200 + "}"; //2022-01-01 00:00:00 GMT+8
         var result = _authBll.RequestAuth(content);
         Assert.IsFalse(result);
     }
@@ -133,12 +133,12 @@ internal class AuthBLLTests
     public void RequestAuthTestWithInVaildTimestampString()
     {
         var content = requestPlainText
-            + "\"Token\":\""
+            + "\"token\":\""
             + _cryptoHelper.SHA256(requestPlainText
-            + "\"Token\":\"" + _publicApiAuthToken + "\","
+            + "\"token\":\"" + _publicApiAuthToken + "\","
             + requestTimestamp)
             + "\","
-            + "\"Timestamp\":\"qwertyuiop\"}"; //2022-01-01 00:00:00 GMT+8
+            + "\"timestamp\":\"qwertyuiop\"}"; //2022-01-01 00:00:00 GMT+8
         var result = _authBll.RequestAuth(content);
         Assert.IsFalse(result);
     }
@@ -161,7 +161,7 @@ internal class AuthBLLTests
     public void RequestAuthTestWithInVaildToken()
     {
         var content = requestPlainText +
-            "\"Token\":\"1qaz2wsx3edc4rfv\","
+            "\"token\":\"1qaz2wsx3edc4rfv\","
             + requestTimestamp;
         var result = _authBll.RequestAuth(content);
         Assert.IsFalse(result);
