@@ -1,5 +1,6 @@
 ﻿using MemberSite.Service.BLL;
 using MemberSite.Service.Model;
+using MemberSite.Service.Model.enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MemberSite.Controllers.Api
@@ -13,17 +14,17 @@ namespace MemberSite.Controllers.Api
         private readonly SelLangBLL selLangBLL;
         private readonly CustInfoBll custInfoBLL;
         private readonly LiveStreamingBll liveStreamingBLL;
-        private readonly LatestHighlightDataBll latestHighlightDataBLL;
+        private readonly VideoDataBll videoDataBLL;
 
 
-        public VideoController(AuthorizeBLL authorizeBLL, ServerInfoBll serverInfoBLL, SelLangBLL selLangBLL, CustInfoBll custInfoBLL, LiveStreamingBll liveStreamingBLL, LatestHighlightDataBll latestHighlightDataBLL)
+        public VideoController(AuthorizeBLL authorizeBLL, ServerInfoBll serverInfoBLL, SelLangBLL selLangBLL, CustInfoBll custInfoBLL, LiveStreamingBll liveStreamingBLL, VideoDataBll videoDataBLL)
         {
             this.authorizeBLL = authorizeBLL;
             this.serverInfoBLL = serverInfoBLL;
             this.selLangBLL = selLangBLL;
             this.custInfoBLL = custInfoBLL;
             this.liveStreamingBLL = liveStreamingBLL;
-            this.latestHighlightDataBLL = latestHighlightDataBLL;
+            this.videoDataBLL = videoDataBLL;
         }
         [HttpPost]
         public ApiResult<IEnumerable<LiveStreamingData>> GetLiveStreamingList()
@@ -49,25 +50,28 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
         [HttpPost]
-        public ApiResult<LatestHighlightData> GetLatestHighlightData()
+        public ApiResult<VideoData> GetLatestHighlightData()
         {
-            var apiResult = new ApiResult<LatestHighlightData>();
+            var apiResult = new ApiResult<VideoData>();
 
             var serverInfo = serverInfoBLL.GetServerInfo();
-            int SiteId;
+            int siteId;
+            var currencyId = (int)CurrencyId.MYR;
+            
             var authData = authorizeBLL.GetAuthData();
             if (authData is { CustId: > 0 })
             {
                 var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-                SiteId = custInfo.SiteId;
+                siteId = custInfo.SiteId;
+                currencyId = custInfo.CurrencyId;
             }
             else
             {
-                SiteId = serverInfo.SiteId;
+                siteId = serverInfo.SiteId;
             }
 
             apiResult.ErrorCode = 0;
-            apiResult.Data = latestHighlightDataBLL.GetLatestHighlightData(SiteId, selLangBLL.GetLangId());
+            apiResult.Data = videoDataBLL.GetVideoData(siteId,currencyId,selLangBLL.GetLangId());
 
             return apiResult;
         }
