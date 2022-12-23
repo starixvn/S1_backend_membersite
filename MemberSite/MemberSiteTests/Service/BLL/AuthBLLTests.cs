@@ -10,11 +10,7 @@ using Microsoft.Extensions.Configuration;
 using NSubstitute;
 using Microsoft.Extensions.Logging;
 using NUnit.Framework;
-using System.Security.Claims;
 using System;
-using System.Text;
-using System.Security.Cryptography;
-using MemberSite.Helpers;
 
 namespace MemberSiteTests.Service.BLL;
 
@@ -23,6 +19,7 @@ internal class AuthBLLTests
     private readonly IConfiguration _configuration;
     private readonly CryptoHelper _cryptoHelper;
     private readonly AuthBLL _authBll;
+    private readonly string _publicApiAuthToken;
 
     public AuthBLLTests()
     {
@@ -37,7 +34,8 @@ internal class AuthBLLTests
         _configuration = app.Configuration;
 
         services.AddSingleton(_configuration);
-        services.AddTransient(p => Substitute.For<ILogger<MySqlClient>>());
+        services.AddTransient(p => Substitute.For<ILogger<MySqlClient>>()); 
+        services.AddSingleton(p => Substitute.For<ILogger<AuthBLL>>());
 
         var startup = new StubStartUp(_configuration, new HostingEnvironment()
         {
@@ -49,29 +47,123 @@ internal class AuthBLLTests
 
         _authBll = provider.GetRequiredService<AuthBLL>();
         _cryptoHelper = provider.GetRequiredService<CryptoHelper>();
+        _publicApiAuthToken = provider.GetRequiredService<IConfiguration>().GetValue<string>("PublicApiAuthToken");
     }
 
-    private static string requestPlainText = "{\"UserName\":\"EttaTestMYR\"," +
+    /// <summary>
+    /// Api/Site/SignIn 為例
+    /// </summary>
+    private string requestPlainText = "{\"UserName\":\"EttaTestMYR\"," +
             "\"Userpwd\":\"1qaz@WSX\"," +
             "\"isPersistent\":true," +
             "\"url\":\"https://www.n88dev.com\"," +
             "\"platform\":\"Win32\"," +
             "\"userAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36\"," +
             "\"screen\":\"1280:720:24\",";
-    private static string requestPlainToken = "\"Token\":\"1qaz2wsx\",";
-    private static string requestTimestamp = "\"Timestamp\":" + ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeSeconds() + "}";
-    private static string request = requestPlainText + "\"Token\":\"" + _cryptoHelper.SHA256(requestPlainText + requestPlainToken + requestTimestamp) + "\"," + requestTimestamp;
+    private string requestTimestamp = "\"Timestamp\":" + ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeSeconds() + "}";
 
-    static object[] TestCases =
-   {
-        new object[] { null, false },
-        //new object[] { "123", false },
-        new object[] { request, true }
-    };
-    [TestCaseSource(nameof(TestCases))]
-    public void RequestAuthTest(string content, bool expectedResult)
+
+    /// <summary>
+    /// 無效content
+    /// </summary>
+    /// <param name="content">request 內文</param>
+    /// <param name="expectedResult">預期結果</param>
+    [TestCase(null, false)]
+    [TestCase("123456789", false)]
+    public void RequestAuthTestWithInvaildContent(string content, bool expectedResult)
     {
         var result = _authBll.RequestAuth(content);
         Assert.AreEqual(result, expectedResult);
+    }
+
+    /// <summary>
+    /// 正確的request資訊
+    /// </summary>
+    [Test]
+    public void RequestAuthTestWithVaildContent()
+    {
+        var content = requestPlainText
+            + "\"Token\":\""
+            + _cryptoHelper.SHA256(requestPlainText
+            + "\"Token\":\"" + _publicApiAuthToken + "\","
+            + requestTimestamp)
+            + "\","
+            + requestTimestamp;
+        var result = _authBll.RequestAuth(content);
+        Assert.IsTrue(result);
+    }
+
+    /// <summary>
+    /// request content沒有Timestamp
+    /// </summary>
+    [Test]
+    public void RequestAuthTestWithoutTimestamp()
+    {
+        var content = requestPlainText
+            + "\"Token\":\""
+            + _cryptoHelper.SHA256(requestPlainText
+            + "\"Token\":\"" + _publicApiAuthToken + "\","
+            + requestTimestamp)
+            + "\"}";
+        var result = _authBll.RequestAuth(content);
+        Assert.IsFalse(result);
+    }
+
+    /// <summary>
+    /// 無效的Timestamp(時間沒有在30秒之內)
+    /// </summary>
+    [Test]
+    public void RequestAuthTestWithInVaildTimestampNumber()
+    {
+        var content = requestPlainText
+            + "\"Token\":\""
+            + _cryptoHelper.SHA256(requestPlainText
+            + "\"Token\":\"" + _publicApiAuthToken + "\","
+            + requestTimestamp)
+            + "\","
+            + "\"Timestamp\":" + 1640995200 + "}"; //2022-01-01 00:00:00 GMT+8
+        var result = _authBll.RequestAuth(content);
+        Assert.IsFalse(result);
+    }
+
+    /// <summary>
+    /// 無效的Timestamp(字串)
+    /// </summary>
+    [Test]
+    public void RequestAuthTestWithInVaildTimestampString()
+    {
+        var content = requestPlainText
+            + "\"Token\":\""
+            + _cryptoHelper.SHA256(requestPlainText
+            + "\"Token\":\"" + _publicApiAuthToken + "\","
+            + requestTimestamp)
+            + "\","
+            + "\"Timestamp\":\"qwertyuiop\"}"; //2022-01-01 00:00:00 GMT+8
+        var result = _authBll.RequestAuth(content);
+        Assert.IsFalse(result);
+    }
+
+    /// <summary>
+    /// request content沒有Token
+    /// </summary>
+    [Test]
+    public void RequestAuthTestWithoutToken()
+    {
+        var content = requestPlainText + requestTimestamp;
+        var result = _authBll.RequestAuth(content);
+        Assert.IsFalse(result);
+    }
+
+    /// <summary>
+    /// 無效的Token
+    /// </summary>
+    [Test]
+    public void RequestAuthTestWithInVaildToken()
+    {
+        var content = requestPlainText +
+            "\"Token\":\"1qaz2wsx3edc4rfv\","
+            + requestTimestamp;
+        var result = _authBll.RequestAuth(content);
+        Assert.IsFalse(result);
     }
 }

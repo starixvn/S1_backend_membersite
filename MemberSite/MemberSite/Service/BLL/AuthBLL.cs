@@ -1,6 +1,6 @@
 ﻿using MemberSite.Controllers;
-using MemberSite.Helpers;
 using MemberSite.Service.DAL;
+using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using Newtonsoft.Json.Linq;
 using System.Text;
@@ -12,12 +12,14 @@ namespace MemberSite.Service.BLL
         private readonly AuthService authService;
         private readonly CryptoHelper _cryptoHelper;
         private readonly ILogger<AuthBLL> _logger;
+        private readonly string _publicApiAuthToken;
 
-        public AuthBLL(AuthService authService, CryptoHelper cryptoHelper, ILogger<AuthBLL> logger)
+        public AuthBLL(IServiceProvider provider)
         {
-            this.authService = authService;
-            _cryptoHelper = cryptoHelper;
-            _logger = logger;
+            this.authService = provider.GetRequiredService<AuthService>();
+            _cryptoHelper = provider.GetRequiredService<CryptoHelper>();
+            _publicApiAuthToken = provider.GetRequiredService<IConfiguration>().GetValue<string>("PublicApiAuthToken");
+            _logger = provider.GetRequiredService<ILogger<AuthBLL>>();
         }
 
         public bool Authenticate<T>(string sToken, out T t)
@@ -37,21 +39,42 @@ namespace MemberSite.Service.BLL
 
         public bool RequestAuth(string content)
         {
-            if (string.IsNullOrWhiteSpace(content)) return false;
+            if (string.IsNullOrWhiteSpace(content))
+            {
+                _logger.LogError("Request vaild fail：Content is null.");
+                return false;
+            }
 
-            if (!ConvertToJObject(content, out JObject jbody)) return false;
+            if (!ConvertToJObject(content, out JObject jbody))
+            {
+                return false;
+            }
 
-            if (jbody["Timestamp"] == null) return false;
+            if (!jbody.ContainsKey("Timestamp") 
+                || !jbody.ContainsKey("Token"))
+            {
+                _logger.LogError("Request vaild fail：Lost Key (Timestamp and Token).");
+                return false;
+            }
 
-            long.TryParse(jbody["Timestamp"].ToString(), out long timestamp);
-            if (!CheckTimestamp(timestamp)) return false;
-
-            if (jbody["Token"] == null) return false;
+            if (!long.TryParse(jbody["Timestamp"].ToString(), out long timestamp))
+            {
+                _logger.LogError("Request vaild fail：Lost Key (Timestamp and Token).");
+                return false;
+            }
+            if (!CheckTimestamp(timestamp))
+            {
+                _logger.LogError("Request vaild fail：Check Timestamp fail.");
+                return false;
+            }
 
             var token = jbody["Token"].ToString();
-            var requestStr = content.Replace(token, "1qaz2wsx");
-            if (token != _cryptoHelper.SHA256(requestStr)) return false;
-
+            var requestStr = content.Replace(token, _publicApiAuthToken);
+            if (token != _cryptoHelper.SHA256(requestStr))
+            {
+                _logger.LogError("Request vaild fail：Check Crypto fail.");
+                return false;
+            }
             return true;
         }
 

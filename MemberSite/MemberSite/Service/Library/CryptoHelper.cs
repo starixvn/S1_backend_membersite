@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using System.Security.Cryptography;
 
-namespace MemberSite.Helpers;
+namespace MemberSite.Service.Library;
 
 public class CryptoHelper
 {
