@@ -24,6 +24,8 @@
         public string PayCurrencyId { get; set; }
         public decimal MinAmount { get; set; }
         public decimal MaxAmount { get; set; }
+        public decimal ChargeFeePercentage { get; set; }
+        public decimal ChargeFeePreCount { get; set; }
     }
 
     public class BankInfoPayFront : IPaymentLimit
