@@ -742,10 +742,9 @@ namespace MemberSite.Controllers.Api
                 var domain = _serverInfoBll.GetHttpDomain();
 	            foreach (var data in apiResult.Data)
 	            {
-	                if (!string.IsNullOrEmpty(data.BannerLink) && data.ActionMode == 6)
+	                if (!string.IsNullOrEmpty(data.UrlRouter) && data.ActionMode == 6)
 	                {
-	                    data.BannerLink = data.BannerLink.Trim().TrimStart('/');
-                        data.BannerLink = $"{domain}/{data.BannerLink}";
+                        data.BannerLink = $"{domain}/{data.UrlRouter}";
 	                }
                 }
                 apiResult.ErrorCode = 0;

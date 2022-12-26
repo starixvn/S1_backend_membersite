@@ -104,9 +104,9 @@ namespace MemberSite.Service.BLL
                         TpId = bannerDetail.TpId,
                         GameId = bannerDetail.GameId,
                         UrlRouter = bannerDetail.UrlRouter,
-                        BannerLink = settings["bannerLink"],
-                        BannerPCUrl = settings["bannerPCUrl"],
-                        BannerMobileUrl = settings["bannerMobileUrl"],
+                        BannerLink = settings.TryGetValue("bannerLink", out var valueLink) ? valueLink : "" ,
+                        BannerPCUrl = settings.TryGetValue("bannerPCUrl", out var valuePcUrl) ? valuePcUrl : "" ,
+                        BannerMobileUrl = settings.TryGetValue("bannerMobileUrl", out var valueMobileUrl) ? valueMobileUrl : "" ,
                         tpGameType = tpGameTypeHelper.GetTpGameType(bannerDetail, currencyId),
                     });
                 }
