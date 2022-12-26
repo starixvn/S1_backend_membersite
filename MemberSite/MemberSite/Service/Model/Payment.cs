@@ -97,6 +97,8 @@ namespace MemberSite.Service.Model
         public string PayCode { get; set; }
         public int GSort { get; set; }
         public int SSort { get; set; }
+        public decimal ChargeFeePercentage { get; set; }
+        public decimal ChargeFeePreCount { get; set; }
     }
     public class CryptoPayGroup
     {
@@ -129,6 +131,8 @@ namespace MemberSite.Service.Model
         public long Updated_timestamp { get; set; }
         public string Code { get; set; }
         public string Serial { get; set; }
+        public decimal ChargeFeePercentage { get; set; }
+        public decimal ChargeFeePreCount { get; set; }
     }
     public class LoadCardPayGroup
     {
@@ -168,6 +172,8 @@ namespace MemberSite.Service.Model
         public IEnumerable<decimal> AmountList => AmountShow == null ? null : JsonConvert.DeserializeObject<IEnumerable<decimal>>(AmountShow);
         public int GSort { get; set; }
         public int SSort { get; set; }
+        public decimal ChargeFeePercentage { get; set; }
+        public decimal ChargeFeePreCount { get; set; }
     }
 
     public class PayGroup
