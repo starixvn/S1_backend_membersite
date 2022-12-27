@@ -23,8 +23,7 @@ public class CustPhotoIdService : ICustPhotoIdService
         p.Add("_PhotoIdPic", photoIdPic);
         p.Add("_SQ", dbType: DbType.Int64, direction: ParameterDirection.Output);
 
-        var result = await _mainDbClient.ExecuteAsync("Member_CustPhotoId_Set_V2", p);
-        if (result <= 0) return 0;
+        await _mainDbClient.ExecuteAsync("Member_CustPhotoId_Set_V2", p);
         
         var sq = p.Get<long>("_SQ");
         return sq > 0 ? sq : 0;
