@@ -78,6 +78,7 @@ namespace MemberSite
             services.AddSingleton<TpGameTypeHelper>();
             services.AddSingleton<IpHelper>();
             services.AddSingleton<AWSS3Helper>();
+            services.AddSingleton<StringVaildHelper>();
 
             /*DAL*/
             services.AddSingleton<IServerInfoService, ServerInfoService>();
