@@ -106,6 +106,7 @@ namespace MemberSite.Service.Model
 
         [JsonIgnore]
         public string CustTimeZone { get; set; }
+        public string DepositMessage { get; set; }
         public IEnumerable<DepositMessageDetail> DepositMessageDetail { get; set; }
 }
 
@@ -149,7 +150,12 @@ namespace MemberSite.Service.Model
     public class DepositMessage
     {
         public DepositMessageStatus Status { get; set; }
-        public DateTime CreateTime { get; set; }
+        private DateTimeOffset _createTime { get; set; }
+        public DateTimeOffset CreateTime
+        {
+            get => _createTime;
+            set => _createTime = new DateTimeOffset(value.DateTime, TimeSpan.Zero);
+        }
     }
     public class DepositMessageDetail
     {
