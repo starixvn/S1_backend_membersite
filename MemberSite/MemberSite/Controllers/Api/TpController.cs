@@ -6,7 +6,6 @@ using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
@@ -27,10 +26,9 @@ namespace MemberSite.Controllers.Api
         private readonly CustInfoBll _custInfoBll;
         private readonly GameBLL _gameBll;
         private readonly ServerInfoBll _serverInfoBll;
-        private readonly StatementService _statementService;
-        private readonly IOptions<Dictionary<string, SiteConfig>> _siteConfig;
         private readonly ILogger<TpController> _logger;
-        
+        private readonly ICacheHelper _cacheHelper;
+
         public TpController(IServiceProvider provider)
         {
             _courierAdapter = provider.GetRequiredService<CourierAdapter>();
@@ -44,9 +42,8 @@ namespace MemberSite.Controllers.Api
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _gameBll = provider.GetRequiredService<GameBLL>();
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
-            _statementService = provider.GetRequiredService<StatementService>();
-            _siteConfig = provider.GetRequiredService<IOptions<Dictionary<string, SiteConfig>>>();
             _logger = provider.GetRequiredService<ILogger<TpController>>();
+            _cacheHelper = provider.GetRequiredService<ICacheHelper>();
         }
 
         public class TpInfo
@@ -64,14 +61,12 @@ namespace MemberSite.Controllers.Api
             try
             {
                 var serverInfo = _serverInfoBll.GetServerInfo();
-                var tpMaintainList = _thirdPartyBll.GetTpMaintainListWithCache(serverInfo.SiteId);
-                if (_gameBll.IsMaintain(tpMaintainList, inInfo.TpId, inInfo.inputs.GetValueOrDefault("tpGameType"),
-                        out var tpMaintain))
+                var tpGameType = inInfo.inputs.GetValueOrDefault("tpGameType");
+                var host = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
+
+                if (_gameBll.IsMaintain(serverInfo.SiteId, inInfo.TpId, tpGameType, out var tpMaintain))
                 {
-                    var tpName = _statementService.GetTpListWithCache()?.First(i => i.Id == tpMaintain.TpId)?.TpName;
-                    var host = _siteConfig.Value[serverInfo.SiteName].MaintainURL;
-                    var maintainUrl = $"{host}/index_{_selLangBll.GetLangId() ?? "en"}.html" +
-                                      $"?t={HttpUtility.UrlEncode(tpName)}&e={HttpUtility.UrlEncode($"{tpMaintain.EndDate:u}")}";
+                    var maintainUrl = _gameBll.GetMaintainUrl(tpMaintain, host, _selLangBll.GetLangId() ?? "en");
                     return new ApiResult(3000, maintainUrl);
                 }
 
@@ -88,7 +83,7 @@ namespace MemberSite.Controllers.Api
                     input = inInfo.inputs;
                 }
 
-                input.Add("Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}");
+                input.Add("Host", host);
                 input.Add("ClientIP", _tools.GetClientIP());
                 var authData = _authorizeBll.GetAuthData();
 
@@ -265,7 +260,7 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public async Task<ApiResult<TransferResult>> TransferEX(TransferEXReq inTpTransfer)
         {
-            
+
 
             var authData = _authorizeBll.GetAuthData();
             var TpWalletList = _thirdPartyBll.GetTpWalletList(authData.CustId, 0);//0:全部列表
@@ -274,7 +269,7 @@ namespace MemberSite.Controllers.Api
             var activeTpId = 0;
             var fromWallet = TpWalletList.FirstOrDefault(x => x.TpId == inTpTransfer.FromTpId);
             var toWallet = TpWalletList.FirstOrDefault(x => x.TpId == inTpTransfer.ToTpId);
-            var fromWalletmode = fromWallet == null?0: fromWallet.WalletMode;
+            var fromWalletmode = fromWallet == null ? 0 : fromWallet.WalletMode;
             var toWalletmode = toWallet == null ? 0 : toWallet.WalletMode;
 
             if (inTpTransfer.TransferAction != (int)TransferAction.Manual && ((fromWalletmode == (int)WalletMode.Manual) || toWalletmode == (int)WalletMode.Manual)) //restore all not support  Wallet which WalletMode = Manual
@@ -602,6 +597,50 @@ namespace MemberSite.Controllers.Api
                 ErrorCode = 0
             };
             return apiResult;
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ApiResult<TpMaintainCheckResponse> TpMaintainCheck(TpMaintainCheckRequest request)
+        {
+            var serverInfo = _serverInfoBll.GetServerInfo();
+            if (_gameBll.IsMaintain(serverInfo.SiteId, request.TpId, request.TpGameType.ToString(), out var tpMaintain))
+            {
+                return new ApiResult<TpMaintainCheckResponse>
+                {
+                    Data = new TpMaintainCheckResponse
+                    { 
+                        IsMaintain = true ,
+                        MaintainEndTime = $"{tpMaintain.EndDate:u}"
+                    },
+                    ErrorCode = 0
+                };
+            }
+        
+            string returnUrl = _cacheHelper.StringGet($"TpMaintain:{request.RequestId}");
+            return new ApiResult<TpMaintainCheckResponse>
+            {
+                Data = new TpMaintainCheckResponse
+                {
+                    IsMaintain = false,
+                    ReturnUrl = returnUrl
+                },
+                ErrorCode = 0
+            };
+        }
+        public class TpMaintainCheckRequest
+        {
+            public int TpId { get; set; }
+            public int TpGameType { get; set; }
+            public string RequestId { get; set; }
+        }
+        public class TpMaintainCheckResponse
+        { 
+            public bool IsMaintain { get; set; }
+
+            public string MaintainEndTime { get; set; }
+
+            public string ReturnUrl { get; set; }
         }
     }
 }
