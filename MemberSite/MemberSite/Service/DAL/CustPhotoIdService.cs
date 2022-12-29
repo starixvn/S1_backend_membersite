@@ -2,6 +2,7 @@ using System.Data;
 using Dapper;
 using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Library;
+using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.DAL;
 
@@ -9,9 +10,9 @@ public class CustPhotoIdService : ICustPhotoIdService
 {
     private readonly MySqlClient _mainDbClient;
 
-    public CustPhotoIdService(MySqlClient mainDbClient)
+    public CustPhotoIdService(IEnumerable<MySqlClient> mainDbClient)
     {
-        _mainDbClient = mainDbClient;
+        _mainDbClient = mainDbClient.SingleOrDefault(a=>a.DataBase == DataBase.Main);
     }
 
     public async Task<long> SetCustPhotoId(int custId, int siteId, string picFileName, byte[] photoIdPic)
