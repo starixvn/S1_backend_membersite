@@ -12,11 +12,11 @@ namespace MemberSite.Controllers.Api
     [ApiController]
     public class PromotionController : ControllerBase
     {
-        private readonly SelLangBLL _selLangBLL;
-        private readonly PromotionBll _promotionBLL;
-        private readonly ServerInfoBll _serverInfoBLL;
-        private readonly AuthorizeBLL _authorizeBLL;
-        private readonly CustInfoBll _custInfoBLL;
+        private readonly SelLangBLL _selLangBll;
+        private readonly PromotionBll _promotionBll;
+        private readonly ServerInfoBll _serverInfoBll;
+        private readonly AuthorizeBLL _authorizeBll;
+        private readonly CustInfoBll _custInfoBll;
         private readonly ShieldBLL _shieldBll;
         private readonly string _bonusServiceUrl;
         private readonly CourierAdapter _courierAdapter;
@@ -25,11 +25,11 @@ namespace MemberSite.Controllers.Api
 
         public PromotionController(IServiceProvider provider)
         {
-            _selLangBLL = provider.GetRequiredService<SelLangBLL>();
-            _promotionBLL = provider.GetRequiredService<PromotionBll>();
-            _serverInfoBLL = provider.GetRequiredService<ServerInfoBll>();
-            _authorizeBLL = provider.GetRequiredService<AuthorizeBLL>();
-            _custInfoBLL = provider.GetRequiredService<CustInfoBll>();
+            _selLangBll = provider.GetRequiredService<SelLangBLL>();
+            _promotionBll = provider.GetRequiredService<PromotionBll>();
+            _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
+            _authorizeBll = provider.GetRequiredService<AuthorizeBLL>();
+            _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _shieldBll = provider.GetRequiredService<ShieldBLL>();
             _bonusServiceUrl = provider.GetRequiredService<IConfiguration>().GetValue<string>("BonusService");
             _courierAdapter = provider.GetRequiredService<CourierAdapter>();
@@ -100,11 +100,11 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public async Task<ApiResult> SetClaimPromotionAsync(PromotionReq promotionReq)
         {
-            var apiResult = new ApiResult(_selLangBLL);
+            var apiResult = new ApiResult(_selLangBll);
             try
             {
-                var authData = _authorizeBLL.GetAuthData();
-                var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                var authData = _authorizeBll.GetAuthData();
+                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                 var deviceType = (int)PromotionDeviceType.All;
                 if (promotionReq.DeviceType != null)
                 {
@@ -152,20 +152,20 @@ namespace MemberSite.Controllers.Api
             var result = new ApiResult<List<CustPromotion>>();
             try
             {
-                var serverInfo = _serverInfoBLL.GetServerInfo();
-                var authData = _authorizeBLL.GetAuthData();
+                var serverInfo = _serverInfoBll.GetServerInfo();
+                var authData = _authorizeBll.GetAuthData();
                 var isLogin = authData is { CustId: > 0 };
                 var custId = 0;
                 int currencyId;
                 if (isLogin)
                 {
-                    var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                    var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                     custId = authData.CustId;
                     currencyId = custInfo.CurrencyId;
                 }
                 else
                 {
-                    currencyId = _selLangBLL.GetPreferCurrencyId();
+                    currencyId = _selLangBll.GetPreferCurrencyId();
                     
                     if (promotionDeviceReq.CurrencyId.HasValue)
                     {
@@ -181,7 +181,7 @@ namespace MemberSite.Controllers.Api
                     CurrencyId = currencyId,
                     DeviceType = promotionDeviceReq.DeviceType,
                     IsLogin = isLogin,
-                    LangId = _selLangBLL.GetLangId(),
+                    LangId = _selLangBll.GetLangId(),
                     DefLang = serverInfo.DefLang
                 };
 
@@ -201,20 +201,20 @@ namespace MemberSite.Controllers.Api
             var result = new ApiResult<CustPromotion>();
             try
             {
-                var serverInfo = _serverInfoBLL.GetServerInfo();
-                var authData = _authorizeBLL.GetAuthData();
+                var serverInfo = _serverInfoBll.GetServerInfo();
+                var authData = _authorizeBll.GetAuthData();
                 var isLogin = authData is { CustId: > 0 };
                 var custId = 0;
                 int currencyId;
                 if (isLogin)
                 {
-                    var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                    var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                     custId = authData.CustId;
                     currencyId = custInfo.CurrencyId;
                 }
                 else
                 {
-                    currencyId = _selLangBLL.GetPreferCurrencyId();
+                    currencyId = _selLangBll.GetPreferCurrencyId();
                     if (data.CurrencyId.HasValue)
                     {
                         currencyId = data.CurrencyId.Value;
@@ -229,7 +229,7 @@ namespace MemberSite.Controllers.Api
                     CurrencyId = currencyId,
                     DeviceType = data.DeviceType,
                     IsLogin = isLogin,
-                    LangId = _selLangBLL.GetLangId(),
+                    LangId = _selLangBll.GetLangId(),
                     DefLang = serverInfo.DefLang,
                     BonusCode = data.BonusCode
                 };
@@ -251,9 +251,9 @@ namespace MemberSite.Controllers.Api
             var result = new ApiResult<List<CustPromotion>>();
             try
             {
-                var serverInfo = _serverInfoBLL.GetServerInfo();
-                var authData = _authorizeBLL.GetAuthData();
-                var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                var serverInfo = _serverInfoBll.GetServerInfo();
+                var authData = _authorizeBll.GetAuthData();
+                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
 
                 var apiUrl = $"{_bonusServiceUrl}GetSpecialPromotionListV2";
                 var req = new CustPromotionRequest
@@ -262,7 +262,7 @@ namespace MemberSite.Controllers.Api
                     CustId = custInfo.CustId,
                     CurrencyId = custInfo.CurrencyId,
                     DeviceType = promotionDeviceReq.DeviceType,
-                    LangId = _selLangBLL.GetLangId(),
+                    LangId = _selLangBll.GetLangId(),
                     DefLang = serverInfo.DefLang
                 };
 
@@ -284,7 +284,7 @@ namespace MemberSite.Controllers.Api
             var result = new ApiResult();
             try
             {
-                var authData = _authorizeBLL.GetAuthData();
+                var authData = _authorizeBll.GetAuthData();
 
                 var apiUrl = $"{_bonusServiceUrl}SetSpecialCode";
                 var req = new SpecialCodeRequest
@@ -298,15 +298,15 @@ namespace MemberSite.Controllers.Api
                 
                 result.Message = result.ErrorCode switch
                 {
-                    (int)SpecialCode.SpecialCodeError => _selLangBLL.GetMsg("msg_SpecialCodeErr"),
-                    9000 => _selLangBLL.GetMsg("msg_Ineligible"),
+                    (int)SpecialCode.SpecialCodeError => _selLangBll.GetMsg("msg_SpecialCodeErr"),
+                    9000 => _selLangBll.GetMsg("msg_Ineligible"),
                     _ => result.Message
                 };
             }
             catch (Exception e)
             {
                 result.ErrorCode = 9000;
-                result.Message = _selLangBLL.GetMsg("msg_Ineligible");
+                result.Message = _selLangBll.GetMsg("msg_Ineligible");
                 _logger.LogError(e, GetCurrentMethod());
             }
             
@@ -320,15 +320,15 @@ namespace MemberSite.Controllers.Api
             var result = new ApiResult<List<CustPromotion>>();
             try
             {
-                var serverInfo = _serverInfoBLL.GetServerInfo();
-                var authData = _authorizeBLL.GetAuthData();
+                var serverInfo = _serverInfoBll.GetServerInfo();
+                var authData = _authorizeBll.GetAuthData();
 
                 var apiUrl = $"{_bonusServiceUrl}GetDepositPromotionList";
                 var req = new CustPromotionRequest
                 {
                     CustId = authData.CustId,
                     DeviceType = promotionDeviceReq.DeviceType,
-                    LangId = _selLangBLL.GetLangId(),
+                    LangId = _selLangBll.GetLangId(),
                     DefLang = serverInfo.DefLang
                 };
 
@@ -353,15 +353,15 @@ namespace MemberSite.Controllers.Api
             };
             try
             {
-                if (!_promotionBLL.VerifyBonusCode(request.BonusCode))
+                if (!_promotionBll.VerifyBonusCode(request.BonusCode))
                 {
                     result.ErrorCode = 9000;
-                    result.Message = _selLangBLL.GetMsg("msg_Ineligible");
+                    result.Message = _selLangBll.GetMsg("msg_Ineligible");
                     return result;
                 }
                 
-                var authData = _authorizeBLL.GetAuthData();
-                var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                var authData = _authorizeBll.GetAuthData();
+                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                 var req = new DepositPromotionQueue
                 {
                     TransId = request.TransId,
@@ -374,10 +374,10 @@ namespace MemberSite.Controllers.Api
                     LockedAmount = request.LockedAmount ?? 0,
                     ClientIp = _tools.GetClientIP()
                 };
-                if (!_promotionBLL.SetDepositPromotionQueue(req))
+                if (!_promotionBll.SetDepositPromotionQueue(req))
                 {
                     result.ErrorCode = 9000;
-                    result.Message = _selLangBLL.GetMsg("msg_Ineligible");
+                    result.Message = _selLangBll.GetMsg("msg_Ineligible");
                 }
             }
             catch (MySql.Data.MySqlClient.MySqlException mySqlEx)
@@ -390,14 +390,14 @@ namespace MemberSite.Controllers.Api
                 else
                 {
                     result.ErrorCode = 9000;
-                    result.Message = _selLangBLL.GetMsg("msg_Ineligible");
+                    result.Message = _selLangBll.GetMsg("msg_Ineligible");
                     _logger.LogError(mySqlEx, GetCurrentMethod());
                 }
             }
             catch (Exception e)
             {
                 result.ErrorCode = 9000;
-                result.Message = _selLangBLL.GetMsg("msg_Ineligible");
+                result.Message = _selLangBll.GetMsg("msg_Ineligible");
                 _logger.LogError(e, GetCurrentMethod());
             }
 
