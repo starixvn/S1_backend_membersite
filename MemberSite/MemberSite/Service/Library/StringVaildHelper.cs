@@ -6,7 +6,7 @@ public class StringVaildHelper
 {
     public bool VaildAccountNameForSetProfile(string accountName)
     {
-        string patternStrict = @"^[^\d\-!@#$%^&_\""'()+,;<>=|?\[\]\\`~{}]+$";
+        string patternStrict = @"^[^\d\-!@#$%^&_\""()+;~～<>=|?\[\]\\`~{}]+$";
         return Regex.IsMatch(accountName, patternStrict, RegexOptions.Compiled);
     }
 }

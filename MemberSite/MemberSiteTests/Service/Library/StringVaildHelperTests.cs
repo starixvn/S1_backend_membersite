@@ -56,6 +56,11 @@ internal class StringVaildHelperTests
     [TestCase("qawsedrf./", ExpectedResult = true)]             //混有效特殊程式
     [TestCase("qawsedrf./12345", ExpectedResult = false)]       //混有效特殊程式，不可以有數字
     [TestCase("qawsedrf\"", ExpectedResult = false)]       //混有效特殊程式，不可以有數字
+    [TestCase("supermainian A/L mamian", ExpectedResult = true)]       //from marketing test case
+    [TestCase("nur asyikien bt. abdullah", ExpectedResult = true)]       //from marketing test case
+    [TestCase("Cheong Siew Shan", ExpectedResult = true)]       //from marketing test case
+    [TestCase("Halimah @ husan", ExpectedResult = false)]       //from marketing test case
+    [TestCase("～ ĎĔĂŘ ～", ExpectedResult = false)]       //from marketing test case
     public bool VaildAccountNameForSetProfile(string accountName) 
         => _stringVaildHelper.VaildAccountNameForSetProfile(accountName);
 
