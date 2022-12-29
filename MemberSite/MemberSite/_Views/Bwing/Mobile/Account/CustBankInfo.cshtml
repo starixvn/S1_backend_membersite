@@ -10,22 +10,24 @@
     Layout = "~/_Views/Bwing/Mobile/Shared/_Layout.cshtml";
 }
 @{
-    var i18n = new Dictionary<string, string>();
-    i18n.Add("lbl_BankName", selLangBLL.GetResourceValue("lbl_BankName"));
-    i18n.Add("lbl_BankAccountName", selLangBLL.GetResourceValue("lbl_BankAccountName"));
-    i18n.Add("lbl_BankAccountNameHint", selLangBLL.GetResourceValue("lbl_BankAccountNameHint"));
-    i18n.Add("lbl_BankNumber", selLangBLL.GetResourceValue("lbl_BankNumber"));
-    i18n.Add("lbl_NewAccountName", selLangBLL.GetResourceValue("lbl_NewAccountName"));
-    i18n.Add("lbl_CustBankInfo", selLangBLL.GetResourceValue("lbl_CustBankInfo"));
-    i18n.Add("lbl_Back", selLangBLL.GetResourceValue("lbl_Back"));
-    i18n.Add("lbl_Submit", selLangBLL.GetResourceValue("lbl_Submit"));
-    i18n.Add("lbl_BankInfo", selLangBLL.GetResourceValue("lbl_BankInfo"));
-    i18n.Add("lbl_ContactCSD", selLangBLL.GetResourceValue("lbl_ContactCSD"));
-    i18n.Add("lbl_AddNewAccount", selLangBLL.GetResourceValue("lbl_AddNewAccount"));
-    i18n.Add("lbl_CheckConfirm", selLangBLL.GetResourceValue("lbl_CheckConfirm"));
-    i18n.Add("lbl_BankAccount", selLangBLL.GetResourceValue("lbl_BankAccount"));
-    i18n.Add("msg_NeedAccountName", selLangBLL.GetMsg("msg_NeedAccountName"));
-    i18n.Add("msg_NeedAccountNo", selLangBLL.GetMsg("msg_NeedAccountNo"));
+    var i18n = new Dictionary<string, string>
+    {
+        { "lbl_BankName", selLangBLL.GetResourceValue("lbl_BankName") },
+        { "lbl_BankAccountName", selLangBLL.GetResourceValue("lbl_BankAccountName") },
+        { "lbl_BankAccountNameHint", selLangBLL.GetResourceValue("lbl_BankAccountNameHint") },
+        { "lbl_BankNumber", selLangBLL.GetResourceValue("lbl_BankNumber") },
+        { "lbl_NewAccountName", selLangBLL.GetResourceValue("lbl_NewAccountName") },
+        { "lbl_CustBankInfo", selLangBLL.GetResourceValue("lbl_CustBankInfo") },
+        { "lbl_Back", selLangBLL.GetResourceValue("lbl_Back") },
+        { "lbl_Submit", selLangBLL.GetResourceValue("lbl_Submit") },
+        { "lbl_BankInfo", selLangBLL.GetResourceValue("lbl_BankInfo") },
+        { "lbl_ContactCSD", selLangBLL.GetResourceValue("lbl_ContactCSD") },
+        { "lbl_AddNewAccount", selLangBLL.GetResourceValue("lbl_AddNewAccount") },
+        { "lbl_CheckConfirm", selLangBLL.GetResourceValue("lbl_CheckConfirm") },
+        { "lbl_BankAccount", selLangBLL.GetResourceValue("lbl_BankAccount") },
+        { "msg_NeedAccountName", selLangBLL.GetMsg("msg_NeedAccountName") },
+        { "msg_NeedAccountNo", selLangBLL.GetMsg("msg_NeedAccountNo") }
+    };
 }
 @section Style{
     <link href="~/SiteSkin/Bwing/Mobile/assets/css/page.css" rel="stylesheet" />
