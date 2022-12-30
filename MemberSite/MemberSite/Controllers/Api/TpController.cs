@@ -422,33 +422,35 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        [AllowAnonymous]
         public ApiResult<TpMaintainCheckResponse> TpMaintainCheck(TpMaintainCheckRequest request)
         {
+            var apiResult = new ApiResult<TpMaintainCheckResponse>();
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
+                return apiResult;
+            }
+
             var serverInfo = _serverInfoBll.GetServerInfo();
             if (_gameBll.IsMaintain(serverInfo.SiteId, request.TpId, request.TpGameType.ToString(), out var tpMaintain))
             {
-                return new ApiResult<TpMaintainCheckResponse>
+                apiResult.Data = new TpMaintainCheckResponse
                 {
-                    Data = new TpMaintainCheckResponse
-                    { 
-                        IsMaintain = true ,
-                        MaintainEndTime = $"{tpMaintain.EndDate:u}"
-                    },
-                    ErrorCode = 0
+                    IsMaintain = true,
+                    MaintainEndTime = $"{tpMaintain.EndDate:u}"
                 };
+                apiResult.ErrorCode = 0;
+                return apiResult;
             }
         
-            string returnUrl = _cacheHelper.StringGet($"TpMaintain:{request.RequestId}");
-            return new ApiResult<TpMaintainCheckResponse>
+            apiResult.Data = new TpMaintainCheckResponse
             {
-                Data = new TpMaintainCheckResponse
-                {
-                    IsMaintain = false,
-                    ReturnUrl = returnUrl
-                },
-                ErrorCode = 0
+                IsMaintain = false,
+                ReturnUrl = _cacheHelper.StringGet($"TpMaintain:{request.RequestId}")
             };
+            apiResult.ErrorCode = 0;
+            return apiResult;
         }
         public class TpMaintainCheckRequest
         {
