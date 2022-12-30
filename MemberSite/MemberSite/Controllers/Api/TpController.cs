@@ -273,8 +273,8 @@ namespace MemberSite.Controllers.Api
             var activeTpId = 0;
             var fromWallet = TpWalletList.FirstOrDefault(x => x.TpId == inTpTransfer.FromTpId);
             var toWallet = TpWalletList.FirstOrDefault(x => x.TpId == inTpTransfer.ToTpId);
-            var fromWalletmode = fromWallet == null ? 0 : fromWallet.WalletMode;
-            var toWalletmode = toWallet == null ? 0 : toWallet.WalletMode;
+            var fromWalletMode = fromWallet == null ? 0 : fromWallet.WalletMode;
+            var toWalletMode = toWallet == null ? 0 : toWallet.WalletMode;
 
             if (inTpTransfer.TransferAction != (int)TransferAction.Manual && ((fromWalletMode == (int)WalletMode.Manual) || toWalletMode == (int)WalletMode.Manual)) //restore all not support  Wallet which WalletMode = Manual
             {
@@ -418,33 +418,35 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        [AllowAnonymous]
         public ApiResult<TpMaintainCheckResponse> TpMaintainCheck(TpMaintainCheckRequest request)
         {
+            var apiResult = new ApiResult<TpMaintainCheckResponse>();
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
+                return apiResult;
+            }
+
             var serverInfo = _serverInfoBll.GetServerInfo();
             if (_gameBll.IsMaintain(serverInfo.SiteId, request.TpId, request.TpGameType.ToString(), out var tpMaintain))
             {
-                return new ApiResult<TpMaintainCheckResponse>
+                apiResult.Data = new TpMaintainCheckResponse
                 {
-                    Data = new TpMaintainCheckResponse
-                    { 
-                        IsMaintain = true ,
-                        MaintainEndTime = $"{tpMaintain.EndDate:u}"
-                    },
-                    ErrorCode = 0
+                    IsMaintain = true,
+                    MaintainEndTime = $"{tpMaintain.EndDate:u}"
                 };
+                apiResult.ErrorCode = 0;
+                return apiResult;
             }
         
-            string returnUrl = _cacheHelper.StringGet($"TpMaintain:{request.RequestId}");
-            return new ApiResult<TpMaintainCheckResponse>
+            apiResult.Data = new TpMaintainCheckResponse
             {
-                Data = new TpMaintainCheckResponse
-                {
-                    IsMaintain = false,
-                    ReturnUrl = returnUrl
-                },
-                ErrorCode = 0
+                IsMaintain = false,
+                ReturnUrl = _cacheHelper.StringGet($"TpMaintain:{request.RequestId}")
             };
+            apiResult.ErrorCode = 0;
+            return apiResult;
         }
         public class TpMaintainCheckRequest
         {
