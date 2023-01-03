@@ -26,30 +26,34 @@ public class RedemptionController : Controller
     }
     
     [HttpPost]
-    public Task<ApiResult> CreateRedemptionAsync(SendCreateRedemptionRequest req)
+    public async Task<ApiResult> CreateRedemptionAsync(SendCreateRedemptionRequest req)
     {
+        var result = new ApiResult();
         var authData = _authorizeBll.GetAuthData();
-        var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-        
-        var sendReq = new CreateRedemptionRequest()
+        if (authData is {CustId: > 0})
         {
-            SiteId = custInfo.SiteId,
-            CustId = custInfo.CustId,
-            CurrencyId = custInfo.CurrencyId,
-            Point = req.Point,
-            GiftId = req.GiftId
-        };
+            var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
         
-        var result = _redemptionBll.CreateRedemptionAsync(sendReq);
-
-        switch (result.Result.ErrorCode)
+            var sendReq = new CreateRedemptionRequest()
+            {
+                SiteId = custInfo.SiteId,
+                CustId = custInfo.CustId,
+                CurrencyId = custInfo.CurrencyId,
+                Point = req.Point,
+                GiftId = req.GiftId
+            };
+        
+            result = await _redemptionBll.CreateRedemptionAsync(sendReq);
+        }
+        
+        switch (result.ErrorCode)
         {
             case (int)RedemptionErrorCode.InsufficientPoint:
-                result.Result.Message = _selLangBll.GetMsg("msg_InsufficientPoint");
+                result.Message = _selLangBll.GetMsg("msg_InsufficientPoint");
                 break;
             
             case (int)RedemptionErrorCode.RedemptionLimitOverLimit:
-                result.Result.Message = _selLangBll.GetMsg("msg_RedemptionLimitOverLimit");
+                result.Message = _selLangBll.GetMsg("msg_RedemptionLimitOverLimit");
                 break;
             
             default:
@@ -62,19 +66,28 @@ public class RedemptionController : Controller
     [HttpPost]
     public async Task<object> SetShoppingCartAsync(SendSetShoppingCartRequest req)
     {
+        object result;
         var authData = _authorizeBll.GetAuthData();
-        var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-        
-        var sendReq = new SetShoppingCartRequest()
+        if (authData is {CustId: > 0})
         {
-            SiteId = custInfo.SiteId,
-            CustId = custInfo.CustId,
-            CurrencyId = custInfo.CurrencyId,
-            IsAdd = req.IsAdd,
-            GiftIds = req.GiftIds
-        };
+            var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
         
-        var result = await _redemptionBll.SetShoppingCartAsync(sendReq);
+            var sendReq = new SetShoppingCartRequest()
+            {
+                SiteId = custInfo.SiteId,
+                CustId = custInfo.CustId,
+                CurrencyId = custInfo.CurrencyId,
+                IsAdd = req.IsAdd,
+                GiftIds = req.GiftIds
+            };
+        
+            result = await _redemptionBll.SetShoppingCartAsync(sendReq);
+        }
+        else
+        {
+            result = new ApiResult();
+        }
+        
         return result;
     }
 }
