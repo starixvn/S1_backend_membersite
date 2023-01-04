@@ -31,7 +31,7 @@ public class PublicAuthAttribute : Attribute, IAuthorizationFilter
         //App 先不用驗證
         if (deviceType != DeviceId.APP)
         {
-            using var reader = new StreamReader(context.HttpContext.Request.Body, Encoding.UTF8);
+            using var reader = new StreamReader(context.HttpContext.Request.Body, Encoding.UTF8, leaveOpen: true);
             var content = reader.ReadToEndAsync().Result;
             if (!_authBll.RequestAuth(content))
             {

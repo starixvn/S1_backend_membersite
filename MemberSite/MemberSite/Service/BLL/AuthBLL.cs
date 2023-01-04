@@ -50,7 +50,7 @@ namespace MemberSite.Service.BLL
                 return false;
             }
 
-            if (!jbody.ContainsKey("timestamp") 
+            if (!jbody.ContainsKey("timestamp")
                 || !jbody.ContainsKey("token"))
             {
                 _logger.LogError("Request vaild fail：Lost Key (timestamp and token).");
@@ -96,7 +96,7 @@ namespace MemberSite.Service.BLL
         private bool CheckTimestamp(long timestamp)
         {
             //30 秒內要收到request並驗證
-            if (((DateTimeOffset)DateTime.UtcNow).ToUnixTimeSeconds() - timestamp < 30)
+            if (((DateTimeOffset)DateTime.UtcNow).ToUnixTimeSeconds() - timestamp * 1000 < 30 * 1000)
                 return true;
             else
                 return false;
