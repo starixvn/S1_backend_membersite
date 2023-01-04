@@ -306,6 +306,18 @@
     <value>E-Dompet adalah penyelenggaraan, sila gunakan kaedah pengeluaran lain</value>
   </data>
   <data name="msg_NotInLimit" xml:space="preserve">
-      <value>tidak Terhad</value>>
+    <value>&gt;</value>
+  </data>
+  <data name="msg_congratulation_event_reward" xml:space="preserve">
+    <value>Taniah ! Dapat MYR {0}</value>
+  </data>
+  <data name="msg_keep_up" xml:space="preserve">
+    <value>Semoga berjaya pada goncangan lagi</value>
+  </data>
+  <data name="msg_limit_has_been_reached" xml:space="preserve">
+    <value>Had hari ini telah dicapai</value>
+  </data>
+  <data name="msg_turnover_not_enough" xml:space="preserve">
+    <value>Belum selesai TO yang diperlukan, sila cuba selepas ini</value>
   </data>
 </root>

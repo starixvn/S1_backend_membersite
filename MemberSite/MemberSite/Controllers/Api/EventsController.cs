@@ -314,8 +314,8 @@ namespace MemberSite.Controllers.Api
                 apiResult.Message = apiResult.ErrorCode switch
                 {
                     0 => "success",
-                    102 => _selLangBll.GetMsg("msg_Ineligible"),
-                    103 => _selLangBll.GetMsg("msg_Ineligible"),
+                    102 => _selLangBll.GetMsg("msg_turnover_not_enough"),
+                    103 => _selLangBll.GetMsg("msg_limit_has_been_reached"),
                     _ => _selLangBll.GetMsg("msg_Ineligible"),
                 };
             }
