@@ -68,7 +68,7 @@ namespace MemberSite.Controllers.Api
                         out var tpMaintain))
                 {
                     var tpName = _statementService.GetTpListWithCache()?.First(i => i.Id == tpMaintain.TpId).TpName;
-                    var host = _siteConfig.Value[serverInfo.SiteName].MaintainURL;
+                    var host = _siteConfig.Value[serverInfo.SiteName].MaintainUrl;
                     var maintainUrl = $"{host}/index_{_selLangBll.GetLangId() ?? "en"}.html" +
                                       $"?t={HttpUtility.UrlEncode(tpName)}&e={HttpUtility.UrlEncode($"{tpMaintain.EndDate:u}")}";
                     return new ApiResult(3000, maintainUrl);
