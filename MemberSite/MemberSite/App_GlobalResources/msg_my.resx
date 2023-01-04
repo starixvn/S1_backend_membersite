@@ -391,4 +391,16 @@
   <data name="msg_DepositRefunded_Detail" xml:space="preserve">
     <value>Jumlah deposit telah dikembalikan, sila semak akaun bank anda.</value>
   </data>
+  <data name="msg_congratulation_event_reward" xml:space="preserve">
+    <value>Taniah ! Dapat MYR {0}</value>
+  </data>
+  <data name="msg_keep_up" xml:space="preserve">
+    <value>Semoga berjaya pada goncangan lagi</value>
+  </data>
+  <data name="msg_limit_has_been_reached" xml:space="preserve">
+    <value>Had hari ini telah dicapai</value>
+  </data>
+  <data name="msg_turnover_not_enough" xml:space="preserve">
+    <value>Belum selesai TO yang diperlukan, sila cuba selepas ini</value>
+  </data>
 </root>

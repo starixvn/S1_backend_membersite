@@ -4,10 +4,11 @@ using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
 using System.Text.RegularExpressions;
 using MemberSite.Service.Library;
+using MemberSite.Service.BLL.Interface;
 
 namespace MemberSite.Service.BLL
 {
-    public class EventsBLL
+    public class EventsBLL : IEventsBLL
     {
         private readonly EventsService _eventsService;
         private readonly CacheHelper _cacheHelper;
@@ -41,7 +42,7 @@ namespace MemberSite.Service.BLL
                 point = point
             };
         }
-        
+
         public IEnumerable<Leaderboard> GetLeaderboardListWithCache(int lBCategoryId, int siteId, int currencyId, int topNum, int beforeDays)
         {
             var key = $"Leaderboard_{lBCategoryId}_{siteId}_{currencyId}_{topNum}_{beforeDays}";
@@ -70,7 +71,7 @@ namespace MemberSite.Service.BLL
         public IEnumerable<Leaderboard> GetLeaderboardListV4(int lBCategoryId, string eventCode, int siteId, int currencyId, int topNum, int beforeDays)
         {
             var leaderboard = _eventsService.GetLeaderboardListV3(lBCategoryId, eventCode, siteId, currencyId, topNum, beforeDays);
-            var leaderboardyesterday = _eventsService.GetLeaderboardListV3(lBCategoryId, eventCode, siteId, currencyId, topNum, beforeDays +1).ToList();
+            var leaderboardyesterday = _eventsService.GetLeaderboardListV3(lBCategoryId, eventCode, siteId, currencyId, topNum, beforeDays + 1).ToList();
             if (leaderboardyesterday.Any())
             {
                 var count = 0;
@@ -125,7 +126,7 @@ namespace MemberSite.Service.BLL
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)),
                 i => GetLeaderboardListV4(lBCategoryId, eventCode, siteId, currencyId, topNum, beforeDays));
         }
-        
+
         public IEnumerable<Leaderboard> GetLeaderboardListMonthWithCache(string eventCode, int lBCategoryId, int siteId, int currencyId, int topNum, DateTime selectDays)
         {
             var key = $"Leaderboard_{lBCategoryId}_{eventCode}_{siteId}_{currencyId}_{topNum}_{selectDays.Date}";
@@ -195,18 +196,18 @@ namespace MemberSite.Service.BLL
             var result = _cacheHelper.TryGetOrCreate(key,
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)),
                 i => GetCustRankV3(lBCategoryId, eventCode, custId, beforeDays));
-            
+
             custRank = result.CustRank;
             point = result.point;
         }
-        
+
         public void GetCustRankWithCacheMonth(int lBCategoryId, string eventCode, int custId, DateTime selectDays, out int custRank, out Decimal point)
         {
             var key = $"Leaderboard_{lBCategoryId}_{eventCode}_{custId}_{selectDays}";
             var result = _cacheHelper.TryGetOrCreate(key,
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)),
                 i => GetCustRankMonth(lBCategoryId, eventCode, custId, selectDays));
-            
+
             custRank = result.CustRank;
             point = result.point;
         }
@@ -216,17 +217,17 @@ namespace MemberSite.Service.BLL
         }
         public int DrawPrize(ref int eventId, int custId, int currencyId, string userName, int siteId, out int result, out Prize drawPrize)
         {
-            
+
             return _eventsService.DrawPrize(ref eventId, custId, currencyId, userName, siteId, out result, out drawPrize);
         }
         public IEnumerable<CustGiftList> GetCustDrawPrizeList(int eventId, int siteId, int custId)
         {
-            return _eventsService.GetCustDrawPrizeList( eventId, siteId, custId);
+            return _eventsService.GetCustDrawPrizeList(eventId, siteId, custId);
         }
 
         public IEnumerable<PrizeDisPlayList> GetDrawPrizeDisPlayList(int eventId, int currencyId)
         {
-             var prizeList = _eventsService.GetDrawPrizeList(eventId, currencyId).ToList();
+            var prizeList = _eventsService.GetDrawPrizeList(eventId, currencyId).ToList();
             var disPlaySetting = _eventsService.GetDrawPrizeDisPlaySetting(eventId).ToList();
             if (prizeList.Any() && disPlaySetting.Any())
             {
@@ -240,7 +241,7 @@ namespace MemberSite.Service.BLL
                     //    x.PrizeName =$"VND {x.PrizeName}";
                 });
             }
-            
+
             return disPlaySetting;
         }
         public IEnumerable<PrizeDisPlayList> GetDrawPrizeDisPlayListWithCache(int eventId, int currencyId)
@@ -250,34 +251,24 @@ namespace MemberSite.Service.BLL
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)),
                 i => GetDrawPrizeDisPlayList(eventId, currencyId));
         }
-        
+
         public EventDrawInfo GetEventDrawInfo(int eventId)
         {
-            _eventsService.GetEventDrawInfo( eventId, out var eventName, out var conditionSp);
-            return new EventDrawInfo
-            {
-                EventName = eventName,
-                ConditionSp = conditionSp
-            };
+            return _eventsService.GetEventDrawInfo(eventId);
         }
-        public class EventDrawInfo
-        {
-            public string EventName { get; set; }
-            public string ConditionSp { get; set; }
-        }
-        public void GetEventDrawInfoWithCache(int eventId, out string eventName, out string conditionSp)
+
+        public EventDrawInfo GetEventDrawInfoWithCache(int eventId)
         {
             var key = $"EventDrawInfo_{eventId}";
-            var result = _cacheHelper.TryGetOrCreate(key,
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)),
-                i => GetEventDrawInfo(eventId));
-            
-            eventName = result.EventName;
-            conditionSp = result.ConditionSp;
+            return _cacheHelper.TryGetOrCreate(key, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)), i => GetEventDrawInfo(eventId));
         }
         public bool CheckEventCondition(string conditionSp, int eventId, int custId, int currencyId)
         {
             return _eventsService.CheckEventCondition(conditionSp, eventId, custId, currencyId);
+        }
+        public async Task<IEnumerable<AngPowTicket>> GetTickets(int custId, int currencyId)
+        {
+            return await _eventsService.GetTickets(custId, currencyId);
         }
         public DrawPrizeMessage GetDrawPrizeMessage(int eventId, string langId)
         {
@@ -298,7 +289,7 @@ namespace MemberSite.Service.BLL
             var key = $"GetDrawPrizeMessageWithCache_{eventId}_{langId}";
             return _cacheHelper.TryGetOrCreate(key,
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)),
-                i => GetDrawPrizeMessage( eventId, langId));
+                i => GetDrawPrizeMessage(eventId, langId));
         }
     }
 }

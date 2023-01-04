@@ -1,5 +1,7 @@
 ﻿using Dapper;
+using MemberSite.Service.Library;
 using MemberSite.Service.Model;
+using MemberSite.Service.Model.enums;
 using MySql.Data.MySqlClient;
 using System.Data;
 
@@ -10,12 +12,14 @@ namespace MemberSite.Service.DAL
         private readonly IConfiguration configuration;
         private readonly WalletService walletService;
         private readonly WithdrawalLimitService withdrawalLimitService;
+        private readonly MySqlClient _reportDb;
 
-        public EventsService(IConfiguration configuration, WalletService walletService, WithdrawalLimitService withdrawalLimitService)
+        public EventsService(IConfiguration configuration, WalletService walletService, WithdrawalLimitService withdrawalLimitService, IEnumerable<MySqlClient> sqlClients)
         {
             this.configuration = configuration;
             this.walletService = walletService;
             this.withdrawalLimitService = withdrawalLimitService;
+            _reportDb = sqlClients.FirstOrDefault(a => a.DataBase == DataBase.Report);
         }
         public IEnumerable<Leaderboard> GetLeaderboardList(int lBCategoryId, int siteId, int currencyId, int topNum, int beforeDays)
         {
@@ -240,16 +244,20 @@ namespace MemberSite.Service.DAL
             info.RewardInfolist = conn.Query<RewardInfo>("Member_LeaderboardRewardInfo_Get", new { EventCode = eventCode, SiteId = siteId, CurrencyId = currencyId }, commandType: CommandType.StoredProcedure);
             return info;
         }
-        public void GetEventDrawInfo(int eventId, out string eventName, out string conditionSP)
+        public EventDrawInfo GetEventDrawInfo(int eventId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             var p = new DynamicParameters(new { EventId = eventId });
             p.Add("EventName", dbType: DbType.String, direction: ParameterDirection.Output);
             p.Add("ConditionSP", dbType: DbType.String, direction: ParameterDirection.Output);
             conn.Execute("Member_EventDraw_Get", p, commandType: CommandType.StoredProcedure);
-            eventName = p.Get<string>("EventName");
-            conditionSP = p.Get<string>("ConditionSP");
+            return new EventDrawInfo 
+            {
+                EventName = p.Get<string>("EventName"),
+                ConditionSp = p.Get<string>("ConditionSP")
+            };
         }
+        
         public bool CheckEventCondition(string conditionSP, int eventId, int custId, int currencyId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
@@ -258,6 +266,12 @@ namespace MemberSite.Service.DAL
             conn.Execute(conditionSP, p, commandType: CommandType.StoredProcedure);
             var Result  = p.Get<int?>("Result") ?? 0;
             return Result > 0;
+        }
+        public async Task<IEnumerable<AngPowTicket>> GetTickets(int custId, int currencyId)
+        {
+            var p = new DynamicParameters(new { _CustId = custId, _CurrencyId = currencyId });
+            var tickets = await _reportDb.QueryAsync<AngPowTicket>("Member_EventsTickets_Get", p);
+            return tickets;
         }
         public int GetDrawPrizeMessage(int eventId, string langId, out string tital, out string message)
         {
