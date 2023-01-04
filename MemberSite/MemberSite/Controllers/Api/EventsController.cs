@@ -1,4 +1,5 @@
 ﻿using MemberSite.Service.BLL;
+using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using Microsoft.AspNetCore.Authorization;
@@ -13,7 +14,7 @@ namespace MemberSite.Controllers.Api
     public class EventsController : ControllerBase
     {
         private readonly AuthorizeBLL _authorizeBll;
-        private readonly EventsBLL _eventsBll;
+        private readonly IEventsBLL _eventsBll;
         private readonly CustInfoBll _custInfoBll;
         private readonly SelLangBLL _selLangBll;
         private readonly ServerInfoBll _serverInfoBll;
@@ -25,7 +26,7 @@ namespace MemberSite.Controllers.Api
 
         {
             _authorizeBll = provider.GetRequiredService<AuthorizeBLL>();
-            _eventsBll = provider.GetRequiredService<EventsBLL>();
+            _eventsBll = provider.GetRequiredService<IEventsBLL>();
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _selLangBll = provider.GetRequiredService<SelLangBLL>();
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
