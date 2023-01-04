@@ -102,6 +102,7 @@ namespace MemberSite
             services.AddSingleton<NewsService>();
             services.AddSingleton<IovationService>();
             services.AddSingleton<EventsService>();
+            services.AddTransient<IEventsService, EventsService>();
             services.AddSingleton<GameCasinoService>();
             services.AddSingleton<LiveStreamingService>();
             services.AddSingleton<LatestHighlightDataService>();
