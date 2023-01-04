@@ -392,4 +392,16 @@
   <data name="msg_DepositRefunded_Detail" xml:space="preserve">
     <value>คืนยอดเงินฝากเรียบร้อยแล้ว โปรดทำการตรวจสอบบัญชีธนาคารของคุณ</value>
   </data>
+  <data name="msg_congratulation_event_reward" xml:space="preserve">
+    <value>ยินดีด้วยค่ะ! คุณได้รับอั่งเปาจำนวน {0}</value>
+  </data>
+  <data name="msg_keep_up" xml:space="preserve">
+    <value>ขอให้โชคดีในการเขย่าครั้งต่อไป</value>
+  </data>
+  <data name="msg_limit_has_been_reached" xml:space="preserve">
+    <value>ขออภัยค่ะ เต็มจำนวนจำกัดสำหรับวันนี้แล้ว</value>
+  </data>
+  <data name="msg_turnover_not_enough" xml:space="preserve">
+    <value>คุณยังไม่เริ่มเดิมพันขั้นต่ำ ไม่สามารถเข้าร่วมได้ค่ะ</value>
+  </data>
 </root>

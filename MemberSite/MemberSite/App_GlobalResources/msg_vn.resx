@@ -362,4 +362,16 @@ Hãy chuyển tiền từ ví chính sang ví Thể thao để trải nghiệm c
   <data name="msg_DepositRefunded_Detail" xml:space="preserve">
     <value>Số tiền gửi đã được hoàn trả, xin vui lòng kiểm tra tài khoản ngân hàng của quý khách</value>
   </data>
+  <data name="msg_congratulation_event_reward" xml:space="preserve">
+    <value>Xin chúc mừng! Nhận được số tiền {0}</value>
+  </data>
+  <data name="msg_keep_up" xml:space="preserve">
+    <value>Chúc may mắn trong lần rút tiếp theo của bạn</value>
+  </data>
+  <data name="msg_limit_has_been_reached" xml:space="preserve">
+    <value>Đã đạt đến giới hạn của ngày hôm nay</value>
+  </data>
+  <data name="msg_turnover_not_enough" xml:space="preserve">
+    <value>Chưa hoàn thành yêu cầu đặt cược hợp lệ, không thể tham gia</value>
+  </data>
 </root>
