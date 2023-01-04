@@ -1,5 +1,7 @@
 ﻿using Dapper;
+using MemberSite.Service.Library;
 using MemberSite.Service.Model;
+using MemberSite.Service.Model.enums;
 using MySql.Data.MySqlClient;
 using System.Data;
 
@@ -10,12 +12,14 @@ namespace MemberSite.Service.DAL
         private readonly IConfiguration configuration;
         private readonly WalletService walletService;
         private readonly WithdrawalLimitService withdrawalLimitService;
+        private readonly MySqlClient _reportDb;
 
-        public EventsService(IConfiguration configuration, WalletService walletService, WithdrawalLimitService withdrawalLimitService)
+        public EventsService(IConfiguration configuration, WalletService walletService, WithdrawalLimitService withdrawalLimitService, IEnumerable<MySqlClient> sqlClients)
         {
             this.configuration = configuration;
             this.walletService = walletService;
             this.withdrawalLimitService = withdrawalLimitService;
+            _reportDb = sqlClients.FirstOrDefault(a => a.DataBase == DataBase.Report);
         }
         public IEnumerable<Leaderboard> GetLeaderboardList(int lBCategoryId, int siteId, int currencyId, int topNum, int beforeDays)
         {
@@ -262,6 +266,12 @@ namespace MemberSite.Service.DAL
             conn.Execute(conditionSP, p, commandType: CommandType.StoredProcedure);
             var Result  = p.Get<int?>("Result") ?? 0;
             return Result > 0;
+        }
+        public async Task<IEnumerable<AngPowTicket>> GetTickets(int custId, int currencyId)
+        {
+            var p = new DynamicParameters(new { _CustId = custId, _CurrencyId = currencyId });
+            var tickets = await _reportDb.QueryAsync<AngPowTicket>("Member_EventsTickets_Get", p);
+            return tickets;
         }
         public int GetDrawPrizeMessage(int eventId, string langId, out string tital, out string message)
         {

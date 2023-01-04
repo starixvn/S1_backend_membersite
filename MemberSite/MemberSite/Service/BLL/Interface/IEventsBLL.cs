@@ -31,6 +31,7 @@ namespace MemberSite.Service.BLL.Interface
         IEnumerable<Leaderboard> GetLeaderboardListWithCache(int lBCategoryId, int siteId, int currencyId, int topNum, int beforeDays);
         IEnumerable<Leaderboard> GetLeaderboardListWithCacheV2(string eventCode, int lBCategoryId, int siteId, int currencyId, int topNum, int beforeDays);
         IEnumerable<Leaderboard> GetLeaderboardListWithCacheV3(string eventCode, int lBCategoryId, int siteId, int currencyId, int topNum, int beforeDays);
+        Task<IEnumerable<AngPowTicket>> GetTickets(int custId, int currencyId);
         string MaskName(string input);
     }
 }

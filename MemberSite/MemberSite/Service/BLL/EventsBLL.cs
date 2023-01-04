@@ -266,6 +266,10 @@ namespace MemberSite.Service.BLL
         {
             return _eventsService.CheckEventCondition(conditionSp, eventId, custId, currencyId);
         }
+        public async Task<IEnumerable<AngPowTicket>> GetTickets(int custId, int currencyId)
+        {
+            return await _eventsService.GetTickets(custId, currencyId);
+        }
         public DrawPrizeMessage GetDrawPrizeMessage(int eventId, string langId)
         {
             var drawPrizeMessage = new DrawPrizeMessage();

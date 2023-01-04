@@ -33,6 +33,7 @@
         public int Jackpot { get; set; }
         public int PrizeId { get; set; }
         public string PrizeName { get; set; }
+        public int TicketCount { get; set; }
     }
     public class CustGiftList
     {
@@ -98,5 +99,11 @@
     {
         public string EventName { get; set; }
         public string ConditionSp { get; set; }
+    }
+    public class AngPowTicket 
+    {
+        public int CustId { get; set; }
+        public int TicketNo { get; set; }
+        public bool IsUsed { get; set; }
     }
 }
