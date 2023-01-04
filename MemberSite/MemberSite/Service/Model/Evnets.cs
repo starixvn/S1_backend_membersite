@@ -94,4 +94,9 @@
         public Dictionary<string, List<Dictionary<string, string>>> RewardsList { get; set; }
 
     }
+    public class EventDrawInfo
+    {
+        public string EventName { get; set; }
+        public string ConditionSp { get; set; }
+    }
 }

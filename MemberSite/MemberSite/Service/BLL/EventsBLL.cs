@@ -253,27 +253,13 @@ namespace MemberSite.Service.BLL
         
         public EventDrawInfo GetEventDrawInfo(int eventId)
         {
-            _eventsService.GetEventDrawInfo( eventId, out var eventName, out var conditionSp);
-            return new EventDrawInfo
-            {
-                EventName = eventName,
-                ConditionSp = conditionSp
-            };
+            return _eventsService.GetEventDrawInfo(eventId);
         }
-        public class EventDrawInfo
-        {
-            public string EventName { get; set; }
-            public string ConditionSp { get; set; }
-        }
-        public void GetEventDrawInfoWithCache(int eventId, out string eventName, out string conditionSp)
+
+        public EventDrawInfo GetEventDrawInfoWithCache(int eventId)
         {
             var key = $"EventDrawInfo_{eventId}";
-            var result = _cacheHelper.TryGetOrCreate(key,
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)),
-                i => GetEventDrawInfo(eventId));
-            
-            eventName = result.EventName;
-            conditionSp = result.ConditionSp;
+            return _cacheHelper.TryGetOrCreate(key, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)), i => GetEventDrawInfo(eventId));
         }
         public bool CheckEventCondition(string conditionSp, int eventId, int custId, int currencyId)
         {

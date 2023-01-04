@@ -290,16 +290,18 @@ namespace MemberSite.Controllers.Api
             {
                 apiResult.Data.PrizeId = prizeId;
                 apiResult.Data.PrizeName = prizes.FirstOrDefault(x => x.PrizeId == prizeId)?.PrizeName;
-            }else if(result == 0 )
+            }
+            else if(result == 0 )
             {
-                _eventsBll.GetEventDrawInfoWithCache(eventId, out var EventName, out var ConditionSP);
+                var eventDrawInfo = _eventsBll.GetEventDrawInfoWithCache(eventId);
                 //檢查使用者抽獎資格
-                if (ConditionSP != null && !_eventsBll.CheckEventCondition(ConditionSP, eventId, authData.CustId, custInfo.CurrencyId))
+                if (eventDrawInfo.ConditionSp != null && !_eventsBll.CheckEventCondition(eventDrawInfo.ConditionSp, eventId, authData.CustId, custInfo.CurrencyId))
                 {
                     result = 102;//使用者資格不符
                     apiResult.Message = _selLangBll.GetMsg("msg_Ineligible");
                 }
-            }else
+            }
+            else
             {
                 apiResult.Message = _selLangBll.GetMsg("msg_Ineligible");
             }
@@ -321,7 +323,7 @@ namespace MemberSite.Controllers.Api
             var serverInfo = _serverInfoBll.GetServerInfo();
             var eventId = drawPrizeReq.eventId;
 
-            _eventsBll.GetEventDrawInfoWithCache(eventId,out var EventName,out var ConditionSP);
+            var eventDrawInfo =_eventsBll.GetEventDrawInfoWithCache(eventId);
 
             if ((custInfo.Status != (int)CustStatus.Running || custInfo.ActStatus != (int)CustActStatus.Depoisted) &&(eventId < 6))
             {
@@ -335,7 +337,7 @@ namespace MemberSite.Controllers.Api
                 //apiResult.Message = selLangBLL.GetMsg("msg_IneligibleAngPow");
                 apiResult.Message = _selLangBll.GetMsg("msg_Ineligible");
             }
-            else if (ConditionSP != null && !_eventsBll.CheckEventCondition(ConditionSP, eventId, authData.CustId, custInfo.CurrencyId))
+            else if (eventDrawInfo.ConditionSp != null && !_eventsBll.CheckEventCondition(eventDrawInfo.ConditionSp, eventId, authData.CustId, custInfo.CurrencyId))
             {
                 apiResult.ErrorCode = 102;
                 apiResult.Message = _selLangBll.GetMsg("msg_Ineligible");
