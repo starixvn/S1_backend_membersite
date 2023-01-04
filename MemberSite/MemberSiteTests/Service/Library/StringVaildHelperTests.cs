@@ -61,6 +61,7 @@ internal class StringVaildHelperTests
     [TestCase("Cheong Siew Shan", ExpectedResult = true)]       //from marketing test case
     [TestCase("Halimah @ husan", ExpectedResult = false)]       //from marketing test case
     [TestCase("～ ĎĔĂŘ ～", ExpectedResult = false)]       //from marketing test case
+    [TestCase("😂", ExpectedResult = false)]       //from marketing test case
     public bool VaildAccountNameForSetProfile(string accountName) 
         => _stringVaildHelper.VaildAccountNameForSetProfile(accountName);
 
