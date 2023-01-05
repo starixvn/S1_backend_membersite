@@ -1,21 +1,20 @@
-﻿using Dapper;
-using MemberSite.Service.Model;
-using MySql.Data.MySqlClient;
-using System.Data;
+﻿using MemberSite.Service.Model;
+using MemberSite.Service.Library;
+using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.DAL
 {
     public class AppLinkService
     {
-        private readonly IConfiguration configuration;
-        public AppLinkService(IConfiguration configuration)
+        private readonly MySqlClient _reportDb;
+        
+        public AppLinkService(IServiceProvider provider)
         {
-            this.configuration = configuration;
+            _reportDb = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
         }
         public List<AppLink> GetAppLink(int SiteId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<AppLink>("Service_AppLinkTable_Get", new { SiteId }, commandType: CommandType.StoredProcedure).ToList();
+            return _reportDb.Query<AppLink>("Service_AppLinkTable_Get", new { SiteId }).ToList();
         }
     }
 }

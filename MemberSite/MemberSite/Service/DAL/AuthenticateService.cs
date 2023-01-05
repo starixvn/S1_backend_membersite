@@ -1,7 +1,5 @@
-﻿using MySql.Data.MySqlClient;
-using Dapper;
+﻿using Dapper;
 using MemberSite.Service.Library;
-using System.Data;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 
@@ -9,14 +7,12 @@ namespace MemberSite.Service.DAL
 {
     public class AuthenticateService
     {
-        private readonly IConfiguration configuration;
         private readonly Tools tools;
         private readonly MySqlClient _mainDbClient;
         private readonly MySqlClient _reportDbClient;
 
         public AuthenticateService(IServiceProvider provider)
         {
-            configuration = provider.GetRequiredService<IConfiguration>();
             tools = provider.GetRequiredService<Tools>();
             _mainDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Main);
             _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
@@ -26,25 +22,20 @@ namespace MemberSite.Service.DAL
         {
             Task.Run(() =>
             {
-                using (var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString")))
-                {
-                    conn.Execute("LoginLog_Ins", new { CustId = custId, UserName = userName, SiteId = siteId, LoginIp = loginIp, FromUrl = fromUrl, UserAgent = userAgent }, commandType: CommandType.StoredProcedure);
-                }
+                _mainDbClient.Execute("LoginLog_Ins", new { CustId = custId, UserName = userName, SiteId = siteId, LoginIp = loginIp, FromUrl = fromUrl, UserAgent = userAgent });
             });
         }
+        
         public void AddLoginRecord(int custId, int siteId, string ip,int deviceType, out string token)
         {
             token = tools.GetToken();
-            using (var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString")))
-            {
-                conn.Open();
-                using (var trans = conn.BeginTransaction())
-                {
-                    conn.Execute("LoginRecord_Set_V2", new { CustId = custId, SiteId = siteId, IP = ip, Token = token ,DeviceType = deviceType}, trans, commandType: CommandType.StoredProcedure);
-                    trans.Commit();
-                }
-            }
+            using var conn = _mainDbClient.GetMySqlConnection();
+            conn.Open();
+            using var trans = conn.BeginTransaction();
+            _mainDbClient.Execute("LoginRecord_Set_V2", trans, new { CustId = custId, SiteId = siteId, IP = ip, Token = token ,DeviceType = deviceType });
+            trans.Commit();
         }
+        
         public bool UpdateOnline(int custId, bool isOnline, string token, string ip ,int? deviceType)
         {
             return _mainDbClient.Execute("LoginCheckIn_Set_V2", new DynamicParameters(new { IsOnline = isOnline, CustId = custId, IP = ip, Token = token ,DeviceType = deviceType })) > 0;
