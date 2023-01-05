@@ -374,7 +374,8 @@ namespace MemberSite.Controllers.Api
             var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
             var beforeCustInfo = _custInfoBLL.GetCustInfoProfile(authData.CustId);
             if(custProfile.ContainsKey("AccountName"))
-                if (!_stringVaildHelper.VaildAccountNameForSetProfile(custProfile["AccountName"]))
+                if (string.IsNullOrWhiteSpace(custProfile["AccountName"])
+                    || !_stringVaildHelper.VaildAccountNameForSetProfile(custProfile["AccountName"]))
                 {
                     apiResult.ErrorCode = 21;
                     apiResult.Message = $"{_selLangBLL.GetMsg("msg_RealNameWrongFormat")}";
