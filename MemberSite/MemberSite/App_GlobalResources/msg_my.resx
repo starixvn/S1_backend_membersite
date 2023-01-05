@@ -403,4 +403,7 @@
   <data name="msg_turnover_not_enough" xml:space="preserve">
     <value>Belum selesai TO yang diperlukan, sila cuba selepas ini</value>
   </data>
+  <data name="msg_times_chance" xml:space="preserve">
+    <value>Masih kekal {0} kali peluang</value>
+  </data>
 </root>

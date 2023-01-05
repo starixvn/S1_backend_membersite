@@ -287,33 +287,12 @@ namespace MemberSite.Controllers.Api
             var eventId = drawPrizeReq.eventId;
             if (eventId == 12 || eventId == 13 || eventId == 14)
             {
-                var errorCode = 0;
-                var ticketCount = 0;
-                var tickets = await _eventsBll.GetTickets(custInfo.CustId, custInfo.CurrencyId);
-                if (!tickets.Any())
-                {
-                    //流水未達到
-                    errorCode = 102;
-                }
-                else 
-                {
-                    var validTickets = tickets.Where(a => a.IsUsed == false);
-                    if (validTickets.Any())
-                    {
-                        errorCode = 0;
-                        ticketCount = validTickets.Count();
-                    }
-                    else 
-                    {
-                        // 已達上限
-                        errorCode = 103;
-                    }
-                }
+                var (errorCode, ticketCount) = await _eventsBll.CheckDrawPrize(custInfo.CustId, custInfo.CurrencyId);
                 apiResult.Data.TicketCount = ticketCount;
                 apiResult.ErrorCode = errorCode;
                 apiResult.Message = apiResult.ErrorCode switch
                 {
-                    0 => "success",
+                    0 => string.Format(_selLangBll.GetMsg("msg_times_chance"), ticketCount),
                     102 => _selLangBll.GetMsg("msg_turnover_not_enough"),
                     103 => _selLangBll.GetMsg("msg_limit_has_been_reached"),
                     _ => _selLangBll.GetMsg("msg_Ineligible"),

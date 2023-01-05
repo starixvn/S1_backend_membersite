@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
@@ -7,7 +8,7 @@ using System.Data;
 
 namespace MemberSite.Service.DAL
 {
-    public class EventsService
+    public class EventsService : IEventsService
     {
         private readonly IConfiguration configuration;
         private readonly WalletService walletService;
@@ -44,7 +45,7 @@ namespace MemberSite.Service.DAL
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
 
-            var p = new DynamicParameters(new { EventCode = eventCode});
+            var p = new DynamicParameters(new { EventCode = eventCode });
             p.Add("CustRankSP", dbType: DbType.String, direction: ParameterDirection.Output);
             p.Add("LastDateTopSP", dbType: DbType.String, direction: ParameterDirection.Output);
             conn.Execute("Member_LeaderboardEventSetting_Get", p, commandType: CommandType.StoredProcedure);
@@ -56,7 +57,7 @@ namespace MemberSite.Service.DAL
             else
                 return conn.Query<Leaderboard>("Member_Leaderboard_LastDateTopV2_Get", new { LBCategoryId = lBCategoryId, EventCode = eventCode, SiteId = siteId, CurrencyId = currencyId, TopNum = topNum, BeforeDays = beforeDays }, commandType: CommandType.StoredProcedure);
         }
-        
+
 
         public IEnumerable<Leaderboard> GetLeaderboardListMonth(int lBCategoryId, string eventCode, int siteId, int currencyId, int topNum, DateTime selectDays)
         {
@@ -108,8 +109,8 @@ namespace MemberSite.Service.DAL
             point = p1.Get<decimal?>("Point") ?? 0;
 
         }
-        
-        public IEnumerable<Prize> CheckDrawPrize(ref int eventId, int siteId ,int custId, int currencyId, out int prizeId, out int result)
+
+        public IEnumerable<Prize> CheckDrawPrize(ref int eventId, int siteId, int custId, int currencyId, out int prizeId, out int result)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             conn.Open();
@@ -119,7 +120,7 @@ namespace MemberSite.Service.DAL
         }
         private IEnumerable<Prize> CheckDrawPrize(ref int eventId, int siteId, int custId, int currencyId, out int prizeId, out int quota, out DateTime checkDate, out int result, MySqlConnection conn, MySqlTransaction trans)
         {
-            var p = new DynamicParameters(new {SiteId = siteId, CustId = custId, CurrencyId = currencyId });
+            var p = new DynamicParameters(new { SiteId = siteId, CustId = custId, CurrencyId = currencyId });
             p.Add("EventId", eventId, dbType: DbType.Int32, direction: ParameterDirection.InputOutput);
             p.Add("PrizeId", dbType: DbType.Int32, direction: ParameterDirection.Output);
             p.Add("Quota", dbType: DbType.Int32, direction: ParameterDirection.Output);
@@ -215,7 +216,7 @@ namespace MemberSite.Service.DAL
         public IEnumerable<CustGiftList> GetCustDrawPrizeList(int eventId, int siteId, int custId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<CustGiftList>("Member_CustDrawPrizeList_Get", new { EventId = eventId, SiteId = siteId, CustId = custId  }, commandType: CommandType.StoredProcedure);
+            return conn.Query<CustGiftList>("Member_CustDrawPrizeList_Get", new { EventId = eventId, SiteId = siteId, CustId = custId }, commandType: CommandType.StoredProcedure);
         }
         public IEnumerable<PrizeList> GetDrawPrizeList(int eventId, int currencyId)
         {
@@ -227,10 +228,10 @@ namespace MemberSite.Service.DAL
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             return conn.Query<PrizeDisPlayList>("Member_DrawPrizeDisPlaySetting_Get", new { EventId = eventId }, commandType: CommandType.StoredProcedure);
         }
-        public void GetLeaderboardEventCode( int siteId,out string eventCodeNow,out string eventCodeLast)
+        public void GetLeaderboardEventCode(int siteId, out string eventCodeNow, out string eventCodeLast)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            var p = new DynamicParameters(new { SiteId = siteId});
+            var p = new DynamicParameters(new { SiteId = siteId });
             p.Add("NowEventCode", dbType: DbType.String, direction: ParameterDirection.Output);
             p.Add("LastEventCode", dbType: DbType.String, direction: ParameterDirection.Output);
             var rtn = conn.Execute("Member_LeaderboardEvent_Get", p, commandType: CommandType.StoredProcedure);
@@ -251,20 +252,20 @@ namespace MemberSite.Service.DAL
             p.Add("EventName", dbType: DbType.String, direction: ParameterDirection.Output);
             p.Add("ConditionSP", dbType: DbType.String, direction: ParameterDirection.Output);
             conn.Execute("Member_EventDraw_Get", p, commandType: CommandType.StoredProcedure);
-            return new EventDrawInfo 
+            return new EventDrawInfo
             {
                 EventName = p.Get<string>("EventName"),
                 ConditionSp = p.Get<string>("ConditionSP")
             };
         }
-        
+
         public bool CheckEventCondition(string conditionSP, int eventId, int custId, int currencyId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             var p = new DynamicParameters(new { EventId = eventId, CustId = custId, CurrencyId = currencyId });
             p.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
             conn.Execute(conditionSP, p, commandType: CommandType.StoredProcedure);
-            var Result  = p.Get<int?>("Result") ?? 0;
+            var Result = p.Get<int?>("Result") ?? 0;
             return Result > 0;
         }
         public async Task<IEnumerable<AngPowTicket>> GetTickets(int custId, int currencyId)
@@ -276,7 +277,7 @@ namespace MemberSite.Service.DAL
         public int GetDrawPrizeMessage(int eventId, string langId, out string tital, out string message)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            var p = new DynamicParameters(new { EventId = eventId, LangId = langId});
+            var p = new DynamicParameters(new { EventId = eventId, LangId = langId });
             p.Add("Tital", dbType: DbType.String, direction: ParameterDirection.Output);
             p.Add("Message", dbType: DbType.String, direction: ParameterDirection.Output);
             var rtn = conn.Execute("Member_DrawPrizeMessage_Get", p, commandType: CommandType.StoredProcedure);
