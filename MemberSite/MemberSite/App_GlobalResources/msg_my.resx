@@ -323,4 +323,7 @@
   <data name="msg_times_chance" xml:space="preserve">
     <value>Masih kekal {0} kali peluang</value>
   </data>
+  <data name="msg_ProfileOrPhoneNotFinish" xml:space="preserve">
+    <value>Maklumat akaun belum lengkap, sila sahkan maklumat akaun</value>
+  </data>
 </root>

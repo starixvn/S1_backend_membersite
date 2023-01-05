@@ -334,4 +334,7 @@
   <data name="msg_times_chance" xml:space="preserve">
     <value>Still remain {0} times chance</value>
   </data>
+  <data name="msg_ProfileOrPhoneNotFinish" xml:space="preserve">
+    <value>Account information has not been completed, please verify the account information</value>
+  </data>
 </root>
