@@ -1,3 +1,4 @@
+
 ﻿using MemberSite.Service.BLL;
 using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.Library;
@@ -7,7 +8,6 @@ using MemberSite.Service.Model.Mapping;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System.Text.RegularExpressions;
 using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
@@ -45,8 +45,8 @@ namespace MemberSite.Controllers.Api
             _authBll = provider.GetRequiredService<AuthBLL>();
             _cryptoPayInfoBLL = provider.GetRequiredService<CryptoPayInfoBll>();
             _lineLoginBll = provider.GetRequiredService<LineLoginBLL>();
-            _custPhoto = provider.GetRequiredService<ICustPhotoIdBLL>();
             _stringVaildHelper = provider.GetRequiredService<StringVaildHelper>();
+            _custPhoto = provider.GetRequiredService<ICustPhotoIdBLL>();
             _areaCodeMap = provider.GetRequiredService<IEnumerable<AreaCodeMap>>();
             _logger = provider.GetRequiredService<ILogger<AccountStrictController>>();
         }
@@ -373,7 +373,8 @@ namespace MemberSite.Controllers.Api
             var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
             var beforeCustInfo = _custInfoBLL.GetCustInfoProfile(authData.CustId);
             if(custProfile.ContainsKey("AccountName"))
-                if (!_stringVaildHelper.VaildAccountNameForSetProfile(custProfile["AccountName"]))
+                if (string.IsNullOrWhiteSpace(custProfile["AccountName"])
+                    || !_stringVaildHelper.VaildAccountNameForSetProfile(custProfile["AccountName"]))
                 {
                     apiResult.ErrorCode = 21;
                     apiResult.Message = $"{_selLangBLL.GetMsg("msg_RealNameWrongFormat")}";
