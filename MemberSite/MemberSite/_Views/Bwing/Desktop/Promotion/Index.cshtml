@@ -31,15 +31,17 @@
     var BannerList = bannerBLL.GetBanner(CurrencyId, "Promotion");
     var langId = selLangBLL.GetLangId();
 
-    var i18n = new Dictionary<string, string>();
-    i18n.Add("lbl_Bonus", selLangBLL.GetResourceValue("lbl_Bonus"));
-    i18n.Add("lbl_MaxBonusAmount", selLangBLL.GetResourceValue("lbl_MaxBonusAmount"));
-    i18n.Add("lbl_RollOver", selLangBLL.GetResourceValue("lbl_RollOver"));
-    i18n.Add("lbl_RemainingTime", selLangBLL.GetResourceValue("lbl_RemainingTime"));
-    i18n.Add("lbl_ExpiryTime", selLangBLL.GetResourceValue("lbl_ExpiryTime"));
-    i18n.Add("lbl_BonusAmount", selLangBLL.GetResourceValue("lbl_BonusAmount"));
-    i18n.Add("lbl_DepositRollOver", selLangBLL.GetResourceValue("lbl_DepositRollOver"));
-    i18n.Add("lbl_BonusRollOver", selLangBLL.GetResourceValue("lbl_BonusRollOver"));
+    var i18n = new Dictionary<string, string>
+    {
+        { "lbl_Bonus", selLangBLL.GetResourceValue("lbl_Bonus") },
+        { "lbl_MaxBonusAmount", selLangBLL.GetResourceValue("lbl_MaxBonusAmount") },
+        { "lbl_RollOver", selLangBLL.GetResourceValue("lbl_RollOver") },
+        { "lbl_RemainingTime", selLangBLL.GetResourceValue("lbl_RemainingTime") },
+        { "lbl_ExpiryTime", selLangBLL.GetResourceValue("lbl_ExpiryTime") },
+        { "lbl_BonusAmount", selLangBLL.GetResourceValue("lbl_BonusAmount") },
+        { "lbl_DepositRollOver", selLangBLL.GetResourceValue("lbl_DepositRollOver") },
+        { "lbl_BonusRollOver", selLangBLL.GetResourceValue("lbl_BonusRollOver") }
+    };
 
     var lbl_Txts = new string[] { "lbl_TC", "lbl_Days", "lbl_Hours" };
     foreach (var lbl_Txt in lbl_Txts)

@@ -727,9 +727,11 @@ namespace MemberSite.Service.BLL
         public int SetWithdrawalCancel(int custId, string transId)
         {
             var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var forStatus = new List<int>();
-            forStatus.Add((int)WithdrawalStatus.Pending);
-            forStatus.Add((int)WithdrawalStatus.ToKyc);
+            var forStatus = new List<int>
+            {
+                (int)WithdrawalStatus.Pending,
+                (int)WithdrawalStatus.ToKyc
+            };
             return withdrawalService.SetWithdrawalCancel(CustInfo.CustId, transId, CustInfo.SiteId, forStatus, WithdrawalStatus.Cancelled);
         }
         public DepositReceipt GetDepositReceipt(string transId, int custId)

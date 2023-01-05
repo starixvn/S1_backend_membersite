@@ -110,6 +110,7 @@ namespace MemberSite
             services.AddSingleton<AppLinkService>();
             services.AddSingleton<DeepLinkService>();
             services.AddSingleton<IVerificationRewardService, VerificationRewardService>();
+            services.AddSingleton<ICustPhotoIdService, CustPhotoIdService>();
             services.AddTransient<WorldCupPredictionService>();
             services.AddTransient<RecaptchaService>();
             services.AddSingleton<PartitionService>();
@@ -154,6 +155,7 @@ namespace MemberSite
             services.AddSingleton<GameBLL>();
             services.AddTransient<IGeoIpApi, GeoIpApi>();
             services.AddTransient<IRecaptchaApi, RecaptchaApi>();
+            services.AddTransient<ICustPhotoIdBLL, CustPhotoIdBLL>();
             services.AddTransient<GeoIpBLL>();
             services.AddTransient<AppLinkBLL>();
             services.AddTransient<FileNameBLL>();
