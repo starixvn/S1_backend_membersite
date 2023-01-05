@@ -5,6 +5,7 @@ namespace MemberSite.Service.BLL.Interface
     public interface IEventsBLL
     {
         IEnumerable<Prize> CheckDrawPrize(ref int eventId, int siteId, int custId, int currencyId, out int prizeId, out int result);
+        Task<(int errorCode, int ticketCount)> CheckDrawPrize(int custId, int currencyId);
         bool CheckEventCondition(string conditionSp, int eventId, int custId, int currencyId);
         int DrawPrize(ref int eventId, int custId, int currencyId, string userName, int siteId, out int result, out Prize drawPrize);
         IEnumerable<CustGiftList> GetCustDrawPrizeList(int eventId, int siteId, int custId);

@@ -215,6 +215,33 @@ namespace MemberSite.Service.BLL
         {
             return _eventsService.CheckDrawPrize(ref eventId, siteId, custId, currencyId, out prizeId, out result);
         }
+
+        public async Task<(int errorCode, int ticketCount)> CheckDrawPrize(int custId, int currencyId) 
+        {
+            var errorCode = 0;
+            var ticketCount = 0;
+            var tickets = await _eventsService.GetTickets(custId, currencyId);
+            if (!tickets.Any())
+            {
+                //流水未達到
+                errorCode = 102;
+            }
+            else
+            {
+                var validTickets = tickets.Where(a => a.IsUsed == false);
+                if (validTickets.Any())
+                {
+                    errorCode = 0;
+                    ticketCount = validTickets.Count();
+                }
+                else
+                {
+                    // 已達上限
+                    errorCode = 103;
+                }
+            }
+            return (errorCode, ticketCount);
+        }
         public int DrawPrize(ref int eventId, int custId, int currencyId, string userName, int siteId, out int result, out Prize drawPrize)
         {
 
