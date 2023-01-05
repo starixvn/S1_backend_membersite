@@ -311,4 +311,7 @@
   <data name="msg_turnover_not_enough" xml:space="preserve">
     <value>未完成所需流水，无法参与此优惠。</value>
   </data>
+  <data name="msg_times_chance" xml:space="preserve">
+    <value>你還有{0}次抽獎機會</value>
+  </data>
 </root>

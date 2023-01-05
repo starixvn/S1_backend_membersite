@@ -301,7 +301,7 @@
   </data>
   <data name="msg_InsufficientPoint" xml:space="preserve">
     <value>Maaf! Anda tidak mempunyai mata 88 Ganjaran yang mencukupi.</value>
-  </data>  
+  </data>
   <data name="msg_EWalletIsMaintenance" xml:space="preserve">
     <value>E-Dompet adalah penyelenggaraan, sila gunakan kaedah pengeluaran lain</value>
   </data>
@@ -319,5 +319,8 @@
   </data>
   <data name="msg_turnover_not_enough" xml:space="preserve">
     <value>Belum selesai TO yang diperlukan, sila cuba selepas ini</value>
+  </data>
+  <data name="msg_times_chance" xml:space="preserve">
+    <value>Masih kekal {0} kali peluang</value>
   </data>
 </root>

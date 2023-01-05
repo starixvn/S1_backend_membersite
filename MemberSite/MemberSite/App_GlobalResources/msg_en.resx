@@ -331,4 +331,7 @@
   <data name="msg_turnover_not_enough" xml:space="preserve">
     <value>Yet completed the valid bet required, unable to participate</value>
   </data>
+  <data name="msg_times_chance" xml:space="preserve">
+    <value>Still remain {0} times chance</value>
+  </data>
 </root>

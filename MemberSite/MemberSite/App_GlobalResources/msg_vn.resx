@@ -291,4 +291,7 @@ Hãy chuyển tiền từ ví chính sang ví Thể thao để trải nghiệm c
   <data name="msg_turnover_not_enough" xml:space="preserve">
     <value>Chưa hoàn thành yêu cầu đặt cược hợp lệ, không thể tham gia</value>
   </data>
+  <data name="msg_times_chance" xml:space="preserve">
+    <value>Vẫn còn {0} lần cơ hội</value>
+  </data>
 </root>

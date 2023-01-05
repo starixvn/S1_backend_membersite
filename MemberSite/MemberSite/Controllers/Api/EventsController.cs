@@ -292,7 +292,7 @@ namespace MemberSite.Controllers.Api
                 apiResult.ErrorCode = errorCode;
                 apiResult.Message = apiResult.ErrorCode switch
                 {
-                    0 => "success",
+                    0 => string.Format(_selLangBll.GetMsg("msg_times_chance"), ticketCount),
                     102 => _selLangBll.GetMsg("msg_turnover_not_enough"),
                     103 => _selLangBll.GetMsg("msg_limit_has_been_reached"),
                     _ => _selLangBll.GetMsg("msg_Ineligible"),

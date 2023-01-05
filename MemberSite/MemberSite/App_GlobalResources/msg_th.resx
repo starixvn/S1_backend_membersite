@@ -321,4 +321,7 @@
   <data name="msg_turnover_not_enough" xml:space="preserve">
     <value>คุณยังไม่เริ่มเดิมพันขั้นต่ำ ไม่สามารถเข้าร่วมได้ค่ะ</value>
   </data>
+  <data name="msg_times_chance" xml:space="preserve">
+    <value>มีโอกาส {0} เท่า</value>
+  </data>
 </root>
