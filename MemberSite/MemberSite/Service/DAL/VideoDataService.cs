@@ -1,21 +1,21 @@
-﻿using System.Data;
-using Dapper;
+﻿using MemberSite.Service.Library;
 using MemberSite.Service.Model;
-using MySql.Data.MySqlClient;
+using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.DAL
 {
     public class VideoDataService
     {
-        private readonly IConfiguration configuration;
-        public VideoDataService(IConfiguration configuration)
+        private readonly MySqlClient _reportDbClient;
+        
+        public VideoDataService(IServiceProvider provider)
         {
-            this.configuration = configuration;
+            _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
         }
+        
         public VideoData GetVideoData(int SiteId,int CurrencyId, string LangId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.QueryFirstOrDefault<VideoData>("Member_VideoInfo_Get", new { SiteId,CurrencyId,LangId }, commandType: CommandType.StoredProcedure);
+            return _reportDbClient.QueryFirst<VideoData>("Member_VideoInfo_Get", new { SiteId,CurrencyId,LangId });
         }
     }
 }
