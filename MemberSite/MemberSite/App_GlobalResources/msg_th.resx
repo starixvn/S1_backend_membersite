@@ -407,4 +407,7 @@
   <data name="msg_times_chance" xml:space="preserve">
     <value>มีโอกาส {0} เท่า</value>
   </data>
+  <data name="msg_ProfileOrPhoneNotFinish" xml:space="preserve">
+    <value>ข้อมูลบัญชีไม่ครบถ้วน กรุณาทำการยืนยันบัญชีของท่าน</value>
+  </data>
 </root>

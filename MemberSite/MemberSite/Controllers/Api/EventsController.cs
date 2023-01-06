@@ -328,7 +328,7 @@ namespace MemberSite.Controllers.Api
 
         [Authorize]
         [HttpPost]
-        public ApiResult<CustGift> DrawPrize(DrawPrizeReq drawPrizeReq)
+        public async Task<ApiResult<CustGift>> DrawPrize(DrawPrizeReq drawPrizeReq)
         {
             var apiResult = new ApiResult<CustGift>
             {
@@ -339,75 +339,122 @@ namespace MemberSite.Controllers.Api
             var serverInfo = _serverInfoBll.GetServerInfo();
             var eventId = drawPrizeReq.eventId;
 
-            var eventDrawInfo =_eventsBll.GetEventDrawInfoWithCache(eventId);
+            if (eventId == 12 || eventId == 13 || eventId == 14)
+            {
+                var errorCode = 0;
+                if (string.IsNullOrEmpty(custInfo.AccountName) || !custInfo.PhoneVerified)
+                    errorCode = 104;
 
-            if ((custInfo.Status != (int)CustStatus.Running || custInfo.ActStatus != (int)CustActStatus.Depoisted) &&(eventId < 6))
-            {
-                apiResult.ErrorCode = 102;
-                //apiResult.Message = selLangBLL.GetMsg("msg_IneligibleAngPow");
-                apiResult.Message = _selLangBll.GetMsg("msg_Ineligible");
-            }
-            else if ((eventId == 1 || eventId== 2 || eventId == 3) && (custInfo.SiteId == 2 || custInfo.SiteId == 3) && _custInfoBll.GetCustTransSummary(authData.CustId).DepositSum < 200000)
-            {
-                apiResult.ErrorCode = 102;
-                //apiResult.Message = selLangBLL.GetMsg("msg_IneligibleAngPow");
-                apiResult.Message = _selLangBll.GetMsg("msg_Ineligible");
-            }
-            else if (eventDrawInfo.ConditionSp != null && !_eventsBll.CheckEventCondition(eventDrawInfo.ConditionSp, eventId, authData.CustId, custInfo.CurrencyId))
-            {
-                apiResult.ErrorCode = 102;
-                apiResult.Message = _selLangBll.GetMsg("msg_Ineligible");
-            }
-            else
-            {
-                var ress = _eventsBll.DrawPrize(ref eventId, custInfo.CustId, custInfo.CurrencyId, custInfo.UserName, custInfo.SiteId, out var result, out var prize);
-                if (result == 100 || result == 0)
+                var (error, ticketCount, prize) = await _eventsBll.DrawPrize(eventId, custInfo.CustId, custInfo.CurrencyId, custInfo.UserName, custInfo.SiteId);
+
+                if (error > 0)
                 {
                     apiResult.Data.PrizeId = prize.PrizeId;
                     apiResult.Data.PrizeName = prize.PrizeName;
+                    apiResult.Data.TicketCount = ticketCount;
                     apiResult.Data.Jackpot = prize.Jackpot;
-                }
-
-                if(result == 0)
-                {
-
-                    _perCurrency.TryGetValue((int)custInfo.CurrencyId, out var currencyName);
-                    var dAmount = prize.Amount.ToString("#,##0.##");
-                    if (_custInfoBll.IsConvertRequired(custInfo.CurrencyId))
+                    if (prize.Amount > 0)
                     {
-                        dAmount = $"{prize.Amount / 1000:#,##0.##}";
-                    }
-                    var Tital = string.Format(_selLangBll.GetMsg("msg_DrawPrizeTital1"), serverInfo.SiteName);
-
-                    var msg = string.Format(_selLangBll.GetMsg("msg_DrawPrize1"),Tital,currencyName,dAmount);
-                    //活動已結束 找時間移除
-                    //if ((eventId == 1 || eventId == 2 || eventId == 3))//old event
-                    //{
-                    //    Tital = selLangBLL.GetMsg("msg_DrawPrizeTital");
-
-                    //    msg = string.Format(selLangBLL.GetMsg("msg_DrawPrize"), dAmount);
-                    //}
-                    if (eventId > 8)//得獎訊息抽出到db設定
-                    {
-                        var Message = _eventsBll.GetDrawPrizeMessageWithCache(eventId, _selLangBll.GetLangId());
-                        if (!string.IsNullOrEmpty(Message.Tital) && !string.IsNullOrEmpty(Message.Message))
+                        errorCode = 0;
+                        _perCurrency.TryGetValue((int)custInfo.CurrencyId, out var currencyName);
+                        var dAmount = prize.Amount.ToString("#,##0.##");
+                        if (_custInfoBll.IsConvertRequired(custInfo.CurrencyId))
                         {
-                            var prizeName = $"{currencyName} {dAmount}";
-                            if(_selLangBll.GetLangId() == "vn")
-                                prizeName = $"{dAmount} {currencyName}";
-                            Tital = Message.Tital;
-                            msg = string.Format(Message.Message, prizeName);
+                            dAmount = $"{prize.Amount / 1000:#,##0.##}";
                         }
+                        var drawPrizeMessage = _eventsBll.GetDrawPrizeMessageWithCache(eventId, _selLangBll.GetLangId());
+                        var prizeName = $"{currencyName} {dAmount}";
+                        var title = drawPrizeMessage.Tital;
+                        var msg = string.Format(drawPrizeMessage.Message, prizeName);
+                        _messageBll.SendMessage(custInfo.SiteId, "DrawPrize", title, msg, custInfo.CustId, custInfo.UserName, custInfo.UserLang);
                     }
-                    _messageBll.SendMessage(custInfo.SiteId, "DrawPrize", Tital, msg, custInfo.CustId, custInfo.UserName, custInfo.UserLang);
+                    else 
+                    {
+                        errorCode = 1;
+                    }
+                    
+                }
+                apiResult.ErrorCode = errorCode;
+                apiResult.Message = apiResult.ErrorCode switch
+                {
+                    0 => string.Format(_selLangBll.GetMsg("msg_congratulation_event_reward"), prize.Amount.ToString("#,##0.##")),
+                    1 => _selLangBll.GetMsg("msg_keep_up"),
+                    102 => _selLangBll.GetMsg("msg_turnover_not_enough"),
+                    103 => _selLangBll.GetMsg("msg_limit_has_been_reached"),
+                    _ => _selLangBll.GetMsg("msg_Ineligible"),
+                };
+            }
+            else 
+            {
+                var eventDrawInfo = _eventsBll.GetEventDrawInfoWithCache(eventId);
+
+                if ((custInfo.Status != (int)CustStatus.Running || custInfo.ActStatus != (int)CustActStatus.Depoisted) && (eventId < 6))
+                {
+                    apiResult.ErrorCode = 102;
+                    //apiResult.Message = selLangBLL.GetMsg("msg_IneligibleAngPow");
+                    apiResult.Message = _selLangBll.GetMsg("msg_Ineligible");
+                }
+                else if ((eventId == 1 || eventId == 2 || eventId == 3) && (custInfo.SiteId == 2 || custInfo.SiteId == 3) && _custInfoBll.GetCustTransSummary(authData.CustId).DepositSum < 200000)
+                {
+                    apiResult.ErrorCode = 102;
+                    //apiResult.Message = selLangBLL.GetMsg("msg_IneligibleAngPow");
+                    apiResult.Message = _selLangBll.GetMsg("msg_Ineligible");
+                }
+                else if (eventDrawInfo.ConditionSp != null && !_eventsBll.CheckEventCondition(eventDrawInfo.ConditionSp, eventId, authData.CustId, custInfo.CurrencyId))
+                {
+                    apiResult.ErrorCode = 102;
+                    apiResult.Message = _selLangBll.GetMsg("msg_Ineligible");
                 }
                 else
                 {
-                    apiResult.Message = _selLangBll.GetMsg("msg_Ineligible");
-                }
-                apiResult.ErrorCode = result;
-            }
+                    var ress = _eventsBll.DrawPrize(ref eventId, custInfo.CustId, custInfo.CurrencyId, custInfo.UserName, custInfo.SiteId, out var result, out var prize);
+                    if (result == 100 || result == 0)
+                    {
+                        apiResult.Data.PrizeId = prize.PrizeId;
+                        apiResult.Data.PrizeName = prize.PrizeName;
+                        apiResult.Data.Jackpot = prize.Jackpot;
+                    }
 
+                    if (result == 0)
+                    {
+
+                        _perCurrency.TryGetValue((int)custInfo.CurrencyId, out var currencyName);
+                        var dAmount = prize.Amount.ToString("#,##0.##");
+                        if (_custInfoBll.IsConvertRequired(custInfo.CurrencyId))
+                        {
+                            dAmount = $"{prize.Amount / 1000:#,##0.##}";
+                        }
+                        var Tital = string.Format(_selLangBll.GetMsg("msg_DrawPrizeTital1"), serverInfo.SiteName);
+
+                        var msg = string.Format(_selLangBll.GetMsg("msg_DrawPrize1"), Tital, currencyName, dAmount);
+                        //活動已結束 找時間移除
+                        //if ((eventId == 1 || eventId == 2 || eventId == 3))//old event
+                        //{
+                        //    Tital = selLangBLL.GetMsg("msg_DrawPrizeTital");
+
+                        //    msg = string.Format(selLangBLL.GetMsg("msg_DrawPrize"), dAmount);
+                        //}
+                        if (eventId > 8)//得獎訊息抽出到db設定
+                        {
+                            var Message = _eventsBll.GetDrawPrizeMessageWithCache(eventId, _selLangBll.GetLangId());
+                            if (!string.IsNullOrEmpty(Message.Tital) && !string.IsNullOrEmpty(Message.Message))
+                            {
+                                var prizeName = $"{currencyName} {dAmount}";
+                                if (_selLangBll.GetLangId() == "vn")
+                                    prizeName = $"{dAmount} {currencyName}";
+                                Tital = Message.Tital;
+                                msg = string.Format(Message.Message, prizeName);
+                            }
+                        }
+                        _messageBll.SendMessage(custInfo.SiteId, "DrawPrize", Tital, msg, custInfo.CustId, custInfo.UserName, custInfo.UserLang);
+                    }
+                    else
+                    {
+                        apiResult.Message = _selLangBll.GetMsg("msg_Ineligible");
+                    }
+                    apiResult.ErrorCode = result;
+                }
+            }
             return apiResult;
         }
         [Authorize]
