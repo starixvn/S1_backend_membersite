@@ -216,6 +216,8 @@ namespace MemberSite.Service.BLL
             return _eventsService.CheckDrawPrize(ref eventId, siteId, custId, currencyId, out prizeId, out result);
         }
 
+
+
         public async Task<(int errorCode, int ticketCount)> CheckDrawPrize(int custId, int currencyId) 
         {
             var errorCode = 0;
@@ -247,6 +249,68 @@ namespace MemberSite.Service.BLL
 
             return _eventsService.DrawPrize(ref eventId, custId, currencyId, userName, siteId, out result, out drawPrize);
         }
+
+        public async Task<(int error, int count, Prize prize)> DrawPrize(int eventId, int custId, int currencyId, string userName, int siteId)
+        {
+            var res = 0;
+            var drawPrize = new Prize();
+            var ticketCount = 0;
+            decimal prizeAmount = 0;
+            var tickets = await _eventsService.GetTickets(custId, currencyId);
+            if (!tickets.Any())
+            {
+                return (102, 0, null);
+            }
+            else
+            {
+                var validTickets = tickets.Where(a => a.IsUsed == false);
+                if (validTickets.Any())
+                {
+                    res = 0;
+                    ticketCount = validTickets.Count();
+                }
+                else
+                {
+                    return (103, 0, null);
+                }
+            }
+
+            var prizes = await _eventsService.GetPrizes(eventId, currencyId);
+
+            var quota = prizes.Sum(a => a.Quota);
+
+            if (quota > 0)
+            {
+                var r = new Random();
+                var LuckyNum = r.Next(quota) + 1;
+                var LuckyCnt = 0;
+
+                foreach (var prize in prizes.Where(x => x.Quota > 0))
+                {
+                    drawPrize = prize;
+                    prizeAmount = prize.Amount;
+                    LuckyCnt += prize.Quota;
+
+                    if (LuckyNum <= LuckyCnt)
+                    {
+                        break;
+                    }
+                }
+            }
+            //獎項抽完了,給最小獎
+            if (drawPrize == null)
+            {
+                var prize = prizes.Aggregate((min, next) => min.Amount > next.Amount ? next : min);
+                drawPrize = prize;
+                prizeAmount = prize.Amount;
+
+            }
+            var checkDate = DateTime.UtcNow;
+            res = await _eventsService.PayoutPrize(eventId, drawPrize.PrizeId, siteId, custId, userName, drawPrize.Amount, checkDate, drawPrize.PrizeType);
+            ticketCount--;
+            return (res, ticketCount, drawPrize);
+        }
+
         public IEnumerable<CustGiftList> GetCustDrawPrizeList(int eventId, int siteId, int custId)
         {
             return _eventsService.GetCustDrawPrizeList(eventId, siteId, custId);
@@ -300,14 +364,16 @@ namespace MemberSite.Service.BLL
         public DrawPrizeMessage GetDrawPrizeMessage(int eventId, string langId)
         {
             var drawPrizeMessage = new DrawPrizeMessage();
-
-            _eventsService.GetDrawPrizeMessage(eventId, "en", out var tital, out var message); //預設用英文
-            drawPrizeMessage.Tital = tital;
-            drawPrizeMessage.Message = message;
             if (_eventsService.GetDrawPrizeMessage(eventId, langId, out var titalLan, out var messageLan) > 0)
             {
                 drawPrizeMessage.Tital = titalLan;
                 drawPrizeMessage.Message = messageLan;
+            }
+            else 
+            {
+                _eventsService.GetDrawPrizeMessage(eventId, "en", out var tital, out var message); //預設用英文
+                drawPrizeMessage.Tital = tital;
+                drawPrizeMessage.Message = message;
             }
             return drawPrizeMessage;
         }

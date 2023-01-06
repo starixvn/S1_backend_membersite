@@ -14,6 +14,7 @@ namespace MemberSite.Service.DAL
         private readonly WalletService walletService;
         private readonly WithdrawalLimitService withdrawalLimitService;
         private readonly MySqlClient _reportDb;
+        private readonly MySqlClient _mainDb;
 
         public EventsService(IConfiguration configuration, WalletService walletService, WithdrawalLimitService withdrawalLimitService, IEnumerable<MySqlClient> sqlClients)
         {
@@ -21,6 +22,7 @@ namespace MemberSite.Service.DAL
             this.walletService = walletService;
             this.withdrawalLimitService = withdrawalLimitService;
             _reportDb = sqlClients.FirstOrDefault(a => a.DataBase == DataBase.Report);
+            _mainDb = sqlClients.FirstOrDefault(a => a.DataBase == DataBase.Main);
         }
         public IEnumerable<Leaderboard> GetLeaderboardList(int lBCategoryId, int siteId, int currencyId, int topNum, int beforeDays)
         {
@@ -135,6 +137,32 @@ namespace MemberSite.Service.DAL
 
             return rtn;
         }
+
+        public IEnumerable<Prize> CheckDrawPrize(ref int eventId, int siteId, int custId, int currencyId, out int prizeId, out int quota, out DateTime checkDate, out int result)
+        {
+            var p = new DynamicParameters(new { SiteId = siteId, CustId = custId, CurrencyId = currencyId });
+            p.Add("EventId", eventId, dbType: DbType.Int32, direction: ParameterDirection.InputOutput);
+            p.Add("PrizeId", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            p.Add("Quota", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            p.Add("CheckDate", dbType: DbType.Date, direction: ParameterDirection.Output);
+            p.Add("result", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            var rtn = _reportDb.Query<Prize>("Member_CheckDrawPrize_Get", p);
+            eventId = p.Get<int>("EventId");
+            prizeId = p.Get<int>("PrizeId");
+            quota = p.Get<int>("Quota");
+            checkDate = p.Get<DateTime>("CheckDate");
+            result = p.Get<int>("result");
+
+            return rtn;
+        }
+
+        public async Task<IEnumerable<Prize>> GetPrizes(int eventId, int currencyId)
+        {
+            var p = new DynamicParameters(new { _EventId = eventId, _CurrencyId = currencyId });
+            var prizes = await _reportDb.QueryAsync<Prize>("Member_DrawPrizes_Get", p);
+            return prizes;
+        }
+
         public int DrawPrize(ref int eventId, int custId, int currencyId, string userName, int siteId, out int result, out Prize drawPrize)
         {
 
@@ -213,6 +241,23 @@ namespace MemberSite.Service.DAL
             return result;
         }
 
+        public async Task<int> PayoutPrize(int eventId, int prizeId, int siteId, int custId, string userName, decimal prizeAmount, DateTime checkDate, int prizeType) 
+        {
+            var res = 0;
+            await using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            await conn.OpenAsync();
+            using var trans = conn.BeginTransaction();
+            res = await conn.ExecuteAsync("Member_DrawPrize_Set", new { EventId = eventId, PrizeId = prizeId, CustId = custId, DrawDate = checkDate }, transaction: trans, commandType: CommandType.StoredProcedure);
+            if (prizeType == 1)
+            {
+                res = walletService.SetBalance(custId, siteId, userName, prizeAmount, 8, $"Prize: {prizeAmount.ToString("#,##0.##")}", eventId.ToString(), out _, out _, conn, trans);
+                res = withdrawalLimitService.SetWithdrawalLimit(custId, userName, siteId, prizeAmount, null, eventId.ToString(), out var afterWithdrawalLimit, conn, trans);
+            }
+            trans.Commit();
+
+            return res;
+        }
+
         public IEnumerable<CustGiftList> GetCustDrawPrizeList(int eventId, int siteId, int custId)
         {
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
@@ -280,9 +325,9 @@ namespace MemberSite.Service.DAL
             var p = new DynamicParameters(new { EventId = eventId, LangId = langId });
             p.Add("Tital", dbType: DbType.String, direction: ParameterDirection.Output);
             p.Add("Message", dbType: DbType.String, direction: ParameterDirection.Output);
-            var rtn = conn.Execute("Member_DrawPrizeMessage_Get", p, commandType: CommandType.StoredProcedure);
-            tital = p.Get<String>("Tital");
-            message = p.Get<String>("Message");
+            var rtn = _reportDb.Execute("Member_DrawPrizeMessage_Get", p);
+            tital = p.Get<string>("Tital");
+            message = p.Get<string>("Message");
             return rtn;
         }
     }

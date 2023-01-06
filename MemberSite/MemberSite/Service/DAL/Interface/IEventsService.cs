@@ -21,5 +21,6 @@ namespace MemberSite.Service.DAL.Interface
         IEnumerable<Leaderboard> GetLeaderboardListMonth(int lBCategoryId, string eventCode, int siteId, int currencyId, int topNum, DateTime selectDays);
         IEnumerable<Leaderboard> GetLeaderboardListV3(int lBCategoryId, string eventCode, int siteId, int currencyId, int topNum, int beforeDays);
         Task<IEnumerable<AngPowTicket>> GetTickets(int custId, int currencyId);
+        Task<IEnumerable<Prize>> GetPrizes(int eventId, int currencyId);
     }
 }
