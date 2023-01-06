@@ -316,7 +316,7 @@ namespace MemberSite.Service.DAL
         public async Task<IEnumerable<AngPowTicket>> GetTickets(int custId, int currencyId)
         {
             var p = new DynamicParameters(new { _CustId = custId, _CurrencyId = currencyId });
-            var tickets = await _reportDb.QueryAsync<AngPowTicket>("Member_EventsTickets_Get", p);
+            var tickets = await _reportDb.QueryAsync<AngPowTicket>("Member_DrawTicket_Get", p);
             return tickets;
         }
         public int GetDrawPrizeMessage(int eventId, string langId, out string tital, out string message)
