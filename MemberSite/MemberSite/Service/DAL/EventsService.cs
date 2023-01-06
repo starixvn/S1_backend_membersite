@@ -158,9 +158,7 @@ namespace MemberSite.Service.DAL
 
         public async Task<IEnumerable<Prize>> GetPrizes(int eventId, int currencyId)
         {
-            var p = new DynamicParameters(new { _EventId = eventId, _CurrencyId = currencyId });
-            var prizes = await _reportDb.QueryAsync<Prize>("Member_DrawPrizes_Get", p);
-            return prizes;
+            return await _reportDb.QueryAsync<Prize>("Member_DrawPrizes_Get", new { _EventId = eventId, _CurrencyId = currencyId });
         }
 
         public int DrawPrize(ref int eventId, int custId, int currencyId, string userName, int siteId, out int result, out Prize drawPrize)
@@ -241,19 +239,22 @@ namespace MemberSite.Service.DAL
             return result;
         }
 
-        public async Task<int> PayoutPrize(int eventId, int prizeId, int siteId, int custId, string userName, decimal prizeAmount, DateTime checkDate, int prizeType) 
+        public async Task<int> PayoutPrize(int eventId, int prizeId, int siteId, int custId, string userName, decimal prizeAmount, DateTime checkDate, int prizeType)
         {
             var res = 0;
             await using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             await conn.OpenAsync();
             using var trans = conn.BeginTransaction();
             res = await conn.ExecuteAsync("Member_DrawPrize_Set", new { EventId = eventId, PrizeId = prizeId, CustId = custId, DrawDate = checkDate }, transaction: trans, commandType: CommandType.StoredProcedure);
-            if (prizeType == 1)
+            if (prizeType == 1 && prizeAmount > 0)
             {
                 res = walletService.SetBalance(custId, siteId, userName, prizeAmount, 8, $"Prize: {prizeAmount.ToString("#,##0.##")}", eventId.ToString(), out _, out _, conn, trans);
                 res = withdrawalLimitService.SetWithdrawalLimit(custId, userName, siteId, prizeAmount, null, eventId.ToString(), out var afterWithdrawalLimit, conn, trans);
             }
-            trans.Commit();
+            if (res > 0) 
+            {
+                trans.Commit();
+            }
 
             return res;
         }
@@ -315,9 +316,11 @@ namespace MemberSite.Service.DAL
         }
         public async Task<IEnumerable<AngPowTicket>> GetTickets(int custId, int currencyId)
         {
-            var p = new DynamicParameters(new { _CustId = custId, _CurrencyId = currencyId });
-            var tickets = await _reportDb.QueryAsync<AngPowTicket>("Member_DrawTicket_Get", p);
-            return tickets;
+            return await _reportDb.QueryAsync<AngPowTicket>("Member_DrawTicket_Get", new { _CustId = custId, _CurrencyId = currencyId });
+        }
+        public async Task<Prize> GetCustPrizeOnToday(int eventId, int custId, int currencyId)
+        {
+            return await _reportDb.QueryFirstAsync<Prize>("Member_TodayDrawPrize_Get", new { _EventId = eventId, _CustId = custId, _CurrencyId = currencyId });
         }
         public int GetDrawPrizeMessage(int eventId, string langId, out string tital, out string message)
         {

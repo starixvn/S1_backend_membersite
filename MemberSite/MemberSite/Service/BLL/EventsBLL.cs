@@ -256,7 +256,9 @@ namespace MemberSite.Service.BLL
             var drawPrize = new Prize();
             var ticketCount = 0;
             decimal prizeAmount = 0;
+            //檢查今日有無票
             var tickets = await _eventsService.GetTickets(custId, currencyId);
+            
             if (!tickets.Any())
             {
                 return (102, 0, null);
@@ -274,36 +276,42 @@ namespace MemberSite.Service.BLL
                     return (103, 0, null);
                 }
             }
-
             var prizes = await _eventsService.GetPrizes(eventId, currencyId);
-
-            var quota = prizes.Sum(a => a.Quota);
-
-            if (quota > 0)
+            var todayPrize = await _eventsService.GetCustPrizeOnToday(eventId, custId, currencyId);
+            // 如果今日已中獎後面給空紅包
+            if (todayPrize != null) 
             {
-                var r = new Random();
-                var LuckyNum = r.Next(quota) + 1;
-                var LuckyCnt = 0;
+                drawPrize = prizes.SingleOrDefault(a => a.Amount == 0);
+            }
+            else
+            {
+                var quota = prizes.Sum(a => a.Quota);
 
-                foreach (var prize in prizes.Where(x => x.Quota > 0))
+                if (quota > 0)
                 {
-                    drawPrize = prize;
-                    prizeAmount = prize.Amount;
-                    LuckyCnt += prize.Quota;
+                    var r = new Random();
+                    var LuckyNum = r.Next(quota) + 1;
+                    var LuckyCnt = 0;
 
-                    if (LuckyNum <= LuckyCnt)
+                    foreach (var prize in prizes.Where(x => x.Quota > 0))
                     {
-                        break;
+                        drawPrize = prize;
+                        prizeAmount = prize.Amount;
+                        LuckyCnt += prize.Quota;
+                        if (LuckyNum <= LuckyCnt)
+                        {
+                            break;
+                        }
                     }
                 }
-            }
-            //獎項抽完了,給最小獎
-            if (drawPrize == null)
-            {
-                var prize = prizes.Aggregate((min, next) => min.Amount > next.Amount ? next : min);
-                drawPrize = prize;
-                prizeAmount = prize.Amount;
+                //獎項抽完了,給最小獎
+                if (drawPrize == null)
+                {
+                    var prize = prizes.Aggregate((min, next) => min.Amount > next.Amount ? next : min);
+                    drawPrize = prize;
+                    prizeAmount = prize.Amount;
 
+                }
             }
             var checkDate = DateTime.UtcNow;
             res = await _eventsService.PayoutPrize(eventId, drawPrize.PrizeId, siteId, custId, userName, drawPrize.Amount, checkDate, drawPrize.PrizeType);

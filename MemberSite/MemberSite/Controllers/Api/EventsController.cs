@@ -347,29 +347,38 @@ namespace MemberSite.Controllers.Api
 
                 var (error, ticketCount, prize) = await _eventsBll.DrawPrize(eventId, custInfo.CustId, custInfo.CurrencyId, custInfo.UserName, custInfo.SiteId);
 
-                if (error == 2)
+                if (error > 0)
                 {
-                    errorCode = error;
                     apiResult.Data.PrizeId = prize.PrizeId;
                     apiResult.Data.PrizeName = prize.PrizeName;
+                    apiResult.Data.TicketCount = ticketCount;
                     apiResult.Data.Jackpot = prize.Jackpot;
-
-                    _perCurrency.TryGetValue((int)custInfo.CurrencyId, out var currencyName);
-                    var dAmount = prize.Amount.ToString("#,##0.##");
-                    if (_custInfoBll.IsConvertRequired(custInfo.CurrencyId))
+                    if (prize.Amount > 0)
                     {
-                        dAmount = $"{prize.Amount / 1000:#,##0.##}";
+                        errorCode = 0;
+                        _perCurrency.TryGetValue((int)custInfo.CurrencyId, out var currencyName);
+                        var dAmount = prize.Amount.ToString("#,##0.##");
+                        if (_custInfoBll.IsConvertRequired(custInfo.CurrencyId))
+                        {
+                            dAmount = $"{prize.Amount / 1000:#,##0.##}";
+                        }
+                        var drawPrizeMessage = _eventsBll.GetDrawPrizeMessageWithCache(eventId, _selLangBll.GetLangId());
+                        var prizeName = $"{currencyName} {dAmount}";
+                        var title = drawPrizeMessage.Tital;
+                        var msg = string.Format(drawPrizeMessage.Message, prizeName);
+                        _messageBll.SendMessage(custInfo.SiteId, "DrawPrize", title, msg, custInfo.CustId, custInfo.UserName, custInfo.UserLang);
                     }
-                    var drawPrizeMessage = _eventsBll.GetDrawPrizeMessageWithCache(eventId, _selLangBll.GetLangId());
-                    var prizeName = $"{currencyName} {dAmount}";
-                    var title = drawPrizeMessage.Tital;
-                    var msg = string.Format(drawPrizeMessage.Message, prizeName);
-                    _messageBll.SendMessage(custInfo.SiteId, "DrawPrize", title, msg, custInfo.CustId, custInfo.UserName, custInfo.UserLang);
+                    else 
+                    {
+                        errorCode = 1;
+                    }
+                    
                 }
                 apiResult.ErrorCode = errorCode;
                 apiResult.Message = apiResult.ErrorCode switch
                 {
-                    0 => string.Format(_selLangBll.GetMsg("msg_times_chance"), ticketCount),
+                    0 => string.Format(_selLangBll.GetMsg("msg_congratulation_event_reward"), prize.Amount.ToString("#,##0.##")),
+                    1 => _selLangBll.GetMsg("msg_keep_up"),
                     102 => _selLangBll.GetMsg("msg_turnover_not_enough"),
                     103 => _selLangBll.GetMsg("msg_limit_has_been_reached"),
                     _ => _selLangBll.GetMsg("msg_Ineligible"),

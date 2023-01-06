@@ -5,6 +5,7 @@ namespace MemberSite.Service.DAL.Interface
     public interface IEventsService
     {
         IEnumerable<Prize> CheckDrawPrize(ref int eventId, int siteId, int custId, int currencyId, out int prizeId, out int result);
+        IEnumerable<Prize> CheckDrawPrize(ref int eventId, int siteId, int custId, int currencyId, out int prizeId, out int quota, out DateTime checkDate, out int result);
         bool CheckEventCondition(string conditionSP, int eventId, int custId, int currencyId);
         int DrawPrize(ref int eventId, int custId, int currencyId, string userName, int siteId, out int result, out Prize drawPrize);
         IEnumerable<CustGiftList> GetCustDrawPrizeList(int eventId, int siteId, int custId);
@@ -20,7 +21,9 @@ namespace MemberSite.Service.DAL.Interface
         IEnumerable<Leaderboard> GetLeaderboardList(int lBCategoryId, int siteId, int currencyId, int topNum, int beforeDays);
         IEnumerable<Leaderboard> GetLeaderboardListMonth(int lBCategoryId, string eventCode, int siteId, int currencyId, int topNum, DateTime selectDays);
         IEnumerable<Leaderboard> GetLeaderboardListV3(int lBCategoryId, string eventCode, int siteId, int currencyId, int topNum, int beforeDays);
-        Task<IEnumerable<AngPowTicket>> GetTickets(int custId, int currencyId);
         Task<IEnumerable<Prize>> GetPrizes(int eventId, int currencyId);
+        Task<IEnumerable<AngPowTicket>> GetTickets(int custId, int currencyId);
+        Task<Prize> GetCustPrizeOnToday(int eventId, int custId, int currencyId);
+        Task<int> PayoutPrize(int eventId, int prizeId, int siteId, int custId, string userName, decimal prizeAmount, DateTime checkDate, int prizeType);
     }
 }
