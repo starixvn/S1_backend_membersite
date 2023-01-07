@@ -459,13 +459,20 @@ namespace MemberSite.Controllers.Api
         }
         [Authorize]
         [HttpPost]
-        public ApiResult<IEnumerable<CustGiftList>> GetCustDrawPrizeList(DrawPrizeReq drawPrizeReq)
+        public async Task<ApiResult<IEnumerable<CustGiftList>>> GetCustDrawPrizeList(DrawPrizeReq drawPrizeReq)
         {
             var apiResult = new ApiResult<IEnumerable<CustGiftList>>();
             var authData = _authorizeBll.GetAuthData();
             var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
             var eventId = drawPrizeReq.eventId;
-            apiResult.Data = _eventsBll.GetCustDrawPrizeList(eventId, custInfo.SiteId, authData.CustId);
+            if (eventId == 12 || eventId == 13 || eventId == 14)
+            {
+                apiResult.Data = await _eventsBll.GetTodayCustDrawPrizeList(eventId, custInfo.CustId, custInfo.CurrencyId);
+            }
+            else 
+            {
+                apiResult.Data = _eventsBll.GetCustDrawPrizeList(eventId, custInfo.SiteId, authData.CustId);
+            }
             apiResult.ErrorCode = 0;
             return apiResult;
         }

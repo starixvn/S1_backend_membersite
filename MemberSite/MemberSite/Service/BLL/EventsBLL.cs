@@ -290,6 +290,11 @@ namespace MemberSite.Service.BLL
             return _eventsService.GetCustDrawPrizeList(eventId, siteId, custId);
         }
 
+        public async Task<IEnumerable<CustGiftList>> GetTodayCustDrawPrizeList(int eventId, int custId, int currencyId)
+        {
+            return await _eventsService.GetTodayCustDrawPrizeList(eventId, custId, currencyId);
+        }
+
         public IEnumerable<PrizeDisPlayList> GetDrawPrizeDisPlayList(int eventId, int currencyId)
         {
             var prizeList = _eventsService.GetDrawPrizeList(eventId, currencyId).ToList();
