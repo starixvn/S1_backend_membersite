@@ -20,55 +20,59 @@ namespace MemberSite.Service.DAL
             _reportDbClient = serviceProvider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
         }
 
-        public int SetBalance(int custId, int siteId, string userName, decimal Amount, int type, string Memo, string RefTransId, out decimal afterAmount, out byte is1stDepoist, MySqlConnection conn, MySqlTransaction trans)
+        public int SetBalance(int custId, int siteId, string userName, decimal amount, int type, string memo, string refTransId, out decimal afterAmount, out byte is1stDepoist, IDbTransaction trans)
         {
-            var p = new DynamicParameters(new { CustId = custId, SiteId = siteId, UserName = userName,
-                Amount, Type = type,
-                Memo,
-                RefTransId });
+            var p = new DynamicParameters(new { 
+                ustId = custId, 
+                SiteId = siteId, 
+                UserName = userName,
+                Amount = amount, 
+                Type = type,
+                Memo = memo,
+                RefTransId = refTransId });
+            
             p.Add("Is1stDepoist", dbType: DbType.Boolean, direction: ParameterDirection.Output);
             p.Add("AfterAmount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
-            _mainDbClient.Execute("Wallet_Set_V2", p, conn, trans);
+            _mainDbClient.Execute("Wallet_Set_V2",  trans ,p);
             is1stDepoist = p.Get<byte?>("Is1stDepoist") ?? 0;
             afterAmount = p.Get<decimal?>("AfterAmount") ?? 0;
+            
             return afterAmount >= 0 ? 1 : 0;
         }
+        
         public decimal GetBalance(int custId)
         {
-            using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.ExecuteScalar<decimal>("Balance_Get", new { CustId = custId }, commandType: CommandType.StoredProcedure);
+            return _reportDbClient.ExecuteScalar<decimal>("Balance_Get", new { CustId = custId });
         }
+        
         public decimal GetBonus(int custId, int promoCategoryId)
         {
-            using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.QueryFirstOrDefault<decimal>("Service_Bonus_Get", new { CustId = custId, PromoCategoryId = promoCategoryId }, commandType: CommandType.StoredProcedure);
+            return _reportDbClient.QueryFirst<decimal>("Service_Bonus_Get", new { CustId = custId, PromoCategoryId = promoCategoryId });
         }
+        
         public WalletInfo GetWalletInfo(int custId, int siteId)
         {
-            using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport"));
-            conn.Open();
-            var walletInfo = conn.QueryFirstOrDefault<WalletInfo>("Service_CustInfoLog_Get", new { CustId = custId, SiteId = siteId }, commandType: CommandType.StoredProcedure);
+            var walletInfo = _reportDbClient.QueryFirst<WalletInfo>("Service_CustInfoLog_Get", new { CustId = custId, SiteId = siteId });
             walletInfo.Balance = GetBalance(custId);
 
             return walletInfo;
         }
+        
         public int GetWalletTransferStatus(int custId, out int autoTransfer)
         {
             autoTransfer = 0;
-            using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionStringReport"));
-            conn.Open();
             var p = new DynamicParameters(new { CustId = custId});
             p.Add("AutoTransfer", dbType: DbType.Int32, direction: ParameterDirection.Output);
-            var result = conn.Execute("Member_CustWalletTransferStatus_Get", p, commandType: CommandType.StoredProcedure);
+            
+            var result = _reportDbClient.Execute("Member_CustWalletTransferStatus_Get", p);
             autoTransfer = p.Get<int?>("AutoTransfer") ?? 0;
+            
             return result >= 0 ? 1 : 0;
-
         }
+        
         public int SetWalletTransferStatus(int custId, int autoTransfer)
         {
-            using var conn = new MySqlConnection(_configuration.GetConnectionString("ConnectionString"));
-            conn.Open();
-            return conn.Execute("Member_CustWalletTransferStatus_Set", new { CustId = custId , AutoTransfer = autoTransfer }, commandType: CommandType.StoredProcedure) > 0 ? 1 : 0;
+            return _mainDbClient.Execute("Member_CustWalletTransferStatus_Set", new { CustId = custId , AutoTransfer = autoTransfer }) > 0 ? 1 : 0;
         }
     }
 }
