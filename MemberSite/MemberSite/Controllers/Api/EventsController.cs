@@ -341,17 +341,15 @@ namespace MemberSite.Controllers.Api
 
             if (eventId == 12 || eventId == 13 || eventId == 14)
             {
-                var errorCode = 0;
+                var errorCode = -1;
                 if (string.IsNullOrEmpty(custInfo.AccountName) || !custInfo.PhoneVerified)
                     errorCode = 104;
 
-                var (error, ticketCount, prize) = await _eventsBll.DrawPrize(eventId, custInfo.CustId, custInfo.CurrencyId, custInfo.UserName, custInfo.SiteId);
-
-                if (error > 0)
+                var (error,  prize) = await _eventsBll.DrawPrize(eventId, custInfo.CustId, custInfo.CurrencyId, custInfo.UserName, custInfo.SiteId);
+                if (error > 0 && error < 100)
                 {
                     apiResult.Data.PrizeId = prize.PrizeId;
                     apiResult.Data.PrizeName = prize.PrizeName;
-                    apiResult.Data.TicketCount = ticketCount;
                     apiResult.Data.Jackpot = prize.Jackpot;
                     if (prize.Amount > 0)
                     {
@@ -368,19 +366,23 @@ namespace MemberSite.Controllers.Api
                         var msg = string.Format(drawPrizeMessage.Message, prizeName);
                         _messageBll.SendMessage(custInfo.SiteId, "DrawPrize", title, msg, custInfo.CustId, custInfo.UserName, custInfo.UserLang);
                     }
-                    else 
+                    else
                     {
                         errorCode = 1;
                     }
-                    
+                }
+                else if (error > 100) 
+                {
+                    errorCode = error;
                 }
                 apiResult.ErrorCode = errorCode;
-                apiResult.Message = apiResult.ErrorCode switch
+                apiResult.Message = errorCode switch
                 {
                     0 => string.Format(_selLangBll.GetMsg("msg_congratulation_event_reward"), prize.Amount.ToString("#,##0.##")),
                     1 => _selLangBll.GetMsg("msg_keep_up"),
                     102 => _selLangBll.GetMsg("msg_turnover_not_enough"),
                     103 => _selLangBll.GetMsg("msg_limit_has_been_reached"),
+                    104 => _selLangBll.GetMsg("msg_ProfileOrPhoneNotFinish"),
                     _ => _selLangBll.GetMsg("msg_Ineligible"),
                 };
             }
@@ -391,13 +393,11 @@ namespace MemberSite.Controllers.Api
                 if ((custInfo.Status != (int)CustStatus.Running || custInfo.ActStatus != (int)CustActStatus.Depoisted) && (eventId < 6))
                 {
                     apiResult.ErrorCode = 102;
-                    //apiResult.Message = selLangBLL.GetMsg("msg_IneligibleAngPow");
                     apiResult.Message = _selLangBll.GetMsg("msg_Ineligible");
                 }
                 else if ((eventId == 1 || eventId == 2 || eventId == 3) && (custInfo.SiteId == 2 || custInfo.SiteId == 3) && _custInfoBll.GetCustTransSummary(authData.CustId).DepositSum < 200000)
                 {
                     apiResult.ErrorCode = 102;
-                    //apiResult.Message = selLangBLL.GetMsg("msg_IneligibleAngPow");
                     apiResult.Message = _selLangBll.GetMsg("msg_Ineligible");
                 }
                 else if (eventDrawInfo.ConditionSp != null && !_eventsBll.CheckEventCondition(eventDrawInfo.ConditionSp, eventId, authData.CustId, custInfo.CurrencyId))
@@ -459,13 +459,20 @@ namespace MemberSite.Controllers.Api
         }
         [Authorize]
         [HttpPost]
-        public ApiResult<IEnumerable<CustGiftList>> GetCustDrawPrizeList(DrawPrizeReq drawPrizeReq)
+        public async Task<ApiResult<IEnumerable<CustGiftList>>> GetCustDrawPrizeList(DrawPrizeReq drawPrizeReq)
         {
             var apiResult = new ApiResult<IEnumerable<CustGiftList>>();
             var authData = _authorizeBll.GetAuthData();
             var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
             var eventId = drawPrizeReq.eventId;
-            apiResult.Data = _eventsBll.GetCustDrawPrizeList(eventId, custInfo.SiteId, authData.CustId);
+            if (eventId == 12 || eventId == 13 || eventId == 14)
+            {
+                apiResult.Data = await _eventsBll.GetTodayCustDrawPrizeList(eventId, custInfo.CustId, custInfo.CurrencyId);
+            }
+            else 
+            {
+                apiResult.Data = _eventsBll.GetCustDrawPrizeList(eventId, custInfo.SiteId, authData.CustId);
+            }
             apiResult.ErrorCode = 0;
             return apiResult;
         }
