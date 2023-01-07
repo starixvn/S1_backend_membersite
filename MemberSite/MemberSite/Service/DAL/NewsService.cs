@@ -1,35 +1,34 @@
 ﻿using Dapper;
 using MemberSite.Service.Model;
-using MySql.Data.MySqlClient;
 using System.Data;
+using MemberSite.Service.Library;
+using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.DAL
 {
     public class NewsService
     {
-        private readonly IConfiguration configuration;
+        private readonly MySqlClient _reportDbClient;
 
-        public NewsService(IConfiguration configuration)
+        public NewsService(IServiceProvider provider)
         {
-            this.configuration = configuration;
+            _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
         }
 
         public News GetNewsById(int SiteId, int NewsId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.QueryFirstOrDefault<News>("Member_News_GetById", new { SiteId, NewsId }, commandType: CommandType.StoredProcedure);
+            return _reportDbClient.QueryFirst<News>("Member_News_GetById", new { SiteId, NewsId });
         }
 
         public IEnumerable<News> GetNews(int SiteId, int pageSize, ref int pageNumber, out int totalPages, out int rowCount)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             var p = new DynamicParameters(new { SiteId, NewsId = 0, PageSize = pageSize, SelectAll =1 });
             p.Add("PageNumber", pageNumber, dbType: DbType.Int32, direction: ParameterDirection.InputOutput);
             p.Add("TotalPages", dbType: DbType.Int32, direction: ParameterDirection.Output);
             p.Add("RowCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
             p.Add("StartIndex", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
-            var result = conn.Query<News>("Member_News_Get", p, commandType: CommandType.StoredProcedure);
+            var result = _reportDbClient.Query<News>("Member_News_Get", p);
             totalPages = p.Get<int?>("TotalPages") ?? 0;
             rowCount = p.Get<int?>("RowCount") ?? 0;
             return result;
