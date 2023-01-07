@@ -216,18 +216,19 @@ namespace MemberSite.Service.DAL
             return result;
         }
 
-        public async Task<int> PayoutPrize(int eventId, int prizeId, int siteId, int custId, string userName, decimal prizeAmount, DateTime checkDate, int prizeType)
+        public async Task<int> PayoutPrize(int eventId, int prizeId, string prizeName, int siteId, int custId, string userName, int currencyId, decimal prizeAmount, int ticketNo, int prizeType)
         {
             await using var conn = _mainDbClient.GetMySqlConnection();
-            conn.Open();
+            await conn.OpenAsync();
             await using var trans = await conn.BeginTransactionAsync();
-            
-            var res = await conn.ExecuteAsync("Member_DrawPrize_Set", new { EventId = eventId, PrizeId = prizeId, CustId = custId, DrawDate = checkDate }, transaction: trans, commandType: CommandType.StoredProcedure);
-            
+
+            var res = await conn.ExecuteAsync("Member_DrawPrize_Set_V2", new { _EventId = eventId, _PrizeId = prizeId, _PrizeName = prizeName, _Amount = prizeAmount, _CustId = custId, _CurrencyId = currencyId, _TicketNo = ticketNo }, transaction: trans, commandType: CommandType.StoredProcedure);
+
             if (prizeType == 1 && prizeAmount > 0)
             {
-                res = _walletService.SetBalance(custId, siteId, userName, prizeAmount, 8, $"Prize: {prizeAmount.ToString("#,##0.##")}", eventId.ToString(), out _, out _, trans);
-                res = _withdrawalLimitService.SetWithdrawalLimit(custId, userName, siteId, prizeAmount, null, eventId.ToString(), out var afterWithdrawalLimit, trans);
+                var memo = $"Prize: {prizeAmount.ToString("#,##0.##")}";
+                res = _walletService.SetBalance(custId, siteId, userName, prizeAmount, 8, memo, eventId.ToString(), out _, out _, trans);
+                res = _withdrawalLimitService.SetWithdrawalLimit(custId, userName, siteId, prizeAmount, memo, eventId.ToString(), out var afterWithdrawalLimit, trans);
             }
             if (res > 0) 
             {
@@ -242,6 +243,10 @@ namespace MemberSite.Service.DAL
         public IEnumerable<CustGiftList> GetCustDrawPrizeList(int eventId, int siteId, int custId)
         {
             return _reportDbClient.Query<CustGiftList>("Member_CustDrawPrizeList_Get", new { EventId = eventId, SiteId = siteId, CustId = custId  });
+        }
+        public async Task<IEnumerable<CustGiftList>> GetTodayCustDrawPrizeList(int eventId, int custId, int currencyId)
+        {
+            return await _reportDbClient.QueryAsync<CustGiftList>("Member_CustDrawPrizeList_Get_V2", new { _EventId = eventId, _CustId = custId, _CurrencyId = currencyId });
         }
         
         public IEnumerable<PrizeList> GetDrawPrizeList(int eventId, int currencyId)
