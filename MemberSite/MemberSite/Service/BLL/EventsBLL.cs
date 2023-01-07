@@ -220,29 +220,14 @@ namespace MemberSite.Service.BLL
 
         public async Task<(int errorCode, int ticketCount)> CheckDrawPrize(int custId, int currencyId) 
         {
-            var errorCode = 0;
             var ticketCount = 0;
             var tickets = await _eventsService.GetTickets(custId, currencyId);
-            if (!tickets.Any())
-            {
-                //流水未達到
-                errorCode = 102;
-            }
-            else
-            {
-                var validTickets = tickets.Where(a => a.IsUsed == false);
-                if (validTickets.Any())
-                {
-                    errorCode = 0;
-                    ticketCount = validTickets.Count();
-                }
-                else
-                {
-                    // 已達上限
-                    errorCode = 103;
-                }
-            }
-            return (errorCode, ticketCount);
+            if (!tickets.Any()) return (102, ticketCount);
+
+            ticketCount = tickets.Count(a => a.IsUsed == false);
+            if (ticketCount == 0) return (103, ticketCount);
+
+            return (0, ticketCount);
         }
         public int DrawPrize(ref int eventId, int custId, int currencyId, string userName, int siteId, out int result, out Prize drawPrize)
         {
@@ -250,32 +235,18 @@ namespace MemberSite.Service.BLL
             return _eventsService.DrawPrize(ref eventId, custId, currencyId, userName, siteId, out result, out drawPrize);
         }
 
-        public async Task<(int error, int count, Prize prize)> DrawPrize(int eventId, int custId, int currencyId, string userName, int siteId)
+        public async Task<(int error, Prize prize)> DrawPrize(int eventId, int custId, int currencyId, string userName, int siteId)
         {
             var res = 0;
             var drawPrize = new Prize();
-            var ticketCount = 0;
-            decimal prizeAmount = 0;
             //檢查今日有無票
             var tickets = await _eventsService.GetTickets(custId, currencyId);
             
-            if (!tickets.Any())
-            {
-                return (102, 0, null);
-            }
-            else
-            {
-                var validTickets = tickets.Where(a => a.IsUsed == false);
-                if (validTickets.Any())
-                {
-                    res = 0;
-                    ticketCount = validTickets.Count();
-                }
-                else
-                {
-                    return (103, 0, null);
-                }
-            }
+            if (!tickets.Any()) return (102, null);
+
+            var ticket = tickets.FirstOrDefault(a => a.IsUsed == false);
+            if (ticket == null) return (103, null);
+
             var prizes = await _eventsService.GetPrizes(eventId, currencyId);
             var todayPrize = await _eventsService.GetCustPrizeOnToday(eventId, custId, currencyId);
             // 如果今日已中獎後面給空紅包
@@ -296,7 +267,6 @@ namespace MemberSite.Service.BLL
                     foreach (var prize in prizes.Where(x => x.Quota > 0))
                     {
                         drawPrize = prize;
-                        prizeAmount = prize.Amount;
                         LuckyCnt += prize.Quota;
                         if (LuckyNum <= LuckyCnt)
                         {
@@ -309,14 +279,10 @@ namespace MemberSite.Service.BLL
                 {
                     var prize = prizes.Aggregate((min, next) => min.Amount > next.Amount ? next : min);
                     drawPrize = prize;
-                    prizeAmount = prize.Amount;
-
                 }
             }
-            var checkDate = DateTime.UtcNow;
-            res = await _eventsService.PayoutPrize(eventId, drawPrize.PrizeId, siteId, custId, userName, drawPrize.Amount, checkDate, drawPrize.PrizeType);
-            ticketCount--;
-            return (res, ticketCount, drawPrize);
+            res = await _eventsService.PayoutPrize(eventId, drawPrize.PrizeId, drawPrize.PrizeName, siteId, custId, userName, currencyId, drawPrize.Amount, ticket.TicketNo, drawPrize.PrizeType);
+            return (res, drawPrize);
         }
 
         public IEnumerable<CustGiftList> GetCustDrawPrizeList(int eventId, int siteId, int custId)
