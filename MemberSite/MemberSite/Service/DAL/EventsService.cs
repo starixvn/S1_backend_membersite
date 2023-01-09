@@ -1,10 +1,9 @@
 ﻿using Dapper;
 using MemberSite.Service.DAL.Interface;
-using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using System.Data;
+using MemberSite.Service.Library;
 using MemberSite.Service.Model.enums;
-using MySql.Data.MySqlClient;
 
 namespace MemberSite.Service.DAL
 {
@@ -44,7 +43,7 @@ namespace MemberSite.Service.DAL
 
         public IEnumerable<Leaderboard> GetLeaderboardListV3(int lBCategoryId, string eventCode, int siteId, int currencyId, int topNum, int beforeDays)
         {
-            var p = new DynamicParameters(new { EventCode = eventCode});
+            var p = new DynamicParameters(new { EventCode = eventCode });
             p.Add("CustRankSP", dbType: DbType.String, direction: ParameterDirection.Output);
             p.Add("LastDateTopSP", dbType: DbType.String, direction: ParameterDirection.Output);
             _reportDbClient.Execute("Member_LeaderboardEventSetting_Get", p);
@@ -90,7 +89,7 @@ namespace MemberSite.Service.DAL
             custRank = p1.Get<int?>("CustRank") ?? 0;
             point = p1.Get<decimal?>("Point") ?? 0;
         }
-        
+
         public void GetCustRankMonth(int lBCategoryId, string eventCode, int custId, DateTime selectDays, out int custRank, out Decimal point)
         {
             custRank = 0;
@@ -113,14 +112,14 @@ namespace MemberSite.Service.DAL
             conn.Open();
             using var trans = conn.BeginTransaction();
             var check = CheckDrawPrize(ref eventId, siteId, custId, currencyId, out prizeId, out _, out _, out result, trans);
-            
+
             trans.Commit();
             conn.Close();
             conn.Dispose();
             return check;
         }
-        
-        private IEnumerable<Prize> CheckDrawPrize(ref int eventId, int siteId, int custId, int currencyId, out int prizeId, out int quota, out DateTime checkDate, out int result ,  IDbTransaction trans)
+
+        private IEnumerable<Prize> CheckDrawPrize(ref int eventId, int siteId, int custId, int currencyId, out int prizeId, out int quota, out DateTime checkDate, out int result, IDbTransaction trans)
         {
             var p = new DynamicParameters(new { SiteId = siteId, CustId = custId, CurrencyId = currencyId });
             p.Add("EventId", eventId, dbType: DbType.Int32, direction: ParameterDirection.InputOutput);
@@ -128,7 +127,8 @@ namespace MemberSite.Service.DAL
             p.Add("Quota", dbType: DbType.Int32, direction: ParameterDirection.Output);
             p.Add("CheckDate", dbType: DbType.Date, direction: ParameterDirection.Output);
             p.Add("result", dbType: DbType.Int32, direction: ParameterDirection.Output);
-            var rtn = _mainDbClient.Query<Prize>("Member_CheckDrawPrize_Get",trans,p);
+            var rtn = _mainDbClient.Query<Prize>("Member_CheckDrawPrize_Get", trans, p);
+
             eventId = p.Get<int>("EventId");
             prizeId = p.Get<int>("PrizeId");
             quota = p.Get<int>("Quota");
@@ -250,13 +250,12 @@ namespace MemberSite.Service.DAL
 
         public IEnumerable<CustGiftList> GetCustDrawPrizeList(int eventId, int siteId, int custId)
         {
-            return _reportDbClient.Query<CustGiftList>("Member_CustDrawPrizeList_Get", new { EventId = eventId, SiteId = siteId, CustId = custId  });
+            return _reportDbClient.Query<CustGiftList>("Member_CustDrawPrizeList_Get", new { EventId = eventId, SiteId = siteId, CustId = custId });
         }
         public async Task<IEnumerable<CustGiftList>> GetTodayCustDrawPrizeList(int eventId, int custId, int currencyId)
         {
             return await _reportDbClient.QueryAsync<CustGiftList>("Member_CustDrawPrizeList_Get_V2", new { _EventId = eventId, _CustId = custId, _CurrencyId = currencyId });
         }
-        
         public IEnumerable<PrizeList> GetDrawPrizeList(int eventId, int currencyId)
         {
             return _reportDbClient.Query<PrizeList>("Member_DrawPrizeList_Get", new { EventId = eventId, CurrencyId = currencyId }, commandType: CommandType.StoredProcedure);
@@ -277,7 +276,6 @@ namespace MemberSite.Service.DAL
             eventCodeNow = p.Get<string>("NowEventCode");
             eventCodeLast = p.Get<string>("LastEventCode");
         }
-        
         public LeaderboardInfo GetLeaderboardInfo(string eventCode, int siteId, int currencyId)
         {
             var info = _reportDbClient.QueryFirst<LeaderboardInfo>("Member_LeaderboardEventInfo_Get", new { EventCode = eventCode, SiteId = siteId });
@@ -302,8 +300,9 @@ namespace MemberSite.Service.DAL
             var p = new DynamicParameters(new { EventId = eventId, CustId = custId, CurrencyId = currencyId });
             p.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
             _reportDbClient.Execute(conditionSp, p);
-            var result = p.Get<int?>("Result") ?? 0;
-            return result > 0;
+
+            var Result = p.Get<int?>("Result") ?? 0;
+            return Result > 0;
         }
         
         public async Task<IEnumerable<AngPowTicket>> GetTickets(int custId, int currencyId)
@@ -315,7 +314,6 @@ namespace MemberSite.Service.DAL
         {
             return await _reportDbClient.QueryFirstAsync<Prize>("Member_TodayDrawPrize_Get", new { _EventId = eventId, _CustId = custId, _CurrencyId = currencyId });
         }
-        
         public int GetDrawPrizeMessage(int eventId, string langId, out string tital, out string message)
         {
             var p = new DynamicParameters(new { EventId = eventId, LangId = langId });
