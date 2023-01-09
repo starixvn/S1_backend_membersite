@@ -115,6 +115,25 @@ namespace MemberSite.Service.Library
             _logger.LogDebug($"{sql} {sw.Elapsed:c}");
             return result;
         }
+        
+        public IEnumerable<T> Query<T>(string sql, IDbTransaction transaction, object parameters)
+        {
+            IEnumerable<T> result;
+            var sw = Stopwatch.StartNew();
+            try
+            {
+                result = transaction.Connection.Query<T>(sql, param: parameters, commandType: CommandType.StoredProcedure);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, sql);
+                throw;
+            }
+
+            LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
+            _logger.LogDebug($"{sql} {sw.Elapsed:c}");
+            return result;
+        }
 
         public T Query<T>(string name, object parameters, Func<SqlMapper.GridReader, T> func)
         {
