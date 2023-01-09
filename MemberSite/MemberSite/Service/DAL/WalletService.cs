@@ -23,7 +23,7 @@ namespace MemberSite.Service.DAL
         public int SetBalance(int custId, int siteId, string userName, decimal amount, int type, string memo, string refTransId, out decimal afterAmount, out byte is1stDepoist, IDbTransaction trans)
         {
             var p = new DynamicParameters(new { 
-                ustId = custId, 
+                CustId = custId, 
                 SiteId = siteId, 
                 UserName = userName,
                 Amount = amount, 
