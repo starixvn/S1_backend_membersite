@@ -5,12 +5,13 @@ using Newtonsoft.Json;
 using System.Text.RegularExpressions;
 using MemberSite.Service.Library;
 using MemberSite.Service.BLL.Interface;
+using MemberSite.Service.DAL.Interface;
 
 namespace MemberSite.Service.BLL
 {
     public class EventsBLL : IEventsBLL
     {
-        private readonly EventsService _eventsService;
+        private readonly IEventsService _eventsService;
         private readonly CacheHelper _cacheHelper;
         public string MaskName(string input)
         {
@@ -22,10 +23,10 @@ namespace MemberSite.Service.BLL
                 pattern = @"(?<=[\w]{1})[\w-\._\+%]*(?=[\w]{1})";
             return Regex.Replace(input, pattern, m => new string('*', m.Length));
         }
-        public EventsBLL(IServiceProvider provider)
+        public EventsBLL(IEventsService eventsService, CacheHelper cacheHelper)
         {
-            _eventsService = provider.GetRequiredService<EventsService>();
-            _cacheHelper = provider.GetRequiredService<CacheHelper>();
+            _eventsService = eventsService;
+            _cacheHelper = cacheHelper;
         }
         public IEnumerable<Leaderboard> GetLeaderboardList(int lBCategoryId, int siteId, int currencyId, int topNum, int beforeDays)
         {
