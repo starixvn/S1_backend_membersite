@@ -253,10 +253,12 @@ namespace MemberSite.Service.BLL
 
             var prizes = await _eventsService.GetPrizes(eventId, customer.CurrencyId);
             var todayPrize = await _eventsService.GetCustPrizeOnToday(eventId, customer.CustId, customer.CurrencyId);
+            var isUsed = true;
             // 如果今日已中獎後面給空紅包
             if (todayPrize != null) 
             {
                 drawPrize = prizes.SingleOrDefault(a => a.Amount == 0);
+                isUsed = false;
             }
             else
             {
@@ -285,7 +287,7 @@ namespace MemberSite.Service.BLL
                     drawPrize = prize;
                 }
             }
-            res = await _eventsService.PayoutPrize(eventId, drawPrize.PrizeId, drawPrize.PrizeName, customer.SiteId, customer.CustId, customer.UserName, customer.CurrencyId, drawPrize.Amount, ticket.TicketNo, drawPrize.PrizeType);
+            res = await _eventsService.PayoutPrize(eventId, drawPrize.PrizeId, drawPrize.PrizeName, customer.SiteId, customer.CustId, customer.UserName, customer.CurrencyId, drawPrize.Amount, ticket.TicketNo, drawPrize.PrizeType, isUsed);
             return (res, drawPrize);
         }
 
