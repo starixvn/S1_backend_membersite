@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
+using NSubstitute.ReturnsExtensions;
 
 namespace MemberSiteTests.Service.BLL
 {
@@ -38,7 +39,7 @@ namespace MemberSiteTests.Service.BLL
             var cacheHelper = new CacheHelper(_serviceProvider);
             var angPao = new EventsBLL(eventsSvc , cacheHelper);
             var custId = 250032;
-            var currencyId = 12;
+            var currencyId = 2;
             var expect = 102;
 
             var (error, ticketCount) = await angPao.CheckDrawPrize(custId, currencyId);
@@ -61,7 +62,7 @@ namespace MemberSiteTests.Service.BLL
             var cacheHelper = new CacheHelper(_serviceProvider);
             var angPao = new EventsBLL(eventsSvc, cacheHelper);
             var custId = 250032;
-            var currencyId = 12;
+            var currencyId = 2;
             var expect = 0;
             var expectTicket = 1;
 
@@ -95,6 +96,91 @@ namespace MemberSiteTests.Service.BLL
 
             error.Should().Be(expect);
             ticketCount.Should().Be(expectTicket);
+        }
+
+        [Test]
+        public async Task User_Have_Not_Filled_AccountName_And_Verified_Phone()
+        {
+            var customer = new Customer() 
+            {
+                CustId = 250032,
+                PhoneVerified = false
+            };
+
+            var eventsSvc = Substitute.For<IEventsService>();
+            var cacheHelper = new CacheHelper(_serviceProvider);
+            var angPao = new EventsBLL(eventsSvc, cacheHelper);
+            var eventId = 12;
+            var expect = 104;
+
+            var (error, _) = await angPao.DrawPrize(eventId, customer);
+
+            error.Should().Be(expect);
+        }
+
+        [Test]
+        public async Task User_Has_No_Ticktes_When_Drawing()
+        {
+            var customer = new Customer()
+            {
+                CustId = 250032,
+                PhoneVerified = true,
+                AccountName = "Xidada"
+            };
+            var eventsSvc = Substitute.For<IEventsService>();
+            eventsSvc.GetTickets(Arg.Any<int>(), Arg.Any<int>()).Returns(x =>
+            {
+                return new List<AngPowTicket>();
+            });
+
+            var cacheHelper = new CacheHelper(_serviceProvider);
+            var angPao = new EventsBLL(eventsSvc, cacheHelper);
+            var eventId = 12;
+            var expect = 102;
+
+            var (error, _) = await angPao.DrawPrize(eventId, customer);
+
+            error.Should().Be(expect);
+        }
+
+        [Test]
+        public async Task User_Drawing_And_Get_2_MYR_Prize()
+        {
+            var customer = new Customer()
+            {
+                CustId = 250032,
+                CurrencyId = 2,
+                SiteId = 1,
+                PhoneVerified = true,
+                AccountName = "Xidada"
+            };
+            var eventsSvc = Substitute.For<IEventsService>();
+            eventsSvc.GetTickets(Arg.Any<int>(), Arg.Any<int>()).Returns(x =>
+            {
+                return new List<AngPowTicket>()
+                  {
+                    new AngPowTicket() { CustId = 250032, IsUsed = false, TicketNo = 1 }
+                  };
+            });
+            eventsSvc.GetPrizes(Arg.Is(12), Arg.Is(2)).Returns(x =>
+            {
+                return new List<Prize>()
+                {
+                    new Prize() { PrizeId  = 118 ,PrizeType = 1, PrizeName = "2 MYR", Amount = 2m, StartTime = new DateTime(2023,1,5), EndTime = new DateTime(2023,2,6), Quota = 5, Jackpot = 0 }
+                };
+            });
+            eventsSvc.GetCustPrizeOnToday(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>()).ReturnsNull();
+            eventsSvc.PayoutPrize(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<string>(), Arg.Any<int>(), Arg.Any<int>(), Arg.Any<string>(), Arg.Any<int>(), Arg.Any<decimal>(), Arg.Any<int>(), Arg.Any<int>()).Returns(x => 1);
+            var cacheHelper = new CacheHelper(_serviceProvider);
+            var angPao = new EventsBLL(eventsSvc, cacheHelper);
+            var eventId = 12;
+            var expect = 1;
+            var expectAmount = 2m;
+
+            var (error, prize) = await angPao.DrawPrize(eventId, customer);
+
+            error.Should().Be(expect);
+            prize.Amount.Should().Be(expectAmount);
         }
     }
 }
