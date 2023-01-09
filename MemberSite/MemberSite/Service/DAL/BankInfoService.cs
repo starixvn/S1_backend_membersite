@@ -1,67 +1,58 @@
-﻿using Dapper;
-using MemberSite.Service.Model;
+﻿using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
-using MySql.Data.MySqlClient;
-using System.Data;
+using MemberSite.Service.Library;
 
 namespace MemberSite.Service.DAL
 {
     public class BankInfoService
     {
-        private readonly IConfiguration configuration;
+        private readonly MySqlClient _reportDb;
 
-        public BankInfoService(IConfiguration configuration)
+        public BankInfoService(IServiceProvider provider)
         {
-            this.configuration = configuration;
+            _reportDb = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
         }
         public IEnumerable<BankInfoSys> GetBankInfoSysList(int siteId)
         {
             //siteId Still Useless
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<BankInfoSys>("BankInfoSysList_Get", new { SiteId = siteId }, commandType: CommandType.StoredProcedure);
+            return _reportDb.Query<BankInfoSys>("BankInfoSysList_Get", new { SiteId = siteId });
         }
 
         public IEnumerable<BankInfoSys> GetBankInfoSysListForCtrl(int siteId)/*Filter Out BankInfoSys.Status != 0*/
         {
             //siteId Still Useless
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<BankInfoSys>("BankInfoSysListForCtrl_Get", new { SiteId = siteId }, commandType: CommandType.StoredProcedure);
+            return _reportDb.Query<BankInfoSys>("BankInfoSysListForCtrl_Get", new { SiteId = siteId });
         }
+        
         public IEnumerable<BankInfoPay> GetBankInfoPayList(int siteId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<BankInfoPay>("Common_BankInfoPay_Get", new { SiteId = siteId }, commandType: CommandType.StoredProcedure);
+            return _reportDb.Query<BankInfoPay>("Common_BankInfoPay_Get", new { SiteId = siteId });
         }
         
         public IEnumerable<BankInfoName> GetBankInfoNameList(string lang)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<BankInfoName>("Member_BankInfoName_Get", new { _Lang = lang }, commandType: CommandType.StoredProcedure);
+            return _reportDb.Query<BankInfoName>("Member_BankInfoName_Get", new { _Lang = lang });
         }
 
         public IEnumerable<AutoChannelBankInfo> GetAutoChannelBankInfoList(int siteId, DepositType depositType)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<AutoChannelBankInfo>("Service_AutoChannelBankInfo_Get", new { SiteId = siteId, DepositType = (int)depositType }, commandType: CommandType.StoredProcedure);
+            return _reportDb.Query<AutoChannelBankInfo>("Service_AutoChannelBankInfo_Get", new { SiteId = siteId, DepositType = (int)depositType });
         }
 
         public IEnumerable<BlockAccount> GetBlockBankAccount(int sysId, string accountNum)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<BlockAccount>("Member_BlockAccount_Get", new { SysId = sysId, AccountNum = accountNum }, commandType: CommandType.StoredProcedure);
+            return _reportDb.Query<BlockAccount>("Member_BlockAccount_Get", new { SysId = sysId, AccountNum = accountNum });
         }
 
         public IEnumerable<EWalletInfoSys> GetEWalletInfoSysList()
         {
             //siteId Still Useless
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<EWalletInfoSys>("Service_EWalletInfoSys_Get", commandType: CommandType.StoredProcedure);
+            return _reportDb.Query<EWalletInfoSys>("Service_EWalletInfoSys_Get");
         }
 
         public IEnumerable<BlockAccount> GetBlockEWalletAccount(int sysId, string accountNum)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<BlockAccount>("Member_BlockEWallet_Get", new { SysId = sysId, AccountNum = accountNum }, commandType: CommandType.StoredProcedure);
+            return _reportDb.Query<BlockAccount>("Member_BlockEWallet_Get", new { SysId = sysId, AccountNum = accountNum });
         }
     }
 }
