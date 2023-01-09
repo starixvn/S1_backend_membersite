@@ -12,6 +12,7 @@ namespace MemberSite.Service.BLL
     public class EventsBLL : IEventsBLL
     {
         private readonly IEventsService _eventsService;
+        private readonly AngPaoProcessor _angPaoProcessor;
         private readonly CacheHelper _cacheHelper;
         public string MaskName(string input)
         {
@@ -23,9 +24,10 @@ namespace MemberSite.Service.BLL
                 pattern = @"(?<=[\w]{1})[\w-\._\+%]*(?=[\w]{1})";
             return Regex.Replace(input, pattern, m => new string('*', m.Length));
         }
-        public EventsBLL(IEventsService eventsService, CacheHelper cacheHelper)
+        public EventsBLL(IEventsService eventsService, CacheHelper cacheHelper, AngPaoProcessor angPaoProcessor)
         {
             _eventsService = eventsService;
+            _angPaoProcessor = angPaoProcessor;
             _cacheHelper = cacheHelper;
         }
         public IEnumerable<Leaderboard> GetLeaderboardList(int lBCategoryId, int siteId, int currencyId, int topNum, int beforeDays)
@@ -262,30 +264,7 @@ namespace MemberSite.Service.BLL
             }
             else
             {
-                var quota = prizes.Sum(a => a.Quota);
-
-                if (quota > 0)
-                {
-                    var r = new Random();
-                    var LuckyNum = r.Next(quota) + 1;
-                    var LuckyCnt = 0;
-
-                    foreach (var prize in prizes.Where(x => x.Quota > 0))
-                    {
-                        drawPrize = prize;
-                        LuckyCnt += prize.Quota;
-                        if (LuckyNum <= LuckyCnt)
-                        {
-                            break;
-                        }
-                    }
-                }
-                //獎項抽完了,給最小獎
-                if (drawPrize == null)
-                {
-                    var prize = prizes.Aggregate((min, next) => min.Amount > next.Amount ? next : min);
-                    drawPrize = prize;
-                }
+                drawPrize = _angPaoProcessor.Drawing(prizes);
             }
             res = await _eventsService.PayoutPrize(eventId, drawPrize.PrizeId, drawPrize.PrizeName, customer.SiteId, customer.CustId, customer.UserName, customer.CurrencyId, drawPrize.Amount, ticket.TicketNo, drawPrize.PrizeType, isUsed);
             return (res, drawPrize);
