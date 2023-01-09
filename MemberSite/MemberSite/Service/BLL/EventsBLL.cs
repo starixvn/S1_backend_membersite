@@ -235,20 +235,23 @@ namespace MemberSite.Service.BLL
             return _eventsService.DrawPrize(ref eventId, custId, currencyId, userName, siteId, out result, out drawPrize);
         }
 
-        public async Task<(int error, Prize prize)> DrawPrize(int eventId, int custId, int currencyId, string userName, int siteId)
+        public async Task<(int error, Prize prize)> DrawPrize(int eventId, Customer customer)
         {
             var res = 0;
             var drawPrize = new Prize();
+
+            if (string.IsNullOrEmpty(customer.AccountName) || !customer.PhoneVerified) return (104, null);
+
             //檢查今日有無票
-            var tickets = await _eventsService.GetTickets(custId, currencyId);
+            var tickets = await _eventsService.GetTickets(customer.CustId, customer.CurrencyId);
             
             if (!tickets.Any()) return (102, null);
 
             var ticket = tickets.FirstOrDefault(a => a.IsUsed == false);
             if (ticket == null) return (103, null);
 
-            var prizes = await _eventsService.GetPrizes(eventId, currencyId);
-            var todayPrize = await _eventsService.GetCustPrizeOnToday(eventId, custId, currencyId);
+            var prizes = await _eventsService.GetPrizes(eventId, customer.CurrencyId);
+            var todayPrize = await _eventsService.GetCustPrizeOnToday(eventId, customer.CustId, customer.CurrencyId);
             // 如果今日已中獎後面給空紅包
             if (todayPrize != null) 
             {
@@ -281,7 +284,7 @@ namespace MemberSite.Service.BLL
                     drawPrize = prize;
                 }
             }
-            res = await _eventsService.PayoutPrize(eventId, drawPrize.PrizeId, drawPrize.PrizeName, siteId, custId, userName, currencyId, drawPrize.Amount, ticket.TicketNo, drawPrize.PrizeType);
+            res = await _eventsService.PayoutPrize(eventId, drawPrize.PrizeId, drawPrize.PrizeName, customer.SiteId, customer.CustId, customer.UserName, customer.CurrencyId, drawPrize.Amount, ticket.TicketNo, drawPrize.PrizeType);
             return (res, drawPrize);
         }
 
