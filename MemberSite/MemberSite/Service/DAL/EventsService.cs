@@ -224,14 +224,13 @@ namespace MemberSite.Service.DAL
             return result;
         }
 
-        public async Task<int> PayoutPrize(int eventId, int prizeId, string prizeName, int siteId, int custId, string userName, int currencyId, decimal prizeAmount, int ticketNo, int prizeType)
+        public async Task<int> PayoutPrize(int eventId, int prizeId, string prizeName, int siteId, int custId, string userName, int currencyId, decimal prizeAmount, int ticketNo, int prizeType, bool isUsed)
         {
             await using var conn = _mainDbClient.GetMySqlConnection();
             await conn.OpenAsync();
             await using var trans = await conn.BeginTransactionAsync();
 
-            var res = await conn.ExecuteAsync("Member_DrawPrize_Set_V2", new { _EventId = eventId, _PrizeId = prizeId, _PrizeName = prizeName, _Amount = prizeAmount, _CustId = custId, _CurrencyId = currencyId, _TicketNo = ticketNo }, transaction: trans, commandType: CommandType.StoredProcedure);
-
+            var res = await _mainDbClient.ExecuteAsync("Member_DrawPrize_Set_V2", trans, new { _EventId = eventId, _PrizeId = prizeId, _PrizeName = prizeName, _Amount = prizeAmount, _CustId = custId,  _CurrencyId = currencyId, _TicketNo = ticketNo, _IsUsed = isUsed });
             if (prizeType == 1 && prizeAmount > 0)
             {
                 var memo = $"Prize: {prizeAmount.ToString("#,##0.##")}";
