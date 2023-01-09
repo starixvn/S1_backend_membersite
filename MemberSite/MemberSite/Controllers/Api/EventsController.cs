@@ -342,10 +342,8 @@ namespace MemberSite.Controllers.Api
             if (eventId == 12 || eventId == 13 || eventId == 14)
             {
                 var errorCode = -1;
-                if (string.IsNullOrEmpty(custInfo.AccountName) || !custInfo.PhoneVerified)
-                    errorCode = 104;
 
-                var (error,  prize) = await _eventsBll.DrawPrize(eventId, custInfo.CustId, custInfo.CurrencyId, custInfo.UserName, custInfo.SiteId);
+                var (error,  prize) = await _eventsBll.DrawPrize(eventId, custInfo);
                 if (error > 0 && error < 100)
                 {
                     apiResult.Data.PrizeId = prize.PrizeId;
