@@ -350,6 +350,7 @@ namespace MemberSite.Controllers.Api
                 var key = $"AgPao:{custInfo.CustId}";
                 try 
                 {
+                    var dAmount = "";
                     if (await _cacheHelper.SetNxAsync(key, "", TimeSpan.FromSeconds(5))) 
                     {
                         var (error, prize) = await _angPaoBLL.DrawPrize(eventId, custInfo);
@@ -362,7 +363,7 @@ namespace MemberSite.Controllers.Api
                             {
                                 errorCode = 0;
                                 _perCurrency.TryGetValue((int)custInfo.CurrencyId, out var currencyName);
-                                var dAmount = prize.Amount.ToString("#,##0.##");
+                                dAmount = prize.Amount.ToString("#,##0.##");
                                 if (_custInfoBll.IsConvertRequired(custInfo.CurrencyId))
                                 {
                                     dAmount = $"{prize.Amount / 1000:#,##0.##}";
@@ -382,17 +383,17 @@ namespace MemberSite.Controllers.Api
                         {
                             errorCode = error;
                         }
-                        apiResult.ErrorCode = errorCode;
-                        apiResult.Message = errorCode switch
-                        {
-                            0 => string.Format(_selLangBll.GetMsg("msg_congratulation_event_reward"), prize.Amount.ToString("#,##0.##")),
-                            1 => _selLangBll.GetMsg("msg_keep_up"),
-                            102 => _selLangBll.GetMsg("msg_turnover_not_enough"),
-                            103 => _selLangBll.GetMsg("msg_limit_has_been_reached"),
-                            104 => _selLangBll.GetMsg("msg_ProfileOrPhoneNotFinish"),
-                            _ => _selLangBll.GetMsg("msg_Ineligible"),
-                        };
                     }
+                    apiResult.ErrorCode = errorCode;
+                    apiResult.Message = errorCode switch
+                    {
+                        0 => string.Format(_selLangBll.GetMsg("msg_congratulation_event_reward"), dAmount),
+                        1 => _selLangBll.GetMsg("msg_keep_up"),
+                        102 => _selLangBll.GetMsg("msg_turnover_not_enough"),
+                        103 => _selLangBll.GetMsg("msg_limit_has_been_reached"),
+                        104 => _selLangBll.GetMsg("msg_ProfileOrPhoneNotFinish"),
+                        _ => _selLangBll.GetMsg("msg_Ineligible"),
+                    };
                 }
                 catch (Exception ex)
                 {
