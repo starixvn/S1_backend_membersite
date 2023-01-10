@@ -143,6 +143,11 @@ namespace MemberSite.Service.DAL
             return await _reportDbClient.QueryAsync<Prize>("Member_DrawPrizes_Get", new { _EventId = eventId, _CurrencyId = currencyId });
         }
 
+        public async Task ResetPrize(int eventId, int currencyId) 
+        {
+            await _mainDbClient.ExecuteAsync("Member_DrawPrizes_Reset", new { _EventId = eventId, _CurrencyId = currencyId });
+        }
+
         public int DrawPrize(ref int eventId, int custId, int currencyId, string userName, int siteId, out int result, out Prize drawPrize)
         {
 
@@ -311,7 +316,7 @@ namespace MemberSite.Service.DAL
         
         public async Task<Prize> GetCustPrizeOnToday(int eventId, int custId, int currencyId)
         {
-            return await _reportDbClient.QueryFirstAsync<Prize>("Member_TodayDrawPrize_Get", new { _EventId = eventId, _CustId = custId, _CurrencyId = currencyId });
+            return await _reportDbClient.QueryFirstAsync<Prize>("Member_DailyDrawPrize_Get", new { _EventId = eventId, _CustId = custId, _CurrencyId = currencyId });
         }
         public int GetDrawPrizeMessage(int eventId, string langId, out string tital, out string message)
         {

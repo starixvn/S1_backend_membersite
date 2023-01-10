@@ -32,6 +32,8 @@ namespace MemberSite.Service.BLL
             var res = 0;
             var drawPrize = new Prize();
 
+            await _eventsService.ResetPrize(eventId, customer.CurrencyId);
+
             var prizes = await _eventsService.GetPrizes(eventId, customer.CurrencyId);
             if (prizes == null || !prizes.Any()) return (101, null);
 
