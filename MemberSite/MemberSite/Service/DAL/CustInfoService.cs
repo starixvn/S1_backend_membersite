@@ -328,7 +328,7 @@ namespace MemberSite.Service.DAL
             if (success)
             {
                 var custInfo = GetCustInfo(custId, true);
-                var tags = JsonSerializer.Deserialize<List<int>>(custInfo.TagList);
+                var tags = JsonSerializer.Deserialize<List<int>>(string.IsNullOrEmpty(custInfo.TagList)? "[]" : custInfo.TagList);
             
                 if (tags.Any(x => x == (int)CustTagEnum.Duplicate))
                 {
