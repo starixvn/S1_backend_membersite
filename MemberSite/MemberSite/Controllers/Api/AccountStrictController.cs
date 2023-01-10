@@ -372,8 +372,13 @@ namespace MemberSite.Controllers.Api
             var beforeCustInfo = _custInfoBLL.GetCustInfoProfile(authData.CustId);
             if (string.IsNullOrEmpty(beforeCustInfo.AccountName) && !string.IsNullOrEmpty(beforeCustInfo.PhoneNo))
             {
-                string AccountName = custProfile[nameof(AccountName)];
-                var result = _custInfoBLL.SetCustBankInfo(authData.CustId, AccountName);
+                string accountName = custProfile[nameof(accountName)];
+                var result = _custInfoBLL.SetCustBankInfo(authData.CustId, accountName);
+                
+                if (result != 0)
+                {
+                    _logger.LogWarning($"CustId: {authData.CustId} SetCustBankInfo failed.");
+                }
                 if (!string.IsNullOrEmpty(beforeCustInfo.CountryCode))
                     custProfile["CountryCode"] = beforeCustInfo.CountryCode;
                 if (!string.IsNullOrEmpty(beforeCustInfo.AreaCode))

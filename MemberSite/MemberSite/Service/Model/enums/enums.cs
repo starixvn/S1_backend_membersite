@@ -551,4 +551,9 @@ namespace MemberSite.Service.Model.enums
         //將 url 以QrCode 呈現
         QrCode = 3
     }
+    
+    public enum CustTagEnum
+    {
+        Duplicate = 6
+    }
 }

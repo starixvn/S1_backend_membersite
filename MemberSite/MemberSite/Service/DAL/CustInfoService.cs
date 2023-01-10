@@ -5,6 +5,8 @@ using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Line;
 using MySql.Data.MySqlClient;
 using System.Data;
+using Newtonsoft.Json;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace MemberSite.Service.DAL
 {
@@ -302,12 +304,49 @@ namespace MemberSite.Service.DAL
             });
             return _mainDbClient.Execute("Member_CustProfile_Address_Set", p) > 0;
         }
-        public bool SetCustBankInfo(int custId, int siteId, string accountName)
+        
+        public bool SetCustBankInfo(int custId, int siteId, string accountName, bool tagDuplicate = false)
         {
-            var result = 0;
+            var p = new DynamicParameters(new
+            {
+                CustId = custId,
+                SiteId = siteId,
+                AccountName = accountName
+            });
+            
+            if (!tagDuplicate)
+            {
+                return _mainDbClient.Execute("Service_CustBankInfo_SetV3", p) > 0;
+            }
+
             using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            result = conn.Execute("Service_CustBankInfo_SetV3", new { CustId = custId, SiteId = siteId, AccountName = accountName }, commandType: CommandType.StoredProcedure);
-            return result > 0;
+            conn.Open();
+            using var trans = conn.BeginTransaction();
+            
+            var success = _mainDbClient.Execute("Service_CustBankInfo_SetV3", p, conn, trans) > 0;
+            
+            if (success)
+            {
+                var custInfo = GetCustInfo(custId, true);
+                var tags = JsonSerializer.Deserialize<List<int>>(custInfo.TagList);
+            
+                if (tags.Any(x => x == (int)CustTagEnum.Duplicate))
+                {
+                    trans.Commit();
+                    return true;
+                }
+                
+                tags.Add((int)CustTagEnum.Duplicate);
+                success = this.SetCustInfoTagList(custId, tags, conn, trans);
+                if (!success)
+                {
+                    trans.Commit();
+                    return true;
+                }
+            }
+            
+            trans.Rollback();
+            return false;
         }
 
         public bool SetCustUSDTInfo(int custId, int siteId, string accountName, IEnumerable<USDTDetail> uSDTInfo)
@@ -589,6 +628,28 @@ namespace MemberSite.Service.DAL
                 trans.Commit();
             }
             return eWalletDetailResult & eWalletlogResult;
+        }
+        
+        public IEnumerable<string> GetSimilarAccountName(int siteId, IEnumerable<string> accountNames)
+        {
+            return _mainDbClient.Query<string>("Member_SimilarAccountName_Get",
+                new
+                {
+                    _SiteId = siteId,
+                    _AccountNames = JsonSerializer.Serialize(accountNames)
+                });
+        }
+        
+        public bool SetCustInfoTagList(int custId, IEnumerable<int> tagList, MySqlConnection conn, MySqlTransaction trans)
+        {
+            var result = 0;
+            var parameter = new DynamicParameters(new
+            {
+                _CustId = custId,
+                _TagList = JsonSerializer.Serialize(tagList)
+            });
+            
+            return _mainDbClient.Execute("Member_CustInfoTagList_Set", parameter, conn, trans) > 0;
         }
     }
 }
