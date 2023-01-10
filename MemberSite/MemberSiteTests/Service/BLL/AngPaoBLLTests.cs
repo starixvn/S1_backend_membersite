@@ -112,10 +112,48 @@ namespace MemberSiteTests.Service.BLL
 
             var eventsSvc = Substitute.For<IEventsService>();
             var angPaoPro = Substitute.For<AngPaoProcessor>();
-            var cacheHelper = new CacheHelper(_serviceProvider);
+            eventsSvc.GetPrizes(Arg.Any<int>(), Arg.Any<int>()).Returns(x =>
+            {
+                return new List<Prize>()
+                {
+                    new Prize() { PrizeId  = 118 ,PrizeType = 1, PrizeName = "2 MYR", Amount = 2m, StartTime = new DateTime(2023,1,5), EndTime = new DateTime(2023,2,6), Quota = 10, Jackpot = 0 },
+                    new Prize() { PrizeId  = 119 ,PrizeType = 1, PrizeName = "3 MYR", Amount = 3m, StartTime = new DateTime(2023,1,5), EndTime = new DateTime(2023,2,6), Quota = 5, Jackpot = 0 },
+                    new Prize() { PrizeId  = 120 ,PrizeType = 1, PrizeName = "8 MYR", Amount = 8m, StartTime = new DateTime(2023,1,5), EndTime = new DateTime(2023,2,6), Quota = 1, Jackpot = 0 }
+                };
+            });
             var angPao = new AngPaoBLL(eventsSvc, angPaoPro);
             var eventId = 12;
             var expect = 104;
+
+            var (error, _) = await angPao.DrawPrize(eventId, customer);
+
+            error.Should().Be(expect);
+        }
+
+        [Test]
+        public async Task AngPao_Have_Not_Started() 
+        {
+            var customer = new Customer()
+            {
+                CustId = 250032,
+                PhoneVerified = true,
+                AccountName = "Xidada"
+            };
+            var eventsSvc = Substitute.For<IEventsService>();
+            var angPaoPro = Substitute.For<AngPaoProcessor>();
+            eventsSvc.GetPrizes(Arg.Any<int>(), Arg.Any<int>()).Returns(x =>
+            {
+                return new List<Prize>();
+            });
+            eventsSvc.GetTickets(Arg.Any<int>(), Arg.Any<int>()).Returns(x =>
+            {
+                return new List<AngPowTicket>();
+            });
+
+            var cacheHelper = new CacheHelper(_serviceProvider);
+            var angPao = new AngPaoBLL(eventsSvc, angPaoPro);
+            var eventId = 12;
+            var expect = 101;
 
             var (error, _) = await angPao.DrawPrize(eventId, customer);
 
@@ -133,6 +171,15 @@ namespace MemberSiteTests.Service.BLL
             };
             var eventsSvc = Substitute.For<IEventsService>();
             var angPaoPro = Substitute.For<AngPaoProcessor>();
+            eventsSvc.GetPrizes(Arg.Any<int>(), Arg.Any<int>()).Returns(x =>
+            {
+                return new List<Prize>()
+                {
+                    new Prize() { PrizeId  = 118 ,PrizeType = 1, PrizeName = "2 MYR", Amount = 2m, StartTime = new DateTime(2023,1,5), EndTime = new DateTime(2023,2,6), Quota = 10, Jackpot = 0 },
+                    new Prize() { PrizeId  = 119 ,PrizeType = 1, PrizeName = "3 MYR", Amount = 3m, StartTime = new DateTime(2023,1,5), EndTime = new DateTime(2023,2,6), Quota = 5, Jackpot = 0 },
+                    new Prize() { PrizeId  = 120 ,PrizeType = 1, PrizeName = "8 MYR", Amount = 8m, StartTime = new DateTime(2023,1,5), EndTime = new DateTime(2023,2,6), Quota = 1, Jackpot = 0 }
+                };
+            });
             eventsSvc.GetTickets(Arg.Any<int>(), Arg.Any<int>()).Returns(x =>
             {
                 return new List<AngPowTicket>();
