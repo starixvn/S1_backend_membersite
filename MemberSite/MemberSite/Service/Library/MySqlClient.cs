@@ -37,7 +37,7 @@ namespace MemberSite.Service.Library
                 await using var connection = new MySqlConnection(_connectionString);
                 result = await connection.QueryFirstOrDefaultAsync<T>(name, parameters, commandType: CommandType.StoredProcedure);
                 await connection.CloseAsync();
-                connection.Dispose();
+                await connection.DisposeAsync();
             }
             catch (Exception e)
             {
@@ -115,6 +115,25 @@ namespace MemberSite.Service.Library
             _logger.LogDebug($"{sql} {sw.Elapsed:c}");
             return result;
         }
+        
+        public IEnumerable<T> Query<T>(string sql, IDbTransaction transaction, object parameters)
+        {
+            IEnumerable<T> result;
+            var sw = Stopwatch.StartNew();
+            try
+            {
+                result = transaction.Connection.Query<T>(sql, param: parameters, commandType: CommandType.StoredProcedure);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, sql);
+                throw;
+            }
+
+            LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
+            _logger.LogDebug($"{sql} {sw.Elapsed:c}");
+            return result;
+        }
 
         public T Query<T>(string name, object parameters, Func<SqlMapper.GridReader, T> func)
         {
@@ -135,7 +154,7 @@ namespace MemberSite.Service.Library
             }
 
             LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
-            _logger.LogInformation($"{name} {sw.Elapsed:c}");
+            _logger.LogDebug($"{name} {sw.Elapsed:c}");
             return result;
         }
 
@@ -148,7 +167,7 @@ namespace MemberSite.Service.Library
                 await using var connection = new MySqlConnection(_connectionString);
                 result = await connection.QueryAsync<T>(name, parameters, commandType: CommandType.StoredProcedure);
                 await connection.CloseAsync();
-                connection.Dispose();
+                await connection.DisposeAsync();
             }
             catch (Exception e)
             {
@@ -172,7 +191,7 @@ namespace MemberSite.Service.Library
                     connection.QueryMultipleAsync(name, parameters, commandType: CommandType.StoredProcedure);
                 result = func.Invoke(await multiple);
                 await connection.CloseAsync();
-                connection.Dispose();
+                await connection.DisposeAsync();
             }
             catch (Exception e)
             {
@@ -213,7 +232,7 @@ namespace MemberSite.Service.Library
         
         public int Execute(string name, object parameters, MySqlConnection connection, MySqlTransaction trans)
         {
-            var result = 0;
+            int result;
             var sw = Stopwatch.StartNew();
             try
             {
@@ -280,7 +299,7 @@ namespace MemberSite.Service.Library
                 await using var connection = new MySqlConnection(_connectionString);
                 result = await connection.ExecuteAsync(name, parameters, commandType: CommandType.StoredProcedure);
                 await connection.CloseAsync();
-                connection.Dispose();
+                await connection.DisposeAsync();
             }
             catch (Exception e)
             {
@@ -315,6 +334,25 @@ namespace MemberSite.Service.Library
             return result;
         }
         
+        public T ExecuteScalar<T>(string name, IDbTransaction transaction, object parameters)
+        {
+            T result;
+            var sw = Stopwatch.StartNew();
+            try
+            {
+                result = transaction.Connection.ExecuteScalar<T>(name, parameters, commandType: CommandType.StoredProcedure);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, name);
+                throw;
+            }
+
+            LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
+            _logger.LogDebug($"{name} {sw.Elapsed:c}");
+            return result;
+        }
+        
         public async Task<T> ExecuteScalarAsync<T>(string name, object parameters)
         {
             T result;
@@ -324,7 +362,7 @@ namespace MemberSite.Service.Library
                 await using var connection = new MySqlConnection(_connectionString);
                 result = await connection.ExecuteScalarAsync<T>(name, parameters, commandType: CommandType.StoredProcedure);
                 await connection.CloseAsync();
-                connection.Dispose();
+                await connection.DisposeAsync();
             }
             catch (Exception e)
             {
