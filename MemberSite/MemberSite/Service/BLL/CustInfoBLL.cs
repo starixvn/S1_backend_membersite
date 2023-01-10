@@ -353,7 +353,9 @@ namespace MemberSite.Service.BLL
         public int SetCustBankInfo(int custId, string accountName, bool forceUseMainDb = false)
         {
             var custInfo = GetCustInfoWithCache(custId, forceUseMainDb);
-            return _custInfoService.SetCustBankInfo(custId, custInfo.SiteId, accountName) ? 0 : -1;
+            var tagDuplicate = this.CheckDuplicateAccountName(custId, accountName);
+            
+            return _custInfoService.SetCustBankInfo(custId, custInfo.SiteId, accountName, tagDuplicate) ? 0 : -1;
         }
         public int InsertCustBankInfo(int custId, string accountName, int sysId, string accountNum, string iFSCCode, CustBankInfoLogStatus status)
         {
@@ -649,6 +651,35 @@ namespace MemberSite.Service.BLL
         {
             var custInfo = GetCustInfoWithCache(custId);
             return _custInfoService.DeleteCustEWalletDetail(custId, custInfo.SiteId, sysId, accountNum, status) ? 0 : -1;
+        }
+        
+        private IEnumerable<string> GetSimilarAccountName(int siteId, IEnumerable<string> accountNames)
+        {
+            return _custInfoService.GetSimilarAccountName(siteId, accountNames);
+        }
+        
+        private bool CheckDuplicateAccountName(int siteId, string accountName)
+        {
+            /* 相同定義：
+             * * 大小寫不同
+             * * 去空格相同
+             * 舉例：
+             * Cheong wai Choon
+             * CheongwaiChoon（相同）
+             * cheong Wai Choon（相同）
+             * Ho thai nhat
+             * Hồ thái nhật（不同）
+             * HoThaiNhat（相同）
+             */
+            var patterns = new[]
+            {
+                accountName,
+                accountName.Replace(" ", string.Empty)
+            };
+            var similarAccList = this.GetSimilarAccountName(siteId, patterns)
+                .Where(x => x.Contains(x, StringComparison.CurrentCultureIgnoreCase));
+            
+            return similarAccList.Any();
         }
     }
 }

@@ -575,4 +575,9 @@ namespace MemberSite.Service.Model.enums
         PaymentNotReceived = 2,
         DepositRefunded = 3
     }
+
+    public enum CustTagEnum
+    {
+        Duplicate = 6
+    }
 }

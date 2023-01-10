@@ -29,6 +29,7 @@ namespace MemberSite.Service.Model
         public string Aff { get; set; }
         public string AffCode { get; set; }
         public string Token { get; set; }
+        public string TagList { get; set; }
     }
 
     //{"Ver": 1, "SysId": 8, "AccountNo": "9876543210", "AccountName": "Eddie Wu"}
