@@ -14,7 +14,7 @@ namespace MemberSite.Controllers.Api
     public class EventsController : ControllerBase
     {
         private readonly AuthorizeBLL _authorizeBll;
-        private readonly IEventsBLL _eventsBll;
+        private readonly EventsBLL _eventsBll;
         private readonly IAngPaoBLL _angPaoBLL;
         private readonly CustInfoBll _custInfoBll;
         private readonly SelLangBLL _selLangBll;
@@ -27,7 +27,7 @@ namespace MemberSite.Controllers.Api
 
         {
             _authorizeBll = provider.GetRequiredService<AuthorizeBLL>();
-            _eventsBll = provider.GetRequiredService<IEventsBLL>();
+            _eventsBll = provider.GetRequiredService<EventsBLL>();
             _angPaoBLL = provider.GetRequiredService<IAngPaoBLL>();
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _selLangBll = provider.GetRequiredService<SelLangBLL>();

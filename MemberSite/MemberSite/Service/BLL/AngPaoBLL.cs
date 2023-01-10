@@ -1,4 +1,5 @@
-﻿using MemberSite.Service.DAL.Interface;
+﻿using MemberSite.Service.BLL.Interface;
+using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Model;
 
 namespace MemberSite.Service.BLL

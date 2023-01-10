@@ -1,6 +1,6 @@
 ﻿using MemberSite.Service.Model;
 
-namespace MemberSite.Service.BLL
+namespace MemberSite.Service.BLL.Interface
 {
     public interface IAngPaoBLL
     {
