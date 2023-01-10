@@ -350,7 +350,7 @@ namespace MemberSite.Controllers.Api
                 var key = $"AgPao:{custInfo.CustId}";
                 try 
                 {
-                    if (await _cacheHelper.SetNxAsync(key, "", TimeSpan.FromSeconds(10))) 
+                    if (await _cacheHelper.SetNxAsync(key, "", TimeSpan.FromSeconds(5))) 
                     {
                         var (error, prize) = await _angPaoBLL.DrawPrize(eventId, custInfo);
                         if (error > 0 && error < 100)
