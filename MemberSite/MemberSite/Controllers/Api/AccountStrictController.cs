@@ -372,7 +372,7 @@ namespace MemberSite.Controllers.Api
             var beforeCustInfo = _custInfoBLL.GetCustInfoProfile(authData.CustId);
             if (string.IsNullOrEmpty(beforeCustInfo.AccountName) && !string.IsNullOrEmpty(beforeCustInfo.PhoneNo))
             {
-                string accountName = custProfile[nameof(accountName)];
+                string accountName = custProfile["AccountName"];
                 var result = _custInfoBLL.SetCustBankInfo(authData.CustId, accountName);
                 
                 if (result != 0)
