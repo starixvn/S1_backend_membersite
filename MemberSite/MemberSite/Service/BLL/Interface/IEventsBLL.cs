@@ -5,12 +5,9 @@ namespace MemberSite.Service.BLL.Interface
     public interface IEventsBLL
     {
         IEnumerable<Prize> CheckDrawPrize(ref int eventId, int siteId, int custId, int currencyId, out int prizeId, out int result);
-        Task<(int errorCode, int ticketCount)> CheckDrawPrize(int custId, int currencyId);
         bool CheckEventCondition(string conditionSp, int eventId, int custId, int currencyId);
         int DrawPrize(ref int eventId, int custId, int currencyId, string userName, int siteId, out int result, out Prize drawPrize);
-        Task<(int error, Prize prize)> DrawPrize(int eventId, Customer customer);
         IEnumerable<CustGiftList> GetCustDrawPrizeList(int eventId, int siteId, int custId);
-        Task<IEnumerable<CustGiftList>> GetTodayCustDrawPrizeList(int eventId, int custId, int currencyId);
         LeaderboardCustRank GetCustRank(int lBCategoryId, int custId, int beforeDays);
         LeaderboardCustRank GetCustRankMonth(int lBCategoryId, string eventCode, int custId, DateTime selectDays);
         LeaderboardCustRank GetCustRankV3(int lBCategoryId, string eventCode, int custId, int beforeDays);
@@ -34,7 +31,6 @@ namespace MemberSite.Service.BLL.Interface
         IEnumerable<Leaderboard> GetLeaderboardListWithCache(int lBCategoryId, int siteId, int currencyId, int topNum, int beforeDays);
         IEnumerable<Leaderboard> GetLeaderboardListWithCacheV2(string eventCode, int lBCategoryId, int siteId, int currencyId, int topNum, int beforeDays);
         IEnumerable<Leaderboard> GetLeaderboardListWithCacheV3(string eventCode, int lBCategoryId, int siteId, int currencyId, int topNum, int beforeDays);
-        Task<IEnumerable<AngPowTicket>> GetTickets(int custId, int currencyId);
         string MaskName(string input);
     }
 }

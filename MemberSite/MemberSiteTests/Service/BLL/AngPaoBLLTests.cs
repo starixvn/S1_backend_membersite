@@ -38,7 +38,7 @@ namespace MemberSiteTests.Service.BLL
             });
             
             var cacheHelper = new CacheHelper(_serviceProvider);
-            var angPao = new EventsBLL(eventsSvc , cacheHelper, angPaoPro);
+            var angPao = new AngPaoBLL(eventsSvc, angPaoPro);
             var custId = 250032;
             var currencyId = 2;
             var expect = 102;
@@ -62,7 +62,7 @@ namespace MemberSiteTests.Service.BLL
                   };
               });
             var cacheHelper = new CacheHelper(_serviceProvider);
-            var angPao = new EventsBLL(eventsSvc, cacheHelper, angPaoPro);
+            var angPao = new AngPaoBLL(eventsSvc, angPaoPro);
             var custId = 250032;
             var currencyId = 2;
             var expect = 0;
@@ -89,7 +89,7 @@ namespace MemberSiteTests.Service.BLL
                   };
             });
             var cacheHelper = new CacheHelper(_serviceProvider);
-            var angPao = new EventsBLL(eventsSvc, cacheHelper, angPaoPro);
+            var angPao = new AngPaoBLL(eventsSvc, angPaoPro);
             var custId = 250032;
             var currencyId = 12;
             var expect = 103;
@@ -113,7 +113,7 @@ namespace MemberSiteTests.Service.BLL
             var eventsSvc = Substitute.For<IEventsService>();
             var angPaoPro = Substitute.For<AngPaoProcessor>();
             var cacheHelper = new CacheHelper(_serviceProvider);
-            var angPao = new EventsBLL(eventsSvc, cacheHelper, angPaoPro);
+            var angPao = new AngPaoBLL(eventsSvc, angPaoPro);
             var eventId = 12;
             var expect = 104;
 
@@ -139,7 +139,7 @@ namespace MemberSiteTests.Service.BLL
             });
 
             var cacheHelper = new CacheHelper(_serviceProvider);
-            var angPao = new EventsBLL(eventsSvc, cacheHelper, angPaoPro);
+            var angPao = new AngPaoBLL(eventsSvc, angPaoPro);
             var eventId = 12;
             var expect = 102;
 
@@ -176,13 +176,15 @@ namespace MemberSiteTests.Service.BLL
             {
                 return new List<Prize>()
                 {
-                    new Prize() { PrizeId  = 118 ,PrizeType = 1, PrizeName = "2 MYR", Amount = 2m, StartTime = new DateTime(2023,1,5), EndTime = new DateTime(2023,2,6), Quota = 5, Jackpot = 0 }
+                    new Prize() { PrizeId  = 118 ,PrizeType = 1, PrizeName = "2 MYR", Amount = 2m, StartTime = new DateTime(2023,1,5), EndTime = new DateTime(2023,2,6), Quota = 10, Jackpot = 0 },
+                    new Prize() { PrizeId  = 119 ,PrizeType = 1, PrizeName = "3 MYR", Amount = 3m, StartTime = new DateTime(2023,1,5), EndTime = new DateTime(2023,2,6), Quota = 5, Jackpot = 0 },
+                    new Prize() { PrizeId  = 120 ,PrizeType = 1, PrizeName = "8 MYR", Amount = 8m, StartTime = new DateTime(2023,1,5), EndTime = new DateTime(2023,2,6), Quota = 1, Jackpot = 0 }
                 };
             });
             eventsSvc.GetCustPrizeOnToday(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>()).ReturnsNull();
             eventsSvc.PayoutPrize(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<string>(), Arg.Any<int>(), Arg.Any<int>(), Arg.Any<string>(), Arg.Any<int>(), Arg.Any<decimal>(), Arg.Any<int>(), Arg.Any<int>(), Arg.Any<bool>()).Returns(x => 1);
             var cacheHelper = new CacheHelper(_serviceProvider);
-            var angPao = new EventsBLL(eventsSvc, cacheHelper, angPaoPro);
+            var angPao = new AngPaoBLL(eventsSvc, angPaoPro);
             var eventId = 12;
             var expect = 1;
             var expectAmount = 2m;
