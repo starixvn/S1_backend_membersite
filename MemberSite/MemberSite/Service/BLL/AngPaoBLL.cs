@@ -32,6 +32,9 @@ namespace MemberSite.Service.BLL
             var res = 0;
             var drawPrize = new Prize();
 
+            var prizes = await _eventsService.GetPrizes(eventId, customer.CurrencyId);
+            if (prizes == null || !prizes.Any()) return (101, null);
+
             if (string.IsNullOrEmpty(customer.AccountName) || !customer.PhoneVerified) return (104, null);
 
             //檢查今日有無票
@@ -42,7 +45,7 @@ namespace MemberSite.Service.BLL
             var ticket = tickets.FirstOrDefault(a => a.IsUsed == false);
             if (ticket == null) return (103, null);
 
-            var prizes = await _eventsService.GetPrizes(eventId, customer.CurrencyId);
+            
             var todayPrize = await _eventsService.GetCustPrizeOnToday(eventId, customer.CustId, customer.CurrencyId);
             var isUsed = true;
             // 如果今日已中獎後面給空紅包
