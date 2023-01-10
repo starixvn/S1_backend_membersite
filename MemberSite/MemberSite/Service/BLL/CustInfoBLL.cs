@@ -353,7 +353,7 @@ namespace MemberSite.Service.BLL
         public int SetCustBankInfo(int custId, string accountName, bool forceUseMainDb = false)
         {
             var custInfo = GetCustInfoWithCache(custId, forceUseMainDb);
-            var tagDuplicate = this.CheckDuplicateAccountName(custId, accountName);
+            var tagDuplicate = this.CheckDuplicateAccountName(custInfo.SiteId, accountName);
             
             return _custInfoService.SetCustBankInfo(custId, custInfo.SiteId, accountName, tagDuplicate) ? 0 : -1;
         }
@@ -676,15 +676,15 @@ namespace MemberSite.Service.BLL
              * Hồ thái nhật（不同）
              * HoThaiNhat（相同）
              */
+            
             var patterns = new[]
             {
                 accountName,
                 accountName.Replace(" ", string.Empty)
             };
-            var similarAccList = this.GetSimilarAccountName(siteId, patterns)
-                .Where(x => x.Contains(x, StringComparison.CurrentCultureIgnoreCase));
+            var similarAccList = this.GetSimilarAccountName(siteId, patterns);
             
-            return similarAccList.Any();
+            return similarAccList.Any(x => patterns.Any(y => y.Equals(x, StringComparison.CurrentCultureIgnoreCase)));
         }
     }
 }
