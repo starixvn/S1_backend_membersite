@@ -22,6 +22,7 @@ namespace MemberSite.Service.DAL.Interface
         IEnumerable<Leaderboard> GetLeaderboardListMonth(int lBCategoryId, string eventCode, int siteId, int currencyId, int topNum, DateTime selectDays);
         IEnumerable<Leaderboard> GetLeaderboardListV3(int lBCategoryId, string eventCode, int siteId, int currencyId, int topNum, int beforeDays);
         Task<IEnumerable<Prize>> GetPrizes(int eventId, int currencyId);
+        Task ResetPrize(int eventId, int currencyId);
         Task<IEnumerable<AngPowTicket>> GetTickets(int custId, int currencyId);
         Task<Prize> GetCustPrizeOnToday(int eventId, int custId, int currencyId);
         Task<int> PayoutPrize(int eventId, int prizeId, string prizeName, int siteId, int custId, string userName, int currencyId, decimal prizeAmount, int ticketNo, int prizeType, bool isUsed);
