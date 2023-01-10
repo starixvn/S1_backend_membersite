@@ -153,7 +153,8 @@ namespace MemberSite
             services.AddSingleton<IovationBLL>();
             services.AddSingleton<FPSBLL>();
             services.AddSingleton<EventsBLL>();
-            services.AddTransient<IEventsBLL, EventsBLL>();
+            services.AddTransient<AngPaoProcessor>();
+            services.AddTransient<IAngPaoBLL, AngPaoBLL>();
             services.AddSingleton<GameCasinoBll>();
             services.AddSingleton<LiveStreamingBll>();
             services.AddSingleton<VideoDataBll>();

@@ -31,13 +31,14 @@ namespace MemberSiteTests.Service.BLL
         public async Task User_Has_No_Ticktes() 
         {
             var eventsSvc = Substitute.For<IEventsService>();
+            var angPaoPro = Substitute.For<AngPaoProcessor>();
             eventsSvc.GetTickets(Arg.Any<int>(), Arg.Any<int>()).Returns(x => 
             {
                 return new List<AngPowTicket>();
             });
             
             var cacheHelper = new CacheHelper(_serviceProvider);
-            var angPao = new EventsBLL(eventsSvc , cacheHelper);
+            var angPao = new AngPaoBLL(eventsSvc, angPaoPro);
             var custId = 250032;
             var currencyId = 2;
             var expect = 102;
@@ -51,6 +52,7 @@ namespace MemberSiteTests.Service.BLL
         public async Task User_Has_2_Tickets_And_1_Tickets_Can_Use() 
         {
             var eventsSvc = Substitute.For<IEventsService>();
+            var angPaoPro = Substitute.For<AngPaoProcessor>();
             _ = eventsSvc.GetTickets(Arg.Any<int>(), Arg.Any<int>()).Returns(x =>
               {
                   return new List<AngPowTicket>()
@@ -60,7 +62,7 @@ namespace MemberSiteTests.Service.BLL
                   };
               });
             var cacheHelper = new CacheHelper(_serviceProvider);
-            var angPao = new EventsBLL(eventsSvc, cacheHelper);
+            var angPao = new AngPaoBLL(eventsSvc, angPaoPro);
             var custId = 250032;
             var currencyId = 2;
             var expect = 0;
@@ -76,6 +78,7 @@ namespace MemberSiteTests.Service.BLL
         public async Task User_Has_No_Can_Be_Used_Ticket()
         {
             var eventsSvc = Substitute.For<IEventsService>();
+            var angPaoPro = Substitute.For<AngPaoProcessor>();
             _ = eventsSvc.GetTickets(Arg.Any<int>(), Arg.Any<int>()).Returns(x =>
             {
                 return new List<AngPowTicket>()
@@ -86,7 +89,7 @@ namespace MemberSiteTests.Service.BLL
                   };
             });
             var cacheHelper = new CacheHelper(_serviceProvider);
-            var angPao = new EventsBLL(eventsSvc, cacheHelper);
+            var angPao = new AngPaoBLL(eventsSvc, angPaoPro);
             var custId = 250032;
             var currencyId = 12;
             var expect = 103;
@@ -108,8 +111,9 @@ namespace MemberSiteTests.Service.BLL
             };
 
             var eventsSvc = Substitute.For<IEventsService>();
+            var angPaoPro = Substitute.For<AngPaoProcessor>();
             var cacheHelper = new CacheHelper(_serviceProvider);
-            var angPao = new EventsBLL(eventsSvc, cacheHelper);
+            var angPao = new AngPaoBLL(eventsSvc, angPaoPro);
             var eventId = 12;
             var expect = 104;
 
@@ -128,13 +132,14 @@ namespace MemberSiteTests.Service.BLL
                 AccountName = "Xidada"
             };
             var eventsSvc = Substitute.For<IEventsService>();
+            var angPaoPro = Substitute.For<AngPaoProcessor>();
             eventsSvc.GetTickets(Arg.Any<int>(), Arg.Any<int>()).Returns(x =>
             {
                 return new List<AngPowTicket>();
             });
 
             var cacheHelper = new CacheHelper(_serviceProvider);
-            var angPao = new EventsBLL(eventsSvc, cacheHelper);
+            var angPao = new AngPaoBLL(eventsSvc, angPaoPro);
             var eventId = 12;
             var expect = 102;
 
@@ -155,6 +160,11 @@ namespace MemberSiteTests.Service.BLL
                 AccountName = "Xidada"
             };
             var eventsSvc = Substitute.For<IEventsService>();
+            var angPaoPro = Substitute.For<AngPaoProcessor>();
+            angPaoPro.Drawing(Arg.Any<List<Prize>>()).Returns(x =>
+            {
+                return new Prize() { PrizeId = 118, PrizeType = 1, PrizeName = "2 MYR", Amount = 2m, StartTime = new DateTime(2023, 1, 5), EndTime = new DateTime(2023, 2, 6), Quota = 5, Jackpot = 0 };
+            });
             eventsSvc.GetTickets(Arg.Any<int>(), Arg.Any<int>()).Returns(x =>
             {
                 return new List<AngPowTicket>()
@@ -166,13 +176,15 @@ namespace MemberSiteTests.Service.BLL
             {
                 return new List<Prize>()
                 {
-                    new Prize() { PrizeId  = 118 ,PrizeType = 1, PrizeName = "2 MYR", Amount = 2m, StartTime = new DateTime(2023,1,5), EndTime = new DateTime(2023,2,6), Quota = 5, Jackpot = 0 }
+                    new Prize() { PrizeId  = 118 ,PrizeType = 1, PrizeName = "2 MYR", Amount = 2m, StartTime = new DateTime(2023,1,5), EndTime = new DateTime(2023,2,6), Quota = 10, Jackpot = 0 },
+                    new Prize() { PrizeId  = 119 ,PrizeType = 1, PrizeName = "3 MYR", Amount = 3m, StartTime = new DateTime(2023,1,5), EndTime = new DateTime(2023,2,6), Quota = 5, Jackpot = 0 },
+                    new Prize() { PrizeId  = 120 ,PrizeType = 1, PrizeName = "8 MYR", Amount = 8m, StartTime = new DateTime(2023,1,5), EndTime = new DateTime(2023,2,6), Quota = 1, Jackpot = 0 }
                 };
             });
             eventsSvc.GetCustPrizeOnToday(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>()).ReturnsNull();
             eventsSvc.PayoutPrize(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<string>(), Arg.Any<int>(), Arg.Any<int>(), Arg.Any<string>(), Arg.Any<int>(), Arg.Any<decimal>(), Arg.Any<int>(), Arg.Any<int>(), Arg.Any<bool>()).Returns(x => 1);
             var cacheHelper = new CacheHelper(_serviceProvider);
-            var angPao = new EventsBLL(eventsSvc, cacheHelper);
+            var angPao = new AngPaoBLL(eventsSvc, angPaoPro);
             var eventId = 12;
             var expect = 1;
             var expectAmount = 2m;

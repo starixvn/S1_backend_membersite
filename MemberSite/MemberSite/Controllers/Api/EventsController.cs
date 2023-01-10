@@ -14,7 +14,8 @@ namespace MemberSite.Controllers.Api
     public class EventsController : ControllerBase
     {
         private readonly AuthorizeBLL _authorizeBll;
-        private readonly IEventsBLL _eventsBll;
+        private readonly EventsBLL _eventsBll;
+        private readonly IAngPaoBLL _angPaoBLL;
         private readonly CustInfoBll _custInfoBll;
         private readonly SelLangBLL _selLangBll;
         private readonly ServerInfoBll _serverInfoBll;
@@ -26,7 +27,8 @@ namespace MemberSite.Controllers.Api
 
         {
             _authorizeBll = provider.GetRequiredService<AuthorizeBLL>();
-            _eventsBll = provider.GetRequiredService<IEventsBLL>();
+            _eventsBll = provider.GetRequiredService<EventsBLL>();
+            _angPaoBLL = provider.GetRequiredService<IAngPaoBLL>();
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _selLangBll = provider.GetRequiredService<SelLangBLL>();
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
@@ -287,7 +289,7 @@ namespace MemberSite.Controllers.Api
             var eventId = drawPrizeReq.eventId;
             if (eventId == 12 || eventId == 13 || eventId == 14)
             {
-                var (errorCode, ticketCount) = await _eventsBll.CheckDrawPrize(custInfo.CustId, custInfo.CurrencyId);
+                var (errorCode, ticketCount) = await _angPaoBLL.CheckDrawPrize(custInfo.CustId, custInfo.CurrencyId);
                 apiResult.Data.TicketCount = ticketCount;
                 apiResult.ErrorCode = errorCode;
                 apiResult.Message = apiResult.ErrorCode switch
@@ -343,7 +345,7 @@ namespace MemberSite.Controllers.Api
             {
                 var errorCode = -1;
 
-                var (error,  prize) = await _eventsBll.DrawPrize(eventId, custInfo);
+                var (error,  prize) = await _angPaoBLL.DrawPrize(eventId, custInfo);
                 if (error > 0 && error < 100)
                 {
                     apiResult.Data.PrizeId = prize.PrizeId;
@@ -465,7 +467,7 @@ namespace MemberSite.Controllers.Api
             var eventId = drawPrizeReq.eventId;
             if (eventId == 12 || eventId == 13 || eventId == 14)
             {
-                apiResult.Data = await _eventsBll.GetTodayCustDrawPrizeList(eventId, custInfo.CustId, custInfo.CurrencyId);
+                apiResult.Data = await _angPaoBLL.GetTodayCustDrawPrizeList(eventId, custInfo.CustId, custInfo.CurrencyId);
             }
             else 
             {
