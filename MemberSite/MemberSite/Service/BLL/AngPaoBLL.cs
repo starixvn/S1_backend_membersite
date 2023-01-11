@@ -27,7 +27,7 @@ namespace MemberSite.Service.BLL
             return (0, ticketCount);
         }
 
-        public async Task<(int error, Prize prize)> DrawPrize(int eventId, Customer customer)
+        public async Task<(int error, Prize prize)> DrawPrize(int eventId, Customer customer, DateTime time)
         {
             var res = 0;
             var drawPrize = new Prize();
@@ -36,6 +36,8 @@ namespace MemberSite.Service.BLL
 
             var prizes = await _eventsService.GetPrizes(eventId, customer.CurrencyId);
             if (prizes == null || !prizes.Any()) return (101, null);
+
+            if (time.Hour == 0) return (105, null);
 
             if (string.IsNullOrEmpty(customer.AccountName) || !customer.PhoneVerified) return (104, null);
 

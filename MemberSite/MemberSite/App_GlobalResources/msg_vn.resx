@@ -380,4 +380,7 @@ Hãy chuyển tiền từ ví chính sang ví Thể thao để trải nghiệm c
   <data name="msg_ProfileOrPhoneNotFinish" xml:space="preserve">
     <value>Thông tin tài khoản chưa được điền đầy đủ, vui lòng xác minh thông tin tài khoản</value>
   </data>
+  <data name="msg_Event_has_not_started" xml:space="preserve">
+    <value>Sự kiện vẫn chưa bắt đầu</value>
+  </data>
 </root>
