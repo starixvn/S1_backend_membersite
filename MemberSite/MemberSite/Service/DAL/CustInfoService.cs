@@ -338,7 +338,7 @@ namespace MemberSite.Service.DAL
                 
                 tags.Add((int)CustTagEnum.Duplicate);
                 success = this.SetCustInfoTagList(custId, tags, conn, trans);
-                if (!success)
+                if (success)
                 {
                     trans.Commit();
                     return true;
