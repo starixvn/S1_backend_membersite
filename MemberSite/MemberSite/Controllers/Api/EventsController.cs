@@ -24,6 +24,7 @@ namespace MemberSite.Controllers.Api
         private readonly MessageBll _messageBll;
         private readonly Dictionary<int, string> _perCurrency;
         private readonly ILogger<EventsController> _logger;
+        private readonly DateTimeHelper _dateTimeHelper;
 
         public EventsController(IServiceProvider provider)
 
@@ -36,6 +37,7 @@ namespace MemberSite.Controllers.Api
             _selLangBll = provider.GetRequiredService<SelLangBLL>();
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
             _messageBll = provider.GetRequiredService<MessageBll>();
+            _dateTimeHelper = provider.GetRequiredService<DateTimeHelper>();
             _logger = provider.GetRequiredService<ILogger<EventsController>>();
 
             _perCurrency = new Dictionary<int, string>()
@@ -351,9 +353,10 @@ namespace MemberSite.Controllers.Api
                 try 
                 {
                     var dAmount = "";
+                    var time = await _dateTimeHelper.ToCurrencyZone(DateTime.UtcNow, custInfo.CurrencyId);
                     if (await _cacheHelper.SetNxAsync(key, "", TimeSpan.FromSeconds(5))) 
                     {
-                        var (error, prize) = await _angPaoBLL.DrawPrize(eventId, custInfo);
+                        var (error, prize) = await _angPaoBLL.DrawPrize(eventId, custInfo, time.DateTime);
                         if (error > 0 && error < 100)
                         {
                             apiResult.Data.PrizeId = prize.PrizeId;
@@ -392,6 +395,7 @@ namespace MemberSite.Controllers.Api
                         102 => _selLangBll.GetMsg("msg_turnover_not_enough"),
                         103 => _selLangBll.GetMsg("msg_limit_has_been_reached"),
                         104 => _selLangBll.GetMsg("msg_ProfileOrPhoneNotFinish"),
+                        105 => _selLangBll.GetMsg("msg_Event_has_not_started"),
                         _ => _selLangBll.GetMsg("msg_Ineligible"),
                     };
                 }

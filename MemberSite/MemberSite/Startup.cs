@@ -116,6 +116,7 @@ namespace MemberSite
             services.AddTransient<WorldCupPredictionService>();
             services.AddTransient<RecaptchaService>();
             services.AddSingleton<PartitionService>();
+            services.AddTransient<CurrencyService>();
 
             services.AddSingleton<IPService>();
             services.AddSingleton<ShieldService>();
@@ -179,6 +180,7 @@ namespace MemberSite
             services.AddTransient<IHotGameBLL, HotGameBLL>();
             services.AddTransient<RecaptchaBLL>();
             services.AddTransient<CheckAttackBLL>();
+            services.AddTransient<DateTimeHelper>();
             
             services.AddSingleton<CustomCookieAuthenticationEvents>();
             services.AddTransient<HotEventBLL>();
