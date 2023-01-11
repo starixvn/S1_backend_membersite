@@ -326,4 +326,7 @@
   <data name="msg_ProfileOrPhoneNotFinish" xml:space="preserve">
     <value>Maklumat akaun belum lengkap, sila sahkan maklumat akaun</value>
   </data>
+  <data name="msg_Event_has_not_started" xml:space="preserve">
+    <value>Acara belum bermula lagi</value>
+  </data>
 </root>

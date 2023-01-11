@@ -327,4 +327,7 @@
   <data name="msg_ProfileOrPhoneNotFinish" xml:space="preserve">
     <value>ข้อมูลบัญชีไม่ครบถ้วน กรุณาทำการยืนยันบัญชีของท่าน</value>
   </data>
+  <data name="msg_Event_has_not_started" xml:space="preserve">
+    <value>เหตุการณ์ยังไม่เริ่ม</value>
+  </data>
 </root>

@@ -317,4 +317,7 @@
   <data name="msg_ProfileOrPhoneNotFinish" xml:space="preserve">
     <value>未完善账户信息，请先完善账户信息</value>
   </data>
+  <data name="msg_Event_has_not_started" xml:space="preserve">
+    <value>活动还没开始</value>
+  </data>
 </root>

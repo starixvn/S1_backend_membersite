@@ -340,4 +340,7 @@
   <data name="msg_RealNameWrongFormat" xml:space="preserve">
     <value>RealName can't allow number or special charactors.</value>
   </data>
+  <data name="msg_Event_has_not_started" xml:space="preserve">
+    <value>Event has not started yet</value>
+  </data>
 </root>
