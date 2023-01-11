@@ -3,7 +3,6 @@ using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Line;
-using MySql.Data.MySqlClient;
 using System.Data;
 using Newtonsoft.Json;
 using JsonSerializer = System.Text.Json.JsonSerializer;
@@ -12,44 +11,40 @@ namespace MemberSite.Service.DAL
 {
     public class CustInfoService
     {
-        private readonly IConfiguration configuration;
-        private readonly PromotionService promotionService;
+        private readonly PromotionService _promotionService;
         private readonly MySqlClient _mainDbClient;
         private readonly MySqlClient _reportDbClient;
         private readonly ILogger<CustInfoService> _logger;
-        private readonly string _connectionString;
 
         public CustInfoService(IServiceProvider provider)
         {
-            configuration = provider.GetRequiredService<IConfiguration>();
-            promotionService = provider.GetRequiredService<PromotionService>();
+            _promotionService = provider.GetRequiredService<PromotionService>();
             _mainDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Main);
             _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
-            _connectionString = configuration.GetConnectionString("ConnectionString");
             _logger = provider.GetRequiredService<ILogger<CustInfoService>>();
         }
 
         public bool ExistsUserName(string userName, int siteId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.ExecuteScalar<int>("Member_ExistsUserName_Get", new { UserName = userName, SiteId = siteId }, commandType: CommandType.StoredProcedure) != 0;
+            return _reportDbClient.ExecuteScalar<int>("Member_ExistsUserName_Get", new { UserName = userName, SiteId = siteId }) != 0;
         }
 
         public bool ExistsPhoneNo(int custId, int siteId, string AreaCode, string PhoneNo)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.ExecuteScalar<int>("Member_ExistsPhoneNo_Get", new { CustId = custId, AreaCode, PhoneNo, SiteId = siteId }, commandType: CommandType.StoredProcedure) != 0;
+            return _reportDbClient.ExecuteScalar<int>("Member_ExistsPhoneNo_Get", new { CustId = custId, AreaCode, PhoneNo, SiteId = siteId }) != 0;
         }
 
         public bool ExistsEmail(int custId, string email, int siteId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.ExecuteScalar<int>("Member_ExistsEmail_Get", new { CustId = custId, Email = email, SiteId = siteId }, commandType: CommandType.StoredProcedure) != 0;
+            return _reportDbClient.ExecuteScalar<int>("Member_ExistsEmail_Get", new { CustId = custId, Email = email, SiteId = siteId }) != 0;
         }
 
         public int AddCustInfo(Customer customer, string Email, string lineUserId, out int custId, string signupUrl = null, string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null, int Birth_d = 0, int Birth_m = 0, int Birth_y = 0)
         {
-            var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
+            using var conn = _mainDbClient.GetMySqlConnection();
+            conn.Open();
+            using var trans = conn.BeginTransaction();
+            
             try
             {
                 custId = 0;
@@ -59,21 +54,19 @@ namespace MemberSite.Service.DAL
                     customer.AgentId, customer.AllAgentId, customer.UserLevel
                 });
                 p.Add("CustId", dbType: DbType.String, direction: ParameterDirection.Output);
-
-                conn.Open();
-                using var trans = conn.BeginTransaction();
-                var result = _mainDbClient.Execute("CustInfo_Ins", p, conn, trans);
+                
+                var result = _mainDbClient.Execute("CustInfo_Ins", trans, p );
 
                 if (result > 0)
                 {
-                    string strCustId;
-                    strCustId = p.Get<string>("CustId") ?? "";
+                    var strCustId = p.Get<string>("CustId") ?? "";
                     custId = int.Parse(strCustId);
 
                     if (custId == 0)
                     {
                         trans.Rollback();
                         conn.Close();
+                        conn.Dispose();
                         return -5;
                     }
                 }
@@ -81,11 +74,12 @@ namespace MemberSite.Service.DAL
                 {
                     trans.Rollback();
                     conn.Close();
+                    conn.Dispose();
                     return -5;
                 }
 
-                if (result > 0 && (!string.IsNullOrEmpty(Email) ||
-                                   (!string.IsNullOrEmpty(PhoneNo) && !string.IsNullOrEmpty(AreaCode))))
+                if ((!string.IsNullOrEmpty(Email) ||
+                     (!string.IsNullOrEmpty(PhoneNo) && !string.IsNullOrEmpty(AreaCode))))
                 {
                     if (string.IsNullOrEmpty(Email))
                     {
@@ -108,7 +102,7 @@ namespace MemberSite.Service.DAL
                     }
 
                     var profile = profiler.Count <= 0 ? null : Newtonsoft.Json.JsonConvert.SerializeObject(profiler);
-                    result = _mainDbClient.Execute("Member_CustProfile_Ins", new DynamicParameters(new
+                    result = _mainDbClient.Execute("Member_CustProfile_Ins", trans, new DynamicParameters(new
                     {
                         CustId = custId,
                         customer.SiteId,
@@ -116,7 +110,7 @@ namespace MemberSite.Service.DAL
                         Profile = profile,
                         PhoneNo,
                         AreaCode
-                    }), conn, trans);
+                    }));
 
                     if (!string.IsNullOrEmpty(RealName))
                     {
@@ -127,26 +121,25 @@ namespace MemberSite.Service.DAL
 
                 if (result > 0 && (!string.IsNullOrEmpty(signupUrl) || !string.IsNullOrEmpty(referralUrl)))
                 {
-                    result = _mainDbClient.Execute("Member_CustRegInfo_Ins_V2",
+                    result = _mainDbClient.Execute("Member_CustRegInfo_Ins_V2",trans,
                         new DynamicParameters(new
-                            { CustId = custId, customer.SiteId, SignupUrl = signupUrl, ReferralUrl = referralUrl }),
-                        conn, trans);
+                            { CustId = custId, customer.SiteId, SignupUrl = signupUrl, ReferralUrl = referralUrl }));
                 }
 
-                if (result > 0 && !string.IsNullOrEmpty(promoCode) && promotionService.CheckSpecialCode(promoCode))
+                if (result > 0 && !string.IsNullOrEmpty(promoCode) && _promotionService.CheckSpecialCode(promoCode))
                 {
-                    if (promotionService.CheckScratchCardCode(promoCode))
+                    if (_promotionService.CheckScratchCardCode(promoCode))
                     {
                         var parameters = new DynamicParameters(new
                             { CustId = custId, ScratchCardCode = promoCode, DeviceType = 1 });
                         parameters.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
-                        _mainDbClient.Execute("Member_CustScratchCardCodeV3_Ins", parameters, conn, trans);
+                        _mainDbClient.Execute("Member_CustScratchCardCodeV3_Ins", trans, parameters);
                         result = parameters.Get<int>("Result") == 0 ? 1 : 0;
                     }
                     else
                     {
-                        result = _mainDbClient.Execute("Member_CustPromoCode_Ins",
-                            new DynamicParameters(new { CustId = custId, PromoCode = promoCode.Trim() }), conn, trans);
+                        result = _mainDbClient.Execute("Member_CustPromoCode_Ins",trans,
+                            new DynamicParameters(new { CustId = custId, PromoCode = promoCode.Trim() }));
                     }
 
                     if (result == 0)
@@ -157,9 +150,8 @@ namespace MemberSite.Service.DAL
 
                 if (result > 0 && (int.TryParse(customer.Aff, out var iAff) || !string.IsNullOrEmpty(customer.AffCode)))
                 {
-                    result = _mainDbClient.Execute("Member_VNAffiliate_Ins",
-                        new DynamicParameters(new { CustId = custId, customer.SiteId, AffId = iAff, customer.AffCode }),
-                        conn, trans);
+                    result = _mainDbClient.Execute("Member_VNAffiliate_Ins",trans,
+                        new DynamicParameters(new { CustId = custId, customer.SiteId, AffId = iAff, customer.AffCode }));
                 }
 
                 if (result > 0 && !string.IsNullOrWhiteSpace(lineUserId))
@@ -170,7 +162,7 @@ namespace MemberSite.Service.DAL
                     }
                     else
                     {
-                        result = InsertCustLineProfile(custId, lineUserId, conn, trans) ? 1 : 0;
+                        result = InsertCustLineProfile(custId, lineUserId, trans) ? 1 : 0;
                     }
                 }
 
@@ -202,6 +194,7 @@ namespace MemberSite.Service.DAL
                 throw;
             }
         }
+        
         public Customer GetCustInfo(int custId, bool forceUseMainDb = false)
         {
             var spName = "Customer_Get";
@@ -211,59 +204,58 @@ namespace MemberSite.Service.DAL
                 ? _mainDbClient.QueryFirst<Customer>(spName, parameter)
                 : _reportDbClient.QueryFirst<Customer>(spName, parameter);
         }
+        
         public CustTransSummary GetCustTransSummary(int custId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.QueryFirstOrDefault<CustTransSummary>("Member_CustTransSummary_Get", new { CustId = custId }, commandType: CommandType.StoredProcedure);
+            return _reportDbClient.QueryFirst<CustTransSummary>("Member_CustTransSummary_Get", new { CustId = custId });
         }
 
         public Customer GetCustInfoByMail(string email, int siteId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.QueryFirstOrDefault<Customer>("Member_CustomerByMail_Get", new { Email = email, SiteId = siteId }, commandType: CommandType.StoredProcedure);
+            return _reportDbClient.QueryFirst<Customer>("Member_CustomerByMail_Get", new { Email = email, SiteId = siteId });
         }
 
         public Customer GetCustInfoByUserName(string userName, int siteId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            return conn.QueryFirstOrDefault<Customer>("LoginCustInfo_Get", new { UserName = userName, SiteId = siteId }, commandType: CommandType.StoredProcedure);
+            return _mainDbClient.QueryFirst<Customer>("LoginCustInfo_Get", new { UserName = userName, SiteId = siteId });
         }
+        
         public bool SetLanguage(int custId, string langId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            return conn.Execute("LangId_Set", new { CustId = custId, LangId = langId }, commandType: CommandType.StoredProcedure) > 0;
+            return _mainDbClient.Execute("LangId_Set", new { CustId = custId, LangId = langId }) > 0;
         }
+        
         public int GetPointLevel(int custId)
         {
             return _reportDbClient.ExecuteScalar<int>("Member_PointLevel_Get", new { CustId = custId });
         }
+        
         public bool SetPassword(int custId, string md5OldPassword, string md5NewPassword, out string md5Userpwd)
         {
-            var result = 0;
             md5Userpwd = null;
-            using (var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString")))
-            {
-                conn.Open();
-                using (var trans = conn.BeginTransaction())
-                {
-                    var p = new DynamicParameters(new { CustId = custId, Md5OldPassword = md5OldPassword, Md5NewPassword = md5NewPassword });
-                    p.Add("Md5Userpwd", dbType: DbType.String, direction: ParameterDirection.Output);
+            
+            using var conn = _mainDbClient.GetMySqlConnection();
+            conn.Open();
+            using var trans = conn.BeginTransaction();
+            
+            var p = new DynamicParameters(new { CustId = custId, Md5OldPassword = md5OldPassword, Md5NewPassword = md5NewPassword });
+            p.Add("Md5Userpwd", dbType: DbType.String, direction: ParameterDirection.Output);
 
-                    result = conn.Execute("Password_Set", p, trans, commandType: CommandType.StoredProcedure);
-                    md5Userpwd = p.Get<string>("Md5Userpwd");
-                    trans.Commit();
-                    return result > 0;
-                }
-            }
+            var result = _mainDbClient.Execute("Password_Set", trans, p);
+            md5Userpwd = p.Get<string>("Md5Userpwd");
+            trans.Commit();
+            conn.Close();
+            conn.Dispose();
+            
+            return result > 0;
         }
+        
         public bool SetProfile(int custId, int siteId, Dictionary<string, string> profile)
         {
-            var result = 0;
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             string Email = profile[nameof(Email)];
             string AreaCode = profile[nameof(AreaCode)];
             string PhoneNo = profile[nameof(PhoneNo)];
-            result = conn.Execute("Member_CustProfile_Set",
+            var result = _mainDbClient.Execute("Member_CustProfile_Set",
                 new
                 {
                     CustId = custId,
@@ -272,17 +264,16 @@ namespace MemberSite.Service.DAL
                     Email,
                     PhoneNo,
                     Profile = Newtonsoft.Json.JsonConvert.SerializeObject(profile)
-                }, commandType: CommandType.StoredProcedure);
+                });
             return result > 0;
         }
+        
         public bool SetProfileV2(int custId, int siteId, Dictionary<string, string> profile)
         {
-            var result = 0;
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
             string Email = profile[nameof(Email)];
             string AreaCode = profile[nameof(AreaCode)];
             string PhoneNo = profile[nameof(PhoneNo)];
-            result = conn.Execute("Member_CustProfileV2_Set",
+            var result = _mainDbClient.Execute("Member_CustProfileV2_Set",
                 new
                 {
                     CustId = custId,
@@ -291,9 +282,10 @@ namespace MemberSite.Service.DAL
                     Email,
                     PhoneNo,
                     Profile = Newtonsoft.Json.JsonConvert.SerializeObject(profile)
-                }, commandType: CommandType.StoredProcedure);
+                });
             return result > 0;
         }
+        
         public bool SetAddress(int custId, int siteId, Dictionary<string, string> address)
         {
             var p = new DynamicParameters(new
@@ -351,36 +343,40 @@ namespace MemberSite.Service.DAL
 
         public bool SetCustUSDTInfo(int custId, int siteId, string accountName, IEnumerable<USDTDetail> uSDTInfo)
         {
-            var result = 0;
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            var tmp = Newtonsoft.Json.JsonConvert.SerializeObject(uSDTInfo);
-            result = conn.Execute("Service_CustUSDTInfo_Set", new { CustId = custId, SiteId = siteId, AccountName = accountName, USDTInfo = Newtonsoft.Json.JsonConvert.SerializeObject(uSDTInfo) }, commandType: CommandType.StoredProcedure);
+            var result = _mainDbClient.Execute("Service_CustUSDTInfo_Set", new { CustId = custId, SiteId = siteId, AccountName = accountName, USDTInfo = Newtonsoft.Json.JsonConvert.SerializeObject(uSDTInfo) });
             return result > 0;
         }
 
         public bool InsertCustBankInfo(int custId, int siteId, string accountName, int sysId, string accountNum, string iFSCCode, CustBankInfoLogStatus status)
         {
-            using var conn = new MySqlConnection(_connectionString);
+            using var conn = _mainDbClient.GetMySqlConnection();
             conn.Open();
             using var trans = conn.BeginTransaction();
+            
             var custBankInfoResult = true;
             var custBankInfo = GetCustBankInfo(custId);
             if (custBankInfo == null && !string.IsNullOrEmpty(accountName))
             {
-                custBankInfoResult = SetCustBankInfo(custId, siteId, accountName, conn, trans);
+                custBankInfoResult = SetCustBankInfo(custId, siteId, accountName, trans);
             }
-            var bankDetailResult = SetCustBankDetail(custId, sysId, accountNum, iFSCCode, CustBankDetailStatus.Able, conn, trans);
-            var banklogResult = SetCustBankInfoLog(custId, siteId, accountName, sysId, accountNum, iFSCCode, status, conn, trans);
-            if (bankDetailResult & banklogResult & custBankInfoResult)
+            var bankDetailResult = SetCustBankDetail(custId, sysId, accountNum, iFSCCode, CustBankDetailStatus.Able, trans);
+            var bankLogResult = SetCustBankInfoLog(custId, siteId, accountName, sysId, accountNum, iFSCCode, status, trans);
+            if (bankDetailResult & bankLogResult & custBankInfoResult)
             {
                 trans.Commit();
             }
-            return bankDetailResult & banklogResult & custBankInfoResult;
+            else
+            {
+                trans.Rollback();
+            }
+            conn.Close();
+            conn.Dispose();
+            
+            return bankDetailResult & bankLogResult & custBankInfoResult;
         }
 
-        private bool SetCustBankInfoLog(int custId, int siteId, string accountName, int sysId, string accountNum, string iFSCCode, CustBankInfoLogStatus status, MySqlConnection conn, MySqlTransaction trans)
+        private bool SetCustBankInfoLog(int custId, int siteId, string accountName, int sysId, string accountNum, string iFSCCode, CustBankInfoLogStatus status, IDbTransaction trans)
         {
-            var result = 0;
             var parameter = new DynamicParameters(new
             {
                 CustId = custId,
@@ -391,25 +387,34 @@ namespace MemberSite.Service.DAL
                 IFSCCode = string.IsNullOrWhiteSpace(iFSCCode) ? "" : iFSCCode,
                 Status = (int)status
             });
-            result = _mainDbClient.Execute("Service_CustBankInfoLog_Set_V2", parameter, conn, trans);
+            var result = _mainDbClient.Execute("Service_CustBankInfoLog_Set_V2", trans ,parameter);
             return result > 0;
         }
+        
         public bool InsertCustUSDTInfo(int custId, int siteId, string accountName, IEnumerable<USDTDetail> uSDTInfo, IEnumerable<USDTDetail> uSDTInfoLog)
         {
-            using var conn = new MySqlConnection(_connectionString);
+            using var conn = _mainDbClient.GetMySqlConnection();
             conn.Open();
             using var trans = conn.BeginTransaction();
-            var custUsdtInfoResult = SetCustUSDTInfo(custId, siteId, accountName, uSDTInfo, conn, trans);
-            var custUsdtInfologResult = SetCustUSDTInfoLog(custId, siteId, accountName, uSDTInfoLog, conn, trans);
-            if (custUsdtInfoResult & custUsdtInfologResult)
+            
+            var custUsdtInfoResult = SetCustUSDTInfo(custId, siteId, accountName, uSDTInfo, trans);
+            var custUsdtInfoLogResult = SetCustUSDTInfoLog(custId, siteId, accountName, uSDTInfoLog, trans);
+            if (custUsdtInfoResult & custUsdtInfoLogResult)
             {
                 trans.Commit();
             }
-            return custUsdtInfoResult & custUsdtInfologResult;
+            else
+            {
+                trans.Rollback();
+            }
+            conn.Close();
+            conn.Dispose();
+            
+            return custUsdtInfoResult & custUsdtInfoLogResult;
         }
-        private bool SetCustUSDTInfo(int custId, int siteId, string accountName, IEnumerable<USDTDetail> uSDTInfo, MySqlConnection conn, MySqlTransaction trans)
+        
+        private bool SetCustUSDTInfo(int custId, int siteId, string accountName, IEnumerable<USDTDetail> uSDTInfo, IDbTransaction trans)
         {
-            var result = 0;
             var parameter = new DynamicParameters(new
             {
                 CustId = custId,
@@ -417,12 +422,12 @@ namespace MemberSite.Service.DAL
                 AccountName = accountName,
                 USDTInfo = Newtonsoft.Json.JsonConvert.SerializeObject(uSDTInfo)
             });
-            result = _mainDbClient.Execute("Service_CustUSDTInfo_Set", parameter, conn, trans);
+            var result = _mainDbClient.Execute("Service_CustUSDTInfo_Set", trans ,parameter);
             return result > 0;
         }
-        private bool SetCustUSDTInfoLog(int custId, int siteId, string accountName, IEnumerable<USDTDetail> uSDTInfo, MySqlConnection conn, MySqlTransaction trans)
+        
+        private bool SetCustUSDTInfoLog(int custId, int siteId, string accountName, IEnumerable<USDTDetail> uSDTInfo, IDbTransaction trans)
         {
-            var result = 0;
             var parameter = new DynamicParameters(new
             {
                 CustId = custId,
@@ -430,34 +435,33 @@ namespace MemberSite.Service.DAL
                 AccountName = accountName,
                 USDTInfo = Newtonsoft.Json.JsonConvert.SerializeObject(uSDTInfo)
             });
-            result = _mainDbClient.Execute("Service_CustUSDTInfoLog_Set", parameter, conn, trans);
+            var result = _mainDbClient.Execute("Service_CustUSDTInfoLog_Set", trans ,parameter);
             return result > 0;
         }
 
         public CustBankInfo GetCustBankInfo(int custId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            return conn.QueryFirstOrDefault<CustBankInfo>("Member_CustBankInfo_Get", new { CustId = custId }, commandType: CommandType.StoredProcedure);
+            return _mainDbClient.QueryFirst<CustBankInfo>("Member_CustBankInfo_Get", new { CustId = custId });
         }
+        
         public string GetDefAccountNo(int custId, int siteId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.QueryFirstOrDefault<string>("Member_DefAccountNo_Get", new { CustId = custId, SiteId = siteId }, commandType: CommandType.StoredProcedure);
+            return _reportDbClient.QueryFirst<string>("Member_DefAccountNo_Get", new { CustId = custId, SiteId = siteId });
         }
+        
         public CustInfoProfile GetCustInfoProfile(int custId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.QueryFirstOrDefault<CustInfoProfile>("Member_CustProfile_Get_V4", new { CustId = custId }, commandType: CommandType.StoredProcedure);
+            return _reportDbClient.QueryFirst<CustInfoProfile>("Member_CustProfile_Get_V4", new { CustId = custId });
         }
+        
         public int SubmittedCustPhotoId(int custId, int siteId, int currencyId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.ExecuteScalar<int>("Member_SubmittedCustPhotoId_GetV2", new { CustId = custId, SiteId = siteId, CurrencyId = currencyId }, commandType: CommandType.StoredProcedure);
+            return _reportDbClient.ExecuteScalar<int>("Member_SubmittedCustPhotoId_GetV2", new { CustId = custId, SiteId = siteId, CurrencyId = currencyId });
         }
+        
         public bool SetResetPwd(int custId, string md5NewPassword)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            return conn.Execute("Member_ResetPwd_Set", new { CustId = custId, Md5NewPassword = md5NewPassword }, commandType: CommandType.StoredProcedure) > 0;
+            return _mainDbClient.Execute("Member_ResetPwd_Set", new { CustId = custId, Md5NewPassword = md5NewPassword }) > 0;
         }
 
         public int SetPhoneVerified(int custId)
@@ -484,14 +488,13 @@ namespace MemberSite.Service.DAL
             return result;
         }
 
-        public bool InsertCustLineProfile(int custId, string lineUserId,
-            MySqlConnection conn = null, MySqlTransaction trans = null)
+        public bool InsertCustLineProfile(int custId, string lineUserId, IDbTransaction trans = null)
         {
             var sp = "Member_CustLineProfile_Ins";
             var param = new DynamicParameters(new { _CustId = custId, _userId = lineUserId });
-            var result = 0;
+            int result;
 
-            if (conn == null)
+            if (trans == null)
             {
                 //No execute in transaction
                 result = _mainDbClient.Execute(sp, param);
@@ -499,9 +502,9 @@ namespace MemberSite.Service.DAL
             else
             {
                 //Execute in transaction
-                result = conn.Execute(sp, param, transaction: trans, commandType: CommandType.StoredProcedure);
+                result = _mainDbClient.Execute(sp, trans ,param);
             }
-            return (result == 0) ? false : true;
+            return (result != 0);
         }
 
         public CustLineProfileModel GetCustLineProfile(int custId, string lineUserId)
@@ -515,17 +518,16 @@ namespace MemberSite.Service.DAL
 
         public IEnumerable<BankInfoDetail> GetCustBankDetail(int custId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            return conn.Query<BankInfoDetail>("Member_CustBankDetailByCustId_Get", new { CustId = custId }, commandType: CommandType.StoredProcedure);
+            return _mainDbClient.Query<BankInfoDetail>("Member_CustBankDetailByCustId_Get", new { CustId = custId });
         }
+        
         public IEnumerable<BankInfoDetailData> GetCustBankDetail(int sysId, string accountNo, int siteId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            return conn.Query<BankInfoDetailData>("Member_CustBankDetail_Get_V2", new { SysId = sysId, AccountNo = accountNo, SiteId = siteId }, commandType: CommandType.StoredProcedure);
+            return _mainDbClient.Query<BankInfoDetailData>("Member_CustBankDetail_Get_V2", new { SysId = sysId, AccountNo = accountNo, SiteId = siteId });
         }
-        public bool SetCustBankDetail(int custId, int sysId, string accountNum, string iFSCCode, CustBankDetailStatus status, MySqlConnection conn, MySqlTransaction trans)
+
+        private bool SetCustBankDetail(int custId, int sysId, string accountNum, string iFSCCode, CustBankDetailStatus status, IDbTransaction trans)
         {
-            var result = 0;
             var parameter = new DynamicParameters(new
             {
                 CustId = custId,
@@ -534,63 +536,78 @@ namespace MemberSite.Service.DAL
                 IFSCCode = iFSCCode,
                 Status = (int)status
             });
-            result = _mainDbClient.Execute("Member_CustBankDetail_Set", parameter, conn, trans);
+            var result = _mainDbClient.Execute("Member_CustBankDetail_Set", trans ,parameter);
             return result > 0;
         }
+        
         public bool DeleteCustBankInfo(int custId, int siteId, int sysId, string accountNum, string iFSCCode, CustBankDetailStatus status)
         {
-            using var conn = new MySqlConnection(_connectionString);
+            using var conn = _mainDbClient.GetMySqlConnection();
             conn.Open();
             using var trans = conn.BeginTransaction();
-            var bankDetailResult = SetCustBankDetail(custId, sysId, accountNum, iFSCCode, status, conn, trans);
-            var banklogResult = SetCustBankInfoLog(custId, siteId, null, sysId, accountNum, iFSCCode, CustBankInfoLogStatus.Delete, conn, trans);
-            if (bankDetailResult & banklogResult)
+            
+            var bankDetailResult = SetCustBankDetail(custId, sysId, accountNum, iFSCCode, status, trans);
+            var bankLogResult = SetCustBankInfoLog(custId, siteId, null, sysId, accountNum, iFSCCode, CustBankInfoLogStatus.Delete,trans);
+            if (bankDetailResult & bankLogResult)
             {
                 trans.Commit();
             }
-            return bankDetailResult & banklogResult;
+            else
+            {
+                trans.Rollback();
+            }
+            conn.Close();
+            conn.Dispose();
+            
+            return bankDetailResult & bankLogResult;
         }
 
-        public bool SetCustBankInfo(int custId, int siteId, string accountName, MySqlConnection conn, MySqlTransaction trans)
+        private bool SetCustBankInfo(int custId, int siteId, string accountName, IDbTransaction trans)
         {
-            var result = 0;
             var parameter = new DynamicParameters(new
             {
                 CustId = custId,
                 SiteId = siteId,
                 AccountName = accountName
             });
-            result = _mainDbClient.Execute("Service_CustBankInfo_SetV3", parameter, conn, trans);
+            var result = _mainDbClient.Execute("Service_CustBankInfo_SetV3", trans , parameter);
             return result > 0;
         }
+        
         public IEnumerable<EWalletInfoDetail> GetCustEWalletInfo(int custId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            return conn.Query<EWalletInfoDetail>("Member_CustEWalletDetail_Get", new { CustId = custId }, commandType: CommandType.StoredProcedure);
+            return _mainDbClient.Query<EWalletInfoDetail>("Member_CustEWalletDetail_Get", new { CustId = custId });
         }
 
         public IEnumerable<EWalletInfoDetailData> GetCustEWalletDetail(int sysId, string accountNo, int siteId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            return conn.Query<EWalletInfoDetailData>("Member_CustEWalletDetailByAccountNo_Get", new { SysId = sysId, AccountNo = accountNo, SiteId = siteId }, commandType: CommandType.StoredProcedure);
+            return _mainDbClient.Query<EWalletInfoDetailData>("Member_CustEWalletDetailByAccountNo_Get", new { SysId = sysId, AccountNo = accountNo, SiteId = siteId });
         }
 
         public bool InsertCustEWalletDetail(int custId, int siteId, int sysId, string accountNum, CustEWalletDetailLogStatus status)
         {
-            using var conn = new MySqlConnection(_connectionString);
+            using var conn = _mainDbClient.GetMySqlConnection();
             conn.Open();
             using var trans = conn.BeginTransaction();
-            var eWalletDetailResult = SetCustEWalletDetail(custId, sysId, accountNum, CustEWalletDetailStatus.Able, conn, trans);
-            var eWalletlogResult = SetEWalletinfoLog(custId, siteId, sysId, accountNum, status, conn, trans);
-            if (eWalletDetailResult & eWalletlogResult)
+            
+            var eWalletDetailResult = SetCustEWalletDetail(custId, sysId, accountNum, CustEWalletDetailStatus.Able, trans);
+            var eWalletLogResult = SetEWalletinfoLog(custId, siteId, sysId, accountNum, status, trans);
+            if (eWalletDetailResult & eWalletLogResult)
             {
                 trans.Commit();
             }
-            return eWalletDetailResult & eWalletlogResult;
+            else
+            {
+                trans.Rollback();
+            }
+            conn.Close();
+            conn.Dispose();
+            
+            return eWalletDetailResult & eWalletLogResult;
         }
-        public bool SetCustEWalletDetail(int custId, int sysId, string accountNum, CustEWalletDetailStatus status, MySqlConnection conn, MySqlTransaction trans)
+
+        private bool SetCustEWalletDetail(int custId, int sysId, string accountNum, CustEWalletDetailStatus status, IDbTransaction trans)
         {
-            var result = 0;
             var parameter = new DynamicParameters(new
             {
                 CustId = custId,
@@ -598,12 +615,12 @@ namespace MemberSite.Service.DAL
                 AccountNo = accountNum,
                 Status = (int)status
             });
-            result = _mainDbClient.Execute("Member_CustEWalletDetail_Set", parameter, conn, trans);
+            var result = _mainDbClient.Execute("Member_CustEWalletDetail_Set", trans ,parameter);
             return result > 0;
         }
-        private bool SetEWalletinfoLog(int custId, int siteId, int sysId, string accountNum, CustEWalletDetailLogStatus status, MySqlConnection conn, MySqlTransaction trans)
+        
+        private bool SetEWalletinfoLog(int custId, int siteId, int sysId, string accountNum, CustEWalletDetailLogStatus status, IDbTransaction trans)
         {
-            var result = 0;
             var parameter = new DynamicParameters(new
             {
                 CustId = custId,
@@ -612,22 +629,30 @@ namespace MemberSite.Service.DAL
                 AccountNum = accountNum,
                 Status = (int)status
             });
-            result = _mainDbClient.Execute("Service_EWalletinfoLog_Set", parameter, conn, trans);
+            var result = _mainDbClient.Execute("Service_EWalletinfoLog_Set", trans, parameter);
             return result > 0;
         }
 
         public bool DeleteCustEWalletDetail(int custId, int siteId, int sysId, string accountNum, CustEWalletDetailStatus status)
         {
-            using var conn = new MySqlConnection(_connectionString);
+            using var conn = _mainDbClient.GetMySqlConnection();
             conn.Open();
             using var trans = conn.BeginTransaction();
-            var eWalletDetailResult = SetCustEWalletDetail(custId, sysId, accountNum, status, conn, trans);
-            var eWalletlogResult = SetEWalletinfoLog(custId, siteId, sysId, accountNum, CustEWalletDetailLogStatus.Delete, conn, trans);
-            if (eWalletDetailResult & eWalletlogResult)
+            
+            var eWalletDetailResult = SetCustEWalletDetail(custId, sysId, accountNum, status, trans);
+            var eWalletLogResult = SetEWalletinfoLog(custId, siteId, sysId, accountNum, CustEWalletDetailLogStatus.Delete,trans);
+            if (eWalletDetailResult & eWalletLogResult)
             {
                 trans.Commit();
             }
-            return eWalletDetailResult & eWalletlogResult;
+            else
+            {
+                trans.Rollback();
+            }
+            conn.Close();
+            conn.Dispose();
+            
+            return eWalletDetailResult & eWalletLogResult;
         }
         
         public IEnumerable<string> GetSimilarAccountName(int siteId, IEnumerable<string> accountNames)

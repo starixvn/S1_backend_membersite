@@ -1,4 +1,5 @@
-﻿using MemberSite.Service.BLL;
+using MemberSite.Service.BLL;
+using MemberSite.Service.Library;
 using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
@@ -26,6 +27,7 @@ namespace MemberSite.Controllers.Api
         private readonly AuthBLL _authBll;
         private readonly CryptoPayInfoBll _cryptoPayInfoBLL;
         private readonly LineLoginBLL _lineLoginBll;
+        private readonly StringVaildHelper _stringVaildHelper;
         private readonly IEnumerable<AreaCodeMap> _areaCodeMap;
         private readonly ILogger<AccountStrictController> _logger;
         private readonly ICustPhotoIdBLL _custPhoto;
@@ -42,6 +44,7 @@ namespace MemberSite.Controllers.Api
             _authBll = provider.GetRequiredService<AuthBLL>();
             _cryptoPayInfoBLL = provider.GetRequiredService<CryptoPayInfoBll>();
             _lineLoginBll = provider.GetRequiredService<LineLoginBLL>();
+            _stringVaildHelper = provider.GetRequiredService<StringVaildHelper>();
             _custPhoto = provider.GetRequiredService<ICustPhotoIdBLL>();
             _areaCodeMap = provider.GetRequiredService<IEnumerable<AreaCodeMap>>();
             _logger = provider.GetRequiredService<ILogger<AccountStrictController>>();
@@ -78,7 +81,7 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
 
-            if(custBankDetail.Count > 0)
+            if (custBankDetail.Count > 0)
             {
                 var bankDetail = custBankDetail.Find(x => x.CustId == authData.CustId);
                 if (bankDetail == null)
@@ -89,7 +92,7 @@ namespace MemberSite.Controllers.Api
                 }
             }
 
-            if(blockBankAccountList.Count > 0)
+            if (blockBankAccountList.Count > 0)
             {
                 apiResult.ErrorCode = -1;
                 apiResult.Message = _selLangBLL.GetMsg("msg_UpdateFailed");
@@ -370,6 +373,14 @@ namespace MemberSite.Controllers.Api
 
             var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
             var beforeCustInfo = _custInfoBLL.GetCustInfoProfile(authData.CustId);
+            if(custProfile.ContainsKey("AccountName"))
+                if (string.IsNullOrWhiteSpace(custProfile["AccountName"])
+                    || !_stringVaildHelper.VaildAccountNameForSetProfile(custProfile["AccountName"]))
+                {
+                    apiResult.ErrorCode = 21;
+                    apiResult.Message = $"{_selLangBLL.GetMsg("msg_RealNameWrongFormat")}";
+                    return apiResult;
+                }
             if (string.IsNullOrEmpty(beforeCustInfo.AccountName) && !string.IsNullOrEmpty(beforeCustInfo.PhoneNo))
             {
                 string accountName = custProfile["AccountName"];
@@ -438,7 +449,7 @@ namespace MemberSite.Controllers.Api
             {
                 custProfile["Email"] = beforeCustInfo.Email;
             }
-            
+
             custProfile = SetCountryCodeAndAreaCode(custProfile, beforeCustInfo, custInfo.SiteId);
 
             apiResult.ErrorCode = _custInfoBLL.SetProfile(authData.CustId, custProfile);
@@ -481,7 +492,7 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<object>(_selLangBLL);
             var authData = _authorizeBLL.GetAuthData();
-            
+
             try
             {
                 var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
@@ -651,8 +662,8 @@ namespace MemberSite.Controllers.Api
 
         private Dictionary<string, string> SetCountryCodeAndAreaCode(Dictionary<string, string> custProfile, CustInfoProfile beforeCustInfo, int siteId)
         {
-            custProfile.TryGetValue("CountryCode",out var reqCountryCode);
-            
+            custProfile.TryGetValue("CountryCode", out var reqCountryCode);
+
             if (string.IsNullOrEmpty(reqCountryCode) || !_areaCodeMap.Any(i => i.Code == reqCountryCode))
             {
                 if (!string.IsNullOrEmpty(beforeCustInfo.AreaCode))
@@ -664,10 +675,10 @@ namespace MemberSite.Controllers.Api
                     custProfile["CountryCode"] = "VN";
                 }
             }
-            
+
             custProfile.TryGetValue("AreaCode", out var reqAreaCode);
-            
-            if ( string.IsNullOrEmpty(reqAreaCode) || !_areaCodeMap.Any(i => i.AreaCode == reqAreaCode))
+
+            if (string.IsNullOrEmpty(reqAreaCode) || !_areaCodeMap.Any(i => i.AreaCode == reqAreaCode))
             {
                 if (!string.IsNullOrEmpty(beforeCustInfo.AreaCode))
                 {
@@ -688,7 +699,7 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<object>(_selLangBLL);
             var authData = _authorizeBLL.GetAuthData();
-            
+
             try
             {
                 var custInfo = _custInfoBLL.GetCustInfoProfile(authData.CustId);
@@ -810,7 +821,7 @@ namespace MemberSite.Controllers.Api
 
             return apiResult;
         }
-        
+
         [HttpPost]
         public async Task<ApiResult<SendOTPSMSResult>> SendOTPSMSAsync()
         {
