@@ -28,10 +28,14 @@ namespace MemberSite.Service.DAL
         {
             return _mainDbClient.Execute("Member_Affiliate_Ins", new { AffiliateId = affiliateId, CustId = custId, SiteId = siteId });
         }
-        public string GetAffiliateId(int custId, int siteId)
+        public string GetAffiliateId(int custId, int siteId, DataBase dataBase = DataBase.Report)
         {
-            return _reportDb.QueryFirst<string>("Member_AffiliateId_Get", new { CustId = custId, SiteId = siteId });
-        }
+            return dataBase switch
+            {
+                DataBase.Main => _mainDbClient.QueryFirst<string>("Member_AffiliateId_Get", new { CustId = custId, SiteId = siteId }),
+                _ => _reportDb.QueryFirst<string>("Member_AffiliateId_Get", new { CustId = custId, SiteId = siteId }),
+            };
+        }   
         public IEnumerable<ReferralSetting> GetReferralSetting(int siteId, int currencyId)
         {
             return _reportDb.Query<ReferralSetting>("Member_ReferralSetting_Get", new { SiteId = siteId, CurrencyId = currencyId });
