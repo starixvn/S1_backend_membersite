@@ -507,7 +507,7 @@ namespace MemberSite.Service.BLL
                 {
                     if (mySqlEx.Number == 1062)/*Duplicate for key 'PRIMARY'*/
                     {
-                        affiliateId = _agentInfoService.GetAffiliateId(custId, custInfo.SiteId);
+                        affiliateId = _agentInfoService.GetAffiliateId(custId, custInfo.SiteId, DataBase.Main);
                     }
                     else
                     {
