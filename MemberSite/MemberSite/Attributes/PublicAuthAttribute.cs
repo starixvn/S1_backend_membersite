@@ -20,10 +20,12 @@ public class PublicAuthAttribute : Attribute, IAuthorizationFilter
 {
     private readonly Tools _tools;
     private readonly AuthBLL _authBll;
-    public PublicAuthAttribute(Tools tools, AuthBLL authBll)
+    private readonly IHostEnvironment _environment;
+    public PublicAuthAttribute(Tools tools, AuthBLL authBll, IHostEnvironment environment)
     {
         _tools = tools;
         _authBll = authBll;
+        _environment = environment;
     }
 
     public void OnAuthorization(AuthorizationFilterContext context)
@@ -33,7 +35,7 @@ public class PublicAuthAttribute : Attribute, IAuthorizationFilter
         var deviceType = _tools.GetDeviceId(fromUrl);
 
         //App 先不用驗證
-        if (deviceType != DeviceId.APP)
+        if (!_environment.IsDevelopment() && deviceType != DeviceId.APP)
         {
             //using var reader = new StreamReader(context.HttpContext.Request.Body, Encoding.UTF8, leaveOpen: true);
             //var content = reader.ReadToEnd();
@@ -56,7 +58,7 @@ public class PublicAuthAttribute : Attribute, IAuthorizationFilter
 
                 content = !context.HttpContext.Request.Method.Equals("GET", StringComparison.OrdinalIgnoreCase)
                           && string.IsNullOrEmpty(content)
-                    ?  requestBody.ReadToEnd()
+                    ? requestBody.ReadToEnd()
                     : content;
             }
 
