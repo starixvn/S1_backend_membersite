@@ -4,6 +4,7 @@ using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Line;
 using System.Data;
+using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
@@ -314,7 +315,7 @@ namespace MemberSite.Service.DAL
             conn.Open();
             using var trans = conn.BeginTransaction();
             
-            var success = _mainDbClient.Execute("Service_CustBankInfo_SetV3", trans ,p) > 0;
+            var success = _mainDbClient.Execute("Service_CustBankInfo_SetV3", trans, p) > 0;
             
             if (success)
             {
@@ -323,7 +324,7 @@ namespace MemberSite.Service.DAL
             
                 if (tags.Any(x => x == (int)CustTagEnum.Duplicate))
                 {
-                    trans.Commit();
+                    MySqlClient.CommitAndDisposeConnection(conn, trans);
                     return true;
                 }
                 
@@ -331,12 +332,12 @@ namespace MemberSite.Service.DAL
                 success = this.SetCustInfoTagList(custId, tags, trans);
                 if (success)
                 {
-                    trans.Commit();
+                    MySqlClient.CommitAndDisposeConnection(conn, trans);
                     return true;
                 }
             }
             
-            trans.Rollback();
+            MySqlClient.RollbackAndDisposeConnection(conn, trans);
             return false;
         }
         
@@ -665,7 +666,7 @@ namespace MemberSite.Service.DAL
                 _TagList = JsonSerializer.Serialize(tagList)
             });
             
-            return _mainDbClient.Execute("Member_CustInfoTagList_Set", trans , parameter) > 0;
+            return _mainDbClient.Execute("Member_CustInfoTagList_Set", trans, parameter) > 0;
         }
     }
 }

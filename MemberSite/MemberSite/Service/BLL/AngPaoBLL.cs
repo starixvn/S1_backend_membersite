@@ -34,10 +34,10 @@ namespace MemberSite.Service.BLL
 
             await _eventsService.ResetPrize(eventId, customer.CurrencyId);
 
+            if (time.Hour == 0) return (105, null);
+
             var prizes = await _eventsService.GetPrizes(eventId, customer.CurrencyId);
             if (prizes == null || !prizes.Any()) return (101, null);
-
-            if (time.Hour == 0) return (105, null);
 
             if (string.IsNullOrEmpty(customer.AccountName) || !customer.PhoneVerified) return (104, null);
 
