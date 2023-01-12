@@ -140,12 +140,12 @@ namespace MemberSite.Service.DAL
 
         public async Task<IEnumerable<Prize>> GetPrizes(int eventId, int currencyId)
         {
-            return await _reportDbClient.QueryAsync<Prize>("Member_DrawPrizes_Get", new { _EventId = eventId, _CurrencyId = currencyId });
+            return await _reportDbClient.QueryAsync<Prize>("Member_DrawPrize_Get", new { _EventId = eventId, _CurrencyId = currencyId });
         }
 
         public async Task ResetPrize(int eventId, int currencyId) 
         {
-            await _mainDbClient.ExecuteAsync("Member_DrawPrizes_Reset", new { _EventId = eventId, _CurrencyId = currencyId });
+            await _mainDbClient.ExecuteAsync("Member_DrawPrize_Reset", new { _EventId = eventId, _CurrencyId = currencyId });
         }
 
         public int DrawPrize(ref int eventId, int custId, int currencyId, string userName, int siteId, out int result, out Prize drawPrize)
