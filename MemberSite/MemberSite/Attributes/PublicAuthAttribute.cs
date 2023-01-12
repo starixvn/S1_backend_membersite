@@ -10,6 +10,7 @@ using MemberSite.Service.BLL;
 using MemberSite.Service.Model.enums;
 using Serilog.Context;
 using System.IO;
+using Microsoft.AspNetCore.Http.Extensions;
 
 namespace MemberSite.Attributes;
 
@@ -27,7 +28,8 @@ public class PublicAuthAttribute : Attribute, IAuthorizationFilter
 
     public void OnAuthorization(AuthorizationFilterContext context)
     {
-        var fromUrl = _tools.GetFromUrl();
+        //var fromUrl = _tools.GetFromUrl();
+        var fromUrl = context.HttpContext.Request.GetDisplayUrl();
         var deviceType = _tools.GetDeviceId(fromUrl);
 
         //App 先不用驗證
@@ -79,7 +81,7 @@ public class PublicAuthAttribute : Attribute, IAuthorizationFilter
             requestBodyStream.Seek(0, SeekOrigin.Begin);
             context.HttpContext.Request.Body = requestBodyStream;
 
-            context.HttpContext.Request.Body = originalRequestBody;
+            //context.HttpContext.Request.Body = originalRequestBody;
         }
     }
 
