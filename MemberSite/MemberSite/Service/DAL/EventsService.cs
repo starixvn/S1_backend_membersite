@@ -127,7 +127,7 @@ namespace MemberSite.Service.DAL
             p.Add("Quota", dbType: DbType.Int32, direction: ParameterDirection.Output);
             p.Add("CheckDate", dbType: DbType.Date, direction: ParameterDirection.Output);
             p.Add("result", dbType: DbType.Int32, direction: ParameterDirection.Output);
-            var rtn = _mainDbClient.Query<Prize>("Member_CheckDrawPrize_Get", p);
+            var rtn = _mainDbClient.Query<Prize>("Member_CheckDrawPrize_Get", trans, p);
             eventId = p.Get<int>("EventId");
             prizeId = p.Get<int>("PrizeId");
             quota = p.Get<int>("Quota");
