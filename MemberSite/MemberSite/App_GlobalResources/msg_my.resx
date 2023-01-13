@@ -301,11 +301,32 @@
   </data>
   <data name="msg_InsufficientPoint" xml:space="preserve">
     <value>Maaf! Anda tidak mempunyai mata 88 Ganjaran yang mencukupi.</value>
-  </data>  
+  </data>
   <data name="msg_EWalletIsMaintenance" xml:space="preserve">
     <value>E-Dompet adalah penyelenggaraan, sila gunakan kaedah pengeluaran lain</value>
   </data>
   <data name="msg_NotInLimit" xml:space="preserve">
-      <value>tidak Terhad</value>>
+    <value>&gt;</value>
+  </data>
+  <data name="msg_congratulation_event_reward" xml:space="preserve">
+    <value>Taniah ! Dapat MYR {0}</value>
+  </data>
+  <data name="msg_keep_up" xml:space="preserve">
+    <value>Semoga berjaya pada goncangan lagi</value>
+  </data>
+  <data name="msg_limit_has_been_reached" xml:space="preserve">
+    <value>Had hari ini telah dicapai</value>
+  </data>
+  <data name="msg_turnover_not_enough" xml:space="preserve">
+    <value>Belum selesai TO yang diperlukan, sila cuba selepas ini</value>
+  </data>
+  <data name="msg_times_chance" xml:space="preserve">
+    <value>Masih kekal {0} kali peluang</value>
+  </data>
+  <data name="msg_ProfileOrPhoneNotFinish" xml:space="preserve">
+    <value>Maklumat akaun belum lengkap, sila sahkan maklumat akaun</value>
+  </data>
+  <data name="msg_Event_has_not_started" xml:space="preserve">
+    <value>Acara belum bermula lagi</value>
   </data>
 </root>
