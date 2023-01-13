@@ -14,11 +14,10 @@ namespace MemberSite.Service.Library
 
         private readonly ILogger<MySqlClient> _logger;
 
-        public MySqlClient(string connectionString, ILogger<MySqlClient> logger, DataBase dataBase)
+        public MySqlClient(string connectionString, ILogger<MySqlClient> logger)
         {
             _connectionString = connectionString;
             _logger = logger;
-            DataBase = dataBase;
         }
 
         public MySqlConnection GetMySqlConnection()
