@@ -20,6 +20,7 @@ namespace MemberSite.Service.BLL
             _changeDisplayName = new Dictionary<string, string>()
             {
               {"Iconic","AT" },
+              {"Kiss918","918Kiss" },
             };
         }
 
@@ -27,7 +28,7 @@ namespace MemberSite.Service.BLL
         {
             var key = $"GetGameCasinoListByDevice_{deviceType}";
             return _cacheHelper.TryGetOrCreate(key,
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromHours(1)),
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)),
                 i => _gameCasinoService.GetGameCasinoListByDevice(deviceType));
         }
         public List<Provider> GetProviderList()

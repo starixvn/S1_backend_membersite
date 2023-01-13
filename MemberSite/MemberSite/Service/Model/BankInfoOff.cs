@@ -35,7 +35,7 @@ namespace MemberSite.Service.Model
         public int SysId { get; set; }
         public decimal MinAmount { get; set; }
         public decimal MaxAmount { get; set; }
-        
+        public decimal DailyLimitAmount { get; set; }
         public string StrPointLevels { get; set; }
         public IEnumerable<int> PointLevels =>
             JsonConvert.DeserializeObject<IEnumerable<int>>(StrPointLevels);
@@ -65,5 +65,12 @@ namespace MemberSite.Service.Model
             JsonConvert.DeserializeObject<IEnumerable<OfflineBankAccountSupportChannelEnum>>(StrSupportChannel);
 
         public string QRCodeUrl { get; set; }
+    }
+
+    public class OfflineBankAccountDailyDeposit
+    {
+        public int BankId { get; set; }
+        
+        public decimal DailyDeposit { get; set; }
     }
 }

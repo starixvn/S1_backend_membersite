@@ -16,9 +16,11 @@
     }
     public class SiteConfig
     {
-        public string ImageURL { get; set; }
+        public string OldImageUrl { get; set; }
 
-        public string MaintainURL { get; set; }
+        public string MaintainUrl { get; set; }
+
+        public string HotEventImageUrl { get; set; }
     }
 
     public class LoginDeviceConfig

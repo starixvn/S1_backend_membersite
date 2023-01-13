@@ -11,7 +11,7 @@ namespace MemberSite.Service.Model
         public string AccountNo { get; set; }
         public string IFSCCode { get; set; }
     }
-    public class WithdrawalUSDTInfo
+    public class WithdrawalCryptoInfo
     {
         public string AccountType { get; set; }
         public string AccountName { get; set; }
@@ -19,6 +19,14 @@ namespace MemberSite.Service.Model
         public string AccountNo { get; set; }
         public string Network { set; get; }
         public int CurrencyId { set; get; }
+        /// <summary>
+        /// 參考匯率
+        /// </summary>
+        public decimal TempExchangeRate { set; get; }
+        /// <summary>
+        /// 參考金額
+        /// </summary>
+        public decimal TempExchangeAmount { set; get; }
     }
     public class WithdrawalEWalletInfo
     {

@@ -12,27 +12,24 @@ namespace MemberSite.Service.DAL
         {
             _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
         }
-        
-        public IEnumerable<PayCurrency> GetPayCurrency()
-        {
-            return _reportDbClient.Query<PayCurrency>("PayCurrency_Get");
-        }
         public IEnumerable<MobilePayInfo> GetMobilePayInfo(int siteId)
         {
-            return _reportDbClient.Query<MobilePayInfo>("Member_MobilePayV2_Get", new { SiteId = siteId });
+            return _reportDbClient.Query<MobilePayInfo>("Member_MobilePay_Get_V3", new { _SiteId = siteId });
         }
+        
         public IEnumerable<CryptoPayInfo> GetCryptoPayInfo(int siteId)
         {
-            return _reportDbClient.Query<CryptoPayInfo>("Common_CryptoPay_Get", new { SiteId = siteId });
+            return _reportDbClient.Query<CryptoPayInfo>("Service_PayInfo_Get_V2", new { _SiteId = siteId, _DepositType = DepositType.CryptoPayment });
         }
+        
         public IEnumerable<LoadCardPayInfo> GetLoadCardPayInfo(int siteId)
         {
-            return _reportDbClient.Query<LoadCardPayInfo>("Common_LoadCardPay_Get", new { SiteId = siteId });
+            return _reportDbClient.Query<LoadCardPayInfo>("Service_PayInfo_Get_V2", new { _SiteId = siteId, _DepositType = DepositType.LoadCardPayment });
         }
 
         public IEnumerable<PayInfo> GetPayInfo(int siteId, DepositType depositType)
         {
-            return _reportDbClient.Query<PayInfo>("Service_PayInfo_Get", new { SiteId = siteId , DepositType = (int)depositType });
+            return _reportDbClient.Query<PayInfo>("Service_PayInfo_Get_V2", new { _SiteId = siteId , _DepositType = (int)depositType });
         }
 
         public LineChannel? GetLineChannel(int siteId, int currencyId)

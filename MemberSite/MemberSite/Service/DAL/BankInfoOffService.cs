@@ -13,14 +13,6 @@ namespace MemberSite.Service.DAL
             _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
         }
         
-        public IEnumerable<BankInfoOff> GetBankAccountOff(int siteId, int queryType = 1)
-        {
-            if (queryType == 0)
-                return _reportDbClient.Query<BankInfoOff>("BankAccountOff_Get", new { SiteId = siteId });
-            else
-                return _reportDbClient.Query<BankInfoOff>("Member_BankAccountOffAllStatus_Get", new { SiteId = siteId });
-        }
-        
         public IEnumerable<OfflineBankAccountInfo> GetOfflineBankAccount(int siteId)
         {
             return _reportDbClient.Query<OfflineBankAccountInfo>("Member_OfflineBankAccount_Get", new { _SiteId = siteId });
@@ -29,6 +21,18 @@ namespace MemberSite.Service.DAL
         public IEnumerable<int> GetCustOffDepositSysId(int custId)
         {
             return _reportDbClient.Query<int>("Member_CustOffDepositSysId_Get", new { _CustId = custId });
+        }
+        
+        public IEnumerable<OfflineBankAccountDailyDeposit> GetOfflineBankAccountDailyDeposit(
+            int siteId, int currencyId, string bankIds)
+        {
+            return _reportDbClient.Query<OfflineBankAccountDailyDeposit>("Member_OfflineBankAccount_DailyDepositSummary_Get",
+                new
+                {
+                    _SiteId = siteId,
+                    _CurrencyId = currencyId,
+                    _BankIds = bankIds
+                });
         }
     }
 }

@@ -362,6 +362,31 @@
   <data name="msg_NotInLimit" xml:space="preserve">
     <value>&gt;</value>
   </data>
+  <data name="msg_DepositorsNameUnmatch" xml:space="preserve">
+    <value>जमाकर्ता का नाम मेल नहीं खाता</value>
+  </data>
+  <data name="msg_DepositorsNameUnmatch_Detail" xml:space="preserve">
+    <value>पंजीकृत नाम बैंक खाते के नाम से मेल नहीं खाता है, कृपया अधिक सहायता के लिए ग्राहक सहायता से संपर्क करें।</value>
+  </data>
+  <data name="msg_DepositSlipRequired" xml:space="preserve">
+    <value>डिपॉजिट स्लिप जरूरी</value>
+  </data>
+  <data name="msg_DepositSlipRequired_Detail" xml:space="preserve">
+    <value>लेन-देन प्रसंस्करण समय को तेज करने के लिए कृपया स्थानांतरण पर्ची संलग्न करें।</value>
+  </data>
+  <data name="msg_PaymentNotReceived" xml:space="preserve">
+    <value>भुगतान प्राप्त नहीं हुआ</value>
+  </data>
+  <data name="msg_PaymentNotReceived_Detail" xml:space="preserve">
+    <value>भुगतान बैंक में प्राप्त नहीं हुआ है, कृपया धैर्यपूर्वक प्रतीक्षा करें।</value>
+  </data>
+  <data name="msg_DepositRefunded" xml:space="preserve">
+    <value>डिपॉजिट रिफंड किया गया</value>
+  </data>
+  <data name="msg_DepositRefunded_Detail" xml:space="preserve">
+    <value>जमा राशि वापस कर दी गई है, कृपया अपना बैंक खाता देखें</value>
+    <value>&gt;</value>
+  </data>
   <data name="msg_WithdrawalAccountNumberIncorrect" xml:space="preserve">
     <value>विथड्रावल अकाउंट नंबर गलत है</value>
   </data>

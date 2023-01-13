@@ -118,9 +118,9 @@ namespace MemberSite.Service.DAL
             return result;
         }
 
-        public IEnumerable<CryptoInfo> GetSupportCryptoInfo()
+        public IEnumerable<CryptoInfo> GetSupportCryptoInfo(int siteId)
         {
-            var result = _reportDb.Query<CryptoInfo>("Member_SupportCryptoInfo_Get");
+            var result = _reportDb.Query<CryptoInfo>("Member_SupportCryptoInfo_Get_V2", new { _SiteId = siteId });
             
             return result;
         }

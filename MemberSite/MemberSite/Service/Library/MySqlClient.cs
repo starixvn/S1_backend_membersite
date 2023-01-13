@@ -268,6 +268,25 @@ namespace MemberSite.Service.Library
             return result;
         }
 
+        public async Task<int> ExecuteAsync(string name, IDbTransaction transaction, object parameters = null)
+        {
+            var sw = Stopwatch.StartNew();
+            int result;
+            try
+            {
+                result = await transaction.Connection.ExecuteAsync(name, parameters, commandType: CommandType.StoredProcedure);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, name);
+                throw;
+            }
+
+            LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
+            _logger.LogDebug($"{name} {sw.Elapsed:c}");
+            return result;
+        }
+
         public int Execute(string command)
         {
             int result;
@@ -376,5 +395,19 @@ namespace MemberSite.Service.Library
         }
         
         #endregion
+        
+        public static void CommitAndDisposeConnection(MySqlConnection conn, IDbTransaction trans)
+        {
+            trans.Commit();
+            conn.Close();
+            conn.Dispose();
+        }
+        
+        public static void RollbackAndDisposeConnection(MySqlConnection conn, IDbTransaction trans)
+        {
+            trans.Rollback();
+            conn.Close();
+            conn.Dispose();
+        }
     }
 }

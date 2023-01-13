@@ -4,10 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using MemberSite.Service.Model.enums;
 using Serilog.Context;
-using MemberSite.Service.DAL;
-using Microsoft.Extensions.Options;
-using MemberSite.Service.Model;
-using System.Web;
 
 namespace MemberSite.Controllers
 {
@@ -24,8 +20,6 @@ namespace MemberSite.Controllers
         private readonly GameBLL _gameBll;
         private readonly string _apiUrl;
         private readonly ILogger _logger;
-        private readonly StatementService _statementService;
-        private readonly IOptions<Dictionary<string, SiteConfig>> _siteConfig;
 
         public entPageController(IServiceProvider provider)
         {
@@ -40,8 +34,6 @@ namespace MemberSite.Controllers
             _gameBll = provider.GetRequiredService<GameBLL>();
             _apiUrl = provider.GetRequiredService<IConfiguration>().GetValue<string>("TpService");
             _logger = provider.GetRequiredService<ILogger<entPageController>>();
-            _statementService = provider.GetRequiredService<StatementService>();
-            _siteConfig = provider.GetRequiredService<IOptions<Dictionary<string, SiteConfig>>>();
         }
 
         public class TpInfo
@@ -58,13 +50,12 @@ namespace MemberSite.Controllers
         public async Task<IActionResult> IndexAsync(int tpId, Dictionary<string, string> inputs, [FromRoute] string LangId = null)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
-            var tpMaintainList = _thirdPartyBll.GetTpMaintainListWithCache(serverInfo.SiteId);
-            if (_gameBll.IsMaintain(tpMaintainList, tpId, inputs.GetValueOrDefault("tpGameType"), out var tpMaintain))
+            var host = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
+       
+            if (_gameBll.IsMaintain(serverInfo.SiteId, tpId, inputs.GetValueOrDefault("tpGameType"), out var tpMaintain))
             {
-                var tpName = _statementService.GetTpListWithCache()?.First(i => i.Id == tpMaintain.TpId).TpName;
-                var host = _siteConfig.Value[serverInfo.SiteName].MaintainURL;
-                var maintainUrl = $"{host}/index_{_selLangBll.GetLangId() ?? "en"}.html" +
-                    $"?t={HttpUtility.UrlEncode(tpName)}&e={HttpUtility.UrlEncode($"{tpMaintain.EndDate:u}")}";
+                var entPageUrl = new Uri($"{Request.Scheme}://{Request.Host}{Request.Path}{Request.QueryString}").AbsoluteUri;
+                var maintainUrl = _gameBll.GetMaintainUrl(tpMaintain, host, _selLangBll.GetLangId() ?? "en", entPageUrl);
                 return Redirect(maintainUrl);
             }
 
@@ -76,7 +67,7 @@ namespace MemberSite.Controllers
                 SiteId = serverInfo.SiteId,
             };
 
-            inputs.Add("Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}");
+            inputs.Add("Host", host);
             inputs.Add("ClientIP", _tools.GetClientIP());
 
             if (inputs.ContainsKey("AppType") && int.TryParse(inputs["AppType"], out var appType))

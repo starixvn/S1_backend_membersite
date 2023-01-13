@@ -364,6 +364,30 @@
   <data name="msg_NotInLimit" xml:space="preserve">
     <value>Tidak dalam Limit</value>
   </data>
+  <data name="msg_DepositorsNameUnmatch" xml:space="preserve">
+    <value>Nama Deposit tidak cocok</value>
+  </data>
+  <data name="msg_DepositorsNameUnmatch_Detail" xml:space="preserve">
+    <value>Nama yang terdaftar tidak sesuai dengan nama rekening bank, silakan hubungi Dukungan Pelanggan untuk bantuan lebih lanjut.</value>
+  </data>
+  <data name="msg_DepositSlipRequired" xml:space="preserve">
+    <value>Diperlukan Slip Setoran</value>
+  </data>
+  <data name="msg_DepositSlipRequired_Detail" xml:space="preserve">
+    <value>Mohon lampirkan slip transfer untuk mempercepat waktu proses transaksi.</value>
+  </data>
+  <data name="msg_PaymentNotReceived" xml:space="preserve">
+    <value>Setoran tidak diterima</value>
+  </data>
+  <data name="msg_PaymentNotReceived_Detail" xml:space="preserve">
+    <value>Setoran belum diterima di bank, mohon menunggu.</value>
+  </data>
+  <data name="msg_DepositRefunded" xml:space="preserve">
+    <value>Deposit dikembalikan</value>
+  </data>
+  <data name="msg_DepositRefunded_Detail" xml:space="preserve">
+    <value>Jumlah deposit telah dikembalikan, silakan periksa rekening bank Anda.</value>
+  </data>
   <data name="msg_WithdrawalAccountNumberIncorrect" xml:space="preserve">
     <value>Nomor Akun Penarikan Salah</value>
   </data>
