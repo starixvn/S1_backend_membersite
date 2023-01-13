@@ -10,7 +10,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
-using Dapper.Extensions.Caching.Memory;
 using MemberSite.Extensions;
 using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.DAL.Interface;
@@ -183,11 +182,6 @@ namespace MemberSite
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();
 
-            services.AddDapperCachingInMemory(new MemoryConfiguration
-            {
-                AllMethodsEnableCache = false
-            });
-            
             if (configuration.GetValue<bool>("JwtSettings:IsJwt"))
             {
                 services
