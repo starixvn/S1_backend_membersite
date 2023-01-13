@@ -108,18 +108,10 @@ namespace MemberSite.Service.DAL
 
         public IEnumerable<Prize> CheckDrawPrize(ref int eventId, int siteId, int custId, int currencyId, out int prizeId, out int result)
         {
-            using var conn = _mainDbClient.GetMySqlConnection();
-            conn.Open();
-            using var trans = conn.BeginTransaction();
-            var check = CheckDrawPrize(ref eventId, siteId, custId, currencyId, out prizeId, out _, out _, out result, trans);
-
-            trans.Commit();
-            conn.Close();
-            conn.Dispose();
-            return check;
+            return CheckDrawPrize(ref eventId, siteId, custId, currencyId, out prizeId, out _, out _, out result);
         }
 
-        private IEnumerable<Prize> CheckDrawPrize(ref int eventId, int siteId, int custId, int currencyId, out int prizeId, out int quota, out DateTime checkDate, out int result, IDbTransaction trans)
+        private IEnumerable<Prize> CheckDrawPrize(ref int eventId, int siteId, int custId, int currencyId, out int prizeId, out int quota, out DateTime checkDate, out int result)
         {
             var p = new DynamicParameters(new { SiteId = siteId, CustId = custId, CurrencyId = currencyId });
             p.Add("EventId", eventId, dbType: DbType.Int32, direction: ParameterDirection.InputOutput);
@@ -127,7 +119,7 @@ namespace MemberSite.Service.DAL
             p.Add("Quota", dbType: DbType.Int32, direction: ParameterDirection.Output);
             p.Add("CheckDate", dbType: DbType.Date, direction: ParameterDirection.Output);
             p.Add("result", dbType: DbType.Int32, direction: ParameterDirection.Output);
-            var rtn = _mainDbClient.Query<Prize>("Member_CheckDrawPrize_Get", trans, p);
+            var rtn = _mainDbClient.Query<Prize>("Member_CheckDrawPrize_Get", p);
             eventId = p.Get<int>("EventId");
             prizeId = p.Get<int>("PrizeId");
             quota = p.Get<int>("Quota");
@@ -158,7 +150,7 @@ namespace MemberSite.Service.DAL
             drawPrize = null;
             decimal prizeAmount = 0;
 
-            var prizes = CheckDrawPrize(ref eventId, siteId, custId, currencyId, out var prizeId, out var quota, out var checkDate, out result ,trans);
+            var prizes = CheckDrawPrize(ref eventId, siteId, custId, currencyId, out var prizeId, out var quota, out var checkDate, out result);
 
             if (result == 100)
             {
