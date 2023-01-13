@@ -32,17 +32,30 @@ namespace MemberSite.Service.Library
         {
             T result;
             var sw = Stopwatch.StartNew();
+            MySqlConnection connection = null;
+
             try
             {
-                await using var connection = new MySqlConnection(_connectionString);
-                result = await connection.QueryFirstOrDefaultAsync<T>(name, parameters, commandType: CommandType.StoredProcedure);
-                await connection.CloseAsync();
-                await connection.DisposeAsync();
+                connection = new MySqlConnection(_connectionString);
+                if (connection.State != ConnectionState.Open) connection.Open();// 自己 Control connection open close，不要讓 ORM 自己做
+                var command = new CommandDefinition(name, parameters, // 使用 CommandDefinition 不讓 Dapper 用預設值建立
+                    commandType: CommandType.StoredProcedure,
+                    flags: CommandFlags.NoCache);
+                
+                result = await connection.QueryFirstOrDefaultAsync<T>(command);
             }
             catch (Exception e)
             {
                 _logger.LogError(e, name);
                 throw;
+            }
+            finally
+            {
+                if (connection != null)
+                {
+                    await connection.CloseAsync();
+                    await connection.DisposeAsync();
+                }
             }
 
             LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
@@ -54,17 +67,29 @@ namespace MemberSite.Service.Library
         {
             T result;
             var sw = Stopwatch.StartNew();
+            MySqlConnection connection = null;
             try
             {
-                using var connection = new MySqlConnection(_connectionString);
-                result = connection.QueryFirstOrDefault<T>(name, parameters, commandType: CommandType.StoredProcedure);
-                connection.Close();
-                connection.Dispose();
+                connection = new MySqlConnection(_connectionString);
+                if (connection.State != ConnectionState.Open) connection.Open();// 自己 Control connection open close，不要讓 ORM 自己做
+                var command = new CommandDefinition(name, parameters, // 使用 CommandDefinition 不讓 Dapper 用預設值建立
+                    commandType: CommandType.StoredProcedure,
+                    flags: CommandFlags.NoCache);
+                
+                result = connection.QueryFirstOrDefault<T>(command);
             }
             catch (Exception e)
             {
                 _logger.LogError(e, name);
                 throw;
+            }
+            finally
+            {
+                if (connection != null)
+                {
+                    connection.Close();
+                    connection.Dispose();
+                }
             }
 
             LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
@@ -76,17 +101,29 @@ namespace MemberSite.Service.Library
         {
             IEnumerable<T> result;
             var sw = Stopwatch.StartNew();
+            MySqlConnection connection = null;
+            
             try
             {
-                using var connection = new MySqlConnection(_connectionString);
-                result = connection.Query<T>(name, commandType: CommandType.Text);
-                connection.Close();
-                connection.Dispose();
+                connection = new MySqlConnection(_connectionString);
+                if (connection.State != ConnectionState.Open) connection.Open();// 自己 Control connection open close，不要讓 ORM 自己做
+                var command = new CommandDefinition(name, // 使用 CommandDefinition 不讓 Dapper 用預設值建立
+                    commandType: CommandType.StoredProcedure,
+                    flags: CommandFlags.NoCache);
+                result = connection.Query<T>(command);
             }
             catch (Exception e)
             {
                 _logger.LogError(e, name);
                 throw;
+            }
+            finally
+            {
+                if (connection != null)
+                {
+                    connection.Close();
+                    connection.Dispose();
+                }
             }
 
             LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
@@ -98,36 +135,30 @@ namespace MemberSite.Service.Library
         {
             IEnumerable<T> result;
             var sw = Stopwatch.StartNew();
-            try
-            {
-                using var connection = new MySqlConnection(_connectionString);
-                result = connection.Query<T>(sql, param: parameters, commandType: commandType);
-                connection.Close();
-                connection.Dispose();
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, sql);
-                throw;
-            }
+            MySqlConnection connection = null;
 
-            LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
-            _logger.LogDebug($"{sql} {sw.Elapsed:c}");
-            return result;
-        }
-        
-        public IEnumerable<T> Query<T>(string sql, IDbTransaction transaction, object parameters)
-        {
-            IEnumerable<T> result;
-            var sw = Stopwatch.StartNew();
             try
             {
-                result = transaction.Connection.Query<T>(sql, param: parameters, commandType: CommandType.StoredProcedure);
+                connection = new MySqlConnection(_connectionString);
+                if (connection.State != ConnectionState.Open) connection.Open();// 自己 Control connection open close，不要讓 ORM 自己做
+                var command = new CommandDefinition(sql, parameters, // 使用 CommandDefinition 不讓 Dapper 用預設值建立
+                    commandType: commandType,
+                    flags: CommandFlags.NoCache);
+
+                result = connection.Query<T>(command);
             }
             catch (Exception e)
             {
                 _logger.LogError(e, sql);
                 throw;
+            }
+            finally
+            {
+                if (connection != null)
+                {
+                    connection.Close();
+                    connection.Dispose();
+                }
             }
 
             LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
@@ -139,18 +170,30 @@ namespace MemberSite.Service.Library
         {
             T result;
             var sw = Stopwatch.StartNew();
+            MySqlConnection connection = null;
             try
             {
-                using var connection = new MySqlConnection(_connectionString);
-                var multiple = connection.QueryMultiple(name, parameters, commandType: CommandType.StoredProcedure);
+                connection = new MySqlConnection(_connectionString);
+                if (connection.State != ConnectionState.Open) connection.Open();// 自己 Control connection open close，不要讓 ORM 自己做
+                var command = new CommandDefinition(name, parameters, // 使用 CommandDefinition 不讓 Dapper 用預設值建立
+                    commandType: CommandType.StoredProcedure,
+                    flags: CommandFlags.NoCache);
+                
+                var multiple = connection.QueryMultiple(command);
                 result = func.Invoke(multiple);
-                connection.Close();
-                connection.Dispose();
             }
             catch (Exception e)
             {
                 _logger.LogError(e, name);
                 throw;
+            }
+            finally
+            {
+                if (connection != null)
+                {
+                    connection.Close();
+                    connection.Dispose();
+                }
             }
 
             LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
@@ -162,17 +205,30 @@ namespace MemberSite.Service.Library
         {
             IEnumerable<T> result;
             var sw = Stopwatch.StartNew();
+            MySqlConnection connection = null;
+            
             try
             {
-                await using var connection = new MySqlConnection(_connectionString);
-                result = await connection.QueryAsync<T>(name, parameters, commandType: CommandType.StoredProcedure);
-                await connection.CloseAsync();
-                await connection.DisposeAsync();
+                connection = new MySqlConnection(_connectionString);
+                if (connection.State != ConnectionState.Open) connection.Open();// 自己 Control connection open close，不要讓 ORM 自己做
+                var command = new CommandDefinition(name, parameters, // 使用 CommandDefinition 不讓 Dapper 用預設值建立
+                    commandType: CommandType.StoredProcedure,
+                    flags: CommandFlags.NoCache);
+                
+                result = await connection.QueryAsync<T>(command);
             }
             catch (Exception e)
             {
                 _logger.LogError(e, name);
                 throw;
+            }
+            finally
+            {
+                if (connection != null)
+                {
+                    await connection.CloseAsync();
+                    await connection.DisposeAsync();
+                }
             }
 
             LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
@@ -184,19 +240,30 @@ namespace MemberSite.Service.Library
         {
             T result;
             var sw = Stopwatch.StartNew();
+            MySqlConnection connection = null;
             try
             {
-                await using var connection = new MySqlConnection(_connectionString);
-                var multiple =
-                    connection.QueryMultipleAsync(name, parameters, commandType: CommandType.StoredProcedure);
+                connection = new MySqlConnection(_connectionString);
+                if (connection.State != ConnectionState.Open) connection.Open();// 自己 Control connection open close，不要讓 ORM 自己做
+                var command = new CommandDefinition(name, parameters, // 使用 CommandDefinition 不讓 Dapper 用預設值建立
+                    commandType: CommandType.StoredProcedure,
+                    flags: CommandFlags.NoCache);
+                
+                var multiple = connection.QueryMultipleAsync(command);
                 result = func.Invoke(await multiple);
-                await connection.CloseAsync();
-                await connection.DisposeAsync();
             }
             catch (Exception e)
             {
                 _logger.LogError(e, name);
                 throw;
+            }
+            finally
+            {
+                if (connection != null)
+                {
+                    await connection.CloseAsync();
+                    await connection.DisposeAsync();
+                }
             }
 
             LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
@@ -212,43 +279,31 @@ namespace MemberSite.Service.Library
         {
             var result = 0;
             var sw = Stopwatch.StartNew();
+            MySqlConnection connection = null;
             try
             {
-                using var connection = new MySqlConnection(_connectionString);
+                connection = new MySqlConnection(_connectionString);
                 result = connection.Execute(name, parameters, commandType: CommandType.StoredProcedure);
-                connection.Close();
-                connection.Dispose();
             }
             catch (Exception e)
             {
                 _logger.LogError(e, name);
                 throw;
             }
-
-            LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
-            _logger.LogDebug($"{name} {sw.Elapsed:c}");
-            return result;
-        }
-        
-        public int Execute(string name, object parameters, MySqlConnection connection, MySqlTransaction trans)
-        {
-            int result;
-            var sw = Stopwatch.StartNew();
-            try
+            finally
             {
-                result = connection.Execute(name, parameters, commandType: CommandType.StoredProcedure, transaction: trans);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, name);
-                throw;
+                if (connection != null)
+                {
+                    connection.Close();
+                    connection.Dispose();
+                }
             }
 
             LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
             _logger.LogDebug($"{name} {sw.Elapsed:c}");
             return result;
         }
-        
+
         public int Execute(string name, IDbTransaction transaction, object parameters = null)
         {
             var sw = Stopwatch.StartNew();
@@ -291,17 +346,24 @@ namespace MemberSite.Service.Library
         {
             int result;
             var sw = Stopwatch.StartNew();
+            MySqlConnection connection = null;
             try
             {
-                using var connection = new MySqlConnection(_connectionString);
+                connection = new MySqlConnection(_connectionString);
                 result = connection.Execute(command, CommandType.Text);
-                connection.Close();
-                connection.Dispose();
             }
             catch (Exception e)
             {
                 _logger.LogError(e, command);
                 throw;
+            }
+            finally
+            {
+                if (connection != null)
+                {
+                    connection.Close();
+                    connection.Dispose();
+                }
             }
 
             LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
@@ -313,17 +375,24 @@ namespace MemberSite.Service.Library
         {
             int result;
             var sw = Stopwatch.StartNew();
+            MySqlConnection connection = null;
             try
             {
-                await using var connection = new MySqlConnection(_connectionString);
+                connection = new MySqlConnection(_connectionString);
                 result = await connection.ExecuteAsync(name, parameters, commandType: CommandType.StoredProcedure);
-                await connection.CloseAsync();
-                await connection.DisposeAsync();
             }
             catch (Exception e)
             {
                 _logger.LogError(e, name);
                 throw;
+            }
+            finally
+            {
+                if (connection != null)
+                {
+                    await connection.CloseAsync();
+                    await connection.DisposeAsync();
+                }
             }
 
             LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
@@ -335,17 +404,24 @@ namespace MemberSite.Service.Library
         {
             T result;
             var sw = Stopwatch.StartNew();
+            MySqlConnection connection = null;
             try
             {
-                using var connection = new MySqlConnection(_connectionString);
+                connection = new MySqlConnection(_connectionString);
                 result = connection.ExecuteScalar<T>(name, parameters, commandType: CommandType.StoredProcedure);
-                connection.Close();
-                connection.Dispose();
             }
             catch (Exception e)
             {
                 _logger.LogError(e, name);
                 throw;
+            }
+            finally
+            {
+                if (connection != null)
+                {
+                    connection.Close();
+                    connection.Dispose();
+                }
             }
 
             LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
@@ -376,17 +452,24 @@ namespace MemberSite.Service.Library
         {
             T result;
             var sw = Stopwatch.StartNew();
+            MySqlConnection connection = null;
             try
             {
-                await using var connection = new MySqlConnection(_connectionString);
+                connection = new MySqlConnection(_connectionString);
                 result = await connection.ExecuteScalarAsync<T>(name, parameters, commandType: CommandType.StoredProcedure);
-                await connection.CloseAsync();
-                await connection.DisposeAsync();
             }
             catch (Exception e)
             {
                 _logger.LogError(e, name);
                 throw;
+            }
+            finally
+            {
+                if (connection != null)
+                {
+                    await connection.CloseAsync();
+                    await connection.DisposeAsync();
+                }
             }
 
             LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
