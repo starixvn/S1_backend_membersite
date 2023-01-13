@@ -411,5 +411,18 @@
   </data>
   <data name="msg_Event_has_not_started" xml:space="preserve">
     <value>Acara belum bermula lagi</value>
+    <value>&gt;</value>
+  </data>
+  <data name="msg_WithdrawalAccountNumberIncorrect" xml:space="preserve">
+    <value>Nombor Akaun Pengeluaran Salah</value>
+  </data>
+  <data name="msg_WithdrawalAccountNumberIncorrect_Detail" xml:space="preserve">
+    <value>Nombor akaun pengeluaran tak betul. Sila sahkan maklumat nombor akaun pengeluaran anda.</value>
+  </data>
+  <data name="msg_WithdrawalAccountsNameUnmatch" xml:space="preserve">
+    <value>Nama akaun pengeluaran tidak sepadan</value>
+  </data>
+  <data name="msg_WithdrawalAccountsNameUnmatch_Detail" xml:space="preserve">
+    <value>Nama akaun pengeluaran tidak sepadan dengan nama yang didaftarkan. Sila hubungi Live Chat untuk mendapatkan bantuan.</value>
   </data>
 </root>

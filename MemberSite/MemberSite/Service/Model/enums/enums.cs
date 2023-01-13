@@ -580,4 +580,9 @@ namespace MemberSite.Service.Model.enums
     {
         Duplicate = 6
     }
+    public enum WithdrawalMessageStatus
+    {
+        WithdrawalAccountsNameUnmatch = 0,
+        WithdrawalAccountNumberIncorrect = 1
+    }
 }

@@ -370,4 +370,16 @@
   <data name="msg_Event_has_not_started" xml:space="preserve">
     <value>Event has not started yet</value>
   </data>
+  <data name="msg_WithdrawalAccountNumberIncorrect" xml:space="preserve">
+    <value>Withdrawal Account Number Incorrect</value>
+  </data>
+  <data name="msg_WithdrawalAccountNumberIncorrect_Detail" xml:space="preserve">
+    <value>Withdrawal account number incorrect. Kindly check your withdrawal account number.</value>
+  </data>
+  <data name="msg_WithdrawalAccountsNameUnmatch" xml:space="preserve">
+    <value>Withdrawal Account's name unmatch</value>
+  </data>
+  <data name="msg_WithdrawalAccountsNameUnmatch_Detail" xml:space="preserve">
+    <value>Withdrawal account name does not match with the registered name. Please contact customer service for assistance.</value>
+  </data>
 </root>
