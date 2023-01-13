@@ -91,7 +91,7 @@ namespace MemberSite.Service.Library
                 var command = new CommandDefinition(name, // 使用 CommandDefinition 不讓 Dapper 用預設值建立
                     commandType: CommandType.StoredProcedure,
                     flags: CommandFlags.NoCache);
-                result = connection.Query<T>(command);
+                result = connection.Query<T>(command).ToList();
                 connection.Close();
                 connection.Dispose();
             }
@@ -118,7 +118,7 @@ namespace MemberSite.Service.Library
                     commandType: commandType,
                     flags: CommandFlags.NoCache);
 
-                result = connection.Query<T>(command);
+                result = connection.Query<T>(command).ToList();
                 connection.Close();
                 connection.Dispose();
             }
