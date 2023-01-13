@@ -151,7 +151,12 @@ namespace MemberSite.Service.Model
     }
     public class WithdrawalMessage
     {
-        public int Status { get; set; }
-        public DateTimeOffset CreateTime { get; set; }
+        public WithdrawalMessageStatus Status { get; set; }
+        private DateTimeOffset _createTime { get; set; }
+        public DateTimeOffset CreateTime
+        {
+            get => _createTime;
+            set => _createTime = new DateTimeOffset(value.DateTime, TimeSpan.Zero);
+        }
     }
 }

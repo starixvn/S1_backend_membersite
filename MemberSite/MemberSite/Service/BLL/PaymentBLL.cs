@@ -594,7 +594,26 @@ namespace MemberSite.Service.BLL
         public IEnumerable<WithdrawalHistory> GetWithdrawalInfoRecent(int custId)
         {
             var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var withdrawalInfo = withdrawalService.GetWithdrawalInfoRecent(custId, CustInfo.SiteId, 5);
+            var withdrawalInfo = withdrawalService.GetWithdrawalInfoRecent(custId, CustInfo.SiteId, 5).ToList();
+            withdrawalInfo.ForEach(x =>
+            {
+                List<WithdrawalMessageDetail> withdrawalMessageDetails = new List<WithdrawalMessageDetail>();
+                if (!string.IsNullOrWhiteSpace(x.WithdrawalMessage))
+                {
+                    var withdrawalMessage = Newtonsoft.Json.JsonConvert.DeserializeObject<List<WithdrawalMessage>>(x.WithdrawalMessage);
+                    withdrawalMessage.ForEach(y =>
+                    {
+                        var offset = DateTime.Now.ToDateTimeOffset(x.CustTimeZone).Offset;
+                        withdrawalMessageDetails.Add(new WithdrawalMessageDetail()
+                        {
+                            CreateTime = y.CreateTime.ToOffset(offset),
+                            ErrorTypeName = selLangBLL.GetMsg($"msg_{y.Status.ToString()}"),
+                            Message = selLangBLL.GetMsg($"msg_{y.Status.ToString()}_Detail"),
+                        });
+                    });
+                }
+                x.WithdrawalMessageDetail = withdrawalMessageDetails;
+            });
             return withdrawalInfo;
         }
 
@@ -621,17 +640,20 @@ namespace MemberSite.Service.BLL
             withdrawalInfoHistory.ForEach(x =>
             {
                 List<WithdrawalMessageDetail> withdrawalMessageDetails = new List<WithdrawalMessageDetail>();
-                var withdrawalMessage = Newtonsoft.Json.JsonConvert.DeserializeObject<List<WithdrawalMessage>>(x.WithdrawalMessage);
-                withdrawalMessage.ForEach(y =>
+                if (!string.IsNullOrWhiteSpace(x.WithdrawalMessage))
                 {
-                    var offset = DateTime.Now.ToDateTimeOffset(x.CustTimeZone).Offset;
-                    withdrawalMessageDetails.Add(new WithdrawalMessageDetail()
+                    var withdrawalMessage = Newtonsoft.Json.JsonConvert.DeserializeObject<List<WithdrawalMessage>>(x.WithdrawalMessage);
+                    withdrawalMessage.ForEach(y =>
                     {
-                        CreateTime = x.CreateTime.ToOffset(offset),
-                        ErrorTypeName = selLangBLL.GetMsg($"msg_{x.Status.ToString()}"),
-                        Message = selLangBLL.GetMsg($"msg_{x.Status.ToString()}_Detail"),
+                        var offset = DateTime.Now.ToDateTimeOffset(x.CustTimeZone).Offset;
+                        withdrawalMessageDetails.Add(new WithdrawalMessageDetail()
+                        {
+                            CreateTime = y.CreateTime.ToOffset(offset),
+                            ErrorTypeName = selLangBLL.GetMsg($"msg_{y.Status.ToString()}"),
+                            Message = selLangBLL.GetMsg($"msg_{y.Status.ToString()}_Detail"),
+                        });
                     });
-                });
+                }            
                 x.WithdrawalMessageDetail = withdrawalMessageDetails;
             });
             return withdrawalInfoHistory;
