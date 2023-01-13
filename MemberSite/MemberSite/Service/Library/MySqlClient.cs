@@ -168,11 +168,7 @@ namespace MemberSite.Service.Library
             try
             {
                 await using var connection = new MySqlConnection(_connectionString);
-                var command = new CommandDefinition(name, parameters, // 使用 CommandDefinition 不讓 Dapper 用預設值建立
-                    commandType: CommandType.StoredProcedure,
-                    flags: CommandFlags.NoCache);
-                
-                result = await connection.QueryAsync<T>(command);
+                result = await connection.QueryAsync<T>(name, parameters, commandType: CommandType.StoredProcedure);
                 await connection.CloseAsync();
                 await connection.DisposeAsync();
             }
@@ -184,7 +180,7 @@ namespace MemberSite.Service.Library
 
             LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
             _logger.LogDebug($"{name} {sw.Elapsed:c}");
-            return result.ToList();
+            return result;
         }
 
         public async Task<T> QueryAsync<T>(string name, object parameters, Func<SqlMapper.GridReader, T> func)
