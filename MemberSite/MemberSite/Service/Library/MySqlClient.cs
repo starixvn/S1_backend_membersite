@@ -91,7 +91,7 @@ namespace MemberSite.Service.Library
                 var command = new CommandDefinition(name, // 使用 CommandDefinition 不讓 Dapper 用預設值建立
                     commandType: CommandType.StoredProcedure,
                     flags: CommandFlags.NoCache);
-                result = connection.Query<T>(command).ToList();
+                result = connection.Query<T>(command);
                 connection.Close();
                 connection.Dispose();
             }
@@ -103,7 +103,7 @@ namespace MemberSite.Service.Library
 
             LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
             _logger.LogDebug(name);
-            return result;
+            return result.ToList();
         }
         
         public IEnumerable<T> Query<T>(string sql, object parameters, CommandType commandType = CommandType.StoredProcedure)
@@ -118,7 +118,7 @@ namespace MemberSite.Service.Library
                     commandType: commandType,
                     flags: CommandFlags.NoCache);
 
-                result = connection.Query<T>(command).ToList();
+                result = connection.Query<T>(command);
                 connection.Close();
                 connection.Dispose();
             }
@@ -130,7 +130,7 @@ namespace MemberSite.Service.Library
 
             LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
             _logger.LogDebug($"{sql} {sw.Elapsed:c}");
-            return result;
+            return result.ToList();
         }
 
         public T Query<T>(string name, object parameters, Func<SqlMapper.GridReader, T> func)
@@ -184,7 +184,7 @@ namespace MemberSite.Service.Library
 
             LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
             _logger.LogDebug($"{name} {sw.Elapsed:c}");
-            return result;
+            return result.ToList();
         }
 
         public async Task<T> QueryAsync<T>(string name, object parameters, Func<SqlMapper.GridReader, T> func)
