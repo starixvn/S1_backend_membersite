@@ -1,4 +1,5 @@
-﻿using MemberSite.Service.DAL;
+﻿using MemberSite.Extensions;
+using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
@@ -616,7 +617,23 @@ namespace MemberSite.Service.BLL
         public IEnumerable<WithdrawalHistory> GetWithdrawalInfoHistory(int custId, long startDate, long endDate, ref int pageNumber, out int totalPages, out int rowCount)
         {
             var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var withdrawalInfoHistory = withdrawalService.GetWithdrawalInfoHistory(CustInfo.CustId, startDate, endDate, CustInfo.SiteId, 5, ref pageNumber, out totalPages, out rowCount);
+            var withdrawalInfoHistory = withdrawalService.GetWithdrawalInfoHistory(CustInfo.CustId, startDate, endDate, CustInfo.SiteId, 5, ref pageNumber, out totalPages, out rowCount).ToList();
+            withdrawalInfoHistory.ForEach(x =>
+            {
+                List<WithdrawalMessageDetail> withdrawalMessageDetails = new List<WithdrawalMessageDetail>();
+                var withdrawalMessage = Newtonsoft.Json.JsonConvert.DeserializeObject<List<WithdrawalMessage>>(x.WithdrawalMessage);
+                withdrawalMessage.ForEach(y =>
+                {
+                    var offset = DateTime.Now.ToDateTimeOffset(x.CustTimeZone).Offset;
+                    withdrawalMessageDetails.Add(new WithdrawalMessageDetail()
+                    {
+                        CreateTime = x.CreateTime.ToOffset(offset),
+                        ErrorTypeName = selLangBLL.GetMsg($"msg_{x.Status.ToString()}"),
+                        Message = selLangBLL.GetMsg($"msg_{x.Status.ToString()}_Detail"),
+                    });
+                });
+                x.WithdrawalMessageDetail = withdrawalMessageDetails;
+            });
             return withdrawalInfoHistory;
         }
 

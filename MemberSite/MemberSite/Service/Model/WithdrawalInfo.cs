@@ -52,7 +52,8 @@ namespace MemberSite.Service.Model
         public string CustTimeZone { get; set; }
         public string Memo { get; set; }
         public bool CanCancel => this.Memo == "WithdrawalSubmission" ? false : true;
-        public IEnumerable<WithdrawalMessageDetail> WithdrawalMessage { get; set; }
+        public string WithdrawalMessage { get; set; }
+        public IEnumerable<WithdrawalMessageDetail> WithdrawalMessageDetail { get; set; }
     }
 
 
@@ -146,6 +147,11 @@ namespace MemberSite.Service.Model
     {
         public string ErrorTypeName { get; set; }
         public string Message { get; set; }
+        public DateTimeOffset CreateTime { get; set; }
+    }
+    public class WithdrawalMessage
+    {
+        public int Status { get; set; }
         public DateTimeOffset CreateTime { get; set; }
     }
 }
