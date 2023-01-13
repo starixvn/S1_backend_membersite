@@ -110,18 +110,10 @@ namespace MemberSite.Service.DAL
 
         public IEnumerable<Prize> CheckDrawPrize(ref int eventId, int siteId, int custId, int currencyId, out int prizeId, out int result)
         {
-            using var conn = _mainDbClient.GetMySqlConnection();
-            conn.Open();
-            using var trans = conn.BeginTransaction();
-            var check = CheckDrawPrize(ref eventId, siteId, custId, currencyId, out prizeId, out _, out _, out result, trans);
-
-            trans.Commit();
-            conn.Close();
-            conn.Dispose();
-            return check;
+            return CheckDrawPrize(ref eventId, siteId, custId, currencyId, out prizeId, out _, out _, out result);
         }
 
-        private IEnumerable<Prize> CheckDrawPrize(ref int eventId, int siteId, int custId, int currencyId, out int prizeId, out int quota, out DateTime checkDate, out int result, IDbTransaction trans)
+        private IEnumerable<Prize> CheckDrawPrize(ref int eventId, int siteId, int custId, int currencyId, out int prizeId, out int quota, out DateTime checkDate, out int result)
         {
             var p = new DynamicParameters(new { SiteId = siteId, CustId = custId, CurrencyId = currencyId });
             p.Add("EventId", eventId, dbType: DbType.Int32, direction: ParameterDirection.InputOutput);
@@ -160,7 +152,7 @@ namespace MemberSite.Service.DAL
             drawPrize = null;
             decimal prizeAmount = 0;
 
-            var prizes = CheckDrawPrize(ref eventId, siteId, custId, currencyId, out var prizeId, out var quota, out var checkDate, out result ,trans);
+            var prizes = CheckDrawPrize(ref eventId, siteId, custId, currencyId, out var prizeId, out var quota, out var checkDate, out result);
 
             if (result == 100)
             {

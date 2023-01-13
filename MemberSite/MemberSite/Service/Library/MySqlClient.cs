@@ -36,7 +36,6 @@ namespace MemberSite.Service.Library
             try
             {
                 await using var connection = new MySqlConnection(_connectionString);
-                if (connection.State != ConnectionState.Open) connection.Open();// 自己 Control connection open close，不要讓 ORM 自己做
                 var command = new CommandDefinition(name, parameters, // 使用 CommandDefinition 不讓 Dapper 用預設值建立
                     commandType: CommandType.StoredProcedure,
                     flags: CommandFlags.NoCache);
@@ -63,7 +62,6 @@ namespace MemberSite.Service.Library
             try
             {
                 using var connection = new MySqlConnection(_connectionString);
-                if (connection.State != ConnectionState.Open) connection.Open();// 自己 Control connection open close，不要讓 ORM 自己做
                 var command = new CommandDefinition(name, parameters, // 使用 CommandDefinition 不讓 Dapper 用預設值建立
                     commandType: CommandType.StoredProcedure,
                     flags: CommandFlags.NoCache);
@@ -91,7 +89,6 @@ namespace MemberSite.Service.Library
             try
             {
                 using var connection = new MySqlConnection(_connectionString);
-                if (connection.State != ConnectionState.Open) connection.Open();// 自己 Control connection open close，不要讓 ORM 自己做
                 var command = new CommandDefinition(name, // 使用 CommandDefinition 不讓 Dapper 用預設值建立
                     commandType: CommandType.StoredProcedure,
                     flags: CommandFlags.NoCache);
@@ -118,7 +115,6 @@ namespace MemberSite.Service.Library
             try
             {
                 using var connection = new MySqlConnection(_connectionString);
-                if (connection.State != ConnectionState.Open) connection.Open();// 自己 Control connection open close，不要讓 ORM 自己做
                 var command = new CommandDefinition(sql, parameters, // 使用 CommandDefinition 不讓 Dapper 用預設值建立
                     commandType: commandType,
                     flags: CommandFlags.NoCache);
@@ -145,7 +141,6 @@ namespace MemberSite.Service.Library
             try
             {
                 using var connection = new MySqlConnection(_connectionString);
-                if (connection.State != ConnectionState.Open) connection.Open();// 自己 Control connection open close，不要讓 ORM 自己做
                 var command = new CommandDefinition(name, parameters, // 使用 CommandDefinition 不讓 Dapper 用預設值建立
                     commandType: CommandType.StoredProcedure,
                     flags: CommandFlags.NoCache);
@@ -174,7 +169,6 @@ namespace MemberSite.Service.Library
             try
             {
                 await using var connection = new MySqlConnection(_connectionString);
-                if (connection.State != ConnectionState.Open) connection.Open();// 自己 Control connection open close，不要讓 ORM 自己做
                 var command = new CommandDefinition(name, parameters, // 使用 CommandDefinition 不讓 Dapper 用預設值建立
                     commandType: CommandType.StoredProcedure,
                     flags: CommandFlags.NoCache);
@@ -201,7 +195,6 @@ namespace MemberSite.Service.Library
             try
             {
                 await using var connection = new MySqlConnection(_connectionString);
-                if (connection.State != ConnectionState.Open) connection.Open();// 自己 Control connection open close，不要讓 ORM 自己做
                 var command = new CommandDefinition(name, parameters, // 使用 CommandDefinition 不讓 Dapper 用預設值建立
                     commandType: CommandType.StoredProcedure,
                     flags: CommandFlags.NoCache);
