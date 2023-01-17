@@ -1,10 +1,11 @@
-﻿using MemberSite.Service.Model;
+﻿using System.Data;
+using MemberSite.Service.Model;
 
 namespace MemberSite.Service.DAL.Interface
 {
     public interface IEventsService
     {
-        IEnumerable<Prize> CheckDrawPrize(ref int eventId, int siteId, int custId, int currencyId, out int prizeId, out int result);
+        IEnumerable<Prize> CheckDrawPrize(ref int eventId, int custId, int currencyId, out int prizeId, out int quota, out DateTime checkDate, out int result, IDbTransaction trans);
         bool CheckEventCondition(string conditionSP, int eventId, int custId, int currencyId);
         int DrawPrize(ref int eventId, int custId, int currencyId, string userName, int siteId, out int result, out Prize drawPrize);
         IEnumerable<CustGiftList> GetCustDrawPrizeList(int eventId, int siteId, int custId);
