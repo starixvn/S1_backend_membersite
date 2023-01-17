@@ -306,6 +306,21 @@ namespace MemberSite.Service.Library
             }
         }
 
+        public async Task<bool> SetNxAsync(string key, string value, TimeSpan timeSpan, RedisDataBase redisDataBase = RedisDataBase.Member) 
+        {
+            try
+            {
+                key = $"{redisDataBase}:{RemoveSpecialChars(key)}";
+                var db = _multiplexer.GetDatabase((int)redisDataBase);
+                return await db.StringSetAsync(key, value, timeSpan, When.NotExists);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"{key} | {ex.Message}");
+                return default;
+            }
+        }
+
         private string RemoveSpecialChars(string key)
         {
             foreach (var c in _charsToRemove)

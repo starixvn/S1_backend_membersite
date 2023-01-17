@@ -302,11 +302,32 @@
   </data>
   <data name="msg_InsufficientPoint" xml:space="preserve">
     <value>ขออภัยค่ะ! คุณมีคะแนนรางวัลไม่เพียงพอ 88 คะแนน</value>
- </data>
+  </data>
   <data name="msg_EWalletIsMaintenance" xml:space="preserve">
     <value>E-Wallet คือการบำรุงรักษา โปรดใช้วิธีถอนเงินแบบอื่น</value>
   </data>
   <data name="msg_NotInLimit" xml:space="preserve">
     <value>จำนวนเงินมากกว่าหรือน้อยกว่าที่กำหนดไว้</value>
+  </data>
+  <data name="msg_congratulation_event_reward" xml:space="preserve">
+    <value>ยินดีด้วยค่ะ! คุณได้รับอั่งเปาจำนวน {0}</value>
+  </data>
+  <data name="msg_keep_up" xml:space="preserve">
+    <value>ขอให้โชคดีในการเขย่าครั้งต่อไป</value>
+  </data>
+  <data name="msg_limit_has_been_reached" xml:space="preserve">
+    <value>ขออภัยค่ะ เต็มจำนวนจำกัดสำหรับวันนี้แล้ว</value>
+  </data>
+  <data name="msg_turnover_not_enough" xml:space="preserve">
+    <value>คุณยังไม่เริ่มเดิมพันขั้นต่ำ ไม่สามารถเข้าร่วมได้ค่ะ</value>
+  </data>
+  <data name="msg_times_chance" xml:space="preserve">
+    <value>มีโอกาส {0} เท่า</value>
+  </data>
+  <data name="msg_ProfileOrPhoneNotFinish" xml:space="preserve">
+    <value>ข้อมูลบัญชีไม่ครบถ้วน กรุณาทำการยืนยันบัญชีของท่าน</value>
+  </data>
+  <data name="msg_Event_has_not_started" xml:space="preserve">
+    <value>เหตุการณ์ยังไม่เริ่ม</value>
   </data>
 </root>

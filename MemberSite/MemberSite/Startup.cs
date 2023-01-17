@@ -10,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
+using Dapper.Extensions.Caching.Memory;
 using MemberSite.Extensions;
 using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.DAL.Interface;
@@ -77,6 +78,7 @@ namespace MemberSite
             services.AddSingleton<TpGameTypeHelper>();
             services.AddSingleton<IpHelper>();
             services.AddSingleton<AWSS3Helper>();
+            services.AddSingleton<StringVaildHelper>();
 
             /*DAL*/
             services.AddSingleton<IServerInfoService, ServerInfoService>();
@@ -102,6 +104,7 @@ namespace MemberSite
             services.AddSingleton<NewsService>();
             services.AddSingleton<IovationService>();
             services.AddSingleton<EventsService>();
+            services.AddTransient<IEventsService, EventsService>();
             services.AddSingleton<GameCasinoService>();
             services.AddSingleton<LiveStreamingService>();
             services.AddSingleton<LatestHighlightDataService>();
@@ -109,9 +112,11 @@ namespace MemberSite
             services.AddSingleton<AppLinkService>();
             services.AddSingleton<DeepLinkService>();
             services.AddSingleton<IVerificationRewardService, VerificationRewardService>();
+            services.AddSingleton<ICustPhotoIdService, CustPhotoIdService>();
             services.AddTransient<WorldCupPredictionService>();
             services.AddTransient<RecaptchaService>();
             services.AddSingleton<PartitionService>();
+            services.AddTransient<CurrencyService>();
 
             services.AddSingleton<IPService>();
             services.AddSingleton<ShieldService>();
@@ -147,12 +152,15 @@ namespace MemberSite
             services.AddSingleton<IovationBLL>();
             services.AddSingleton<FPSBLL>();
             services.AddSingleton<EventsBLL>();
+            services.AddTransient<AngPaoProcessor>();
+            services.AddTransient<IAngPaoBLL, AngPaoBLL>();
             services.AddSingleton<GameCasinoBll>();
             services.AddSingleton<LiveStreamingBll>();
             services.AddSingleton<LatestHighlightDataBll>();
             services.AddSingleton<GameBLL>();
             services.AddTransient<IGeoIpApi, GeoIpApi>();
             services.AddTransient<IRecaptchaApi, RecaptchaApi>();
+            services.AddTransient<ICustPhotoIdBLL, CustPhotoIdBLL>();
             services.AddTransient<GeoIpBLL>();
             services.AddTransient<AppLinkBLL>();
             services.AddTransient<FileNameBLL>();
@@ -168,12 +176,18 @@ namespace MemberSite
             services.AddSingleton<SlotGameBLL>();
             services.AddTransient<RecaptchaBLL>();
             services.AddTransient<CheckAttackBLL>();
+            services.AddTransient<DateTimeHelper>();
             
             services.AddSingleton<CustomCookieAuthenticationEvents>();
             services.AddTransient<HotEventBLL>();
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();
 
+            services.AddDapperCachingInMemory(new MemoryConfiguration
+            {
+                AllMethodsEnableCache = false
+            });
+            
             if (configuration.GetValue<bool>("JwtSettings:IsJwt"))
             {
                 services

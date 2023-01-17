@@ -319,4 +319,28 @@
   <data name="msg_NotInLimit" xml:space="preserve">
     <value>Not in Limit</value>
   </data>
+  <data name="msg_congratulation_event_reward" xml:space="preserve">
+    <value>congratulations! Get {0} amount</value>
+  </data>
+  <data name="msg_keep_up" xml:space="preserve">
+    <value>Good luck on your next shake</value>
+  </data>
+  <data name="msg_limit_has_been_reached" xml:space="preserve">
+    <value>Today's limit has been reached</value>
+  </data>
+  <data name="msg_turnover_not_enough" xml:space="preserve">
+    <value>Yet completed the valid bet required, unable to participate</value>
+  </data>
+  <data name="msg_times_chance" xml:space="preserve">
+    <value>Still remain {0} times chance</value>
+  </data>
+  <data name="msg_ProfileOrPhoneNotFinish" xml:space="preserve">
+    <value>Account information has not been completed, please verify the account information</value>
+  </data>
+  <data name="msg_RealNameWrongFormat" xml:space="preserve">
+    <value>RealName can't allow number or special charactors.</value>
+  </data>
+  <data name="msg_Event_has_not_started" xml:space="preserve">
+    <value>Event has not started yet</value>
+  </data>
 </root>

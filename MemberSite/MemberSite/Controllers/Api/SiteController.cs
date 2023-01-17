@@ -718,17 +718,17 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<IEnumerable<BannerV3>>();
 
+            int siteId;
             try
             {
                 var serverInfo = _serverInfoBll.GetServerInfo();
-                var perferCurr = 0;
-                var SiteId = 0;
+                int perferCurr;
                 var ShowStatus = 1;
                 var authData = _authorizeBll.GetAuthData();
                 if (authData is { CustId: > 0 })
                 {
                     var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-                    SiteId = custInfo.SiteId;
+                    siteId = custInfo.SiteId;
                     perferCurr = custInfo.CurrencyId;
                     ShowStatus = 2;
                     langId = _selLangBll.GetLangId();
@@ -736,10 +736,19 @@ namespace MemberSite.Controllers.Api
                 else
                 {
                     perferCurr = bannerReq.CurrencyId ?? _selLangBll.GetPreferCurrencyId();
-                    SiteId = serverInfo.SiteId;
+                    siteId = serverInfo.SiteId;
                     langId = _selLangBll.CheckLangId(langId) ? langId : _selLangBll.GetLangId();
                 }
-                apiResult.Data = _bannerBll.GetBannerV3(SiteId, bannerReq.BannerType, ShowStatus, perferCurr, langId, serverInfo);
+                apiResult.Data = _bannerBll.GetBannerV3(siteId, bannerReq.BannerType, ShowStatus, perferCurr, langId, serverInfo);
+                
+                var domain = _serverInfoBll.GetHttpDomain();
+	            foreach (var data in apiResult.Data)
+	            {
+	                if (!string.IsNullOrEmpty(data.UrlRouter) && data.ActionMode == 6)
+	                {
+                        data.BannerLink = $"{domain}/{data.UrlRouter}";
+	                }
+                }
                 apiResult.ErrorCode = 0;
             }
             catch (Exception e)
