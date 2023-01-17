@@ -302,4 +302,18 @@ namespace MemberSite.Service.Model
     {
         public bool Exists { get; set; }
     }
+    
+    public class CustTagList
+    {
+        public int CustId { get; set; }
+        
+        public string StrTagList { get; set; }
+
+        public IEnumerable<int> TagList { get; set; }
+    }
+    
+    public class CustAccountNameInfo : CustTagList
+    {
+        public string AccountName { get; set; }
+    }
 }
