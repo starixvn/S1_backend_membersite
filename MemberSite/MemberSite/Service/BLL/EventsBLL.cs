@@ -210,10 +210,12 @@ namespace MemberSite.Service.BLL
             custRank = result.CustRank;
             point = result.point;
         }
-        public IEnumerable<Prize> CheckDrawPrize(ref int eventId, int siteId, int custId, int currencyId, out int prizeId, out int result)
+
+        public IEnumerable<Prize> CheckDrawPrize(ref int eventId, int custId, int currencyId, out int prizeId, out int result)
         {
-            return _eventsService.CheckDrawPrize(ref eventId, siteId, custId, currencyId, out prizeId, out result);
+            return _eventsService.CheckDrawPrize(ref eventId, custId, currencyId, out prizeId, out result);
         }
+        
         public int DrawPrize(ref int eventId, int custId, int currencyId, string userName, int siteId, out int result, out Prize drawPrize)
         {
 
