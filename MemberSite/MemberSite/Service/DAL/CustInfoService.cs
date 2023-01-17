@@ -297,7 +297,39 @@ namespace MemberSite.Service.DAL
             return _mainDbClient.Execute("Member_CustProfile_Address_Set", p) > 0;
         }
         
-        public bool SetCustBankInfo(int custId, int siteId, string accountName, bool tagDuplicate = false)
+        private IEnumerable<CustAccountNameInfo> GetDuplicateAccountNameInfo(int siteId, string accountName)
+        {
+            /* 相同定義：
+             * * 大小寫不同
+             * * 去空格相同
+             * 舉例：
+             * Cheong wai Choon
+             * CheongwaiChoon（相同）
+             * cheong Wai Choon（相同）
+             * Ho thai nhat
+             * Hồ thái nhật（不同）
+             * HoThaiNhat（相同）
+             */
+            
+            var patterns = new[]
+            {
+                accountName,
+                accountName.Replace(" ", string.Empty)
+            };
+            var similarAccList = this.GetSimilarAccountName(siteId, patterns);
+            var  result = similarAccList
+                .Where(x => patterns.Any(y => y.Equals(x.AccountName, StringComparison.CurrentCultureIgnoreCase)));
+
+            foreach (var info in result)
+            {
+                info.TagList = string.IsNullOrEmpty(info.StrTagList)
+                    ? Array.Empty<int>() : JsonConvert.DeserializeObject<IEnumerable<int>>(info.StrTagList);
+            }
+
+            return result;
+        }
+        
+        public bool SetCustBankInfo(int custId, int siteId, string accountName)
         {
             var p = new DynamicParameters(new
             {
@@ -305,8 +337,11 @@ namespace MemberSite.Service.DAL
                 SiteId = siteId,
                 AccountName = accountName
             });
+
+            var duplicateList = 
+                GetDuplicateAccountNameInfo(siteId, accountName);
             
-            if (!tagDuplicate)
+            if (!duplicateList.Any())
             {
                 return _mainDbClient.Execute("Service_CustBankInfo_SetV3", p) > 0;
             }
@@ -320,16 +355,31 @@ namespace MemberSite.Service.DAL
             if (success)
             {
                 var custInfo = GetCustInfo(custId, true);
-                var tags = JsonSerializer.Deserialize<List<int>>(string.IsNullOrEmpty(custInfo.TagList)? "[]" : custInfo.TagList);
+                var custTags = duplicateList
+                    .Where(x => !x.TagList.Contains((int) CustTagEnum.Duplicate))
+                    .ToList();
+                
+                var tags = string.IsNullOrEmpty(custInfo.TagList)
+                    ? new List<int>()
+                    : JsonSerializer.Deserialize<List<int>>(custInfo.TagList);
+
+                if (!tags.Contains((int) CustTagEnum.Duplicate))
+                {
+                    custTags.Add(new CustAccountNameInfo {CustId = custId, TagList = tags});
+                }
             
-                if (tags.Any(x => x == (int)CustTagEnum.Duplicate))
+                if (!custTags.Any())
                 {
                     MySqlClient.CommitAndDisposeConnection(conn, trans);
                     return true;
                 }
+
+                foreach (var item in custTags)
+                {
+                    item.TagList = item.TagList.Append((int) CustTagEnum.Duplicate);
+                }
                 
-                tags.Add((int)CustTagEnum.Duplicate);
-                success = this.SetCustInfoTagList(custId, tags, trans);
+                success = this.SetCustInfoTagList(custTags, trans);
                 if (success)
                 {
                     MySqlClient.CommitAndDisposeConnection(conn, trans);
@@ -648,25 +698,24 @@ namespace MemberSite.Service.DAL
             return eWalletDetailResult & eWalletLogResult;
         }
         
-        public IEnumerable<string> GetSimilarAccountName(int siteId, IEnumerable<string> accountNames)
+        public IEnumerable<CustAccountNameInfo> GetSimilarAccountName(int siteId, IEnumerable<string> accountNames)
         {
-            return _mainDbClient.Query<string>("Member_SimilarAccountName_Get",
+            return _mainDbClient.Query<CustAccountNameInfo>("Member_SimilarAccountName_Get",
                 new
                 {
                     _SiteId = siteId,
                     _AccountNames = JsonSerializer.Serialize(accountNames)
                 });
         }
-
-        private bool SetCustInfoTagList(int custId, IEnumerable<int> tagList, IDbTransaction trans)
+        
+        public bool SetCustInfoTagList(IEnumerable<CustTagList> tagList, IDbTransaction trans)
         {
             var parameter = new DynamicParameters(new
             {
-                _CustId = custId,
-                _TagList = JsonSerializer.Serialize(tagList)
+                _Infos = JsonSerializer.Serialize(tagList)
             });
             
-            return _mainDbClient.Execute("Member_CustInfoTagList_Set", trans, parameter) > 0;
+            return _mainDbClient.Execute("Service_CustInfoTagList_Set", trans, parameter) > 0;
         }
     }
 }
