@@ -91,7 +91,12 @@ namespace MemberSite.Service.BLL
             {
                 var bankCards = _bankInfoOffBll.GetOfflineBankCardListWithCache(custId)
                     .Where(x => x.SupportQR);
-
+                
+                if (!bankCards.Any())
+                {
+                    return Array.Empty<PayInfo>();
+                }
+                
                 var payInfo = FakeMobilePay.FakeMobilePayInfoMap[(FakePayGroupEnum) groupId];
                 payInfo.MinAmount = bankCards.Min(x => x.MinAmount);
                 payInfo.MaxAmount = bankCards.Max(x => x.MaxAmount);
