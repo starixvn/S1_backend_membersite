@@ -100,7 +100,11 @@ namespace MemberSite.Service.BLL
                 var payInfo = FakeMobilePay.FakeMobilePayInfoMap[(FakePayGroupEnum) groupId];
                 payInfo.MinAmount = bankCards.Min(x => x.MinAmount);
                 payInfo.MaxAmount = bankCards.Max(x => x.MaxAmount);
-                _depositBll.FixDepositLimit(payInfo, depositLimitInfo);
+                
+                if (depositLimitInfo != null)
+                {
+                    _depositBll.FixDepositLimit(payInfo, depositLimitInfo);
+                }
                 
                 return new[] { payInfo };
             }
