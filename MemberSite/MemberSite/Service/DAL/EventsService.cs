@@ -1,7 +1,6 @@
 ﻿using Dapper;
 using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Model;
-using MySql.Data.MySqlClient;
 using System.Data;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model.enums;
@@ -108,28 +107,28 @@ namespace MemberSite.Service.DAL
             point = p1.Get<decimal?>("Point") ?? 0;
         }
 
-        public IEnumerable<Prize> CheckDrawPrize(ref int eventId, int siteId, int custId, int currencyId, out int prizeId, out int result)
+        public IEnumerable<Prize> CheckDrawPrize(ref int eventId, int custId, int currencyId, out int prizeId, out int result)
         {
             using var conn = _mainDbClient.GetMySqlConnection();
             conn.Open();
             using var trans = conn.BeginTransaction();
-            var check = CheckDrawPrize(ref eventId, siteId, custId, currencyId, out prizeId, out _, out _, out result, trans);
-
+            var check = CheckDrawPrize(ref eventId, custId, currencyId, out prizeId, out _, out _, out result, trans);
             trans.Commit();
             conn.Close();
             conn.Dispose();
             return check;
         }
-
-        private IEnumerable<Prize> CheckDrawPrize(ref int eventId, int siteId, int custId, int currencyId, out int prizeId, out int quota, out DateTime checkDate, out int result, IDbTransaction trans)
+        
+        public IEnumerable<Prize> CheckDrawPrize(ref int eventId, int custId, int currencyId, out int prizeId,
+            out int quota, out DateTime checkDate, out int result, IDbTransaction trans)
         {
-            var p = new DynamicParameters(new { SiteId = siteId, CustId = custId, CurrencyId = currencyId });
+            var p = new DynamicParameters(new { CustId = custId, CurrencyId = currencyId });
             p.Add("EventId", eventId, dbType: DbType.Int32, direction: ParameterDirection.InputOutput);
             p.Add("PrizeId", dbType: DbType.Int32, direction: ParameterDirection.Output);
             p.Add("Quota", dbType: DbType.Int32, direction: ParameterDirection.Output);
             p.Add("CheckDate", dbType: DbType.Date, direction: ParameterDirection.Output);
             p.Add("result", dbType: DbType.Int32, direction: ParameterDirection.Output);
-            var rtn = _mainDbClient.Query<Prize>("Member_CheckDrawPrize_Get", trans, p);
+            var rtn = _mainDbClient.Query<Prize>("Member_CheckDrawPrize_Set", trans, p);
             eventId = p.Get<int>("EventId");
             prizeId = p.Get<int>("PrizeId");
             quota = p.Get<int>("Quota");
@@ -160,7 +159,7 @@ namespace MemberSite.Service.DAL
             drawPrize = null;
             decimal prizeAmount = 0;
 
-            var prizes = CheckDrawPrize(ref eventId, siteId, custId, currencyId, out var prizeId, out var quota, out var checkDate, out result ,trans);
+            var prizes = CheckDrawPrize(ref eventId, custId, currencyId, out var prizeId, out var quota, out var checkDate, out result, trans);
 
             if (result == 100)
             {
