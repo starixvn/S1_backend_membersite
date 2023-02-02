@@ -1,21 +1,21 @@
-﻿using System.Data;
-using Dapper;
+﻿using MemberSite.Service.Library;
 using MemberSite.Service.Model;
-using MySql.Data.MySqlClient;
+using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.DAL
 {
     public class LatestHighlightDataService
     {
-        private readonly IConfiguration configuration;
-        public LatestHighlightDataService(IConfiguration configuration)
+        private readonly MySqlClient _reportDbClient;
+        
+        public LatestHighlightDataService(IServiceProvider provider)
         {
-            this.configuration = configuration;
+            _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
         }
+        
         public LatestHighlightData GetLatestHighlightData(int SiteId, string LangId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.QueryFirstOrDefault<LatestHighlightData>("Member_LatestHighlightVideo_Get", new { SiteId, LangId }, commandType: CommandType.StoredProcedure);
+            return _reportDbClient.QueryFirst<LatestHighlightData>("Member_LatestHighlightVideo_Get", new { SiteId, LangId });
         }
     }
 }

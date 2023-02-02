@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using System.Security.Claims;
 using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
@@ -36,6 +37,7 @@ namespace MemberSite.Controllers.Api
         private readonly EventsBLL _eventsBll;
         private readonly ICacheHelper _cacheHelper;
         private readonly ILogger<AccountController> _logger;
+        private readonly CheckAttackBLL _checkAttackBll;
 
         public AccountController(IServiceProvider provider)
         {
@@ -57,6 +59,7 @@ namespace MemberSite.Controllers.Api
             _eventsBll = provider.GetRequiredService<EventsBLL>();
             _cacheHelper = provider.GetRequiredService<ICacheHelper>();
             _logger = provider.GetRequiredService<ILogger<AccountController>>();
+            _checkAttackBll = provider.GetRequiredService<CheckAttackBLL>();
         }
 
         [HttpPost]
@@ -122,7 +125,7 @@ namespace MemberSite.Controllers.Api
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             apiResult.ErrorCode = 0;
             apiResult.Message = _selLangBll.GetMsg("msg_loggedout");
-            
+
             await _cacheHelper.KeyDeleteAsync(authData.CustId.ToString(), RedisDataBase.Token);
 
             if (authData is { CustId: > 0 })
@@ -574,7 +577,7 @@ namespace MemberSite.Controllers.Api
             apiResult.Data = _walletBll.GetWalletInfo(authData.CustId);
             bool.TryParse(Request.Cookies[$"isHideBalance.{authData.CustId}"], out var isHideBalance);
             apiResult.Data.IsHideBalance = isHideBalance;
-            
+
             apiResult.Data.tpWallets = _thirdPartyBll.GetTpWallet(authData.CustId);
             if (apiResult.Data.tpWallets != null)
             {
@@ -775,25 +778,40 @@ namespace MemberSite.Controllers.Api
         public ApiResult<bool> ExistsPhoneNo(RrofileReq rrofileReq)
         {
             var apiResult = new ApiResult<bool>(_selLangBll);
-            var authData = _authorizeBll.GetAuthData();
-            if (authData is not { CustId: > 0 })
+
+            try
             {
-                apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
+                if (_checkAttackBll.CheckAttack(rrofileReq,Request))
+                {
+                    Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                    return null;
+                }
+
+                var authData = _authorizeBll.GetAuthData(checkOnUser: true);
+                if (authData is not { CustId: > 0 })
+                {
+                    apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
+                    return apiResult;
+                }
+
+                if (long.TryParse(rrofileReq.PhoneNo, out var phoneNo))
+                {
+                    rrofileReq.PhoneNo = phoneNo.ToString();
+                    apiResult.Data = _custInfoBll.ExistsPhoneNo(authData.CustId, rrofileReq.AreaCode, rrofileReq.PhoneNo);
+                }
+                else
+                {
+                    apiResult.Data = true;
+                }
+
+                apiResult.ErrorCode = 0;
                 return apiResult;
             }
-
-            if (long.TryParse(rrofileReq.PhoneNo, out var phoneNo))
+            catch (Exception e)
             {
-                rrofileReq.PhoneNo = phoneNo.ToString();
-                apiResult.Data = _custInfoBll.ExistsPhoneNo(authData.CustId, rrofileReq.AreaCode, rrofileReq.PhoneNo);
+                _logger.LogError(e, GetCurrentMethod());
+                return apiResult;
             }
-            else
-            {
-                apiResult.Data = true;
-            }
-
-            apiResult.ErrorCode = 0;
-            return apiResult;
         }
 
         [HttpPost]

@@ -1,21 +1,21 @@
 ﻿using MemberSite.Service.Model;
-using MySql.Data.MySqlClient;
-using System.Data;
-using Dapper;
+using MemberSite.Service.Library;
+using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.DAL
 {
     public class DeepLinkService
     {
-        private readonly IConfiguration configuration;
-        public DeepLinkService(IConfiguration configuration)
+        private readonly MySqlClient _reportDbClient;
+        
+        public DeepLinkService(IServiceProvider provider)
         {
-            this.configuration = configuration;
+            _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
         }
+        
         public List<DeepLink> GetDeepLink(int SiteId,int DeepLinkId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<DeepLink>("Service_DeepLinkTable_Get", new { SiteId, DeepLinkId }, commandType: CommandType.StoredProcedure).ToList();
+            return _reportDbClient.Query<DeepLink>("Service_DeepLinkTable_Get", new { SiteId, DeepLinkId }).ToList();
         }
     }
 }
