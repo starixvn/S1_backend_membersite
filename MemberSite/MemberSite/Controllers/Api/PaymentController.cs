@@ -372,6 +372,14 @@ namespace MemberSite.Controllers.Api
             public string memo { set; get; }
             public string blackbox { get; set; }
             public int CurrencyId { get; set; }
+            /// <summary>
+            /// 參考匯率
+            /// </summary>
+            public decimal ExchangeRate { get; set; }
+            /// <summary>
+            /// 參考加密貨幣金額
+            /// </summary>
+            public decimal ExchangeAmount { get; set; }
         }
 
         [HttpPost]
@@ -457,7 +465,7 @@ namespace MemberSite.Controllers.Api
             WithdrawalReqModel withdrawalReqModel,
             CustBankInfo custBankInfo,
             WithdrawalTypeStatus withdrawalType,
-            USDTDetail usdtDetail)
+            USDTDetail cryptoDetail)
         {
             var result = 99;
 
@@ -512,12 +520,14 @@ namespace MemberSite.Controllers.Api
                         _logger.LogInformation($"AfterAmount={afterAmount}, TransId={transId}");
                         break;
                     case WithdrawalTypeStatus.Crypto:
-                        result = paymentBLL.WithdrawalUSDTReq(authData.CustId,
+                        result = paymentBLL.WithdrawalCryptoReq(authData.CustId,
                         custBankInfo.AccountName,
-                        usdtDetail,
+                        cryptoDetail,
                         withdrawalReqModel.AccountNo,
                         withdrawalReqModel.amount,
-                        withdrawalReqModel.memo, out afterAmount, out transId);
+                        withdrawalReqModel.memo,
+                        withdrawalReqModel.ExchangeRate,
+                        withdrawalReqModel.ExchangeAmount, out afterAmount, out transId);
                         _logger.LogInformation($"AfterAmount={afterAmount}, TransId={transId}");
                         break;
                     case WithdrawalTypeStatus.EWallet:
