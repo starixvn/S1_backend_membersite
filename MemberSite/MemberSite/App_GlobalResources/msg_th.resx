@@ -285,6 +285,9 @@
   <data name="msg_PhoneWrongFormat" xml:space="preserve">
     <value>รูปแบบโทรศัพท์ไม่ถูกต้อง</value>
   </data>
+  <data name="msg_PhoneFormatVerify" xml:space="preserve">
+    <value>หมายเลขโทรศัพท์ที่คุณกรอกไม่ถูกต้อง ระหว่าง {0} หลัก</value>
+  </data>
   <data name="msg_InvalidCryptoWalletAddress" xml:space="preserve">
     <value>ที่อยู่กระเป๋าเงินเข้ารหัสลับไม่ถูกต้อง</value>
   </data>

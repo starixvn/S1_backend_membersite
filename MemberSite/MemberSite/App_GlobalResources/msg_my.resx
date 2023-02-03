@@ -290,6 +290,9 @@
   <data name="msg_PhoneWrongFormat" xml:space="preserve">
     <value>Format Telefon salah.</value>
   </data>
+  <data name="msg_PhoneFormatVerify" xml:space="preserve">
+    <value>Nombor telefon yang anda masukkan tidak betul, antara {0} digit</value>
+  </data>
   <data name="msg_InvalidCryptoWalletAddress" xml:space="preserve">
     <value>Invalid crypto wallet address.</value>
   </data>
