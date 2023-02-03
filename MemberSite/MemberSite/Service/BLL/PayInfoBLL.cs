@@ -73,6 +73,14 @@ namespace MemberSite.Service.BLL
                 }
             }
             
+            if (depositLimitInfo != null)
+            {
+                foreach (var payGroup in payGroupList)
+                {
+                    _depositBll.FixDepositLimit(payGroup, depositLimitInfo);
+                }
+            }
+            
             return payGroupList.OrderBy(x => x.GSort);
         }
 
@@ -91,11 +99,20 @@ namespace MemberSite.Service.BLL
             {
                 var bankCards = _bankInfoOffBll.GetOfflineBankCardListWithCache(custId)
                     .Where(x => x.SupportQR);
-
+                
+                if (!bankCards.Any())
+                {
+                    return Array.Empty<PayInfo>();
+                }
+                
                 var payInfo = FakeMobilePay.FakeMobilePayInfoMap[(FakePayGroupEnum) groupId];
                 payInfo.MinAmount = bankCards.Min(x => x.MinAmount);
                 payInfo.MaxAmount = bankCards.Max(x => x.MaxAmount);
-                _depositBll.FixDepositLimit(payInfo, depositLimitInfo);
+                
+                if (depositLimitInfo != null)
+                {
+                    _depositBll.FixDepositLimit(payInfo, depositLimitInfo);
+                }
                 
                 return new[] { payInfo };
             }
@@ -168,8 +185,8 @@ namespace MemberSite.Service.BLL
 
         private IEnumerable<PayInfo> GetPayInfoList(int siteId, DepositType depositType)
         {
-            var key = $"PayInfoList:{siteId}:{depositType}";
-            var dbData = _redisHelper.TryGetOrCreate<IEnumerable<PayInfo>>(key, TimeSpan.FromSeconds(10),
+            var key = $"PaySetting:{siteId}:{depositType}";
+            var dbData = _redisHelper.TryGetOrCreate<IEnumerable<PayInfo>>(key, TimeSpan.FromMinutes(5),
                 () => _payService.GetPayInfo(siteId, depositType).OrderBy(x => x.GSort).ThenBy(x => x.SSort),
                 RedisDataBase.Shared);
             return dbData;

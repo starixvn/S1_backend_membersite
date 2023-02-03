@@ -121,9 +121,12 @@ public class SiteBll
             signupModel.AffCode = "nova88tvads";
         }
 
+        var fromUrl = _tools.GetFromUrl();
+        var deviceType = (int)_tools.GetDeviceId(fromUrl);
+        
         var result = _custInfoBLL.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email,
             signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff,
-            signupModel.AffCode, signupModel.LineUserId, out var custId, signupModel.SignupUrl, signupModel.ReferralUrl, signupModel.PhoneNo,
+            signupModel.AffCode, signupModel.LineUserId, deviceType , out var custId, signupModel.SignupUrl, signupModel.ReferralUrl, signupModel.PhoneNo,
             signupModel.AreaCode, signupModel.RealName, signupModel.PromoCode, signupModel.Birth_d,
             signupModel.Birth_m,
             signupModel.Birth_y);
@@ -176,19 +179,17 @@ public class SiteBll
                         {
                             _commonBll.SendWelcomeMail(custId);
 
-                            if (signupModel.blackbox != null)
-                            {
-                                var apiResultIovation = await _iovationBll.IovationChecks(custId, signupModel.CurrencyId,
-                                    signupModel.UserName, signupModel.blackbox, IovationType.registration);
-                                if (apiResultIovation.ErrorCode == 0 & apiResultIovation.Data != null)
-                                    _iovationBll.SetIovation(custId, IovationType.registration, apiResultIovation.Data);
-                            }
-                        });
-
-                        var fromUrl = _tools.GetFromUrl();
-                        var deviceType = (int)_tools.GetDeviceId(fromUrl);
-                        var userLoginResult = _custInfoBLL.UserLogin(false, 0, signupModel.UserName, signupModel.Userpwd,
-                            _tools.GetClientIP(), fromUrl, userAgent, deviceType, ref customer, out var token);
+                        if (signupModel.blackbox != null)
+                        {
+                            var apiResultIovation = await _iovationBll.IovationChecks(custId, signupModel.CurrencyId,
+                                signupModel.UserName, signupModel.blackbox, IovationType.registration);
+                            if (apiResultIovation.ErrorCode == 0 & apiResultIovation.Data != null)
+                                _iovationBll.SetIovation(custId, IovationType.registration, apiResultIovation.Data);
+                        }
+                    });
+                    
+                    var userLoginResult = _custInfoBLL.UserLogin(false, 0, signupModel.UserName, signupModel.Userpwd,
+                        _tools.GetClientIP(), fromUrl, userAgent, deviceType, ref customer, out var token);
 
                         switch (userLoginResult)
                         {

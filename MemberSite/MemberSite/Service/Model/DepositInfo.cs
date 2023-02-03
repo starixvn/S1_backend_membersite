@@ -1,4 +1,5 @@
 ﻿using MemberSite.Extensions;
+using MemberSite.Service.Model.enums;
 using System.Text.Json.Serialization;
 
 namespace MemberSite.Service.Model
@@ -51,10 +52,10 @@ namespace MemberSite.Service.Model
         public decimal MinAmount { get; set; }
         public decimal MaxAmount { get; set; }
     }
-    
+
     public class FakeMobilePayResp
     {
-        
+
         public string TransId { get; set; }
         public decimal Amount { get; set; }
         public string ReturnUrl { set; get; }
@@ -62,13 +63,13 @@ namespace MemberSite.Service.Model
 
     public class DepositInfoHistory
     {
-        public DateTimeOffset CreateTime 
+        public DateTimeOffset CreateTime
         {
             get
             {
                 return _createTime.ToDateTimeOffset(CustTimeZone);
             }
-            set 
+            set
             {
                 _createTime = value.DateTime;
             }
@@ -105,7 +106,9 @@ namespace MemberSite.Service.Model
 
         [JsonIgnore]
         public string CustTimeZone { get; set; }
-    }
+        public string DepositMessage { get; set; }
+        public IEnumerable<DepositMessageDetail> DepositMessageDetail { get; set; }
+}
 
     public class DepositReceipt
     {
@@ -142,5 +145,22 @@ namespace MemberSite.Service.Model
     public class PaymentReq
     {
         public ExchangeInfo formData { get; set; }
+    }
+
+    public class DepositMessage
+    {
+        public DepositMessageStatus Status { get; set; }
+        private DateTimeOffset _createTime { get; set; }
+        public DateTimeOffset CreateTime
+        {
+            get => _createTime;
+            set => _createTime = new DateTimeOffset(value.DateTime, TimeSpan.Zero);
+        }
+    }
+    public class DepositMessageDetail
+    {
+        public string ErrorTypeName { get; set; }
+        public string Message { get; set; }
+        public DateTimeOffset CreateTime { get; set; }
     }
 }

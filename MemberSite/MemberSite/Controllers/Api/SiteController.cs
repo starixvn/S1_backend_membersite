@@ -15,6 +15,7 @@ using System.Security.Claims;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Cors;
 using static MemberSite.Extensions.MethodExtension;
+using MemberSite.Attributes;
 
 namespace MemberSite.Controllers.Api
 {
@@ -39,10 +40,11 @@ namespace MemberSite.Controllers.Api
         private readonly Regex _regexUserName = new(@"^[a-zA-Z0-9]{6,18}$");
         private readonly ThirdPartyBll _thirdPartyBll;
         private readonly SiteBll _siteBll;
-        private readonly ICacheHelper _cacheHelper;
         private readonly RecaptchaBLL _recaptchaBll;
         private readonly ILogger<SiteController> _logger;
+        private readonly ICacheHelper _cacheHelper;
         private readonly CheckAttackBLL _checkAttackBll;
+
 
         public SiteController(IServiceProvider provider)
         {
@@ -60,10 +62,9 @@ namespace MemberSite.Controllers.Api
             _siteConfig = provider.GetRequiredService<IOptions<Dictionary<string, SiteConfig>>>();
             _thirdPartyBll = provider.GetRequiredService<ThirdPartyBll>();
             _siteBll = provider.GetRequiredService<SiteBll>();
-            _cacheHelper = provider.GetRequiredService<ICacheHelper>();
             _recaptchaBll = provider.GetRequiredService<RecaptchaBLL>();
             _logger = provider.GetRequiredService<ILogger<SiteController>>();
-            var env = provider.GetRequiredService<IWebHostEnvironment>();
+            _cacheHelper = provider.GetRequiredService<ICacheHelper>();
             _checkAttackBll = provider.GetRequiredService<CheckAttackBLL>();
         }
 
@@ -80,6 +81,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
+        [TypeFilter(typeof(PublicAuthAttribute))]
         public async Task<ApiResult> SignIn(LoginModel loginModel)
         {
             var apiResult = new ApiResult(_selLangBll);
@@ -166,7 +168,6 @@ namespace MemberSite.Controllers.Api
             }
 
             await _cacheHelper.StringFireAndForgetSetAsync(customer.CustId.ToString(), token, TimeSpan.FromMinutes(30), RedisDataBase.Token);
-
             Response.Cookies.Delete($"Initialization{User.Identity?.Name}");
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
@@ -718,29 +719,28 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<IEnumerable<BannerV3>>();
 
-            int siteId;
             try
             {
                 var serverInfo = _serverInfoBll.GetServerInfo();
-                int perferCurr;
-                var ShowStatus = 1;
+                int preferCurr;
+            	int siteId;
+                var showStatus = 1;
                 var authData = _authorizeBll.GetAuthData();
                 if (authData is { CustId: > 0 })
                 {
                     var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                     siteId = custInfo.SiteId;
-                    perferCurr = custInfo.CurrencyId;
-                    ShowStatus = 2;
+                    preferCurr = custInfo.CurrencyId;
+                    showStatus = 2;
                     langId = _selLangBll.GetLangId();
                 }
                 else
                 {
-                    perferCurr = bannerReq.CurrencyId ?? _selLangBll.GetPreferCurrencyId();
+                    preferCurr = bannerReq.CurrencyId ?? _selLangBll.GetPreferCurrencyId();
                     siteId = serverInfo.SiteId;
                     langId = _selLangBll.CheckLangId(langId) ? langId : _selLangBll.GetLangId();
                 }
-                apiResult.Data = _bannerBll.GetBannerV3(siteId, bannerReq.BannerType, ShowStatus, perferCurr, langId, serverInfo);
-                
+                apiResult.Data = _bannerBll.GetBannerV3(siteId, bannerReq.BannerType, showStatus, preferCurr, langId, serverInfo);
                 var domain = _serverInfoBll.GetHttpDomain();
 	            foreach (var data in apiResult.Data)
 	            {
@@ -1098,7 +1098,7 @@ namespace MemberSite.Controllers.Api
                 resultData.ProviderList.Add(provider);
             }
             apiResult.Data = resultData;
-            apiResult.Data.ImgUrl = _siteConfig.Value[serverInfo.SiteName].ImageURL;
+            apiResult.Data.ImgUrl = _siteConfig.Value[serverInfo.SiteName].OldImageUrl;
             apiResult.ErrorCode = 0;
             return apiResult;
         }

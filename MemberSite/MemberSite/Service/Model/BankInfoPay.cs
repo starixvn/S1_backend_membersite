@@ -1,6 +1,6 @@
 ﻿namespace MemberSite.Service.Model
 {
-    public class BankInfoPay
+    public class BankInfoPay : IPaymentLimit
     {
         public int SysId { get; set; }
         public int CurrencyId { get; set; }
@@ -21,6 +21,9 @@
         public int MSort { get; set; }
         public int SSort { get; set; }
         public bool SelBank { get; set; }
+        public string PayCurrencyId { get; set; }
+        public decimal MinAmount { get; set; }
+        public decimal MaxAmount { get; set; }
     }
 
     public class BankInfoPayFront : IPaymentLimit
@@ -35,11 +38,5 @@
         public decimal MinAmount { get; set; }
         public decimal MaxAmount { get; set; }
         public int Mode { get; set; }
-    }
-
-    public class AutoChannelBankInfo : BankInfoPay
-    {
-        public decimal MinAmount { get; set; }
-        public decimal MaxAmount { get; set; }
     }
 }

@@ -319,6 +319,33 @@
   <data name="msg_NotInLimit" xml:space="preserve">
     <value>Not in Limit</value>
   </data>
+  <data name="msg_DepositorsNameUnmatch" xml:space="preserve">
+    <value>Depositor's name unmatch</value>
+  </data>
+  <data name="msg_DepositorsNameUnmatch_Detail" xml:space="preserve">
+    <value>Registered name is not match with bank account name, kindly contact Customer Support for further assistance.</value>
+  </data>
+  <data name="msg_DepositSlipRequired" xml:space="preserve">
+    <value>Deposit Slip Required</value>
+  </data>
+  <data name="msg_DepositSlipRequired_Detail" xml:space="preserve">
+    <value>Kindly attach transfer slip to speed up transaction processing time.</value>
+  </data>
+  <data name="msg_PaymentNotReceived" xml:space="preserve">
+    <value>Payment not received</value>
+  </data>
+  <data name="msg_PaymentNotReceived_Detail" xml:space="preserve">
+    <value>Payment have not received in bank, kindly wait patiently.</value>
+  </data>
+  <data name="msg_DepositRefunded" xml:space="preserve">
+    <value>Deposit refunded</value>
+  </data>
+  <data name="msg_DepositRefunded_Detail" xml:space="preserve">
+    <value>Deposit amount has been refunded, kindly check your bank account.</value>
+  </data>
+  <data name="msg_RealNameWrongFormat" xml:space="preserve">
+    <value>RealName can't allow number or special charactors.</value>
+  </data>
   <data name="msg_congratulation_event_reward" xml:space="preserve">
     <value>congratulations! Get {0} amount</value>
   </data>
@@ -342,5 +369,17 @@
   </data>
   <data name="msg_Event_has_not_started" xml:space="preserve">
     <value>Event has not started yet</value>
+  </data>
+  <data name="msg_WithdrawalAccountNumberIncorrect" xml:space="preserve">
+    <value>Withdrawal Account Number Incorrect</value>
+  </data>
+  <data name="msg_WithdrawalAccountNumberIncorrect_Detail" xml:space="preserve">
+    <value>Withdrawal account number incorrect. Kindly check your withdrawal account number.</value>
+  </data>
+  <data name="msg_WithdrawalAccountsNameUnmatch" xml:space="preserve">
+    <value>Withdrawal Account's name unmatch</value>
+  </data>
+  <data name="msg_WithdrawalAccountsNameUnmatch_Detail" xml:space="preserve">
+    <value>Withdrawal account name does not match with the registered name. Please contact customer service for assistance.</value>
   </data>
 </root>
