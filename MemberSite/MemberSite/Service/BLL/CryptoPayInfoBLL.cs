@@ -54,13 +54,12 @@ namespace MemberSite.Service.BLL
 
             if (depositLimitInfo?.DepositStatus == 0)
             {
-                return new CryptoPayInfo[] { };
+                return Array.Empty<CryptoPayInfo>();
             }
 
             var cryptoPayInfoList = GetCryptoPayInfoListWithCache(custInfo.SiteId)
                 .Where(x => vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId).ToList();
        
-
             if (depositLimitInfo != null)
             {
                 foreach (var cryptoPayInfo in cryptoPayInfoList)
@@ -68,8 +67,12 @@ namespace MemberSite.Service.BLL
                     _depositBll.FixDepositLimit(cryptoPayInfo, depositLimitInfo);
                 }
             }
+            
+            var result = cryptoPayInfoList.Where(x => x.MaxAmount > 0);
 
-            return cryptoPayInfoList.Where(x => x.MaxAmount > 0);
+            
+
+            return result;
         }
         public int DepositReqCryptoPay(int custId, int channelId, decimal amount, out string transId, out CryptoPayInfo cryptoPayInfo)
         {

@@ -540,6 +540,9 @@ namespace MemberSite.Service.Model.enums
     {
         [Description("DuitNowQR")]
         DuitNowQR = 53,
+        
+        [Description("Crypto")]
+        FakeCrypto = 57
     }
 
     public enum PayModeEnum
