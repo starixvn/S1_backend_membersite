@@ -66,7 +66,7 @@ namespace MemberSite.Service.BLL
 
         public IEnumerable<Announcement> GetAnnouncement(string LangCode, string DefaultLangCode, int LimitRow, bool IsTest, int SiteId)
         {
-            var key = $"Announcement_{SiteId}_{LangCode}";
+            var key = $"Announcement_{SiteId}_{LangCode}_{DefaultLangCode}_{IsTest}";
             return _cacheHelper.TryGetOrCreate(key,
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(3)),
                 i => _messageService.GetAnnouncement(LangCode, DefaultLangCode, LimitRow, IsTest, SiteId));
