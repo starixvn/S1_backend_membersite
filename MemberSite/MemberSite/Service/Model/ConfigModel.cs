@@ -45,7 +45,7 @@
         public Dictionary<string, ShieldGroup> Groups { get; set; }
     }
     
-    public abstract class ShieldGroup
+    public class ShieldGroup
     {
         public string SiteId { get; set; }
         public string SecretKey { get; set; }
