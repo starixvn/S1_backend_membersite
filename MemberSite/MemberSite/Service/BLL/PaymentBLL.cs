@@ -1,8 +1,10 @@
-﻿using MemberSite.Service.DAL;
+﻿using MemberSite.Extensions;
+using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Interfaces;
+using Newtonsoft.Json;
 using System.Text.RegularExpressions;
 
 namespace MemberSite.Service.BLL
@@ -479,6 +481,24 @@ namespace MemberSite.Service.BLL
                 {
                     depositInfo.DepositType = (int)DepositType.MobilePayment;
                 }
+
+                List<DepositMessageDetail> depositMessageDetails = new List<DepositMessageDetail>();
+                if (depositInfo.DepositMessage != null)
+                {
+                    var depositMessage = JsonConvert.DeserializeObject<List<DepositMessage>>(depositInfo.DepositMessage);
+
+                    depositMessage.ForEach(x =>
+                    {
+                        var offset = DateTime.Now.ToDateTimeOffset(depositInfo.CustTimeZone).Offset;
+                        depositMessageDetails.Add(new DepositMessageDetail()
+                        {
+                            CreateTime = x.CreateTime.ToOffset(offset),
+                            ErrorTypeName = selLangBLL.GetMsg($"msg_{x.Status.ToString()}"),
+                            Message = selLangBLL.GetMsg($"msg_{x.Status.ToString()}_Detail"),
+                        });
+                    });
+                }
+                depositInfo.DepositMessageDetail = depositMessageDetails;
             }
 
             return depositInfoRecent;
@@ -504,6 +524,23 @@ namespace MemberSite.Service.BLL
                     var depositInfoRef = (DepositInfo3_1)depositInfo.DepositRep;
                     depositInfo.BankInfo = bankInfoBLL.GetBankInfoSysListByCurrency(CustInfo.CurrencyId).FirstOrDefault(x => x.SysId == depositInfoRef.SysId);
                 }
+                List<DepositMessageDetail> depositMessageDetails = new List<DepositMessageDetail>();
+                if (depositInfo.DepositMessage != null)
+                {
+                    var depositMessage = JsonConvert.DeserializeObject<List<DepositMessage>>(depositInfo.DepositMessage);
+
+                    depositMessage.ForEach(x =>
+                    {
+                        var offset = DateTime.Now.ToDateTimeOffset(depositInfo.CustTimeZone).Offset;
+                        depositMessageDetails.Add(new DepositMessageDetail()
+                        {
+                            CreateTime = x.CreateTime.ToOffset(offset),
+                            ErrorTypeName = selLangBLL.GetMsg($"msg_{x.Status.ToString()}"),
+                            Message = selLangBLL.GetMsg($"msg_{x.Status.ToString()}_Detail"),
+                        });
+                    });
+                }
+                depositInfo.DepositMessageDetail = depositMessageDetails;
             }
             return depositInfoHistory;
         }
