@@ -182,6 +182,8 @@ namespace MemberSite
             services.AddTransient<CheckAttackBLL>();
             services.AddTransient<DateTimeHelper>();
             
+            services.AddTransient<IHotGameBLL, HotGameBLL>();
+
             services.AddSingleton<CustomCookieAuthenticationEvents>();
             services.AddTransient<HotEventBLL>();
             services.AddSingleton<CryptoHelper>();
