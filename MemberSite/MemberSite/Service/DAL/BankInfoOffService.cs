@@ -30,5 +30,17 @@ namespace MemberSite.Service.DAL
         {
             return _reportDbClient.Query<int>("Member_CustOffDepositSysId_Get", new { _CustId = custId });
         }
+        
+        public IEnumerable<OfflineBankAccountDailyDeposit> GetOfflineBankAccountDailyDeposit(
+            int siteId, int currencyId, string bankIds)
+        {
+            return _reportDbClient.Query<OfflineBankAccountDailyDeposit>("Member_OfflineBankAccount_DailyDepositSummary_Get",
+                new
+                {
+                    _SiteId = siteId,
+                    _CurrencyId = currencyId,
+                    _BankIds = bankIds
+                });
+        }
     }
 }
