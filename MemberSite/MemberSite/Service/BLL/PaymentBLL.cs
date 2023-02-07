@@ -316,7 +316,7 @@ namespace MemberSite.Service.BLL
                 bankInfoBLL.GetOnlineBankList(custInfo.SiteId) : 
                 bankInfoBLL.GetAutoChannelBankInfoList(custInfo.SiteId, depositType);
             
-            _logger.LogDebug("onlineBankList: " + JsonConvert.SerializeObject(onlineBankList));
+            _logger.LogInformation("onlineBankList: " + JsonConvert.SerializeObject(onlineBankList));
             
             onlineBank = onlineBankList
                 .FirstOrDefault(x => pointLevel >= x.PointLevel
@@ -327,7 +327,7 @@ namespace MemberSite.Service.BLL
 
             
             
-            _logger.LogDebug("onlineBank: " + JsonConvert.SerializeObject(onlineBank));
+            _logger.LogInformation("onlineBank: " + JsonConvert.SerializeObject(onlineBank));
             
             var depositLimitInfo = depositLimitInfoList?
                 .FirstOrDefault(x => x.SiteId == custInfo.SiteId
@@ -335,7 +335,7 @@ namespace MemberSite.Service.BLL
                                      && x.DepositType == (int)depositType
                                      && x.CurrencyId == custInfo.CurrencyId);
             
-            _logger.LogDebug("depositLimitInfo: " + JsonConvert.SerializeObject(depositLimitInfo));
+            _logger.LogInformation("depositLimitInfo: " + JsonConvert.SerializeObject(depositLimitInfo));
 
 
             if (depositLimitInfo?.DepositStatus == 0)
@@ -347,7 +347,7 @@ namespace MemberSite.Service.BLL
             {
                 FixDepositLimit(onlineBank, depositLimitInfo);
             }
-            _logger.LogDebug("after FixDepositLimit");
+            _logger.LogInformation("after FixDepositLimit");
 
             if (onlineBank == null || onlineBank.MaxAmount < amount || onlineBank.MinAmount > amount)
             {
@@ -376,10 +376,10 @@ namespace MemberSite.Service.BLL
                 DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(onlineBank)
             };
             
-            _logger.LogDebug("depositDetailInfo: "+ JsonConvert.SerializeObject(depositDetailInfo));
+            _logger.LogInformation("depositDetailInfo: "+ JsonConvert.SerializeObject(depositDetailInfo));
 
             _depositService.DepositReq(depositDetailInfo, out transId, out var postScript);
-            _logger.LogDebug("transId: "+ transId);
+            _logger.LogInformation("transId: "+ transId);
             return 0;
         }
         public int WithdrawalReq(int custId, int sysId, string accountName, string accountNo, string iFSCCode, decimal amount, string memo, out decimal afterAmount, out string transId)

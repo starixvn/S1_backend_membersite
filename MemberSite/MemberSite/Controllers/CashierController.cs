@@ -105,7 +105,7 @@ namespace MemberSite.Controllers
                                 : $"{Request.Host.Host}:{Request.Host.Port}")
                     };
                     
-                    _logger.LogDebug("ReqDepositBank request" + JsonConvert.SerializeObject(reqDepositBank));
+                    _logger.LogInformation("ReqDepositBank request" + JsonConvert.SerializeObject(reqDepositBank));
 
                     var myUrl = $"{_payApiUrl}ReqDepositBank";
                     var apiResult = await _courierAdapter.MyPostAsync<PayResult, ReqDepositBank>(myUrl, reqDepositBank);
