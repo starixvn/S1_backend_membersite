@@ -38,7 +38,7 @@ namespace MemberSite.Service.BLL.Tests
         {
             var services = new ServiceCollection();
             services.AddSingleton(_configuration);
-            services.AddTransient(p => new MySqlClient("", Substitute.For<ILogger<MySqlClient>>(), DataBase.Report));
+            services.AddTransient(p => new MySqlClient("", Substitute.For<ILogger<MySqlClient>>()){DataBase = DataBase.Report});
             services.AddTransient(p => Substitute.For<IMemoryCache>());
             services.AddTransient(p => Substitute.For<ILogger<MySqlClient>>());
             services.AddTransient<CacheHelper>();

@@ -456,11 +456,6 @@ namespace MemberSite.Service.BLL
             var custInfo = GetCustInfoWithCache(custId);
             return _custInfoService.SubmittedCustPhotoId(custId, custInfo.SiteId, custInfo.CurrencyId);
         }
-        public int SetCustPhotoId(int custId, int siteId, string picFileName, byte[] photoIdPic)
-        {
-            return _custInfoService.SetCustPhotoId(custId, siteId, picFileName, photoIdPic);
-        }
-
         public void ForgetPwd1(int custId, string resetPasswordUrl)
         {
             _commonBll.SendResetPwdMail(custId, resetPasswordUrl);
@@ -512,7 +507,7 @@ namespace MemberSite.Service.BLL
                 {
                     if (mySqlEx.Number == 1062)/*Duplicate for key 'PRIMARY'*/
                     {
-                        affiliateId = _agentInfoService.GetAffiliateId(custId, custInfo.SiteId);
+                        affiliateId = _agentInfoService.GetAffiliateId(custId, custInfo.SiteId, DataBase.Main);
                     }
                     else
                     {

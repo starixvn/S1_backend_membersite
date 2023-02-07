@@ -1,5 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using MemberSite.Controllers.Api;
+using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
@@ -18,6 +19,7 @@ public class SiteBll
     private readonly Regex _regexUserName = new(@"^[a-zA-Z0-9]{6,18}$");
     private readonly Regex _regexAffCode = new(@"^[0-9]{5,20}$");
     private readonly RecaptchaBLL _recaptcha;
+    private readonly IGeoIpApi _geoIpApi;
 
     public SiteBll(IServiceProvider provider)
     {
@@ -28,10 +30,11 @@ public class SiteBll
         _tools = provider.GetRequiredService<Tools>();
         _ShieldBll = provider.GetRequiredService<ShieldBLL>();
         _recaptcha = provider.GetRequiredService<RecaptchaBLL>();
+        _geoIpApi = provider.GetRequiredService<IGeoIpApi>();
     }
 
     public Customer Signup(SiteController.SignupModel signupModel, ApiResult apiResult, bool isAuthenticated,
-        string host, string userAgent)
+        string host, string userAgent, bool checkReCaptchaToken)
     {
         Customer customer = null;
         if (isAuthenticated ||
@@ -39,6 +42,27 @@ public class SiteBll
         {
             apiResult.ErrorCode = 9000;
             return customer;
+        }
+        
+        if (checkReCaptchaToken)
+        {
+            var country = _geoIpApi.CheckIp(_tools.GetClientIP()).Result;
+            if (country.Code != "CN")
+            {
+                if (string.IsNullOrWhiteSpace(signupModel.ReCaptchaToken) || signupModel.ReCaptchaToken.Length < 500)
+                {
+                    apiResult.ErrorCode = (int)ErrorCode.Attack;
+                    return customer;
+                }
+                
+                var verifyResult = _recaptcha.Verify(signupModel.ReCaptchaToken);
+                if (!verifyResult.success)
+                {
+                    apiResult.ErrorCode = -97;
+                    apiResult.Message = verifyResult.errorCodes.FirstOrDefault();
+                    return customer;
+                } 
+            }
         }
 
         if (long.TryParse(signupModel.PhoneNo, out var phoneNo))
@@ -73,17 +97,6 @@ public class SiteBll
             apiResult.ErrorCode = -8;
             apiResult.Message = _selLangBll.GetMsg("msg_UsernameValidate");
             return customer;
-        }
-
-        if (!string.IsNullOrEmpty(signupModel.ReCaptchaToken))
-        {
-            var verifyResult = _recaptcha.Verify(signupModel.ReCaptchaToken);
-            if (!verifyResult.success)
-            {
-                apiResult.ErrorCode = -97;
-                apiResult.Message = verifyResult.errorCodes.FirstOrDefault();
-                return customer;
-            }
         }
 
         if (!string.IsNullOrEmpty(signupModel.AffCode?.Trim()))

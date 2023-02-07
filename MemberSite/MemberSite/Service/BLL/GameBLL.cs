@@ -1,4 +1,6 @@
-﻿using MemberSite.Service.Library;
+﻿using System.Web;
+using MemberSite.Service.DAL;
+using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Game;
@@ -10,6 +12,8 @@ namespace MemberSite.Service.BLL
         private readonly MySqlClient _reportDbClient;
         private readonly ICacheHelper _cacheHelper;
         private readonly Dictionary<int, string> _openPathList;
+        private readonly StatementService _statementService;
+        private readonly ThirdPartyBll _thirdPartyBll;
 
         public GameBLL(IServiceProvider provider)
         {
@@ -19,13 +23,17 @@ namespace MemberSite.Service.BLL
             {
                 { 22, "mega888"}
             };
+            _statementService = provider.GetRequiredService<StatementService>();
+            _thirdPartyBll = provider.GetRequiredService<ThirdPartyBll>();
         }
 
-        public bool IsMaintain(IEnumerable<TpMaintain> tpMaintainList, int tpId, string tpGameType, out TpMaintain result)
+        public bool IsMaintain(int siteId, int tpId, string tpGameType, out TpMaintain result)
         {
             result = null;
             try
             {
+                var tpMaintainList = _thirdPartyBll.GetTpMaintainListWithCache(siteId);
+
                 if (!tpMaintainList.Any())
                 {
                     return false;
@@ -73,6 +81,24 @@ namespace MemberSite.Service.BLL
                     }
                     return providerList;
                 });
+        }
+
+        public string GetMaintainUrl(TpMaintain tpMaintain, string host, string langId, string entPageUrl = null)
+        {
+            var requestId = Guid.NewGuid().ToString();        
+            
+            //維護結束後要回到哪個url，GotoGame入口只能回到首頁
+            var returnUrl = entPageUrl ?? host;
+            var tpName = _statementService.GetTpListWithCache()?.First(i => i.Id == tpMaintain.TpId)?.TpName;
+            var maintainUrl = $"{host}/tp/index_{langId}.html?" +
+                $"t={HttpUtility.UrlEncode(tpName)}&" +
+                $"e={HttpUtility.UrlEncode($"{tpMaintain.EndDate:u}")}&" +
+                $"i={tpMaintain.TpId}&" +
+                $"g={tpMaintain.TpGameType}&" +
+                $"r={requestId}";
+
+            _cacheHelper.StringSet($"TpMaintain:{requestId}", returnUrl, TimeSpan.FromDays(1));          
+            return maintainUrl;
         }
     }
 }

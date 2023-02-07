@@ -9,28 +9,28 @@ namespace MemberSite.Service.DAL
 {
     public class AuthService
     {
-        private readonly IConfiguration configuration;
         private readonly MySqlClient _mainDbClient;
         private readonly MySqlClient _reportDbClient;
         public AuthService(IServiceProvider provider)
         {
-            configuration = provider.GetRequiredService<IConfiguration>();
             _mainDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Main);
             _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
         }
 
         public string Authenticate(string Key)
         {
-            string permissionData = null;
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionString"));
-            var p = new DynamicParameters(new { Token = Key });
-            p.Add("PermissionData", dbType: DbType.String, direction: ParameterDirection.Output);
-            var result = 0;
+            using var conn = _mainDbClient.GetMySqlConnection();
             conn.Open();
             using var trans = conn.BeginTransaction();
-            result = conn.Execute("Common_AuthToken_Sel", p, trans, commandType: CommandType.StoredProcedure);
+
+            var p = new DynamicParameters(new { Token = Key });
+            p.Add("PermissionData", dbType: DbType.String, direction: ParameterDirection.Output);
+            
+            _mainDbClient.Execute("Common_AuthToken_Sel", trans , p);
+            
             trans.Commit();
-            permissionData = p.Get<string>("PermissionData");
+            
+            var permissionData = p.Get<string>("PermissionData");
             return permissionData;
         }
 
@@ -46,7 +46,7 @@ namespace MemberSite.Service.DAL
             MySqlConnection conn = null, MySqlTransaction trans = null)
         {
             var sp = "Member_LineIssueToken_Ins";
-            var result = 0;
+            int result;
             var param = new DynamicParameters(new { _FlowType = type, _Token = token });
 
             if (conn == null)
@@ -60,7 +60,7 @@ namespace MemberSite.Service.DAL
                 result = conn.QueryFirstAsync<int>(sp, param, trans).Result;
             }
 
-            return (result == 0) ? false : true;
+            return (result != 0);
         }
     }
 }
