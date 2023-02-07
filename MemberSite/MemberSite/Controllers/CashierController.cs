@@ -24,7 +24,7 @@ namespace MemberSite.Controllers
         private readonly PromotionBll _promotionBll;
         private readonly PayInfoBLL _payInfoBll;
         private readonly BankInfoBLL _bankInfoBll;
-        private readonly Logger<CashierController> _logger;
+        private readonly ILogger<CashierController> _logger;
 
         public CashierController(IServiceProvider provider)
         {
@@ -40,7 +40,7 @@ namespace MemberSite.Controllers
             _promotionBll = provider.GetRequiredService<PromotionBll>();
             _payInfoBll = provider.GetRequiredService<PayInfoBLL>();
             _bankInfoBll = provider.GetRequiredService<BankInfoBLL>();
-            _logger = provider.GetRequiredService<Logger<CashierController>>();
+            _logger = provider.GetRequiredService<ILogger<CashierController>>();
 
             var configuration = provider.GetRequiredService<IConfiguration>();
             _payApiUrl = configuration.GetValue<string>("PayService");
