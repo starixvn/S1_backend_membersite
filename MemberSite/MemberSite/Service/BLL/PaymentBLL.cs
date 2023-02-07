@@ -323,7 +323,7 @@ namespace MemberSite.Service.BLL
                                      && x.ChannelId == channelId
                                      && (x.SysId == sysId || !x.SelBank)
                                      && x.PayId == payId
-                                     && (x.CurrencyId == custInfo.CurrencyId || !x.SelBank));
+                                     && (x.CurrencyId == custInfo.CurrencyId && !x.SelBank));
 
             
             
