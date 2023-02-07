@@ -316,6 +316,8 @@ namespace MemberSite.Service.BLL
                 bankInfoBLL.GetOnlineBankList(custInfo.SiteId) : 
                 bankInfoBLL.GetAutoChannelBankInfoList(custInfo.SiteId, depositType);
             
+            _logger.LogDebug("onlineBankList: " + JsonConvert.SerializeObject(onlineBankList));
+            
             onlineBank = onlineBankList
                 .FirstOrDefault(x => pointLevel >= x.PointLevel
                                      && x.ChannelId == channelId
@@ -325,11 +327,16 @@ namespace MemberSite.Service.BLL
 
             
             
+            _logger.LogDebug("onlineBank: " + JsonConvert.SerializeObject(onlineBank));
+            
             var depositLimitInfo = depositLimitInfoList?
                 .FirstOrDefault(x => x.SiteId == custInfo.SiteId
                                      && x.VipLevel == pointLevel
                                      && x.DepositType == (int)depositType
                                      && x.CurrencyId == custInfo.CurrencyId);
+            
+            _logger.LogDebug("depositLimitInfo: " + JsonConvert.SerializeObject(depositLimitInfo));
+
 
             if (depositLimitInfo?.DepositStatus == 0)
             {
@@ -340,6 +347,7 @@ namespace MemberSite.Service.BLL
             {
                 FixDepositLimit(onlineBank, depositLimitInfo);
             }
+            _logger.LogDebug("after FixDepositLimit");
 
             if (onlineBank == null || onlineBank.MaxAmount < amount || onlineBank.MinAmount > amount)
             {
@@ -367,8 +375,11 @@ namespace MemberSite.Service.BLL
                 CurrencyId = custInfo.CurrencyId,
                 DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(onlineBank)
             };
+            
+            _logger.LogDebug("depositDetailInfo: "+ JsonConvert.SerializeObject(depositDetailInfo));
 
             _depositService.DepositReq(depositDetailInfo, out transId, out var postScript);
+            _logger.LogDebug("transId: "+ transId);
             return 0;
         }
         public int WithdrawalReq(int custId, int sysId, string accountName, string accountNo, string iFSCCode, decimal amount, string memo, out decimal afterAmount, out string transId)
