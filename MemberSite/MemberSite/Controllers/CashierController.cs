@@ -75,52 +75,41 @@ namespace MemberSite.Controllers
         public async Task<IActionResult> DepositReqOnlineBankingAsync(int sysId, int payId, int ChannelId, decimal Amount, string BonusCode)
         {
             var model = new ErrorData();
-            try
-            {
-                var authData = _authorizeBll.GetAuthData();
-                if (authData is not {CustId: > 0}) return RedirectErrorPage(model);
-                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-                var result = _paymentBll.DepositReqOnlineBanking(authData.CustId, sysId, payId, ChannelId, Amount,
-                    out var transId, out var onlineBank);
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is not {CustId: > 0}) return RedirectErrorPage(model);
+            var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+            var result = _paymentBll.DepositReqOnlineBanking(authData.CustId, sysId, payId, ChannelId, Amount,
+                out var transId, out var onlineBank);
 
-                if (result == (int) ErrorCode.Success)
+            if (result == (int) ErrorCode.Success)
+            {
+                if (_promotionBll.VerifyBonusCode(BonusCode))
+                    _promotionBll.SetDepositPromotionQueue(transId, BonusCode, authData.CustId, custInfo.SiteId,
+                        custInfo.UserName, custInfo.CurrencyId, 1, 0);
+
+                var reqDepositBank = new ReqDepositBank
                 {
-                    if (_promotionBll.VerifyBonusCode(BonusCode))
-                        _promotionBll.SetDepositPromotionQueue(transId, BonusCode, authData.CustId, custInfo.SiteId,
-                            custInfo.UserName, custInfo.CurrencyId, 1, 0);
-
-                    var reqDepositBank = new ReqDepositBank
-                    {
-                        TransId = transId,
-                        CustId = authData.CustId,
-                        Amount = Amount,
-                        PayId = onlineBank.PayId,
-                        SysId = onlineBank.SysId,
-                        ClientIP = _tools.GetClientIP(),
-                        ReturnUrl = Url.RouteUrl("desktop",
-                            new {action = "Deposit", controller = "Cashier", custInfo.UserLang},
-                            protocol: Request.Scheme,
-                            host: Request.Host.Port == 80
-                                ? Request.Host.Host
-                                : $"{Request.Host.Host}:{Request.Host.Port}")
-                    };
-                    
-                    _logger.LogInformation("ReqDepositBank request" + JsonConvert.SerializeObject(reqDepositBank));
-
-                    var myUrl = $"{_payApiUrl}ReqDepositBank";
-                    var apiResult = await _courierAdapter.MyPostAsync<PayResult, ReqDepositBank>(myUrl, reqDepositBank);
-                    if (ActionResult(apiResult, transId, model, PaymentView.DepositReqOnlineBanking,
-                            out var actionResult))
-                        return actionResult;
-                }
-                return RedirectErrorPage(model);
+                    TransId = transId,
+                    CustId = authData.CustId,
+                    Amount = Amount,
+                    PayId = onlineBank.PayId,
+                    SysId = onlineBank.SysId,
+                    ClientIP = _tools.GetClientIP(),
+                    ReturnUrl = Url.RouteUrl("desktop",
+                        new {action = "Deposit", controller = "Cashier", custInfo.UserLang},
+                        protocol: Request.Scheme,
+                        host: Request.Host.Port == 80
+                            ? Request.Host.Host
+                            : $"{Request.Host.Host}:{Request.Host.Port}")
+                };
+                
+                var myUrl = $"{_payApiUrl}ReqDepositBank";
+                var apiResult = await _courierAdapter.MyPostAsync<PayResult, ReqDepositBank>(myUrl, reqDepositBank);
+                if (ActionResult(apiResult, transId, model, PaymentView.DepositReqOnlineBanking,
+                        out var actionResult))
+                    return actionResult;
             }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "DepositReqOnlineBankingAsync Exception");
-
-                return RedirectErrorPage(model);
-            }
+            return RedirectErrorPage(model);
         }
 
         public async Task<IActionResult> DepositReqMobilePayAsync(int ChannelId, decimal Amount, string BonusCode, string PayAccount)
