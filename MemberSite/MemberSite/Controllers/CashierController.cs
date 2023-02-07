@@ -4,6 +4,7 @@ using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using static MemberSite.Controllers.entPageController;
 
 namespace MemberSite.Controllers
@@ -103,6 +104,8 @@ namespace MemberSite.Controllers
                                 ? Request.Host.Host
                                 : $"{Request.Host.Host}:{Request.Host.Port}")
                     };
+                    
+                    _logger.LogDebug("ReqDepositBank request" + JsonConvert.SerializeObject(reqDepositBank));
 
                     var myUrl = $"{_payApiUrl}ReqDepositBank";
                     var apiResult = await _courierAdapter.MyPostAsync<PayResult, ReqDepositBank>(myUrl, reqDepositBank);
