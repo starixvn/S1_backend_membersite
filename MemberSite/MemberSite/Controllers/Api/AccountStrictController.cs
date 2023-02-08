@@ -707,7 +707,14 @@ namespace MemberSite.Controllers.Api
                     }
                     else
                     {
-                        _perCountry = _custInfoBLL.GetCountryNameByAreaCode(custInfo.AreaCode);
+                        var countryCode = _custInfoBLL.GetCountryNameByAreaCode(custInfo.AreaCode);
+
+                        if (countryCode.Equals("db", StringComparison.OrdinalIgnoreCase))
+                        {
+                            countryCode = "BD";
+                        }
+                        
+                        _perCountry = countryCode;
                     }
                 }
 
