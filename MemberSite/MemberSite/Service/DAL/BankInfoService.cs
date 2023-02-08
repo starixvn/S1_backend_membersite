@@ -24,19 +24,14 @@ namespace MemberSite.Service.DAL
             return _reportDb.Query<BankInfoSys>("BankInfoSysListForCtrl_Get", new { SiteId = siteId });
         }
         
-        public IEnumerable<BankInfoPay> GetBankInfoPayList(int siteId)
+        public IEnumerable<BankInfoPay> GetBankInfoPayList(int siteId, DepositType depositType)
         {
-            return _reportDb.Query<BankInfoPay>("Common_BankInfoPay_Get", new { SiteId = siteId });
+            return _reportDb.Query<BankInfoPay>("Common_BankInfoPay_Get_V2" , new { _SiteId = siteId, _DepositType = (int)depositType });
         }
         
         public IEnumerable<BankInfoName> GetBankInfoNameList(string lang)
         {
             return _reportDb.Query<BankInfoName>("Member_BankInfoName_Get", new { _Lang = lang });
-        }
-
-        public IEnumerable<AutoChannelBankInfo> GetAutoChannelBankInfoList(int siteId, DepositType depositType)
-        {
-            return _reportDb.Query<AutoChannelBankInfo>("Service_AutoChannelBankInfo_Get", new { SiteId = siteId, DepositType = (int)depositType });
         }
 
         public IEnumerable<BlockAccount> GetBlockBankAccount(int sysId, string accountNum)
