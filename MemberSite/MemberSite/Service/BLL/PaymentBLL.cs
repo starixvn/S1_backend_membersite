@@ -321,16 +321,16 @@ namespace MemberSite.Service.BLL
                                      && x.ChannelId == channelId
                                      && (x.SysId == sysId || !x.SelBank)
                                      && x.PayId == payId
-                                     && (x.CurrencyId == custInfo.CurrencyId || !x.SelBank));
+                                     && x.CurrencyId == custInfo.CurrencyId);
 
-            
+            _logger.LogInformation("onlineBank: " + JsonConvert.SerializeObject(onlineBank));
             
             var depositLimitInfo = depositLimitInfoList?
                 .FirstOrDefault(x => x.SiteId == custInfo.SiteId
                                      && x.VipLevel == pointLevel
                                      && x.DepositType == (int)depositType
                                      && x.CurrencyId == custInfo.CurrencyId);
-
+            
             if (depositLimitInfo?.DepositStatus == 0)
             {
                 return -3;
@@ -367,8 +367,9 @@ namespace MemberSite.Service.BLL
                 CurrencyId = custInfo.CurrencyId,
                 DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(onlineBank)
             };
-
+            
             _depositService.DepositReq(depositDetailInfo, out transId, out var postScript);
+
             return 0;
         }
         public int WithdrawalReq(int custId, int sysId, string accountName, string accountNo, string iFSCCode, decimal amount, string memo, out decimal afterAmount, out string transId)
