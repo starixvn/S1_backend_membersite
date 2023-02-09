@@ -350,8 +350,7 @@ namespace MemberSite.Service.DAL
             var result = _mainDbClient.Execute("Service_CustBankInfoLog_Set_V2", trans ,parameter);
             return result > 0;
         }
-        
-        public bool InsertCustUSDTInfo(int custId, int siteId, string accountName, IEnumerable<USDTDetail> uSDTInfo, IEnumerable<USDTDetail> uSDTInfoLog)
+        public bool SettCustUSDTInfo(int custId, int siteId, string accountName, IEnumerable<USDTDetail> uSDTInfo, IEnumerable<USDTDetailLog> uSDTInfoLog)
         {
             using var conn = _mainDbClient.GetMySqlConnection();
             conn.Open();
@@ -395,7 +394,7 @@ namespace MemberSite.Service.DAL
                 AccountName = accountName,
                 USDTInfo = Newtonsoft.Json.JsonConvert.SerializeObject(uSDTInfo)
             });
-            var result = _mainDbClient.Execute("Service_CustUSDTInfoLog_Set", trans ,parameter);
+            var result = _mainDbClient.Execute("Service_CustUSDTInfoLog_Set_V2", trans ,parameter);
             return result > 0;
         }
 
