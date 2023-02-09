@@ -131,7 +131,7 @@ namespace MemberSite.Service.Model.Game
                 {
                     foreach (var gameId in disableGame.GameList)
                     {
-                        var excludeGame = slotGameList.Find(a => a.GameId == gameId);
+                        var excludeGame = slotGameList.Find(a => a.GameId == gameId && a.TpId == disableGame.TpId);
                         if (excludeGame != null)
                         {
                             slotGameList.Remove(excludeGame);

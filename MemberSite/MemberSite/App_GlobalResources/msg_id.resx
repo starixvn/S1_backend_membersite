@@ -340,6 +340,9 @@
   <data name="msg_PhoneWrongFormat" xml:space="preserve">
     <value>Format Phone salah</value>
   </data>
+  <data name="msg_PhoneFormatVerify" xml:space="preserve">
+    <value>Nomor telepon yang Anda masukkan salah, antara {0} digit</value>
+  </data>
   <data name="msg_InvalidCryptoWalletAddress" xml:space="preserve">
     <value>Alamat dompet kripto tidak valid.</value>
   </data>
@@ -387,5 +390,17 @@
   </data>
   <data name="msg_DepositRefunded_Detail" xml:space="preserve">
     <value>Jumlah deposit telah dikembalikan, silakan periksa rekening bank Anda.</value>
+  </data>
+  <data name="msg_WithdrawalAccountNumberIncorrect" xml:space="preserve">
+    <value>Nomor Akun Penarikan Salah</value>
+  </data>
+  <data name="msg_WithdrawalAccountNumberIncorrect_Detail" xml:space="preserve">
+    <value>Nomor akun penarikan salah. Silahkan cek nomor akun penarikan Anda.</value>
+  </data>
+  <data name="msg_WithdrawalAccountsNameUnmatch" xml:space="preserve">
+    <value>Nama Akun untuk Penarikan Tidak Sesuai</value>
+  </data>
+  <data name="msg_WithdrawalAccountsNameUnmatch_Detail" xml:space="preserve">
+    <value>Nama akun penarikan tidak sesuai dengan nama terdaftar. Untuk bantuan, silahkan hubungi layanan pelanggan</value>
   </data>
 </root>

@@ -349,6 +349,9 @@
   <data name="msg_PhoneWrongFormat" xml:space="preserve">
     <value>Format Telefon salah.</value>
   </data>
+  <data name="msg_PhoneFormatVerify" xml:space="preserve">
+    <value>Nombor telefon yang anda masukkan tidak betul, antara {0} digit</value>
+  </data>
   <data name="msg_InvalidCryptoWalletAddress" xml:space="preserve">
     <value>Invalid crypto wallet address.</value>
   </data>
@@ -366,27 +369,6 @@
   </data>
   <data name="msg_NotInLimit" xml:space="preserve">
     <value>&gt;</value>
-  </data>
-  <data name="msg_congratulation_event_reward" xml:space="preserve">
-    <value>Taniah ! Dapat MYR {0}</value>
-  </data>
-  <data name="msg_keep_up" xml:space="preserve">
-    <value>Semoga berjaya pada goncangan lagi</value>
-  </data>
-  <data name="msg_limit_has_been_reached" xml:space="preserve">
-    <value>Had hari ini telah dicapai</value>
-  </data>
-  <data name="msg_turnover_not_enough" xml:space="preserve">
-    <value>Belum selesai TO yang diperlukan, sila cuba selepas ini</value>
-  </data>
-  <data name="msg_times_chance" xml:space="preserve">
-    <value>Masih kekal {0} kali peluang</value>
-  </data>
-  <data name="msg_ProfileOrPhoneNotFinish" xml:space="preserve">
-    <value>Maklumat akaun belum lengkap, sila sahkan maklumat akaun</value>
-  </data>
-  <data name="msg_Event_has_not_started" xml:space="preserve">
-    <value>Acara belum bermula lagi</value>
   </data>
   <data name="msg_DepositorsNameUnmatch" xml:space="preserve">
     <value>Nama pendeposit tidak sepadan</value>
@@ -411,5 +393,39 @@
   </data>
   <data name="msg_DepositRefunded_Detail" xml:space="preserve">
     <value>Jumlah deposit telah dikembalikan, sila semak akaun bank anda.</value>
+  </data>
+  <data name="msg_congratulation_event_reward" xml:space="preserve">
+    <value>Taniah ! Dapat MYR {0}</value>
+  </data>
+  <data name="msg_keep_up" xml:space="preserve">
+    <value>Semoga berjaya pada goncangan lagi</value>
+  </data>
+  <data name="msg_limit_has_been_reached" xml:space="preserve">
+    <value>Had hari ini telah dicapai</value>
+  </data>
+  <data name="msg_turnover_not_enough" xml:space="preserve">
+    <value>Belum selesai TO yang diperlukan, sila cuba selepas ini</value>
+  </data>
+  <data name="msg_times_chance" xml:space="preserve">
+    <value>Masih kekal {0} kali peluang</value>
+  </data>
+  <data name="msg_ProfileOrPhoneNotFinish" xml:space="preserve">
+    <value>Maklumat akaun belum lengkap, sila sahkan maklumat akaun</value>
+  </data>
+  <data name="msg_Event_has_not_started" xml:space="preserve">
+    <value>Acara belum bermula lagi</value>
+    <value>&gt;</value>
+  </data>
+  <data name="msg_WithdrawalAccountNumberIncorrect" xml:space="preserve">
+    <value>Nombor Akaun Pengeluaran Salah</value>
+  </data>
+  <data name="msg_WithdrawalAccountNumberIncorrect_Detail" xml:space="preserve">
+    <value>Nombor akaun pengeluaran tak betul. Sila sahkan maklumat nombor akaun pengeluaran anda.</value>
+  </data>
+  <data name="msg_WithdrawalAccountsNameUnmatch" xml:space="preserve">
+    <value>Nama akaun pengeluaran tidak sepadan</value>
+  </data>
+  <data name="msg_WithdrawalAccountsNameUnmatch_Detail" xml:space="preserve">
+    <value>Nama akaun pengeluaran tidak sepadan dengan nama yang didaftarkan. Sila hubungi Live Chat untuk mendapatkan bantuan.</value>
   </data>
 </root>

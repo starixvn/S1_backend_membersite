@@ -1309,10 +1309,10 @@ namespace MemberSite.Controllers.Api
 
         public class GetExchangeReq
         {
-            public int PayId { get; set; }
             public string CurrencyName { get; set; }
             public string Network { get; set; }
             public decimal Amount { get; set; }
+            public ExchangeTypeEnum Type { get; set; }
         }
 
         [HttpPost]
@@ -1325,14 +1325,15 @@ namespace MemberSite.Controllers.Api
                 apiResult.Message = selLangBLL.GetMsg("msg_ForceLogedout");
                 return apiResult;
             }
-            var payId = 22; // 先留著讓新舊相容
+            
             var channelName =
                 getExchangeReq.CurrencyName == getExchangeReq.Network
                     ? getExchangeReq.CurrencyName
                     : $"{getExchangeReq.CurrencyName}-{getExchangeReq.Network}";
 
             var result = await cryptoPayInfoBLL.GetExchangeInfoAsync(authData.CustId,
-                getExchangeReq.Amount, payId, channelName);
+                getExchangeReq.Amount, channelName, getExchangeReq.Type);
+            
             if (result is { Data: { } })
             {
                 apiResult.Data = result.Data.formData;
