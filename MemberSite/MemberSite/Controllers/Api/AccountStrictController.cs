@@ -716,13 +716,7 @@ namespace MemberSite.Controllers.Api
                 }
 
                 var isLineBinding = _lineLoginBll.GetCustLineProfile(authData.CustId, null) != null;
-                var countryCode = string.IsNullOrEmpty(custInfo.CountryCode) ? null : custInfo.CountryCode;
-                
-                if (countryCode?.Equals("db", StringComparison.OrdinalIgnoreCase) ?? false)
-                {
-                    countryCode = "BD";
-                }
-                
+          
                 apiResult.Data = new
                 {
                     custInfo.UserName,
@@ -733,7 +727,7 @@ namespace MemberSite.Controllers.Api
                     custInfo.Birth_y,
                     custInfo.RegTime,
                     LastLogin = custInfo.LastLoginTime,
-                    Country = countryCode,
+                    Country = string.IsNullOrEmpty(custInfo.CountryCode) ? null : custInfo.CountryCode,
                     custInfo.AreaCode,
                     custInfo.PhoneNo,
                     PerCountry = _perCountry,
