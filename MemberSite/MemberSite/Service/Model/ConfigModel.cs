@@ -17,8 +17,6 @@
     public class SiteConfig
     {
         public string ImageURL { get; set; }
-
-        public string MaintainURL { get; set; }
     }
 
     public class LoginDeviceConfig
@@ -46,5 +44,10 @@
 
         public string SecretKey { get; set; }
         public string ShieldService { get; set; }
+    }
+    
+    public class AllowIpList
+    {
+        public List<string> IpRange { get; set; }
     }
 }

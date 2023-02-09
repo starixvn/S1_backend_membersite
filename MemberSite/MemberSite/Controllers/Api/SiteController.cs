@@ -39,7 +39,10 @@ namespace MemberSite.Controllers.Api
         private readonly Regex _regexUserName = new(@"^[a-zA-Z0-9]{6,18}$");
         private readonly ThirdPartyBll _thirdPartyBll;
         private readonly SiteBll _siteBll;
+        private readonly ICacheHelper _cacheHelper;
+        private readonly RecaptchaBLL _recaptchaBll;
         private readonly ILogger<SiteController> _logger;
+        private readonly CheckAttackBLL _checkAttackBll;
 
         public SiteController(IServiceProvider provider)
         {
@@ -57,7 +60,11 @@ namespace MemberSite.Controllers.Api
             _siteConfig = provider.GetRequiredService<IOptions<Dictionary<string, SiteConfig>>>();
             _thirdPartyBll = provider.GetRequiredService<ThirdPartyBll>();
             _siteBll = provider.GetRequiredService<SiteBll>();
+            _cacheHelper = provider.GetRequiredService<ICacheHelper>();
+            _recaptchaBll = provider.GetRequiredService<RecaptchaBLL>();
             _logger = provider.GetRequiredService<ILogger<SiteController>>();
+            var env = provider.GetRequiredService<IWebHostEnvironment>();
+            _checkAttackBll = provider.GetRequiredService<CheckAttackBLL>();
         }
 
         public class LoginModel
@@ -76,6 +83,12 @@ namespace MemberSite.Controllers.Api
         public async Task<ApiResult> SignIn(LoginModel loginModel)
         {
             var apiResult = new ApiResult(_selLangBll);
+            if (_checkAttackBll.CheckAttackForSignIn(loginModel, true, Request))
+            {
+                Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return null;
+            }
+
             if (!_regexUserName.IsMatch(loginModel.UserName))
             {
                 apiResult.ErrorCode = 1103;
@@ -152,6 +165,8 @@ namespace MemberSite.Controllers.Api
                 });
             }
 
+            await _cacheHelper.StringFireAndForgetSetAsync(customer.CustId.ToString(), token, TimeSpan.FromMinutes(30), RedisDataBase.Token);
+
             Response.Cookies.Delete($"Initialization{User.Identity?.Name}");
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
@@ -164,12 +179,22 @@ namespace MemberSite.Controllers.Api
         public ApiResult<JwtAuthData> SignInApp(LoginModel loginModel)
         {
             var apiResult = new ApiResult<JwtAuthData>(_selLangBll);
+            if (_checkAttackBll.CheckAttackForSignIn(loginModel, false, Request))
+            {
+                Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return null;
+            }
+
             if (!_regexUserName.IsMatch(loginModel.UserName))
             {
                 apiResult.ErrorCode = -8;
                 apiResult.Message = _selLangBll.GetMsg("msg_UsernameValidate");
                 return apiResult;
             }
+
+            _logger.LogInformation(
+                $"REQUEST URL:{_serverInfoBll.GetRequestUrl()}, " +
+                $"IP: {Request.Headers["X-Forwarded-For"]}, {Request.Headers["HTTP_X_FORWARDED_FOR"]}, {Request.Headers["HTTP_INCAP_CLIENT_IP"]}, {Request.Headers["HTTP_TRUE_CLIENT_IP"]}, {Request.Headers["HTTP_X_REAL_IP"]}, {Request.Headers["REMOTE_ADDR"]}, {Request.HttpContext.Connection.RemoteIpAddress?.MapToIPv4()}");
 
             Customer customer = null;
             var ip = _tools.GetClientIP();
@@ -249,6 +274,7 @@ namespace MemberSite.Controllers.Api
             public string AffCode { get; set; }
             public string blackbox { get; set; }
             public string LineUserId { get; set; }
+            public string ReCaptchaToken { get; set; }
         }
 
         public class SignupModel : RegisteredModel
@@ -268,13 +294,24 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public async Task<ApiResult> SignupAsync(SignupModel signupModel)
         {
+            if (_checkAttackBll.CheckAttackForSignup())
+            {
+                Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return null;
+            }
+
             var apiResult = new ApiResult(_selLangBll);
             var isAuthenticated = User.Identity is { IsAuthenticated: true };
             var customer = _siteBll.Signup(signupModel, apiResult, isAuthenticated, Request.Host.Host,
-                Request.Headers["User-Agent"]);
-            
+                Request.Headers["User-Agent"], true);
+            if (apiResult.ErrorCode == (int)ErrorCode.Attack)
+            {
+                Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return null;
+            }
+
             if (apiResult.ErrorCode != 0 || customer == null) return apiResult;
-            
+
             var claims = new List<Claim>
             {
                 new(ClaimTypes.Name, customer.UserName),
@@ -286,7 +323,7 @@ namespace MemberSite.Controllers.Api
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                 new ClaimsPrincipal(claimsIdentity));
-
+            await _cacheHelper.StringFireAndForgetSetAsync(customer.CustId.ToString(), customer.Token, TimeSpan.FromMinutes(30), RedisDataBase.Token);
             return apiResult;
         }
 
@@ -296,10 +333,10 @@ namespace MemberSite.Controllers.Api
             var apiResult = new ApiResult<JwtAuthData>(_selLangBll);
             var isAuthenticated = User.Identity is { IsAuthenticated: true };
             var customer = _siteBll.Signup(signupModel, apiResult, isAuthenticated, Request.Host.Host,
-                Request.Headers["User-Agent"]);
-            
+                Request.Headers["User-Agent"], false);
+
             if (apiResult.ErrorCode != 0 || customer == null) return apiResult;
-            
+
             var claims = new[]
             {
                 new Claim(ClaimTypes.Name, customer.UserName),
@@ -308,14 +345,14 @@ namespace MemberSite.Controllers.Api
                 new Claim("LangId", customer.UserLang),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
-            
+
             var accessToken = _tools.GenerateJwtTokens(claims);
             var data = new JwtAuthData
             {
                 AccessToken = accessToken
             };
             apiResult.Data = data;
-        
+
             return apiResult;
         }
 
@@ -336,7 +373,7 @@ namespace MemberSite.Controllers.Api
             apiResult.Message = apiResult.Data ? _selLangBll.GetMsg("msg_UsernameNotAvailable") : string.Empty;
             return apiResult;
         }
-        
+
         public ApiResult<bool> ExistsEmail(RegisteredModel registeredModel)
         {
             var apiResult = new ApiResult<bool>(_selLangBll)
@@ -346,7 +383,7 @@ namespace MemberSite.Controllers.Api
             };
             return apiResult;
         }
-        
+
         public class ForgetPwdReq
         {
             public string Email { get; set; }
@@ -685,17 +722,17 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<IEnumerable<BannerV3>>();
 
+            int siteId;
             try
             {
                 var serverInfo = _serverInfoBll.GetServerInfo();
-                var perferCurr = 0;
-                var SiteId = 0;
+                int perferCurr;
                 var ShowStatus = 1;
                 var authData = _authorizeBll.GetAuthData();
                 if (authData is { CustId: > 0 })
                 {
                     var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-                    SiteId = custInfo.SiteId;
+                    siteId = custInfo.SiteId;
                     perferCurr = custInfo.CurrencyId;
                     ShowStatus = 2;
                     langId = _selLangBll.GetLangId();
@@ -703,17 +740,26 @@ namespace MemberSite.Controllers.Api
                 else
                 {
                     perferCurr = bannerReq.CurrencyId ?? _selLangBll.GetPreferCurrencyId();
-                    SiteId = serverInfo.SiteId;
+                    siteId = serverInfo.SiteId;
                     langId = _selLangBll.CheckLangId(langId) ? langId : _selLangBll.GetLangId();
                 }
-                apiResult.Data = _bannerBll.GetBannerV3(SiteId, bannerReq.BannerType, ShowStatus, perferCurr, langId, serverInfo);
+                apiResult.Data = _bannerBll.GetBannerV3(siteId, bannerReq.BannerType, ShowStatus, perferCurr, langId, serverInfo);
+                
+                var domain = _serverInfoBll.GetHttpDomain();
+	            foreach (var data in apiResult.Data)
+	            {
+	                if (!string.IsNullOrEmpty(data.UrlRouter) && data.ActionMode == 6)
+	                {
+                        data.BannerLink = $"{domain}/{data.UrlRouter}";
+	                }
+                }
                 apiResult.ErrorCode = 0;
             }
             catch (Exception e)
             {
                 _logger.LogError(e, GetCurrentMethod());
             }
-            
+
             return apiResult;
         }
 
@@ -775,30 +821,30 @@ namespace MemberSite.Controllers.Api
                     switch (userLoginResult)
                     {
                         case 0:
-                        {
-                            var authData = _authorizeBll.GetAuthData();
-                            if (authData is { CustId: > 0 } && authData.CustId != customer.CustId)
                             {
-                                apiResult.ErrorCode = 1;
-                            }
-                            else
-                            {
-                                var claims = new List<Claim>
+                                var authData = _authorizeBll.GetAuthData();
+                                if (authData is { CustId: > 0 } && authData.CustId != customer.CustId)
+                                {
+                                    apiResult.ErrorCode = 1;
+                                }
+                                else
+                                {
+                                    var claims = new List<Claim>
                                 {
                                     new(ClaimTypes.Name, custInfoProfile.UserName),
                                     new(ClaimTypes.NameIdentifier, customer.CustId.ToString()),
                                     new("Token", token),
                                     new("LangId", custInfoProfile.UserLang)
                                 };
-                                var claimsIdentity = new ClaimsIdentity(claims,
-                                    CookieAuthenticationDefaults.AuthenticationScheme);
-                                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-                                    new ClaimsPrincipal(claimsIdentity));
-                                apiResult.ErrorCode = 0;
-                            }
+                                    var claimsIdentity = new ClaimsIdentity(claims,
+                                        CookieAuthenticationDefaults.AuthenticationScheme);
+                                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                                        new ClaimsPrincipal(claimsIdentity));
+                                    apiResult.ErrorCode = 0;
+                                }
 
-                            break;
-                        }
+                                break;
+                            }
 
                         case -3:
                             apiResult.ErrorCode = 401;
@@ -886,22 +932,36 @@ namespace MemberSite.Controllers.Api
             return result;
         }
 
-        [HttpPost]
-        public ApiResult<bool> ExistsPhoneNo(RrofileReq req)
-        {
-            var apiResult = new ApiResult<bool>(_selLangBll);
-            if (long.TryParse(req.PhoneNo, out var phoneNo))
-            {
-                req.PhoneNo = phoneNo.ToString();
-                apiResult.Data = _custInfoBll.ExistsPhoneNo(0, req.AreaCode, req.PhoneNo);
-            }
-            else
-            {
-                apiResult.Data = true;
-            }
-            apiResult.ErrorCode = 0;
-            return apiResult;
-        }
+        // [HttpPost]
+        // public ApiResult<bool> ExistsPhoneNo(RrofileReq req)
+        // {
+        //     var apiResult = new ApiResult<bool>(_selLangBll);
+        //
+        //     try
+        //     {
+        //         if (CheckAttack(req, out var result))
+        //         {
+        //             return result;
+        //         }
+        //
+        //         if (long.TryParse(req.PhoneNo, out var phoneNo))
+        //         {
+        //             req.PhoneNo = phoneNo.ToString();
+        //             apiResult.Data = _custInfoBll.ExistsPhoneNo(0, req.AreaCode, req.PhoneNo);
+        //         }
+        //         else
+        //         {
+        //             apiResult.Data = true;
+        //         }
+        //         apiResult.ErrorCode = 0;
+        //         return apiResult;
+        //     }
+        //     catch (Exception e)
+        //     {
+        //         _logger.LogError(e, GetCurrentMethod());
+        //         return apiResult;
+        //     }
+        // }
 
         [HttpPost]
         public ApiResult<IEnumerable<Country>> GetCountryList()
@@ -1082,7 +1142,7 @@ namespace MemberSite.Controllers.Api
                 apiResult.Message = "no AffId";
                 return apiResult;
             }
-            
+
             var result = _custInfoBll.GetAffiliateAgentBll(affiliateAgentReq.AffId);
             apiResult.ErrorCode = 0;
             switch (result)
@@ -1226,6 +1286,20 @@ namespace MemberSite.Controllers.Api
                 apiResult.Data = data;
             }
 
+            return apiResult;
+        }
+
+        [HttpPost]
+        public async Task<ApiResult<RecaptchaSiteInfo>> GetRecaptchaInfo()
+        {
+            var clientIp = _tools.GetClientIP();
+            var siteInfo = await _recaptchaBll.GetInfo(clientIp);
+            var apiResult = new ApiResult<RecaptchaSiteInfo>()
+            {
+
+                ErrorCode = 0,
+                Data = siteInfo
+            };
             return apiResult;
         }
     }

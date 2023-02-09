@@ -37,14 +37,14 @@ namespace MemberSite.Service.BLL
               {2,"MYR" },{3,"US" },{4,"THB" },{13,"CNY" },{15,"IDR" },{61,"INR" },{51,"VND" },{74,"BD" },
             };
         }
-        public void SetIovation(int custId, string iovation, IovationType type)
+        public void SetIovation(int custId, IovationType type, IovationCheckResult iovation)
         {
-            iovationType.TryGetValue((int)type, out var typeName);
-            iovationService.SetIovation(custId, iovation, typeName);
+            iovationService.SetIovation(custId, iovation.Result, type.ToString(), iovation.DeviceId, iovation.Reason,
+                iovation.DeviceType, iovation.Score);
         }
-        public async Task<ApiResult> IovationChecks(int CustId, int CurrencyId, string UserName, string blackbox, IovationType type)
+        public async Task<ApiResult<IovationCheckResult>> IovationChecks(int CustId, int CurrencyId, string UserName, string blackbox, IovationType type)
         {
-            var apiResult = new ApiResult();
+            var apiResult = new ApiResult<IovationCheckResult>();
             if (string.IsNullOrEmpty(blackbox))
             {
                 apiResult.ErrorCode = (int)IovationErrorcode.IovationNotSupport;
@@ -66,10 +66,12 @@ namespace MemberSite.Service.BLL
             }
             
             perCurrency.TryGetValue((int)CurrencyId, out Currencyname);
-            var transactionInsight = new Dictionary<string, string>();
-            transactionInsight.Add("onlineId", UserName);
-            transactionInsight.Add("billingCountry", CountryName);
-            transactionInsight.Add("valueCurrency", Currencyname);
+            var transactionInsight = new Dictionary<string, string>
+            {
+                { "onlineId", UserName },
+                { "billingCountry", CountryName },
+                { "valueCurrency", Currencyname }
+            };
             iovationType.TryGetValue((int)type, out var typeName);
             dynamic req = new
             {
@@ -80,7 +82,7 @@ namespace MemberSite.Service.BLL
                 type = typeName
             };
 
-            apiResult = await courierAdapter.MyPostAsync<bool, dynamic>(apiUrl, req);
+            apiResult = await courierAdapter.MyPostAsync<IovationCheckResult, dynamic>(apiUrl, req);
 
             return apiResult;
         }

@@ -1,4 +1,6 @@
-﻿namespace MemberSite.Service.Model.enums
+﻿using System.ComponentModel;
+
+namespace MemberSite.Service.Model.enums
 {
     public enum WalletStatus
     {
@@ -19,6 +21,22 @@
         Closed = 3,
         Lock = 4
     }
+
+    public enum PaymentView
+    {
+        DepositReqOnlineBanking = 1,
+        DepositReqMobilePay = 2,
+        DepositReqCryptoPay = 3,
+        DepositReqLoadCardPay = 4
+    }
+
+    public enum PayChannelMode
+    {
+        OpenView = 1,
+        Redirect = 2,
+        ShowQrCode = 3
+    }
+
     public enum DepositType
     {
         OnlineBanking = 1,
@@ -227,11 +245,11 @@
         Success = 0,
         IovationNotSupport = 1301
     }
-    
+
     public enum ShieldErrorCode
     {
         Success = 0,
-        InvalidRequest = -1 ,
+        InvalidRequest = -1,
         Failed = 99,
     }
     public enum SpecialCode
@@ -264,7 +282,7 @@
         Wager,//ConnectionStringWager
         Log,//ConnectionStringLog
     }
-    
+
     public enum RedisDataBase
     {
         Member = 0,
@@ -272,9 +290,10 @@
         Tp = 2,
         Bonus = 3,
         Admin = 4,
-        Payment = 5
+        Payment = 5,
+        Token = 6
     }
-    
+
     public enum AppLinkAppType
     {
         Andriod = 1,
@@ -359,7 +378,7 @@
         Restore = 1,
         Manual = 2,
     }
-    
+
     public enum PromotionDeviceType
     {
         All = 1,
@@ -414,7 +433,7 @@
         Disable = 0,
         Able = 1,
     }
-    
+
     public enum ShieldRiskTagged
     {
         IsBot = 1,
@@ -434,7 +453,7 @@
         VirtualOs = 15,
         Hooking = 16
     }
-    
+
     public enum ShieldRiskTriggeredPoint
     {
         Registration = 1,
@@ -443,12 +462,12 @@
         Withdrawal = 4,
         ClaimBonus = 5,
     }
-    
+
     public enum ShieldRiskTaggedIssue
     {
-        HighRisk  = 1
+        HighRisk = 1
     }
-    
+
 
     public enum WorldCupUserTicketStatus
     {
@@ -469,8 +488,8 @@
         Able = 1,
     }
 
-    public enum WithdrawalTypeStatus 
-    { 
+    public enum WithdrawalTypeStatus
+    {
         LocalBank = 0,
         Crypto = 1,
         EWallet = 2
@@ -480,8 +499,8 @@
     {
         Disable = 0,
         Able = 1,
-	}
-	
+    }
+
     public enum RedemptionErrorCode
     {
         InsufficientPoint = -1001,
@@ -502,5 +521,57 @@
         /// </summary>
         Manual = 4,
         System = 5
+    }
+
+    public enum OfflineBankAccountPurposeEnum
+    {
+        Deposit = 1,
+        Withdrawal = 2,
+        Transfer = 3
+    }
+
+    public enum OfflineBankAccountSupportChannelEnum
+    {
+        LocalBank = 0,
+        EWallet = 1
+    }
+
+    public enum FakePayGroupEnum
+    {
+        [Description("DuitNowQR")]
+        DuitNowQR = 53,
+    }
+
+    public enum PayModeEnum
+    {
+        //開新視窗，將html內容置入
+        Html = 1,
+        //開新視窗，導頁至該Url
+        Redirect = 2,
+        //將 url 以QrCode 呈現
+        QrCode = 3
+    }
+
+    public enum HotGameTopCategory
+    {
+        HotGame = 1,
+        NewGame = 2,
+        Progressive = 3,
+        Featured = 4,
+        TopCasino = 5
+    }
+
+    public enum HotGameDeviceType
+    {
+        Pc = 1,
+        Mobile = 2
+    }
+
+    public enum DepositMessageStatus
+    {
+        DepositorsNameUnmatch = 0,
+        DepositSlipRequired = 1,
+        PaymentNotReceived = 2,
+        DepositRefunded = 3
     }
 }

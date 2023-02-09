@@ -74,14 +74,14 @@ namespace MemberSite.Service.Library
             }
         }
 
-        public async Task<bool> StringSetAsync(string key, RedisValue value, TimeSpan? timeSpan,
+        public async Task<bool> StringFireAndForgetSetAsync(string key, RedisValue value, TimeSpan? timeSpan, 
             RedisDataBase redisDataBase = RedisDataBase.Member)
         {
             key = $"{redisDataBase}:{RemoveSpecialChars(key)}";
             try
             {
                 var db = _multiplexer.GetDatabase((int)redisDataBase);
-                return await db.StringSetAsync(key, value, timeSpan);
+                return await db.StringSetAsync(key, value, timeSpan, When.Always, CommandFlags.FireAndForget);
             }
             catch (Exception ex)
             {
@@ -103,6 +103,39 @@ namespace MemberSite.Service.Library
             {
                 _logger.LogError(ex, $"{key} | {ex.Message}");
                 return false;
+            }
+        }
+
+        public string StringGet(string key, RedisDataBase redisDataBase = RedisDataBase.Member)
+        {
+            key = $"{redisDataBase}:{RemoveSpecialChars(key)}";
+            try
+            {
+                var db = _multiplexer.GetDatabase((int)redisDataBase);
+                return db.StringGet(key);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"{key} | {ex.Message}");
+                return default;
+            }
+        }
+
+        public async Task<long> StringIncrementAsync(string key, TimeSpan? timeSpan,
+            RedisDataBase redisDataBase = RedisDataBase.Member)
+        {
+            key = $"{redisDataBase}:{RemoveSpecialChars(key)}";
+            try
+            {
+                var db = _multiplexer.GetDatabase((int)redisDataBase);
+                var count = await db.StringIncrementAsync(key);
+                await db.KeyExpireAsync(key, timeSpan, CommandFlags.FireAndForget);
+                return count;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"{key} | {ex.Message}");
+                return 0;
             }
         }
 
@@ -265,6 +298,36 @@ namespace MemberSite.Service.Library
                 key = $"{redisDataBase}:{RemoveSpecialChars(key)}";
                 var db = _multiplexer.GetDatabase((int)redisDataBase);
                 return db.ListLength(key);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"{key} | {ex.Message}");
+                return default;
+            }
+        }
+
+        public async Task<bool> KeyDeleteAsync(string key, RedisDataBase redisDataBase = RedisDataBase.Member)
+        {
+            try
+            {
+                key = $"{redisDataBase}:{RemoveSpecialChars(key)}";
+                var db = _multiplexer.GetDatabase((int)redisDataBase);
+                return await db.KeyDeleteAsync(key);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"{key} | {ex.Message}");
+                return default;
+            }
+        }
+
+        public async Task<bool> SetNxAsync(string key, string value, TimeSpan timeSpan, RedisDataBase redisDataBase = RedisDataBase.Member) 
+        {
+            try
+            {
+                key = $"{redisDataBase}:{RemoveSpecialChars(key)}";
+                var db = _multiplexer.GetDatabase((int)redisDataBase);
+                return await db.StringSetAsync(key, value, timeSpan, When.NotExists);
             }
             catch (Exception ex)
             {

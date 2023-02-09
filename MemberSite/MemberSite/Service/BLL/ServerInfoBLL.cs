@@ -2,6 +2,7 @@
 using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
 
@@ -93,6 +94,11 @@ namespace MemberSite.Service.BLL
         public string GetDomain()
         {
             return _httpContextAccessor.HttpContext.Request.Host.Host;
+        }
+
+        public string GetRequestUrl()
+        {
+            return _httpContextAccessor.HttpContext?.Request.GetDisplayUrl();
         }
         
         public string GetMainDomain()

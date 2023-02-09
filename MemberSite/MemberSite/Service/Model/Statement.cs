@@ -14,21 +14,29 @@ namespace MemberSite.Service.Model
         {
             get
             {
-                //先取得時區再進行時間位移
+                if (CreateTimeOffset != null)//從redis拿的cache資料已經位移過，不需要時區位移
+                {
+                    return CreateTimeOffset.Value;
+                }
+
+                //先用目前時間組合取得時區來進行時間位移
                 var offset = DateTime.Now.ToDateTimeOffset(CustTimeZone).Offset;
-                return  new DateTimeOffset(_createTime).ToOffset(offset);
+                CreateTimeOffset = new DateTimeOffset(_createTime).ToOffset(offset);
+                return CreateTimeOffset.Value;    
             }
             set
             {
                 _createTime = value.DateTime;
             }
         }
+        public DateTimeOffset? CreateTimeOffset { get; set; } = null;
+
         private DateTime _createTime { get; set; }
+
         public int Direction { get; set; }
 
         public string TypeName { get; set; }
 
-        [JsonIgnore]
         public string CustTimeZone { get; set; }
     }
 
@@ -171,20 +179,6 @@ namespace MemberSite.Service.Model
     {
         public int CurrencyId { get; set; }
         public string CurrencyName { get; set; }
-    }
-
-    internal class CryptoCurrencyComparer : EqualityComparer<CryptoCurrency>
-    {
-        public override bool Equals(CryptoCurrency x, CryptoCurrency y)
-        {
-            return x.CurrencyId == y.CurrencyId 
-                   && x.CurrencyName == y.CurrencyName;
-        }
-
-        public override int GetHashCode(CryptoCurrency obj)
-        {
-            return 0;
-        }
     }
 
     public class CryptoNetwork

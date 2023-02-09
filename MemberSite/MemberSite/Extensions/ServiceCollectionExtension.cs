@@ -13,10 +13,22 @@ namespace MemberSite.Extensions
             var serviceType = Environment.GetEnvironmentVariable("ServiceType") ?? config.GetValue<string>("ServiceType");
 
             return services
-               .AddSingleton(param => new MySqlClient(config.GetConnectionString($"{serviceType}_MainDB"), logger, DataBase.Main))
-               .AddSingleton(param => new MySqlClient(config.GetConnectionString($"{serviceType}_ReportDB"), logger, DataBase.Report))
-               .AddSingleton(param => new MySqlClient(config.GetConnectionString($"{serviceType}_WagerDB"), logger, DataBase.Wager))
-               .AddSingleton(param => new MySqlClient(config.GetConnectionString($"{serviceType}_LogDB"), logger, DataBase.Log));
+               .AddSingleton(param => new MySqlClient(config.GetConnectionString($"{serviceType}_MainDB"), logger)
+               {
+                   DataBase = DataBase.Main
+               })
+               .AddSingleton(param => new MySqlClient(config.GetConnectionString($"{serviceType}_ReportDB"), logger)
+               {
+                   DataBase = DataBase.Report
+               })
+               .AddSingleton(param => new MySqlClient(config.GetConnectionString($"{serviceType}_WagerDB"), logger)
+               {
+                   DataBase = DataBase.Wager
+               })
+               .AddSingleton(param => new MySqlClient(config.GetConnectionString($"{serviceType}_LogDB"), logger)
+               {
+                   DataBase = DataBase.Log
+               });
         }
     
         public static IServiceCollection AddOptionListByDB<T>(this IServiceCollection services, string sql, object parameters = null)

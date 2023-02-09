@@ -18,13 +18,14 @@ namespace MemberSite.Service.BLL
         public IEnumerable<DepositLimitInfo> GetDepositLimitInfoList(int siteId)
         {
             var key = $"DepositLimitInfoList:{siteId}";
-            var dbData = _redisHelper.TryGetOrCreate(key, TimeSpan.FromMinutes(1),
+            var dbData = _redisHelper.TryGetOrCreate(key, TimeSpan.FromMinutes(5),
                 () => _depositService.GetDepositLimitInfoList().Where(x => x.SiteId == siteId));
             return dbData;
         }
         public void FixDepositLimit(IPaymentLimit paymentLimit, DepositLimitInfo depositLimitInfo)
         {
-            if (depositLimitInfo.DepositMin > paymentLimit.MaxAmount || depositLimitInfo.DepositMax < paymentLimit.MinAmount)
+            if ((paymentLimit.MaxAmount != 0 && depositLimitInfo.DepositMin > paymentLimit.MaxAmount)
+                || depositLimitInfo.DepositMax < paymentLimit.MinAmount)
             {
                 paymentLimit.MaxAmount = -1;
             }

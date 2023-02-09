@@ -29,6 +29,7 @@ namespace MemberSite.Controllers.Api
         private readonly FileNameBLL _fileNameBll;
         private readonly ImageEditorBLL _imageEditorBll;
         private readonly PayInfoBLL _payInfoBLL;
+        private readonly PromotionBll _promotionBll;
         private readonly CustInfoService _custInfoService;
         private readonly ILogger<PaymentController> _logger;
         private readonly CourierAdapter _courierAdapter;
@@ -50,6 +51,7 @@ namespace MemberSite.Controllers.Api
             _fileNameBll = provider.GetRequiredService<FileNameBLL>();
             _imageEditorBll = provider.GetRequiredService<ImageEditorBLL>();
             _payInfoBLL = provider.GetRequiredService<PayInfoBLL>();
+            _promotionBll = provider.GetRequiredService<PromotionBll>();
             _custInfoService = provider.GetRequiredService<CustInfoService>();
             _logger = provider.GetRequiredService<ILogger<PaymentController>>();
             _courierAdapter = provider.GetRequiredService<CourierAdapter>();
@@ -62,39 +64,41 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiResult<IEnumerable<OfflineBankInfoFront>> GetBankInfoOffList()
         {
-            var apiResult = new ApiResult<IEnumerable<OfflineBankInfoFront>>();
             var authData = authorizeBLL.GetAuthData();
+            
             if (authData is not { CustId: > 0 })
             {
-                apiResult.Message = selLangBLL.GetMsg("msg_ForceLogedout");
-                return apiResult;
+                return new ApiResult<IEnumerable<OfflineBankInfoFront>>
+                {
+                	Message = selLangBLL.GetMsg("msg_ForceLogedout")
+                };
             }
-
-            apiResult.Data = bankInfoOffBLL.GetBankInfoOffList(authData.CustId);
-            apiResult.ErrorCode = 0;
-            return apiResult;
+            
+            return new ApiResult<IEnumerable<OfflineBankInfoFront>>
+            {
+                Data = bankInfoOffBLL.GetBankInfoOffListWithCache(authData.CustId, authData.LangId),
+                ErrorCode = 0
+            };
         }
 
-        public class GetBankInfoOffListReq
-        {
-            public int? QueryType { get; set; } // queryType: 0.only open Bank(status = 1) 1.open & suspend Bank(status = 1 or status = 2)
-        }
         [HttpPost]
-        public ApiResult<IEnumerable<OfflineBankInfoFront>> GetBankInfoOffListStatus(GetBankInfoOffListReq getBankInfoOffListReq)
+        public ApiResult<IEnumerable<OfflineBankInfoFront>> GetBankInfoOffListStatus()
         {
-            var apiResult = new ApiResult<IEnumerable<OfflineBankInfoFront>>();
             var authData = authorizeBLL.GetAuthData();
             if (authData is not { CustId: > 0 })
             {
-                apiResult.Message = selLangBLL.GetMsg("msg_ForceLogedout");
-                return apiResult;
+                return new ApiResult<IEnumerable<OfflineBankInfoFront>>
+                {
+                	Message = selLangBLL.GetMsg("msg_ForceLogedout")
+                };
             }
-            var queryType = 0;
-            if (getBankInfoOffListReq is { QueryType: { } })
-                queryType = (int)getBankInfoOffListReq.QueryType;
-            apiResult.Data = bankInfoOffBLL.GetBankInfoOffListWithCache(authData.CustId, authData.LangId, queryType);
-            apiResult.ErrorCode = 0;
-            return apiResult;
+            
+            // 220804: 詢問市場說給用戶使用只有open，所以把queryType這段拔掉
+            return new ApiResult<IEnumerable<OfflineBankInfoFront>>
+            {
+                Data = bankInfoOffBLL.GetBankInfoOffListWithCache(authData.CustId, authData.LangId),
+                ErrorCode = 0
+            };
         }
 
         [HttpPost]
@@ -258,6 +262,86 @@ namespace MemberSite.Controllers.Api
 
             return apiResult;
         }
+        
+        public class DepositReqFakeMobilePayReq
+        {
+            public int GroupId { set; get; }
+            public decimal Amount { set; get; }
+            public string BonusCode { set; get; }
+        }
+        
+        [HttpPost]
+        public ApiResult<FakeMobilePayResp> DepositReqFakeMobilePayAsync(DepositReqFakeMobilePayReq req)
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var custId = authData.CustId;
+            var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
+            var cards = bankInfoOffBLL.GetOfflineBankCardListWithCache(custId)
+                .Where(x => x.SupportQR && req.Amount >= x.MinAmount && req.Amount <= x.MaxAmount)
+                .ToList();
+            var hasPromotion = _promotionBll.VerifyBonusCode(req.BonusCode);
+
+            if (!cards.Any())
+            {
+                return new ApiResult<FakeMobilePayResp>
+                {
+                    ErrorCode = -1,
+                    RawMessage = "No bank card available for BankQR"
+                };
+            }
+            
+            // 隨機配卡
+            var random = new Random();
+            var card = cards[random.Next(cards.Count - 1)];
+            var fakeReq = new DepositReqWireTransferReq
+            {
+                amount = req.Amount,
+                memo = "Fake MobilePay",
+                fromChannel = req.GroupId,
+                sysId = card.SysId,
+                hasPromotion = hasPromotion
+            };
+
+            var depositResult = DepositReqWireTransfer(fakeReq);
+            
+            if (depositResult.ErrorCode != 0)
+            {
+                return new ApiResult<FakeMobilePayResp>
+                {
+                    ErrorCode = -2,
+                    RawErrorCode = depositResult.ErrorCode.ToString(),
+                    RawMessage = depositResult.Message
+                };
+            }
+
+            var transId = depositResult.Data.TransId;
+            if (hasPromotion)
+            {
+                if (!_promotionBll.SetDepositPromotionQueue(
+                        transId,
+                        req.BonusCode,
+                        authData.CustId,
+                        custInfo.SiteId,
+                        custInfo.UserName,
+                        custInfo.CurrencyId,
+                        1,
+                        0))
+                {
+                    _logger.LogError($"TransId:{transId} SetDepositPromotionQueue Failed");
+                };
+            }
+            
+            return new ApiResult<FakeMobilePayResp>
+            {
+                Data = new FakeMobilePayResp
+                {
+                    Amount = req.Amount,
+                    ReturnUrl = card.QRCodeUrl,
+                    TransId = transId
+                },
+                ErrorCode = 0
+            };
+        }
 
         [HttpPost]
         public ApiResult<DepositRep3> GetLocalBankInfo(DepositReqWireTransferReq depositReqWireTransferReq)
@@ -270,7 +354,7 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
 
-            apiResult.ErrorCode = paymentBLL.LocalBankinfo(authData.CustId, depositReqWireTransferReq.sysId, depositReqWireTransferReq.memo, out var depositRep3);
+            apiResult.ErrorCode = bankInfoOffBLL.LocalBankinfo(authData.CustId, depositReqWireTransferReq.sysId, depositReqWireTransferReq.memo, out var depositRep3);
             if (apiResult.ErrorCode == (int)ErrorCode.Success)
             {
                 apiResult.Data = depositRep3;
@@ -288,6 +372,14 @@ namespace MemberSite.Controllers.Api
             public string memo { set; get; }
             public string blackbox { get; set; }
             public int CurrencyId { get; set; }
+            /// <summary>
+            /// 參考匯率
+            /// </summary>
+            public decimal ExchangeRate { get; set; }
+            /// <summary>
+            /// 參考加密貨幣金額
+            /// </summary>
+            public decimal ExchangeAmount { get; set; }
         }
 
         [HttpPost]
@@ -373,7 +465,7 @@ namespace MemberSite.Controllers.Api
             WithdrawalReqModel withdrawalReqModel,
             CustBankInfo custBankInfo,
             WithdrawalTypeStatus withdrawalType,
-            USDTDetail usdtDetail)
+            USDTDetail cryptoDetail)
         {
             var result = 99;
 
@@ -407,8 +499,8 @@ namespace MemberSite.Controllers.Api
                     _ = Task.Run(async () =>
                     {
                         var apiResultIovation = await iovationBLL.IovationChecks(authData.CustId, custInfo.CurrencyId, custInfo.UserName, withdrawalReqModel.blackbox, IovationType.withdrawal);
-                        if (apiResultIovation.ErrorCode == 0)
-                            iovationBLL.SetIovation(authData.CustId, apiResultIovation.Message, IovationType.withdrawal);
+                        if (apiResultIovation.ErrorCode == 0 && apiResultIovation.Data != null)
+                            iovationBLL.SetIovation(authData.CustId, IovationType.withdrawal, apiResultIovation.Data);
 
                     });
                 }
@@ -428,12 +520,14 @@ namespace MemberSite.Controllers.Api
                         _logger.LogInformation($"AfterAmount={afterAmount}, TransId={transId}");
                         break;
                     case WithdrawalTypeStatus.Crypto:
-                        result = paymentBLL.WithdrawalUSDTReq(authData.CustId,
+                        result = paymentBLL.WithdrawalCryptoReq(authData.CustId,
                         custBankInfo.AccountName,
-                        usdtDetail,
+                        cryptoDetail,
                         withdrawalReqModel.AccountNo,
                         withdrawalReqModel.amount,
-                        withdrawalReqModel.memo, out afterAmount, out transId);
+                        withdrawalReqModel.memo,
+                        withdrawalReqModel.ExchangeRate,
+                        withdrawalReqModel.ExchangeAmount, out afterAmount, out transId);
                         _logger.LogInformation($"AfterAmount={afterAmount}, TransId={transId}");
                         break;
                     case WithdrawalTypeStatus.EWallet:
@@ -1250,15 +1344,23 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiResult<CryptoInfoData> GetSupportCryptoInfo()
         {
-            var result = paymentBLL.GetSupportCryptoInfo();
-
-            var apiResult = new ApiResult<CryptoInfoData>
+            var authData = authorizeBLL.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                return new ApiResult<CryptoInfoData>
+                {
+                    Message = selLangBLL.GetMsg("msg_ForceLogedout")
+                };
+            }
+            
+            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+            var result = paymentBLL.GetSupportCryptoInfo(custInfo.SiteId);
+ 
+            return new ApiResult<CryptoInfoData>
             {
                 Data = result,
                 ErrorCode = 0
             };
-
-            return apiResult;
         }
 
         public class CheckDepositSpecialCodeReq

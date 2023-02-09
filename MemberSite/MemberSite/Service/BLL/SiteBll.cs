@@ -1,5 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using MemberSite.Controllers.Api;
+using MemberSite.Service.BLL.Interface;
+using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
@@ -16,6 +18,8 @@ public class SiteBll
     private readonly ShieldBLL _ShieldBll;
     private readonly Regex _regexUserName = new(@"^[a-zA-Z0-9]{6,18}$");
     private readonly Regex _regexAffCode = new(@"^[0-9]{5,20}$");
+    private readonly RecaptchaBLL _recaptcha;
+    private readonly IGeoIpApi _geoIpApi;
 
     public SiteBll(IServiceProvider provider)
     {
@@ -25,10 +29,12 @@ public class SiteBll
         _commonBll = provider.GetRequiredService<CommonBLL>();
         _tools = provider.GetRequiredService<Tools>();
         _ShieldBll = provider.GetRequiredService<ShieldBLL>();
+        _recaptcha = provider.GetRequiredService<RecaptchaBLL>();
+        _geoIpApi = provider.GetRequiredService<IGeoIpApi>();
     }
 
     public Customer Signup(SiteController.SignupModel signupModel, ApiResult apiResult, bool isAuthenticated,
-        string host, string userAgent)
+        string host, string userAgent, bool checkReCaptchaToken)
     {
         Customer customer = null;
         if (isAuthenticated ||
@@ -37,7 +43,55 @@ public class SiteBll
             apiResult.ErrorCode = 9000;
             return customer;
         }
+        
+        if (checkReCaptchaToken)
+        {
+            var country = _geoIpApi.CheckIp(_tools.GetClientIP()).Result;
+            if (country.Code != "CN")
+            {
+                if (string.IsNullOrWhiteSpace(signupModel.ReCaptchaToken) || signupModel.ReCaptchaToken.Length < 500)
+                {
+                    apiResult.ErrorCode = (int)ErrorCode.Attack;
+                    return customer;
+                }
+                
+                var verifyResult = _recaptcha.Verify(signupModel.ReCaptchaToken);
+                if (!verifyResult.success)
+                {
+                    apiResult.ErrorCode = -97;
+                    apiResult.Message = verifyResult.errorCodes.FirstOrDefault();
+                    return customer;
+                } 
+            }
+        }
 
+        if (long.TryParse(signupModel.PhoneNo, out var phoneNo))
+        {
+            signupModel.PhoneNo = phoneNo.ToString();
+            if (_custInfoBLL.ExistsPhoneNo(0, signupModel.AreaCode, signupModel.PhoneNo))
+            {
+                apiResult.ErrorCode = -6;
+                apiResult.Message = $"{_selLangBll.GetResourceValue("lbl_Phone")} {_selLangBll.GetMsg("msg_HasExist")}";
+                return customer;
+            }
+        }
+        else if (!string.IsNullOrEmpty(signupModel.PhoneNo))
+        {
+            apiResult.ErrorCode = -20;
+            apiResult.Message = $"{_selLangBll.GetResourceValue("lbl_Phone")} {_selLangBll.GetMsg("msg_PhoneWrongFormat")}";
+            return customer;
+        }
+
+        if (!string.IsNullOrWhiteSpace(signupModel.Email))
+        {
+            if (_custInfoBLL.ExistsEmail(0, signupModel.Email))
+            {
+                apiResult.ErrorCode = -10;
+                apiResult.Message = $"{_selLangBll.GetResourceValue("lbl_Email")} {_selLangBll.GetMsg("msg_HasExist")}";
+                return customer;
+            }
+        }
+        
         if (!_regexUserName.IsMatch(signupModel.UserName))
         {
             apiResult.ErrorCode = -8;
@@ -67,42 +121,12 @@ public class SiteBll
             signupModel.AffCode = "nova88tvads";
         }
 
-        var custId = 0;
-        var result = -99;
-        var phoneExists = false;
-        var mailExists = false;
-
-        if (long.TryParse(signupModel.PhoneNo, out var phoneNo))
-        {
-            signupModel.PhoneNo = phoneNo.ToString();
-            phoneExists = _custInfoBLL.ExistsPhoneNo(0, signupModel.AreaCode, signupModel.PhoneNo);
-            if (phoneExists)
-                result = -6;
-        }
-        else if (!string.IsNullOrEmpty(signupModel.PhoneNo))
-        {
-            apiResult.ErrorCode = -20;
-            apiResult.Message =
-                $"{_selLangBll.GetResourceValue("lbl_Phone")} {_selLangBll.GetMsg("msg_PhoneWrongFormat")}";
-            return customer;
-        }
-
-        if (!string.IsNullOrWhiteSpace(signupModel.Email))
-        {
-            mailExists = _custInfoBLL.ExistsEmail(0, signupModel.Email);
-            if (mailExists)
-                result = -10;
-        }
-
-        if (!phoneExists && !mailExists)
-        {
-            result = _custInfoBLL.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email,
-                signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff,
-                signupModel.AffCode, signupModel.LineUserId, out custId, signupModel.SignupUrl, signupModel.ReferralUrl, signupModel.PhoneNo,
-                signupModel.AreaCode, signupModel.RealName, signupModel.PromoCode, signupModel.Birth_d,
-                signupModel.Birth_m,
-                signupModel.Birth_y);
-        }
+        var result = _custInfoBLL.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email,
+            signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff,
+            signupModel.AffCode, signupModel.LineUserId, out var custId, signupModel.SignupUrl, signupModel.ReferralUrl, signupModel.PhoneNo,
+            signupModel.AreaCode, signupModel.RealName, signupModel.PromoCode, signupModel.Birth_d,
+            signupModel.Birth_m,
+            signupModel.Birth_y);
 
         switch (result)
         {
@@ -126,17 +150,9 @@ public class SiteBll
                 apiResult.ErrorCode = result;
                 apiResult.Message = _selLangBll.GetMsg("msg_UsernameNotAvailable");
                 break;
-            case -6:
-                apiResult.ErrorCode = result;
-                apiResult.Message = $"{_selLangBll.GetResourceValue("lbl_Phone")} {_selLangBll.GetMsg("msg_HasExist")}";
-                break;
             case -7:
                 apiResult.ErrorCode = result;
                 apiResult.Message = _selLangBll.GetMsg("msg_PromoCodeIncorrect");
-                break;
-            case -10:
-                apiResult.ErrorCode = result;
-                apiResult.Message = $"{_selLangBll.GetResourceValue("lbl_Email")} {_selLangBll.GetMsg("msg_HasExist")}";
                 break;
             case -19:
                 apiResult.ErrorCode = result;
@@ -164,8 +180,8 @@ public class SiteBll
                             {
                                 var apiResultIovation = await _iovationBll.IovationChecks(custId, signupModel.CurrencyId,
                                     signupModel.UserName, signupModel.blackbox, IovationType.registration);
-                                if (apiResultIovation.ErrorCode == 0)
-                                    _iovationBll.SetIovation(custId, apiResultIovation.Message, IovationType.registration);
+                                if (apiResultIovation.ErrorCode == 0 & apiResultIovation.Data != null)
+                                    _iovationBll.SetIovation(custId, IovationType.registration, apiResultIovation.Data);
                             }
                         });
 

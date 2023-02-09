@@ -9,8 +9,13 @@ namespace MemberSite.Service.Model.Game
         /// 裝置類型
         /// </summary>
         public int DeviceType { get; set; }
+
+        public int? CurrencyId { get; set; }
     }
 
+    /// <summary>
+    /// 前端parse json預設都是array，新增欄位可能會噴錯，新增要跟前端確認
+    /// </summary>
     public class GetSlotGamePageResponse
     {
         public string ImgUrl { get; set; }

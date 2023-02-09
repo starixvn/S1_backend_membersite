@@ -1,32 +1,46 @@
-﻿using Dapper;
-using MemberSite.Service.Model;
-using MySql.Data.MySqlClient;
-using System.Data;
+﻿using MemberSite.Service.Model;
+using MemberSite.Service.Library;
+using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.DAL
 {
     public class BankInfoOffService
     {
-        private readonly IConfiguration configuration;
+        private readonly MySqlClient _reportDbClient;
 
-        public BankInfoOffService(IConfiguration configuration)
+        public BankInfoOffService(IServiceProvider provider)
         {
-            this.configuration = configuration;
+            _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
         }
+        
         public IEnumerable<BankInfoOff> GetBankAccountOff(int siteId, int queryType = 1)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             if (queryType == 0)
-                return conn.Query<BankInfoOff>("BankAccountOff_Get", new { SiteId = siteId }, commandType: CommandType.StoredProcedure);
+                return _reportDbClient.Query<BankInfoOff>("BankAccountOff_Get", new { SiteId = siteId });
             else
-                return conn.Query<BankInfoOff>("Member_BankAccountOffAllStatus_Get", new { SiteId = siteId }, commandType: CommandType.StoredProcedure);
+                return _reportDbClient.Query<BankInfoOff>("Member_BankAccountOffAllStatus_Get", new { SiteId = siteId });
+        }
+        
+        public IEnumerable<OfflineBankAccountInfo> GetOfflineBankAccount(int siteId)
+        {
+            return _reportDbClient.Query<OfflineBankAccountInfo>("Member_OfflineBankAccount_Get", new { _SiteId = siteId });
         }
         
         public IEnumerable<int> GetCustOffDepositSysId(int custId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-      
-            return conn.Query<int>("Member_CustOffDepositSysId_Get", new { _CustId = custId }, commandType: CommandType.StoredProcedure);
+            return _reportDbClient.Query<int>("Member_CustOffDepositSysId_Get", new { _CustId = custId });
+        }
+        
+        public IEnumerable<OfflineBankAccountDailyDeposit> GetOfflineBankAccountDailyDeposit(
+            int siteId, int currencyId, string bankIds)
+        {
+            return _reportDbClient.Query<OfflineBankAccountDailyDeposit>("Member_OfflineBankAccount_DailyDepositSummary_Get",
+                new
+                {
+                    _SiteId = siteId,
+                    _CurrencyId = currencyId,
+                    _BankIds = bankIds
+                });
         }
     }
 }

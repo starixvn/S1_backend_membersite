@@ -1,7 +1,5 @@
 ﻿using MemberSite.Service.Model;
-using MySql.Data.MySqlClient;
 using Dapper;
-using System.Data;
 using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model.enums;
@@ -10,51 +8,35 @@ namespace MemberSite.Service.DAL
 {
     public class ServerInfoService : IServerInfoService
     {
-        private readonly IConfiguration configuration;
         private readonly MySqlClient _reportDbClient;
 
-        public ServerInfoService(IServiceProvider serviceProvider, IConfiguration configuration)
+        public ServerInfoService(IServiceProvider serviceProvider)
         {
-            this.configuration = configuration;
             _reportDbClient = serviceProvider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
         }
         public ServerInfo GetModel(int siteId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.QueryFirstOrDefault<ServerInfo>("ServerInfo_Get", new { SiteId = siteId }, commandType: CommandType.StoredProcedure);
+            return _reportDbClient.QueryFirst<ServerInfo>("ServerInfo_Get", new { SiteId = siteId });
         }
 
         public IEnumerable<Country> GetCountryList()
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<Country>("Common_CountryList_Get", commandType: CommandType.StoredProcedure);
+            return _reportDbClient.Query<Country>("Common_CountryList_Get");
         }
 
         public int GetSite(string domain)
         {
-            if (string.IsNullOrEmpty(domain))
-            {
-                return 0;
-            }
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.QueryFirstOrDefault<int>("Member_SiteId_Get", new { Domain = domain }, commandType: CommandType.StoredProcedure);
+            return string.IsNullOrEmpty(domain) ? 0 : _reportDbClient.QueryFirst<int>("Member_SiteId_Get", new { Domain = domain });
         }
         
         public SeoModel GetSeo(string domain)
         {
-            if (string.IsNullOrEmpty(domain))
-            {
-                return null;
-            }
-            
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.QueryFirstOrDefault<SeoModel>("Service_Site_Get", new { Domain = domain }, commandType: CommandType.StoredProcedure);
+            return string.IsNullOrEmpty(domain) ? null : _reportDbClient.QueryFirst<SeoModel>("Service_Site_Get", new { Domain = domain });
         }
         
         public IEnumerable<Domainlist> GetSupportDomainList(int siteId, int currencyId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<Domainlist>("Member_DomainTable_Get", new { SiteId = siteId, CurrencyId = currencyId }, commandType: CommandType.StoredProcedure);
+            return _reportDbClient.Query<Domainlist>("Member_DomainTable_Get", new { SiteId = siteId, CurrencyId = currencyId });
         }
 
         public async Task<IEnumerable<MenuOfGameData>> GetMenuOfGames(int siteId, string langId)
