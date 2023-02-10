@@ -50,7 +50,9 @@ namespace MemberSite.Controllers
         public async Task<IActionResult> IndexAsync(int tpId, Dictionary<string, string> inputs, [FromRoute] string LangId = null)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
-            var host = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
+
+            //針對BTI強制走https避免js找不到
+            var host = tpId == 29 ? $"https://{Request.Host}{Request.PathBase}" : $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
        
             if (_gameBll.IsMaintain(serverInfo.SiteId, tpId, inputs.GetValueOrDefault("tpGameType"), out var tpMaintain))
             {
