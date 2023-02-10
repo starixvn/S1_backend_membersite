@@ -11,7 +11,6 @@ namespace MemberSite.Service.BLL
         private readonly DepositBLL _depositBll;
         private readonly PayService _payService;
         private readonly DepositService _depositService;
-        private readonly LoadCardPayGroupComparer _loadCardGroupComparer;
         private readonly ICacheHelper _redisHelper;
         
         public LoadCardPayInfoBLL(IServiceProvider provider)
@@ -20,56 +19,54 @@ namespace MemberSite.Service.BLL
             _depositBll = provider.GetRequiredService<DepositBLL>();
             _payService = provider.GetRequiredService<PayService>();
             _depositService = provider.GetRequiredService<DepositService>();
-            _loadCardGroupComparer = new LoadCardPayGroupComparer();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
         }
 
         private IEnumerable<LoadCardPayInfo> GetLoadCardPayInfoList(int siteId)
         {
-            var key = $"LoadCardPayInfoList:{siteId}";
-            var dbData = _redisHelper.TryGetOrCreate<IEnumerable<LoadCardPayInfo>>(key, TimeSpan.FromSeconds(10),
+            var key = $"PaySetting:LoadCard:{siteId}";
+            var dbData = _redisHelper.TryGetOrCreate<IEnumerable<LoadCardPayInfo>>(key, TimeSpan.FromMinutes(5),
                 () => _payService.GetLoadCardPayInfo(siteId).OrderBy(x => x.GSort).ThenBy(x => x.SSort),
                 RedisDataBase.Shared);
             return dbData;
         }
-        private class LoadCardPayGroupComparer : IEqualityComparer<LoadCardPayGroup>
-        {
-            public bool Equals(LoadCardPayGroup t1, LoadCardPayGroup t2)
-            {
-                return (t1.GroupId == t2.GroupId);
-            }
-
-            public int GetHashCode(LoadCardPayGroup t)
-            {
-                return t.ToString().GetHashCode();
-            }
-        }
+        
         public IEnumerable<LoadCardPayGroup> GetLoadCardPayGroupList(int custId)
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
-            var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
+            var pointLevel = _custInfoBll.GetPointLevelWithCache(custId);
             var LoadCardPayInfoList = GetLoadCardPayInfoList(custInfo.SiteId);
 
             var depositLimitInfoList = _depositBll.GetDepositLimitInfoList(custInfo.SiteId);
-            var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.MobilePayment && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
+            var depositLimitInfo = depositLimitInfoList?
+                .Where(x => x.SiteId == custInfo.SiteId
+                            && x.VipLevel == pointLevel
+                            && x.DepositType == (int)DepositType.LoadCardPayment
+                            && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
 
             if (depositLimitInfo?.DepositStatus == 0)
             {
-                return new LoadCardPayGroup[] { };
+                return Array.Empty<LoadCardPayGroup>();
             }
 
-            var LoadCardPayGroupList = (from x in LoadCardPayInfoList
-                                      where vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId
-                                      select new LoadCardPayGroup
-                                      {
-                                          GroupId = x.GroupId,
-                                          GroupName = x.GroupName,
-                                          PayName = x.PayName,
-                                          GSort = x.GSort,
-                                          Mode = x.Mode,
-                                          MaxAmount = x.MaxAmount,
-                                          MinAmount = x.MinAmount
-                                      }).Distinct(_loadCardGroupComparer);
+            var LoadCardPayGroupList = LoadCardPayInfoList
+                .Where(x => pointLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId)
+                .GroupBy(x => x.GroupId)
+                .Select(x =>
+                {
+                    var d = x.OrderBy(y => y.SSort).First();
+                    
+                    return new LoadCardPayGroup
+                    {
+                        GroupId = d.GroupId,
+                        GroupName = d.GroupName,
+                        PayName = d.PayName,
+                        GSort = d.GSort,
+                        Mode = d.Mode,
+                        MaxAmount = d.MaxAmount,
+                        MinAmount = d.MinAmount
+                    };
+                });
 
             return LoadCardPayGroupList;
         }
@@ -106,17 +103,23 @@ namespace MemberSite.Service.BLL
             if (amount <= 0)
                 return -1;
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
-            var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
+            var pointLevel = _custInfoBll.GetPointLevelWithCache(custId);
 
             var depositLimitInfoList = _depositBll.GetDepositLimitInfoList(custInfo.SiteId);
-            var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.LoadCardPayment && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
+            var depositLimitInfo = depositLimitInfoList?
+                .Where(x => x.SiteId == custInfo.SiteId
+                            && x.VipLevel == pointLevel
+                            && x.DepositType == (int)DepositType.LoadCardPayment
+                            && x.CurrencyId == custInfo.CurrencyId)
+                .FirstOrDefault();
 
             if (depositLimitInfo?.DepositStatus == 0)
             {
                 return -3;
             }
 
-            loadCardPayInfo = GetLoadCardPayInfoList(custInfo.SiteId).FirstOrDefault(x => vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.ChannelId == channelId);
+            loadCardPayInfo = GetLoadCardPayInfoList(custInfo.SiteId)
+                .FirstOrDefault(x => pointLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.ChannelId == channelId);
 
             if (depositLimitInfo != null && loadCardPayInfo != null)
             {
@@ -127,7 +130,8 @@ namespace MemberSite.Service.BLL
             {
                 return -2;
             }
-            else if (loadCardPayInfo.AmountRule == 3 && !loadCardPayInfo.AmountList.Contains(amount))
+            
+            if (loadCardPayInfo.AmountRule == 3 && !loadCardPayInfo.AmountList.Contains(amount))
             {
                 return -2;
             }

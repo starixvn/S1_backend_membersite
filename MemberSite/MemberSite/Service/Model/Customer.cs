@@ -79,6 +79,11 @@ namespace MemberSite.Service.Model
         }
     }
 
+    public class USDTDetailLog :USDTDetail
+    {
+        public int Status { set; get; }
+    }
+    
     public class BankInfoDetailRep : BankInfoDetail
     {
         public string BankName { set; get; }
