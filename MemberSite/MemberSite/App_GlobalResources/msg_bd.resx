@@ -348,6 +348,9 @@
   <data name="msg_PhoneWrongFormat" xml:space="preserve">
     <value>ফোনের বিন্যাস ভুল.</value>
   </data>
+  <data name="msg_PhoneFormatVerify" xml:space="preserve">
+    <value>আপনার দেওয়া ফোন নম্বরটি ভুল, {0} সংখ্যার মধ্যে হওয়া উচিত৷</value>
+  </data>
   <data name="msg_InvalidCryptoWalletAddress" xml:space="preserve">
     <value>অবৈধ ক্রিপ্টো ওয়ালেট ঠিকানা</value>
   </data>
