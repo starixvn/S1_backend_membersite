@@ -4,6 +4,7 @@ using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using static MemberSite.Controllers.entPageController;
 
 namespace MemberSite.Controllers
@@ -24,6 +25,7 @@ namespace MemberSite.Controllers
         private readonly PromotionBll _promotionBll;
         private readonly PayInfoBLL _payInfoBll;
         private readonly BankInfoBLL _bankInfoBll;
+        private readonly ILogger<CashierController> _logger;
 
         public CashierController(IServiceProvider provider)
         {
@@ -39,6 +41,7 @@ namespace MemberSite.Controllers
             _promotionBll = provider.GetRequiredService<PromotionBll>();
             _payInfoBll = provider.GetRequiredService<PayInfoBLL>();
             _bankInfoBll = provider.GetRequiredService<BankInfoBLL>();
+            _logger = provider.GetRequiredService<ILogger<CashierController>>();
 
             var configuration = provider.GetRequiredService<IConfiguration>();
             _payApiUrl = configuration.GetValue<string>("PayService");
@@ -73,14 +76,16 @@ namespace MemberSite.Controllers
         {
             var model = new ErrorData();
             var authData = _authorizeBll.GetAuthData();
-            if (authData is not { CustId: > 0 }) return RedirectErrorPage(model);
+            if (authData is not {CustId: > 0}) return RedirectErrorPage(model);
             var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-            var result = _paymentBll.DepositReqOnlineBanking(authData.CustId, sysId, payId, ChannelId, Amount, out var transId, out var onlineBank);
+            var result = _paymentBll.DepositReqOnlineBanking(authData.CustId, sysId, payId, ChannelId, Amount,
+                out var transId, out var onlineBank);
 
-            if (result == (int)ErrorCode.Success)
+            if (result == (int) ErrorCode.Success)
             {
                 if (_promotionBll.VerifyBonusCode(BonusCode))
-                    _promotionBll.SetDepositPromotionQueue(transId, BonusCode, authData.CustId, custInfo.SiteId, custInfo.UserName, custInfo.CurrencyId, 1, 0);
+                    _promotionBll.SetDepositPromotionQueue(transId, BonusCode, authData.CustId, custInfo.SiteId,
+                        custInfo.UserName, custInfo.CurrencyId, 1, 0);
 
                 var reqDepositBank = new ReqDepositBank
                 {
@@ -90,15 +95,20 @@ namespace MemberSite.Controllers
                     PayId = onlineBank.PayId,
                     SysId = onlineBank.SysId,
                     ClientIP = _tools.GetClientIP(),
-                    ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", custInfo.UserLang }, protocol: Request.Scheme, host: Request.Host.Port == 80 ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}")
+                    ReturnUrl = Url.RouteUrl("desktop",
+                        new {action = "Deposit", controller = "Cashier", custInfo.UserLang},
+                        protocol: Request.Scheme,
+                        host: Request.Host.Port == 80
+                            ? Request.Host.Host
+                            : $"{Request.Host.Host}:{Request.Host.Port}")
                 };
-
+                
                 var myUrl = $"{_payApiUrl}ReqDepositBank";
                 var apiResult = await _courierAdapter.MyPostAsync<PayResult, ReqDepositBank>(myUrl, reqDepositBank);
-                if (ActionResult(apiResult, transId, model, PaymentView.DepositReqOnlineBanking, out var actionResult)) 
+                if (ActionResult(apiResult, transId, model, PaymentView.DepositReqOnlineBanking,
+                        out var actionResult))
                     return actionResult;
             }
-
             return RedirectErrorPage(model);
         }
 

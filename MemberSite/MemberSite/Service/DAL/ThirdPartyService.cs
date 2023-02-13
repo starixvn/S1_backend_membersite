@@ -2,60 +2,38 @@
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
-using MySql.Data.MySqlClient;
 using System.Data;
 
 namespace MemberSite.Service.DAL
 {
     public class ThirdPartyService
     {
-        //private static ConcurrentDictionary<int, IThirdPartyHelper> ThirdPartyHelperContainer = new ConcurrentDictionary<int, IThirdPartyHelper>();
-        private readonly IWebHostEnvironment environment;
-        private readonly IConfiguration configuration;
         private readonly MySqlClient _mainDbClient;
+        private readonly MySqlClient _reportDb;
 
         public ThirdPartyService(IServiceProvider provider)
         {
-            environment = provider.GetRequiredService<IWebHostEnvironment>();
-            configuration = provider.GetRequiredService<IConfiguration>();
             _mainDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Main);
+            _reportDb = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
         }
 
         public ThirdPartyModel GetThirdPartyBySite(int tpId, int siteId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.QueryFirstOrDefault<ThirdPartyModel>("Common_Tp_Get", new { TpId = tpId, SiteId = siteId }, commandType: CommandType.StoredProcedure);
+            return _reportDb.QueryFirst<ThirdPartyModel>("Common_Tp_Get", new { TpId = tpId, SiteId = siteId });
         }
-        /*public IThirdPartyHelper GetThirdPartyHelper(int tpId)
-        {
-            if (!ThirdPartyHelperContainer.ContainsKey(tpId))
-            {
-                var oThirdPartyModel = GetThirdPartyModel(tpId);
-                var assembly = Assembly.Load($"ThirdParty.{oThirdPartyModel.TpName}");
-                var assemblyType = assembly.GetType($"ThirdParty.{oThirdPartyModel.TpName}.TpHelper");
-                //var oThirdPartyHelper = new Lazy<IThirdPartyHelper>(() => (IThirdPartyHelper)Activator.CreateInstance(assemblyType));
-                //if (oThirdPartyHelper.IsValueCreated)
-                ThirdPartyHelperContainer.TryAdd(tpId, (IThirdPartyHelper)Activator.CreateInstance(assemblyType));
-                //ThirdPartyHelperContainer[apiType].InsertLog += InsertLog;
-                //oThirdPartyModel.ApiName
-            }
-            return ThirdPartyHelperContainer[tpId];
-        }*/
 
         public TpCurrency GetTpCurrency(int tpId, int currencyId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.QueryFirstOrDefault<TpCurrency>("TpCurrency_Get", new { TpId = tpId, CurrencyId = currencyId }, commandType: CommandType.StoredProcedure);
+            return _reportDb.QueryFirst<TpCurrency>("TpCurrency_Get", new { TpId = tpId, CurrencyId = currencyId });
         }
+        
         public IEnumerable<TpWallet> GetTpWallet(int custId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<TpWallet>("Member_TpWallet_Get", new { CustId = custId }, commandType: CommandType.StoredProcedure);
+            return _reportDb.Query<TpWallet>("Member_TpWallet_Get", new { CustId = custId });
         }
 
         public IEnumerable<TpTransferInfoHistory> GetTransferHistory(int custId, long startDate, long endDate, int siteId, int pageSize, ref int pageNumber, out int totalPages, out int rowCount)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
             var p = new DynamicParameters(new
             {
                 _CustId = custId,
@@ -69,20 +47,21 @@ namespace MemberSite.Service.DAL
             p.Add("_RowCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
             p.Add("_StartIndex", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
-            var tpTransferInfoHistoryResult = conn.Query<TpTransferInfoHistory>("Member_TpTransferInfoSearch_Get_V3", p, commandType: CommandType.StoredProcedure);
+            var tpTransferInfoHistoryResult = _reportDb.Query<TpTransferInfoHistory>("Member_TpTransferInfoSearch_Get_V3", p);
             totalPages = p.Get<int?>("_TotalPages") ?? 0;
             rowCount = p.Get<int?>("_RowCount") ?? 0;
+            
             return tpTransferInfoHistoryResult;
         }
+        
         public IEnumerable<TpTransferInfoHistory> GetTransferRecent(int custId, int siteId, int topNum)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<TpTransferInfoHistory>("Member_TpTransferInfoRecent_Get_V2", new { CustId = custId, SiteId = siteId, TopNum = topNum }, commandType: CommandType.StoredProcedure);
+            return _reportDb.Query<TpTransferInfoHistory>("Member_TpTransferInfoRecent_Get_V2", new { CustId = custId, SiteId = siteId, TopNum = topNum });
         }
+        
         public IEnumerable<TpWalletList> GetTpWalletList(int custId,int listType)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<TpWalletList>("Member_TpWallet_Get_V3", new { CustId = custId, ListType = listType }, commandType: CommandType.StoredProcedure);
+            return _reportDb.Query<TpWalletList>("Member_TpWallet_Get_V3", new { CustId = custId, ListType = listType });
         }
 
         public IEnumerable<TpMaintain> GetTpMaintainList(int siteId)

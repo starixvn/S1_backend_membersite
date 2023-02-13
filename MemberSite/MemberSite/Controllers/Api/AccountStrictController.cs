@@ -1,4 +1,5 @@
-﻿using MemberSite.Service.BLL;
+using MemberSite.Service.BLL;
+using MemberSite.Service.Library;
 using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
@@ -26,6 +27,7 @@ namespace MemberSite.Controllers.Api
         private readonly AuthBLL _authBll;
         private readonly CryptoPayInfoBll _cryptoPayInfoBLL;
         private readonly LineLoginBLL _lineLoginBll;
+        private readonly StringVaildHelper _stringVaildHelper;
         private readonly IEnumerable<AreaCodeMap> _areaCodeMap;
         private readonly ILogger<AccountStrictController> _logger;
         private readonly ICustPhotoIdBLL _custPhoto;
@@ -42,6 +44,7 @@ namespace MemberSite.Controllers.Api
             _authBll = provider.GetRequiredService<AuthBLL>();
             _cryptoPayInfoBLL = provider.GetRequiredService<CryptoPayInfoBll>();
             _lineLoginBll = provider.GetRequiredService<LineLoginBLL>();
+            _stringVaildHelper = provider.GetRequiredService<StringVaildHelper>();
             _custPhoto = provider.GetRequiredService<ICustPhotoIdBLL>();
             _areaCodeMap = provider.GetRequiredService<IEnumerable<AreaCodeMap>>();
             _logger = provider.GetRequiredService<ILogger<AccountStrictController>>();
@@ -78,7 +81,7 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
 
-            if(custBankDetail.Count > 0)
+            if (custBankDetail.Count > 0)
             {
                 var bankDetail = custBankDetail.Find(x => x.CustId == authData.CustId);
                 if (bankDetail == null)
@@ -89,7 +92,7 @@ namespace MemberSite.Controllers.Api
                 }
             }
 
-            if(blockBankAccountList.Count > 0)
+            if (blockBankAccountList.Count > 0)
             {
                 apiResult.ErrorCode = -1;
                 apiResult.Message = _selLangBLL.GetMsg("msg_UpdateFailed");
@@ -163,7 +166,7 @@ namespace MemberSite.Controllers.Api
             var authData = _authorizeBLL.GetAuthData();
 
             List<USDTDetail> uSDTInfoList = null;
-            var uSDTInfoLogList = new List<USDTDetail>();
+            var uSDTInfoLogList = new List<USDTDetailLog>();
 
             var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
             //if (custInfo.CurrencyId != 96)
@@ -206,9 +209,9 @@ namespace MemberSite.Controllers.Api
 
             var currencyId = uSDTDetailreq.CurrencyId == 0 ? 96 : uSDTDetailreq.CurrencyId;
             uSDTInfoList.Add(new USDTDetail { NickName = uSDTDetailreq.NickName, USDTAddress = uSDTDetailreq.USDTAddress, Network = uSDTDetailreq.Network, CurrencyId = currencyId });
-            uSDTInfoLogList.Add(new USDTDetail { NickName = uSDTDetailreq.NickName, USDTAddress = uSDTDetailreq.USDTAddress, Network = uSDTDetailreq.Network, CurrencyId = currencyId });
+            uSDTInfoLogList.Add(new USDTDetailLog { NickName = uSDTDetailreq.NickName, USDTAddress = uSDTDetailreq.USDTAddress, Network = uSDTDetailreq.Network, CurrencyId = currencyId , Status = 1});
 
-            apiResult.ErrorCode = _custInfoBLL.InsertCustUSDTInfo(authData.CustId, uSDTDetailreq.AccountName, uSDTInfoList, uSDTInfoLogList);
+            apiResult.ErrorCode = _custInfoBLL.SetCustUSDTInfo(authData.CustId, uSDTDetailreq.AccountName, uSDTInfoList, uSDTInfoLogList);
             apiResult.Message = _selLangBLL.GetMsg("msg_Updatesuccessful");
             return apiResult;
         }
@@ -225,7 +228,7 @@ namespace MemberSite.Controllers.Api
             var authData = _authorizeBLL.GetAuthData();
 
             List<USDTDetail> uSDTInfoList = null;
-            var uSDTInfoLogList = new List<USDTDetail>();
+            var uSDTInfoLogList = new List<USDTDetailLog>();
 
             if (custUSDTInfoBatchreq.USDTInfo.Any(x =>
                     !_cryptoPayInfoBLL.CryptoAddressValidation(x.Network, x.USDTAddress)))
@@ -277,10 +280,10 @@ namespace MemberSite.Controllers.Api
             foreach (var custUSDTInfo in custUSDTInfoBatchreq.USDTInfo)
             {
                 uSDTInfoList.Add(new USDTDetail { NickName = custUSDTInfo.NickName, USDTAddress = custUSDTInfo.USDTAddress, Network = custUSDTInfo.Network, CurrencyId = custUSDTInfo.CurrencyId });
-                uSDTInfoLogList.Add(new USDTDetail { NickName = custUSDTInfo.NickName, USDTAddress = custUSDTInfo.USDTAddress, Network = custUSDTInfo.Network, CurrencyId = custUSDTInfo.CurrencyId });
+                uSDTInfoLogList.Add(new USDTDetailLog { NickName = custUSDTInfo.NickName, USDTAddress = custUSDTInfo.USDTAddress, Network = custUSDTInfo.Network, CurrencyId = custUSDTInfo.CurrencyId ,Status = 1});
             }
 
-            apiResult.ErrorCode = _custInfoBLL.InsertCustUSDTInfo(authData.CustId, custUSDTInfoBatchreq.AccountName, uSDTInfoList, uSDTInfoLogList);
+            apiResult.ErrorCode = _custInfoBLL.SetCustUSDTInfo(authData.CustId, custUSDTInfoBatchreq.AccountName, uSDTInfoList, uSDTInfoLogList);
             apiResult.Message = _selLangBLL.GetMsg("msg_Updatesuccessful");
             return apiResult;
         }
@@ -289,19 +292,12 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult(_selLangBLL);
             var authData = _authorizeBLL.GetAuthData();
-
-            var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
-            //if (custInfo.CurrencyId != 96)
-            //{
-            //    apiResult.ErrorCode = -6;
-            //    apiResult.Message = "Error Currency ";
-            //    return apiResult;
-            //}
-
+            
             IEnumerable<USDTDetail> USDTInfoList = null;
-
+            var uSDTInfoLogList = new List<USDTDetailLog>();
+            
             var custBankInfo = _custInfoBLL.GetCustBankInfo(authData.CustId);
-            if (custBankInfo == null || custBankInfo.usdtDetail == null)
+            if (custBankInfo?.usdtDetail == null)
             {
                 apiResult.ErrorCode = -2;
                 apiResult.Message = _selLangBLL.GetMsg("msg_UpdateFailed");
@@ -313,9 +309,14 @@ namespace MemberSite.Controllers.Api
                 USDTInfoList = custBankInfo.usdtDetail.Where(x =>
                     !(x.USDTAddress == uSDTDetailreq.USDTAddress &&
                     x.CurrencyId == uSDTDetailreq.CurrencyId));
+                
+                var deluSDTInfo = custBankInfo.usdtDetail.FirstOrDefault(x => 
+                    (x.USDTAddress == uSDTDetailreq.USDTAddress &&
+                     x.CurrencyId == uSDTDetailreq.CurrencyId));
+                uSDTInfoLogList.Add(new USDTDetailLog { NickName = deluSDTInfo.NickName, USDTAddress = deluSDTInfo.USDTAddress, Network = deluSDTInfo.Network, CurrencyId = deluSDTInfo.CurrencyId ,Status = 2 });
             }
-
-            apiResult.ErrorCode = _custInfoBLL.SetCustUSDTInfo(authData.CustId, custBankInfo.AccountName, USDTInfoList);
+            
+            apiResult.ErrorCode = _custInfoBLL.SetCustUSDTInfo(authData.CustId, custBankInfo.AccountName, USDTInfoList ,uSDTInfoLogList);
             apiResult.Message = _selLangBLL.GetMsg("msg_Updatesuccessful");
             return apiResult;
         }
@@ -370,6 +371,14 @@ namespace MemberSite.Controllers.Api
 
             var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
             var beforeCustInfo = _custInfoBLL.GetCustInfoProfile(authData.CustId);
+            if(custProfile.ContainsKey("AccountName"))
+                if (string.IsNullOrWhiteSpace(custProfile["AccountName"])
+                    || !_stringVaildHelper.VaildAccountNameForSetProfile(custProfile["AccountName"]))
+                {
+                    apiResult.ErrorCode = 21;
+                    apiResult.Message = $"{_selLangBLL.GetMsg("msg_RealNameWrongFormat")}";
+                    return apiResult;
+                }
             if (string.IsNullOrEmpty(beforeCustInfo.AccountName) && !string.IsNullOrEmpty(beforeCustInfo.PhoneNo))
             {
                 string AccountName = custProfile[nameof(AccountName)];
@@ -433,7 +442,7 @@ namespace MemberSite.Controllers.Api
             {
                 custProfile["Email"] = beforeCustInfo.Email;
             }
-            
+
             custProfile = SetCountryCodeAndAreaCode(custProfile, beforeCustInfo, custInfo.SiteId);
 
             apiResult.ErrorCode = _custInfoBLL.SetProfile(authData.CustId, custProfile);
@@ -476,7 +485,7 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<object>(_selLangBLL);
             var authData = _authorizeBLL.GetAuthData();
-            
+
             try
             {
                 var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
@@ -646,8 +655,8 @@ namespace MemberSite.Controllers.Api
 
         private Dictionary<string, string> SetCountryCodeAndAreaCode(Dictionary<string, string> custProfile, CustInfoProfile beforeCustInfo, int siteId)
         {
-            custProfile.TryGetValue("CountryCode",out var reqCountryCode);
-            
+            custProfile.TryGetValue("CountryCode", out var reqCountryCode);
+
             if (string.IsNullOrEmpty(reqCountryCode) || !_areaCodeMap.Any(i => i.Code == reqCountryCode))
             {
                 if (!string.IsNullOrEmpty(beforeCustInfo.AreaCode))
@@ -659,10 +668,10 @@ namespace MemberSite.Controllers.Api
                     custProfile["CountryCode"] = "VN";
                 }
             }
-            
+
             custProfile.TryGetValue("AreaCode", out var reqAreaCode);
-            
-            if ( string.IsNullOrEmpty(reqAreaCode) || !_areaCodeMap.Any(i => i.AreaCode == reqAreaCode))
+
+            if (string.IsNullOrEmpty(reqAreaCode) || !_areaCodeMap.Any(i => i.AreaCode == reqAreaCode))
             {
                 if (!string.IsNullOrEmpty(beforeCustInfo.AreaCode))
                 {
@@ -683,7 +692,7 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<object>(_selLangBLL);
             var authData = _authorizeBLL.GetAuthData();
-            
+
             try
             {
                 var custInfo = _custInfoBLL.GetCustInfoProfile(authData.CustId);
@@ -701,7 +710,7 @@ namespace MemberSite.Controllers.Api
                 }
 
                 var isLineBinding = _lineLoginBll.GetCustLineProfile(authData.CustId, null) != null;
-
+          
                 apiResult.Data = new
                 {
                     custInfo.UserName,
@@ -805,7 +814,7 @@ namespace MemberSite.Controllers.Api
 
             return apiResult;
         }
-        
+
         [HttpPost]
         public async Task<ApiResult<SendOTPSMSResult>> SendOTPSMSAsync()
         {

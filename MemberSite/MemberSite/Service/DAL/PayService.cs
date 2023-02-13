@@ -1,49 +1,38 @@
-﻿using Dapper;
-using MemberSite.Service.Model;
+﻿using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
-using MySql.Data.MySqlClient;
-using System.Data;
+using MemberSite.Service.Library;
 
 namespace MemberSite.Service.DAL
 {
     public class PayService
     {
-        private readonly IConfiguration configuration;
-        public PayService(IConfiguration configuration)
+        private readonly MySqlClient _reportDbClient;
+        
+        public PayService(IServiceProvider provider)
         {
-            this.configuration = configuration;
-        }
-        public IEnumerable<PayCurrency> GetPayCurrency()
-        {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<PayCurrency>("PayCurrency_Get", commandType: CommandType.StoredProcedure);
+            _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
         }
         public IEnumerable<MobilePayInfo> GetMobilePayInfo(int siteId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<MobilePayInfo>("Member_MobilePayV2_Get", new { SiteId = siteId }, commandType: CommandType.StoredProcedure);
+            return _reportDbClient.Query<MobilePayInfo>("Member_MobilePay_Get_V3", new { _SiteId = siteId });
         }
         public IEnumerable<CryptoPayInfo> GetCryptoPayInfo(int siteId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<CryptoPayInfo>("Common_CryptoPay_Get", new { SiteId = siteId }, commandType: CommandType.StoredProcedure);
+            return _reportDbClient.Query<CryptoPayInfo>("Service_PayInfo_Get_V2", new { _SiteId = siteId, _DepositType = DepositType.CryptoPayment });
         }
         public IEnumerable<LoadCardPayInfo> GetLoadCardPayInfo(int siteId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<LoadCardPayInfo>("Common_LoadCardPay_Get", new { SiteId = siteId }, commandType: CommandType.StoredProcedure);
+            return _reportDbClient.Query<LoadCardPayInfo>("Service_PayInfo_Get_V2", new { _SiteId = siteId, _DepositType = DepositType.LoadCardPayment });
         }
 
         public IEnumerable<PayInfo> GetPayInfo(int siteId, DepositType depositType)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.Query<PayInfo>("Service_PayInfo_Get", new { SiteId = siteId , DepositType = (int)depositType }, commandType: CommandType.StoredProcedure);
+            return _reportDbClient.Query<PayInfo>("Service_PayInfo_Get_V2", new { _SiteId = siteId , _DepositType = (int)depositType });
         }
 
         public LineChannel? GetLineChannel(int siteId, int currencyId)
         {
-            using var conn = new MySqlConnection(configuration.GetConnectionString("ConnectionStringReport"));
-            return conn.QueryFirstOrDefault<LineChannel?>("Member_LineChannel_Get", new { _SiteId = siteId, _CurrencyId = (int)currencyId }, commandType: CommandType.StoredProcedure);
+            return _reportDbClient.QueryFirst<LineChannel?>("Member_LineChannel_Get", new { _SiteId = siteId, _CurrencyId = currencyId });
         }
     }
 }
