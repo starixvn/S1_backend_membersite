@@ -360,6 +360,30 @@
   <data name="msg_NotInLimit" xml:space="preserve">
     <value>লিমিট শেষ</value>
   </data>
+  <data name="msg_DepositorsNameUnmatch" xml:space="preserve">
+    <value>আমানতকারীর নাম অতুলনীয়</value>
+  </data>
+  <data name="msg_DepositorsNameUnmatch_Detail" xml:space="preserve">
+    <value>নিবন্ধিত নামটি ব্যাঙ্ক অ্যাকাউন্টের নামের সাথে মেলে না, অনুগ্রহ করে আরও সহায়তার জন্য গ্রাহক সহায়তার সাথে যোগাযোগ করুন৷</value>
+  </data>
+  <data name="msg_DepositRefunded" xml:space="preserve">
+    <value>আমানত ফেরত</value>
+  </data>
+  <data name="msg_DepositRefunded_Detail" xml:space="preserve">
+    <value>জমার পরিমাণ ফেরত দেওয়া হয়েছে, অনুগ্রহ করে আপনার ব্যাঙ্ক অ্যাকাউন্ট চেক করুন।</value>
+  </data>
+  <data name="msg_DepositSlipRequired" xml:space="preserve">
+    <value>জমা স্লিপ প্রয়োজন</value>
+  </data>
+  <data name="msg_DepositSlipRequired_Detail" xml:space="preserve">
+    <value>লেনদেন প্রক্রিয়াকরণের সময় দ্রুত করার জন্য অনুগ্রহ করে ট্রান্সফার স্লিপ সংযুক্ত করুন।</value>
+  </data>
+  <data name="msg_PaymentNotReceived" xml:space="preserve">
+    <value>আমানত এখনও পাওয়া যায়নি</value>
+  </data>
+  <data name="msg_PaymentNotReceived_Detail" xml:space="preserve">
+    <value>আমানত পাইনি, দয়া করে ধৈর্য ধরে অপেক্ষা করুন।</value>
+  </data>
   <data name="msg_WithdrawalAccountNumberIncorrect" xml:space="preserve">
     <value>টাকা তোলার অ্যাকাউন্টের নাম মেলে না</value>
   </data>

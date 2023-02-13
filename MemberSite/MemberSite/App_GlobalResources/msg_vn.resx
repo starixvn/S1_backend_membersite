@@ -338,6 +338,51 @@ Hãy chuyển tiền từ ví chính sang ví Thể thao để trải nghiệm c
   <data name="msg_NotInLimit" xml:space="preserve">
     <value>ngoài hạn mức.</value>
   </data>
+  <data name="msg_congratulation_event_reward" xml:space="preserve">
+    <value>Xin chúc mừng! Nhận được số tiền {0}</value>
+  </data>
+  <data name="msg_keep_up" xml:space="preserve">
+    <value>Chúc may mắn trong lần rút tiếp theo của bạn</value>
+  </data>
+  <data name="msg_limit_has_been_reached" xml:space="preserve">
+    <value>Đã đạt đến giới hạn của ngày hôm nay</value>
+  </data>
+  <data name="msg_turnover_not_enough" xml:space="preserve">
+    <value>Chưa hoàn thành yêu cầu đặt cược hợp lệ, không thể tham gia</value>
+  </data>
+  <data name="msg_times_chance" xml:space="preserve">
+    <value>Vẫn còn {0} lần cơ hội</value>
+  </data>
+  <data name="msg_ProfileOrPhoneNotFinish" xml:space="preserve">
+    <value>Thông tin tài khoản chưa được điền đầy đủ, vui lòng xác minh thông tin tài khoản</value>
+  </data>
+  <data name="msg_Event_has_not_started" xml:space="preserve">
+    <value>Sự kiện vẫn chưa bắt đầu</value>
+  </data>
+  <data name="msg_DepositorsNameUnmatch" xml:space="preserve">
+    <value>Tên người gửi tiền không khớp</value>
+  </data>
+  <data name="msg_DepositorsNameUnmatch_Detail" xml:space="preserve">
+    <value>Họ Tên tài khoản không trùng khớp với Họ Tên trong ngân hàng , vui lòng liên hệ bộ phận chăm sóc khách hàng để được hỗ trợ thêm.</value>
+  </data>
+  <data name="msg_DepositSlipRequired" xml:space="preserve">
+    <value>Yêu cầu Biên Lai nạp tiền</value>
+  </data>
+  <data name="msg_DepositSlipRequired_Detail" xml:space="preserve">
+    <value>Vui lòng đính kèm biên lai nạp tiền để giao dịch được xử lý nhanh chóng hơn</value>
+  </data>
+  <data name="msg_PaymentNotReceived" xml:space="preserve">
+    <value>Lệnh Nạp tiền không nhận được</value>
+  </data>
+  <data name="msg_PaymentNotReceived_Detail" xml:space="preserve">
+    <value>Tiền nạp của quý khách chưa nhận được, xin vui lòng kiên nhẫn chờ</value>
+  </data>
+  <data name="msg_DepositRefunded" xml:space="preserve">
+    <value>Hoàn lại Tiền gửi</value>
+  </data>
+  <data name="msg_DepositRefunded_Detail" xml:space="preserve">
+    <value>Số tiền gửi đã được hoàn trả, xin vui lòng kiểm tra tài khoản ngân hàng của quý khách</value>
+  </data>
   <data name="msg_WithdrawalAccountNumberIncorrect" xml:space="preserve">
     <value>Số tài khoản rút tiền không chính xác</value>
   </data>
