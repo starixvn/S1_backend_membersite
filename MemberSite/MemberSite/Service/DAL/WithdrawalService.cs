@@ -214,7 +214,7 @@ namespace MemberSite.Service.DAL
        
         public IEnumerable<WithdrawalHistory> GetWithdrawalInfoRecent(int custId, int siteId, int topNum)
         {
-            return _reportDbClient.Query<WithdrawalHistory>("WithdrawalInfoRecent_Get_V3", new { CustId = custId, SiteId = siteId, TopNum = topNum });
+            return _reportDbClient.Query<WithdrawalHistory>("WithdrawalInfoRecent_Get_V4", new { CustId = custId, SiteId = siteId, TopNum = topNum });
         }
         
         public IEnumerable<WithdrawalHistory> GetWithdrawalInfoHistory(int custId, long startDate, long endDate, int siteId, int pageSize, ref int pageNumber, out int totalPages, out int rowCount)
@@ -225,7 +225,7 @@ namespace MemberSite.Service.DAL
             p.Add("RowCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
             p.Add("StartIndex", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
-            var withdrawalInfoHistoryResult = _reportDbClient.Query<WithdrawalHistory>("WithdrawalInfoSearch_Get_V3", p);
+            var withdrawalInfoHistoryResult = _reportDbClient.Query<WithdrawalHistory>("WithdrawalInfoSearch_Get_V4", p);
             totalPages = p.Get<int?>("TotalPages") ?? 0;
             rowCount = p.Get<int?>("RowCount") ?? 0;
             return withdrawalInfoHistoryResult;

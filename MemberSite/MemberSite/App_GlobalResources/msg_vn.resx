@@ -383,4 +383,16 @@ Hãy chuyển tiền từ ví chính sang ví Thể thao để trải nghiệm c
   <data name="msg_DepositRefunded_Detail" xml:space="preserve">
     <value>Số tiền gửi đã được hoàn trả, xin vui lòng kiểm tra tài khoản ngân hàng của quý khách</value>
   </data>
+  <data name="msg_WithdrawalAccountNumberIncorrect" xml:space="preserve">
+    <value>Số tài khoản rút tiền không chính xác</value>
+  </data>
+  <data name="msg_WithdrawalAccountNumberIncorrect_Detail" xml:space="preserve">
+    <value>Số tài khoản rút tiền không chính xác. Vui lòng kiểm tra số tài khoản rút tiền của bạn.</value>
+  </data>
+  <data name="msg_WithdrawalAccountsNameUnmatch" xml:space="preserve">
+    <value>Tài Khoản rút tiền không trùng khớp</value>
+  </data>
+  <data name="msg_WithdrawalAccountsNameUnmatch_Detail" xml:space="preserve">
+    <value>Tên tài khoản rút tiền không khớp với tên đã đăng ký. Vui lòng liên hệ với dịch vụ chăm sóc khách hàng để được hỗ trợ.</value>
+  </data>
 </root>
