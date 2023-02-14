@@ -13,13 +13,17 @@ namespace MemberSite.Service.BLL
         private readonly CryptoHelper _cryptoHelper;
         private readonly ILogger<AuthBLL> _logger;
         private readonly string _publicApiAuthToken;
+        private readonly string _publicApiPassToken;
+        private readonly IHostEnvironment _hostEnvironment;
 
         public AuthBLL(IServiceProvider provider)
         {
             this.authService = provider.GetRequiredService<AuthService>();
             _cryptoHelper = provider.GetRequiredService<CryptoHelper>();
             _publicApiAuthToken = provider.GetRequiredService<IConfiguration>().GetValue<string>("PublicApiAuthToken");
+            _publicApiPassToken = provider.GetRequiredService<IConfiguration>().GetValue<string>("PublicApiPassToken");
             _logger = provider.GetRequiredService<ILogger<AuthBLL>>();
+            _hostEnvironment = provider.GetRequiredService<IHostEnvironment>();
         }
 
         public bool Authenticate<T>(string sToken, out T t)
@@ -39,6 +43,7 @@ namespace MemberSite.Service.BLL
 
         public bool RequestAuth(string content)
         {
+
             if (string.IsNullOrWhiteSpace(content))
             {
                 _logger.LogError("Request vaild fail：Content is null.");
@@ -49,6 +54,22 @@ namespace MemberSite.Service.BLL
             {
                 return false;
             }
+
+            #region Development Pass Token
+
+            if (_hostEnvironment.IsDevelopment())
+            {
+                if (!jbody.ContainsKey("token"))
+                {
+                    _logger.LogError("Request vaild fail：Lost Key (token).");
+                    return false;
+                }
+
+                if (jbody["token"].ToString() == _publicApiPassToken)
+                    return true;
+            }
+
+            #endregion
 
             if (!jbody.ContainsKey("timestamp")
                 || !jbody.ContainsKey("token"))
