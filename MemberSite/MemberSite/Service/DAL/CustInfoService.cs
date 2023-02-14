@@ -329,7 +329,7 @@ namespace MemberSite.Service.DAL
             return result;
         }
         
-        public bool SetCustBankInfo(int custId, int siteId, string accountName)
+        public bool SetCustBankInfo(int custId, int siteId, string accountName, bool isRegister = false)
         {
             var p = new DynamicParameters(new
             {
@@ -354,15 +354,20 @@ namespace MemberSite.Service.DAL
             
             if (success)
             {
-                var custInfo = GetCustInfo(custId, true);
+                var tags = new List<int>();
+                
+                if (!isRegister)
+                {
+                    var custInfo = GetCustInfo(custId, true);
+                    tags = string.IsNullOrEmpty(custInfo.TagList)
+                        ? new List<int>()
+                        : JsonSerializer.Deserialize<List<int>>(custInfo.TagList);
+                }
+                
                 var custTags = duplicateList
                     .Where(x => !x.TagList.Contains((int) CustTagEnum.Duplicate))
                     .ToList();
                 
-                var tags = string.IsNullOrEmpty(custInfo.TagList)
-                    ? new List<int>()
-                    : JsonSerializer.Deserialize<List<int>>(custInfo.TagList);
-
                 if (!tags.Contains((int) CustTagEnum.Duplicate))
                 {
                     custTags.Add(new CustAccountNameInfo {CustId = custId, TagList = tags});
