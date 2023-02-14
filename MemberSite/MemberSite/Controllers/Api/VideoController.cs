@@ -57,6 +57,7 @@ namespace MemberSite.Controllers.Api
             var serverInfo = serverInfoBLL.GetServerInfo();
             int siteId;
             var currencyId = (int)CurrencyId.MYR;
+            var landId = "en";
             
             var authData = authorizeBLL.GetAuthData();
             if (authData is { CustId: > 0 })
@@ -64,6 +65,7 @@ namespace MemberSite.Controllers.Api
                 var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
                 siteId = custInfo.SiteId;
                 currencyId = custInfo.CurrencyId;
+                landId = selLangBLL.GetLangId();
             }
             else
             {
@@ -71,7 +73,7 @@ namespace MemberSite.Controllers.Api
             }
 
             apiResult.ErrorCode = 0;
-            apiResult.Data = videoDataBLL.GetVideoData(siteId,currencyId,selLangBLL.GetLangId());
+            apiResult.Data = videoDataBLL.GetVideoData(siteId,currencyId,landId);
 
             return apiResult;
         }
