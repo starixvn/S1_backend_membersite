@@ -403,4 +403,16 @@
   <data name="msg_DepositRefunded_Detail" xml:space="preserve">
     <value>存款金额已退还，恳请查看户口。</value>
   </data>
+  <data name="msg_WithdrawalAccountNumberIncorrect" xml:space="preserve">
+    <value>提款账户有误</value>
+  </data>
+  <data name="msg_WithdrawalAccountNumberIncorrect_Detail" xml:space="preserve">
+    <value>提款账户号码有误。请核实您的提款账户号码信息。</value>
+  </data>
+  <data name="msg_WithdrawalAccountsNameUnmatch" xml:space="preserve">
+    <value>提款人姓名不符</value>
+  </data>
+  <data name="msg_WithdrawalAccountsNameUnmatch_Detail" xml:space="preserve">
+    <value>提款账户姓名与注册姓名不符合。请联系客服寻求协助。</value>
+  </data>
 </root>

@@ -384,4 +384,16 @@
   <data name="msg_PaymentNotReceived_Detail" xml:space="preserve">
     <value>আমানত পাইনি, দয়া করে ধৈর্য ধরে অপেক্ষা করুন।</value>
   </data>
+  <data name="msg_WithdrawalAccountNumberIncorrect" xml:space="preserve">
+    <value>টাকা তোলার অ্যাকাউন্টের নাম মেলে না</value>
+  </data>
+  <data name="msg_WithdrawalAccountNumberIncorrect_Detail" xml:space="preserve">
+    <value>প্রত্যাহার অ্যাকাউন্ট নম্বর ভুল। অনুগ্রহ করে আপনার প্রত্যাহার অ্যাকাউন্ট নম্বর চেক করুন।</value>
+  </data>
+  <data name="msg_WithdrawalAccountsNameUnmatch" xml:space="preserve">
+    <value>টাকা তোলার অ্যাকাউন্টের নাম মেলে না</value>
+  </data>
+  <data name="msg_WithdrawalAccountsNameUnmatch_Detail" xml:space="preserve">
+    <value>উত্তোলন অ্যাকাউন্টের নাম নিবন্ধিত নামের সাথে মেলে না। সহায়তার জন্য গ্রাহক পরিষেবার সাথে যোগাযোগ করুন.</value>
+  </data>
 </root>

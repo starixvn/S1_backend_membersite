@@ -413,4 +413,16 @@
   <data name="msg_DepositRefunded_Detail" xml:space="preserve">
     <value>คืนยอดเงินฝากเรียบร้อยแล้ว โปรดทำการตรวจสอบบัญชีธนาคารของคุณ</value>
   </data>
+  <data name="msg_WithdrawalAccountNumberIncorrect" xml:space="preserve">
+    <value>หมายเลขบัญชีถอนเงินไม่ถูกต้อง</value>
+  </data>
+  <data name="msg_WithdrawalAccountNumberIncorrect_Detail" xml:space="preserve">
+    <value>หมายเลขบัญชีถอนเงินไม่ถูกต้อง กรุณาตรวจสอบหมายเลขบัญชีถอนเงินของคุณ</value>
+  </data>
+  <data name="msg_WithdrawalAccountsNameUnmatch" xml:space="preserve">
+    <value>ชื่อบัญชีการถอนเงินไม่ตรงกัน</value>
+  </data>
+  <data name="msg_WithdrawalAccountsNameUnmatch_Detail" xml:space="preserve">
+    <value>ชื่อบัญชีถอนเงินไม่ตรงกับชื่อที่ลงทะเบียน โปรดติดต่อฝ่ายบริการลูกค้าเพื่อขอความช่วยเหลือ</value>
+  </data>
 </root>
