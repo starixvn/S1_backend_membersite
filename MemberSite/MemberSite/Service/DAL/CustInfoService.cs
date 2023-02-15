@@ -330,8 +330,9 @@ namespace MemberSite.Service.DAL
             return result;
         }
         
-        public bool SetCustBankInfo(int custId, int siteId, string accountName, bool isRegister = false, IDbTransaction transaction = null)
+        public bool SetCustBankInfo(int custId, int siteId, string accountName, bool isRegister = false, IDbTransaction trans = null)
         {
+            var result = false;
             var p = new DynamicParameters(new
             {
                 CustId = custId,
@@ -347,18 +348,21 @@ namespace MemberSite.Service.DAL
                 return _mainDbClient.Execute("Service_CustBankInfo_SetV3", p) > 0;
             }
 
-            if (transaction == null)
+            using var conn = _mainDbClient.GetMySqlConnection();
+            if (trans == null)
             {
-                using var conn = _mainDbClient.GetMySqlConnection();
                 conn.Open();
-                using var trans = conn.BeginTransaction();
-                
+                trans = conn.BeginTransaction();
+            }
+
+            try
+            {
                 var success = _mainDbClient.Execute("Service_CustBankInfo_SetV3", trans, p) > 0;
-            
+
                 if (success)
                 {
                     var tags = new List<int>();
-                
+
                     if (!isRegister)
                     {
                         var custInfo = GetCustInfo(custId, true);
@@ -366,81 +370,55 @@ namespace MemberSite.Service.DAL
                             ? new List<int>()
                             : JsonSerializer.Deserialize<List<int>>(custInfo.TagList);
                     }
-                
+
                     var custTags = duplicateList
-                        .Where(x => !x.TagList.Contains((int) CustTagEnum.Duplicate))
+                        .Where(x => !x.TagList.Contains((int)CustTagEnum.Duplicate))
                         .ToList();
-                
-                    if (!tags.Contains((int) CustTagEnum.Duplicate))
+
+                    if (!tags.Contains((int)CustTagEnum.Duplicate))
                     {
-                        custTags.Add(new CustAccountNameInfo {CustId = custId, TagList = tags});
+                        custTags.Add(new CustAccountNameInfo { CustId = custId, TagList = tags });
                     }
-            
+
                     if (!custTags.Any())
                     {
-                        MySqlClient.CommitAndDisposeConnection(conn, trans);
+                        result = true;
                         return true;
                     }
 
                     foreach (var item in custTags)
                     {
-                        item.TagList = item.TagList.Append((int) CustTagEnum.Duplicate);
+                        item.TagList = item.TagList.Append((int)CustTagEnum.Duplicate);
                     }
-                
-                    success = this.SetCustInfoTagList(custTags, trans);
+
+                    success = SetCustInfoTagList(custTags, trans);
                     if (success)
                     {
-                        MySqlClient.CommitAndDisposeConnection(conn, trans);
+                        result = true;
                         return true;
                     }
                 }
-            
-                MySqlClient.RollbackAndDisposeConnection(conn, trans);
+
                 return false;
             }
-            else
+            finally
             {
-                var success = _mainDbClient.Execute("Service_CustBankInfo_SetV3", transaction, p) > 0;
-            
-                if (success)
+                if (!isRegister)
                 {
-                    var tags = new List<int>();
-                
-                    if (!isRegister)
+                    if (result)
                     {
-                        var custInfo = GetCustInfo(custId, true);
-                        tags = string.IsNullOrEmpty(custInfo.TagList)
-                            ? new List<int>()
-                            : JsonSerializer.Deserialize<List<int>>(custInfo.TagList);
+                        MySqlClient.CommitAndDisposeConnection(conn, trans);
                     }
-                
-                    var custTags = duplicateList
-                        .Where(x => !x.TagList.Contains((int) CustTagEnum.Duplicate))
-                        .ToList();
-                
-                    if (!tags.Contains((int) CustTagEnum.Duplicate))
+                    else
                     {
-                        custTags.Add(new CustAccountNameInfo {CustId = custId, TagList = tags});
-                    }
-            
-                    if (!custTags.Any())
-                    {
-                        return true;
-                    }
-
-                    foreach (var item in custTags)
-                    {
-                        item.TagList = item.TagList.Append((int) CustTagEnum.Duplicate);
-                    }
-                
-                    success = this.SetCustInfoTagList(custTags, transaction);
-                    if (success)
-                    {
-                        return true;
+                        MySqlClient.RollbackAndDisposeConnection(conn, trans);
                     }
                 }
-            
-                return false;
+                else
+                {
+                    conn.Close();
+                    conn.Dispose();
+                }
             }
         }
 
