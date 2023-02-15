@@ -109,7 +109,6 @@ namespace MemberSite.Service.Library
             {
                 httpClient.DefaultRequestHeaders.Add(key, value);
             }
-            
             try
             {
                 using var response = await httpClient.PostAsync(url, reqContent);

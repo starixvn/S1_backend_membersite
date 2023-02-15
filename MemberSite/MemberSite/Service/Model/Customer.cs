@@ -29,6 +29,7 @@ namespace MemberSite.Service.Model
         public string Aff { get; set; }
         public string AffCode { get; set; }
         public string Token { get; set; }
+        public string TagList { get; set; }
     }
 
     //{"Ver": 1, "SysId": 8, "AccountNo": "9876543210", "AccountName": "Eddie Wu"}
@@ -305,5 +306,19 @@ namespace MemberSite.Service.Model
     public class OnUser
     {
         public bool Exists { get; set; }
+    }
+    
+    public class CustTagList
+    {
+        public int CustId { get; set; }
+        
+        public string StrTagList { get; set; }
+
+        public IEnumerable<int> TagList { get; set; }
+    }
+    
+    public class CustAccountNameInfo : CustTagList
+    {
+        public string AccountName { get; set; }
     }
 }

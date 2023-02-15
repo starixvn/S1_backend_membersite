@@ -58,12 +58,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="FTDP2Description" xml:space="preserve">
-    <value>Thưởng 125% cho lần đầu nạp tiền, tối đa 2,000('000) VND</value>
-  </data>
-  <data name="FTDP2Title" xml:space="preserve">
-    <value>Thưởng 125% cho lần đầu nạp tiền, tối đa 2,000('000) VND</value>
-  </data>
   <data name="lbl_Applicationname" xml:space="preserve">
     <value>Bwing</value>
   </data>
