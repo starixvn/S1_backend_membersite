@@ -4,18 +4,18 @@ using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.DAL
 {
-    public class LatestHighlightDataService
+    public class VideoDataService
     {
         private readonly MySqlClient _reportDbClient;
         
-        public LatestHighlightDataService(IServiceProvider provider)
+        public VideoDataService(IServiceProvider provider)
         {
             _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
         }
         
-        public LatestHighlightData GetLatestHighlightData(int SiteId, string LangId)
+        public VideoData GetVideoData(int SiteId, int CurrencyId,string LangId)
         {
-            return _reportDbClient.QueryFirst<LatestHighlightData>("Member_LatestHighlightVideo_Get", new { SiteId, LangId });
+            return _reportDbClient.QueryFirst<VideoData>("Member_VideoInfo_Get", new { SiteId,CurrencyId,LangId });
         }
     }
 }
