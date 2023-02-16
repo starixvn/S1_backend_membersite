@@ -10,7 +10,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
-using Dapper.Extensions.Caching.Memory;
 using MemberSite.Extensions;
 using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.DAL.Interface;
@@ -107,7 +106,7 @@ namespace MemberSite
             services.AddTransient<IEventsService, EventsService>();
             services.AddSingleton<GameCasinoService>();
             services.AddSingleton<LiveStreamingService>();
-            services.AddSingleton<LatestHighlightDataService>();
+            services.AddSingleton<VideoDataService>();
             services.AddSingleton<ConfigService>();
             services.AddSingleton<AppLinkService>();
             services.AddSingleton<DeepLinkService>();
@@ -122,6 +121,8 @@ namespace MemberSite
             services.AddSingleton<ShieldService>();
             services.AddTransient<IHotEventService, HotEventService>();
 
+            services.AddTransient<IHotGameService, HotGameService>();
+            
             /*BLL*/
             services.AddSingleton<ServerInfoBll>();
             services.AddSingleton<CustInfoBll>();
@@ -156,7 +157,7 @@ namespace MemberSite
             services.AddTransient<IAngPaoBLL, AngPaoBLL>();
             services.AddSingleton<GameCasinoBll>();
             services.AddSingleton<LiveStreamingBll>();
-            services.AddSingleton<LatestHighlightDataBll>();
+            services.AddSingleton<VideoDataBll>();
             services.AddSingleton<GameBLL>();
             services.AddTransient<IGeoIpApi, GeoIpApi>();
             services.AddTransient<IRecaptchaApi, RecaptchaApi>();
@@ -178,16 +179,13 @@ namespace MemberSite
             services.AddTransient<CheckAttackBLL>();
             services.AddTransient<DateTimeHelper>();
             
+            services.AddTransient<IHotGameBLL, HotGameBLL>();
+
             services.AddSingleton<CustomCookieAuthenticationEvents>();
             services.AddTransient<HotEventBLL>();
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();
 
-            services.AddDapperCachingInMemory(new MemoryConfiguration
-            {
-                AllMethodsEnableCache = false
-            });
-            
             if (configuration.GetValue<bool>("JwtSettings:IsJwt"))
             {
                 services

@@ -308,7 +308,7 @@ namespace MemberSite.Controllers.Api
             else 
             {
                 //檢查活動,獎品狀態,使用者是否抽過
-                var prizes = _eventsBll.CheckDrawPrize(ref eventId, custInfo.SiteId, custInfo.CustId, custInfo.CurrencyId, out var prizeId, out var result);
+                var prizes = _eventsBll.CheckDrawPrize(ref eventId, custInfo.CustId, custInfo.CurrencyId, out var prizeId, out var result);
                 if (result == 100)
                 {
                     apiResult.Data.PrizeId = prizeId;

@@ -11,7 +11,7 @@ namespace MemberSite.Service.Model
         public string AccountNo { get; set; }
         public string IFSCCode { get; set; }
     }
-    public class WithdrawalUSDTInfo
+    public class WithdrawalCryptoInfo
     {
         public string AccountType { get; set; }
         public string AccountName { get; set; }
@@ -19,6 +19,14 @@ namespace MemberSite.Service.Model
         public string AccountNo { get; set; }
         public string Network { set; get; }
         public int CurrencyId { set; get; }
+        /// <summary>
+        /// 參考匯率
+        /// </summary>
+        public decimal TempExchangeRate { set; get; }
+        /// <summary>
+        /// 參考金額
+        /// </summary>
+        public decimal TempExchangeAmount { set; get; }
     }
     public class WithdrawalEWalletInfo
     {
@@ -52,6 +60,8 @@ namespace MemberSite.Service.Model
         public string CustTimeZone { get; set; }
         public string Memo { get; set; }
         public bool CanCancel => this.Memo == "WithdrawalSubmission" ? false : true;
+        public string WithdrawalMessage { get; set; }
+        public IEnumerable<WithdrawalMessageDetail> WithdrawalMessageDetail { get; set; }
     }
 
 
@@ -140,5 +150,21 @@ namespace MemberSite.Service.Model
         public decimal WithdrawalAvailableAmount { get; set; }
         public int MaxTimes { get; set; }
         public int WithdrawalTimes { get; set; }
+    }
+    public class WithdrawalMessageDetail
+    {
+        public string ErrorTypeName { get; set; }
+        public string Message { get; set; }
+        public DateTimeOffset CreateTime { get; set; }
+    }
+    public class WithdrawalMessage
+    {
+        public WithdrawalMessageStatus Status { get; set; }
+        private DateTimeOffset _createTime { get; set; }
+        public DateTimeOffset CreateTime
+        {
+            get => _createTime;
+            set => _createTime = new DateTimeOffset(value.DateTime, TimeSpan.Zero);
+        }
     }
 }
