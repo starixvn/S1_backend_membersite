@@ -193,10 +193,6 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
 
-            _logger.LogInformation(
-                $"REQUEST URL:{_serverInfoBll.GetRequestUrl()}, " +
-                $"IP: {Request.Headers["X-Forwarded-For"]}, {Request.Headers["HTTP_X_FORWARDED_FOR"]}, {Request.Headers["HTTP_INCAP_CLIENT_IP"]}, {Request.Headers["HTTP_TRUE_CLIENT_IP"]}, {Request.Headers["HTTP_X_REAL_IP"]}, {Request.Headers["REMOTE_ADDR"]}, {Request.HttpContext.Connection.RemoteIpAddress?.MapToIPv4()}");
-
             Customer customer = null;
             var ip = _tools.GetClientIP();
             var fromUrl = _tools.GetFromUrl();
