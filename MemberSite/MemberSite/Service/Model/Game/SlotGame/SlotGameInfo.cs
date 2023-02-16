@@ -80,6 +80,7 @@ namespace MemberSite.Service.Model.Game
                                        .Replace("--", "-")
                                        .Replace("\u200B", "")
                                        .Replace(",", "")
+                                       .Replace("?", "")
                                        .ToLower();
         }
     }
