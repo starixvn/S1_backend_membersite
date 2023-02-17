@@ -59,43 +59,54 @@ namespace MemberSite.Service.BLL
 
             if (_hostEnvironment.IsDevelopment())
             {
-                if (!jbody.ContainsKey("token"))
-                {
-                    _logger.LogError("Request vaild fail：Lost Key (token).");
-                    return false;
-                }
+                // 暫不檢查是否有帶token
+                //if (!jbody.ContainsKey("token"))
+                //{
+                //    _logger.LogError("Request vaild fail：Lost Key (token).");
+                //    return false;
+                //}
 
-                if (jbody["token"].ToString() == _publicApiPassToken)
-                    return true;
+                if (jbody.ContainsKey("token"))
+                    if (jbody["token"].ToString() == _publicApiPassToken)
+                        return true;
             }
 
             #endregion
+            //暫不檢查是否有帶token、timestamp
+            //if (!jbody.ContainsKey("timestamp")
+            //    || !jbody.ContainsKey("token"))
+            //{
+            //    _logger.LogError("Request vaild fail：Lost Key (timestamp and token).");
+            //    return false;
+            //}
 
-            if (!jbody.ContainsKey("timestamp")
-                || !jbody.ContainsKey("token"))
+            //如果有timestamp，則檢查
+            if (jbody.ContainsKey("timestamp"))
             {
-                _logger.LogError("Request vaild fail：Lost Key (timestamp and token).");
-                return false;
+                if (!long.TryParse(jbody["timestamp"].ToString(), out long timestamp))
+                {
+                    _logger.LogError("Request vaild fail：Convert timestamp fail.");
+                    return false;
+                }
+                if (!CheckTimestamp(timestamp))
+                {
+                    _logger.LogError("Request vaild fail：Check Timestamp fail.");
+                    return false;
+                }
             }
 
-            if (!long.TryParse(jbody["timestamp"].ToString(), out long timestamp))
+            //如果有token，則檢查
+            if (jbody.ContainsKey("token"))
             {
-                _logger.LogError("Request vaild fail：Convert timestamp fail.");
-                return false;
-            }
-            if (!CheckTimestamp(timestamp))
-            {
-                _logger.LogError("Request vaild fail：Check Timestamp fail.");
-                return false;
+                var token = jbody["token"].ToString();
+                var requestStr = content.Replace(token, _publicApiAuthToken);
+                if (token != _cryptoHelper.SHA256(requestStr))
+                {
+                    _logger.LogError("Request vaild fail：Check crypto token fail.");
+                    return false;
+                }
             }
 
-            var token = jbody["token"].ToString();
-            var requestStr = content.Replace(token, _publicApiAuthToken);
-            if (token != _cryptoHelper.SHA256(requestStr))
-            {
-                _logger.LogError("Request vaild fail：Check crypto token fail.");
-                return false;
-            }
             return true;
         }
 
