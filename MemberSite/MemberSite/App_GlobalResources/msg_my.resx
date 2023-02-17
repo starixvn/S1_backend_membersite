@@ -428,4 +428,28 @@
   <data name="msg_WithdrawalAccountsNameUnmatch_Detail" xml:space="preserve">
     <value>Nama akaun pengeluaran tidak sepadan dengan nama yang didaftarkan. Sila hubungi Live Chat untuk mendapatkan bantuan.</value>
   </data>
+  <data name="msg_WrongAmountSubmitted" xml:space="preserve">
+    <value>Jumlah Deposit Tidak Betul</value>
+  </data>
+  <data name="msg_WrongAmountSubmitted_Detail" xml:space="preserve">
+    <value>Jumlah deposit tidak sepadan dengan jumlah permohonan slip deposit, Sila semak semula atau hubungi Sokongan Pelanggan untuk bantuan lanjut.</value>
+  </data>
+  <data name="msg_WrongBankSubmitted" xml:space="preserve">
+    <value>Akaun deposit salah dipilih</value>
+  </data>
+  <data name="msg_WrongBankSubmitted_Detail" xml:space="preserve">
+    <value>Akaun deposit yang dipilih tidak betul, Sila semak semula atau hubungi Sokongan Pelanggan untuk bantuan lanjut.</value>
+  </data>
+  <data name="msg_BeneficiarysAccountMaintenance" xml:space="preserve">
+    <value>Bank sedang dalam penyelenggaraan, permohonan pengeluaran anda akan diproses untuk anda selepas penyelenggaraan bank selesai</value>
+  </data>
+  <data name="msg_BeneficiarysAccountMaintenance_Detail" xml:space="preserve">
+    <value>Bank sedang dalam penyelenggaraan, permohonan pengeluaran anda akan diproses untuk anda selepas penyelenggaraan bank selesai</value>
+  </data>
+  <data name="msg_WithdrawalAccountAannotReceiveMoney" xml:space="preserve">
+    <value>Akaun pengeluaran gagal menerima dana</value>
+  </data>
+  <data name="msg_WithdrawalAccountAannotReceiveMoney_Detail" xml:space="preserve">
+    <value>Akaun pengeluaran anda gagal menerima dana. Sila semak semula atau hubungi Sokongan Pelanggan untuk bantuan lanjut.</value>
+  </data>
 </root>

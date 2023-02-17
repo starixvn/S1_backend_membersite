@@ -395,4 +395,28 @@ Hãy chuyển tiền từ ví chính sang ví Thể thao để trải nghiệm c
   <data name="msg_WithdrawalAccountsNameUnmatch_Detail" xml:space="preserve">
     <value>Tên tài khoản rút tiền không khớp với tên đã đăng ký. Vui lòng liên hệ với dịch vụ chăm sóc khách hàng để được hỗ trợ.</value>
   </data>
+  <data name="msg_WrongAmountSubmitted" xml:space="preserve">
+    <value>Số tiền gửi không chính xác</value>
+  </data>
+  <data name="msg_WrongAmountSubmitted_Detail" xml:space="preserve">
+    <value>Số tiền gửi không khớp với số tiền tạo lệnh nạp tiền . Vui lòng kiểm tra lại hoặc liên hệ với bộ phận Hỗ trợ khách hàng để được hỗ trợ thêm.</value>
+  </data>
+  <data name="msg_WrongBankSubmitted" xml:space="preserve">
+    <value>Chọn sai tài khoản Nạp tiền</value>
+  </data>
+  <data name="msg_WrongBankSubmitted_Detail" xml:space="preserve">
+    <value>Tài khoản Nạp tiền đã chọn không chính xác . Vui lòng kiểm tra lại hoặc liên hệ với bộ phận Hỗ trợ khách hàng để được hỗ trợ thêm.</value>
+  </data>
+  <data name="msg_BeneficiarysAccountMaintenance" xml:space="preserve">
+    <value>Tài khoản ngân hàng thụ hưởng đang bảo trì</value>
+  </data>
+  <data name="msg_BeneficiarysAccountMaintenance_Detail" xml:space="preserve">
+    <value>Ngân hàng hiện đang bảo trì, lệnh rút tiền của bạn sẽ được xử lý sau khi ngân hàng bảo trì hoàn tất.</value>
+  </data>
+  <data name="msg_WithdrawalAccountAannotReceiveMoney" xml:space="preserve">
+    <value>Tài khoản rút tiền không thành công</value>
+  </data>
+  <data name="msg_WithdrawalAccountAannotReceiveMoney_Detail" xml:space="preserve">
+    <value>Tài khoản rút tiền không thành công . Vui lòng kiểm tra lại hoặc liên hệ với bộ phận Hỗ trợ khách hàng để được hỗ trợ thêm</value>
+  </data>
 </root>

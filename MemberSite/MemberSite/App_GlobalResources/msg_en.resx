@@ -385,4 +385,28 @@
   <data name="msg_WithdrawalAccountsNameUnmatch_Detail" xml:space="preserve">
     <value>Withdrawal account name does not match with the registered name. Please contact customer service for assistance.</value>
   </data>
+  <data name="msg_WrongAmountSubmitted" xml:space="preserve">
+    <value>Deposit Amount Incorrect</value>
+  </data>
+  <data name="msg_WrongAmountSubmitted_Detail" xml:space="preserve">
+    <value>Deposit amount does not match the deposit slip application amount, Kindly recheck or contact Customer Support for further assistance.</value>
+  </data>
+  <data name="msg_WrongBankSubmitted" xml:space="preserve">
+    <value>Wrong deposit account selected</value>
+  </data>
+  <data name="msg_WrongBankSubmitted_Detail" xml:space="preserve">
+    <value>The selected deposit account is incorrect, Kindly recheck or contact Customer Support for further assistance.</value>
+  </data>
+  <data name="msg_BeneficiarysAccountMaintenance" xml:space="preserve">
+    <value>Beneficiary's account maintenance</value>
+  </data>
+  <data name="msg_BeneficiarysAccountMaintenance_Detail" xml:space="preserve">
+    <value>Bank is currently under maintenance, your withdrawal application will be processed for you after the bank maintenance is completed.</value>
+  </data>
+  <data name="msg_WithdrawalAccountAannotReceiveMoney" xml:space="preserve">
+    <value>Withdrawal account unable to receive funds</value>
+  </data>
+  <data name="msg_WithdrawalAccountAannotReceiveMoney_Detail" xml:space="preserve">
+    <value>Withdrawal account is unable to receive funds. Kindly recheck or contact Customer Support for further assistance.</value>
+  </data>
 </root>
