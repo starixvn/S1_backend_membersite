@@ -103,9 +103,10 @@ namespace MemberSite
             services.AddSingleton<NewsService>();
             services.AddSingleton<IovationService>();
             services.AddSingleton<EventsService>();
+            services.AddTransient<IEventsService, EventsService>();
             services.AddSingleton<GameCasinoService>();
             services.AddSingleton<LiveStreamingService>();
-            services.AddSingleton<LatestHighlightDataService>();
+            services.AddSingleton<VideoDataService>();
             services.AddSingleton<ConfigService>();
             services.AddSingleton<AppLinkService>();
             services.AddSingleton<DeepLinkService>();
@@ -114,11 +115,14 @@ namespace MemberSite
             services.AddTransient<WorldCupPredictionService>();
             services.AddTransient<RecaptchaService>();
             services.AddSingleton<PartitionService>();
+            services.AddTransient<CurrencyService>();
 
             services.AddSingleton<IPService>();
             services.AddSingleton<ShieldService>();
             services.AddTransient<IHotEventService, HotEventService>();
 
+            services.AddTransient<IHotGameService, HotGameService>();
+            
             /*BLL*/
             services.AddSingleton<ServerInfoBll>();
             services.AddSingleton<CustInfoBll>();
@@ -149,9 +153,11 @@ namespace MemberSite
             services.AddSingleton<IovationBLL>();
             services.AddSingleton<FPSBLL>();
             services.AddSingleton<EventsBLL>();
+            services.AddTransient<AngPaoProcessor>();
+            services.AddTransient<IAngPaoBLL, AngPaoBLL>();
             services.AddSingleton<GameCasinoBll>();
             services.AddSingleton<LiveStreamingBll>();
-            services.AddSingleton<LatestHighlightDataBll>();
+            services.AddSingleton<VideoDataBll>();
             services.AddSingleton<GameBLL>();
             services.AddTransient<IGeoIpApi, GeoIpApi>();
             services.AddTransient<IRecaptchaApi, RecaptchaApi>();
@@ -171,7 +177,10 @@ namespace MemberSite
             services.AddSingleton<SlotGameBLL>();
             services.AddTransient<RecaptchaBLL>();
             services.AddTransient<CheckAttackBLL>();
+            services.AddTransient<DateTimeHelper>();
             
+            services.AddTransient<IHotGameBLL, HotGameBLL>();
+
             services.AddSingleton<CustomCookieAuthenticationEvents>();
             services.AddTransient<HotEventBLL>();
             services.AddControllersWithViews();

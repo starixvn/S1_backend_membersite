@@ -99,14 +99,14 @@ namespace MemberSite.Service.DAL
             }
         }
 
-        public int WithdrawalUSDTReq(int custId, string userName, int currencyId, int siteId, decimal amount, string memo, WithdrawalUSDTInfo withdrawalUSDTInfo, out decimal afterAmount, out string transId)
+        public int WithdrawalCryptoReq(int custId, string userName, int currencyId, int siteId, decimal amount, string memo, WithdrawalCryptoInfo withdrawalCryptoInfo, out decimal afterAmount, out string transId)
         {
             transId = "";
             afterAmount = 0;
             using var conn = _mainDbClient.GetMySqlConnection();
             conn.Open();
             using var trans = conn.BeginTransaction();
-            var p = new DynamicParameters(new { CustId = custId, UserName = userName, CurrencyId = currencyId, SiteId = siteId, Amount = amount, Memo = memo, WithdrawalInfo = Newtonsoft.Json.JsonConvert.SerializeObject(withdrawalUSDTInfo), Prefix = $"W{common.GetEnv()}" });
+            var p = new DynamicParameters(new { CustId = custId, UserName = userName, CurrencyId = currencyId, SiteId = siteId, Amount = amount, Memo = memo, WithdrawalInfo = Newtonsoft.Json.JsonConvert.SerializeObject(withdrawalCryptoInfo), Prefix = $"W{common.GetEnv()}" });
             p.Add("vTransId", dbType: DbType.String, direction: ParameterDirection.Output);
             p.Add("ToKyc", dbType: DbType.Boolean, direction: ParameterDirection.Output);
 
@@ -214,7 +214,7 @@ namespace MemberSite.Service.DAL
        
         public IEnumerable<WithdrawalHistory> GetWithdrawalInfoRecent(int custId, int siteId, int topNum)
         {
-            return _reportDbClient.Query<WithdrawalHistory>("WithdrawalInfoRecent_Get_V3", new { CustId = custId, SiteId = siteId, TopNum = topNum });
+            return _reportDbClient.Query<WithdrawalHistory>("WithdrawalInfoRecent_Get_V4", new { CustId = custId, SiteId = siteId, TopNum = topNum });
         }
         
         public IEnumerable<WithdrawalHistory> GetWithdrawalInfoHistory(int custId, long startDate, long endDate, int siteId, int pageSize, ref int pageNumber, out int totalPages, out int rowCount)
@@ -225,7 +225,7 @@ namespace MemberSite.Service.DAL
             p.Add("RowCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
             p.Add("StartIndex", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
-            var withdrawalInfoHistoryResult = _reportDbClient.Query<WithdrawalHistory>("WithdrawalInfoSearch_Get_V3", p);
+            var withdrawalInfoHistoryResult = _reportDbClient.Query<WithdrawalHistory>("WithdrawalInfoSearch_Get_V4", p);
             totalPages = p.Get<int?>("TotalPages") ?? 0;
             rowCount = p.Get<int?>("RowCount") ?? 0;
             return withdrawalInfoHistoryResult;

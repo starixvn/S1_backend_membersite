@@ -1,5 +1,64 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
@@ -302,11 +361,68 @@
   </data>
   <data name="msg_InsufficientPoint" xml:space="preserve">
     <value>ขออภัยค่ะ! คุณมีคะแนนรางวัลไม่เพียงพอ 88 คะแนน</value>
- </data>
+  </data>
   <data name="msg_EWalletIsMaintenance" xml:space="preserve">
     <value>E-Wallet คือการบำรุงรักษา โปรดใช้วิธีถอนเงินแบบอื่น</value>
   </data>
   <data name="msg_NotInLimit" xml:space="preserve">
     <value>จำนวนเงินมากกว่าหรือน้อยกว่าที่กำหนดไว้</value>
+  </data>
+  <data name="msg_congratulation_event_reward" xml:space="preserve">
+    <value>ยินดีด้วยค่ะ! คุณได้รับอั่งเปาจำนวน {0}</value>
+  </data>
+  <data name="msg_keep_up" xml:space="preserve">
+    <value>ขอให้โชคดีในการเขย่าครั้งต่อไป</value>
+  </data>
+  <data name="msg_limit_has_been_reached" xml:space="preserve">
+    <value>ขออภัยค่ะ เต็มจำนวนจำกัดสำหรับวันนี้แล้ว</value>
+  </data>
+  <data name="msg_turnover_not_enough" xml:space="preserve">
+    <value>คุณยังไม่เริ่มเดิมพันขั้นต่ำ ไม่สามารถเข้าร่วมได้ค่ะ</value>
+  </data>
+  <data name="msg_times_chance" xml:space="preserve">
+    <value>มีโอกาส {0} เท่า</value>
+  </data>
+  <data name="msg_ProfileOrPhoneNotFinish" xml:space="preserve">
+    <value>ข้อมูลบัญชีไม่ครบถ้วน กรุณาทำการยืนยันบัญชีของท่าน</value>
+  </data>
+  <data name="msg_Event_has_not_started" xml:space="preserve">
+    <value>เหตุการณ์ยังไม่เริ่ม</value>
+  </data>
+  <data name="msg_DepositorsNameUnmatch" xml:space="preserve">
+    <value>ชื่อผู้ฝากไม่ตรง</value>
+  </data>
+  <data name="msg_DepositorsNameUnmatch_Detail" xml:space="preserve">
+    <value>ชื่อที่ลงทะเบียนไม่ตรงกับชื่อบัญชีธนาคาร กรุณาติดต่อฝ่ายบริการลูกค้าเพื่อขอความช่วยเหลือเพิ่มเติม</value>
+  </data>
+  <data name="msg_DepositSlipRequired" xml:space="preserve">
+    <value>ต้องใช้สลิปเงินฝากธนาคาร</value>
+  </data>
+  <data name="msg_DepositSlipRequired_Detail" xml:space="preserve">
+    <value>กรุณาแนบสลิปการโอนเงินเพื่อความรวดเร็วในการทำธุรกรรม</value>
+  </data>
+  <data name="msg_PaymentNotReceived" xml:space="preserve">
+    <value>ไม่ได้รับยอดเงินฝาก</value>
+  </data>
+  <data name="msg_PaymentNotReceived_Detail" xml:space="preserve">
+    <value>ยังไม่ได้รับยอดเงินฝากในบัญชีธนาคาร กรุณารอสักครู่</value>
+  </data>
+  <data name="msg_DepositRefunded" xml:space="preserve">
+    <value>คืนยอดเงินฝากเรียบร้อยแล้ว</value>
+  </data>
+  <data name="msg_DepositRefunded_Detail" xml:space="preserve">
+    <value>คืนยอดเงินฝากเรียบร้อยแล้ว โปรดทำการตรวจสอบบัญชีธนาคารของคุณ</value>
+  </data>
+  <data name="msg_WithdrawalAccountNumberIncorrect" xml:space="preserve">
+    <value>หมายเลขบัญชีถอนเงินไม่ถูกต้อง</value>
+  </data>
+  <data name="msg_WithdrawalAccountNumberIncorrect_Detail" xml:space="preserve">
+    <value>หมายเลขบัญชีถอนเงินไม่ถูกต้อง กรุณาตรวจสอบหมายเลขบัญชีถอนเงินของคุณ</value>
+  </data>
+  <data name="msg_WithdrawalAccountsNameUnmatch" xml:space="preserve">
+    <value>ชื่อบัญชีการถอนเงินไม่ตรงกัน</value>
+  </data>
+  <data name="msg_WithdrawalAccountsNameUnmatch_Detail" xml:space="preserve">
+    <value>ชื่อบัญชีถอนเงินไม่ตรงกับชื่อที่ลงทะเบียน โปรดติดต่อฝ่ายบริการลูกค้าเพื่อขอความช่วยเหลือ</value>
   </data>
 </root>
