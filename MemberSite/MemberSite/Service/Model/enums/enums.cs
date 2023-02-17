@@ -581,4 +581,9 @@ namespace MemberSite.Service.Model.enums
         WithdrawalAccountsNameUnmatch = 0,
         WithdrawalAccountNumberIncorrect = 1
     }
+
+    public enum CustTagEnum
+    {
+        Duplicate = 6
+    }
 }

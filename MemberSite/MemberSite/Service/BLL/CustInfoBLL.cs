@@ -353,6 +353,7 @@ namespace MemberSite.Service.BLL
         public int SetCustBankInfo(int custId, string accountName, bool forceUseMainDb = false)
         {
             var custInfo = GetCustInfoWithCache(custId, forceUseMainDb);
+            
             return _custInfoService.SetCustBankInfo(custId, custInfo.SiteId, accountName) ? 0 : -1;
         }
         public int InsertCustBankInfo(int custId, string accountName, int sysId, string accountNum, string iFSCCode, CustBankInfoLogStatus status)
