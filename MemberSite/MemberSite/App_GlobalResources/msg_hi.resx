@@ -347,6 +347,9 @@
   <data name="msg_PhoneWrongFormat" xml:space="preserve">
     <value>फोन का फॉर्मेट गलत है।</value>
   </data>
+  <data name="msg_PhoneFormatVerify" xml:space="preserve">
+    <value>दर्ज किया गया फ़ोन नंबर {0} अंकों का होना चाहिए</value>
+  </data>
   <data name="msg_InvalidCryptoWalletAddress" xml:space="preserve">
     <value>अमान्य क्रिप्टो वॉलेट पता।</value>
   </data>
@@ -385,6 +388,7 @@
   </data>
   <data name="msg_DepositRefunded_Detail" xml:space="preserve">
     <value>जमा राशि वापस कर दी गई है, कृपया अपना बैंक खाता देखें</value>
+    <value>&gt;</value>
   </data>
   <data name="msg_WithdrawalAccountNumberIncorrect" xml:space="preserve">
     <value>विथड्रावल अकाउंट नंबर गलत है</value>

@@ -13,7 +13,7 @@ namespace MemberSite.Service.DAL
             _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
         }
         
-        public VideoData GetVideoData(int SiteId, int CurrencyId,string LangId)
+        public VideoData GetVideoData(int SiteId,int CurrencyId, string LangId)
         {
             return _reportDbClient.QueryFirst<VideoData>("Member_VideoInfo_Get", new { SiteId,CurrencyId,LangId });
         }
