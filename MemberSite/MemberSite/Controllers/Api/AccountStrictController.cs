@@ -727,6 +727,7 @@ namespace MemberSite.Controllers.Api
 
             try
             {
+                _logger.LogInformation("GetCustProfile, CustId: "+ authData.CustId);
                 if (authData is {CustId: > 0})
                 {
                     var custInfo = _custInfoBLL.GetCustInfoProfile(authData.CustId);
@@ -741,10 +742,12 @@ namespace MemberSite.Controllers.Api
                         {
                             _perCountry = _custInfoBLL.GetCountryNameByAreaCode(custInfo.AreaCode);
                         }
+                        _logger.LogInformation("GetCustProfile, _perCountry: "+ _perCountry);
                     }
 
                     var isLineBinding = _lineLoginBll.GetCustLineProfile(authData.CustId, null) != null;
               
+                    _logger.LogInformation("GetCustProfile, isLineBinding: "+ isLineBinding);
                     apiResult.Data = new
                     {
                         custInfo.UserName,
@@ -777,6 +780,9 @@ namespace MemberSite.Controllers.Api
                         custInfo.AddressLineSecond,
                         custInfo.IsResetPwd
                     };
+                    
+                    
+                    _logger.LogInformation("GetCustProfile"+ JsonConvert.SerializeObject(apiResult.Data));
 
                     apiResult.ErrorCode = 0;
                 }
