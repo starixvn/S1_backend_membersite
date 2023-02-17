@@ -106,7 +106,7 @@ namespace MemberSite
             services.AddTransient<IEventsService, EventsService>();
             services.AddSingleton<GameCasinoService>();
             services.AddSingleton<LiveStreamingService>();
-            services.AddSingleton<LatestHighlightDataService>();
+            services.AddSingleton<VideoDataService>();
             services.AddSingleton<ConfigService>();
             services.AddSingleton<AppLinkService>();
             services.AddSingleton<DeepLinkService>();
@@ -157,7 +157,7 @@ namespace MemberSite
             services.AddTransient<IAngPaoBLL, AngPaoBLL>();
             services.AddSingleton<GameCasinoBll>();
             services.AddSingleton<LiveStreamingBll>();
-            services.AddSingleton<LatestHighlightDataBll>();
+            services.AddSingleton<VideoDataBll>();
             services.AddSingleton<GameBLL>();
             services.AddTransient<IGeoIpApi, GeoIpApi>();
             services.AddTransient<IRecaptchaApi, RecaptchaApi>();

@@ -574,4 +574,9 @@ namespace MemberSite.Service.Model.enums
         PaymentNotReceived = 2,
         DepositRefunded = 3
     }
+    public enum WithdrawalMessageStatus
+    {
+        WithdrawalAccountsNameUnmatch = 0,
+        WithdrawalAccountNumberIncorrect = 1
+    }
 }
