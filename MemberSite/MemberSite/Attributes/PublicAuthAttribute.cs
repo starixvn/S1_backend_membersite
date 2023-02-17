@@ -30,15 +30,12 @@ public class PublicAuthAttribute : Attribute, IAuthorizationFilter
 
     public void OnAuthorization(AuthorizationFilterContext context)
     {
-        //var fromUrl = _tools.GetFromUrl();
         var fromUrl = context.HttpContext.Request.GetDisplayUrl();
         var deviceType = _tools.GetDeviceId(fromUrl);
 
         //App 先不用驗證
-        if (!_environment.IsDevelopment() && deviceType != DeviceId.APP)
+        if (deviceType != DeviceId.APP)
         {
-            //using var reader = new StreamReader(context.HttpContext.Request.Body, Encoding.UTF8, leaveOpen: true);
-            //var content = reader.ReadToEnd();
             var requestBodyStream = new MemoryStream();
             var originalRequestBody = context.HttpContext.Request.Body;
             var content = string.Empty;
@@ -82,8 +79,6 @@ public class PublicAuthAttribute : Attribute, IAuthorizationFilter
 
             requestBodyStream.Seek(0, SeekOrigin.Begin);
             context.HttpContext.Request.Body = requestBodyStream;
-
-            //context.HttpContext.Request.Body = originalRequestBody;
         }
     }
 
