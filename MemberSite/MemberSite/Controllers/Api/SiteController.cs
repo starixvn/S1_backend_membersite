@@ -177,6 +177,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
+        [TypeFilter(typeof(PublicAuthAttribute))]
         public ApiResult<JwtAuthData> SignInApp(LoginModel loginModel)
         {
             var apiResult = new ApiResult<JwtAuthData>(_selLangBll);
