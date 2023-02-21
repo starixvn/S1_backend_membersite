@@ -16,6 +16,7 @@ public class ShieldRiskRequest
 
 public class SendShieldAttributesRequest
 {
+    public int SiteId { get; set; }
     public string UserId { get; set; }
     public string Platform { get; set; }
     public string SessionId { get; set; }
@@ -89,6 +90,11 @@ public class HighShieldRiskLogRequest
     public int DeviceScore { get; set; }
     public int TriggeredPoint { get; set; }
     public int TaggedIssue { get; set; }
+}
+
+public class GetEndpointRequest
+{
+    public int SiteId { get; set; }
 }
 
 public class GetEndpointResult
