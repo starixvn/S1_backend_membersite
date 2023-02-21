@@ -41,7 +41,7 @@ namespace MemberSite.Service.BLL
             return false;
         }
 
-        public bool RequestAuth(string content)
+        public bool RequestAuth(string fromUrl,string content)
         {
 
             if (string.IsNullOrWhiteSpace(content))
@@ -57,7 +57,7 @@ namespace MemberSite.Service.BLL
 
             #region Development Pass Token
 
-            if (_hostEnvironment.IsDevelopment())
+            if (_hostEnvironment.IsDevelopment() || fromUrl.Contains("appstag"))
             {
                 // 暫不檢查是否有帶token
                 //if (!jbody.ContainsKey("token"))
@@ -72,6 +72,7 @@ namespace MemberSite.Service.BLL
             }
 
             #endregion
+
             //暫不檢查是否有帶token、timestamp
             //if (!jbody.ContainsKey("timestamp")
             //    || !jbody.ContainsKey("token"))
