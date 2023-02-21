@@ -117,7 +117,7 @@ namespace MemberSite.Service.BLL
                 var requestStr = content.Replace(token, _publicApiAuthToken);
                 if (token != _cryptoHelper.SHA256(requestStr))
                 {
-                    _logger.LogError("Request vaild fail：Check crypto token fail.");
+                    _logger.LogError($"Request vaild fail：Check crypto token fail. request.token={token}. correct token={_cryptoHelper.SHA256(requestStr)}");
                     return false;
                 }
             }
