@@ -402,5 +402,21 @@ namespace MemberSite.Service.Library
         }
         
         #endregion
+        
+        public static void CommitAndDisposeConnection(MySqlConnection conn, IDbTransaction trans)
+        {
+            trans.Commit();
+            trans.Dispose();
+            conn.Close();
+            conn.Dispose();
+        }
+        
+        public static void RollbackAndDisposeConnection(MySqlConnection conn, IDbTransaction trans)
+        {
+            trans.Rollback();
+            trans.Dispose();
+            conn.Close();
+            conn.Dispose();
+        }
     }
 }
