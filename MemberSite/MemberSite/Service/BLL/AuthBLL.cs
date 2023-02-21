@@ -56,7 +56,7 @@ namespace MemberSite.Service.BLL
             }
 
             #region Development Pass Token
-
+            _logger.LogError($"fromUrl={fromUrl}.");
             if (_hostEnvironment.IsDevelopment() || fromUrl.Contains("appstag"))
             {
                 // 暫不檢查是否有帶token
