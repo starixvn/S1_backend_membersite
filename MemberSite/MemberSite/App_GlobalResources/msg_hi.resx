@@ -401,4 +401,28 @@
   <data name="msg_WithdrawalAccountsNameUnmatch_Detail" xml:space="preserve">
     <value>निकासी खाते का नाम पंजीकृत नाम से मेल नहीं खाता है। कृपया सहायता के लिए ग्राहक सेवा से संपर्क करें।</value>
   </data>
+  <data name="msg_WrongAmountSubmitted" xml:space="preserve">
+    <value>जमा की गई राशि गलत है</value>
+  </data>
+  <data name="msg_WrongAmountSubmitted_Detail" xml:space="preserve">
+    <value>जमा राशि जमा पर्ची आवेदन राशि से मेल नहीं खा रही है, आगे की सहायता के लिए कृपया दोबारा जांच करें या ग्राहक सहायता से संपर्क करें।</value>
+  </data>
+  <data name="msg_WrongBankSubmitted" xml:space="preserve">
+    <value>गलत जमा खाता चुना गया है</value>
+  </data>
+  <data name="msg_WrongBankSubmitted_Detail" xml:space="preserve">
+    <value>चयनित जमा राशि गलत है, आगे की सहायता के लिए कृपया दोबारा जांच करें या ग्राहक सहायता से संपर्क करें।</value>
+  </data>
+  <data name="msg_BeneficiarysAccountMaintenance" xml:space="preserve">
+    <value>लाभार्थी का खाता रखरखाव</value>
+  </data>
+  <data name="msg_BeneficiarysAccountMaintenance_Detail" xml:space="preserve">
+    <value>बैंक वर्तमान में रखरखाव के अधीन है, बैंक रखरखाव पूरा होने के बाद आपके निकासी आवेदन पर कार्रवाई की जाएगी।</value>
+  </data>
+  <data name="msg_WithdrawalAccountAannotReceiveMoney" xml:space="preserve">
+    <value>निकासी खाते को फंड प्राप्त करने में विफल</value>
+  </data>
+  <data name="msg_WithdrawalAccountAannotReceiveMoney_Detail" xml:space="preserve">
+    <value>निकासी खाता धन प्राप्त करने में असमर्थ है। आगे की सहायता के लिए कृपया दोबारा जांच करें या ग्राहक सहायता से संपर्क करें।</value>
+  </data>
 </root>

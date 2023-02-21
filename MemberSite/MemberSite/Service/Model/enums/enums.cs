@@ -574,12 +574,16 @@ namespace MemberSite.Service.Model.enums
         DepositorsNameUnmatch = 0,
         DepositSlipRequired = 1,
         PaymentNotReceived = 2,
-        DepositRefunded = 3
+        DepositRefunded = 3,
+        WrongAmountSubmitted = 4,
+        WrongBankSubmitted = 5
     }
     public enum WithdrawalMessageStatus
     {
         WithdrawalAccountsNameUnmatch = 0,
-        WithdrawalAccountNumberIncorrect = 1
+        WithdrawalAccountNumberIncorrect = 1,
+        WithdrawalAccountAannotReceiveMoney = 2,
+        BeneficiarysAccountMaintenance = 3
     }
 
     public enum CustTagEnum

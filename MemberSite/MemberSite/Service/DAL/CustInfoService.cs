@@ -298,7 +298,7 @@ namespace MemberSite.Service.DAL
             return _mainDbClient.Execute("Member_CustProfile_Address_Set", p) > 0;
         }
         
-        private IEnumerable<CustAccountNameInfo> GetDuplicateAccountNameInfo(int siteId, string accountName)
+        private IEnumerable<CustAccountNameInfo> GetDuplicateAccountNameInfo(int siteId, int custId, string accountName)
         {
             /* 相同定義：
              * * 大小寫不同
@@ -319,7 +319,8 @@ namespace MemberSite.Service.DAL
             };
             var similarAccList = this.GetSimilarAccountName(siteId, patterns);
             var  result = similarAccList
-                .Where(x => patterns.Any(y => y.Equals(x.AccountName, StringComparison.CurrentCultureIgnoreCase)));
+                .Where(x => x.CustId != custId
+                            && patterns.Any(y => y.Equals(x.AccountName, StringComparison.CurrentCultureIgnoreCase)));
 
             foreach (var info in result)
             {
@@ -341,7 +342,7 @@ namespace MemberSite.Service.DAL
             });
 
             var duplicateList = 
-                GetDuplicateAccountNameInfo(siteId, accountName);
+                GetDuplicateAccountNameInfo(siteId, custId, accountName);
             
             if (!duplicateList.Any())
             {
