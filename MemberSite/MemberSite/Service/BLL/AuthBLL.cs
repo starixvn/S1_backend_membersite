@@ -41,7 +41,7 @@ namespace MemberSite.Service.BLL
             return false;
         }
 
-        public bool RequestAuth(string fromUrl,string content)
+        public bool RequestAuth(string fromUrl, string content)
         {
 
             if (string.IsNullOrWhiteSpace(content))
@@ -59,6 +59,7 @@ namespace MemberSite.Service.BLL
             _logger.LogError($"fromUrl={fromUrl}.");
             if (_hostEnvironment.IsDevelopment() || fromUrl.Contains("appstag"))
             {
+                _logger.LogError($"IS App Dev testing.");
                 // 暫不檢查是否有帶token
                 //if (!jbody.ContainsKey("token"))
                 //{
@@ -67,8 +68,11 @@ namespace MemberSite.Service.BLL
                 //}
 
                 if (jbody.ContainsKey("token"))
+                {
+                    _logger.LogError($"IS App Dev testing. token={jbody["token"]}");
                     if (jbody["token"].ToString() == _publicApiPassToken)
                         return true;
+                }
             }
 
             #endregion
