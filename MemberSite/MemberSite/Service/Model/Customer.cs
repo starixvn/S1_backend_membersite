@@ -97,7 +97,7 @@ namespace MemberSite.Service.Model
         public string AccountName { set; get; }
         public string DefAccountNo { set; get; }
         public IEnumerable<BankInfoDetailRep> bankInfoDetail { set; get; }
-        public IEnumerable<CryptoWalletDetail> uSDTDetail { set; get; }
+        public IEnumerable<CryptoWalletDetail> usdtDetail { set; get; }
     }
 
     public class EWalletInfoDetail

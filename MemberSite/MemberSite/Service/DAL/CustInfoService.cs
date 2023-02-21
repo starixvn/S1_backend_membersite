@@ -773,14 +773,58 @@ namespace MemberSite.Service.DAL
             return _mainDbClient.Query<CryptoWalletDetailData>("Member_CustCryptoWalletDetailByAddress_Get", new { Address = address });
         }
 
-        private bool SetCustCryptoWalletDetail(int custId, int currencyId, string Network, string Address, CustCryptoWalletDetailStatus status, IDbTransaction trans)
+        public bool InsertCustCryptoWalletDetail(int custId, int siteId, int currencyId, string network, string address, string nickName, string accountName)
+        {
+            using var conn = _mainDbClient.GetMySqlConnection();
+            conn.Open();
+            using var trans = conn.BeginTransaction();
+
+            var custCryptoWalletDetailResult = SetCustCryptoWalletDetail(custId, currencyId, network, address, nickName, CustCryptoWalletDetailStatus.Able, trans);
+            var custCryptoWalletDetailLogResult = SetCustCryptoWalletDetailLog(custId, siteId, accountName, address, nickName, network, currencyId, CustCryptoWalletDetailLogStatus.Create, trans);
+            if (custCryptoWalletDetailResult && custCryptoWalletDetailLogResult)
+            {
+                trans.Commit();
+            }
+            else
+            {
+                trans.Rollback();
+            }
+            conn.Close();
+            conn.Dispose();
+
+            return custCryptoWalletDetailResult && custCryptoWalletDetailLogResult;
+        }
+        public bool DeleteCustCryptoWalletDetail(int custId, int siteId, int currencyId, string network, string address, string nickName)
+        {
+            using var conn = _mainDbClient.GetMySqlConnection();
+            conn.Open();
+            using var trans = conn.BeginTransaction();
+
+            var custCryptoWalletDetailResult = SetCustCryptoWalletDetail(custId, currencyId, network, address, nickName, CustCryptoWalletDetailStatus.Disable, trans);
+            var custCryptoWalletDetailLogResult = SetCustCryptoWalletDetailLog(custId, siteId, null, address, nickName, network, currencyId, CustCryptoWalletDetailLogStatus.Delete, trans);
+            if (custCryptoWalletDetailResult && custCryptoWalletDetailLogResult)
+            {
+                trans.Commit();
+            }
+            else
+            {
+                trans.Rollback();
+            }
+            conn.Close();
+            conn.Dispose();
+
+            return custCryptoWalletDetailResult && custCryptoWalletDetailLogResult;
+        }
+
+        private bool SetCustCryptoWalletDetail(int custId, int currencyId, string network, string address, string nickName, CustCryptoWalletDetailStatus status, IDbTransaction trans)
         {
             var parameter = new DynamicParameters(new
             {
                 CustId = custId,
                 CurrencyId = currencyId,
-                Network = Network,
-                Address = Address,
+                Network = network,
+                Address = address,
+                NickName = nickName,
                 Status = (int)status
             });
             var result = _mainDbClient.Execute("Member_CustCryptoWalletDetail_Set", trans, parameter);

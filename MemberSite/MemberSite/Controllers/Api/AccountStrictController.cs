@@ -1106,9 +1106,8 @@ namespace MemberSite.Controllers.Api
             if (authData is { CustId: > 0 })
             {
                 var custBankInfo = _custInfoBLL.GetCustBankInfo(authData.CustId);
-                var uSDTInfoList = new List<CryptoWalletDetail>();
-                var uSDTInfoLogList = new List<CryptoWalletDetailLog>();
                 var custCryptoWalletDetail = _custInfoBLL.GetCustCryptoWalletDetail(custCryptoWalletreq.Address).ToList();
+                var blockCryptoWallet = _bankInfoBLL.GetBlockCryptoWallet(custCryptoWalletreq.Address).ToList();
 
                 if (custBankInfo == null)
                 {
@@ -1124,9 +1123,7 @@ namespace MemberSite.Controllers.Api
                 }
                 else if (custBankInfo.usdtDetail != null)
                 {
-                    uSDTInfoList = custBankInfo.usdtDetail.ToList();
-
-                    if (uSDTInfoList.Any(x => x.USDTAddress == custCryptoWalletreq.Address
+                    if (custBankInfo.usdtDetail.Any(x => x.USDTAddress == custCryptoWalletreq.Address
                                               && x.CurrencyId == custCryptoWalletreq.CurrencyId)) // 可能幣種不同但錢包位址相同
                     {
                         apiResult.ErrorCode = -4;
@@ -1134,7 +1131,7 @@ namespace MemberSite.Controllers.Api
                         return apiResult;
                     }
                 }
-                else if (custCryptoWalletDetail != null )
+                else if (custCryptoWalletDetail.Count > 0)
                 {
                     var bankDetail = custCryptoWalletDetail.Find(x => x.CustId == authData.CustId);
                     if (bankDetail == null)
@@ -1144,28 +1141,37 @@ namespace MemberSite.Controllers.Api
                         return apiResult;
                     }
                 }
-
-                var currencyId = uSDTDetailreq.CurrencyId == 0 ? 96 : uSDTDetailreq.CurrencyId;
-                uSDTInfoList.Add(new CryptoWalletDetail
+                else if (blockCryptoWallet.Count > 0)
                 {
-                    NickName = uSDTDetailreq.NickName,
-                    USDTAddress = uSDTDetailreq.USDTAddress,
-                    Network = uSDTDetailreq.Network,
-                    CurrencyId = currencyId
-                });
-                uSDTInfoLogList.Add(new CryptoWalletDetailLog
+                    apiResult.ErrorCode = -1;
+                    apiResult.Message = _selLangBLL.GetMsg("msg_UpdateFailed");
+                    return apiResult;
+                }
+
+                apiResult.ErrorCode = _custInfoBLL.InsertCustCryptoWalletDetail(authData.CustId, custCryptoWalletreq.CurrencyId, custCryptoWalletreq.Network, custCryptoWalletreq.Address, custCryptoWalletreq.NickName, custBankInfo.AccountName);
+                apiResult.Message = _selLangBLL.GetMsg(apiResult.ErrorCode == 0 ? "msg_Updatesuccessful" : "msg_UpdateFailed");
+            }
+
+            return apiResult;
+        }
+
+        [HttpPost]
+        public ApiResult DelCustCryptoWallet(CustCryptoWalletreq custCryptoWalletreq)
+        {
+            var apiResult = new ApiResult(_selLangBLL);
+            var authData = _authorizeBLL.GetAuthData();
+
+            if (authData is { CustId: > 0 })
+            {
+                var custCryptoWalletDetail = _custInfoBLL.GetCustCryptoWalletDetail(authData.CustId);
+                if (custCryptoWalletDetail == null)
                 {
-                    NickName = uSDTDetailreq.NickName,
-                    USDTAddress = uSDTDetailreq.USDTAddress,
-                    Network = uSDTDetailreq.Network,
-                    CurrencyId = currencyId,
-                    Status = 1
-                });
-
-                apiResult.ErrorCode = _custInfoBLL.SetCustUSDTInfo(authData.CustId, uSDTDetailreq.AccountName,
-                    uSDTInfoList, uSDTInfoLogList);
-                apiResult.Message = _selLangBLL.GetMsg("msg_Updatesuccessful");
-
+                    apiResult.ErrorCode = -2;
+                    apiResult.Message = _selLangBLL.GetMsg("msg_UpdateFailed");
+                    return apiResult;
+                }
+                apiResult.ErrorCode = _custInfoBLL.DeleteCustCryptoWalletDetail(authData.CustId, custCryptoWalletreq.CurrencyId, custCryptoWalletreq.Network, custCryptoWalletreq.Address, custCryptoWalletreq.NickName);
+                apiResult.Message = _selLangBLL.GetMsg(apiResult.ErrorCode == 0 ? "msg_Updatesuccessful" : "msg_UpdateFailed");
             }
 
             return apiResult;

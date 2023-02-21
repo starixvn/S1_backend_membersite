@@ -379,18 +379,7 @@ namespace MemberSite.Service.BLL
                 var cryptoWalletDetail = _custInfoService.GetCustCryptoWalletDetail(custId);
                 custBankInfo.usdtDetail = cryptoWalletDetail;
             }
-            //if (custBankInfo is { USDTInfo: { } })
-            //{
-            //    var uSDTDetailList = JsonConvert.DeserializeObject<IEnumerable<USDTDetail>>(custBankInfo.USDTInfo);
-            //    if (uSDTDetailList != null)
-            //    {
-            //        uSDTDetailList = uSDTDetailList.Where(x => x.USDTAddress != null);//filiter null data
-            //        if (uSDTDetailList.Any())
-            //        {
-            //            custBankInfo.usdtDetail = uSDTDetailList;
-            //        }
-            //    }
-            //}
+
             return custBankInfo;
         }
         public string GetDefAccountNo(int custId)
@@ -658,6 +647,23 @@ namespace MemberSite.Service.BLL
         public IEnumerable<CryptoWalletDetailData> GetCustCryptoWalletDetail(string address)
         {
             return _custInfoService.GetCustCryptoWalletDetail(address);
+        }
+
+        public int InsertCustCryptoWalletDetail(int custId, int currencyId, string network, string address, string nickName, string accountName)
+        {
+            var custInfo = GetCustInfoWithCache(custId);
+            return _custInfoService.InsertCustCryptoWalletDetail(custId, custInfo.SiteId, currencyId, network, address, nickName, accountName) ? 0 : -1;
+        }
+
+        public int DeleteCustCryptoWalletDetail(int custId, int currencyId, string network, string address, string nickName)
+        {
+            var custInfo = GetCustInfoWithCache(custId);
+            return _custInfoService.DeleteCustCryptoWalletDetail(custId, custInfo.SiteId, currencyId, network, address, nickName) ? 0 : -1;
+        }
+
+        public IEnumerable<CryptoWalletDetail> GetCustCryptoWalletDetail(int custId)
+        {
+            return _custInfoService.GetCustCryptoWalletDetail(custId);
         }
     }
 }
