@@ -353,7 +353,7 @@ namespace MemberSite.Service.BLL
         public int SetCustBankInfo(int custId, string accountName, bool forceUseMainDb = false)
         {
             var custInfo = GetCustInfoWithCache(custId, forceUseMainDb);
-            
+
             return _custInfoService.SetCustBankInfo(custId, custInfo.SiteId, accountName) ? 0 : -1;
         }
         public int InsertCustBankInfo(int custId, string accountName, int sysId, string accountNum, string iFSCCode, CustBankInfoLogStatus status)
@@ -361,8 +361,8 @@ namespace MemberSite.Service.BLL
             var custInfo = GetCustInfoWithCache(custId);
             return _custInfoService.InsertCustBankInfo(custId, custInfo.SiteId, accountName, sysId, accountNum, iFSCCode, status) ? 0 : -1;
         }
-        
-        public int SetCustUSDTInfo(int custId, string accountName, IEnumerable<USDTDetail> uSDTInfo, IEnumerable<USDTDetailLog> uSDTInfoLog)
+
+        public int SetCustUSDTInfo(int custId, string accountName, IEnumerable<CryptoWalletDetail> uSDTInfo, IEnumerable<CryptoWalletDetailLog> uSDTInfoLog)
         {
             var custInfo = GetCustInfoWithCache(custId);
             return _custInfoService.SettCustUSDTInfo(custId, custInfo.SiteId, accountName, uSDTInfo, uSDTInfoLog) ? 0 : -1;
@@ -375,19 +375,22 @@ namespace MemberSite.Service.BLL
             {
                 var bankInfoDetailList = _custInfoService.GetCustBankDetail(custId);
                 custBankInfo.bankInfoDetail = bankInfoDetailList;
+
+                var cryptoWalletDetail = _custInfoService.GetCustCryptoWalletDetail(custId);
+                custBankInfo.usdtDetail = cryptoWalletDetail;
             }
-            if (custBankInfo is { USDTInfo: { } })
-            {
-                var uSDTDetailList = JsonConvert.DeserializeObject<IEnumerable<USDTDetail>>(custBankInfo.USDTInfo);
-                if (uSDTDetailList != null)
-                {
-                    uSDTDetailList = uSDTDetailList.Where(x => x.USDTAddress != null);//filiter null data
-                    if (uSDTDetailList.Any())
-                    {
-                        custBankInfo.usdtDetail = uSDTDetailList;
-                    }
-                }
-            }
+            //if (custBankInfo is { USDTInfo: { } })
+            //{
+            //    var uSDTDetailList = JsonConvert.DeserializeObject<IEnumerable<USDTDetail>>(custBankInfo.USDTInfo);
+            //    if (uSDTDetailList != null)
+            //    {
+            //        uSDTDetailList = uSDTDetailList.Where(x => x.USDTAddress != null);//filiter null data
+            //        if (uSDTDetailList.Any())
+            //        {
+            //            custBankInfo.usdtDetail = uSDTDetailList;
+            //        }
+            //    }
+            //}
             return custBankInfo;
         }
         public string GetDefAccountNo(int custId)
@@ -462,7 +465,7 @@ namespace MemberSite.Service.BLL
             var result = await _commonBll.SendResetPwdMailAsync(custId, resetPasswordUrl);
             return result;
         }
-        
+
         public async Task<ApiResult> VerifyOTPAsync(int custId, string inputOTP)
         {
             var apiResult = await _commonBll.VerifyOTPAsync(custId, inputOTP);
@@ -650,6 +653,11 @@ namespace MemberSite.Service.BLL
         {
             var custInfo = GetCustInfoWithCache(custId);
             return _custInfoService.DeleteCustEWalletDetail(custId, custInfo.SiteId, sysId, accountNum, status) ? 0 : -1;
+        }
+
+        public IEnumerable<CryptoWalletDetailData> GetCustCryptoWalletDetail(string address)
+        {
+            return _custInfoService.GetCustCryptoWalletDetail(address);
         }
     }
 }

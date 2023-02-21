@@ -396,4 +396,7 @@
   <data name="msg_WithdrawalAccountsNameUnmatch_Detail" xml:space="preserve">
     <value>উত্তোলন অ্যাকাউন্টের নাম নিবন্ধিত নামের সাথে মেলে না। সহায়তার জন্য গ্রাহক পরিষেবার সাথে যোগাযোগ করুন.</value>
   </data>
+  <data name="msg_CryptoWalletDuplicate" xml:space="preserve">
+    <value>ক্রিপ্টো ওয়ালেট ঠিকানা ইতিমধ্যেই বিদ্যমান</value>
+  </data>
 </root>

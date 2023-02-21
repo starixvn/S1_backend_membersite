@@ -395,4 +395,7 @@ Hãy chuyển tiền từ ví chính sang ví Thể thao để trải nghiệm c
   <data name="msg_WithdrawalAccountsNameUnmatch_Detail" xml:space="preserve">
     <value>Tên tài khoản rút tiền không khớp với tên đã đăng ký. Vui lòng liên hệ với dịch vụ chăm sóc khách hàng để được hỗ trợ.</value>
   </data>
+  <data name="msg_CryptoWalletDuplicate" xml:space="preserve">
+    <value>Địa chỉ Ví tiền ảo này đã được sử dụng</value>
+  </data>
 </root>

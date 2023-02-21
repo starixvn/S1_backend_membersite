@@ -398,4 +398,7 @@
   <data name="msg_WithdrawalAccountsNameUnmatch_Detail" xml:space="preserve">
     <value>निकासी खाते का नाम पंजीकृत नाम से मेल नहीं खाता है। कृपया सहायता के लिए ग्राहक सेवा से संपर्क करें।</value>
   </data>
+  <data name="msg_CryptoWalletDuplicate" xml:space="preserve">
+    <value>क्रिप्टो वॉलेट पता पहले से मौजूद है</value>
+  </data>
 </root>

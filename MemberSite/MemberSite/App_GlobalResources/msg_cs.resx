@@ -415,4 +415,7 @@
   <data name="msg_WithdrawalAccountsNameUnmatch_Detail" xml:space="preserve">
     <value>提款账户姓名与注册姓名不符合。请联系客服寻求协助。</value>
   </data>
+  <data name="msg_CryptoWalletDuplicate" xml:space="preserve">
+    <value>加密货币钱包地址已存在</value>
+  </data>
 </root>

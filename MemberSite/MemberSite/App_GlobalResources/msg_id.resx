@@ -400,4 +400,7 @@
   <data name="msg_WithdrawalAccountsNameUnmatch_Detail" xml:space="preserve">
     <value>Nama akun penarikan tidak sesuai dengan nama terdaftar. Untuk bantuan, silahkan hubungi layanan pelanggan</value>
   </data>
+  <data name="msg_CryptoWalletDuplicate" xml:space="preserve">
+    <value>Alamat dompet kripto sudah digunakan</value>
+  </data>
 </root>
