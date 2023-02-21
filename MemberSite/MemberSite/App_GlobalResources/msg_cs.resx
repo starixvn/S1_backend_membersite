@@ -415,4 +415,28 @@
   <data name="msg_WithdrawalAccountsNameUnmatch_Detail" xml:space="preserve">
     <value>提款账户姓名与注册姓名不符合。请联系客服寻求协助。</value>
   </data>
+  <data name="msg_WrongAmountSubmitted" xml:space="preserve">
+    <value>存款金额不正确</value>
+  </data>
+  <data name="msg_WrongAmountSubmitted_Detail" xml:space="preserve">
+    <value>实际转账金额与存款单申请金额不符，请再次确认或联系在线客服寻求协助。</value>
+  </data>
+  <data name="msg_WrongBankSubmitted" xml:space="preserve">
+    <value>存款账户有误</value>
+  </data>
+  <data name="msg_WrongBankSubmitted_Detail" xml:space="preserve">
+    <value>选择的存款账户有误，请再次确认或联系在线客服寻求协助。</value>
+  </data>
+  <data name="msg_BeneficiarysAccountMaintenance" xml:space="preserve">
+    <value>提款账户银行维护</value>
+  </data>
+  <data name="msg_BeneficiarysAccountMaintenance_Detail" xml:space="preserve">
+    <value>提款账户银行正在维护中，您的提款申请将会在银行维护完毕之后为您办理</value>
+  </data>
+  <data name="msg_WithdrawalAccountAannotReceiveMoney" xml:space="preserve">
+    <value>提款账户无法正常收款</value>
+  </data>
+  <data name="msg_WithdrawalAccountAannotReceiveMoney_Detail" xml:space="preserve">
+    <value>提款账户无法正常收款，请再次核实或使用其他提款账户提款。</value>
+  </data>
 </root>
