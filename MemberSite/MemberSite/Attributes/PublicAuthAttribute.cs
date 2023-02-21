@@ -30,12 +30,9 @@ public class PublicAuthAttribute : Attribute, IAuthorizationFilter
 
     public void OnAuthorization(AuthorizationFilterContext context)
     {
-        var fromUrl = context.HttpContext.Request.GetDisplayUrl();
-        //var deviceType = _tools.GetDeviceId(fromUrl);
-
-
         var requestBodyStream = new MemoryStream();
         var content = string.Empty;
+        var fromUrl = context.HttpContext.Request.GetDisplayUrl();
 
         if (context.HttpContext.Request.ContentType?.StartsWith("application/x-www-form-urlencoded") ?? false)
         {
@@ -56,7 +53,7 @@ public class PublicAuthAttribute : Attribute, IAuthorizationFilter
                 : content;
         }
 
-        if (!_authBll.RequestAuth(content))
+        if (!_authBll.RequestAuth(fromUrl, content))
         {
             if (IsJsonResult(context.HttpContext.Request.ContentType))
             {
