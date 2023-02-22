@@ -218,7 +218,7 @@ namespace MemberSite.Service.DAL
                 if (drawPrize.PrizeType == 1) //money
                 {
                     _walletService.SetBalance(custId, siteId, userName, prizeAmount, 8, $"Prize: {prizeAmount.ToString("#,##0.##")}", eventId.ToString(), out _, out _, trans);
-                    _withdrawalLimitService.SetWithdrawalLimit(custId, userName, siteId, prizeAmount, null, eventId.ToString(), out var afterWithdrawalLimit, trans);
+                    _withdrawalLimitService.SetWithdrawalLimit(custId, userName, siteId, prizeAmount, null, eventId.ToString(), (int)WithdrawalLimitLogCreateFromEnum.DrawPrize , "System", out var afterWithdrawalLimit, trans);
                 }
                 trans.Commit();
                 conn.Close();
@@ -239,7 +239,7 @@ namespace MemberSite.Service.DAL
             {
                 var memo = $"Prize: {prizeAmount.ToString("#,##0.##")}";
                 res = _walletService.SetBalance(custId, siteId, userName, prizeAmount, 8, memo, eventId.ToString(), out _, out _, trans);
-                res = _withdrawalLimitService.SetWithdrawalLimit(custId, userName, siteId, prizeAmount, memo, eventId.ToString(), out var afterWithdrawalLimit, trans);
+                res = _withdrawalLimitService.SetWithdrawalLimit(custId, userName, siteId, prizeAmount, memo, eventId.ToString(), (int)WithdrawalLimitLogCreateFromEnum.DrawPrize , "System", out var afterWithdrawalLimit, trans);
             }
             if (res > 0) 
             {

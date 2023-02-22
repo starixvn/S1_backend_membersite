@@ -614,4 +614,10 @@ namespace MemberSite.Service.Model.enums
         Lock = 3,
         Unlock = 4
     }
+    
+    public enum WithdrawalLimitLogCreateFromEnum 
+    {
+        Default = 0,
+        DrawPrize = 7
+    }
 }
