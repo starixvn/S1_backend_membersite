@@ -391,7 +391,7 @@ namespace MemberSite.Controllers.Api
             if (custBankInfo != null)
             {
                 custBankInfo.bankInfoDetail ??= Enumerable.Empty<BankInfoDetailRep>();
-                custBankInfo.usdtDetail ??= Enumerable.Empty<CryptoWalletDetail>();
+                custBankInfo.uSDTDetail ??= Enumerable.Empty<CryptoWalletDetail>();
             }
 
             apiResult.Data = custBankInfo;
