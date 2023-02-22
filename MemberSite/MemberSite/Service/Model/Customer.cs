@@ -40,7 +40,7 @@ namespace MemberSite.Service.Model
         public string BankInfo { set; get; }
         public string USDTInfo { set; get; }
         public IEnumerable<BankInfoDetail> bankInfoDetail { set; get; }
-        public IEnumerable<USDTDetail> usdtDetail { set; get; }
+        public IEnumerable<CryptoWalletDetail> usdtDetail { set; get; }
     }
 
     public class BankInfoDetail
@@ -57,7 +57,7 @@ namespace MemberSite.Service.Model
         public string IFSCCode { set; get; }
         public int Status { get; set; }
     }
-    public class USDTDetail
+    public class CryptoWalletDetail
     {
         public string NickName { set; get; }
         public string USDTAddress { set; get; }
@@ -70,7 +70,7 @@ namespace MemberSite.Service.Model
             {
                 try
                 {
-                    return ((CryptoCurrencyId) this.CurrencyId).ToString();
+                    return ((CryptoCurrencyId)this.CurrencyId).ToString();
                 }
                 catch
                 {
@@ -80,11 +80,11 @@ namespace MemberSite.Service.Model
         }
     }
 
-    public class USDTDetailLog :USDTDetail
+    public class CryptoWalletDetailLog : CryptoWalletDetail
     {
         public int Status { set; get; }
     }
-    
+
     public class BankInfoDetailRep : BankInfoDetail
     {
         public string BankName { set; get; }
@@ -97,7 +97,7 @@ namespace MemberSite.Service.Model
         public string AccountName { set; get; }
         public string DefAccountNo { set; get; }
         public IEnumerable<BankInfoDetailRep> bankInfoDetail { set; get; }
-        public IEnumerable<USDTDetail> uSDTDetail { set; get; }
+        public IEnumerable<CryptoWalletDetail> usdtDetail { set; get; }
     }
 
     public class EWalletInfoDetail
@@ -105,9 +105,9 @@ namespace MemberSite.Service.Model
         public int SysId { set; get; }
         public string AccountNo { set; get; }
     }
-    public class EWalletInfoDetailData: EWalletInfoDetail
+    public class EWalletInfoDetailData : EWalletInfoDetail
     {
-        public int CustId  { set; get; }
+        public int CustId { set; get; }
     }
 
     public class EWalletInfoDetailRep : EWalletInfoDetail
@@ -232,7 +232,7 @@ namespace MemberSite.Service.Model
         public int PeriodDays { get; set; }
         public string Details { get; set; }
     }
-    
+
     public class ReferralSettingDetail
     {
         public decimal ReferralReward { get; set; }
@@ -307,18 +307,23 @@ namespace MemberSite.Service.Model
     {
         public bool Exists { get; set; }
     }
-    
+
     public class CustTagList
     {
         public int CustId { get; set; }
-        
+
         public string StrTagList { get; set; }
 
         public IEnumerable<int> TagList { get; set; }
     }
-    
+
     public class CustAccountNameInfo : CustTagList
     {
         public string AccountName { get; set; }
+    }
+
+    public class CryptoWalletDetailData : CryptoWalletDetail
+    {
+        public int CustId { set; get; }
     }
 }

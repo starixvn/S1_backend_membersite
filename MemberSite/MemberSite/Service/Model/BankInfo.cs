@@ -34,12 +34,12 @@
         public int Status { get; set; }
 
         public string QRCodeUrl { get; set; }
-        
-        public bool SupportQR  { get; set; }
+
+        public bool SupportQR { get; set; }
     }
     public class OfflineBankInfoFront : SysBankInfoFront
     {
-        public OfflineBankInfoFront(){}
+        public OfflineBankInfoFront() { }
 
         public OfflineBankInfoFront(SysBankInfoFront bankInfo, bool canSubmit)
         {
@@ -70,6 +70,16 @@
     {
         public int SysId { set; get; }
         public string AccountNum { get; set; }
+        public int Status { set; get; }
+        public string Memo { set; get; }
+        public string UpdateOperator { set; get; }
+        public DateTime UpdateTime { set; get; }
+
+    }
+
+    public class BlockCryptoWallet
+    {
+        public string Address { get; set; }
         public int Status { set; get; }
         public string Memo { set; get; }
         public string UpdateOperator { set; get; }

@@ -452,4 +452,7 @@
   <data name="msg_WithdrawalAccountAannotReceiveMoney_Detail" xml:space="preserve">
     <value>บัญชีถอนเงินไม่สามารถรับเงิน. กรุณาตรวจสอบอีกครั้งหรือติดต่อฝ่ายบริการลูกค้าของเราเพื่อขอความช่วยเหลือเพิ่มเติม.</value>
   </data>
+  <data name="msg_CryptoWalletDuplicate" xml:space="preserve">
+    <value>กระเป๋าคริปโตได้ลงทะเบียนไว้เรียบร้อยแล้ว</value>
+  </data>
 </root>

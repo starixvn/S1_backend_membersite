@@ -600,4 +600,18 @@ namespace MemberSite.Service.Model.enums
         /// </summary>
         Buy = 1
     }
+
+    public enum CustCryptoWalletDetailStatus
+    {
+        Disable = 0,
+        Able = 1,
+    }
+
+    public enum CustCryptoWalletDetailLogStatus
+    {
+        Create = 1,
+        Delete = 2,
+        Lock = 3,
+        Unlock = 4
+    }
 }

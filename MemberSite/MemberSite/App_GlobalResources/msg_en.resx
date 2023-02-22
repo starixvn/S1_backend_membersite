@@ -409,4 +409,7 @@
   <data name="msg_WithdrawalAccountAannotReceiveMoney_Detail" xml:space="preserve">
     <value>Withdrawal account is unable to receive funds. Kindly recheck or contact Customer Support for further assistance.</value>
   </data>
+  <data name="msg_CryptoWalletDuplicate" xml:space="preserve">
+    <value>Crypto wallet address has been used</value>
+  </data>
 </root>
