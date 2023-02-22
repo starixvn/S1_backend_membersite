@@ -56,7 +56,7 @@ namespace MemberSite.Service.BLL
             }
 
             #region Development Pass Token
-            if (_hostEnvironment.IsDevelopment())
+            if (_hostEnvironment.IsDevelopment() || _hostEnvironment.EnvironmentName == "Development.APP")
             {
                 // 暫不檢查是否有帶token
                 //if (!jbody.ContainsKey("token"))
