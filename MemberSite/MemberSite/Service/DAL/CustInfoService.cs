@@ -830,14 +830,14 @@ namespace MemberSite.Service.DAL
             var result = _mainDbClient.Execute("Member_CustCryptoWalletDetail_Set", trans, parameter);
             return result > 0;
         }
-        private bool SetCustCryptoWalletDetailLog(int custId, int siteId, string accountName, string adrress, string nickName, string network, int currencyId, CustCryptoWalletDetailLogStatus status, IDbTransaction trans)
+        private bool SetCustCryptoWalletDetailLog(int custId, int siteId, string accountName, string address, string nickName, string network, int currencyId, CustCryptoWalletDetailLogStatus status, IDbTransaction trans)
         {
             var parameter = new DynamicParameters(new
             {
                 CustId = custId,
                 SiteId = siteId,
                 AccountName = accountName,
-                Adrress = adrress,
+                Address = address,
                 NickName = nickName,
                 Network = network,
                 CurrencyId = currencyId,
