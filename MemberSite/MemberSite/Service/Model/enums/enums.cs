@@ -588,4 +588,10 @@ namespace MemberSite.Service.Model.enums
     {
         Duplicate = 6
     }
+    
+    public enum WithdrawalLimitLogCreateFromEnum 
+    {
+        Default = 0,
+        DrawPrize = 7
+    }
 }
