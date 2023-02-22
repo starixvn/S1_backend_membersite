@@ -344,6 +344,9 @@
   <data name="msg_PhoneWrongFormat" xml:space="preserve">
     <value>รูปแบบโทรศัพท์ไม่ถูกต้อง</value>
   </data>
+  <data name="msg_PhoneFormatVerify" xml:space="preserve">
+    <value>หมายเลขโทรศัพท์ที่คุณกรอกไม่ถูกต้อง ระหว่าง {0} หลัก</value>
+  </data>
   <data name="msg_InvalidCryptoWalletAddress" xml:space="preserve">
     <value>ที่อยู่กระเป๋าเงินเข้ารหัสลับไม่ถูกต้อง</value>
   </data>
@@ -367,27 +370,6 @@
   </data>
   <data name="msg_NotInLimit" xml:space="preserve">
     <value>จำนวนเงินมากกว่าหรือน้อยกว่าที่กำหนดไว้</value>
-  </data>
-  <data name="msg_congratulation_event_reward" xml:space="preserve">
-    <value>ยินดีด้วยค่ะ! คุณได้รับอั่งเปาจำนวน {0}</value>
-  </data>
-  <data name="msg_keep_up" xml:space="preserve">
-    <value>ขอให้โชคดีในการเขย่าครั้งต่อไป</value>
-  </data>
-  <data name="msg_limit_has_been_reached" xml:space="preserve">
-    <value>ขออภัยค่ะ เต็มจำนวนจำกัดสำหรับวันนี้แล้ว</value>
-  </data>
-  <data name="msg_turnover_not_enough" xml:space="preserve">
-    <value>คุณยังไม่เริ่มเดิมพันขั้นต่ำ ไม่สามารถเข้าร่วมได้ค่ะ</value>
-  </data>
-  <data name="msg_times_chance" xml:space="preserve">
-    <value>มีโอกาส {0} เท่า</value>
-  </data>
-  <data name="msg_ProfileOrPhoneNotFinish" xml:space="preserve">
-    <value>ข้อมูลบัญชีไม่ครบถ้วน กรุณาทำการยืนยันบัญชีของท่าน</value>
-  </data>
-  <data name="msg_Event_has_not_started" xml:space="preserve">
-    <value>เหตุการณ์ยังไม่เริ่ม</value>
   </data>
   <data name="msg_DepositorsNameUnmatch" xml:space="preserve">
     <value>ชื่อผู้ฝากไม่ตรง</value>
@@ -413,6 +395,27 @@
   <data name="msg_DepositRefunded_Detail" xml:space="preserve">
     <value>คืนยอดเงินฝากเรียบร้อยแล้ว โปรดทำการตรวจสอบบัญชีธนาคารของคุณ</value>
   </data>
+  <data name="msg_congratulation_event_reward" xml:space="preserve">
+    <value>ยินดีด้วยค่ะ! คุณได้รับอั่งเปาจำนวน {0}</value>
+  </data>
+  <data name="msg_keep_up" xml:space="preserve">
+    <value>ขอให้โชคดีในการเขย่าครั้งต่อไป</value>
+  </data>
+  <data name="msg_limit_has_been_reached" xml:space="preserve">
+    <value>ขออภัยค่ะ เต็มจำนวนจำกัดสำหรับวันนี้แล้ว</value>
+  </data>
+  <data name="msg_turnover_not_enough" xml:space="preserve">
+    <value>คุณยังไม่เริ่มเดิมพันขั้นต่ำ ไม่สามารถเข้าร่วมได้ค่ะ</value>
+  </data>
+  <data name="msg_times_chance" xml:space="preserve">
+    <value>มีโอกาส {0} เท่า</value>
+  </data>
+  <data name="msg_ProfileOrPhoneNotFinish" xml:space="preserve">
+    <value>ข้อมูลบัญชีไม่ครบถ้วน กรุณาทำการยืนยันบัญชีของท่าน</value>
+  </data>
+  <data name="msg_Event_has_not_started" xml:space="preserve">
+    <value>เหตุการณ์ยังไม่เริ่ม</value>
+  </data>
   <data name="msg_WithdrawalAccountNumberIncorrect" xml:space="preserve">
     <value>หมายเลขบัญชีถอนเงินไม่ถูกต้อง</value>
   </data>
@@ -424,6 +427,30 @@
   </data>
   <data name="msg_WithdrawalAccountsNameUnmatch_Detail" xml:space="preserve">
     <value>ชื่อบัญชีถอนเงินไม่ตรงกับชื่อที่ลงทะเบียน โปรดติดต่อฝ่ายบริการลูกค้าเพื่อขอความช่วยเหลือ</value>
+  </data>
+  <data name="msg_WrongAmountSubmitted" xml:space="preserve">
+    <value>จำนวนเงินฝากไม่ถูกต้อง</value>
+  </data>
+  <data name="msg_WrongAmountSubmitted_Detail" xml:space="preserve">
+    <value>จำนวนเงินฝากไม่ตรงกับสลิป โปรดตรวจสอบอีกครั้งหรือติดต่อฝ่ายบริการลูกค้าเพื่อขอความช่วยเหลือเพิ่มเติม</value>
+  </data>
+  <data name="msg_WrongBankSubmitted" xml:space="preserve">
+    <value>บัญชีเงินฝากที่เลือกไม่ถูกต้อง</value>
+  </data>
+  <data name="msg_WrongBankSubmitted_Detail" xml:space="preserve">
+    <value>บัญชีเงินฝากที่เลือกไม่ถูกต้อง โปรดตรวจสอบอีกครั้งหรือติดต่อฝ่ายบริการลูกค้าเพื่อขอความช่วยเหลือเพิ่มเติม</value>
+  </data>
+  <data name="msg_BeneficiarysAccountMaintenance" xml:space="preserve">
+    <value>ปิดปรับปรุงบัญชีของผู้รับเงิน</value>
+  </data>
+  <data name="msg_BeneficiarysAccountMaintenance_Detail" xml:space="preserve">
+    <value>ขณะนี้ธนาคารอยู่ระหว่างการปิดปรับปรุง รายการถอนเงินของสมาชิกจะถูกดำเนินการหลังจากการปิดปรับปรุงเรียบร้อยแล้ว</value>
+  </data>
+  <data name="msg_WithdrawalAccountAannotReceiveMoney" xml:space="preserve">
+    <value>บัญชีถอนล้มเหลว ไม่สามารถรับเงิน</value>
+  </data>
+  <data name="msg_WithdrawalAccountAannotReceiveMoney_Detail" xml:space="preserve">
+    <value>บัญชีถอนเงินไม่สามารถรับเงิน. กรุณาตรวจสอบอีกครั้งหรือติดต่อฝ่ายบริการลูกค้าของเราเพื่อขอความช่วยเหลือเพิ่มเติม.</value>
   </data>
   <data name="msg_CryptoWalletDuplicate" xml:space="preserve">
     <value>กระเป๋าคริปโตได้ลงทะเบียนไว้เรียบร้อยแล้ว</value>

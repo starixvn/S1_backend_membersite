@@ -337,6 +337,9 @@
   <data name="msg_PhoneWrongFormat" xml:space="preserve">
     <value>手机格式不符</value>
   </data>
+  <data name="msg_PhoneFormatVerify" xml:space="preserve">
+    <value>您输入的手机号格式有误，介于{0}位数字</value>
+  </data>
   <data name="msg_InvalidCryptoWalletAddress" xml:space="preserve">
     <value>您的加密钱包地址格式不符！</value>
   </data>
@@ -357,27 +360,6 @@
   </data>
   <data name="msg_NotInLimit" xml:space="preserve">
     <value>不在设定范围</value>
-  </data>
-  <data name="msg_congratulation_event_reward" xml:space="preserve">
-    <value>恭喜您！获得{0}金额</value>
-  </data>
-  <data name="msg_keep_up" xml:space="preserve">
-    <value>再接再厲!</value>
-  </data>
-  <data name="msg_limit_has_been_reached" xml:space="preserve">
-    <value>今日次数已达上限</value>
-  </data>
-  <data name="msg_turnover_not_enough" xml:space="preserve">
-    <value>未完成所需流水，无法参与此优惠。</value>
-  </data>
-  <data name="msg_times_chance" xml:space="preserve">
-    <value>你還有{0}次抽獎機會</value>
-  </data>
-  <data name="msg_ProfileOrPhoneNotFinish" xml:space="preserve">
-    <value>未完善账户信息，请先完善账户信息</value>
-  </data>
-  <data name="msg_Event_has_not_started" xml:space="preserve">
-    <value>活动还没开始</value>
   </data>
   <data name="msg_DepositorsNameUnmatch" xml:space="preserve">
     <value>存款人姓名不符</value>
@@ -403,6 +385,27 @@
   <data name="msg_DepositRefunded_Detail" xml:space="preserve">
     <value>存款金额已退还，恳请查看户口。</value>
   </data>
+  <data name="msg_congratulation_event_reward" xml:space="preserve">
+    <value>恭喜您！获得{0}金额</value>
+  </data>
+  <data name="msg_keep_up" xml:space="preserve">
+    <value>再接再厲!</value>
+  </data>
+  <data name="msg_limit_has_been_reached" xml:space="preserve">
+    <value>今日次数已达上限</value>
+  </data>
+  <data name="msg_turnover_not_enough" xml:space="preserve">
+    <value>未完成所需流水，无法参与此优惠。</value>
+  </data>
+  <data name="msg_times_chance" xml:space="preserve">
+    <value>你還有{0}次抽獎機會</value>
+  </data>
+  <data name="msg_ProfileOrPhoneNotFinish" xml:space="preserve">
+    <value>未完善账户信息，请先完善账户信息</value>
+  </data>
+  <data name="msg_Event_has_not_started" xml:space="preserve">
+    <value>活动还没开始</value>
+  </data>
   <data name="msg_WithdrawalAccountNumberIncorrect" xml:space="preserve">
     <value>提款账户有误</value>
   </data>
@@ -414,6 +417,30 @@
   </data>
   <data name="msg_WithdrawalAccountsNameUnmatch_Detail" xml:space="preserve">
     <value>提款账户姓名与注册姓名不符合。请联系客服寻求协助。</value>
+  </data>
+  <data name="msg_WrongAmountSubmitted" xml:space="preserve">
+    <value>存款金额不正确</value>
+  </data>
+  <data name="msg_WrongAmountSubmitted_Detail" xml:space="preserve">
+    <value>实际转账金额与存款单申请金额不符，请再次确认或联系在线客服寻求协助。</value>
+  </data>
+  <data name="msg_WrongBankSubmitted" xml:space="preserve">
+    <value>存款账户有误</value>
+  </data>
+  <data name="msg_WrongBankSubmitted_Detail" xml:space="preserve">
+    <value>选择的存款账户有误，请再次确认或联系在线客服寻求协助。</value>
+  </data>
+  <data name="msg_BeneficiarysAccountMaintenance" xml:space="preserve">
+    <value>提款账户银行维护</value>
+  </data>
+  <data name="msg_BeneficiarysAccountMaintenance_Detail" xml:space="preserve">
+    <value>提款账户银行正在维护中，您的提款申请将会在银行维护完毕之后为您办理</value>
+  </data>
+  <data name="msg_WithdrawalAccountAannotReceiveMoney" xml:space="preserve">
+    <value>提款账户无法正常收款</value>
+  </data>
+  <data name="msg_WithdrawalAccountAannotReceiveMoney_Detail" xml:space="preserve">
+    <value>提款账户无法正常收款，请再次核实或使用其他提款账户提款。</value>
   </data>
   <data name="msg_CryptoWalletDuplicate" xml:space="preserve">
     <value>加密货币钱包地址已存在</value>

@@ -500,6 +500,12 @@ namespace MemberSite.Service.BLL
                     });
                 }
                 depositInfo.DepositMessageDetail = depositMessageDetails;
+                
+                depositInfo.DepositReceipt = GetDepositReceipt(depositInfo.TransId, custId);
+                foreach (var receipt in depositInfo.DepositReceipt)
+                {
+                    receipt.DepositPic = null;
+                }
             }
 
             return depositInfoRecent;
@@ -678,12 +684,12 @@ namespace MemberSite.Service.BLL
             int.TryParse(m.Value, out depositId);
             return _depositService.SetDepositReceipt(custId, depositId, refNo, depositTime);
         }
-        public async Task<int> SetDepositReceiptPic(int custId, string transId, string picFileName, byte[] depositPic)
+        public async Task<int> SetDepositReceiptPic(int custId, string transId, int receiptNo, string picFileName, byte[] depositPic, string userName)
         {
             var depositId = 0;
             var m = Regex.Match(transId, @"\d+");
             int.TryParse(m.Value, out depositId);
-            return await _depositService.SetDepositReceiptPic(custId, depositId, picFileName, depositPic);
+            return await _depositService.SetDepositReceiptPic(custId, depositId, receiptNo, picFileName, depositPic, userName);
         }
         public int SetDepositCancel(int custId, string transId)
         {
@@ -704,7 +710,7 @@ namespace MemberSite.Service.BLL
             };
             return withdrawalService.SetWithdrawalCancel(CustInfo.CustId, transId, CustInfo.SiteId, forStatus, WithdrawalStatus.Cancelled);
         }
-        public DepositReceipt GetDepositReceipt(string transId, int custId)
+        public IEnumerable<DepositReceipt> GetDepositReceipt(string transId, int custId)
         {
             var depositId = 0;
             var m = Regex.Match(transId, @"\d+");

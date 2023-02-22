@@ -72,12 +72,12 @@ public class ShieldController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ApiResult<GetEndpointResult>> GetEndpoint()
+    public async Task<ApiResult<GetEndpointResult>> GetEndpoint(GetEndpointRequest input)
     {
         var apiResult = new ApiResult<GetEndpointResult>();
         try
         {
-            var result = await _shieldBll.GetEndpoint();
+            var result = await _shieldBll.GetEndpoint(input.SiteId);
 
             if (!string.IsNullOrEmpty(result.Endpoint))
             {

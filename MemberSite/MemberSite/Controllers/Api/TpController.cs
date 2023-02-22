@@ -264,17 +264,21 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public async Task<ApiResult<TransferResult>> TransferEX(TransferEXReq inTpTransfer)
         {
-
-
-            var authData = _authorizeBll.GetAuthData();
-            var TpWalletList = _thirdPartyBll.GetTpWalletList(authData.CustId, 0);//0:全部列表
             var result = new ApiResult<TransferResult>();
-            var direction = new TpDirection();
-            var activeTpId = 0;
-            var fromWallet = TpWalletList.FirstOrDefault(x => x.TpId == inTpTransfer.FromTpId);
-            var toWallet = TpWalletList.FirstOrDefault(x => x.TpId == inTpTransfer.ToTpId);
-            var fromWalletMode = fromWallet == null ? 0 : fromWallet.WalletMode;
-            var toWalletMode = toWallet == null ? 0 : toWallet.WalletMode;
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                result.Message = _selLangBll.GetMsg("msg_ForceLogedout");
+                return result;
+            }
+            
+            var tpWalletList = _thirdPartyBll.GetTpWalletList(authData.CustId, 0);//0:全部列表
+            TpDirection direction;
+            int activeTpId;
+            var fromWallet = tpWalletList.FirstOrDefault(x => x.TpId == inTpTransfer.FromTpId);
+            var toWallet = tpWalletList.FirstOrDefault(x => x.TpId == inTpTransfer.ToTpId);
+            var fromWalletMode = fromWallet?.WalletMode ?? 0;
+            var toWalletMode = toWallet?.WalletMode ?? 0;
 
             if (inTpTransfer.TransferAction != (int)TransferAction.Manual && ((fromWalletMode == (int)WalletMode.Manual) || toWalletMode == (int)WalletMode.Manual)) //restore all not support  Wallet which WalletMode = Manual
             {

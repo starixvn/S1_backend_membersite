@@ -73,6 +73,14 @@ namespace MemberSite.Service.BLL
                 }
             }
             
+            if (depositLimitInfo != null)
+            {
+                foreach (var payGroup in payGroupList)
+                {
+                    _depositBll.FixDepositLimit(payGroup, depositLimitInfo);
+                }
+            }
+            
             return payGroupList.OrderBy(x => x.GSort);
         }
 
@@ -100,7 +108,11 @@ namespace MemberSite.Service.BLL
                 var payInfo = FakeMobilePay.FakeMobilePayInfoMap[(FakePayGroupEnum) groupId];
                 payInfo.MinAmount = bankCards.Min(x => x.MinAmount);
                 payInfo.MaxAmount = bankCards.Max(x => x.MaxAmount);
-                _depositBll.FixDepositLimit(payInfo, depositLimitInfo);
+                
+                if (depositLimitInfo != null)
+                {
+                    _depositBll.FixDepositLimit(payInfo, depositLimitInfo);
+                }
                 
                 return new[] { payInfo };
             }
