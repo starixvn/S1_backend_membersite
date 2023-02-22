@@ -126,7 +126,7 @@ namespace MemberSite.Controllers.Api
                 
                     apiResult = await _courierAdapter.MyPostAsync<ApiResult, PromotionRequest>(apiUrl, req);
                 
-                    if (custInfo is {SiteId: (int) SiteId.Goal123})
+                    if (custInfo.SiteId != (int)SiteId.Nova88)
                     {
                         _ = Task.Run(async () =>
                         {

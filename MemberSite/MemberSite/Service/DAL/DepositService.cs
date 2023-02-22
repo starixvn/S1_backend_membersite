@@ -37,8 +37,8 @@ namespace MemberSite.Service.DAL
 
             var result = _mainDbClient.Execute("DepositInfo_Ins", trans, p);
             trans.Commit();
-
-            if (depositDetailInfo is { SiteId: (int)SiteId.Goal123 })
+            
+            if (depositDetailInfo.SiteId != (int)SiteId.Nova88)
             {
                 _ = Task.Run(async () =>
                 {
@@ -75,8 +75,8 @@ namespace MemberSite.Service.DAL
 
             var result = _mainDbClient.Execute("DepositInfoWithFrom_Ins", trans ,p);
             trans.Commit();
-
-            if (depositDetailInfo is { SiteId: (int)SiteId.Goal123 })
+            
+            if (depositDetailInfo.SiteId != (int)SiteId.Nova88)
             {
                 _ = Task.Run(async () =>
                 {
