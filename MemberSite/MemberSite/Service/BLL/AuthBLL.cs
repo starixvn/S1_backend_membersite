@@ -70,21 +70,6 @@ namespace MemberSite.Service.BLL
                         return true;
             }
 
-            //https://appstag.n88dev.com這組domain判讀不到dev環境，先讓appteam可以測試
-            if (fromUrl.Contains("appstag"))
-            {
-                // 暫不檢查是否有帶token
-                //if (!jbody.ContainsKey("token"))
-                //{
-                //    _logger.LogError("Request vaild fail：Lost Key (token).");
-                //    return false;
-                //}
-
-                if (jbody.ContainsKey("token"))
-
-                    if (jbody["token"].ToString() == "1c5a0a1684a94ddcf1602cce0a6426460cace6892cb236cb920b8ccdcfbfb3f7")
-                        return true;
-            }
             #endregion
 
             //暫不檢查是否有帶token、timestamp
