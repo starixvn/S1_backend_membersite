@@ -502,10 +502,6 @@ namespace MemberSite.Service.BLL
                 depositInfo.DepositMessageDetail = depositMessageDetails;
                 
                 depositInfo.DepositReceipt = GetDepositReceipt(depositInfo.TransId, custId);
-                foreach (var receipt in depositInfo.DepositReceipt)
-                {
-                    receipt.DepositPic = null;
-                }
             }
 
             return depositInfoRecent;
