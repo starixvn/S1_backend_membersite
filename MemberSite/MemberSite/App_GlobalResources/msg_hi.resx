@@ -426,4 +426,7 @@
   <data name="msg_WithdrawalAccountAannotReceiveMoney_Detail" xml:space="preserve">
     <value>निकासी खाता धन प्राप्त करने में असमर्थ है। आगे की सहायता के लिए कृपया दोबारा जांच करें या ग्राहक सहायता से संपर्क करें।</value>
   </data>
+  <data name="msg_CryptoWalletDuplicate" xml:space="preserve">
+    <value>क्रिप्टो वॉलेट पता पहले से मौजूद है</value>
+  </data>
 </root>

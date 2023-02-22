@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using static MemberSite.Extensions.MethodExtension;
+using static MemberSite.Controllers.Api.AccountStrictController;
 
 namespace MemberSite.Controllers.Api
 {
@@ -65,7 +66,7 @@ namespace MemberSite.Controllers.Api
             var apiResult = new ApiResult(_selLangBLL);
             var authData = _authorizeBLL.GetAuthData();
 
-            if (authData is {CustId: > 0})
+            if (authData is { CustId: > 0 })
             {
                 var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
                 var bankInfoSysList = _bankInfoBLL.GetBankInfoSysListByCurrencyForCtrl(custInfo.CurrencyId);
@@ -128,7 +129,7 @@ namespace MemberSite.Controllers.Api
                 apiResult.ErrorCode = _custInfoBLL.InsertCustBankInfo(authData.CustId, bankInfo.AccountName, bankInfo.SysId, bankInfo.AccountNo, bankInfo.IFSCCode, CustBankInfoLogStatus.Create);
                 apiResult.Message = _selLangBLL.GetMsg("msg_Updatesuccessful");
             }
-            
+
             return apiResult;
         }
 
@@ -138,7 +139,7 @@ namespace MemberSite.Controllers.Api
             var apiResult = new ApiResult(_selLangBLL);
             var authData = _authorizeBLL.GetAuthData();
 
-            if (authData is {CustId: > 0})
+            if (authData is { CustId: > 0 })
             {
                 var custBankInfo = _custInfoBLL.GetCustBankInfo(authData.CustId);
                 if (custBankInfo == null || custBankInfo.bankInfoDetail == null)
@@ -150,10 +151,10 @@ namespace MemberSite.Controllers.Api
                 apiResult.ErrorCode = _custInfoBLL.DeleteCustBankInfo(authData.CustId, bankInfo.SysId, bankInfo.AccountNo, bankInfo.IFSCCode, CustBankDetailStatus.Disable);
                 apiResult.Message = _selLangBLL.GetMsg(apiResult.ErrorCode == 0 ? "msg_Updatesuccessful" : "msg_UpdateFailed");
             }
-            
+
             return apiResult;
         }
-        
+
         public class USDTDetailreq
         {
             public string AccountName { set; get; }
@@ -168,13 +169,13 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult(_selLangBLL);
             var authData = _authorizeBLL.GetAuthData();
-            
-            if (authData is {CustId: > 0})
+
+            if (authData is { CustId: > 0 })
             {
                 var custBankInfo = _custInfoBLL.GetCustBankInfo(authData.CustId);
-                var uSDTInfoList = new List<USDTDetail>();
-                var uSDTInfoLogList = new List<USDTDetailLog>();
-                
+                var uSDTInfoList = new List<CryptoWalletDetail>();
+                var uSDTInfoLogList = new List<CryptoWalletDetailLog>();
+
                 if (custBankInfo == null && string.IsNullOrEmpty(uSDTDetailreq.AccountName))
                 {
                     apiResult.ErrorCode = -2;
@@ -199,32 +200,37 @@ namespace MemberSite.Controllers.Api
                         return apiResult;
                     }
                 }
-                
+
                 var currencyId = uSDTDetailreq.CurrencyId == 0 ? 96 : uSDTDetailreq.CurrencyId;
-                uSDTInfoList.Add(new USDTDetail
+                uSDTInfoList.Add(new CryptoWalletDetail
                 {
-                    NickName = uSDTDetailreq.NickName, USDTAddress = uSDTDetailreq.USDTAddress,
-                    Network = uSDTDetailreq.Network, CurrencyId = currencyId
+                    NickName = uSDTDetailreq.NickName,
+                    USDTAddress = uSDTDetailreq.USDTAddress,
+                    Network = uSDTDetailreq.Network,
+                    CurrencyId = currencyId
                 });
-                uSDTInfoLogList.Add(new USDTDetailLog
+                uSDTInfoLogList.Add(new CryptoWalletDetailLog
                 {
-                    NickName = uSDTDetailreq.NickName, USDTAddress = uSDTDetailreq.USDTAddress,
-                    Network = uSDTDetailreq.Network, CurrencyId = currencyId, Status = 1
+                    NickName = uSDTDetailreq.NickName,
+                    USDTAddress = uSDTDetailreq.USDTAddress,
+                    Network = uSDTDetailreq.Network,
+                    CurrencyId = currencyId,
+                    Status = 1
                 });
 
                 apiResult.ErrorCode = _custInfoBLL.SetCustUSDTInfo(authData.CustId, uSDTDetailreq.AccountName,
                     uSDTInfoList, uSDTInfoLogList);
                 apiResult.Message = _selLangBLL.GetMsg("msg_Updatesuccessful");
-                
+
             }
 
             return apiResult;
         }
-        
+
         public class CustUSDTInfoBatchreq
         {
             public string AccountName { set; get; }
-            public IEnumerable<USDTDetail> USDTInfo { set; get; }
+            public IEnumerable<CryptoWalletDetail> USDTInfo { set; get; }
         }
 
         [HttpPost]
@@ -232,7 +238,7 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult(_selLangBLL);
             var authData = _authorizeBLL.GetAuthData();
-            
+
             if (custUSDTInfoBatchreq.USDTInfo.Any(x =>
                     !_cryptoPayInfoBLL.CryptoAddressValidation(x.Network, x.USDTAddress)))
             {
@@ -250,10 +256,10 @@ namespace MemberSite.Controllers.Api
 
             }
 
-            List<USDTDetail> uSDTInfoList;
-            var uSDTInfoLogList = new List<USDTDetailLog>();
-            
-            if (authData is {CustId: > 0})
+            List<CryptoWalletDetail> uSDTInfoList;
+            var uSDTInfoLogList = new List<CryptoWalletDetailLog>();
+
+            if (authData is { CustId: > 0 })
             {
                 var custBankInfo = _custInfoBLL.GetCustBankInfo(authData.CustId);
                 if (custBankInfo == null && string.IsNullOrEmpty(custUSDTInfoBatchreq.AccountName))
@@ -284,31 +290,31 @@ namespace MemberSite.Controllers.Api
                 }
                 else
                 {
-                    uSDTInfoList = new List<USDTDetail>();
+                    uSDTInfoList = new List<CryptoWalletDetail>();
                 }
                 foreach (var custUSDTInfo in custUSDTInfoBatchreq.USDTInfo)
                 {
-                    uSDTInfoList.Add(new USDTDetail { NickName = custUSDTInfo.NickName, USDTAddress = custUSDTInfo.USDTAddress, Network = custUSDTInfo.Network, CurrencyId = custUSDTInfo.CurrencyId });
-                    uSDTInfoLogList.Add(new USDTDetailLog { NickName = custUSDTInfo.NickName, USDTAddress = custUSDTInfo.USDTAddress, Network = custUSDTInfo.Network, CurrencyId = custUSDTInfo.CurrencyId ,Status = 1});
+                    uSDTInfoList.Add(new CryptoWalletDetail { NickName = custUSDTInfo.NickName, USDTAddress = custUSDTInfo.USDTAddress, Network = custUSDTInfo.Network, CurrencyId = custUSDTInfo.CurrencyId });
+                    uSDTInfoLogList.Add(new CryptoWalletDetailLog { NickName = custUSDTInfo.NickName, USDTAddress = custUSDTInfo.USDTAddress, Network = custUSDTInfo.Network, CurrencyId = custUSDTInfo.CurrencyId, Status = 1 });
                 }
 
                 apiResult.ErrorCode = _custInfoBLL.SetCustUSDTInfo(authData.CustId, custUSDTInfoBatchreq.AccountName, uSDTInfoList, uSDTInfoLogList);
                 apiResult.Message = _selLangBLL.GetMsg("msg_Updatesuccessful");
             }
-            
+
             return apiResult;
         }
-        
+
         [HttpPost]
         public ApiResult DelCustUSDTInfo(USDTDetailreq uSDTDetailreq)
         {
             var apiResult = new ApiResult(_selLangBLL);
             var authData = _authorizeBLL.GetAuthData();
-            
-            IEnumerable<USDTDetail> USDTInfoList = null;
-            var uSDTInfoLogList = new List<USDTDetailLog>();
 
-            if (authData is {CustId: > 0})
+            IEnumerable<CryptoWalletDetail> USDTInfoList = null;
+            var uSDTInfoLogList = new List<CryptoWalletDetailLog>();
+
+            if (authData is { CustId: > 0 })
             {
                 var custBankInfo = _custInfoBLL.GetCustBankInfo(authData.CustId);
                 if (custBankInfo?.usdtDetail == null)
@@ -323,17 +329,17 @@ namespace MemberSite.Controllers.Api
                     USDTInfoList = custBankInfo.usdtDetail.Where(x =>
                         !(x.USDTAddress == uSDTDetailreq.USDTAddress &&
                           x.CurrencyId == uSDTDetailreq.CurrencyId));
-                
-                    var deluSDTInfo = custBankInfo.usdtDetail.FirstOrDefault(x => 
+
+                    var deluSDTInfo = custBankInfo.usdtDetail.FirstOrDefault(x =>
                         (x.USDTAddress == uSDTDetailreq.USDTAddress &&
                          x.CurrencyId == uSDTDetailreq.CurrencyId));
-                    uSDTInfoLogList.Add(new USDTDetailLog { NickName = deluSDTInfo.NickName, USDTAddress = deluSDTInfo.USDTAddress, Network = deluSDTInfo.Network, CurrencyId = deluSDTInfo.CurrencyId ,Status = 2 });
+                    uSDTInfoLogList.Add(new CryptoWalletDetailLog { NickName = deluSDTInfo.NickName, USDTAddress = deluSDTInfo.USDTAddress, Network = deluSDTInfo.Network, CurrencyId = deluSDTInfo.CurrencyId, Status = 2 });
                 }
-            
-                apiResult.ErrorCode = _custInfoBLL.SetCustUSDTInfo(authData.CustId, custBankInfo.AccountName, USDTInfoList ,uSDTInfoLogList);
+
+                apiResult.ErrorCode = _custInfoBLL.SetCustUSDTInfo(authData.CustId, custBankInfo.AccountName, USDTInfoList, uSDTInfoLogList);
                 apiResult.Message = _selLangBLL.GetMsg("msg_Updatesuccessful");
             }
-            
+
             return apiResult;
         }
 
@@ -353,7 +359,7 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult(_selLangBLL);
             var authData = _authorizeBLL.GetAuthData();
-            
+
             //check input
             if (string.IsNullOrEmpty(content.Name))
             {
@@ -369,7 +375,7 @@ namespace MemberSite.Controllers.Api
 
             //check AccountName exist or not
             //existed
-            if (authData is {CustId: > 0})
+            if (authData is { CustId: > 0 })
             {
                 if (_custInfoBLL.CheckAccountName(authData.CustId))
                 {
@@ -379,7 +385,7 @@ namespace MemberSite.Controllers.Api
                 apiResult.ErrorCode = _custInfoBLL.SetCustBankInfo(authData.CustId, content.Name);
                 apiResult.Message = _selLangBLL.GetMsg(apiResult.ErrorCode == 0 ? "msg_Updatesuccessful" : "msg_UpdateFailed");
             }
-            
+
             return apiResult;
         }
 
@@ -389,11 +395,11 @@ namespace MemberSite.Controllers.Api
             var apiResult = new ApiResult<object>(_selLangBLL);
             var authData = _authorizeBLL.GetAuthData();
 
-            if (authData is {CustId: > 0})
+            if (authData is { CustId: > 0 })
             {
                 var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
                 var beforeCustInfo = _custInfoBLL.GetCustInfoProfile(authData.CustId);
-                if(custProfile.ContainsKey("AccountName"))
+                if (custProfile.ContainsKey("AccountName"))
                     if (string.IsNullOrWhiteSpace(custProfile["AccountName"])
                         || !_stringVaildHelper.VaildAccountNameForSetProfile(custProfile["AccountName"]))
                     {
@@ -405,7 +411,7 @@ namespace MemberSite.Controllers.Api
                 {
                     string accountName = custProfile["AccountName"];
                     var result = _custInfoBLL.SetCustBankInfo(authData.CustId, accountName);
-                
+
                     if (result != 0)
                     {
                         _logger.LogWarning($"CustId: {authData.CustId} SetCustBankInfo failed.");
@@ -504,7 +510,7 @@ namespace MemberSite.Controllers.Api
                     apiResult.Message = _selLangBLL.GetMsg("msg_UpdateFailed");
                 }
             }
-            
+
             return apiResult;
         }
 
@@ -516,7 +522,7 @@ namespace MemberSite.Controllers.Api
 
             try
             {
-                if (authData is {CustId: > 0})
+                if (authData is { CustId: > 0 })
                 {
                     var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
                     var beforeCustInfo = _custInfoBLL.GetCustInfoProfile(authData.CustId);
@@ -640,7 +646,7 @@ namespace MemberSite.Controllers.Api
             var authData = _authorizeBLL.GetAuthData();
             try
             {
-                if (authData is {CustId: > 0})
+                if (authData is { CustId: > 0 })
                 {
                     apiResult.ErrorCode = _custInfoBLL.SetProfileAddress(authData.CustId, custAddress);
 
@@ -728,7 +734,7 @@ namespace MemberSite.Controllers.Api
 
             try
             {
-                if (authData is {CustId: > 0})
+                if (authData is { CustId: > 0 })
                 {
                     var custInfo = _custInfoBLL.GetCustInfoProfile(authData.CustId);
                     var _perCountry = "";
@@ -745,7 +751,7 @@ namespace MemberSite.Controllers.Api
                     }
 
                     var isLineBinding = _lineLoginBll.GetCustLineProfile(authData.CustId, null) != null;
-              
+
                     apiResult.Data = new
                     {
                         custInfo.UserName,
@@ -796,7 +802,7 @@ namespace MemberSite.Controllers.Api
             {"image/jpeg",System.Drawing.Imaging.ImageFormat.Jpeg},
             { "image/gif",System.Drawing.Imaging.ImageFormat.Gif}
         };
-        
+
         public class CustPhotoIdReq
         {
             public IFormFile PhotoId { get; set; }
@@ -807,7 +813,7 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult();
             var authData = _authorizeBLL.GetAuthData();
-            if (authData is {CustId: > 0})
+            if (authData is { CustId: > 0 })
             {
                 var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
 
@@ -815,7 +821,7 @@ namespace MemberSite.Controllers.Api
                 {
                     return new ApiResult { ErrorCode = -1, Message = _selLangBLL.GetMsg("msg_UpdateFailed") };
                 }
-            
+
                 var result = await _custPhoto.UploadPhotoIdAsync(custInfo.CustId, custInfo.SiteId, custPhotoIdReq.PhotoId);
 
                 if (result > 0)
@@ -827,7 +833,7 @@ namespace MemberSite.Controllers.Api
                     apiResult.ErrorCode = -1;
                 }
             }
-            
+
             return apiResult;
         }
 
@@ -841,7 +847,7 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult();
             var authData = _authorizeBLL.GetAuthData();
-            if (authData is {CustId: > 0})
+            if (authData is { CustId: > 0 })
             {
                 if (_custInfoBLL.SetResetPwd(authData.CustId, resetPassword.NewPassword))
                 {
@@ -853,7 +859,7 @@ namespace MemberSite.Controllers.Api
                     apiResult.Message = _selLangBLL.GetMsg("msg_UpdateFailed");
                 }
             }
-            
+
             return apiResult;
         }
 
@@ -862,14 +868,14 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<SendOTPSMSResult>();
             var authData = _authorizeBLL.GetAuthData();
-            if (authData is {CustId: > 0})
+            if (authData is { CustId: > 0 })
             {
                 apiResult = await _commonBLL.SendOTPSMSAsync(authData.CustId);
             }
-            
+
             return apiResult;
         }
-        
+
         public class VerifyOTPReq
         {
             public string inputOTPcode { set; get; }
@@ -880,11 +886,11 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult();
             var authData = _authorizeBLL.GetAuthData();
-            if (authData is {CustId: > 0})
+            if (authData is { CustId: > 0 })
             {
                 apiResult = await _custInfoBLL.VerifyOTPAsync(authData.CustId, verifyOTPReq.inputOTPcode);
             }
-            
+
             return apiResult;
         }
 
@@ -893,11 +899,11 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<SendOTPSMSResult>();
             var authData = _authorizeBLL.GetAuthData();
-            if (authData is {CustId: > 0})
+            if (authData is { CustId: > 0 })
             {
                 apiResult = await _commonBLL.GetOTPVerifyInfo(authData.CustId);
             }
-            
+
             return apiResult;
         }
 
@@ -925,11 +931,11 @@ namespace MemberSite.Controllers.Api
 
             profileUrl += $"/{req.route}";
 
-            if (authData is {CustId: > 0})
+            if (authData is { CustId: > 0 })
             {
                 apiResult = await _commonBLL.SendOTPEmailAsync(authData.CustId, profileUrl);
             }
-            
+
             return apiResult;
         }
 
@@ -986,14 +992,14 @@ namespace MemberSite.Controllers.Api
             public int SysId { set; get; }
             public string AccountNo { set; get; }
         }
-        
+
         [HttpPost]
         public ApiResult SetCustEWalletInfo(EWalletInfo eWalletInfo)
         {
             var apiResult = new ApiResult(_selLangBLL);
             var authData = _authorizeBLL.GetAuthData();
 
-            if (authData is {CustId: > 0})
+            if (authData is { CustId: > 0 })
             {
                 var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
 
@@ -1052,7 +1058,7 @@ namespace MemberSite.Controllers.Api
                                                                            CustEWalletDetailLogStatus.Create);
                 apiResult.Message = _selLangBLL.GetMsg("msg_Updatesuccessful");
             }
-            
+
             return apiResult;
         }
 
@@ -1062,7 +1068,7 @@ namespace MemberSite.Controllers.Api
             var apiResult = new ApiResult(_selLangBLL);
             var authData = _authorizeBLL.GetAuthData();
 
-            if (authData is {CustId: > 0})
+            if (authData is { CustId: > 0 })
             {
                 var custEWalletInfo = _custInfoBLL.GetCustEWalletInfo(authData.CustId);
                 if (custEWalletInfo == null)
@@ -1074,7 +1080,101 @@ namespace MemberSite.Controllers.Api
                 apiResult.ErrorCode = _custInfoBLL.DeleteCustEWalletDetail(authData.CustId, eWalletInfo.SysId, eWalletInfo.AccountNo, CustEWalletDetailStatus.Disable);
                 apiResult.Message = _selLangBLL.GetMsg(apiResult.ErrorCode == 0 ? "msg_Updatesuccessful" : "msg_UpdateFailed");
             }
-            
+
+            return apiResult;
+        }
+
+        public class CustCryptoWalletreq
+        {
+            public string NickName { set; get; }
+            public string Address { set; get; }
+            public string Network { set; get; }
+            public int CurrencyId { set; get; }
+        }
+        [HttpPost]
+        public ApiResult SetCustCryptoWallet(CustCryptoWalletreq custCryptoWalletreq)
+        {
+            var apiResult = new ApiResult(_selLangBLL);
+            var authData = _authorizeBLL.GetAuthData();
+
+            if (_cryptoPayInfoBLL.CryptoAddressValidation(custCryptoWalletreq.Network, custCryptoWalletreq.Address))
+            {
+                apiResult.ErrorCode = -5; // 錢包地址格式錯誤
+                apiResult.Message = _selLangBLL.GetMsg("msg_InvalidCryptoWalletAddress");
+                return apiResult;
+            }
+
+            if (authData is { CustId: > 0 })
+            {
+                var custBankInfo = _custInfoBLL.GetCustBankInfo(authData.CustId);
+                var custCryptoWalletDetail = _custInfoBLL.GetCustCryptoWalletDetail(custCryptoWalletreq.Address).ToList();
+                var blockCryptoWallet = _bankInfoBLL.GetBlockCryptoWallet(custCryptoWalletreq.Address).ToList();
+
+                if (custBankInfo == null)
+                {
+                    apiResult.ErrorCode = -2;
+                    apiResult.Message = _selLangBLL.GetMsg("msg_NeedAccountName");
+                    return apiResult;
+                }
+                else if (custBankInfo.usdtDetail?.Count() >= 3)
+                {
+                    apiResult.ErrorCode = -3;
+                    apiResult.Message = _selLangBLL.GetMsg("msg_UpdateFailed");
+                    return apiResult;
+                }
+                else if (custBankInfo.usdtDetail != null)
+                {
+                    if (custBankInfo.usdtDetail.Any(x => x.USDTAddress == custCryptoWalletreq.Address
+                                              && x.CurrencyId == custCryptoWalletreq.CurrencyId)) // 可能幣種不同但錢包位址相同
+                    {
+                        apiResult.ErrorCode = -4;
+                        apiResult.Message = _selLangBLL.GetMsg("msg_UpdateFailed");
+                        return apiResult;
+                    }
+                }
+                else if (custCryptoWalletDetail.Count > 0)
+                {
+                    var bankDetail = custCryptoWalletDetail.Find(x => x.CustId == authData.CustId);
+                    if (bankDetail == null)
+                    {
+                        apiResult.ErrorCode = -5;
+                        apiResult.Message = _selLangBLL.GetMsg("msg_CryptoWalletDuplicate");
+                        return apiResult;
+                    }
+                }
+                else if (blockCryptoWallet.Count > 0)
+                {
+                    apiResult.ErrorCode = -1;
+                    apiResult.Message = _selLangBLL.GetMsg("msg_UpdateFailed");
+                    return apiResult;
+                }
+
+                apiResult.ErrorCode = _custInfoBLL.InsertCustCryptoWalletDetail(authData.CustId, custCryptoWalletreq.CurrencyId, custCryptoWalletreq.Network, custCryptoWalletreq.Address, custCryptoWalletreq.NickName, custBankInfo.AccountName);
+                apiResult.Message = _selLangBLL.GetMsg(apiResult.ErrorCode == 0 ? "msg_Updatesuccessful" : "msg_UpdateFailed");
+            }
+
+            return apiResult;
+        }
+
+        [HttpPost]
+        public ApiResult DelCustCryptoWallet(CustCryptoWalletreq custCryptoWalletreq)
+        {
+            var apiResult = new ApiResult(_selLangBLL);
+            var authData = _authorizeBLL.GetAuthData();
+
+            if (authData is { CustId: > 0 })
+            {
+                var custCryptoWalletDetail = _custInfoBLL.GetCustCryptoWalletDetail(authData.CustId);
+                if (custCryptoWalletDetail == null)
+                {
+                    apiResult.ErrorCode = -2;
+                    apiResult.Message = _selLangBLL.GetMsg("msg_UpdateFailed");
+                    return apiResult;
+                }
+                apiResult.ErrorCode = _custInfoBLL.DeleteCustCryptoWalletDetail(authData.CustId, custCryptoWalletreq.CurrencyId, custCryptoWalletreq.Network, custCryptoWalletreq.Address, custCryptoWalletreq.NickName);
+                apiResult.Message = _selLangBLL.GetMsg(apiResult.ErrorCode == 0 ? "msg_Updatesuccessful" : "msg_UpdateFailed");
+            }
+
             return apiResult;
         }
     }

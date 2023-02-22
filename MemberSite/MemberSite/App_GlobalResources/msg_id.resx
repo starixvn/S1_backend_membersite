@@ -427,4 +427,7 @@
   <data name="msg_WithdrawalAccountAannotReceiveMoney_Detail" xml:space="preserve">
     <value>Akun penarikan tidak dapat menerima dana. Silahkan cek kembali atau hubungi Layanan Pelanggan untuk bantuan lebih lanjut.</value>
   </data>
+  <data name="msg_CryptoWalletDuplicate" xml:space="preserve">
+    <value>Alamat dompet kripto sudah digunakan</value>
+  </data>
 </root>

@@ -419,4 +419,7 @@ Hãy chuyển tiền từ ví chính sang ví Thể thao để trải nghiệm c
   <data name="msg_WithdrawalAccountAannotReceiveMoney_Detail" xml:space="preserve">
     <value>Tài khoản rút tiền không thành công . Vui lòng kiểm tra lại hoặc liên hệ với bộ phận Hỗ trợ khách hàng để được hỗ trợ thêm</value>
   </data>
+  <data name="msg_CryptoWalletDuplicate" xml:space="preserve">
+    <value>Địa chỉ Ví tiền ảo này đã được sử dụng</value>
+  </data>
 </root>
