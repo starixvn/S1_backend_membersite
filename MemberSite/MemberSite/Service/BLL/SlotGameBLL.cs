@@ -58,7 +58,7 @@ namespace MemberSite.Service.BLL
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
             var (siteId, currencyId, custId) = GetUserInfo(request.CurrencyId, user, serverInfo);
-            var imgUrl = _siteConfig.Value[serverInfo.SiteName].ImageURL;
+            var imgUrl = _siteConfig.Value[serverInfo.SiteName].OldImageUrl;
 
             var providerList = await GetSlotGameProviderList(siteId, currencyId, TpCategory.Casino);
             var slotGameList = await GetSlotGameList(siteId, currencyId, request.DeviceType);
