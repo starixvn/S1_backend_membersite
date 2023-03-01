@@ -19,6 +19,7 @@ public class SiteBll
     private readonly Regex _regexUserName = new(@"^[a-zA-Z0-9]{6,18}$");
     private readonly Regex _regexAffCode = new(@"^[0-9]{5,20}$");
     private readonly Regex _regexPhoneNumber = new(@"^\+60[0-9]{9,10}$|\+62[0-9]{10,13}$|\+86[0-9]{10,11}$|\+91[0-9]{10}$|\+66[0-9]{9}$|\+880[0-9]{9}$");
+    private readonly Regex _regexEmail = new(@"^\w+((-\w+)|(\.\w+))*@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$");
     private readonly RecaptchaBLL _recaptcha;
     private readonly IGeoIpApi _geoIpApi;
     private readonly ServerInfoBll _serverInfoBll;
@@ -96,6 +97,13 @@ public class SiteBll
                         return customer;
                     }
                     break;
+            }
+
+            if (!_regexEmail.IsMatch(signupModel.Email))
+            {
+                apiResult.ErrorCode = -10;
+                apiResult.Message = _selLangBll.GetMsg("msg_EmailFormatVerify");
+                return customer;
             }
         }
 

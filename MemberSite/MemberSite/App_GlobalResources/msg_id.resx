@@ -343,6 +343,9 @@
   <data name="msg_PhoneFormatVerify" xml:space="preserve">
     <value>Nomor telepon yang Anda masukkan salah, antara {0} digit</value>
   </data>
+  <data name="msg_EmailFormatVerify" xml:space="preserve">
+    <value>Format alamat email salah</value>
+  </data>
   <data name="msg_InvalidCryptoWalletAddress" xml:space="preserve">
     <value>Alamat dompet kripto tidak valid.</value>
   </data>

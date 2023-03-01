@@ -350,6 +350,9 @@
   <data name="msg_PhoneFormatVerify" xml:space="preserve">
     <value>दर्ज किया गया फ़ोन नंबर {0} अंकों का होना चाहिए</value>
   </data>
+  <data name="msg_EmailFormatVerify" xml:space="preserve">
+    <value>รईमेल पता प्रारूप गलत है</value>
+  </data>
   <data name="msg_InvalidCryptoWalletAddress" xml:space="preserve">
     <value>अमान्य क्रिप्टो वॉलेट पता।</value>
   </data>
