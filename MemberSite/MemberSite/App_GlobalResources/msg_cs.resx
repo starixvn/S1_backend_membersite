@@ -340,6 +340,9 @@
   <data name="msg_PhoneFormatVerify" xml:space="preserve">
     <value>您输入的手机号格式有误，介于{0}位数字</value>
   </data>
+  <data name="msg_EmailFormatVerify" xml:space="preserve">
+    <value>输入的邮箱地址格式有误</value>
+  </data>
   <data name="msg_InvalidCryptoWalletAddress" xml:space="preserve">
     <value>您的加密钱包地址格式不符！</value>
   </data>
