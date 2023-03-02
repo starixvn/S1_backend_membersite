@@ -221,13 +221,13 @@ public class SiteBll
                         {
                             _commonBll.SendWelcomeMail(custId);
 
-                        if (signupModel.blackbox != null)
-                        {
-                            var apiResultIovation = await _iovationBll.IovationChecks(custId, signupModel.CurrencyId,
-                                signupModel.UserName, signupModel.blackbox, IovationType.registration);
-                            if (apiResultIovation.ErrorCode == 0 & apiResultIovation.Data != null)
-                                _iovationBll.SetIovation(custId, IovationType.registration, apiResultIovation.Data);
-                        }
+                            if (signupModel.blackbox != null)
+                            {
+                                var apiResultIovation = await _iovationBll.IovationChecks(custId, signupModel.CurrencyId,
+                                    signupModel.UserName, signupModel.blackbox, IovationType.registration);
+                                if (apiResultIovation.ErrorCode == 0 & apiResultIovation.Data != null)
+                                    _iovationBll.SetIovation(custId, IovationType.registration, apiResultIovation.Data);
+                            }
                     });
                     
                     var userLoginResult = _custInfoBLL.UserLogin(false, 0, signupModel.UserName, signupModel.Userpwd,
