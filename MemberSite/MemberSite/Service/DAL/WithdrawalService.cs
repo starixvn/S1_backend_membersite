@@ -62,7 +62,7 @@ namespace MemberSite.Service.DAL
             {
                 trans.Commit();
 
-                if (siteId == (int) SiteId.Goal123)
+                if (siteId != (int)SiteId.Nova88)
                 {
                     _ = Task.Run(async () =>
                     {
@@ -126,7 +126,7 @@ namespace MemberSite.Service.DAL
             {
                 trans.Commit();
                 
-                if (siteId == (int) SiteId.Goal123)
+                if (siteId != (int)SiteId.Nova88)
                 {
                     _ = Task.Run(async () =>
                     {
