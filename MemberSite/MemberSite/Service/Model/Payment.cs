@@ -130,7 +130,7 @@ namespace MemberSite.Service.Model
         public string Code { get; set; }
         public string Serial { get; set; }
     }
-    public class LoadCardPayGroup
+    public class LoadCardPayGroup : IPaymentLimit
     {
         public int GroupId { get; set; }
         public string GroupName { get; set; }
@@ -170,7 +170,7 @@ namespace MemberSite.Service.Model
         public int SSort { get; set; }
     }
 
-    public class PayGroup
+    public class PayGroup : IPaymentLimit
     {
         public int GroupId { get; set; }
         public string GroupName { get; set; }
