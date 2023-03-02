@@ -1122,25 +1122,18 @@ namespace MemberSite.Controllers.Api
                     apiResult.Message = _selLangBLL.GetMsg("msg_UpdateFailed");
                     return apiResult;
                 }
-                else if (custBankInfo.usdtDetail != null)
+                else if (custBankInfo.usdtDetail != null && custBankInfo.usdtDetail.Any(x => x.USDTAddress == custCryptoWalletreq.Address && x.CurrencyId == custCryptoWalletreq.CurrencyId))
                 {
-                    if (custBankInfo.usdtDetail.Any(x => x.USDTAddress == custCryptoWalletreq.Address
-                                              && x.CurrencyId == custCryptoWalletreq.CurrencyId)) // 可能幣種不同但錢包位址相同
-                    {
-                        apiResult.ErrorCode = -4;
-                        apiResult.Message = _selLangBLL.GetMsg("msg_UpdateFailed");
-                        return apiResult;
-                    }
+                    // 可能同一個CUST幣種不同但錢包位址相同,這種狀況是允許的
+                    apiResult.ErrorCode = -4;
+                    apiResult.Message = _selLangBLL.GetMsg("msg_UpdateFailed");
+                    return apiResult;
                 }
-                else if (custCryptoWalletDetail.Count > 0)
+                else if (custCryptoWalletDetail.Count > 0 && custCryptoWalletDetail.Find(x => x.CustId == authData.CustId) == null)
                 {
-                    var bankDetail = custCryptoWalletDetail.Find(x => x.CustId == authData.CustId);
-                    if (bankDetail == null)
-                    {
-                        apiResult.ErrorCode = -5;
-                        apiResult.Message = _selLangBLL.GetMsg("msg_CryptoWalletDuplicate");
-                        return apiResult;
-                    }
+                    apiResult.ErrorCode = -5;
+                    apiResult.Message = _selLangBLL.GetMsg("msg_CryptoWalletDuplicate");
+                    return apiResult;
                 }
                 else if (blockCryptoWallet.Count > 0)
                 {
