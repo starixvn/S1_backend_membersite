@@ -119,8 +119,13 @@ namespace MemberSite.Service.BLL
         public IEnumerable<SysBankInfoFront> GetOnlineBankInfoSysList(int custId, int payId)
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
+            var pointLevel = _custInfoBll.GetPointLevelWithCache(custId);
             var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
             var bankInfoPayList = GetOnlineBankList(custInfo.SiteId);
+            var depositLimitInfoList = _depositBll.GetDepositLimitInfoList(custInfo.SiteId);
+            var depositLimitInfo = depositLimitInfoList?.FirstOrDefault(x =>
+                x.SiteId == custInfo.SiteId && x.VipLevel == pointLevel &&
+                x.DepositType == (int)DepositType.OnlineBanking && x.CurrencyId == custInfo.CurrencyId);
 
             var bankInfoList = bankInfoPayList
                 .Where(x => vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.PayId == payId &&
@@ -129,7 +134,7 @@ namespace MemberSite.Service.BLL
                 .Select(x =>
                 {
                     var d = x.First();
-                    return new SysBankInfoFront
+                    var p = new SysBankInfoFront
                     {
                         SysId = d.SysId,
                         BankCode = d.SysBankCode,
@@ -138,6 +143,12 @@ namespace MemberSite.Service.BLL
                         MaxAmount = d.MaxAmount,
                         MinAmount = d.MinAmount
                     };
+                    
+                    if (depositLimitInfo != null)
+                    {
+                        _depositBll.FixDepositLimit(p, depositLimitInfo);
+                    }
+                    return p;
                 });
 
             return bankInfoList;
