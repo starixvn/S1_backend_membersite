@@ -129,7 +129,7 @@ namespace MemberSite.Service.BLL
         {
             //return true; //For Debug
             //30 秒內要收到request並驗證
-            if (((DateTimeOffset)DateTime.UtcNow).ToUnixTimeSeconds() * 1000 - timestamp < 30 * 1000)
+            if (((DateTimeOffset)DateTime.UtcNow).ToUnixTimeMilliseconds() - timestamp < 30 * 1000)
                 return true;
             else
                 return false;
