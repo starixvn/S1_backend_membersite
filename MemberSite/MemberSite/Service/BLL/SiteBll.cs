@@ -18,8 +18,11 @@ public class SiteBll
     private readonly ShieldBLL _ShieldBll;
     private readonly Regex _regexUserName = new(@"^[a-zA-Z0-9]{6,18}$");
     private readonly Regex _regexAffCode = new(@"^[0-9]{5,20}$");
+    private readonly Regex _regexPhoneNumber = new(@"^\+60[0-9]{9,10}$|\+62[0-9]{10,13}$|\+86[0-9]{10,11}$|\+91[0-9]{10}$|\+66[0-9]{9}$|\+880[0-9]{9}$");
+    private readonly Regex _regexEmail = new(@"^\w+((-\w+)|(\.\w+))*@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$");
     private readonly RecaptchaBLL _recaptcha;
     private readonly IGeoIpApi _geoIpApi;
+    private readonly ServerInfoBll _serverInfoBll;
 
     public SiteBll(IServiceProvider provider)
     {
@@ -31,6 +34,7 @@ public class SiteBll
         _ShieldBll = provider.GetRequiredService<ShieldBLL>();
         _recaptcha = provider.GetRequiredService<RecaptchaBLL>();
         _geoIpApi = provider.GetRequiredService<IGeoIpApi>();
+        _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
     }
 
     public Customer Signup(SiteController.SignupModel signupModel, ApiResult apiResult, bool isAuthenticated,
@@ -62,6 +66,44 @@ public class SiteBll
                     apiResult.Message = verifyResult.errorCodes.FirstOrDefault();
                     return customer;
                 } 
+            }
+        }
+        
+        var serverInfo = _serverInfoBll.GetServerInfo();
+        if (serverInfo.SiteId == (int)SiteId.Nova88)
+        {
+            switch (signupModel.AreaCode)
+            {
+                case "+60":
+                case "+62":
+                case "+86":
+                case "+91":
+                case "+66":
+                case "+880":
+                    if (!_regexPhoneNumber.IsMatch(signupModel.AreaCode + signupModel.PhoneNo))
+                    {
+                        var message = signupModel.AreaCode switch
+                        {
+                            "+60" => "9-10",
+                            "+62" => "10-13",
+                            "+86" => "10-11",
+                            "+91" => "10",
+                            "+66" => "9",
+                            "+880" => "9",
+                            _ => ""
+                        };
+                        apiResult.ErrorCode = -20;
+                        apiResult.Message = string.Format(_selLangBll.GetMsg("msg_PhoneFormatVerify"), message);
+                        return customer;
+                    }
+                    break;
+            }
+
+            if (!_regexEmail.IsMatch(signupModel.Email))
+            {
+                apiResult.ErrorCode = -10;
+                apiResult.Message = _selLangBll.GetMsg("msg_EmailFormatVerify");
+                return customer;
             }
         }
 

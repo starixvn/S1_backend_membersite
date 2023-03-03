@@ -340,6 +340,12 @@
   <data name="msg_PhoneWrongFormat" xml:space="preserve">
     <value>Format Phone salah</value>
   </data>
+  <data name="msg_PhoneFormatVerify" xml:space="preserve">
+    <value>Nomor telepon yang Anda masukkan salah, antara {0} digit</value>
+  </data>
+  <data name="msg_EmailFormatVerify" xml:space="preserve">
+    <value>Format alamat email salah</value>
+  </data>
   <data name="msg_InvalidCryptoWalletAddress" xml:space="preserve">
     <value>Alamat dompet kripto tidak valid.</value>
   </data>
@@ -399,5 +405,29 @@
   </data>
   <data name="msg_WithdrawalAccountsNameUnmatch_Detail" xml:space="preserve">
     <value>Nama akun penarikan tidak sesuai dengan nama terdaftar. Untuk bantuan, silahkan hubungi layanan pelanggan</value>
+  </data>
+  <data name="msg_WrongAmountSubmitted" xml:space="preserve">
+    <value>Jumlah Deposit Salah</value>
+  </data>
+  <data name="msg_WrongAmountSubmitted_Detail" xml:space="preserve">
+    <value>Jumlah deposit tidak cocok dengan yang diajukan. Silahkan cek kembali atau hubungi Layanan Pelanggan untuk bantuan lebih lanjut.</value>
+  </data>
+  <data name="msg_WrongBankSubmitted" xml:space="preserve">
+    <value>Akun deposit yang dipilih salah</value>
+  </data>
+  <data name="msg_WrongBankSubmitted_Detail" xml:space="preserve">
+    <value>Akun deposit yang dipilih salah. Silahkan cek kembali atau hubungi Layanan Pelanggan untuk bantuan lebih lanjut.</value>
+  </data>
+  <data name="msg_BeneficiarysAccountMaintenance" xml:space="preserve">
+    <value>Rekening penerima sedang pemeliharaan.</value>
+  </data>
+  <data name="msg_BeneficiarysAccountMaintenance_Detail" xml:space="preserve">
+    <value>Bank sedang dalam pemeliharaan, transaksi penarikan Anda akan diproses setelah pemeliharaan dari banknya selesai.</value>
+  </data>
+  <data name="msg_WithdrawalAccountAannotReceiveMoney" xml:space="preserve">
+    <value>Akun penarikan gagal menerima dana</value>
+  </data>
+  <data name="msg_WithdrawalAccountAannotReceiveMoney_Detail" xml:space="preserve">
+    <value>Akun penarikan tidak dapat menerima dana. Silahkan cek kembali atau hubungi Layanan Pelanggan untuk bantuan lebih lanjut.</value>
   </data>
 </root>

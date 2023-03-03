@@ -1101,7 +1101,7 @@ namespace MemberSite.Controllers.Api
                 resultData.ProviderList.Add(provider);
             }
             apiResult.Data = resultData;
-            apiResult.Data.ImgUrl = _siteConfig.Value[serverInfo.SiteName].ImageURL;
+            apiResult.Data.ImgUrl = _siteConfig.Value[serverInfo.SiteName].OldImageUrl;
             apiResult.ErrorCode = 0;
             return apiResult;
         }
