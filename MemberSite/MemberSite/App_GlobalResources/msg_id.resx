@@ -296,7 +296,13 @@
     <value>Verifikasi no telpon Anda sekarang!</value>
   </data>
   <data name="msg_SpecialCodeErr" xml:space="preserve">
-    <value>Kode bonus khusus yang Anda masukkan tidak tersedia untuk penukaran promosi.</value>
+    <value>Kode Promo salah, harap periksa kembali.</value>
+  </data>
+  <data name="msg_SpecialCodeErrorForCheck" xml:space="preserve">
+    <value>Kode Promo salah, harap periksa kembali.</value>
+  </data>
+  <data name="msg_SpecialCodeVipLevelsOrBlockTagInvalid" xml:space="preserve">
+    <value>Tidak dapat berpartisipasi dalam promosi ini, silakan hubungi layanan pelanggan untuk pertanyaan.</value>
   </data>
   <data name="msg_DrawPrize" xml:space="preserve">
     <value>Selamat, Ang Pao Anda {0} telah dikreditkan ke akun Anda!</value>
@@ -335,7 +341,7 @@
     <value>Anda telah menyimpan informasi ini.</value>
   </data>
   <data name="msg_PromoCodeHasBeenUsed" xml:space="preserve">
-    <value>Kode Promo ini telah digunakan.</value>
+    <value>KODE INI SUDAH DIGUNAKAN.</value>
   </data>
   <data name="msg_PhoneWrongFormat" xml:space="preserve">
     <value>Format Phone salah</value>
