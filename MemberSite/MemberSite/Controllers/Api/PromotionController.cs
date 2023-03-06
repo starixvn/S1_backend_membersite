@@ -307,9 +307,8 @@ namespace MemberSite.Controllers.Api
                 result.Message = result.ErrorCode switch
                 {
                     (int)SpecialCode.SpecialCodeError => _selLangBll.GetMsg("msg_SpecialCodeErr"),
-                    (int)SpecialCode.SpecialCodeErrorForCheck => _selLangBll.GetMsg("msg_SpecialCodeErrorForCheck"),
                     (int)SpecialCode.SpecialCodeVipLevelsOrBlockTagInvalid => _selLangBll.GetMsg("msg_SpecialCodeVipLevelsOrBlockTagInvalid"),
-                    (int)SpecialCode.PromoCodeHasBeenUsed => _selLangBll.GetMsg("msg_PromoCodeHasBeenUsed"),
+                    101 => _selLangBll.GetMsg("msg_PromoCodeHasBeenUsed"),
                     9000 => _selLangBll.GetMsg("msg_Ineligible"),
                     _ => result.Message
                 };
