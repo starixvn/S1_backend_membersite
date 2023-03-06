@@ -300,7 +300,16 @@ Hãy chuyển tiền từ ví chính sang ví Thể thao để trải nghiệm c
     <value>Chiếc Hộp Thần Kỳ {0}</value>
   </data>
   <data name="msg_SpecialCodeErr" xml:space="preserve">
-    <value>Không tìm thấy khuyến mãi phù hợp với mã bạn vừa nhập</value>
+    <value>Mã khuyến mãi không chính xác, vui lòng kiểm tra lại</value>
+  </data>
+  <data name="msg_SpecialCodeErrorForCheck" xml:space="preserve">
+    <value>Mã khuyến mãi không chính xác, vui lòng kiểm tra lại</value>
+  </data>
+  <data name="msg_SpecialCodeVipLevelsOrBlockTagInvalid" xml:space="preserve">
+    <value>Không thể tham gia chương trình khuyến mãi này, vui lòng liên hệ bộ phận chăm sóc khách hàng để được giải đáp</value>
+  </data>
+  <data name="msg_PromoCodeHasBeenUsed" xml:space="preserve">
+    <value>Mã khuyến mãi đã được sử dụng</value>
   </data>
   <data name="msg_ClaimCashBackBonus" xml:space="preserve">
     <value>Xin chúc mừng, khoản tiền hoàn lại {0} của bạn đã được ghi có vào tài khoản của bạn!</value>
