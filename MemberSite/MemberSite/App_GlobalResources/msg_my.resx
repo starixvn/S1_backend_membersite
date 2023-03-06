@@ -305,7 +305,13 @@
     <value>Sila lengkapkan profil dan mengesahkan nombor telefon anda untuk menikmati promosi kami.</value>
   </data>
   <data name="msg_SpecialCodeErr" xml:space="preserve">
-    <value>Kod bonus unik yang anda masukkan tidak mempunyai sebarang promosi boleh ditebus.</value>
+    <value>Kod Promosi tidak betul, sila semak semula sekali lagi.</value>
+  </data>
+  <data name="msg_SpecialCodeErrorForCheck" xml:space="preserve">
+    <value>Kod Promosi tidak betul, sila semak semula sekali lagi.</value>
+  </data>
+  <data name="msg_SpecialCodeVipLevelsOrBlockTagInvalid" xml:space="preserve">
+    <value>Tidak dapat menyertai promosi ini, sila hubungi Live Chat untuk pertanyaan.</value>
   </data>
   <data name="msg_IneligibleAngPow" xml:space="preserve">
     <value>Sila deposit untuk layak dapatkan promosi ini</value>
@@ -344,7 +350,7 @@
     <value>Anda telah simpan maklumat ini.</value>
   </data>
   <data name="msg_PromoCodeHasBeenUsed" xml:space="preserve">
-    <value>Kod Promosi ini telah digunakan.</value>
+    <value>Kod Promosi telah digunakan.</value>
   </data>
   <data name="msg_PhoneWrongFormat" xml:space="preserve">
     <value>Format Telefon salah.</value>
