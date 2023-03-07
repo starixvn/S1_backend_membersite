@@ -38,7 +38,7 @@ namespace MemberSite.Extensions.Middlewares
                     .ReadToEndAsync();
                 using (LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds))
                 {
-                    _logger.LogInformation($"RESPONSE: {recordContent}");
+                    _logger.LogInformation($"StatusCode: {context.Response.StatusCode}, RESPONSE: {recordContent}");
                 }
 
                 responseBodyStream.Seek(0, SeekOrigin.Begin);

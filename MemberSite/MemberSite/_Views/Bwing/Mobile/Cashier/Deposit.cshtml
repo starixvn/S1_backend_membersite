@@ -14,69 +14,71 @@
 }
 @{
     var serverInfo = serverInfoBLL.GetServerInfo();
-    var i18n = new Dictionary<string, string>();
-    i18n.Add("lbl_Deposit", selLangBLL.GetResourceValue("lbl_Deposit"));
-    i18n.Add("lbl_Transaction", selLangBLL.GetResourceValue("lbl_Transaction"));
-    i18n.Add("lbl_TransactionHint", selLangBLL.GetResourceValue("lbl_TransactionHint"));
-    i18n.Add("lbl_BankAccountName", selLangBLL.GetResourceValue("lbl_BankAccountName"));
-    i18n.Add("lbl_BankNumber", selLangBLL.GetResourceValue("lbl_BankNumber"));
-    i18n.Add("lbl_DepositAmount", selLangBLL.GetResourceValue("lbl_DepositAmount"));
-    i18n.Add("lbl_Postscript", selLangBLL.GetResourceValue("lbl_Postscript"));
-    i18n.Add("lbl_PostscriptHint", selLangBLL.GetResourceValue("lbl_PostscriptHint"));
-    i18n.Add("lbl_Close", selLangBLL.GetResourceValue("lbl_Close"));
-    i18n.Add("lbl_ImportantNote", selLangBLL.GetResourceValue("lbl_ImportantNote"));
-    i18n.Add("lbl_ConfirmDeposit", selLangBLL.GetResourceValue("lbl_ConfirmDeposit"));
-    i18n.Add("lbl_TransferTo", selLangBLL.GetResourceValue("lbl_TransferTo"));
-    i18n.Add("lbl_Memo", selLangBLL.GetResourceValue("lbl_Memo"));
-    i18n.Add("lbl_Cancel", selLangBLL.GetResourceValue("lbl_Cancel"));
-    i18n.Add("lbl_Confirm", selLangBLL.GetResourceValue("lbl_Confirm"));
-    i18n.Add("lbl_RecentTransactions", selLangBLL.GetResourceValue("lbl_RecentTransactions"));
-    i18n.Add("lbl_AllTranscations", selLangBLL.GetResourceValue("lbl_AllTranscations"));
-    i18n.Add("lbl_Date", selLangBLL.GetResourceValue("lbl_Date"));
-    i18n.Add("lbl_Time", selLangBLL.GetResourceValue("lbl_Time"));
-    i18n.Add("lbl_ID", selLangBLL.GetResourceValue("lbl_ID"));
-    i18n.Add("lbl_Method", selLangBLL.GetResourceValue("lbl_Method"));
-    i18n.Add("lbl_Amount", selLangBLL.GetResourceValue("lbl_Amount"));
-    i18n.Add("lbl_Status", selLangBLL.GetResourceValue("lbl_Status"));
-    i18n.Add("lbl_WireTransfers", selLangBLL.GetResourceValue("lbl_WireTransfers"));
-    i18n.Add("lbl_DepositOptionHint", selLangBLL.GetResourceValue("lbl_DepositOptionHint"));
-    i18n.Add("lbl_CreditTime", selLangBLL.GetResourceValue("lbl_CreditTime"));
-    i18n.Add("lbl_5mins", selLangBLL.GetResourceValue("lbl_5mins"));
-    i18n.Add("lbl_Instant", selLangBLL.GetResourceValue("lbl_Instant"));
-    i18n.Add("lbl_OnlineBanking", selLangBLL.GetResourceValue("lbl_OnlineBanking"));
-    i18n.Add("lbl_MobileDeposit", selLangBLL.GetResourceValue("lbl_MobileDeposit"));
-    i18n.Add("lbl_AmountTooltip", selLangBLL.GetResourceValue("lbl_AmountTooltip"));
-    i18n.Add("lbl_Back", selLangBLL.GetResourceValue("lbl_Back"));
-    i18n.Add("lbl_Submit", selLangBLL.GetResourceValue("lbl_Submit"));
-    i18n.Add("lbl_NotinLimit", selLangBLL.GetResourceValue("lbl_NotinLimit"));
-    i18n.Add("lbl_MomoHint", selLangBLL.GetResourceValue("lbl_MomoHint"));
-    i18n.Add("lbl_Limit", selLangBLL.GetResourceValue("lbl_Limit"));
-    i18n.Add("lbl_Unlimited", selLangBLL.GetResourceValue("lbl_Unlimited"));
-    i18n.Add("lbl_Optional", selLangBLL.GetResourceValue("lbl_Optional"));
-    i18n.Add("lbl_Refno", selLangBLL.GetResourceValue("lbl_Refno"));
-    i18n.Add("lbl_RefnoToolTip", selLangBLL.GetResourceValue("lbl_RefnoToolTip"));
-    i18n.Add("lbl_DepositTime", selLangBLL.GetResourceValue("lbl_DepositTime"));
-    i18n.Add("lbl_DepositTimeToolTip", selLangBLL.GetResourceValue("lbl_DepositTimeToolTip"));
-    i18n.Add("lbl_Required", selLangBLL.GetResourceValue("lbl_Required"));
-    i18n.Add("lbl_UploadSuccess", selLangBLL.GetResourceValue("lbl_UploadSuccess"));
-    i18n.Add("lbl_UploadFile", selLangBLL.GetResourceValue("lbl_UploadFile"));
-    i18n.Add("lbl_UpdateSuccess", selLangBLL.GetResourceValue("lbl_UpdateSuccess"));
-    i18n.Add("lbl_AttachFile", selLangBLL.GetResourceValue("lbl_AttachFile"));
-    i18n.Add("lbl_SubmitProof", selLangBLL.GetResourceValue("lbl_SubmitProof"));
-    i18n.Add("lbl_CancelConfirm", selLangBLL.GetResourceValue("lbl_CancelConfirm"));
-    i18n.Add("lbl_MOMO", selLangBLL.GetResourceValue("lbl_MOMO"));
-    i18n.Add("lbl_ZALO", selLangBLL.GetResourceValue("lbl_ZALO"));
-    i18n.Add("lbl_VIETTELPAY", selLangBLL.GetResourceValue("lbl_VIETTELPAY"));
-    i18n.Add("lbl_ThaiQR", selLangBLL.GetResourceValue("lbl_ThaiQR"));
-    i18n.Add("lbl_Alipay", selLangBLL.GetResourceValue("lbl_Alipay"));
-    i18n.Add("lbl_WeChatPay", selLangBLL.GetResourceValue("lbl_WeChatPay"));
-    i18n.Add("lbl_QQpay", selLangBLL.GetResourceValue("lbl_QQpay"));
-    i18n.Add("lbl_JDpay", selLangBLL.GetResourceValue("lbl_JDpay"));
-    i18n.Add("lbl_Unionpay", selLangBLL.GetResourceValue("lbl_Unionpay"));
-    i18n.Add("lbl_SelectBank", selLangBLL.GetResourceValue("lbl_SelectBank"));
-    i18n.Add("lbl_InputAmount", selLangBLL.GetResourceValue("lbl_InputAmount"));
-    i18n.Add("lbl_DependOnTheBank", selLangBLL.GetResourceValue("lbl_DependOnTheBank"));
-    i18n.Add("lbl_PleaseSelBank", selLangBLL.GetResourceValue("lbl_PleaseSelBank"));
+    var i18n = new Dictionary<string, string>
+    {
+        { "lbl_Deposit", selLangBLL.GetResourceValue("lbl_Deposit") },
+        { "lbl_Transaction", selLangBLL.GetResourceValue("lbl_Transaction") },
+        { "lbl_TransactionHint", selLangBLL.GetResourceValue("lbl_TransactionHint") },
+        { "lbl_BankAccountName", selLangBLL.GetResourceValue("lbl_BankAccountName") },
+        { "lbl_BankNumber", selLangBLL.GetResourceValue("lbl_BankNumber") },
+        { "lbl_DepositAmount", selLangBLL.GetResourceValue("lbl_DepositAmount") },
+        { "lbl_Postscript", selLangBLL.GetResourceValue("lbl_Postscript") },
+        { "lbl_PostscriptHint", selLangBLL.GetResourceValue("lbl_PostscriptHint") },
+        { "lbl_Close", selLangBLL.GetResourceValue("lbl_Close") },
+        { "lbl_ImportantNote", selLangBLL.GetResourceValue("lbl_ImportantNote") },
+        { "lbl_ConfirmDeposit", selLangBLL.GetResourceValue("lbl_ConfirmDeposit") },
+        { "lbl_TransferTo", selLangBLL.GetResourceValue("lbl_TransferTo") },
+        { "lbl_Memo", selLangBLL.GetResourceValue("lbl_Memo") },
+        { "lbl_Cancel", selLangBLL.GetResourceValue("lbl_Cancel") },
+        { "lbl_Confirm", selLangBLL.GetResourceValue("lbl_Confirm") },
+        { "lbl_RecentTransactions", selLangBLL.GetResourceValue("lbl_RecentTransactions") },
+        { "lbl_AllTranscations", selLangBLL.GetResourceValue("lbl_AllTranscations") },
+        { "lbl_Date", selLangBLL.GetResourceValue("lbl_Date") },
+        { "lbl_Time", selLangBLL.GetResourceValue("lbl_Time") },
+        { "lbl_ID", selLangBLL.GetResourceValue("lbl_ID") },
+        { "lbl_Method", selLangBLL.GetResourceValue("lbl_Method") },
+        { "lbl_Amount", selLangBLL.GetResourceValue("lbl_Amount") },
+        { "lbl_Status", selLangBLL.GetResourceValue("lbl_Status") },
+        { "lbl_WireTransfers", selLangBLL.GetResourceValue("lbl_WireTransfers") },
+        { "lbl_DepositOptionHint", selLangBLL.GetResourceValue("lbl_DepositOptionHint") },
+        { "lbl_CreditTime", selLangBLL.GetResourceValue("lbl_CreditTime") },
+        { "lbl_5mins", selLangBLL.GetResourceValue("lbl_5mins") },
+        { "lbl_Instant", selLangBLL.GetResourceValue("lbl_Instant") },
+        { "lbl_OnlineBanking", selLangBLL.GetResourceValue("lbl_OnlineBanking") },
+        { "lbl_MobileDeposit", selLangBLL.GetResourceValue("lbl_MobileDeposit") },
+        { "lbl_AmountTooltip", selLangBLL.GetResourceValue("lbl_AmountTooltip") },
+        { "lbl_Back", selLangBLL.GetResourceValue("lbl_Back") },
+        { "lbl_Submit", selLangBLL.GetResourceValue("lbl_Submit") },
+        { "lbl_NotinLimit", selLangBLL.GetResourceValue("lbl_NotinLimit") },
+        { "lbl_MomoHint", selLangBLL.GetResourceValue("lbl_MomoHint") },
+        { "lbl_Limit", selLangBLL.GetResourceValue("lbl_Limit") },
+        { "lbl_Unlimited", selLangBLL.GetResourceValue("lbl_Unlimited") },
+        { "lbl_Optional", selLangBLL.GetResourceValue("lbl_Optional") },
+        { "lbl_Refno", selLangBLL.GetResourceValue("lbl_Refno") },
+        { "lbl_RefnoToolTip", selLangBLL.GetResourceValue("lbl_RefnoToolTip") },
+        { "lbl_DepositTime", selLangBLL.GetResourceValue("lbl_DepositTime") },
+        { "lbl_DepositTimeToolTip", selLangBLL.GetResourceValue("lbl_DepositTimeToolTip") },
+        { "lbl_Required", selLangBLL.GetResourceValue("lbl_Required") },
+        { "lbl_UploadSuccess", selLangBLL.GetResourceValue("lbl_UploadSuccess") },
+        { "lbl_UploadFile", selLangBLL.GetResourceValue("lbl_UploadFile") },
+        { "lbl_UpdateSuccess", selLangBLL.GetResourceValue("lbl_UpdateSuccess") },
+        { "lbl_AttachFile", selLangBLL.GetResourceValue("lbl_AttachFile") },
+        { "lbl_SubmitProof", selLangBLL.GetResourceValue("lbl_SubmitProof") },
+        { "lbl_CancelConfirm", selLangBLL.GetResourceValue("lbl_CancelConfirm") },
+        { "lbl_MOMO", selLangBLL.GetResourceValue("lbl_MOMO") },
+        { "lbl_ZALO", selLangBLL.GetResourceValue("lbl_ZALO") },
+        { "lbl_VIETTELPAY", selLangBLL.GetResourceValue("lbl_VIETTELPAY") },
+        { "lbl_ThaiQR", selLangBLL.GetResourceValue("lbl_ThaiQR") },
+        { "lbl_Alipay", selLangBLL.GetResourceValue("lbl_Alipay") },
+        { "lbl_WeChatPay", selLangBLL.GetResourceValue("lbl_WeChatPay") },
+        { "lbl_QQpay", selLangBLL.GetResourceValue("lbl_QQpay") },
+        { "lbl_JDpay", selLangBLL.GetResourceValue("lbl_JDpay") },
+        { "lbl_Unionpay", selLangBLL.GetResourceValue("lbl_Unionpay") },
+        { "lbl_SelectBank", selLangBLL.GetResourceValue("lbl_SelectBank") },
+        { "lbl_InputAmount", selLangBLL.GetResourceValue("lbl_InputAmount") },
+        { "lbl_DependOnTheBank", selLangBLL.GetResourceValue("lbl_DependOnTheBank") },
+        { "lbl_PleaseSelBank", selLangBLL.GetResourceValue("lbl_PleaseSelBank") }
+    };
 
     for (var depositStatus = 0; depositStatus <= 8; depositStatus++)
     {

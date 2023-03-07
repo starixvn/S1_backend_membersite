@@ -108,7 +108,7 @@ namespace MemberSite.Service.BLL
                 if (agent?.CurrencyId != CurrencyId)
                 {
                     custId = 0;
-                    return -6; /*agent Currency != CurrencyId*/
+                    return -19; /*agent Currency != CurrencyId*/
                 }
             }
 
@@ -138,7 +138,7 @@ namespace MemberSite.Service.BLL
             var result = _custInfoService.AddCustInfo(regCustInfo, Email, lineUserId, out custId, signupUrl, referralUrl, PhoneNo, AreaCode,
                 RealName, promoCode, Birth_d, Birth_m, Birth_y);
 
-            if (result == 0 && regCustInfo.SiteId == (int)SiteId.Goal123)
+            if (result == 0 && regCustInfo.SiteId != (int)SiteId.Nova88)
             {
                 regCustInfo.CustId = custId;
                 _ = Task.Run(async () =>
@@ -199,7 +199,7 @@ namespace MemberSite.Service.BLL
                 return -3;
             }
 
-            if (customer is { SiteId: (int)SiteId.Goal123 })
+            if (customer.SiteId != (int)SiteId.Nova88)
             {
                 var info = customer;
                 _ = Task.Run(async () =>
@@ -213,6 +213,7 @@ namespace MemberSite.Service.BLL
                     // send custId to tp.Shield
                     var request = new SendShieldAttributesRequest()
                     {
+                        SiteId = info.SiteId ,
                         UserId = info.CustId.ToString()
                     };
                     var result = await _shieldBll.SendShieldAttributes(request);
@@ -353,6 +354,7 @@ namespace MemberSite.Service.BLL
         public int SetCustBankInfo(int custId, string accountName, bool forceUseMainDb = false)
         {
             var custInfo = GetCustInfoWithCache(custId, forceUseMainDb);
+            
             return _custInfoService.SetCustBankInfo(custId, custInfo.SiteId, accountName) ? 0 : -1;
         }
         public int InsertCustBankInfo(int custId, string accountName, int sysId, string accountNum, string iFSCCode, CustBankInfoLogStatus status)
@@ -360,16 +362,11 @@ namespace MemberSite.Service.BLL
             var custInfo = GetCustInfoWithCache(custId);
             return _custInfoService.InsertCustBankInfo(custId, custInfo.SiteId, accountName, sysId, accountNum, iFSCCode, status) ? 0 : -1;
         }
-
-        public int SetCustUSDTInfo(int custId, string accountName, IEnumerable<USDTDetail> uSDTInfo)
+        
+        public int SetCustUSDTInfo(int custId, string accountName, IEnumerable<USDTDetail> uSDTInfo, IEnumerable<USDTDetailLog> uSDTInfoLog)
         {
             var custInfo = GetCustInfoWithCache(custId);
-            return _custInfoService.SetCustUSDTInfo(custId, custInfo.SiteId, accountName, uSDTInfo) ? 0 : -1;
-        }
-        public int InsertCustUSDTInfo(int custId, string accountName, IEnumerable<USDTDetail> uSDTInfo, IEnumerable<USDTDetail> uSDTInfoLog)
-        {
-            var custInfo = GetCustInfoWithCache(custId);
-            return _custInfoService.InsertCustUSDTInfo(custId, custInfo.SiteId, accountName, uSDTInfo, uSDTInfoLog) ? 0 : -1;
+            return _custInfoService.SettCustUSDTInfo(custId, custInfo.SiteId, accountName, uSDTInfo, uSDTInfoLog) ? 0 : -1;
         }
         public CustBankInfo GetCustBankInfo(int custId)
         {
@@ -456,11 +453,6 @@ namespace MemberSite.Service.BLL
             var custInfo = GetCustInfoWithCache(custId);
             return _custInfoService.SubmittedCustPhotoId(custId, custInfo.SiteId, custInfo.CurrencyId);
         }
-        public int SetCustPhotoId(int custId, int siteId, string picFileName, byte[] photoIdPic)
-        {
-            return _custInfoService.SetCustPhotoId(custId, siteId, picFileName, photoIdPic);
-        }
-
         public void ForgetPwd1(int custId, string resetPasswordUrl)
         {
             _commonBll.SendResetPwdMail(custId, resetPasswordUrl);
@@ -512,7 +504,7 @@ namespace MemberSite.Service.BLL
                 {
                     if (mySqlEx.Number == 1062)/*Duplicate for key 'PRIMARY'*/
                     {
-                        affiliateId = _agentInfoService.GetAffiliateId(custId, custInfo.SiteId);
+                        affiliateId = _agentInfoService.GetAffiliateId(custId, custInfo.SiteId, DataBase.Main);
                     }
                     else
                     {

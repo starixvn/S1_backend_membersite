@@ -4,10 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using MemberSite.Service.Model.enums;
 using Serilog.Context;
-using MemberSite.Service.DAL;
-using Microsoft.Extensions.Options;
-using MemberSite.Service.Model;
-using System.Web;
 
 namespace MemberSite.Controllers
 {
@@ -24,8 +20,6 @@ namespace MemberSite.Controllers
         private readonly GameBLL _gameBll;
         private readonly string _apiUrl;
         private readonly ILogger _logger;
-        private readonly StatementService _statementService;
-        private readonly IOptions<Dictionary<string, SiteConfig>> _siteConfig;
 
         public entPageController(IServiceProvider provider)
         {
@@ -40,8 +34,6 @@ namespace MemberSite.Controllers
             _gameBll = provider.GetRequiredService<GameBLL>();
             _apiUrl = provider.GetRequiredService<IConfiguration>().GetValue<string>("TpService");
             _logger = provider.GetRequiredService<ILogger<entPageController>>();
-            _statementService = provider.GetRequiredService<StatementService>();
-            _siteConfig = provider.GetRequiredService<IOptions<Dictionary<string, SiteConfig>>>();
         }
 
         public class TpInfo
@@ -58,13 +50,14 @@ namespace MemberSite.Controllers
         public async Task<IActionResult> IndexAsync(int tpId, Dictionary<string, string> inputs, [FromRoute] string LangId = null)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
-            var tpMaintainList = _thirdPartyBll.GetTpMaintainListWithCache(serverInfo.SiteId);
-            if (_gameBll.IsMaintain(tpMaintainList, tpId, inputs.GetValueOrDefault("tpGameType"), out var tpMaintain))
+
+            //針對BTI強制走https避免js找不到
+            var host = tpId == 29 ? $"https://{Request.Host}{Request.PathBase}" : $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
+       
+            if (_gameBll.IsMaintain(serverInfo.SiteId, tpId, inputs.GetValueOrDefault("tpGameType"), out var tpMaintain))
             {
-                var tpName = _statementService.GetTpListWithCache()?.First(i => i.Id == tpMaintain.TpId)?.TpName;
-                var host = _siteConfig.Value[serverInfo.SiteName].MaintainURL;
-                var maintainUrl = $"{host}/index_{_selLangBll.GetLangId() ?? "en"}.html" +
-                    $"?t={HttpUtility.UrlEncode(tpName)}&e={HttpUtility.UrlEncode($"{tpMaintain.EndDate:u}")}";
+                var entPageUrl = new Uri($"{Request.Scheme}://{Request.Host}{Request.Path}{Request.QueryString}").AbsoluteUri;
+                var maintainUrl = _gameBll.GetMaintainUrl(tpMaintain, host, _selLangBll.GetLangId() ?? "en", entPageUrl);
                 return Redirect(maintainUrl);
             }
 
@@ -76,7 +69,7 @@ namespace MemberSite.Controllers
                 SiteId = serverInfo.SiteId,
             };
 
-            inputs.Add("Host", $"{Request.Scheme}://{Request.Host}{Request.PathBase}");
+            inputs.Add("Host", host);
             inputs.Add("ClientIP", _tools.GetClientIP());
 
             if (inputs.ContainsKey("AppType") && int.TryParse(inputs["AppType"], out var appType))
@@ -93,8 +86,7 @@ namespace MemberSite.Controllers
 
                     if (tpId == (int)Tp.TCG && string.CompareOrdinal(custInfo.AffCode, "67253") == 0)
                     {
-                        return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml",
-                            new ErrorData() { Message = "Access Denied" });
+                        return RedirectErrorPage(new ErrorData() { Message = "Access Denied" });
                     }
 
                     if (tpId == (int)Tp.AG)
@@ -137,62 +129,24 @@ namespace MemberSite.Controllers
                     return Redirect(entryUrl);
                 }
 
-                var model = new ErrorData() { Message = data.RawMessage };
-                return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
+                return RedirectErrorPage(new ErrorData() { Message = data.RawMessage });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                var model = new ErrorData() { Message = ex.Message };
-                return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
+                return RedirectErrorPage(new ErrorData() { Message = ex.Message });
             }
         }
-
-        public class SNameSubTable
-        {
-            public int tpId { set; get; }
-            public string gameId { set; get; }
-        }
-
-        [HttpGet]
-        [Route("[controller]/{SportName}")]
-        public async Task<IActionResult> OneworksAsync(string SportName)
-        {
-            var SNameTable = new Dictionary<string, SNameSubTable>
-            {
-                {"sports",        new SNameSubTable { tpId = 1, gameId = "1" } },
-                {"eSport",        new SNameSubTable { tpId = 1, gameId = "43" } },
-                {"numberGame",    new SNameSubTable { tpId = 1, gameId = "161" } },
-                {"virtualSports", new SNameSubTable { tpId = 1, gameId = "180" } },
-                {"lottery",       new SNameSubTable { tpId = 1, gameId = "220" } },
-                {"keno",          new SNameSubTable { tpId = 1, gameId = "202" } },
-                {"fishing",       new SNameSubTable { tpId = 7, gameId = "10" } },
-                {"cockFighting",  new SNameSubTable { tpId = 17, gameId = "" } },
-                {"sabaClub",      new SNameSubTable { tpId = 1, gameId = "200" } },
-                {"soccer",        new SNameSubTable { tpId = 1, gameId = "1" } },
-                {"basketball",    new SNameSubTable { tpId = 1, gameId = "2" } },
-                {"badminton",     new SNameSubTable { tpId = 1, gameId = "9" } },
-                {"football",      new SNameSubTable { tpId = 1, gameId = "3" } },
-                {"tennis",        new SNameSubTable { tpId = 1, gameId = "5" } },
-                {"hockey",        new SNameSubTable { tpId = 1, gameId = "4" } },
-                {"baseball",      new SNameSubTable { tpId = 1, gameId = "8" } }
-
-            };
-            var sNameSubTable = new SNameSubTable();
-            SNameTable.TryGetValue(SportName, out sNameSubTable);
-            if (sNameSubTable != null)
-            {
-                var inputs = new Dictionary<string, string>();
-                inputs.Add("gameId", sNameSubTable.gameId);
-                return await IndexAsync(sNameSubTable.tpId, inputs);//.ConfigureAwait(false)
-            }
-            return StatusCode(400);
-        }
-
 
         public class ErrorData
         {
             public string Message { get; set; }
+        }
+        
+        private ViewResult RedirectErrorPage(ErrorData model)
+        {
+            var serverInfo = _serverInfoBll.GetServerInfo();
+            return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
         }
     }
 }

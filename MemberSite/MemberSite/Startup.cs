@@ -36,34 +36,34 @@ namespace MemberSite
     }
     public class Startup
     {
-        private readonly IConfiguration configuration;
-        private readonly IHostEnvironment environment;
+        private readonly IConfiguration _configuration;
         private static IConfigurationRoot DomainConfiguration => new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile($"domain.json", false, true)
             .Build();
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
-        public Startup(IConfiguration configuration, IHostEnvironment environment)
+        public Startup(IConfiguration configuration)
         {
-            this.configuration = configuration;
-            this.environment = environment;
+            _configuration = configuration;
         }
+
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<MailConfig>(configuration.GetSection("MailConfig"));
-            services.Configure<JwtConfig>(configuration.GetSection("JwtSettings"));
-            services.Configure<LineLoginChannelConfig>(configuration.GetSection("LineLoginChannelConfig"));
-            services.Configure<LineLoginConfig>(configuration.GetSection("LineLoginConfig"));
-            services.Configure<ShieldConfig>(configuration.GetSection("ShieldConfig"));
-            services.Configure<RecaptchaSetting>(configuration.GetSection("ReCaptchaSetting"));
-            services.Configure<Dictionary<string, SiteConfig>>(configuration.GetSection("SiteConfig"));
-            services.Configure<Dictionary<string, string>>(configuration.GetSection("LoginDeviceConfig"));
+            services.Configure<MailConfig>(_configuration.GetSection("MailConfig"));
+            services.Configure<JwtConfig>(_configuration.GetSection("JwtSettings"));
+            services.Configure<LineLoginChannelConfig>(_configuration.GetSection("LineLoginChannelConfig"));
+            services.Configure<LineLoginConfig>(_configuration.GetSection("LineLoginConfig"));
+            services.Configure<ShieldConfig>(_configuration.GetSection("ShieldConfig"));
+            services.Configure<RecaptchaSetting>(_configuration.GetSection("ReCaptchaSetting"));
+            services.Configure<Dictionary<string, SiteConfig>>(_configuration.GetSection("SiteConfig"));
+            services.Configure<Dictionary<string, string>>(_configuration.GetSection("LoginDeviceConfig"));
+            services.Configure<AllowIpList>(_configuration.GetSection("AllowIpList"));
+            services.Configure<Dictionary<string, AWSKeyConfig>>(_configuration.GetSection("AwsKeyConfig"));
             services.AddMemoryCache();
-            services.AddDatabaseConnection(configuration);
-            services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(configuration.GetValue<string>("RedisConnection")));
+            services.AddDatabaseConnection(_configuration);
+            services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(_configuration.GetValue<string>("RedisConnection")));
             services.AddSingleton<ICacheHelper, RedisCacheHelper>();
+            
             /*Library*/
             services.AddSingleton<Tools>();
             services.AddSingleton<Common>();
@@ -73,6 +73,9 @@ namespace MemberSite
             services.AddSingleton<IHttpHelper, HttpHelper>();
             services.AddSingleton<CacheHelper>();
             services.AddSingleton<TpGameTypeHelper>();
+            services.AddSingleton<IpHelper>();
+            services.AddSingleton<AWSS3Helper>();
+            services.AddSingleton<StringVaildHelper>();
 
             /*DAL*/
             services.AddSingleton<IServerInfoService, ServerInfoService>();
@@ -98,21 +101,26 @@ namespace MemberSite
             services.AddSingleton<NewsService>();
             services.AddSingleton<IovationService>();
             services.AddSingleton<EventsService>();
+            services.AddTransient<IEventsService, EventsService>();
             services.AddSingleton<GameCasinoService>();
             services.AddSingleton<LiveStreamingService>();
-            services.AddSingleton<LatestHighlightDataService>();
+            services.AddSingleton<VideoDataService>();
             services.AddSingleton<ConfigService>();
             services.AddSingleton<AppLinkService>();
             services.AddSingleton<DeepLinkService>();
             services.AddSingleton<IVerificationRewardService, VerificationRewardService>();
+            services.AddSingleton<ICustPhotoIdService, CustPhotoIdService>();
             services.AddTransient<WorldCupPredictionService>();
             services.AddTransient<RecaptchaService>();
             services.AddSingleton<PartitionService>();
+            services.AddTransient<CurrencyService>();
 
             services.AddSingleton<IPService>();
             services.AddSingleton<ShieldService>();
             services.AddTransient<IHotEventService, HotEventService>();
 
+            services.AddTransient<IHotGameService, HotGameService>();
+            
             /*BLL*/
             services.AddSingleton<ServerInfoBll>();
             services.AddSingleton<CustInfoBll>();
@@ -143,12 +151,15 @@ namespace MemberSite
             services.AddSingleton<IovationBLL>();
             services.AddSingleton<FPSBLL>();
             services.AddSingleton<EventsBLL>();
+            services.AddTransient<AngPaoProcessor>();
+            services.AddTransient<IAngPaoBLL, AngPaoBLL>();
             services.AddSingleton<GameCasinoBll>();
             services.AddSingleton<LiveStreamingBll>();
-            services.AddSingleton<LatestHighlightDataBll>();
+            services.AddSingleton<VideoDataBll>();
             services.AddSingleton<GameBLL>();
             services.AddTransient<IGeoIpApi, GeoIpApi>();
             services.AddTransient<IRecaptchaApi, RecaptchaApi>();
+            services.AddTransient<ICustPhotoIdBLL, CustPhotoIdBLL>();
             services.AddTransient<GeoIpBLL>();
             services.AddTransient<AppLinkBLL>();
             services.AddTransient<FileNameBLL>();
@@ -163,41 +174,45 @@ namespace MemberSite
             services.AddTransient<WorldCupPredictionBLL>();
             services.AddSingleton<SlotGameBLL>();
             services.AddTransient<RecaptchaBLL>();
+            services.AddTransient<CheckAttackBLL>();
+            services.AddTransient<DateTimeHelper>();
+            
+            services.AddTransient<IHotGameBLL, HotGameBLL>();
 
             services.AddSingleton<CustomCookieAuthenticationEvents>();
             services.AddTransient<HotEventBLL>();
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();
 
-            if (configuration.GetValue<bool>("JwtSettings:IsJwt"))
+            if (_configuration.GetValue<bool>("JwtSettings:IsJwt"))
             {
                 services
-                   // �ˬd HTTP Header �� Authorization �O�_�� JWT Bearer Token
+                   // 檢查 HTTP Header 的 Authorization 是否有 JWT Bearer Token
                    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                   // �]�w JWT Bearer Token ���ˬd�ﶵ
+                   // 設定 JWT Bearer Token 的檢查選項
                    .AddJwtBearer(options =>
                    {
-                       // �����ҥ��ѮɡA�^�����Y�|�]�t WWW-Authenticate ���Y�A�o�̷|��ܥ��Ѫ��Բӿ��~��]
+                       // 當驗證失敗時，回應標頭會包含 WWW-Authenticate 標頭，這裡會顯示失敗的詳細錯誤原因
                        options.IncludeErrorDetails = true;
-                       // �������һݭnHTTPS
+                       // 身份驗證需要HTTPS
                        options.RequireHttpsMetadata = true;
-                       // ���NJWT�X�ݥO�P�O�s�b��eHttpContext�A�H�K�ڭ̥i�H�ϥΤ�kawait HttpContext.GetTokenAsync(��Bearer��, ��access_token��)��������k�˯����C
+                       // 它將JWT訪問令牌保存在當前HttpContext，以便我們可以使用方法await HttpContext.GetTokenAsync(“Bearer”, “access_token”)或類似方法檢索它。
                        options.SaveToken = true;
 
                        options.TokenValidationParameters = new TokenValidationParameters
                        {
-                           // �@��ڭ̳��|���� Issuer
+                           // 一般我們都會驗證 Issuer
                            ValidateIssuer = true,
-                           ValidIssuer = configuration.GetValue<string>("JwtSettings:Issuer"),
-                           // �q�`���ӻݭn���� Audience
+                           ValidIssuer = _configuration.GetValue<string>("JwtSettings:Issuer"),
+                           // 通常不太需要驗證 Audience
                            ValidateAudience = false,
-                           //ValidAudience = "JwtAuthDemo", // �����ҴN���ݭn��g
-                           // �@��ڭ̳��|���� Token �����Ĵ���
+                           //ValidAudience = "JwtAuthDemo", // 不驗證就不需要填寫
+                           // 一般我們都會驗證 Token 的有效期間
                            ValidateLifetime = true,
-                           // �p�G Token ���]�t key �~�ݭn���ҡA�@�볣�u��ñ���Ӥw
+                           // 如果 Token 中包含 key 才需要驗證，一般都只有簽章而已
                            ValidateIssuerSigningKey = true,
-                           // "1234567890123456" ���ӱq IConfiguration ���o
-                           IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetValue<string>("JwtSettings:SignKey"))),
+                           // "1234567890123456" 應該從 IConfiguration 取得
+                           IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetValue<string>("JwtSettings:SignKey"))),
                        };
                    });
             }
@@ -205,13 +220,13 @@ namespace MemberSite
             {
                 services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(option =>
                 {
-                    //�γ\�n�q�պA��Ū���A�ۤv�r�u�M�w
-                    //option.LoginPath = new PathString("/Home/Login");//�n�J��
-                    //option.LogoutPath = new PathString("/Home/Logout");//�n�XAction
-                    //�Τ᭶�����d�Ӥ[�A�n�J�O���A��Controller���Τ�n�J�ɾ��I�]�i�H�]�w��
+                    //或許要從組態檔讀取，自己斟酌決定
+                    //option.LoginPath = new PathString("/Home/Login");//登入頁
+                    //option.LogoutPath = new PathString("/Home/Logout");//登出Action
+                    //用戶頁面停留太久，登入逾期，或Controller中用戶登入時機點也可以設定↓
                     option.LoginPath = "/";
                     option.Cookie.Name = ".ES";
-                    option.ExpireTimeSpan = TimeSpan.FromMinutes(30);//�S���w�]14��
+                    option.ExpireTimeSpan = TimeSpan.FromMinutes(30);
                     option.EventsType = typeof(CustomCookieAuthenticationEvents);
                     //option.Cookie.SameSite = environment.IsDevelopment() ? SameSiteMode.None : SameSiteMode.Unspecified;
                     option.Cookie.SameSite = SameSiteMode.Unspecified;

@@ -10,7 +10,6 @@ namespace MemberSite.Service.DAL;
 
 public class ShieldService
 {
-    private readonly IConfiguration configuration;
     private readonly CourierAdapter _courierAdapter;
     private readonly IOptions<ShieldConfig> _shieldConfig;
     private readonly MySqlClient _mainDbClient;
@@ -19,7 +18,6 @@ public class ShieldService
 
     public ShieldService(IServiceProvider provider)
     {
-        configuration = provider.GetRequiredService<IConfiguration>();
         _courierAdapter = provider.GetRequiredService<CourierAdapter>();
         _shieldConfig = provider.GetRequiredService<IOptions<ShieldConfig>>();
         _mainDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Main);
@@ -80,15 +78,17 @@ public class ShieldService
         return result;
     }
     
-    public async Task<GetEndpointResult> GetEndpoint()
+    public async Task<GetEndpointResult> GetEndpoint(int siteId)
     {
-        var apiUrl = $"{_shieldConfig.Value.ShieldService}?sid={_shieldConfig.Value.SiteId}";
+        var siteName = Enum.GetName(typeof(SiteId), siteId);
+        var siteGroup = _shieldConfig.Value.Groups[siteName ?? string.Empty];
+        var apiUrl = $"{_shieldConfig.Value.ShieldService}?sid={siteGroup.SiteId}";
         
         var timestamp = DateTimeOffset.Now.ToUnixTimeSeconds().ToString();
-        var sign = GetShieldSignature(timestamp);
+        var sign = GetShieldSignature(timestamp ,siteId);
         var header = new Dictionary<string, string>
         {
-            {"Site-Id", _shieldConfig.Value.SiteId},
+            {"Site-Id", siteGroup.SiteId},
             {"Timestamp", timestamp},
             {"Shield-Signature", sign}
         };
@@ -108,9 +108,12 @@ public class ShieldService
             platform = request.Platform.ToUpper()
         };
         
+        var siteName = Enum.GetName(typeof(SiteId), request.SiteId);
+        var siteGroup = _shieldConfig.Value.Groups[siteName ?? string.Empty];
+        
         var header =new Dictionary<string, string>
         {
-            {"Site-Id", _shieldConfig.Value.SiteId},
+            {"Site-Id", siteGroup.SiteId},
             {"Timestamp", timestamp},
             {"Shield-Signature", sign},
             {"X-Endpoint-Version", endpoint.Version.ToString()}
@@ -121,11 +124,13 @@ public class ShieldService
         return result;
     }
     
-    public string GetShieldSignature(string timestamp)
+    public string GetShieldSignature(string timestamp, int siteId)
     {
-        var config = _shieldConfig.Value;
-        var timeHash = HmacSha256(timestamp, config.SecretKey);
-        var shieldSignature = HmacSha256(config.SiteId, timeHash);
+        var siteName = Enum.GetName(typeof(SiteId), siteId);
+        var siteGroup = _shieldConfig.Value.Groups[siteName ?? string.Empty];
+        
+        var timeHash = HmacSha256(timestamp, siteGroup.SecretKey);
+        var shieldSignature = HmacSha256(siteGroup.SiteId, timeHash);
       
         return shieldSignature;
     }

@@ -66,10 +66,12 @@ namespace MemberSite.Service.BLL
             }
             
             perCurrency.TryGetValue((int)CurrencyId, out Currencyname);
-            var transactionInsight = new Dictionary<string, string>();
-            transactionInsight.Add("onlineId", UserName);
-            transactionInsight.Add("billingCountry", CountryName);
-            transactionInsight.Add("valueCurrency", Currencyname);
+            var transactionInsight = new Dictionary<string, string>
+            {
+                { "onlineId", UserName },
+                { "billingCountry", CountryName },
+                { "valueCurrency", Currencyname }
+            };
             iovationType.TryGetValue((int)type, out var typeName);
             dynamic req = new
             {

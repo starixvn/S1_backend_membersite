@@ -1,5 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
@@ -288,6 +347,12 @@
   <data name="msg_PhoneWrongFormat" xml:space="preserve">
     <value>फोन का फॉर्मेट गलत है।</value>
   </data>
+  <data name="msg_PhoneFormatVerify" xml:space="preserve">
+    <value>दर्ज किया गया फ़ोन नंबर {0} अंकों का होना चाहिए</value>
+  </data>
+  <data name="msg_EmailFormatVerify" xml:space="preserve">
+    <value>รईमेल पता प्रारूप गलत है</value>
+  </data>
   <data name="msg_InvalidCryptoWalletAddress" xml:space="preserve">
     <value>अमान्य क्रिप्टो वॉलेट पता।</value>
   </data>
@@ -301,6 +366,66 @@
     <value>ई-वॉलेट रखरखाव है, कृपया अन्य निकासी विधियों का उपयोग करें</value>
   </data>
   <data name="msg_NotInLimit" xml:space="preserve">
-    <value>सीमा में नहीं।</value>>
+    <value>&gt;</value>
+  </data>
+  <data name="msg_DepositorsNameUnmatch" xml:space="preserve">
+    <value>जमाकर्ता का नाम मेल नहीं खाता</value>
+  </data>
+  <data name="msg_DepositorsNameUnmatch_Detail" xml:space="preserve">
+    <value>पंजीकृत नाम बैंक खाते के नाम से मेल नहीं खाता है, कृपया अधिक सहायता के लिए ग्राहक सहायता से संपर्क करें।</value>
+  </data>
+  <data name="msg_DepositSlipRequired" xml:space="preserve">
+    <value>डिपॉजिट स्लिप जरूरी</value>
+  </data>
+  <data name="msg_DepositSlipRequired_Detail" xml:space="preserve">
+    <value>लेन-देन प्रसंस्करण समय को तेज करने के लिए कृपया स्थानांतरण पर्ची संलग्न करें।</value>
+  </data>
+  <data name="msg_PaymentNotReceived" xml:space="preserve">
+    <value>भुगतान प्राप्त नहीं हुआ</value>
+  </data>
+  <data name="msg_PaymentNotReceived_Detail" xml:space="preserve">
+    <value>भुगतान बैंक में प्राप्त नहीं हुआ है, कृपया धैर्यपूर्वक प्रतीक्षा करें।</value>
+  </data>
+  <data name="msg_DepositRefunded" xml:space="preserve">
+    <value>डिपॉजिट रिफंड किया गया</value>
+  </data>
+  <data name="msg_DepositRefunded_Detail" xml:space="preserve">
+    <value>जमा राशि वापस कर दी गई है, कृपया अपना बैंक खाता देखें</value>
+  </data>
+  <data name="msg_WithdrawalAccountNumberIncorrect" xml:space="preserve">
+    <value>विथड्रावल अकाउंट नंबर गलत है</value>
+  </data>
+  <data name="msg_WithdrawalAccountNumberIncorrect_Detail" xml:space="preserve">
+    <value>विथड्रावल अकाउंट नंबर गलत ह। अपना विथड्रावल अकाउंट नंबर चेक कर।</value>
+  </data>
+  <data name="msg_WithdrawalAccountsNameUnmatch" xml:space="preserve">
+    <value>निकासी खाते का नाम बेमेल</value>
+  </data>
+  <data name="msg_WithdrawalAccountsNameUnmatch_Detail" xml:space="preserve">
+    <value>निकासी खाते का नाम पंजीकृत नाम से मेल नहीं खाता है। कृपया सहायता के लिए ग्राहक सेवा से संपर्क करें।</value>
+  </data>
+  <data name="msg_WrongAmountSubmitted" xml:space="preserve">
+    <value>जमा की गई राशि गलत है</value>
+  </data>
+  <data name="msg_WrongAmountSubmitted_Detail" xml:space="preserve">
+    <value>जमा राशि जमा पर्ची आवेदन राशि से मेल नहीं खा रही है, आगे की सहायता के लिए कृपया दोबारा जांच करें या ग्राहक सहायता से संपर्क करें।</value>
+  </data>
+  <data name="msg_WrongBankSubmitted" xml:space="preserve">
+    <value>गलत जमा खाता चुना गया है</value>
+  </data>
+  <data name="msg_WrongBankSubmitted_Detail" xml:space="preserve">
+    <value>चयनित जमा राशि गलत है, आगे की सहायता के लिए कृपया दोबारा जांच करें या ग्राहक सहायता से संपर्क करें।</value>
+  </data>
+  <data name="msg_BeneficiarysAccountMaintenance" xml:space="preserve">
+    <value>लाभार्थी का खाता रखरखाव</value>
+  </data>
+  <data name="msg_BeneficiarysAccountMaintenance_Detail" xml:space="preserve">
+    <value>बैंक वर्तमान में रखरखाव के अधीन है, बैंक रखरखाव पूरा होने के बाद आपके निकासी आवेदन पर कार्रवाई की जाएगी।</value>
+  </data>
+  <data name="msg_WithdrawalAccountAannotReceiveMoney" xml:space="preserve">
+    <value>निकासी खाते को फंड प्राप्त करने में विफल</value>
+  </data>
+  <data name="msg_WithdrawalAccountAannotReceiveMoney_Detail" xml:space="preserve">
+    <value>निकासी खाता धन प्राप्त करने में असमर्थ है। आगे की सहायता के लिए कृपया दोबारा जांच करें या ग्राहक सहायता से संपर्क करें।</value>
   </data>
 </root>

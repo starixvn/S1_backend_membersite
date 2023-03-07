@@ -16,6 +16,11 @@ public interface ICacheHelper
     bool StringSet(string key, RedisValue value, TimeSpan? timeSpan,
         RedisDataBase redisDataBase = RedisDataBase.Member);
 
+    string StringGet(string key, RedisDataBase redisDataBase = RedisDataBase.Member);
+
+    Task<long> StringIncrementAsync(string key, TimeSpan? timeSpan,
+        RedisDataBase redisDataBase = RedisDataBase.Member);
+
     bool KeyExists(string key, RedisDataBase redisDataBase = RedisDataBase.Member);
 
     Task<TItem> StringGetAsync<TItem>(string key, RedisDataBase redisDataBase = RedisDataBase.Member);
@@ -33,4 +38,5 @@ public interface ICacheHelper
     long GetListLength(string key, RedisDataBase redisDataBase = RedisDataBase.Member);
 
     Task<bool> KeyDeleteAsync(string key, RedisDataBase redisDataBase = RedisDataBase.Member);
+    Task<bool> SetNxAsync(string key, string value, TimeSpan timeSpan, RedisDataBase redisDataBase = RedisDataBase.Member);
 }

@@ -5,6 +5,7 @@ using MemberSite.Service.BLL;
 using MemberSite.Service.Model;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MemberSite.Controllers
@@ -23,6 +24,7 @@ namespace MemberSite.Controllers
         }
 
         [HttpPost]
+        [EnableCors]
         public async Task<IActionResult> SignupAsync([FromForm] SiteController.SignupModel signupModel)
         {
             var apiResult = new ApiResult(_selLangBll);
@@ -32,7 +34,7 @@ namespace MemberSite.Controllers
                 return RedirectToRoute(new { action = "Index", controller = "Home" });
             }
             var customer = _siteBll.Signup(signupModel, apiResult, isAuthenticated, Request.Host.Host,
-                Request.Headers["User-Agent"]);
+                Request.Headers["User-Agent"], false);
 
             if (apiResult.ErrorCode != 0 || customer == null)
             {

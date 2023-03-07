@@ -16,9 +16,11 @@
     }
     public class SiteConfig
     {
-        public string ImageURL { get; set; }
+        public string OldImageUrl { get; set; }
 
-        public string MaintainURL { get; set; }
+        public string MaintainUrl { get; set; }
+
+        public string HotEventImageUrl { get; set; }
     }
 
     public class LoginDeviceConfig
@@ -40,11 +42,22 @@
 
         public string ProfileApi { get; set; }
     }
+    
     public class ShieldConfig
     {
-        public string SiteId { get; set; }
-
-        public string SecretKey { get; set; }
         public string ShieldService { get; set; }
+        public Dictionary<string, ShieldGroup> Groups { get; set; }
+    }
+    
+    public class ShieldGroup
+    {
+        public string SiteId { get; set; }
+        public string SecretKey { get; set; }
+    }
+   
+    
+    public class AllowIpList
+    {
+        public List<string> IpRange { get; set; }
     }
 }

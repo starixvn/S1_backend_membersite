@@ -1,8 +1,10 @@
-﻿using MemberSite.Service.DAL;
+﻿using MemberSite.Extensions;
+using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Interfaces;
+using Newtonsoft.Json;
 using System.Text.RegularExpressions;
 
 namespace MemberSite.Service.BLL
@@ -319,16 +321,16 @@ namespace MemberSite.Service.BLL
                                      && x.ChannelId == channelId
                                      && (x.SysId == sysId || !x.SelBank)
                                      && x.PayId == payId
-                                     && (x.CurrencyId == custInfo.CurrencyId || !x.SelBank));
+                                     && x.CurrencyId == custInfo.CurrencyId);
 
-            
+            _logger.LogInformation("onlineBank: " + JsonConvert.SerializeObject(onlineBank));
             
             var depositLimitInfo = depositLimitInfoList?
                 .FirstOrDefault(x => x.SiteId == custInfo.SiteId
                                      && x.VipLevel == pointLevel
                                      && x.DepositType == (int)depositType
                                      && x.CurrencyId == custInfo.CurrencyId);
-
+            
             if (depositLimitInfo?.DepositStatus == 0)
             {
                 return -3;
@@ -365,8 +367,9 @@ namespace MemberSite.Service.BLL
                 CurrencyId = custInfo.CurrencyId,
                 DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(onlineBank)
             };
-
+            
             _depositService.DepositReq(depositDetailInfo, out transId, out var postScript);
+
             return 0;
         }
         public int WithdrawalReq(int custId, int sysId, string accountName, string accountNo, string iFSCCode, decimal amount, string memo, out decimal afterAmount, out string transId)
@@ -397,7 +400,8 @@ namespace MemberSite.Service.BLL
 
             return withdrawalService.WithdrawalReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, withdrawalInfo, out afterAmount, out transId);
         }
-        public int WithdrawalUSDTReq(int custId, string accountName, USDTDetail uSDTDetail, string accountNo, decimal amount, string memo, out decimal afterAmount, out string transId)
+        public int WithdrawalCryptoReq(int custId, string accountName, USDTDetail cryptoDetail, string accountNo, decimal amount, string memo,
+            decimal tmpRate, decimal tmpCryptoAmount, out decimal afterAmount, out string transId)
         {
             afterAmount = 0;
             transId = "";
@@ -405,7 +409,7 @@ namespace MemberSite.Service.BLL
             if (amount <= 0)
                 return -99;
 
-            var withdrawalUSDTInfo = new WithdrawalUSDTInfo();
+            var withdrawalCryptoInfo = new WithdrawalCryptoInfo();
             var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
             var checkAmount = amount;
             if (custInfoBLL.IsConvertRequired(CustInfo.CurrencyId))
@@ -418,14 +422,16 @@ namespace MemberSite.Service.BLL
                 return -1;
             }
             
-            withdrawalUSDTInfo.AccountType = "crypto";
-            withdrawalUSDTInfo.AccountName = accountName;
-            withdrawalUSDTInfo.NickName = uSDTDetail.NickName;
-            withdrawalUSDTInfo.AccountNo = accountNo;
-            withdrawalUSDTInfo.Network = uSDTDetail.Network;
-            withdrawalUSDTInfo.CurrencyId = uSDTDetail.CurrencyId;
+            withdrawalCryptoInfo.AccountType = "crypto";
+            withdrawalCryptoInfo.AccountName = accountName;
+            withdrawalCryptoInfo.NickName = cryptoDetail.NickName;
+            withdrawalCryptoInfo.AccountNo = accountNo;
+            withdrawalCryptoInfo.Network = cryptoDetail.Network;
+            withdrawalCryptoInfo.CurrencyId = cryptoDetail.CurrencyId;
+            withdrawalCryptoInfo.TempExchangeAmount = tmpCryptoAmount;
+            withdrawalCryptoInfo.TempExchangeRate = tmpRate;
             
-            return withdrawalService.WithdrawalUSDTReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, withdrawalUSDTInfo, out afterAmount, out transId);
+            return withdrawalService.WithdrawalCryptoReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, withdrawalCryptoInfo, out afterAmount, out transId);
         }
 
         public int WithdrawalEWalletReq(int custId, string accountName, int sysId, string accountNo, decimal amount, string memo, out decimal afterAmount, out string transId)
@@ -476,6 +482,24 @@ namespace MemberSite.Service.BLL
                 {
                     depositInfo.DepositType = (int)DepositType.MobilePayment;
                 }
+
+                List<DepositMessageDetail> depositMessageDetails = new List<DepositMessageDetail>();
+                if (depositInfo.DepositMessage != null)
+                {
+                    var depositMessage = JsonConvert.DeserializeObject<List<DepositMessage>>(depositInfo.DepositMessage);
+
+                    depositMessage.ForEach(x =>
+                    {
+                        var offset = DateTime.Now.ToDateTimeOffset(depositInfo.CustTimeZone).Offset;
+                        depositMessageDetails.Add(new DepositMessageDetail()
+                        {
+                            CreateTime = x.CreateTime.ToOffset(offset),
+                            ErrorTypeName = selLangBLL.GetMsg($"msg_{x.Status.ToString()}"),
+                            Message = selLangBLL.GetMsg($"msg_{x.Status.ToString()}_Detail"),
+                        });
+                    });
+                }
+                depositInfo.DepositMessageDetail = depositMessageDetails;
             }
 
             return depositInfoRecent;
@@ -484,7 +508,26 @@ namespace MemberSite.Service.BLL
         public IEnumerable<WithdrawalHistory> GetWithdrawalInfoRecent(int custId)
         {
             var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var withdrawalInfo = withdrawalService.GetWithdrawalInfoRecent(custId, CustInfo.SiteId, 5);
+            var withdrawalInfo = withdrawalService.GetWithdrawalInfoRecent(custId, CustInfo.SiteId, 5).ToList();
+            withdrawalInfo.ForEach(x =>
+            {
+                List<WithdrawalMessageDetail> withdrawalMessageDetails = new List<WithdrawalMessageDetail>();
+                if (!string.IsNullOrWhiteSpace(x.WithdrawalMessage))
+                {
+                    var withdrawalMessage = Newtonsoft.Json.JsonConvert.DeserializeObject<List<WithdrawalMessage>>(x.WithdrawalMessage);
+                    withdrawalMessage.ForEach(y =>
+                    {
+                        var offset = DateTime.Now.ToDateTimeOffset(x.CustTimeZone).Offset;
+                        withdrawalMessageDetails.Add(new WithdrawalMessageDetail()
+                        {
+                            CreateTime = y.CreateTime.ToOffset(offset),
+                            ErrorTypeName = selLangBLL.GetMsg($"msg_{y.Status.ToString()}"),
+                            Message = selLangBLL.GetMsg($"msg_{y.Status.ToString()}_Detail"),
+                        });
+                    });
+                }
+                x.WithdrawalMessageDetail = withdrawalMessageDetails;
+            });
             return withdrawalInfo;
         }
 
@@ -501,13 +544,49 @@ namespace MemberSite.Service.BLL
                     var depositInfoRef = (DepositInfo3_1)depositInfo.DepositRep;
                     depositInfo.BankInfo = bankInfoBLL.GetBankInfoSysListByCurrency(CustInfo.CurrencyId).FirstOrDefault(x => x.SysId == depositInfoRef.SysId);
                 }
+                List<DepositMessageDetail> depositMessageDetails = new List<DepositMessageDetail>();
+                if (depositInfo.DepositMessage != null)
+                {
+                    var depositMessage = JsonConvert.DeserializeObject<List<DepositMessage>>(depositInfo.DepositMessage);
+
+                    depositMessage.ForEach(x =>
+                    {
+                        var offset = DateTime.Now.ToDateTimeOffset(depositInfo.CustTimeZone).Offset;
+                        depositMessageDetails.Add(new DepositMessageDetail()
+                        {
+                            CreateTime = x.CreateTime.ToOffset(offset),
+                            ErrorTypeName = selLangBLL.GetMsg($"msg_{x.Status.ToString()}"),
+                            Message = selLangBLL.GetMsg($"msg_{x.Status.ToString()}_Detail"),
+                        });
+                    });
+                }
+                depositInfo.DepositMessageDetail = depositMessageDetails;
             }
             return depositInfoHistory;
         }
         public IEnumerable<WithdrawalHistory> GetWithdrawalInfoHistory(int custId, long startDate, long endDate, ref int pageNumber, out int totalPages, out int rowCount)
         {
             var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var withdrawalInfoHistory = withdrawalService.GetWithdrawalInfoHistory(CustInfo.CustId, startDate, endDate, CustInfo.SiteId, 5, ref pageNumber, out totalPages, out rowCount);
+            var withdrawalInfoHistory = withdrawalService.GetWithdrawalInfoHistory(CustInfo.CustId, startDate, endDate, CustInfo.SiteId, 5, ref pageNumber, out totalPages, out rowCount).ToList();
+            withdrawalInfoHistory.ForEach(x =>
+            {
+                List<WithdrawalMessageDetail> withdrawalMessageDetails = new List<WithdrawalMessageDetail>();
+                if (!string.IsNullOrWhiteSpace(x.WithdrawalMessage))
+                {
+                    var withdrawalMessage = Newtonsoft.Json.JsonConvert.DeserializeObject<List<WithdrawalMessage>>(x.WithdrawalMessage);
+                    withdrawalMessage.ForEach(y =>
+                    {
+                        var offset = DateTime.Now.ToDateTimeOffset(x.CustTimeZone).Offset;
+                        withdrawalMessageDetails.Add(new WithdrawalMessageDetail()
+                        {
+                            CreateTime = y.CreateTime.ToOffset(offset),
+                            ErrorTypeName = selLangBLL.GetMsg($"msg_{y.Status.ToString()}"),
+                            Message = selLangBLL.GetMsg($"msg_{y.Status.ToString()}_Detail"),
+                        });
+                    });
+                }            
+                x.WithdrawalMessageDetail = withdrawalMessageDetails;
+            });
             return withdrawalInfoHistory;
         }
 
@@ -618,9 +697,11 @@ namespace MemberSite.Service.BLL
         public int SetWithdrawalCancel(int custId, string transId)
         {
             var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var forStatus = new List<int>();
-            forStatus.Add((int)WithdrawalStatus.Pending);
-            forStatus.Add((int)WithdrawalStatus.ToKyc);
+            var forStatus = new List<int>
+            {
+                (int)WithdrawalStatus.Pending,
+                (int)WithdrawalStatus.ToKyc
+            };
             return withdrawalService.SetWithdrawalCancel(CustInfo.CustId, transId, CustInfo.SiteId, forStatus, WithdrawalStatus.Cancelled);
         }
         public DepositReceipt GetDepositReceipt(string transId, int custId)
