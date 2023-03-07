@@ -19,21 +19,22 @@ namespace MemberSite.Controllers.Api
 
         public class ParamNews
         {
+            public int? CurrencyId { get; set; }
             public int PageNumber { get; set; }
             public int PageSize { get; set; }
         }
 
 
         [HttpPost]
-        public ApiListResult<News> GetNews(ParamNews NewsReq)
+        public ApiListResult<News> GetNews(ParamNews newsReq)
         {
             var result = new ApiListResult<News>();
 
             try
             {
                 var serverInfo = serverInfoBLL.GetServerInfo();
-                var pageNumber = NewsReq.PageNumber;
-                result.Data = newsBLL.GetNews(serverInfo.SiteId, NewsReq.PageSize, ref pageNumber, out var totalPages, out var rowCount);
+                var pageNumber = newsReq.PageNumber;
+                result.Data = newsBLL.GetNews(serverInfo.SiteId, newsReq.CurrencyId, newsReq.PageSize, ref pageNumber, out var totalPages, out var rowCount);
                 result.PageNumber = pageNumber;
                 result.TotalPages = totalPages;
                 result.RowCount = rowCount;
@@ -51,17 +52,18 @@ namespace MemberSite.Controllers.Api
 
         public class ParamNewsById
         {
+            public int? CurrencyId { get; set; }
             public int NewsId { get; set; }
         }
 
-        public ApiResult<News> GetNewsById(ParamNewsById NewsReq)
+        public ApiResult<News> GetNewsById(ParamNewsById newsReq)
         {
             var result = new ApiResult<News>();
 
             try
             {
                 var serverInfo = serverInfoBLL.GetServerInfo();
-                result.Data = newsBLL.GetNewsById(serverInfo.SiteId, (int)NewsReq.NewsId);
+                result.Data = newsBLL.GetNewsById(serverInfo.SiteId, newsReq.CurrencyId, newsReq.NewsId);
                 result.ErrorCode = 0;
             }
             catch (Exception ex)
