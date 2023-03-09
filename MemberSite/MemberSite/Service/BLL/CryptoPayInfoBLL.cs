@@ -126,17 +126,18 @@ namespace MemberSite.Service.BLL
             return -99;
         }
 
-        public async Task<ApiResult<PaymentReq>> GetExchangeInfoAsync(int custId, decimal amount, string channelName, ExchangeTypeEnum type)
+        public async Task<ApiResult<CryptoExchangeInfo>> GetExchangeInfoAsync(int siteId, int currencyId, decimal amount, string channelName, ExchangeTypeEnum type)
         { 
-            var exchangeReq = new 
+            var req = new CryptoExchangeReq
             {
-                CustId = custId,
+                SiteId = siteId,
+                CurrencyId = currencyId,
                 Amount = amount,
                 ChannelName = channelName,
                 Type = type
             };
             var myUrl = $"{_payApiUrl}CryptoExchange";
-            return await _courierAdapter.MyPostAsync<PaymentReq, object>(myUrl, exchangeReq);
+            return await _courierAdapter.MyPostAsync<CryptoExchangeInfo, CryptoExchangeReq>(myUrl, req);
         }
 
         public bool CryptoAddressValidation(string network, string address)
