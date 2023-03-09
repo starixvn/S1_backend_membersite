@@ -14,9 +14,9 @@ namespace MemberSite.Service.BLL
             this.newsService = newsService;
         }
 
-        public News GetNewsById(int siteId, int newsId, LanguageObject language)
+        public async Task<News> GetNewsById(int siteId, int newsId, LanguageObject language)
         {
-            var data = newsService.GetNewsById(siteId, newsId);
+            var data = await newsService.GetNewsById(siteId, newsId);
             if(data != null)
             {
                 data.Title = JsonContentParser.ParseByLanguage(data.Title, language.LanguageCode, language.DefaultLanguage);
