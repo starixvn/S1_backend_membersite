@@ -1096,6 +1096,7 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult(_selLangBLL);
             var authData = _authorizeBLL.GetAuthData();
+            custCryptoWalletreq.Address = custCryptoWalletreq.Address.Trim();
 
             if (_cryptoPayInfoBLL.CryptoAddressValidation(custCryptoWalletreq.Network, custCryptoWalletreq.Address))
             {
