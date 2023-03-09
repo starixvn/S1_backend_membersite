@@ -1,4 +1,5 @@
 ﻿using MemberSite.Service.BLL;
+using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,13 +9,18 @@ namespace MemberSite.Controllers.Api
     [ApiController]
     public class NewsController : Controller
     {
-        private readonly ServerInfoBll serverInfoBLL;
-        private readonly NewsBLL newsBLL;
-
-        public NewsController(ServerInfoBll serverInfoBLL, NewsBLL newsBLL)
+        private readonly SelLangBLL _selLangBll;
+        private readonly ServerInfoBll _serverInfoBll;
+        private readonly AuthorizeBLL _authorizeBll;
+        private readonly CustInfoBll _customerInfoBll;
+        private readonly NewsBLL _newsBLL;
+        public NewsController(SelLangBLL selLangBll, ServerInfoBll serverInfoBll, AuthorizeBLL authorizeBll, CustInfoBll customerInfoBll, NewsBLL newsBLL)
         {
-            this.serverInfoBLL = serverInfoBLL;
-            this.newsBLL = newsBLL;
+            _selLangBll = selLangBll;
+            _serverInfoBll = serverInfoBll;
+            _authorizeBll = authorizeBll;
+            _customerInfoBll = customerInfoBll;
+            _newsBLL = newsBLL;
         }
 
         public class ParamNews
@@ -32,9 +38,19 @@ namespace MemberSite.Controllers.Api
 
             try
             {
-                var serverInfo = serverInfoBLL.GetServerInfo();
+                int? currency = newsReq?.CurrencyId;
+
+                var authData = _authorizeBll.GetAuthData();
+                if (authData is { CustId: > 0 })
+                {
+                    var customerInfo = _customerInfoBll.GetCustInfoWithCache(authData.CustId);
+                    currency = customerInfo.CurrencyId;
+                }
+                var serverInfo = _serverInfoBll.GetServerInfo();
+                var language = LanguageObject.Create(currency, _selLangBll.GetLangId(), serverInfo.DefLang);
                 var pageNumber = newsReq.PageNumber;
-                result.Data = newsBLL.GetNews(serverInfo.SiteId, newsReq.CurrencyId, newsReq.PageSize, ref pageNumber, out var totalPages, out var rowCount);
+
+                result.Data = _newsBLL.GetNews(serverInfo.SiteId, language, newsReq.PageSize, ref pageNumber, out var totalPages, out var rowCount);
                 result.PageNumber = pageNumber;
                 result.TotalPages = totalPages;
                 result.RowCount = rowCount;
@@ -62,8 +78,18 @@ namespace MemberSite.Controllers.Api
 
             try
             {
-                var serverInfo = serverInfoBLL.GetServerInfo();
-                result.Data = newsBLL.GetNewsById(serverInfo.SiteId, newsReq.CurrencyId, newsReq.NewsId);
+                int? currency = newsReq?.CurrencyId;
+
+                var authData = _authorizeBll.GetAuthData();
+                if (authData is { CustId: > 0 })
+                {
+                    var customerInfo = _customerInfoBll.GetCustInfoWithCache(authData.CustId);
+                    currency = customerInfo.CurrencyId;
+                }
+                var serverInfo = _serverInfoBll.GetServerInfo();
+                var language = LanguageObject.Create(currency, _selLangBll.GetLangId(), serverInfo.DefLang);
+
+                result.Data = _newsBLL.GetNewsById(serverInfo.SiteId, newsReq.NewsId, language);
                 result.ErrorCode = 0;
             }
             catch (Exception ex)
