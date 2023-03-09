@@ -765,7 +765,7 @@ namespace MemberSite.Service.DAL
 
         public IEnumerable<CryptoWalletDetail> GetCustCryptoWalletDetail(int custId)
         {
-            return _mainDbClient.Query<CryptoWalletDetail>("Member_CustCryptoWalletDetail_Get", new { CustId = custId });
+            return _mainDbClient.Query<CryptoWalletDetail>("Service_CustCryptoWalletDetail_Get", new { CustId = custId });
         }
 
         public IEnumerable<CryptoWalletDetailData> GetCustCryptoWalletDetail(string address)
