@@ -7,7 +7,6 @@
         public string Content { get; set; }
         public string ImageURL { get; set; }
         public DateTime PostTime { get; set; }
-
         public int Sort { get; set; }
     }
 }

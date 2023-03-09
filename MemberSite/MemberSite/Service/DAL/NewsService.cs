@@ -22,7 +22,7 @@ namespace MemberSite.Service.DAL
 
         public IEnumerable<News> GetNews(int SiteId, int pageSize, ref int pageNumber, out int totalPages, out int rowCount)
         {
-            var p = new DynamicParameters(new { SiteId, NewsId = 0, PageSize = pageSize, SelectAll =1 });
+            var p = new DynamicParameters(new { SiteId, PageSize = pageSize });
             p.Add("PageNumber", pageNumber, dbType: DbType.Int32, direction: ParameterDirection.InputOutput);
             p.Add("TotalPages", dbType: DbType.Int32, direction: ParameterDirection.Output);
             p.Add("RowCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
@@ -31,6 +31,7 @@ namespace MemberSite.Service.DAL
             var result = _reportDbClient.Query<News>("Member_News_Get", p);
             totalPages = p.Get<int?>("TotalPages") ?? 0;
             rowCount = p.Get<int?>("RowCount") ?? 0;
+            pageNumber = p.Get<int?>("PageNumber") ?? 0;
             return result;
         }
     }
