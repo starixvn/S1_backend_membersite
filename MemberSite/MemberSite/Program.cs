@@ -20,7 +20,7 @@ builder.Host.UseSerilog((context, Configuration) =>
         .Enrich.WithExceptionDetails();
 });
 
-var startup = new Startup(builder.Configuration, builder.Environment);
+var startup = new Startup(builder.Configuration);
 startup.ConfigureServices(builder.Services);
 
 var app = builder.Build();

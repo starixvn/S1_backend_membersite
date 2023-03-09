@@ -1,6 +1,10 @@
 ﻿using MemberSite.Service.BLL;
+using MemberSite.Service.BLL.Interface;
+using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System.Text;
 using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
@@ -10,37 +14,49 @@ namespace MemberSite.Controllers.Api
     public class MessageController : Controller
     {
         private readonly SelLangBLL _selLangBll;
-        private readonly MessageBll _messageBll;
-        private readonly IHostEnvironment _environment;
         private readonly ServerInfoBll _serverInfoBll;
+        private readonly AuthorizeBLL _authorizeBll;
+        private readonly CustInfoBll _customerInfoBll;
+        private readonly IAnnouncementBLL _announcementBLL;
+        
         private readonly ILogger<MessageController> _logger;
 
-        public MessageController(MessageBll messageBll, SelLangBLL selLangBll, IHostEnvironment environment, ServerInfoBll serverInfoBll,
-            ILogger<MessageController> logger)
+        public MessageController(SelLangBLL selLangBll, ServerInfoBll serverInfoBll, AuthorizeBLL authorizeBll, CustInfoBll customerInfoBll, IAnnouncementBLL announcementBLL, ILogger<MessageController> logger)
         {
-            _messageBll = messageBll;
             _selLangBll = selLangBll;
-            _environment = environment;
             _serverInfoBll = serverInfoBll;
+            _authorizeBll = authorizeBll;
+            _customerInfoBll = customerInfoBll;
+            _announcementBLL = announcementBLL;
             _logger = logger;
         }
 
+        public class GetAnnouncementRequest 
+        {
+            public int? CurrencyId { get; set; }
+        }
         [HttpPost]
-        public ApiResult<IEnumerable<Announcement>> GetAnnouncement()
+        public async Task<ApiResult<IEnumerable<Announcement>>> GetAnnouncement()
         {
             var result = new ApiResult<IEnumerable<Announcement>>();
             try
             {
-                const int limitRow = 15;
+                using var reader = new StreamReader(Request.Body, Encoding.UTF8);
+                var content = await reader.ReadToEndAsync();
+                var request = JsonConvert.DeserializeObject<GetAnnouncementRequest>(content);
+
+                int? currency = request?.CurrencyId;
+
+                var authData = _authorizeBll.GetAuthData();
+                if (authData is { CustId: > 0 }) 
+                {
+                    var customerInfo = _customerInfoBll.GetCustInfoWithCache(authData.CustId);
+                    currency = customerInfo.CurrencyId;
+                }
                 var serverInfo = _serverInfoBll.GetServerInfo();
-                result.Data = _messageBll.GetAnnouncement(_selLangBll.GetLangId(), serverInfo.DefLang, limitRow, !_environment.IsProduction(), serverInfo.SiteId)
-                    .Select(x => new Announcement()
-                    {
-                        Content = Newtonsoft.Json.JsonConvert.DeserializeObject<string>(x.Content ?? ""),
-                        Subject = Newtonsoft.Json.JsonConvert.DeserializeObject<string>(x.Subject ?? ""),
-                        Id = x.Id,
-                        StartTime = x.StartTime
-                    });
+                var language = LanguageObject.Create(currency, _selLangBll.GetLangId(), serverInfo.DefLang);
+                
+                result.Data = await _announcementBLL.GetAnnouncements(serverInfo.SiteId, language);
             }
             catch (Exception e)
             {
