@@ -121,6 +121,7 @@ namespace MemberSite
             services.AddTransient<IHotEventService, HotEventService>();
 
             services.AddTransient<IHotGameService, HotGameService>();
+            services.AddTransient<IAnnouncementService, AnnouncementService>();
             
             /*BLL*/
             services.AddSingleton<ServerInfoBll>();
@@ -179,6 +180,7 @@ namespace MemberSite
             services.AddTransient<RecaptchaBLL>();
             services.AddTransient<CheckAttackBLL>();
             services.AddTransient<DateTimeHelper>();
+            services.AddTransient<IAnnouncementBLL, AnnouncementBLL>();
             
             services.AddTransient<IHotGameBLL, HotGameBLL>();
 
