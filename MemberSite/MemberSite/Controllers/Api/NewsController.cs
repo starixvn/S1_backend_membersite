@@ -37,17 +37,15 @@ namespace MemberSite.Controllers.Api
             var result = new ApiListResult<News>();
 
             try
-            {
-                int? currency = newsReq?.CurrencyId;
-
+            { 
                 var authData = _authorizeBll.GetAuthData();
                 if (authData is { CustId: > 0 })
                 {
                     var customerInfo = _customerInfoBll.GetCustInfoWithCache(authData.CustId);
-                    currency = customerInfo.CurrencyId;
+                    newsReq.CurrencyId = customerInfo.CurrencyId;
                 }
                 var serverInfo = _serverInfoBll.GetServerInfo();
-                var language = LanguageObject.Create(currency, _selLangBll.GetLangId(), serverInfo.DefLang);
+                var language = LanguageObject.Create(newsReq.CurrencyId, _selLangBll.GetLangId(), serverInfo.DefLang);
                 var pageNumber = newsReq.PageNumber;
 
                 result.Data = _newsBLL.GetNews(serverInfo.SiteId, language, newsReq.PageSize, ref pageNumber, out var totalPages, out var rowCount);
@@ -78,16 +76,14 @@ namespace MemberSite.Controllers.Api
 
             try
             {
-                int? currency = newsReq?.CurrencyId;
-
                 var authData = _authorizeBll.GetAuthData();
                 if (authData is { CustId: > 0 })
                 {
                     var customerInfo = _customerInfoBll.GetCustInfoWithCache(authData.CustId);
-                    currency = customerInfo.CurrencyId;
+                    newsReq.CurrencyId = customerInfo.CurrencyId;
                 }
                 var serverInfo = _serverInfoBll.GetServerInfo();
-                var language = LanguageObject.Create(currency, _selLangBll.GetLangId(), serverInfo.DefLang);
+                var language = LanguageObject.Create(newsReq.CurrencyId, _selLangBll.GetLangId(), serverInfo.DefLang);
 
                 result.Data = _newsBLL.GetNewsById(serverInfo.SiteId, newsReq.NewsId, language);
                 result.ErrorCode = 0;
