@@ -63,21 +63,7 @@ namespace MemberSite.Service.Model
         public string USDTAddress { set; get; }
         public string Network { set; get; }
         public int CurrencyId { set; get; }
-
-        public string CurrencyName
-        {
-            get
-            {
-                try
-                {
-                    return ((CryptoCurrencyId)this.CurrencyId).ToString();
-                }
-                catch
-                {
-                    return CryptoCurrencyId.USDT.ToString();
-                }
-            }
-        }
+        public string CurrencyName { set; get; }
     }
 
     public class CryptoWalletDetailLog : CryptoWalletDetail
