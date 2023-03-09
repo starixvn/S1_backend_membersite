@@ -300,7 +300,13 @@
     <value>ต้องการยืนยันเบอร์โทรศัพท์ของคุณตอนนี้?</value>
   </data>
   <data name="msg_SpecialCodeErr" xml:space="preserve">
-    <value>รหัสโบนัสพิเศษที่คุณป้อน ไม่มีโปรโมชั่นสำหรับขอแลกรับ</value>
+    <value>โปรโมชั่นโค้ดไม่ถูกต้อง กรุณาตรวจสอบอีกครั้ง</value>
+  </data>
+  <data name="msg_SpecialCodeErrorForCheck" xml:space="preserve">
+    <value>โปรโมชั่นโค้ดไม่ถูกต้อง กรุณาตรวจสอบอีกครั้ง</value>
+  </data>
+  <data name="msg_SpecialCodeVipLevelsOrBlockTagInvalid" xml:space="preserve">
+    <value>ไม่สามารถเข้าร่วมโปรโมชั่นนี้ได้ โปรดติดต่อฝ่ายบริการลูกค้าเพื่อสอบถาม</value>
   </data>
   <data name="msg_DrawPrize" xml:space="preserve">
     <value>ขอแสดงความยินดีเงินคืนของคุณ {0} ได้รับการบันทึกเครดิตเข้าบัญชีของคุณแล้ว!ขอแสดงความยินดีด้วย, อังเปาได้ส่งเข้าไปที่บัญชีเครดิตของคุณแล้ว</value>
@@ -339,7 +345,7 @@
     <value>คุณได้ทำการจัดเก็บข้อมูลนี้ไว้เรียบร้อยแล้ว</value>
   </data>
   <data name="msg_PromoCodeHasBeenUsed" xml:space="preserve">
-    <value>รหัสโปรโมชั่นนี้ถูกใช้แล้ว</value>
+    <value>โค้ดโปรโมชั่นนี้ได้ถูกใช้งานเรียบร้อยแล้ว</value>
   </data>
   <data name="msg_PhoneWrongFormat" xml:space="preserve">
     <value>รูปแบบโทรศัพท์ไม่ถูกต้อง</value>
