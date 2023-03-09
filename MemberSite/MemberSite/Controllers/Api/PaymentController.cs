@@ -1412,6 +1412,7 @@ namespace MemberSite.Controllers.Api
                 result.Message = result.ErrorCode switch
                 {
                     (int)SpecialCode.SpecialCodeErrorForCheck => selLangBLL.GetMsg("msg_SpecialCodeErr"),
+                    (int)SpecialCode.SpecialCodeVipLevelsOrBlockTagInvalid => selLangBLL.GetMsg("msg_SpecialCodeVipLevelsOrBlockTagInvalid"),
                     (int)SpecialCode.PromoCodeHasBeenUsed => selLangBLL.GetMsg("msg_PromoCodeHasBeenUsed"),
                     9000 => selLangBLL.GetMsg("msg_Ineligible"),
                     _ => result.Message

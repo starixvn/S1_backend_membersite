@@ -304,7 +304,13 @@
     <value>আমাদের প্রচারগুলি উপভোগ করতে অনুগ্রহ করে আপনার প্রোফাইল সম্পূর্ণ করুন এবং আপনার ফোন নম্বর যাচাই করুন৷</value>
   </data>
   <data name="msg_SpecialCodeErr" xml:space="preserve">
-    <value>আপনার প্রবেশ করা বিশেষ বোনাস কোডে মুক্তির জন্য উপলব্ধ প্রচার নেই।</value>
+    <value>প্রচার কোডটি ভুল, অনুগ্রহ করে আবার পরীক্ষা করুন</value>
+  </data>
+  <data name="msg_SpecialCodeErrorForCheck" xml:space="preserve">
+    <value>প্রচার কোডটি ভুল, অনুগ্রহ করে আবার পরীক্ষা করুন</value>
+  </data>
+  <data name="msg_SpecialCodeVipLevelsOrBlockTagInvalid" xml:space="preserve">
+    <value>এই প্রচারে অংশগ্রহণ করতে অক্ষম, অনুসন্ধানের জন্য গ্রাহক পরিষেবার সাথে যোগাযোগ করুন</value>
   </data>
   <data name="msg_IneligibleAngPow" xml:space="preserve">
     <value>এই প্রচারণায় যুক্ত হতে জমা করুন</value>
@@ -343,7 +349,7 @@
     <value>আপনি ইতিমধ্যে এই তথ্য সংরক্ষণ করেছেন.</value>
   </data>
   <data name="msg_PromoCodeHasBeenUsed" xml:space="preserve">
-    <value>এই প্রচারমূলক কোড ব্যবহার করা হয়েছে।</value>
+    <value>প্রচার কোড ব্যবহার করা হয়েছে</value>
   </data>
   <data name="msg_PhoneWrongFormat" xml:space="preserve">
     <value>ফোনের বিন্যাস ভুল.</value>

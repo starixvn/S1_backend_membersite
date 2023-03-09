@@ -255,9 +255,9 @@ public class SiteBll
                                     }
                                     else
                                     {
-                                        if (!string.IsNullOrEmpty(signupModel.RealName))
+                                        if (!string.IsNullOrWhiteSpace(signupModel.RealName))
                                         {
-                                            _custInfoBLL.SetCustBankInfo(custId, signupModel.RealName, forceUseMainDb: true);
+                                            _custInfoBLL.SetCustBankInfo(custId, signupModel.RealName.Trim(), forceUseMainDb: true);
                                         }
 
                                         customer.Token = token;
