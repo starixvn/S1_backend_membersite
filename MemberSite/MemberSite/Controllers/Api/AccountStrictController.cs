@@ -1097,7 +1097,7 @@ namespace MemberSite.Controllers.Api
             var authData = _authorizeBLL.GetAuthData();
             custCryptoWalletreq.Address = custCryptoWalletreq.Address.Trim();
 
-            if (_cryptoPayInfoBLL.CryptoAddressValidation(custCryptoWalletreq.Network, custCryptoWalletreq.Address))
+            if (!_cryptoPayInfoBLL.CryptoAddressValidation(custCryptoWalletreq.Network, custCryptoWalletreq.Address))
             {
                 apiResult.ErrorCode = -5; // 錢包地址格式錯誤
                 apiResult.Message = _selLangBLL.GetMsg("msg_InvalidCryptoWalletAddress");
