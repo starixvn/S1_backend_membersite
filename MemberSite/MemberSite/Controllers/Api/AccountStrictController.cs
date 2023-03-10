@@ -1131,7 +1131,7 @@ namespace MemberSite.Controllers.Api
                 }
                 else if (custCryptoWalletDetail.Count > 0 && custCryptoWalletDetail.Find(x => x.CustId == authData.CustId) == null)
                 {
-                    apiResult.ErrorCode = -5;
+                    apiResult.ErrorCode = -6;
                     apiResult.Message = _selLangBLL.GetMsg("msg_CryptoWalletDuplicate");
                     return apiResult;
                 }
