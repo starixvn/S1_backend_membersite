@@ -1135,7 +1135,7 @@ namespace MemberSite.Controllers.Api
                 {
                     // 可能同一個CUST幣種不同但錢包位址相同,這種狀況是允許的
                     apiResult.ErrorCode = -4;
-                    apiResult.Message = _selLangBLL.GetMsg("msg_UpdateFailed");
+                    apiResult.Message = _selLangBLL.GetMsg("msg_CryptoWalletDuplicate");
                     return apiResult;
                 }
                 else if (custCryptoWalletDetail.Count > 0 && custCryptoWalletDetail.Find(x => x.CustId == authData.CustId) == null)
