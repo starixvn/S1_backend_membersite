@@ -40,7 +40,7 @@ namespace MemberSite.Service.DAL
 
             _mainDbClient.Execute("Member_WithdrawalInfo_Ins_V2", trans, p);
             transId = p.Get<string>("_TransId");
-            var toKyc = p.Get<bool>("_ToKyc");
+            var toKyc = p.Get<byte?>("_ToKyc") ?? 0;
 
             if(string.IsNullOrEmpty(transId))
             {
@@ -76,7 +76,7 @@ namespace MemberSite.Service.DAL
                     });
                 }
                 
-                return toKyc ? 2 : 0;
+                return toKyc == 1 ? 2 : 0;
             }
 
             MySqlClient.RollbackAndDisposeConnection(conn, trans);
