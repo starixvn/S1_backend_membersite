@@ -528,7 +528,7 @@ namespace MemberSite.Service.DAL
 
         public CustBankInfo GetCustBankInfo(int custId)
         {
-            return _mainDbClient.QueryFirst<CustBankInfo>("Member_CustBankInfo_Get", new { CustId = custId });
+            return _mainDbClient.QueryFirst<CustBankInfo>("Member_CustBankInfo_Get_V2", new { CustId = custId });
         }
 
         public string GetDefAccountNo(int custId, int siteId)
