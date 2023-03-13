@@ -257,6 +257,7 @@ namespace MemberSite.Service.Model.enums
         Success = 0,
         SpecialCodeError = 99,
         SpecialCodeErrorForCheck = 1000,
+        SpecialCodeVipLevelsOrBlockTagInvalid = 1001, // VipLevel 不符合 或是有 BlockTag
         PromoCodeHasBeenUsed = 3000
     }
 
@@ -572,12 +573,16 @@ namespace MemberSite.Service.Model.enums
         DepositorsNameUnmatch = 0,
         DepositSlipRequired = 1,
         PaymentNotReceived = 2,
-        DepositRefunded = 3
+        DepositRefunded = 3,
+        WrongAmountSubmitted = 4,
+        WrongBankSubmitted = 5
     }
     public enum WithdrawalMessageStatus
     {
         WithdrawalAccountsNameUnmatch = 0,
-        WithdrawalAccountNumberIncorrect = 1
+        WithdrawalAccountNumberIncorrect = 1,
+        WithdrawalAccountAannotReceiveMoney = 2,
+        BeneficiarysAccountMaintenance = 3
     }
 
     public enum CustTagEnum

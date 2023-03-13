@@ -73,6 +73,14 @@ namespace MemberSite.Service.BLL
                 }
             }
             
+            if (depositLimitInfo != null)
+            {
+                foreach (var payGroup in payGroupList)
+                {
+                    _depositBll.FixDepositLimit(payGroup, depositLimitInfo);
+                }
+            }
+            
             return payGroupList.OrderBy(x => x.GSort);
         }
 

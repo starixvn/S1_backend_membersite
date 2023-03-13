@@ -15,6 +15,7 @@ using System.Security.Claims;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Cors;
 using static MemberSite.Extensions.MethodExtension;
+using MemberSite.Attributes;
 
 namespace MemberSite.Controllers.Api
 {
@@ -80,6 +81,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
+        [TypeFilter(typeof(PublicAuthAttribute))]
         public async Task<ApiResult> SignIn(LoginModel loginModel)
         {
             var apiResult = new ApiResult(_selLangBll);
@@ -176,6 +178,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
+        [TypeFilter(typeof(PublicAuthAttribute))]
         public ApiResult<JwtAuthData> SignInApp(LoginModel loginModel)
         {
             var apiResult = new ApiResult<JwtAuthData>(_selLangBll);
@@ -1098,7 +1101,7 @@ namespace MemberSite.Controllers.Api
                 resultData.ProviderList.Add(provider);
             }
             apiResult.Data = resultData;
-            apiResult.Data.ImgUrl = _siteConfig.Value[serverInfo.SiteName].ImageURL;
+            apiResult.Data.ImgUrl = _siteConfig.Value[serverInfo.SiteName].OldImageUrl;
             apiResult.ErrorCode = 0;
             return apiResult;
         }

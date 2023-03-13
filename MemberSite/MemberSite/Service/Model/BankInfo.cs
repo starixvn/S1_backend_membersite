@@ -21,7 +21,7 @@
         public int Mode { get; set; }
     }
 
-    public class SysBankInfoFront
+    public class SysBankInfoFront : IPaymentLimit
     {
         public int SysId { get; set; }
         public string BankCode { get; set; }

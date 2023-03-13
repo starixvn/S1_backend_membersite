@@ -32,10 +32,10 @@ public class ShieldBLL
         var context = _httpContextAccessor.HttpContext;
         request.SessionId = context.Request.Cookies["session_id"];
         request.Platform = context.Request.Cookies["platform"];
-
+        
         var timestamp = DateTimeOffset.Now.ToUnixTimeSeconds().ToString();
-        var sign = _shieldService.GetShieldSignature(timestamp);
-        var endpoint = await GetEndpoint();
+        var sign = _shieldService.GetShieldSignature(timestamp , request.SiteId);
+        var endpoint = await GetEndpoint(request.SiteId);
         
         if (!string.IsNullOrEmpty(endpoint.Endpoint) && 
             !string.IsNullOrEmpty(request.SessionId) && 
@@ -47,13 +47,13 @@ public class ShieldBLL
         return result;
     }
 
-    public Task<GetEndpointResult> GetEndpoint()
+    public Task<GetEndpointResult> GetEndpoint(int siteId)
     {
-        var key = "ShieldEndpoint";
+        var key = $"ShieldEndpoint:{siteId}";
         
         var result = _cacheHelper.TryGetOrCreate(key,
             new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)),
-            i => _shieldService.GetEndpoint());
+            i => _shieldService.GetEndpoint(siteId));
         
         return result;
     }

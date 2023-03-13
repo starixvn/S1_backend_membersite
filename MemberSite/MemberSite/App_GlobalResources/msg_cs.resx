@@ -293,7 +293,13 @@
     <value>现在验证您的电话？</value>
   </data>
   <data name="msg_SpecialCodeErr" xml:space="preserve">
-    <value>您输入的特别优惠代码没有优惠可以领取</value>
+    <value>优惠码序号有误，请再次确认</value>
+  </data>
+  <data name="msg_SpecialCodeErrorForCheck" xml:space="preserve">
+    <value>优惠码序号有误，请再次确认</value>
+  </data>
+    <data name="msg_SpecialCodeVipLevelsOrBlockTagInvalid" xml:space="preserve">
+    <value>无法参与此优惠，请联系客服咨询</value>
   </data>
   <data name="msg_DrawPrize" xml:space="preserve">
     <value>恭喜，您的红包 {0} 已汇入您的户口！</value>
@@ -336,6 +342,12 @@
   </data>
   <data name="msg_PhoneWrongFormat" xml:space="preserve">
     <value>手机格式不符</value>
+  </data>
+  <data name="msg_PhoneFormatVerify" xml:space="preserve">
+    <value>您输入的手机号格式有误，介于{0}位数字</value>
+  </data>
+  <data name="msg_EmailFormatVerify" xml:space="preserve">
+    <value>输入的邮箱地址格式有误</value>
   </data>
   <data name="msg_InvalidCryptoWalletAddress" xml:space="preserve">
     <value>您的加密钱包地址格式不符！</value>
@@ -414,6 +426,30 @@
   </data>
   <data name="msg_WithdrawalAccountsNameUnmatch_Detail" xml:space="preserve">
     <value>提款账户姓名与注册姓名不符合。请联系客服寻求协助。</value>
+  </data>
+  <data name="msg_WrongAmountSubmitted" xml:space="preserve">
+    <value>存款金额不正确</value>
+  </data>
+  <data name="msg_WrongAmountSubmitted_Detail" xml:space="preserve">
+    <value>实际转账金额与存款单申请金额不符，请再次确认或联系在线客服寻求协助。</value>
+  </data>
+  <data name="msg_WrongBankSubmitted" xml:space="preserve">
+    <value>存款账户有误</value>
+  </data>
+  <data name="msg_WrongBankSubmitted_Detail" xml:space="preserve">
+    <value>选择的存款账户有误，请再次确认或联系在线客服寻求协助。</value>
+  </data>
+  <data name="msg_BeneficiarysAccountMaintenance" xml:space="preserve">
+    <value>提款账户银行维护</value>
+  </data>
+  <data name="msg_BeneficiarysAccountMaintenance_Detail" xml:space="preserve">
+    <value>提款账户银行正在维护中，您的提款申请将会在银行维护完毕之后为您办理</value>
+  </data>
+  <data name="msg_WithdrawalAccountAannotReceiveMoney" xml:space="preserve">
+    <value>提款账户无法正常收款</value>
+  </data>
+  <data name="msg_WithdrawalAccountAannotReceiveMoney_Detail" xml:space="preserve">
+    <value>提款账户无法正常收款，请再次核实或使用其他提款账户提款。</value>
   </data>
   <data name="msg_CryptoWalletDuplicate" xml:space="preserve">
     <value>加密货币钱包地址已存在</value>

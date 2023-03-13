@@ -304,7 +304,13 @@
     <value>আমাদের প্রচারগুলি উপভোগ করতে অনুগ্রহ করে আপনার প্রোফাইল সম্পূর্ণ করুন এবং আপনার ফোন নম্বর যাচাই করুন৷</value>
   </data>
   <data name="msg_SpecialCodeErr" xml:space="preserve">
-    <value>আপনার প্রবেশ করা বিশেষ বোনাস কোডে মুক্তির জন্য উপলব্ধ প্রচার নেই।</value>
+    <value>প্রচার কোডটি ভুল, অনুগ্রহ করে আবার পরীক্ষা করুন</value>
+  </data>
+  <data name="msg_SpecialCodeErrorForCheck" xml:space="preserve">
+    <value>প্রচার কোডটি ভুল, অনুগ্রহ করে আবার পরীক্ষা করুন</value>
+  </data>
+  <data name="msg_SpecialCodeVipLevelsOrBlockTagInvalid" xml:space="preserve">
+    <value>এই প্রচারে অংশগ্রহণ করতে অক্ষম, অনুসন্ধানের জন্য গ্রাহক পরিষেবার সাথে যোগাযোগ করুন</value>
   </data>
   <data name="msg_IneligibleAngPow" xml:space="preserve">
     <value>এই প্রচারণায় যুক্ত হতে জমা করুন</value>
@@ -343,10 +349,16 @@
     <value>আপনি ইতিমধ্যে এই তথ্য সংরক্ষণ করেছেন.</value>
   </data>
   <data name="msg_PromoCodeHasBeenUsed" xml:space="preserve">
-    <value>এই প্রচারমূলক কোড ব্যবহার করা হয়েছে।</value>
+    <value>প্রচার কোড ব্যবহার করা হয়েছে</value>
   </data>
   <data name="msg_PhoneWrongFormat" xml:space="preserve">
     <value>ফোনের বিন্যাস ভুল.</value>
+  </data>
+  <data name="msg_PhoneFormatVerify" xml:space="preserve">
+    <value>আপনার দেওয়া ফোন নম্বরটি ভুল, {0} সংখ্যার মধ্যে হওয়া উচিত৷</value>
+  </data>
+  <data name="msg_EmailFormatVerify" xml:space="preserve">
+    <value>ইমেল ঠিকানা বিন্যাস ভুল</value>
   </data>
   <data name="msg_InvalidCryptoWalletAddress" xml:space="preserve">
     <value>অবৈধ ক্রিপ্টো ওয়ালেট ঠিকানা</value>
@@ -395,6 +407,30 @@
   </data>
   <data name="msg_WithdrawalAccountsNameUnmatch_Detail" xml:space="preserve">
     <value>উত্তোলন অ্যাকাউন্টের নাম নিবন্ধিত নামের সাথে মেলে না। সহায়তার জন্য গ্রাহক পরিষেবার সাথে যোগাযোগ করুন.</value>
+  </data>
+  <data name="msg_BeneficiarysAccountMaintenance" xml:space="preserve">
+    <value>সুবিধাভোগী অ্যাকাউন্ট রক্ষণাবেক্ষণ</value>
+  </data>
+  <data name="msg_BeneficiarysAccountMaintenance_Detail" xml:space="preserve">
+    <value>ব্যাঙ্কটি বর্তমানে রক্ষণাবেক্ষণের অধীনে রয়েছে, ব্যাঙ্ক রক্ষণাবেক্ষণ সম্পূর্ণ হওয়ার পরে আপনার তোলার অনুরোধ প্রক্রিয়া করা হবে।</value>
+  </data>
+  <data name="msg_WithdrawalAccountAannotReceiveMoney" xml:space="preserve">
+    <value>প্রত্যাহার অ্যাকাউন্ট তহবিল পেতে ব্যর্থ</value>
+  </data>
+  <data name="msg_WithdrawalAccountAannotReceiveMoney_Detail" xml:space="preserve">
+    <value>প্রত্যাহার অ্যাকাউন্ট তহবিল পেতে অক্ষম. অনুগ্রহ করে পুনরায় পরীক্ষা করুন বা আরও সহায়তার জন্য গ্রাহক সহায়তার সাথে যোগাযোগ করুন।</value>
+  </data>
+  <data name="msg_WrongAmountSubmitted" xml:space="preserve">
+    <value>জমার পরিমাণ ভুল</value>
+  </data>
+  <data name="msg_WrongAmountSubmitted_Detail" xml:space="preserve">
+    <value>ডিপোজিটের পরিমাণ ডিপোজিট স্লিপ আবেদনের পরিমাণের সাথে মেলে না, অনুগ্রহ করে পুনরায় পরীক্ষা করুন বা আরও সহায়তার জন্য গ্রাহক সহায়তার সাথে যোগাযোগ করুন।</value>
+  </data>
+  <data name="msg_WrongBankSubmitted" xml:space="preserve">
+    <value>ভুল জমা অ্যাকাউন্ট নির্বাচন করা হয়েছে</value>
+  </data>
+  <data name="msg_WrongBankSubmitted_Detail" xml:space="preserve">
+    <value>নির্বাচিত জমা অ্যাকাউন্টটি ভুল, অনুগ্রহ করে পুনরায় পরীক্ষা করুন বা আরও সহায়তার জন্য গ্রাহক সহায়তার সাথে যোগাযোগ করুন৷</value>
   </data>
   <data name="msg_CryptoWalletDuplicate" xml:space="preserve">
     <value>ক্রিপ্টো ওয়ালেট ঠিকানা ইতিমধ্যেই বিদ্যমান</value>

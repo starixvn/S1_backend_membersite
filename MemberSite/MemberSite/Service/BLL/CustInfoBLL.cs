@@ -138,7 +138,7 @@ namespace MemberSite.Service.BLL
             var result = _custInfoService.AddCustInfo(regCustInfo, Email, lineUserId, out custId, signupUrl, referralUrl, PhoneNo, AreaCode,
                 RealName, promoCode, Birth_d, Birth_m, Birth_y);
 
-            if (result == 0 && regCustInfo.SiteId == (int)SiteId.Goal123)
+            if (result == 0 && regCustInfo.SiteId != (int)SiteId.Nova88)
             {
                 regCustInfo.CustId = custId;
                 _ = Task.Run(async () =>
@@ -199,7 +199,7 @@ namespace MemberSite.Service.BLL
                 return -3;
             }
 
-            if (customer is { SiteId: (int)SiteId.Goal123 })
+            if (customer.SiteId != (int)SiteId.Nova88)
             {
                 var info = customer;
                 _ = Task.Run(async () =>
@@ -213,6 +213,7 @@ namespace MemberSite.Service.BLL
                     // send custId to tp.Shield
                     var request = new SendShieldAttributesRequest()
                     {
+                        SiteId = info.SiteId ,
                         UserId = info.CustId.ToString()
                     };
                     var result = await _shieldBll.SendShieldAttributes(request);
