@@ -36,9 +36,6 @@ namespace MemberSite.Service.Model
     public class CustBankInfo
     {
         public string AccountName { set; get; }
-        [JsonIgnore]
-        public string BankInfo { set; get; }
-        public string USDTInfo { set; get; }
         public IEnumerable<BankInfoDetail> bankInfoDetail { set; get; }
         public IEnumerable<CryptoWalletDetail> usdtDetail { set; get; }
     }
