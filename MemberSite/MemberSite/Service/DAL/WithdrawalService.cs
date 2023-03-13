@@ -26,7 +26,7 @@ namespace MemberSite.Service.DAL
             _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
         }
         
-        public int WithdrawalReq(int custId, string userName, int currencyId, int siteId, decimal amount, string memo, WithdrawalInfo withdrawalInfo, out decimal afterAmount, out string transId)
+        public int WithdrawalReq(int custId, string userName, int currencyId, int siteId, decimal amount, string memo, string withdrawalInfo, out decimal afterAmount, out string transId)
         {
             transId = "";
             afterAmount = 0;
@@ -34,33 +34,31 @@ namespace MemberSite.Service.DAL
             conn.Open();
             using var trans = conn.BeginTransaction();
             
-            var p = new DynamicParameters(new { CustId = custId, UserName = userName, CurrencyId = currencyId, SiteId = siteId, Amount = amount, Memo = memo, WithdrawalInfo = Newtonsoft.Json.JsonConvert.SerializeObject(withdrawalInfo), Prefix = $"W{common.GetEnv()}" });
-            p.Add("vTransId", dbType: DbType.String, direction: ParameterDirection.Output);
-            p.Add("ToKyc", dbType: DbType.Boolean, direction: ParameterDirection.Output);
+            var p = new DynamicParameters(new { _CustId = custId, _UserName = userName, _CurrencyId = currencyId, _SiteId = siteId, _Amount = amount, _Memo = memo, _WithdrawalInfo = withdrawalInfo, _Prefix = $"W{common.GetEnv()}" });
+            p.Add("_TransId", dbType: DbType.String, direction: ParameterDirection.Output);
+            p.Add("_ToKyc", dbType: DbType.Boolean, direction: ParameterDirection.Output);
 
-            _mainDbClient.Execute("Member_WithdrawalInfo_Ins", trans, p);
-            transId = p.Get<string>("vTransId");
+            _mainDbClient.Execute("Member_WithdrawalInfo_Ins_V2", trans, p);
+            transId = p.Get<string>("_TransId");
+            var toKyc = p.Get<bool>("_ToKyc");
 
             if(string.IsNullOrEmpty(transId))
             {
-                conn.Close();
-                conn.Dispose();
+                MySqlClient.RollbackAndDisposeConnection(conn, trans);
                 return 3; //Insert Fail
             }
        
             if (GetWithdrawalAvailableBalance(custId, trans) < amount)
             {
-                conn.Close();
-                conn.Dispose();
+                MySqlClient.RollbackAndDisposeConnection(conn, trans);
                 return -3;
             }
 
-            var result = -99;
-            result = walletService.SetBalance(custId, siteId, userName, amount * -1, typePosition + 1, null, transId, out afterAmount, out _, trans);
+            var result = walletService.SetBalance(custId, siteId, userName, amount * -1, typePosition + 1, null, transId, out afterAmount, out _, trans);
             
             if (result > 0)
             {
-                trans.Commit();
+                MySqlClient.CommitAndDisposeConnection(conn, trans);
 
                 if (siteId != (int)SiteId.Nova88)
                 {
@@ -78,140 +76,13 @@ namespace MemberSite.Service.DAL
                     });
                 }
                 
-                if ((p.Get<byte?>("ToKyc") ?? 0) == 1)
-                {
-                    conn.Close();
-                    conn.Dispose();
-                    return 2;
-                }
-                else
-                {
-                    conn.Close();
-                    conn.Dispose();
-                    return 0;
-                }
+                return toKyc ? 2 : 0;
             }
-            else
-            {
-                conn.Close();
-                conn.Dispose();
-                return result;
-            }
+
+            MySqlClient.RollbackAndDisposeConnection(conn, trans);
+            return result;
         }
 
-        public int WithdrawalCryptoReq(int custId, string userName, int currencyId, int siteId, decimal amount, string memo, WithdrawalCryptoInfo withdrawalCryptoInfo, out decimal afterAmount, out string transId)
-        {
-            transId = "";
-            afterAmount = 0;
-            using var conn = _mainDbClient.GetMySqlConnection();
-            conn.Open();
-            using var trans = conn.BeginTransaction();
-            var p = new DynamicParameters(new { CustId = custId, UserName = userName, CurrencyId = currencyId, SiteId = siteId, Amount = amount, Memo = memo, WithdrawalInfo = Newtonsoft.Json.JsonConvert.SerializeObject(withdrawalCryptoInfo), Prefix = $"W{common.GetEnv()}" });
-            p.Add("vTransId", dbType: DbType.String, direction: ParameterDirection.Output);
-            p.Add("ToKyc", dbType: DbType.Boolean, direction: ParameterDirection.Output);
-
-            _mainDbClient.Execute("Member_WithdrawalInfo_Ins", trans , p );
-            transId = p.Get<string>("vTransId");
-           
-            if(GetWithdrawalAvailableBalance(custId,trans) < amount)
-            {
-                conn.Close();
-                conn.Dispose();
-                return -3;
-            }
-
-            var result = -99;
-            result = walletService.SetBalance(custId, siteId, userName, amount * -1, typePosition + 1, null, transId, out afterAmount, out _, trans);
-            if (result > 0)
-            {
-                trans.Commit();
-                
-                if (siteId != (int)SiteId.Nova88)
-                {
-                    _ = Task.Run(async () =>
-                    {
-                        var checkResult = _shieldBll.CheckCustShieldRisk(
-                            new Customer()
-                            {
-                                SiteId = siteId,
-                                CurrencyId = currencyId,
-                                CustId = custId
-                            },
-                            ShieldRiskTriggeredPoint.Withdrawal,
-                            ShieldRiskTaggedIssue.HighRisk);
-                    });
-                }
-
-                if ((p.Get<byte?>("ToKyc") ?? 0) == 1)
-                {
-                    conn.Close();
-                    conn.Dispose();
-                    return 2;
-                }
-                else
-                {
-                    conn.Close();
-                    conn.Dispose();
-                    return 0;
-                }
-            }
-            else
-            {
-                conn.Close();
-                conn.Dispose();
-                return result;
-            }
-        }
-       
-        public int WithdrawalEWalletReq(int custId, string userName, int currencyId, int siteId, decimal amount, string memo, WithdrawalEWalletInfo withdrawalEWalletInfo, out decimal afterAmount, out string transId)
-        {
-            transId = "";
-            afterAmount = 0;
-            using var conn = _mainDbClient.GetMySqlConnection();
-            conn.Open();
-            using var trans = conn.BeginTransaction();
-            
-            var p = new DynamicParameters(new { CustId = custId, UserName = userName, CurrencyId = currencyId, SiteId = siteId, Amount = amount, Memo = memo, WithdrawalInfo = Newtonsoft.Json.JsonConvert.SerializeObject(withdrawalEWalletInfo), Prefix = $"W{common.GetEnv()}" });
-            p.Add("vTransId", dbType: DbType.String, direction: ParameterDirection.Output);
-            p.Add("ToKyc", dbType: DbType.Boolean, direction: ParameterDirection.Output);
-
-            _mainDbClient.Execute("Member_WithdrawalInfo_Ins", trans ,p);
-            transId = p.Get<string>("vTransId");
-
-            if (GetWithdrawalAvailableBalance(custId,trans) < amount)
-            {
-                conn.Close();
-                conn.Dispose();
-                return -3;
-            }
-
-            var result = -99;
-            result = walletService.SetBalance(custId, siteId, userName, amount * -1, typePosition + 1, null, transId, out afterAmount, out _, trans);
-            if (result > 0)
-            {
-                trans.Commit();
-
-                if ((p.Get<byte?>("ToKyc") ?? 0) == 1)
-                {
-                    conn.Close();
-                    conn.Dispose();
-                    return 2;
-                }
-                else
-                {
-                    conn.Close();
-                    conn.Dispose();
-                    return 0;
-                }
-            }
-            else
-            {
-                conn.Close();
-                conn.Dispose();
-                return result;
-            }
-        }
-       
         public IEnumerable<WithdrawalHistory> GetWithdrawalInfoRecent(int custId, int siteId, int topNum)
         {
             return _reportDbClient.Query<WithdrawalHistory>("WithdrawalInfoRecent_Get_V4", new { CustId = custId, SiteId = siteId, TopNum = topNum });
