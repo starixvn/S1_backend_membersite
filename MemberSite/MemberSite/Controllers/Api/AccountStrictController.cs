@@ -1114,8 +1114,9 @@ namespace MemberSite.Controllers.Api
 
             if (authData is { CustId: > 0 })
             {
+                var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
                 var custBankInfo = _custInfoBLL.GetCustBankInfo(authData.CustId);
-                var custCryptoWalletDetail = _custInfoBLL.GetCustCryptoWalletDetail(custCryptoWalletreq.Address).ToList();
+                var custCryptoWalletDetail = _custInfoBLL.GetCustCryptoWalletDetail(custCryptoWalletreq.Address, custInfo.SiteId).ToList();
                 var blockCryptoWallet = _bankInfoBLL.GetBlockCryptoWallet(custCryptoWalletreq.Address).ToList();
 
                 if (custBankInfo == null)
