@@ -544,6 +544,7 @@ namespace MemberSite.Service.BLL
                     });
                 }
                 depositInfo.DepositMessageDetail = depositMessageDetails;
+                depositInfo.DepositReceipt = GetDepositReceipt(depositInfo.TransId, custId);
             }
             return depositInfoHistory;
         }
