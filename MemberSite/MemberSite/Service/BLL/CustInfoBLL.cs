@@ -645,9 +645,9 @@ namespace MemberSite.Service.BLL
             return _custInfoService.DeleteCustEWalletDetail(custId, custInfo.SiteId, sysId, accountNum, status) ? 0 : -1;
         }
 
-        public IEnumerable<CryptoWalletDetailData> GetCustCryptoWalletDetail(string address)
+        public IEnumerable<CryptoWalletDetailData> GetCustCryptoWalletDetail(string address, int siteId)
         {
-            return _custInfoService.GetCustCryptoWalletDetail(address);
+            return _custInfoService.GetCustCryptoWalletDetail(address, siteId);
         }
 
         public int InsertCustCryptoWalletDetail(int custId, int currencyId, string network, string address, string nickName, string accountName)
