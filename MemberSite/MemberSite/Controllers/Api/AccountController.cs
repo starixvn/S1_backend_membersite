@@ -38,6 +38,7 @@ namespace MemberSite.Controllers.Api
         private readonly ICacheHelper _cacheHelper;
         private readonly ILogger<AccountController> _logger;
         private readonly CheckAttackBLL _checkAttackBll;
+        private readonly ServerInfoBll _serverInfoBll;
 
         public AccountController(IServiceProvider provider)
         {
@@ -60,6 +61,7 @@ namespace MemberSite.Controllers.Api
             _cacheHelper = provider.GetRequiredService<ICacheHelper>();
             _logger = provider.GetRequiredService<ILogger<AccountController>>();
             _checkAttackBll = provider.GetRequiredService<CheckAttackBLL>();
+            _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
         }
 
         [HttpPost]
@@ -418,7 +420,11 @@ namespace MemberSite.Controllers.Api
             }
             var pageNumber = msgReq.PageNumber;
             var pageSize = msgReq.PageSize == 0 ? 5 : msgReq.PageSize;
-            apiResult.Data = _messageBll.GetMsgList(authData.CustId, pageSize, ref pageNumber, out var totalPages, out var rowCount);
+            var serverInfo = _serverInfoBll.GetServerInfo();
+            var custInfo = _custInfoBll.GetCustInfo(authData.CustId);
+            var language = LanguageObject.Create(custInfo.CurrencyId, custInfo.UserLang, serverInfo.DefLang);
+
+            apiResult.Data = _messageBll.GetMsgList(authData.CustId, language, pageSize, ref pageNumber, out var totalPages, out var rowCount);
             apiResult.PageNumber = pageNumber;
             apiResult.TotalPages = totalPages;
             apiResult.RowCount = rowCount;

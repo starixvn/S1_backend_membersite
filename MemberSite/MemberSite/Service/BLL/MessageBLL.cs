@@ -2,6 +2,8 @@
 using MemberSite.Service.Model;
 using Microsoft.Extensions.Caching.Memory;
 using MemberSite.Service.Library;
+using System.Data;
+using MemberSite.Extensions;
 
 namespace MemberSite.Service.BLL
 {
@@ -15,10 +17,14 @@ namespace MemberSite.Service.BLL
             _messageService = provider.GetRequiredService<MessageService>();
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
         }
-        public IEnumerable<Msg> GetMsgList(int custId, int pageSize, ref int pageNumber, out int totalPages, out int rowCount)
+        public IEnumerable<Msg> GetMsgList(int custId, LanguageObject language, int pageSize, ref int pageNumber, out int totalPages, out int rowCount)
         {
-            totalPages = 0;
-            return _messageService.GetMsgList(custId, pageSize, ref pageNumber, out totalPages, out rowCount);
+            var msgList = _messageService.GetMsgList(custId, pageSize, ref pageNumber, out totalPages, out rowCount);
+            foreach (var msg in msgList)
+            {
+                msg.Title = msg.Title.IsJson() ? JsonContentParser.ParseByJObject(msg.Title, language.LanguageCode, language.DefaultLanguage, "Title") : msg.Title;
+            }
+            return msgList;
         }
 
         public MsgContent GetMsgContent(int custId, int msgId, int isBatch)
