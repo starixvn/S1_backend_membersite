@@ -432,4 +432,7 @@
   <data name="msg_WrongBankSubmitted_Detail" xml:space="preserve">
     <value>নির্বাচিত জমা অ্যাকাউন্টটি ভুল, অনুগ্রহ করে পুনরায় পরীক্ষা করুন বা আরও সহায়তার জন্য গ্রাহক সহায়তার সাথে যোগাযোগ করুন৷</value>
   </data>
+  <data name="msg_CryptoWalletDuplicate" xml:space="preserve">
+    <value>ক্রিপ্টো ওয়ালেট ঠিকানা ইতিমধ্যেই বিদ্যমান</value>
+  </data>
 </root>

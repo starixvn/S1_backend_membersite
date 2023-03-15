@@ -23,12 +23,12 @@ namespace MemberSite.Service.DAL
             //siteId Still Useless
             return _reportDb.Query<BankInfoSys>("BankInfoSysListForCtrl_Get", new { SiteId = siteId });
         }
-        
+
         public IEnumerable<BankInfoPay> GetBankInfoPayList(int siteId, DepositType depositType)
         {
-            return _reportDb.Query<BankInfoPay>("Common_BankInfoPay_Get_V2" , new { _SiteId = siteId, _DepositType = (int)depositType });
+            return _reportDb.Query<BankInfoPay>("Common_BankInfoPay_Get_V2", new { _SiteId = siteId, _DepositType = (int)depositType });
         }
-        
+
         public IEnumerable<BankInfoName> GetBankInfoNameList(string lang)
         {
             return _reportDb.Query<BankInfoName>("Member_BankInfoName_Get", new { _Lang = lang });
@@ -48,6 +48,11 @@ namespace MemberSite.Service.DAL
         public IEnumerable<BlockAccount> GetBlockEWalletAccount(int sysId, string accountNum)
         {
             return _reportDb.Query<BlockAccount>("Member_BlockEWallet_Get", new { SysId = sysId, AccountNum = accountNum });
+        }
+
+        public IEnumerable<BlockCryptoWallet> GetBlockCryptoWallet(string address)
+        {
+            return _reportDb.Query<BlockCryptoWallet>("Member_BlockCryptoWallet_Get", new { Address = address});
         }
     }
 }

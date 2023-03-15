@@ -464,7 +464,7 @@ namespace MemberSite.Controllers.Api
             WithdrawalReqModel withdrawalReqModel,
             CustBankInfo custBankInfo,
             WithdrawalTypeStatus withdrawalType,
-            USDTDetail cryptoDetail)
+            CryptoWalletDetail cryptoDetail)
         {
             var result = 99;
 
