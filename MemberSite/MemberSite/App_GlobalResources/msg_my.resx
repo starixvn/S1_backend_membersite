@@ -460,4 +460,7 @@
   <data name="msg_WithdrawalAccountAannotReceiveMoney_Detail" xml:space="preserve">
     <value>Akaun pengeluaran anda gagal menerima dana. Sila semak semula atau hubungi Sokongan Pelanggan untuk bantuan lanjut.</value>
   </data>
+  <data name="msg_CryptoWalletDuplicate" xml:space="preserve">
+    <value>Alamat dompet Crypto telah digunakan</value>
+  </data>
 </root>

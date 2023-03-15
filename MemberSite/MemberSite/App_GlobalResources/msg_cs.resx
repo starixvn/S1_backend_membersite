@@ -451,4 +451,7 @@
   <data name="msg_WithdrawalAccountAannotReceiveMoney_Detail" xml:space="preserve">
     <value>提款账户无法正常收款，请再次核实或使用其他提款账户提款。</value>
   </data>
+  <data name="msg_CryptoWalletDuplicate" xml:space="preserve">
+    <value>加密货币钱包地址已存在</value>
+  </data>
 </root>
