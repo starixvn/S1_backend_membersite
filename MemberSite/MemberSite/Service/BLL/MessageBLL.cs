@@ -27,9 +27,16 @@ namespace MemberSite.Service.BLL
             return msgList;
         }
 
-        public MsgContent GetMsgContent(int custId, int msgId, int isBatch)
+        public async Task<MsgContent> GetMsgContent(int custId, LanguageObject language, int msgId, int isBatch)
         {
-            return _messageService.GetMsgContent(custId, msgId, isBatch);
+            var msg = await _messageService.GetMsgContent(custId, msgId, isBatch);
+            if (msg != null) 
+            {
+                msg.Content = msg.Content.IsJson() ? 
+                    JsonContentParser.ParseByJObject(msg.Content, language.LanguageCode, language.DefaultLanguage, "Content") :
+                    msg.Content;
+            }
+            return msg;
         }
 
         public async Task<PopupMsg> GetPopupMessage(int custId)

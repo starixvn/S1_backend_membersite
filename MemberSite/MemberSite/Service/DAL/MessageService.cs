@@ -45,9 +45,11 @@ namespace MemberSite.Service.DAL
             return msgList;
         }
         
-        public MsgContent GetMsgContent(int custId, int msgId, int isBatch)
+        public async Task<MsgContent> GetMsgContent(int custId, int msgId, int isBatch)
         {
-            var msgContent = _mainDbClient.QueryFirst<MsgContent>("MsgContent_Get_V2", new { MsgId = msgId, CustId = custId, IsBatch = isBatch });
+            var msgContent = await  _mainDbClient.QueryFirstAsync<MsgContent>(
+                "MsgContent_Get_V3",
+                new { MsgId = msgId, CustId = custId, IsBatch = isBatch });
             return msgContent;
         }
 
