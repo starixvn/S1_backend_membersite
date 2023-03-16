@@ -23,6 +23,7 @@
 
     public class SysBankInfoFront : IPaymentLimit
     {
+        public int BankId { get; set; }
         public int SysId { get; set; }
         public string BankCode { get; set; }
         public string BankName { get; set; }
@@ -36,6 +37,7 @@
         public string QRCodeUrl { get; set; }
 
         public bool SupportQR { get; set; }
+        public int GroupId { get; set; }
     }
     public class OfflineBankInfoFront : SysBankInfoFront
     {

@@ -42,5 +42,10 @@ namespace MemberSite.Service.DAL
                     _BankIds = bankIds
                 });
         }
+        
+        public IEnumerable<LocalPaySetting> GetLocalPaySetting()
+        {
+            return _reportDbClient.Query<LocalPaySetting>("Member_LocalPaySetting_Get");
+        }
     }
 }

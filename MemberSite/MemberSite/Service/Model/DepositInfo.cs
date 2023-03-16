@@ -37,6 +37,9 @@ namespace MemberSite.Service.Model
         public string AccountNo { get; set; }
         public string IFSCCode { get; set; }
         public int CurrencyId { get; set; }
+        public bool IsLocalPay { get; set; }
+        public int GroupId { get; set; }
+        public string Code { get; set; }
     }
 
     public class DepositRep3
@@ -53,12 +56,13 @@ namespace MemberSite.Service.Model
         public decimal MaxAmount { get; set; }
     }
 
-    public class FakeMobilePayResp
+    public class LocalPayResp
     {
 
         public string TransId { get; set; }
         public decimal Amount { get; set; }
         public string ReturnUrl { set; get; }
+        public string Code { set; get; }
     }
 
     public class DepositInfoHistory
@@ -162,5 +166,12 @@ namespace MemberSite.Service.Model
         public string ErrorTypeName { get; set; }
         public string Message { get; set; }
         public DateTimeOffset CreateTime { get; set; }
+    }
+
+    public class DepositReqLocalPayModel
+    {
+        public int CustId { get; set; }
+        public decimal Amount { get; set; }
+        public int BankId { get; set; }
     }
 }

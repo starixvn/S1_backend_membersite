@@ -50,6 +50,57 @@ namespace MemberSite.Service.BLL
             _gameTypeList = statementService.GetGameTypeListWithCache().ToDictionary(i => i.Type, i => i.TypeName);
             _logger = provider.GetRequiredService<ILogger<PaymentBLL>>();
         }
+        
+        public (int errorCode, string message) DepositReqLocalBank(DepositReqLocalPayModel req, out string transId, out string code)
+        {
+            transId = string.Empty;
+            code = string.Empty;
+            
+            if (req.Amount <= 0)
+                return (-3, "Amount must be greater than 0");
+            
+            var custInfo = custInfoBLL.GetCustInfoWithCache(req.CustId);
+            var bankCardInfo = bankInfoOffBLL.GetOfflineBankAccount(custInfo.SiteId)
+                .FirstOrDefault(x => x.BankId == req.BankId);
+            
+            if (bankCardInfo == null)
+            {
+                
+                return (-4, $"Cannot found bank card info ({req.BankId}).");
+            }
+            
+            var depositDetailInfo = new DepositDetailInfo
+            {
+                Amount = req.Amount,
+                CustId = req.CustId,
+                DepositType = (int) DepositType.LocalBank,
+                Memo = "Local Payment",
+                SiteId = custInfo.SiteId,
+                UserName = custInfo.UserName,
+                CurrencyId = custInfo.CurrencyId
+            };
+                
+            var random = new Random();
+            code = random.Next(0, 1000000).ToString("000000");
+                
+            var depositInfo3_1 = new DepositInfo3_1
+            {
+                AccountName = bankCardInfo.AccountName,
+                CurrencyId = custInfo.CurrencyId,
+                SysId = bankCardInfo.SysId,
+                AccountNo = bankCardInfo.AccountNo,
+                Ver = 1,
+                IsLocalPay = true,
+                GroupId = bankCardInfo.GroupId,
+                Code = code
+            };
+                
+            depositDetailInfo.DepositInfo = JsonConvert.SerializeObject(depositInfo3_1);
+
+            _depositService.DepositReq(depositDetailInfo, out transId, out var postScript);
+                
+            return (0, string.Empty);
+        }
 
         /// <summary>
         /// Deposit for Local Bank

@@ -200,44 +200,17 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<DepositRep3>();
             var authData = authorizeBLL.GetAuthData();
-            if (authData is not { CustId: > 0 })
-            {
-                apiResult.Message = selLangBLL.GetMsg("msg_ForceLogedout");
-                return apiResult;
-            }
 
-            //check AccountName first
-            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-            
-            if (custInfo.SiteId == (int)SiteId.Goal123 && custInfoBLL.GetCustBankInfo(authData.CustId) == null)
+            var checkResult = CheckDeposit(authData, depositReqWireTransferReq.amount,
+                depositReqWireTransferReq.hasPromotion);
+
+            if (checkResult.ErrorCode != 0)
             {
-                apiResult.ErrorCode = -2;
-                apiResult.Message = selLangBLL.GetMsg("msg_NeedAccountName");
-                return apiResult;
-            }
-            
-            const int decimalPlaces = 0;
-            if (!HasThisManyDecimalPlacesOrLess(depositReqWireTransferReq.amount, decimalPlaces))
-            {
-                apiResult.ErrorCode = -5;
-                apiResult.Message = "Amount format is wrong.";
-                return apiResult;
-            }
-            
-            //check PhoneVerified,AccountName,Birth
-            if (depositReqWireTransferReq.hasPromotion)
-            {
-                var custInfoProfile = custInfoBLL.GetCustInfoProfile(authData.CustId);
-                if (!custInfoProfile.PhoneVerified
-                    || string.IsNullOrEmpty(custInfoProfile.AccountName)
-                    || string.IsNullOrEmpty(custInfoProfile.Birth_y)
-                    || string.IsNullOrEmpty(custInfoProfile.Birth_m)
-                    || string.IsNullOrEmpty(custInfoProfile.Birth_d))
+                return new ApiResult<DepositRep3>
                 {
-                    apiResult.ErrorCode = 2000;
-                    apiResult.Message = selLangBLL.GetMsg("msg_OTPHint");
-                    return apiResult;
-                }
+                    ErrorCode = checkResult.ErrorCode,
+                    Message = checkResult.Message
+                };
             }
 
             DepositRep3 depositRep3;
@@ -262,8 +235,64 @@ namespace MemberSite.Controllers.Api
 
             return apiResult;
         }
+
+        private ApiResult CheckDeposit(AuthData authData, decimal amount, bool hasPromotion)
+        {
+            if (authData is not { CustId: > 0 })
+            {
+                return new ApiResult
+                {
+                    ErrorCode = -1,
+                    Message = selLangBLL.GetMsg("msg_ForceLogedout")
+                };
+            }
+
+            //check AccountName first
+            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+            
+            if (custInfo.SiteId == (int)SiteId.Goal123 && custInfoBLL.GetCustBankInfo(authData.CustId) == null)
+            {
+                return new ApiResult
+                {
+                    ErrorCode = -2,
+                    Message = selLangBLL.GetMsg("msg_NeedAccountName")
+                };
+            }
+            
+            const int decimalPlaces = 0;
+            if (!HasThisManyDecimalPlacesOrLess(amount, decimalPlaces))
+            {
+                return new ApiResult
+                {
+                    ErrorCode = -5,
+                    Message = "Amount format is wrong."
+                };
+            }
+            
+            if (hasPromotion)
+            {
+                var custInfoProfile = custInfoBLL.GetCustInfoProfile(authData.CustId);
+                if (!custInfoProfile.PhoneVerified
+                    || string.IsNullOrEmpty(custInfoProfile.AccountName)
+                    || string.IsNullOrEmpty(custInfoProfile.Birth_y)
+                    || string.IsNullOrEmpty(custInfoProfile.Birth_m)
+                    || string.IsNullOrEmpty(custInfoProfile.Birth_d))
+                {
+                    return new ApiResult
+                    {
+                        ErrorCode = 2000,
+                        Message = selLangBLL.GetMsg("msg_OTPHint")
+                    };
+                }
+            }
+            
+            return new ApiResult
+            {
+                ErrorCode = 0
+            };
+        }
         
-        public class DepositReqFakeMobilePayReq
+        public class DepositReqLocalPayReq
         {
             public int GroupId { set; get; }
             public decimal Amount { set; get; }
@@ -271,50 +300,70 @@ namespace MemberSite.Controllers.Api
         }
         
         [HttpPost]
-        public ApiResult<FakeMobilePayResp> DepositReqFakeMobilePayAsync(DepositReqFakeMobilePayReq req)
+        public ApiResult<LocalPayResp> DepositReqLocalPayAsync(DepositReqLocalPayReq req)
         {
             var authData = authorizeBLL.GetAuthData();
             var custId = authData.CustId;
             var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
+            var localPayment = bankInfoOffBLL.GetLocalPaymentSettingWithCache()
+                .FirstOrDefault(x => x.GroupId == req.GroupId);
+            
+            if (localPayment == null)
+            {
+                return new ApiResult<LocalPayResp>
+                {
+                    ErrorCode = -1,
+                    RawMessage = "No available channels."
+                };
+            }
+            
             var cards = bankInfoOffBLL.GetOfflineBankCardListWithCache(custId)
-                .Where(x => x.SupportQR && req.Amount >= x.MinAmount && req.Amount <= x.MaxAmount)
+                .Where(x => x.SupportQR
+                            && x.GroupId == req.GroupId
+                            && req.Amount >= x.MinAmount
+                            && req.Amount <= x.MaxAmount)
                 .ToList();
-            var hasPromotion = _promotionBll.VerifyBonusCode(req.BonusCode);
 
             if (!cards.Any())
             {
-                return new ApiResult<FakeMobilePayResp>
+                return new ApiResult<LocalPayResp>
                 {
-                    ErrorCode = -1,
-                    RawMessage = "No bank card available for BankQR"
+                    ErrorCode = -2,
+                    RawMessage = "No available channels."
                 };
             }
             
+            var hasPromotion = _promotionBll.VerifyBonusCode(req.BonusCode);
+            var checkResult = CheckDeposit(authData, req.Amount, hasPromotion);
+
+            if (checkResult.ErrorCode != 0)
+            {
+                return new ApiResult<LocalPayResp>
+                {
+                    ErrorCode = checkResult.ErrorCode,
+                    RawMessage = checkResult.Message
+                };
+            }
+
             // 隨機配卡
             var random = new Random();
             var card = cards[random.Next(cards.Count - 1)];
-            var fakeReq = new DepositReqWireTransferReq
+            var (errorCode, message) = paymentBLL.DepositReqLocalBank(new DepositReqLocalPayModel
             {
-                amount = req.Amount,
-                memo = "Fake MobilePay",
-                fromChannel = req.GroupId,
-                sysId = card.SysId,
-                hasPromotion = hasPromotion
-            };
-
-            var depositResult = DepositReqWireTransfer(fakeReq);
+                Amount = req.Amount,
+                CustId = custId,
+                BankId = card.BankId
+            }, out var transId, out var code);
             
-            if (depositResult.ErrorCode != 0)
+            if (errorCode != 0)
             {
-                return new ApiResult<FakeMobilePayResp>
+                return new ApiResult<LocalPayResp>
                 {
-                    ErrorCode = -2,
-                    RawErrorCode = depositResult.ErrorCode.ToString(),
-                    RawMessage = depositResult.Message
+                    ErrorCode = errorCode,
+                    RawMessage = message
                 };
             }
 
-            var transId = depositResult.Data.TransId;
             if (hasPromotion)
             {
                 if (!_promotionBll.SetDepositPromotionQueue(
@@ -331,13 +380,14 @@ namespace MemberSite.Controllers.Api
                 };
             }
             
-            return new ApiResult<FakeMobilePayResp>
+            return new ApiResult<LocalPayResp>
             {
-                Data = new FakeMobilePayResp
+                Data = new LocalPayResp
                 {
                     Amount = req.Amount,
                     ReturnUrl = card.QRCodeUrl,
-                    TransId = transId
+                    TransId = transId,
+                    Code = code
                 },
                 ErrorCode = 0
             };
