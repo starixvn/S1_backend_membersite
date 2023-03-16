@@ -6,6 +6,6 @@ namespace MemberSiteTests.Stubs
 {
     public class StubStartUp : Startup
     {
-        public StubStartUp(IConfiguration configuration, IHostEnvironment environment) : base( configuration, environment) { }
+        public StubStartUp(IConfiguration configuration, IHostEnvironment environment) : base( configuration) { }
     }
 }

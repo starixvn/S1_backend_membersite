@@ -145,7 +145,6 @@ namespace MemberSite
             services.AddSingleton<StoreBLL>();
             services.AddSingleton<CasinoBll>();
             services.AddSingleton<CommonBLL>();
-            services.AddSingleton<TemplateBLL>();
             services.AddSingleton<AuthBLL>();
             services.AddSingleton<BannerBLL>();
             services.AddSingleton<BonusWalletBLL>();
