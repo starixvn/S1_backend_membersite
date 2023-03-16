@@ -84,9 +84,9 @@ namespace MemberSite.Service.BLL
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(3)),
                 i => _messageService.GetAnnouncement(LangCode, DefaultLangCode, LimitRow, IsTest, SiteId));
         }
-        public int SendMessage(int siteId, string sender, string title, string content, int custId, string CustUserName, string lang)
+        public Task<int> SendMessage(int custId, string lang, string title, string content)
         {
-            return _messageService.SendMessage(siteId, sender, title, content, custId, CustUserName, lang);
+            return _messageService.SendMessage(custId, lang, title, content);
         }
 
         public async void SendMessage(Message message)
