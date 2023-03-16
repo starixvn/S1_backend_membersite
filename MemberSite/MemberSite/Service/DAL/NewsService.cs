@@ -15,9 +15,9 @@ namespace MemberSite.Service.DAL
             _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
         }
 
-        public News GetNewsById(int SiteId, int NewsId)
+        public Task<News> GetNewsById(int SiteId, int NewsId)
         {
-            return _reportDbClient.QueryFirst<News>("Member_News_GetById", new { SiteId, NewsId });
+            return _reportDbClient.QueryFirstAsync<News>("Member_News_GetById", new { SiteId, NewsId });
         }
 
         public IEnumerable<News> GetNews(int SiteId, int pageSize, ref int pageNumber, out int totalPages, out int rowCount)

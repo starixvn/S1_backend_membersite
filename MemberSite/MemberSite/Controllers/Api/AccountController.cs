@@ -38,6 +38,7 @@ namespace MemberSite.Controllers.Api
         private readonly ILogger<AccountController> _logger;
         private readonly CheckAttackBLL _checkAttackBll;
         private readonly ICacheHelper _cacheHelper;
+        private readonly ServerInfoBll _serverInfoBll;
 
         public AccountController(IServiceProvider provider)
         {
@@ -60,6 +61,7 @@ namespace MemberSite.Controllers.Api
             _logger = provider.GetRequiredService<ILogger<AccountController>>();
             _cacheHelper = provider.GetRequiredService<ICacheHelper>();
             _checkAttackBll = provider.GetRequiredService<CheckAttackBLL>();
+            _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
         }
 
         [HttpPost]
@@ -418,7 +420,11 @@ namespace MemberSite.Controllers.Api
             }
             var pageNumber = msgReq.PageNumber;
             var pageSize = msgReq.PageSize == 0 ? 5 : msgReq.PageSize;
-            apiResult.Data = _messageBll.GetMsgList(authData.CustId, pageSize, ref pageNumber, out var totalPages, out var rowCount);
+            var serverInfo = _serverInfoBll.GetServerInfo();
+            var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+            var language = LanguageObject.Create(custInfo.CurrencyId, custInfo.UserLang, serverInfo.DefLang);
+
+            apiResult.Data = _messageBll.GetMsgList(authData.CustId, language, pageSize, ref pageNumber, out var totalPages, out var rowCount);
             apiResult.PageNumber = pageNumber;
             apiResult.TotalPages = totalPages;
             apiResult.RowCount = rowCount;
@@ -433,7 +439,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult<MsgContent> GetMsgContent(MsgContentReq msgContentReq)
+        public async Task<ApiResult<MsgContent>> GetMsgContent(MsgContentReq msgContentReq)
         {
             var apiResult = new ApiResult<MsgContent>();
             var authData = _authorizeBll.GetAuthData();
@@ -442,8 +448,11 @@ namespace MemberSite.Controllers.Api
                 apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
                 return apiResult;
             }
+            var serverInfo = _serverInfoBll.GetServerInfo();
+            var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+            var language = LanguageObject.Create(custInfo.CurrencyId, custInfo.UserLang, serverInfo.DefLang);
 
-            apiResult.Data = _messageBll.GetMsgContent(authData.CustId, msgContentReq.MsgId, msgContentReq.IsBatch);
+            apiResult.Data = await _messageBll.GetMsgContent(authData.CustId, language, msgContentReq.MsgId, msgContentReq.IsBatch);
             apiResult.ErrorCode = 0;
             return apiResult;
         }
