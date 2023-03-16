@@ -14,14 +14,14 @@ namespace MemberSite.Service.BLL
             this.newsService = newsService;
         }
 
-        public News GetNewsById(int siteId, int newsId, LanguageObject language)
+        public async Task<News> GetNewsById(int siteId, int newsId, LanguageObject language)
         {
-            var data = newsService.GetNewsById(siteId, newsId);
+            var data = await newsService.GetNewsById(siteId, newsId);
             if(data != null)
             {
-                data.Title = JsonContentParser.ParseByLanguage(data.Title, language.LanguageCode, language.DefaultLanguage);
-                data.Content = JsonContentParser.ParseByLanguage(data.Content, language.LanguageCode, language.DefaultLanguage);
-                data.ImageURL = JsonContentParser.ParseByLanguage(data.ImageURL, language.LanguageCode, language.DefaultLanguage);
+                data.Title = JsonContentParser.Parse(data.Title, language.LanguageCode, language.DefaultLanguage);
+                data.Content = JsonContentParser.Parse(data.Content, language.LanguageCode, language.DefaultLanguage);
+                data.ImageURL = JsonContentParser.Parse(data.ImageURL, language.LanguageCode, language.DefaultLanguage);
             }
 
             return data;
@@ -32,9 +32,9 @@ namespace MemberSite.Service.BLL
             var datas = newsService.GetNews(siteId, pageSize, ref pageNumber, out totalPages, out rowCount);
             foreach (var data in datas)
             {
-                data.Title = JsonContentParser.ParseByLanguage(data.Title, language.LanguageCode, language.DefaultLanguage);
-                data.Content = JsonContentParser.ParseByLanguage(data.Content, language.LanguageCode, language.DefaultLanguage);
-                data.ImageURL = JsonContentParser.ParseByLanguage(data.ImageURL, language.LanguageCode, language.DefaultLanguage);
+                data.Title = JsonContentParser.Parse(data.Title, language.LanguageCode, language.DefaultLanguage);
+                data.Content = JsonContentParser.Parse(data.Content, language.LanguageCode, language.DefaultLanguage);
+                data.ImageURL = JsonContentParser.Parse(data.ImageURL, language.LanguageCode, language.DefaultLanguage);
             }
 
             return datas;

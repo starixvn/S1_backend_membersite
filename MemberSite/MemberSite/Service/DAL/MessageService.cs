@@ -38,16 +38,18 @@ namespace MemberSite.Service.DAL
             p.Add("RowCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
             p.Add("StartIndex", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
-            var msgList = _reportClient.Query<Msg>("MsgList_Get_V2", p);
+            var msgList = _reportClient.Query<Msg>("MsgList_Get_V3", p);
             totalPages = p.Get<int?>("TotalPages") ?? 0;
             pageNumber = p.Get<int?>("PageNumber") ?? 0;
             rowCount = p.Get<int?>("RowCount") ?? 0;
             return msgList;
         }
         
-        public MsgContent GetMsgContent(int custId, int msgId, int isBatch)
+        public async Task<MsgContent> GetMsgContent(int custId, int msgId, int isBatch)
         {
-            var msgContent = _mainDbClient.QueryFirst<MsgContent>("MsgContent_Get_V2", new { MsgId = msgId, CustId = custId, IsBatch = isBatch });
+            var msgContent = await  _mainDbClient.QueryFirstAsync<MsgContent>(
+                "MsgContent_Get_V3",
+                new { MsgId = msgId, CustId = custId, IsBatch = isBatch });
             return msgContent;
         }
 
@@ -78,9 +80,9 @@ namespace MemberSite.Service.DAL
             return _reportClient.Query<Announcement>("Member_Announcement_Get", new { DefaultLangCode, LangCode, LimitRow, IsTest, SiteId });
         }
         
-        public int SendMessage(int siteId, string sender, string title, string content, int custId, string CustUserName, string lang)
+        public async Task<int> SendMessage(int custId, string lang, string title, string content)
         {
-            return _mainDbClient.Execute("Msg_Ins", new { Type = 99, SiteId = siteId, LangId = lang, RecipientCustId = custId, Recipient = CustUserName, SenderCustId = siteId, Sender = sender, Title = title, Content = content, MainId = 0 });
+            return await _mainDbClient.ExecuteAsync("Member_CustBatchMessage_Ins", new { _CustId = custId, _LangId = lang, _Title = title, _Content = content });
         }
 
         public async Task<int> SendMessageAsync(Message message)
