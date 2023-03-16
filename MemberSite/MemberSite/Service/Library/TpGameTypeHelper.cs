@@ -1,9 +1,5 @@
 ﻿using MemberSite.Service.Model;
 using MemberSite.Service.Model.Options;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MemberSite.Service.Library
 {
@@ -31,7 +27,6 @@ namespace MemberSite.Service.Library
                 { "25", GetV8GameType},
                 { "33", GetTCGGameType},
                 { "35", GetMPGameType}
-
             };        
         }
 
