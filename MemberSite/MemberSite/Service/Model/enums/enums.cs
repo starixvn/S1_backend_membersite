@@ -225,7 +225,8 @@ namespace MemberSite.Service.Model.enums
         JILI = 32,
         TCG = 33,
         MG = 34,
-        MP = 35
+        MP = 35,
+        SBSW = 41
     }
     public enum GameType
     {
@@ -323,11 +324,13 @@ namespace MemberSite.Service.Model.enums
         Promotion = 0,
         Deposit = 1
     }
+
     public enum OTPType
     {
         SMS = 0,
         Email = 1
     }
+    
     public enum CurrencyId
     {
         MYR = 2,
@@ -340,13 +343,6 @@ namespace MemberSite.Service.Model.enums
         BDT = 74,
         USDT = 96
     }
-    public enum DeviceId
-    {
-        Old = 0,
-        Desktop = 1,
-        H5 = 2,
-        APP = 3
-    }
 
     public enum CryptoCurrencyId
     {
@@ -354,6 +350,14 @@ namespace MemberSite.Service.Model.enums
         USDC = 97,
         ETH = 98,
         BTC = 99
+    }
+    
+    public enum DeviceId
+    {
+        Old = 0,
+        Desktop = 1,
+        H5 = 2,
+        APP = 3
     }
     public enum DeepLinkType
     {
@@ -379,14 +383,13 @@ namespace MemberSite.Service.Model.enums
         Restore = 1,
         Manual = 2,
     }
-
     public enum PromotionDeviceType
     {
         All = 1,
         Web = 2,
         App = 3
     }
-
+    
     public enum LineLoginErrorCode
     {
         Success = 0,
@@ -476,6 +479,27 @@ namespace MemberSite.Service.Model.enums
         Finished = 2,
         UnStarted = 3
     }
+    public enum RedemptionErrorCode
+    {
+        InsufficientPoint = -1001,
+        RedemptionLimitOverLimit = -1002
+    }
+
+
+    public enum PointTypeEnum
+    {
+        Deposit = 1,
+        Turnover = 2,
+        /// <summary>
+        /// 兌換物品
+        /// </summary>
+        Redemption = 3,
+        /// <summary>
+        /// 手動
+        /// </summary>
+        Manual = 4,
+        System = 5
+    }
     public enum CustEWalletDetailLogStatus
     {
         Create = 1,
@@ -500,29 +524,7 @@ namespace MemberSite.Service.Model.enums
     {
         Disable = 0,
         Able = 1,
-    }
-
-    public enum RedemptionErrorCode
-    {
-        InsufficientPoint = -1001,
-        RedemptionLimitOverLimit = -1002
-    }
-
-
-    public enum PointTypeEnum
-    {
-        Deposit = 1,
-        Turnover = 2,
-        /// <summary>
-        /// 兌換物品
-        /// </summary>
-        Redemption = 3,
-        /// <summary>
-        /// 手動
-        /// </summary>
-        Manual = 4,
-        System = 5
-    }
+	}
 
     public enum OfflineBankAccountPurposeEnum
     {
@@ -578,6 +580,11 @@ namespace MemberSite.Service.Model.enums
         WrongBankSubmitted = 5,
         InactiveBankAccountSubmission = 6
     }
+
+    public enum CustTagEnum
+    {
+        Duplicate = 6
+    }
     public enum WithdrawalMessageStatus
     {
         WithdrawalAccountsNameUnmatch = 0,
@@ -585,10 +592,16 @@ namespace MemberSite.Service.Model.enums
         WithdrawalAccountAannotReceiveMoney = 2,
         BeneficiarysAccountMaintenance = 3
     }
-
-    public enum CustTagEnum
+    public enum ExchangeTypeEnum
     {
-        Duplicate = 6
+        /// <summary>
+        /// 我方賣出(玩家提款)
+        /// </summary>
+        Sell = 0,
+        /// <summary>
+        /// 我方買入(玩家存款)
+        /// </summary>
+        Buy = 1
     }
 
     public enum CustCryptoWalletDetailStatus
@@ -603,5 +616,11 @@ namespace MemberSite.Service.Model.enums
         Delete = 2,
         Lock = 3,
         Unlock = 4
+    }
+    
+    public enum WithdrawalLimitLogCreateFromEnum 
+    {
+        Default = 0,
+        DrawPrize = 7
     }
 }

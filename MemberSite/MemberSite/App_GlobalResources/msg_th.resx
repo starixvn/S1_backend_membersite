@@ -380,27 +380,6 @@
   <data name="msg_NotInLimit" xml:space="preserve">
     <value>จำนวนเงินมากกว่าหรือน้อยกว่าที่กำหนดไว้</value>
   </data>
-  <data name="msg_congratulation_event_reward" xml:space="preserve">
-    <value>ยินดีด้วยค่ะ! คุณได้รับอั่งเปาจำนวน {0}</value>
-  </data>
-  <data name="msg_keep_up" xml:space="preserve">
-    <value>ขอให้โชคดีในการเขย่าครั้งต่อไป</value>
-  </data>
-  <data name="msg_limit_has_been_reached" xml:space="preserve">
-    <value>ขออภัยค่ะ เต็มจำนวนจำกัดสำหรับวันนี้แล้ว</value>
-  </data>
-  <data name="msg_turnover_not_enough" xml:space="preserve">
-    <value>คุณยังไม่เริ่มเดิมพันขั้นต่ำ ไม่สามารถเข้าร่วมได้ค่ะ</value>
-  </data>
-  <data name="msg_times_chance" xml:space="preserve">
-    <value>มีโอกาส {0} เท่า</value>
-  </data>
-  <data name="msg_ProfileOrPhoneNotFinish" xml:space="preserve">
-    <value>ข้อมูลบัญชีไม่ครบถ้วน กรุณาทำการยืนยันบัญชีของท่าน</value>
-  </data>
-  <data name="msg_Event_has_not_started" xml:space="preserve">
-    <value>เหตุการณ์ยังไม่เริ่ม</value>
-  </data>
   <data name="msg_DepositorsNameUnmatch" xml:space="preserve">
     <value>ชื่อผู้ฝากไม่ตรง</value>
   </data>
@@ -424,6 +403,27 @@
   </data>
   <data name="msg_DepositRefunded_Detail" xml:space="preserve">
     <value>คืนยอดเงินฝากเรียบร้อยแล้ว โปรดทำการตรวจสอบบัญชีธนาคารของคุณ</value>
+  </data>
+  <data name="msg_congratulation_event_reward" xml:space="preserve">
+    <value>ยินดีด้วยค่ะ! คุณได้รับอั่งเปาจำนวน {0}</value>
+  </data>
+  <data name="msg_keep_up" xml:space="preserve">
+    <value>ขอให้โชคดีในการเขย่าครั้งต่อไป</value>
+  </data>
+  <data name="msg_limit_has_been_reached" xml:space="preserve">
+    <value>ขออภัยค่ะ เต็มจำนวนจำกัดสำหรับวันนี้แล้ว</value>
+  </data>
+  <data name="msg_turnover_not_enough" xml:space="preserve">
+    <value>คุณยังไม่เริ่มเดิมพันขั้นต่ำ ไม่สามารถเข้าร่วมได้ค่ะ</value>
+  </data>
+  <data name="msg_times_chance" xml:space="preserve">
+    <value>มีโอกาส {0} เท่า</value>
+  </data>
+  <data name="msg_ProfileOrPhoneNotFinish" xml:space="preserve">
+    <value>ข้อมูลบัญชีไม่ครบถ้วน กรุณาทำการยืนยันบัญชีของท่าน</value>
+  </data>
+  <data name="msg_Event_has_not_started" xml:space="preserve">
+    <value>เหตุการณ์ยังไม่เริ่ม</value>
   </data>
   <data name="msg_WithdrawalAccountNumberIncorrect" xml:space="preserve">
     <value>หมายเลขบัญชีถอนเงินไม่ถูกต้อง</value>

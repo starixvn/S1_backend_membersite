@@ -900,7 +900,9 @@ namespace MemberSite.Controllers.Api
                         .SetFilenameExtension("jpg")
                         .FileName;
 
-                    var result = await paymentBLL.SetDepositReceiptPic(authData.CustId, depositReceipt.TransId, fileName, fileBytes);
+                    var receipts = paymentBLL.GetDepositReceipt(depositReceipt.TransId,authData.CustId);
+                    var receiptNo = receipts.Any() ? receipts.Max(x => x.ReceiptNo) + 1 : 1 ;
+                    var result = await paymentBLL.SetDepositReceiptPic(authData.CustId, depositReceipt.TransId,receiptNo, fileName, fileBytes,authData.UserName);
 
                     if (result > 0)
                     {
@@ -1309,10 +1311,10 @@ namespace MemberSite.Controllers.Api
 
         public class GetExchangeReq
         {
-            public int PayId { get; set; }
             public string CurrencyName { get; set; }
             public string Network { get; set; }
             public decimal Amount { get; set; }
+            public ExchangeTypeEnum Type { get; set; }
         }
 
         [HttpPost]
@@ -1325,17 +1327,24 @@ namespace MemberSite.Controllers.Api
                 apiResult.Message = selLangBLL.GetMsg("msg_ForceLogedout");
                 return apiResult;
             }
-            var payId = 22; // 先留著讓新舊相容
+            
+            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             var channelName =
                 getExchangeReq.CurrencyName == getExchangeReq.Network
                     ? getExchangeReq.CurrencyName
                     : $"{getExchangeReq.CurrencyName}-{getExchangeReq.Network}";
 
-            var result = await cryptoPayInfoBLL.GetExchangeInfoAsync(authData.CustId,
-                getExchangeReq.Amount, payId, channelName);
+            var result = await cryptoPayInfoBLL.GetExchangeInfoAsync(custInfo.SiteId, custInfo.CurrencyId,
+                getExchangeReq.Amount, channelName, getExchangeReq.Type);
+            
             if (result is { Data: { } })
             {
-                apiResult.Data = result.Data.formData;
+                apiResult.Data = new ExchangeInfo
+                {
+                    Rate = result.Data.Rate,
+                    To_Amount = result.Data.ExchangeAmount,
+                    Updated_timestamp = result.Data.Timestamp
+                };
                 apiResult.ErrorCode = result.ErrorCode;
             }
             return apiResult;

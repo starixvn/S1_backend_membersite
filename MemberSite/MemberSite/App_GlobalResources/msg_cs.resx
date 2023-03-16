@@ -370,27 +370,6 @@
   <data name="msg_NotInLimit" xml:space="preserve">
     <value>不在设定范围</value>
   </data>
-  <data name="msg_congratulation_event_reward" xml:space="preserve">
-    <value>恭喜您！获得{0}金额</value>
-  </data>
-  <data name="msg_keep_up" xml:space="preserve">
-    <value>再接再厲!</value>
-  </data>
-  <data name="msg_limit_has_been_reached" xml:space="preserve">
-    <value>今日次数已达上限</value>
-  </data>
-  <data name="msg_turnover_not_enough" xml:space="preserve">
-    <value>未完成所需流水，无法参与此优惠。</value>
-  </data>
-  <data name="msg_times_chance" xml:space="preserve">
-    <value>你還有{0}次抽獎機會</value>
-  </data>
-  <data name="msg_ProfileOrPhoneNotFinish" xml:space="preserve">
-    <value>未完善账户信息，请先完善账户信息</value>
-  </data>
-  <data name="msg_Event_has_not_started" xml:space="preserve">
-    <value>活动还没开始</value>
-  </data>
   <data name="msg_DepositorsNameUnmatch" xml:space="preserve">
     <value>存款人姓名不符</value>
   </data>
@@ -414,6 +393,27 @@
   </data>
   <data name="msg_DepositRefunded_Detail" xml:space="preserve">
     <value>存款金额已退还，恳请查看户口。</value>
+  </data>
+  <data name="msg_congratulation_event_reward" xml:space="preserve">
+    <value>恭喜您！获得{0}金额</value>
+  </data>
+  <data name="msg_keep_up" xml:space="preserve">
+    <value>再接再厲!</value>
+  </data>
+  <data name="msg_limit_has_been_reached" xml:space="preserve">
+    <value>今日次数已达上限</value>
+  </data>
+  <data name="msg_turnover_not_enough" xml:space="preserve">
+    <value>未完成所需流水，无法参与此优惠。</value>
+  </data>
+  <data name="msg_times_chance" xml:space="preserve">
+    <value>你還有{0}次抽獎機會</value>
+  </data>
+  <data name="msg_ProfileOrPhoneNotFinish" xml:space="preserve">
+    <value>未完善账户信息，请先完善账户信息</value>
+  </data>
+  <data name="msg_Event_has_not_started" xml:space="preserve">
+    <value>活动还没开始</value>
   </data>
   <data name="msg_WithdrawalAccountNumberIncorrect" xml:space="preserve">
     <value>提款账户有误</value>

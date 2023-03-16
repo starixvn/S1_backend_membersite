@@ -397,6 +397,7 @@
   </data>
   <data name="msg_DepositRefunded_Detail" xml:space="preserve">
     <value>जमा राशि वापस कर दी गई है, कृपया अपना बैंक खाता देखें</value>
+    <value>&gt;</value>
   </data>
   <data name="msg_WithdrawalAccountNumberIncorrect" xml:space="preserve">
     <value>विथड्रावल अकाउंट नंबर गलत है</value>
