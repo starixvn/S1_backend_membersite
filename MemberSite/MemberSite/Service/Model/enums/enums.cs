@@ -577,7 +577,8 @@ namespace MemberSite.Service.Model.enums
         PaymentNotReceived = 2,
         DepositRefunded = 3,
         WrongAmountSubmitted = 4,
-        WrongBankSubmitted = 5
+        WrongBankSubmitted = 5,
+        InactiveBankAccountSubmission = 6
     }
 
     public enum CustTagEnum
