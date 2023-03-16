@@ -2,6 +2,8 @@
 using MemberSite.Service.Model;
 using Microsoft.Extensions.Caching.Memory;
 using MemberSite.Service.Library;
+using System.Data;
+using MemberSite.Extensions;
 
 namespace MemberSite.Service.BLL
 {
@@ -15,15 +17,26 @@ namespace MemberSite.Service.BLL
             _messageService = provider.GetRequiredService<MessageService>();
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
         }
-        public IEnumerable<Msg> GetMsgList(int custId, int pageSize, ref int pageNumber, out int totalPages, out int rowCount)
+        public IEnumerable<Msg> GetMsgList(int custId, LanguageObject language, int pageSize, ref int pageNumber, out int totalPages, out int rowCount)
         {
-            totalPages = 0;
-            return _messageService.GetMsgList(custId, pageSize, ref pageNumber, out totalPages, out rowCount);
+            var msgList = _messageService.GetMsgList(custId, pageSize, ref pageNumber, out totalPages, out rowCount);
+            foreach (var msg in msgList)
+            {
+                msg.Title = msg.Title.IsJson() ? JsonContentParser.ParseByJObject(msg.Title, language.LanguageCode, language.DefaultLanguage, "Title") : msg.Title;
+            }
+            return msgList;
         }
 
-        public MsgContent GetMsgContent(int custId, int msgId, int isBatch)
+        public async Task<MsgContent> GetMsgContent(int custId, LanguageObject language, int msgId, int isBatch)
         {
-            return _messageService.GetMsgContent(custId, msgId, isBatch);
+            var msg = await _messageService.GetMsgContent(custId, msgId, isBatch);
+            if (msg != null) 
+            {
+                msg.Content = msg.Content.IsJson() ? 
+                    JsonContentParser.ParseByJObject(msg.Content, language.LanguageCode, language.DefaultLanguage, "Content") :
+                    msg.Content;
+            }
+            return msg;
         }
 
         public async Task<PopupMsg> GetPopupMessage(int custId)

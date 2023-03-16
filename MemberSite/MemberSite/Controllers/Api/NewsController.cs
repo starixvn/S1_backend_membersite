@@ -70,7 +70,7 @@ namespace MemberSite.Controllers.Api
             public int NewsId { get; set; }
         }
 
-        public ApiResult<News> GetNewsById(ParamNewsById newsReq)
+        public async Task<ApiResult<News>> GetNewsById(ParamNewsById newsReq)
         {
             var result = new ApiResult<News>();
 
@@ -85,7 +85,7 @@ namespace MemberSite.Controllers.Api
                 var serverInfo = _serverInfoBll.GetServerInfo();
                 var language = LanguageObject.Create(newsReq.CurrencyId, _selLangBll.GetLangId(), serverInfo.DefLang);
 
-                result.Data = _newsBLL.GetNewsById(serverInfo.SiteId, newsReq.NewsId, language);
+                result.Data = await _newsBLL.GetNewsById(serverInfo.SiteId, newsReq.NewsId, language);
                 result.ErrorCode = 0;
             }
             catch (Exception ex)

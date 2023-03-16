@@ -38,16 +38,18 @@ namespace MemberSite.Service.DAL
             p.Add("RowCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
             p.Add("StartIndex", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
-            var msgList = _reportClient.Query<Msg>("MsgList_Get_V2", p);
+            var msgList = _reportClient.Query<Msg>("MsgList_Get_V3", p);
             totalPages = p.Get<int?>("TotalPages") ?? 0;
             pageNumber = p.Get<int?>("PageNumber") ?? 0;
             rowCount = p.Get<int?>("RowCount") ?? 0;
             return msgList;
         }
         
-        public MsgContent GetMsgContent(int custId, int msgId, int isBatch)
+        public async Task<MsgContent> GetMsgContent(int custId, int msgId, int isBatch)
         {
-            var msgContent = _mainDbClient.QueryFirst<MsgContent>("MsgContent_Get_V2", new { MsgId = msgId, CustId = custId, IsBatch = isBatch });
+            var msgContent = await  _mainDbClient.QueryFirstAsync<MsgContent>(
+                "MsgContent_Get_V3",
+                new { MsgId = msgId, CustId = custId, IsBatch = isBatch });
             return msgContent;
         }
 

@@ -22,8 +22,8 @@ namespace MemberSite.Service.BLL
             var announcements = await _announcementService.GetAnnouncement(siteId, LimitRow, !_environment.IsProduction());
             foreach (var announcement in announcements)
             {
-                announcement.Subject = JsonContentParser.ParseByLanguage(announcement.Subject, language.LanguageCode, language.DefaultLanguage);
-                announcement.Content = JsonContentParser.ParseByLanguage(announcement.Content, language.LanguageCode, language.DefaultLanguage);
+                announcement.Subject = JsonContentParser.Parse(announcement.Subject, language.LanguageCode, language.DefaultLanguage);
+                announcement.Content = JsonContentParser.Parse(announcement.Content, language.LanguageCode, language.DefaultLanguage);
             }
 
             return announcements;
