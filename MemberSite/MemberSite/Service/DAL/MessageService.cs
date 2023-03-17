@@ -28,21 +28,23 @@ namespace MemberSite.Service.DAL
             return await _mainDbClient.ExecuteAsync("Member_PopupMsgRead_Set", p) > 0;
         }
 
-        public IEnumerable<Msg> GetMsgList(int custId, int pageSize, ref int pageNumber, out int totalPages, out int rowCount)
+        public async Task<DataWithPage<Msg>> GetMsgList(int custId, int pageSize, int pageNumber)
         {
-            totalPages = 0;
-            
             var p = new DynamicParameters(new { CustId = custId, PageSize = pageSize });
             p.Add("PageNumber", pageNumber, dbType: DbType.Int32, direction: ParameterDirection.InputOutput);
             p.Add("TotalPages", dbType: DbType.Int32, direction: ParameterDirection.Output);
             p.Add("RowCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
             p.Add("StartIndex", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
-            var msgList = _reportClient.Query<Msg>("MsgList_Get_V3", p);
-            totalPages = p.Get<int?>("TotalPages") ?? 0;
-            pageNumber = p.Get<int?>("PageNumber") ?? 0;
-            rowCount = p.Get<int?>("RowCount") ?? 0;
-            return msgList;
+            var msgList = await _reportClient.QueryAsync<Msg>("MsgList_Get_V3", p);
+
+            return new DataWithPage<Msg>() 
+            {
+                Data = msgList,
+                PageNumber = p.Get<int?>("PageNumber") ?? 0,
+                TotalPages = p.Get<int?>("TotalPages") ?? 0,
+                RowCount = p.Get<int?>("RowCount") ?? 0
+            };
         }
         
         public async Task<MsgContent> GetMsgContent(int custId, int msgId, int isBatch)
