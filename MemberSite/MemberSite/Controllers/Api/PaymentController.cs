@@ -352,7 +352,8 @@ namespace MemberSite.Controllers.Api
             {
                 Amount = req.Amount,
                 CustId = custId,
-                BankId = card.BankId
+                BankId = card.BankId,
+                Type = localPayment.Type
             }, out var transId, out var code);
             
             if (errorCode != 0)
@@ -387,7 +388,8 @@ namespace MemberSite.Controllers.Api
                     Amount = req.Amount,
                     ReturnUrl = card.QRCodeUrl,
                     TransId = transId,
-                    Code = code
+                    Code = code,
+                    BankLogo = card.BankLogo
                 },
                 ErrorCode = 0
             };

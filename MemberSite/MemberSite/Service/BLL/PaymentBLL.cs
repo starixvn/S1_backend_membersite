@@ -79,10 +79,13 @@ namespace MemberSite.Service.BLL
                 UserName = custInfo.UserName,
                 CurrencyId = custInfo.CurrencyId
             };
-                
-            var random = new Random();
-            code = random.Next(0, 1000000).ToString("000000");
-                
+
+            if (req.Type == DepositType.QRPayPayment)
+            {
+                var random = new Random();
+                code = random.Next(0, 1000000).ToString("000000");
+            }
+            
             var depositInfo3_1 = new DepositInfo3_1
             {
                 AccountName = bankCardInfo.AccountName,

@@ -52,24 +52,40 @@ namespace MemberSite.Service.BLL
                 })
                 .Distinct(i => i.GroupId)
                 .ToList();
-            // BankQR
-            if (custInfo.CurrencyId == (int) CurrencyId.MYR && depositType == DepositType.MobilePayment)
-            {
-                var bankCards = _bankInfoOffBll.GetOfflineBankCardListWithCache(custId)
-                    .Where(x => x.SupportQR);
+          
+            var bankCards = _bankInfoOffBll.GetOfflineBankCardListWithCache(custId)
+                .Where(x => x.SupportQR
+                    && x.Type == depositType);
 
-                if (bankCards.Any())
-                {
-                    payGroupList.Add(new PayGroup
+            if (bankCards.Any())
+            {
+                var payGroups = bankCards.GroupBy(x => x.GroupId)
+                    .Select(x =>
                     {
-                        ChannelName = FakePayGroupEnum.DuitNowQR.GetDescription(),
-                        GroupId = (int) FakePayGroupEnum.DuitNowQR,
-                        GroupName = FakePayGroupEnum.DuitNowQR.ToString(),
-                        Mode = (int) PayModeEnum.QrCode,
-                        GSort = -1,
-                        MinAmount = bankCards.Min(x => x.MinAmount),
-                        MaxAmount = bankCards.Max(x => x.MaxAmount)
+                        var bankCard = x.First();
+                        return new PayGroup
+                        {
+                            GroupId = bankCard.GroupId,
+                            ChannelName = bankCard.GroupName,
+                            GroupName = bankCard.GroupName,
+                            Mode = (int) PayModeEnum.Redirect,
+                            GSort = -1,
+                            MinAmount = bankCards.Min(x => x.MinAmount),
+                            MaxAmount = bankCards.Max(x => x.MaxAmount)
+                        };
                     });
+
+                foreach (var payGroup in payGroups)
+                {
+                    var g = payGroupList.FirstOrDefault(x => x.GroupId == payGroup.GroupId);
+                    if (g == null)
+                    {
+                        payGroupList.Add(payGroup);
+                        continue;
+                    }
+                    
+                    g.MaxAmount = payGroup.MaxAmount > g.MaxAmount? payGroup.MaxAmount : g.MinAmount;
+                    g.MinAmount = payGroup.MinAmount < g.MinAmount? payGroup.MinAmount : g.MinAmount;
                 }
             }
             
@@ -92,30 +108,39 @@ namespace MemberSite.Service.BLL
             var depositLimitInfo = GetDepositLimitInfo(custInfo, vipLevel, depositType);
             if (depositLimitInfo?.DepositStatus == 0)
             {
-                return new List<PayInfo>();
+                return Array.Empty<PayInfo>();
             }
             
-            if (depositType == DepositType.MobilePayment && FakeMobilePay.FakeMobilePayInfoMap.Keys.Any(x => (int)x == groupId))
-            {
-                var bankCards = _bankInfoOffBll.GetOfflineBankCardListWithCache(custId)
-                    .Where(x => x.SupportQR);
-                
-                if (!bankCards.Any())
-                {
-                    return Array.Empty<PayInfo>();
-                }
-                
-                var payInfo = FakeMobilePay.FakeMobilePayInfoMap[(FakePayGroupEnum) groupId];
-                payInfo.MinAmount = bankCards.Min(x => x.MinAmount);
-                payInfo.MaxAmount = bankCards.Max(x => x.MaxAmount);
-                _depositBll.FixDepositLimit(payInfo, depositLimitInfo);
-                
-                return new[] { payInfo };
-            }
-
             var payInfoList = GetPayInfoList(custInfo.SiteId, depositType)
-                .Where(x => vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.GroupId == groupId);
+                .Where(x => vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.GroupId == groupId)
+                .ToList();
 
+            var bankCards = _bankInfoOffBll.GetOfflineBankCardListWithCache(custId)
+                .Where(x => x.SupportQR
+                    && x.Type == depositType);
+                
+            if (bankCards.Any())
+            {
+                var payInfos = bankCards.GroupBy(x => x.GroupId)
+                    .Select(x =>
+                    {
+                        var bankCard = x.First();
+                        return new PayInfo
+                        {
+                            ChannelId = -1,
+                            ChannelName = bankCard.GroupName,
+                            GSort = -1,
+                            Mode = (int) PayModeEnum.Redirect,
+                            GroupId = bankCard.GroupId,
+                            GroupName = bankCard.GroupName,
+                            MinAmount = bankCards.Min(x => x.MinAmount),
+                            MaxAmount = bankCards.Max(x => x.MaxAmount)
+                        };
+                    });
+                
+                payInfoList.AddRange(payInfos);
+            }
+            
             if (depositLimitInfo != null && payInfoList != null)
             {
                 foreach (var payInfo in payInfoList)

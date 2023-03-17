@@ -63,6 +63,7 @@ namespace MemberSite.Service.Model
         public decimal Amount { get; set; }
         public string ReturnUrl { set; get; }
         public string Code { set; get; }
+        public string BankLogo { set; get; }
     }
 
     public class DepositInfoHistory
@@ -173,5 +174,6 @@ namespace MemberSite.Service.Model
         public int CustId { get; set; }
         public decimal Amount { get; set; }
         public int BankId { get; set; }
+        public DepositType Type { get; set; }
     }
 }

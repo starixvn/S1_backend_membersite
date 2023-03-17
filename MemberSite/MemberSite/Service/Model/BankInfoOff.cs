@@ -66,6 +66,8 @@ namespace MemberSite.Service.Model
 
         public string QRCodeUrl { get; set; }
         public int GroupId { get; set; }
+        public string GroupName { get; set; }
+        public DepositType Type { get; set; }
     }
 
     public class OfflineBankAccountDailyDeposit

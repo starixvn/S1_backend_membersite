@@ -538,12 +538,6 @@ namespace MemberSite.Service.Model.enums
         BankQR = 2
     }
 
-    public enum FakePayGroupEnum
-    {
-        [Description("DuitNowQR")]
-        DuitNowQR = 53,
-    }
-
     public enum PayModeEnum
     {
         //開新視窗，將html內容置入

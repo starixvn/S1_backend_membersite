@@ -308,7 +308,10 @@ namespace MemberSite.Service.BLL
                     SupportQR = x.SupportChannel.Any(y => 
                         y is OfflineBankAccountSupportChannelEnum.EWallet or OfflineBankAccountSupportChannelEnum.BankQR),
                     MinAmount = x.MinAmount,
-                    MaxAmount = x.MaxAmount
+                    MaxAmount = x.MaxAmount,
+                    GroupId = x.GroupId,
+                    GroupName = x.GroupName,
+                    Type = x.Type
                 })
                 .ToList();
 

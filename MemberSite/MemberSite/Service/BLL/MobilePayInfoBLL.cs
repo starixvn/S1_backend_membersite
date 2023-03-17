@@ -1,5 +1,4 @@
-﻿using MemberSite.Extensions;
-using MemberSite.Service.DAL;
+﻿using MemberSite.Service.DAL;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using MemberSite.Service.Library;
@@ -70,30 +69,45 @@ namespace MemberSite.Service.BLL
                         MaxAmount = m.Max(y => y.MaxAmount)
                     };
                 }).ToList();
-                
-            if (custInfo.CurrencyId == (int) CurrencyId.MYR)
-            {
-                var bankCards = _bankInfoOffBll.GetOfflineBankCardListWithCache(custId)
-                    .Where(x => x.SupportQR);
+               
+            var bankCards = _bankInfoOffBll.GetOfflineBankCardListWithCache(custId)
+                .Where(x => x.SupportQR
+                    && x.Type == DepositType.MobilePayment);
 
-                if (bankCards.Any())
-                {
-                    mobilePayGroupList.Add(new MobilePayGroup
+            if (bankCards.Any())
+            {
+                var payGroups = bankCards.GroupBy(x => x.GroupId)
+                    .Select(x =>
                     {
-                        ChannelName = FakePayGroupEnum.DuitNowQR.GetDescription(),
-                        GroupId = (int) FakePayGroupEnum.DuitNowQR,
-                        GroupName = FakePayGroupEnum.DuitNowQR.ToString(),
-                        Mode = (int) PayModeEnum.QrCode,
-                        GSort = -1,
-                        MinAmount = bankCards.Min(x => x.MinAmount),
-                        MaxAmount = bankCards.Max(x => x.MaxAmount)
+                        var bankCard = x.First();
+                        return new MobilePayGroup
+                        {
+                            GroupId = bankCard.GroupId,
+                            GroupName = bankCard.GroupName,
+                            Mode = (int) PayModeEnum.Redirect,
+                            GSort = -1,
+                            MinAmount = bankCards.Min(x => x.MinAmount),
+                            MaxAmount = bankCards.Max(x => x.MaxAmount)
+                        };
                     });
+                
+                foreach (var payGroup in payGroups)
+                {
+                    var g = mobilePayGroupList.FirstOrDefault(x => x.GroupId == payGroup.GroupId);
+                    if (g == null)
+                    {
+                        mobilePayGroupList.Add(payGroup);
+                        continue;
+                    }
+                    
+                    g.MaxAmount = payGroup.MaxAmount > g.MaxAmount? payGroup.MaxAmount : g.MinAmount;
+                    g.MinAmount = payGroup.MinAmount < g.MinAmount? payGroup.MinAmount : g.MinAmount;
                 }
             }
             
             return mobilePayGroupList.OrderBy(x => x.GSort);
         }
-        
+
         public IEnumerable<MobilePayInfo> GetMobilePayInfoList(int custId, int groupId)
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);

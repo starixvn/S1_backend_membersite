@@ -1,4 +1,6 @@
-﻿namespace MemberSite.Service.Model
+﻿using MemberSite.Service.Model.enums;
+
+namespace MemberSite.Service.Model
 {
     public class BankInfoSys
     {
@@ -38,6 +40,8 @@
 
         public bool SupportQR { get; set; }
         public int GroupId { get; set; }
+        public string GroupName { get; set; }
+        public DepositType Type { get; set; }
     }
     public class OfflineBankInfoFront : SysBankInfoFront
     {
