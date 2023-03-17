@@ -422,7 +422,7 @@ namespace MemberSite.Controllers.Api
             var pageNumber = msgReq.PageNumber;
             var pageSize = msgReq.PageSize == 0 ? 5 : msgReq.PageSize;
             var serverInfo = _serverInfoBll.GetServerInfo();
-            var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+            var custInfo = _custInfoBll.GetCustInfo(authData.CustId);
             var language = LanguageObject.Create(custInfo.CurrencyId, custInfo.UserLang, serverInfo.DefLang);
 
             apiResult.Data = _messageBll.GetMsgList(authData.CustId, language, pageSize, ref pageNumber, out var totalPages, out var rowCount);
@@ -450,7 +450,7 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
             var serverInfo = _serverInfoBll.GetServerInfo();
-            var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+            var custInfo = _custInfoBll.GetCustInfo(authData.CustId);
             var language = LanguageObject.Create(custInfo.CurrencyId, custInfo.UserLang, serverInfo.DefLang);
 
             apiResult.Data = await _messageBll.GetMsgContent(authData.CustId, language, msgContentReq.MsgId, msgContentReq.IsBatch);
@@ -523,8 +523,10 @@ namespace MemberSite.Controllers.Api
                 apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
                 return apiResult;
             }
-
-            apiResult.Data = await _messageBll.GetPopupMessage(authData.CustId);
+            var serverInfo = _serverInfoBll.GetServerInfo();
+            var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+            var language = LanguageObject.Create(custInfo.CurrencyId, custInfo.UserLang, serverInfo.DefLang);
+            apiResult.Data = await _messageBll.GetPopupMessage(authData.CustId, language);
             apiResult.ErrorCode = 0;
             return apiResult;
         }
