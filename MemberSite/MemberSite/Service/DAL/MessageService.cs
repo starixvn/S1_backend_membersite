@@ -78,10 +78,11 @@ namespace MemberSite.Service.DAL
             return _reportClient.Query<Announcement>("Member_Announcement_Get", new { DefaultLangCode, LangCode, LimitRow, IsTest, SiteId });
         }
         
-        public async Task<int> SendMessage(int custId, string lang, string title, string content)
-        {
-            return await _mainDbClient.ExecuteAsync("Member_CustBatchMessage_Ins", new { _CustId = custId, _LangId = lang, _Title = title, _Content = content });
-        }
+        public async Task<int> SendMessage(string sender, int custId, string lang, string title, string content) =>
+            await _mainDbClient.ExecuteAsync(
+                "Member_CustBatchMessage_Ins",
+                new { _CustId = custId, _LangId = lang, _Title = title, _Content = content, _Sender = sender });
+
 
         public async Task<int> SendMessageAsync(Message message)
         {

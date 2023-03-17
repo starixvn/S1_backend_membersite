@@ -375,7 +375,7 @@ namespace MemberSite.Controllers.Api
                                 var prizeName = $"{currencyName} {dAmount}";
                                 var title = drawPrizeMessage.Tital;
                                 var msg = string.Format(drawPrizeMessage.Message, prizeName);
-                                await _messageBll.SendMessage(custInfo.CustId, custInfo.UserLang, title, msg);
+                                await _messageBll.SendMessage("System", custInfo.CustId, custInfo.UserLang, title, msg);
                             }
                             else
                             {
@@ -468,7 +468,7 @@ namespace MemberSite.Controllers.Api
                                 msg = string.Format(Message.Message, prizeName);
                             }
                         }
-                        await _messageBll.SendMessage(custInfo.CustId, custInfo.UserLang, Tital, msg);
+                        await _messageBll.SendMessage("System", custInfo.CustId, custInfo.UserLang, Tital, msg);
                     }
                     else
                     {
