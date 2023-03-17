@@ -464,4 +464,10 @@
   <data name="msg_CryptoWalletDuplicate" xml:space="preserve">
     <value>กระเป๋าคริปโตได้ลงทะเบียนไว้เรียบร้อยแล้ว</value>
   </data>
+  <data name="msg_InactiveBankAccountSubmission" xml:space="preserve">
+    <value>บัญชีธนาคารที่ไม่ได้ใช้งาน</value>
+  </data>
+  <data name="msg_InactiveBankAccountSubmission_Detail" xml:space="preserve">
+    <value>บัญชีธนาคารมีการเปลี่ยนแปลง กรุณาตรวจสอบบัญชีธนาคารที่หน้าเว็บไซต์ก่อนทำรายการ</value>
+  </data>
 </root>
