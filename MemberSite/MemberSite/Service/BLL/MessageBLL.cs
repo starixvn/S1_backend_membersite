@@ -39,9 +39,11 @@ namespace MemberSite.Service.BLL
             return msg;
         }
 
-        public async Task<PopupMsg> GetPopupMessage(int custId)
+        public async Task<PopupMsg> GetPopupMessage(int custId, LanguageObject language)
         {
-            return await _messageService.GetPopupMessage(custId);
+            var popupMsg = await _messageService.GetPopupMessage(custId);
+            popupMsg.PopupMessage = JsonContentParser.ParseByJObject(popupMsg.PopupMessage, language.LanguageCode, language.DefaultLanguage, "PopupMessage");
+            return popupMsg;
         }
 
         public bool SetMsgRead(int custId, List<DeleteMsg> list)
