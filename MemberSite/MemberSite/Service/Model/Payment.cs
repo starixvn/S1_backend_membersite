@@ -45,25 +45,6 @@ namespace MemberSite.Service.Model
         public int SSort { get; set; }
     }
 
-    public class FakeMobilePay
-    {
-        public static Dictionary<FakePayGroupEnum, PayInfo> FakeMobilePayInfoMap =>
-            new ()
-            {
-                { FakePayGroupEnum.DuitNowQR,
-                    new PayInfo
-                    {
-                        ChannelId = -1,
-                        ChannelName = FakePayGroupEnum.DuitNowQR.GetDescription(),
-                        CurrencyId = (int) CurrencyId.MYR,
-                        GSort = 99,
-                        GroupId = (int) FakePayGroupEnum.DuitNowQR,
-                        Mode = (int) PayModeEnum.QrCode
-                    }
-                },
-            };
-    }
-    
     public class MobilePayGroup
     {
         public int GroupId { get; set; }
