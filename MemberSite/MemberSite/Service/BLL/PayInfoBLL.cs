@@ -149,7 +149,8 @@ namespace MemberSite.Service.BLL
                 }
             }
 
-            return payInfoList.Where(x => x.MaxAmount > 0);
+            return payInfoList.Where(x => x.MaxAmount > 0)
+                .OrderBy(x => x.GSort);
         }
 
         public int DepositReqPay(int custId, int channelId, decimal amount, out string transId, out PayInfo payInfo, DepositType depositType)
