@@ -77,27 +77,8 @@ namespace MemberSite.Service.DAL
         {
             return _reportClient.Query<Announcement>("Member_Announcement_Get", new { DefaultLangCode, LangCode, LimitRow, IsTest, SiteId });
         }
-        
-        public async Task<int> SendMessage(string sender, int custId, string lang, string title, string content) =>
-            await _mainDbClient.ExecuteAsync(
-                "Member_CustBatchMessage_Ins",
-                new { _CustId = custId, _LangId = lang, _Title = title, _Content = content, _Sender = sender });
 
-
-        public async Task<int> SendMessageAsync(Message message)
-        {
-            var parameter = new DynamicParameters();
-            parameter.Add("Type", 99);
-            parameter.Add("SiteId", message.SiteId);
-            parameter.Add("LangId", message.LangId);
-            parameter.Add("RecipientCustId", message.CustId);
-            parameter.Add("Recipient", message.CustUserName);
-            parameter.Add("SenderCustId", message.SiteId);
-            parameter.Add("Sender", message.Sender);
-            parameter.Add("Title", message.Title);
-            parameter.Add("Content", message.Content);
-            parameter.Add("MainId", 0);
-            return await _mainDbClient.ExecuteAsync("Msg_Ins", parameter);
-        }
+        public Task<int> SendMessageAsync(Message message) =>
+            _mainDbClient.ExecuteAsync("Msg_Ins_V4", new DynamicParameters(message));
     }
 }

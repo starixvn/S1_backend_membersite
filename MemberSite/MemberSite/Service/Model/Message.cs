@@ -27,24 +27,19 @@
     
     public class Message
     {
-        public Message(int siteId, string sender, string title, string content, int custId, string custUserName, string langId)
+        public Message(string sender, int custId, string langId, string title, string content)
         {
-            SiteId = siteId;
             Sender = sender;
             Title = title;
             Content = content;
             CustId = custId;
-            CustUserName = custUserName;
             LangId = langId;
         }
-
-        public int SiteId { get; }
-        public string Sender { get; }
+        public int CustId { get; }
+        public string LangId { get; }
         public string Title { get; }
         public string Content { get; }
-        public int CustId { get; }
-        public string CustUserName { get; }
-        public string LangId { get; }
+        public string Sender { get; }
     }
 
     public class PopupMsg
