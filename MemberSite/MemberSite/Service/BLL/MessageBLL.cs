@@ -42,6 +42,8 @@ namespace MemberSite.Service.BLL
         public async Task<PopupMsg> GetPopupMessage(int custId, LanguageObject language)
         {
             var popupMsg = await _messageService.GetPopupMessage(custId);
+            if (popupMsg == null) return null;
+
             popupMsg.PopupMessage = JsonContentParser.ParseByJObject(popupMsg.PopupMessage, language.LanguageCode, language.DefaultLanguage, "PopupMessage");
             return popupMsg;
         }
