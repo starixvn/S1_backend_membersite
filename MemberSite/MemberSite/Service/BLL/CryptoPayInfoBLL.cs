@@ -186,7 +186,7 @@ namespace MemberSite.Service.BLL
         
         private bool XRPAddressValidation(string address)
         {
-            var regex = new Regex(@"^r[1-9a-km-np-zA-HJ-NP-Z]{24,34}$");
+            var regex = new Regex(@"^r[1-9a-km-zA-HJ-NP-Z]{24,34}$");
             return regex.IsMatch(address);
         }
     }
