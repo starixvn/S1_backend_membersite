@@ -117,28 +117,25 @@ namespace MemberSite.Service.BLL
 
             var bankCards = _bankInfoOffBll.GetOfflineBankCardListWithCache(custId)
                 .Where(x => x.SupportQR
-                    && x.Type == depositType);
+                    && x.Type == depositType
+                    && x.GroupId == groupId);
                 
             if (bankCards.Any())
             {
-                var payInfos = bankCards.GroupBy(x => x.GroupId)
-                    .Select(x =>
-                    {
-                        var bankCard = x.First();
-                        return new PayInfo
-                        {
-                            ChannelId = -1,
-                            ChannelName = bankCard.GroupName,
-                            GSort = -1,
-                            Mode = (int) PayModeEnum.Redirect,
-                            GroupId = bankCard.GroupId,
-                            GroupName = bankCard.GroupName,
-                            MinAmount = bankCards.Min(x => x.MinAmount),
-                            MaxAmount = bankCards.Max(x => x.MaxAmount)
-                        };
-                    });
+                var bankCard = bankCards.First();
+                var payInfo = new PayInfo
+                {
+                    ChannelId = -1,
+                    ChannelName = bankCard.GroupName,
+                    GSort = -1,
+                    Mode = (int) PayModeEnum.Redirect,
+                    GroupId = bankCard.GroupId,
+                    GroupName = bankCard.GroupName,
+                    MinAmount = bankCards.Min(x => x.MinAmount),
+                    MaxAmount = bankCards.Max(x => x.MaxAmount)
+                };
                 
-                payInfoList.AddRange(payInfos);
+                payInfoList.Add(payInfo);
             }
             
             if (depositLimitInfo != null && payInfoList != null)
