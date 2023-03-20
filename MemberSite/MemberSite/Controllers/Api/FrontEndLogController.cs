@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Serilog.Context;
+using System.Drawing.Drawing2D;
 
 namespace MemberSite.Controllers.Api
 {
@@ -24,7 +26,7 @@ namespace MemberSite.Controllers.Api
 
             public string ApiPath { get; set; }
 
-            public string ErrorLogBody { get; set; }
+            public string LogBody { get; set; }
 
             /// <summary>
             /// Info、Error
@@ -41,7 +43,18 @@ namespace MemberSite.Controllers.Api
             var apiResult = new ApiResult() { ErrorCode = 0 };
             if (true) //不需要寫 ELK Log 就設定成 false
             {
-                _logger.LogInformation(JsonConvert.SerializeObject(log));
+                LogContext.PushProperty("UserName", log.UserName);
+                LogContext.PushProperty("ApiPath", log.ApiPath);
+
+                var logMessage = JsonConvert.SerializeObject(log);
+                if (log.LogLevel.ToLower() == "error")
+                {
+                    _logger.LogError(logMessage);
+                }
+                else
+                {
+                    _logger.LogInformation(logMessage);
+                }
             }
 
             return apiResult;
