@@ -59,10 +59,8 @@ namespace MemberSite.Service.BLL
             return result;
         }
 
-        public int GetMsgCount(int custId)
-        {
-            return _messageService.GetMsgCount(custId);
-        }
+        public async Task<int> GetMsgCount(int custId) =>
+            await _messageService.GetMsgCount(custId);
 
         public IEnumerable<Announcement> GetAnnouncement(string LangCode, string DefaultLangCode, int LimitRow, bool IsTest, int SiteId)
         {

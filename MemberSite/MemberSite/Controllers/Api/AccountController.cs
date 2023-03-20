@@ -556,7 +556,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult GetMsgCount()
+        public async Task<ApiResult> GetMsgCount()
         {
             var apiResult = new ApiResult<int>();
             var authData = _authorizeBll.GetAuthData();
@@ -566,7 +566,7 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
 
-            apiResult.Data = _messageBll.GetMsgCount(authData.CustId);
+            apiResult.Data = await _messageBll.GetMsgCount(authData.CustId);
             apiResult.ErrorCode = 0;
             return apiResult;
         }

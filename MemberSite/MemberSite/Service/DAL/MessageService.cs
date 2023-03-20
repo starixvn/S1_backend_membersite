@@ -68,9 +68,9 @@ namespace MemberSite.Service.DAL
             return _mainDbClient.Execute("Msg_Del_V2", new { msg.MsgId, CustId = custId, msg.IsBatch }) > 0;
         }
         
-        public int GetMsgCount(int custId)
+        public async Task<int> GetMsgCount(int custId)
         {
-            return _reportClient.ExecuteScalar<int>("MsgCount_Get", new { CustId = custId, IsUnread = 1 });
+            return await _reportClient.ExecuteScalarAsync<int>("MsgCount_Get_V3", new { CustId = custId });
         }
 
         public IEnumerable<Announcement> GetAnnouncement(string LangCode, string DefaultLangCode, int LimitRow, bool IsTest, int SiteId)
