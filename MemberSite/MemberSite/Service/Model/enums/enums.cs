@@ -310,7 +310,11 @@ namespace MemberSite.Service.Model.enums
         ERC20,
         TRC20,
         ETH,
-        BTC
+        BTC,
+        BSC,
+        BEP20,
+        XRP,
+        ADA
     }
 
     public enum ActStatus
@@ -353,7 +357,15 @@ namespace MemberSite.Service.Model.enums
         USDT = 96,
         USDC = 97,
         ETH = 98,
-        BTC = 99
+        BTC = 99,
+        BNB = 100,
+        BUSD = 101,
+        DAI = 102,
+        DOGE = 103,
+        XRP = 104,
+        EOS = 105,
+        SHIB = 106,
+        ADA = 107
     }
     public enum DeepLinkType
     {
