@@ -410,7 +410,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiListResult<Msg> GetMsgList(MsgReq msgReq)
+        public async Task<ApiListResult<Msg>> GetMsgList(MsgReq msgReq)
         {
             var apiResult = new ApiListResult<Msg>();
             var authData = _authorizeBll.GetAuthData();
@@ -425,10 +425,11 @@ namespace MemberSite.Controllers.Api
             var custInfo = _custInfoBll.GetCustInfo(authData.CustId);
             var language = LanguageObject.Create(custInfo.CurrencyId, custInfo.UserLang, serverInfo.DefLang);
 
-            apiResult.Data = _messageBll.GetMsgList(authData.CustId, language, pageSize, ref pageNumber, out var totalPages, out var rowCount);
+            var msgs = await _messageBll.GetMsgList(authData.CustId, language, pageSize, pageNumber);
+            apiResult.Data = msgs.Data;
             apiResult.PageNumber = pageNumber;
-            apiResult.TotalPages = totalPages;
-            apiResult.RowCount = rowCount;
+            apiResult.TotalPages = msgs.TotalPages;
+            apiResult.RowCount = msgs.RowCount;
             apiResult.ErrorCode = 0;
             return apiResult;
         }
