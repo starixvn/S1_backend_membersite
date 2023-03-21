@@ -41,7 +41,7 @@ namespace MemberSite.Service.BLL
             return false;
         }
 
-        public bool RequestAuth(string fromUrl, string content)
+        public bool RequestAuth(string content)
         {
 
             if (string.IsNullOrWhiteSpace(content))

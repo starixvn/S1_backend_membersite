@@ -11,6 +11,7 @@ using NSubstitute;
 using Microsoft.Extensions.Logging;
 using NUnit.Framework;
 using System;
+using Microsoft.AspNetCore.Hosting;
 
 namespace MemberSite.Service.BLL.Tests;
 
@@ -29,22 +30,20 @@ internal class AuthBLLTests
         {
             EnvironmentName = "Local",
         });
+
         builder.Configuration.AddRemoteJsonConfig(builder.Configuration.GetSection("ConfigService").Get<string[]>());
+        builder.Services.AddTransient(p => Substitute.For<ILogger<MySqlClient>>());
+        builder.Services.AddSingleton(p => Substitute.For<IWebHostEnvironment>());
+        builder.Services.AddSingleton(p => Substitute.For<ILogger<AuthBLL>>());
+
+        var startup = new StubStartUp(builder.Configuration);
+        startup.ConfigureServices(builder.Services);
         var app = builder.Build();
+
         _configuration = app.Configuration;
-
-        services.AddSingleton(_configuration);
-        services.AddTransient(p => Substitute.For<ILogger<MySqlClient>>()); 
-        services.AddSingleton(p => Substitute.For<ILogger<AuthBLL>>());
-
-        var startup = new StubStartUp(_configuration);
-
-        startup.ConfigureServices(services);
-        var provider = services.BuildServiceProvider();
-
-        _authBll = provider.GetRequiredService<AuthBLL>();
-        _cryptoHelper = provider.GetRequiredService<CryptoHelper>();
-        _publicApiAuthToken = provider.GetRequiredService<IConfiguration>().GetValue<string>("PublicApiAuthToken");
+        _authBll = app.Services.GetRequiredService<AuthBLL>();
+        _cryptoHelper = app.Services.GetRequiredService<CryptoHelper>();
+        _publicApiAuthToken = _configuration.GetValue<string>("PublicApiAuthToken");
     }
 
     /// <summary>
@@ -57,10 +56,7 @@ internal class AuthBLLTests
             "\"platform\":\"Win32\"," +
             "\"userAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36\"," +
             "\"screen\":\"1280:720:24\",";
-    private string requestTimestamp = "\"timestamp\":" + ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeSeconds() + "}";
-
-    private string fromUrl = "test";
-
+    private string requestTimestamp = "\"timestamp\":" + ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeMilliseconds() + "}";
 
     /// <summary>
     /// 無效content
@@ -71,7 +67,7 @@ internal class AuthBLLTests
     [TestCase("123456789", false)]
     public void RequestAuthTestWithInvaildContent(string content, bool expectedResult)
     {
-        var result = _authBll.RequestAuth(fromUrl, content);
+        var result = _authBll.RequestAuth(content);
         Assert.AreEqual(result, expectedResult);
     }
 
@@ -88,7 +84,7 @@ internal class AuthBLLTests
             + requestTimestamp)
             + "\","
             + requestTimestamp;
-        var result = _authBll.RequestAuth(fromUrl, content);
+        var result = _authBll.RequestAuth(content);
         Assert.IsTrue(result);
     }
 
@@ -104,7 +100,7 @@ internal class AuthBLLTests
             + "\"token\":\"" + _publicApiAuthToken + "\","
             + requestTimestamp)
             + "\"}";
-        var result = _authBll.RequestAuth(fromUrl, content);
+        var result = _authBll.RequestAuth(content);
         Assert.IsFalse(result);
     }
 
@@ -121,7 +117,7 @@ internal class AuthBLLTests
             + requestTimestamp)
             + "\","
             + "\"timestamp\":" + 1640995200 + "}"; //2022-01-01 00:00:00 GMT+8
-        var result = _authBll.RequestAuth(fromUrl, content);
+        var result = _authBll.RequestAuth(content);
         Assert.IsFalse(result);
     }
 
@@ -138,19 +134,22 @@ internal class AuthBLLTests
             + requestTimestamp)
             + "\","
             + "\"timestamp\":\"qwertyuiop\"}"; //2022-01-01 00:00:00 GMT+8
-        var result = _authBll.RequestAuth(fromUrl, content);
+        var result = _authBll.RequestAuth(content);
         Assert.IsFalse(result);
     }
 
     /// <summary>
     /// request content沒有Token
     /// </summary>
+    /// <remarks>
+    /// 目前邏輯是有token則驗證，沒token則不驗證，所以都是回傳成功
+    /// </remarks>
     [Test]
     public void RequestAuthTestWithoutToken()
     {
         var content = requestPlainText + requestTimestamp;
-        var result = _authBll.RequestAuth(fromUrl, content);
-        Assert.IsFalse(result);
+        var result = _authBll.RequestAuth(content);
+        Assert.IsTrue(result);
     }
 
     /// <summary>
@@ -162,7 +161,7 @@ internal class AuthBLLTests
         var content = requestPlainText +
             "\"token\":\"1qaz2wsx3edc4rfv\","
             + requestTimestamp;
-        var result = _authBll.RequestAuth(fromUrl, content);
+        var result = _authBll.RequestAuth(content);
         Assert.IsFalse(result);
     }
 }
