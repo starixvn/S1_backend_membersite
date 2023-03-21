@@ -37,10 +37,7 @@
 //        services.AddTransient(p => Substitute.For<ILogger<MySqlClient>>()); 
 //        services.AddSingleton(p => Substitute.For<ILogger<AuthBLL>>());
 
-//        var startup = new StubStartUp(_configuration, new HostingEnvironment()
-//        {
-//            EnvironmentName = Environments.Development,
-//        });
+        var startup = new StubStartUp(_configuration);
 
 //        startup.ConfigureServices(services);
 //        var provider = services.BuildServiceProvider();
@@ -62,108 +59,110 @@
 //            "\"screen\":\"1280:720:24\",";
 //    private string requestTimestamp = "\"timestamp\":" + ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeSeconds() + "}";
 
+    private string fromUrl = "test";
 
-//    /// <summary>
-//    /// 無效content
-//    /// </summary>
-//    /// <param name="content">request 內文</param>
-//    /// <param name="expectedResult">預期結果</param>
-//    [TestCase(null, false)]
-//    [TestCase("123456789", false)]
-//    public void RequestAuthTestWithInvaildContent(string content, bool expectedResult)
-//    {
-//        var result = _authBll.RequestAuth(content);
-//        Assert.AreEqual(result, expectedResult);
-//    }
 
-//    /// <summary>
-//    /// 正確的request資訊
-//    /// </summary>
-//    [Test]
-//    public void RequestAuthTestWithVaildContent()
-//    {
-//        var content = requestPlainText
-//            + "\"token\":\""
-//            + _cryptoHelper.SHA256(requestPlainText
-//            + "\"token\":\"" + _publicApiAuthToken + "\","
-//            + requestTimestamp)
-//            + "\","
-//            + requestTimestamp;
-//        var result = _authBll.RequestAuth(content);
-//        Assert.IsTrue(result);
-//    }
+    /// <summary>
+    /// 無效content
+    /// </summary>
+    /// <param name="content">request 內文</param>
+    /// <param name="expectedResult">預期結果</param>
+    [TestCase(null, false)]
+    [TestCase("123456789", false)]
+    public void RequestAuthTestWithInvaildContent(string content, bool expectedResult)
+    {
+        var result = _authBll.RequestAuth(fromUrl, content);
+        Assert.AreEqual(result, expectedResult);
+    }
 
-//    /// <summary>
-//    /// request content沒有Timestamp
-//    /// </summary>
-//    [Test]
-//    public void RequestAuthTestWithoutTimestamp()
-//    {
-//        var content = requestPlainText
-//            + "\"token\":\""
-//            + _cryptoHelper.SHA256(requestPlainText
-//            + "\"token\":\"" + _publicApiAuthToken + "\","
-//            + requestTimestamp)
-//            + "\"}";
-//        var result = _authBll.RequestAuth(content);
-//        Assert.IsFalse(result);
-//    }
+    /// <summary>
+    /// 正確的request資訊
+    /// </summary>
+    [Test]
+    public void RequestAuthTestWithVaildContent()
+    {
+        var content = requestPlainText
+            + "\"token\":\""
+            + _cryptoHelper.SHA256(requestPlainText
+            + "\"token\":\"" + _publicApiAuthToken + "\","
+            + requestTimestamp)
+            + "\","
+            + requestTimestamp;
+        var result = _authBll.RequestAuth(fromUrl, content);
+        Assert.IsTrue(result);
+    }
 
-//    /// <summary>
-//    /// 無效的Timestamp(時間沒有在30秒之內)
-//    /// </summary>
-//    [Test]
-//    public void RequestAuthTestWithInVaildTimestampNumber()
-//    {
-//        var content = requestPlainText
-//            + "\"token\":\""
-//            + _cryptoHelper.SHA256(requestPlainText
-//            + "\"token\":\"" + _publicApiAuthToken + "\","
-//            + requestTimestamp)
-//            + "\","
-//            + "\"timestamp\":" + 1640995200 + "}"; //2022-01-01 00:00:00 GMT+8
-//        var result = _authBll.RequestAuth(content);
-//        Assert.IsFalse(result);
-//    }
+    /// <summary>
+    /// request content沒有Timestamp
+    /// </summary>
+    [Test]
+    public void RequestAuthTestWithoutTimestamp()
+    {
+        var content = requestPlainText
+            + "\"token\":\""
+            + _cryptoHelper.SHA256(requestPlainText
+            + "\"token\":\"" + _publicApiAuthToken + "\","
+            + requestTimestamp)
+            + "\"}";
+        var result = _authBll.RequestAuth(fromUrl, content);
+        Assert.IsFalse(result);
+    }
 
-//    /// <summary>
-//    /// 無效的Timestamp(字串)
-//    /// </summary>
-//    [Test]
-//    public void RequestAuthTestWithInVaildTimestampString()
-//    {
-//        var content = requestPlainText
-//            + "\"token\":\""
-//            + _cryptoHelper.SHA256(requestPlainText
-//            + "\"token\":\"" + _publicApiAuthToken + "\","
-//            + requestTimestamp)
-//            + "\","
-//            + "\"timestamp\":\"qwertyuiop\"}"; //2022-01-01 00:00:00 GMT+8
-//        var result = _authBll.RequestAuth(content);
-//        Assert.IsFalse(result);
-//    }
+    /// <summary>
+    /// 無效的Timestamp(時間沒有在30秒之內)
+    /// </summary>
+    [Test]
+    public void RequestAuthTestWithInVaildTimestampNumber()
+    {
+        var content = requestPlainText
+            + "\"token\":\""
+            + _cryptoHelper.SHA256(requestPlainText
+            + "\"token\":\"" + _publicApiAuthToken + "\","
+            + requestTimestamp)
+            + "\","
+            + "\"timestamp\":" + 1640995200 + "}"; //2022-01-01 00:00:00 GMT+8
+        var result = _authBll.RequestAuth(fromUrl, content);
+        Assert.IsFalse(result);
+    }
 
-//    /// <summary>
-//    /// request content沒有Token
-//    /// </summary>
-//    [Test]
-//    public void RequestAuthTestWithoutToken()
-//    {
-//        var content = requestPlainText + requestTimestamp;
-//        var result = _authBll.RequestAuth(content);
-//        Assert.IsFalse(result);
-//    }
+    /// <summary>
+    /// 無效的Timestamp(字串)
+    /// </summary>
+    [Test]
+    public void RequestAuthTestWithInVaildTimestampString()
+    {
+        var content = requestPlainText
+            + "\"token\":\""
+            + _cryptoHelper.SHA256(requestPlainText
+            + "\"token\":\"" + _publicApiAuthToken + "\","
+            + requestTimestamp)
+            + "\","
+            + "\"timestamp\":\"qwertyuiop\"}"; //2022-01-01 00:00:00 GMT+8
+        var result = _authBll.RequestAuth(fromUrl, content);
+        Assert.IsFalse(result);
+    }
 
-//    /// <summary>
-//    /// 無效的Token
-//    /// </summary>
-//    [Test]
-//    public void RequestAuthTestWithInVaildToken()
-//    {
-//        var content = requestPlainText +
-//            "\"token\":\"1qaz2wsx3edc4rfv\","
-//            + requestTimestamp;
-//        var result = _authBll.RequestAuth(content);
-//        Assert.IsFalse(result);
-//    }
-//}
+    /// <summary>
+    /// request content沒有Token
+    /// </summary>
+    [Test]
+    public void RequestAuthTestWithoutToken()
+    {
+        var content = requestPlainText + requestTimestamp;
+        var result = _authBll.RequestAuth(fromUrl, content);
+        Assert.IsFalse(result);
+    }
+
+    /// <summary>
+    /// 無效的Token
+    /// </summary>
+    [Test]
+    public void RequestAuthTestWithInVaildToken()
+    {
+        var content = requestPlainText +
+            "\"token\":\"1qaz2wsx3edc4rfv\","
+            + requestTimestamp;
+        var result = _authBll.RequestAuth(fromUrl, content);
+        Assert.IsFalse(result);
+    }
+}
