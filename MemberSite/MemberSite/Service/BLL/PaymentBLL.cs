@@ -398,9 +398,9 @@ namespace MemberSite.Service.BLL
             withdrawalInfo.SysId = sysId;
             withdrawalInfo.IFSCCode = iFSCCode;
 
-            return withdrawalService.WithdrawalReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, withdrawalInfo, out afterAmount, out transId);
+            return withdrawalService.WithdrawalReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, JsonConvert.SerializeObject(withdrawalInfo), out afterAmount, out transId);
         }
-        public int WithdrawalCryptoReq(int custId, string accountName, USDTDetail cryptoDetail, string accountNo, decimal amount, string memo,
+        public int WithdrawalCryptoReq(int custId, string accountName, CryptoWalletDetail cryptoDetail, string accountNo, decimal amount, string memo,
             decimal tmpRate, decimal tmpCryptoAmount, out decimal afterAmount, out string transId)
         {
             afterAmount = 0;
@@ -431,7 +431,7 @@ namespace MemberSite.Service.BLL
             withdrawalCryptoInfo.TempExchangeAmount = tmpCryptoAmount;
             withdrawalCryptoInfo.TempExchangeRate = tmpRate;
             
-            return withdrawalService.WithdrawalCryptoReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, withdrawalCryptoInfo, out afterAmount, out transId);
+            return withdrawalService.WithdrawalReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, JsonConvert.SerializeObject(withdrawalCryptoInfo), out afterAmount, out transId);
         }
 
         public int WithdrawalEWalletReq(int custId, string accountName, int sysId, string accountNo, decimal amount, string memo, out decimal afterAmount, out string transId)
@@ -462,7 +462,7 @@ namespace MemberSite.Service.BLL
             withdrawalEWalletInfo.EWalletSysId = sysId;
             withdrawalEWalletInfo.EWalletName = eWalletInfoSys.EWalletName;
             withdrawalEWalletInfo.AccountType = "ewallet";
-            return withdrawalService.WithdrawalEWalletReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, withdrawalEWalletInfo, out afterAmount, out transId);
+            return withdrawalService.WithdrawalReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, JsonConvert.SerializeObject(withdrawalEWalletInfo), out afterAmount, out transId);
         }
 
         public IEnumerable<DepositInfoHistory> GetDepositInfoRecent(int custId)

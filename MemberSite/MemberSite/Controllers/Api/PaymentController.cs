@@ -465,7 +465,7 @@ namespace MemberSite.Controllers.Api
             WithdrawalReqModel withdrawalReqModel,
             CustBankInfo custBankInfo,
             WithdrawalTypeStatus withdrawalType,
-            USDTDetail cryptoDetail)
+            CryptoWalletDetail cryptoDetail)
         {
             var result = 99;
 
@@ -1309,10 +1309,10 @@ namespace MemberSite.Controllers.Api
 
         public class GetExchangeReq
         {
-            public int PayId { get; set; }
             public string CurrencyName { get; set; }
             public string Network { get; set; }
             public decimal Amount { get; set; }
+            public ExchangeTypeEnum Type { get; set; }
         }
 
         [HttpPost]
@@ -1325,17 +1325,24 @@ namespace MemberSite.Controllers.Api
                 apiResult.Message = selLangBLL.GetMsg("msg_ForceLogedout");
                 return apiResult;
             }
-            var payId = 22; // 先留著讓新舊相容
+            
+            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             var channelName =
                 getExchangeReq.CurrencyName == getExchangeReq.Network
                     ? getExchangeReq.CurrencyName
                     : $"{getExchangeReq.CurrencyName}-{getExchangeReq.Network}";
 
-            var result = await cryptoPayInfoBLL.GetExchangeInfoAsync(authData.CustId,
-                getExchangeReq.Amount, payId, channelName);
+            var result = await cryptoPayInfoBLL.GetExchangeInfoAsync(custInfo.SiteId, custInfo.CurrencyId,
+                getExchangeReq.Amount, channelName, getExchangeReq.Type);
+            
             if (result is { Data: { } })
             {
-                apiResult.Data = result.Data.formData;
+                apiResult.Data = new ExchangeInfo
+                {
+                    Rate = result.Data.Rate,
+                    To_Amount = result.Data.ExchangeAmount,
+                    Updated_timestamp = result.Data.Timestamp
+                };
                 apiResult.ErrorCode = result.ErrorCode;
             }
             return apiResult;
@@ -1409,6 +1416,7 @@ namespace MemberSite.Controllers.Api
                 result.Message = result.ErrorCode switch
                 {
                     (int)SpecialCode.SpecialCodeErrorForCheck => selLangBLL.GetMsg("msg_SpecialCodeErr"),
+                    (int)SpecialCode.SpecialCodeVipLevelsOrBlockTagInvalid => selLangBLL.GetMsg("msg_SpecialCodeVipLevelsOrBlockTagInvalid"),
                     (int)SpecialCode.PromoCodeHasBeenUsed => selLangBLL.GetMsg("msg_PromoCodeHasBeenUsed"),
                     9000 => selLangBLL.GetMsg("msg_Ineligible"),
                     _ => result.Message
