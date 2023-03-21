@@ -35,11 +35,9 @@ namespace MemberSite.Service.BLL.Tests
 
             services.AddSingleton(_configuration);
             services.AddTransient(p => Substitute.For<ILogger<MySqlClient>>());
+            services.AddTransient(p => Substitute.For<ILogger<AuthorizeBLL>>());
 
-            var startup = new StubStartUp(_configuration, new HostingEnvironment()
-            {
-                EnvironmentName = Environments.Development,
-            });
+            var startup = new StubStartUp(_configuration);
 
             startup.ConfigureServices(services);
             var provider = services.BuildServiceProvider();
