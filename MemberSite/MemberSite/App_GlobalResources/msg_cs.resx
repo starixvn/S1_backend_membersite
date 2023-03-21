@@ -298,7 +298,7 @@
   <data name="msg_SpecialCodeErrorForCheck" xml:space="preserve">
     <value>优惠码序号有误，请再次确认</value>
   </data>
-    <data name="msg_SpecialCodeVipLevelsOrBlockTagInvalid" xml:space="preserve">
+  <data name="msg_SpecialCodeVipLevelsOrBlockTagInvalid" xml:space="preserve">
     <value>无法参与此优惠，请联系客服咨询</value>
   </data>
   <data name="msg_DrawPrize" xml:space="preserve">
@@ -450,5 +450,14 @@
   </data>
   <data name="msg_WithdrawalAccountAannotReceiveMoney_Detail" xml:space="preserve">
     <value>提款账户无法正常收款，请再次核实或使用其他提款账户提款。</value>
+  </data>
+  <data name="msg_CryptoWalletDuplicate" xml:space="preserve">
+    <value>加密货币钱包地址已存在</value>
+  </data>
+  <data name="msg_InactiveBankAccountSubmission" xml:space="preserve">
+    <value>存入已撤收款账户</value>
+  </data>
+  <data name="msg_InactiveBankAccountSubmission_Detail" xml:space="preserve">
+    <value>收款账户将不定时更新，恳请在转账前核实最新收款账户.</value>
   </data>
 </root>

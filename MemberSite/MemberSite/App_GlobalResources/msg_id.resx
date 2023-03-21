@@ -436,4 +436,13 @@
   <data name="msg_WithdrawalAccountAannotReceiveMoney_Detail" xml:space="preserve">
     <value>Akun penarikan tidak dapat menerima dana. Silahkan cek kembali atau hubungi Layanan Pelanggan untuk bantuan lebih lanjut.</value>
   </data>
+  <data name="msg_CryptoWalletDuplicate" xml:space="preserve">
+    <value>Alamat dompet kripto sudah digunakan</value>
+  </data>
+  <data name="msg_InactiveBankAccountSubmission" xml:space="preserve">
+    <value>Pengajuan Rekening Bank Tidak Aktif</value>
+  </data>
+  <data name="msg_InactiveBankAccountSubmission_Detail" xml:space="preserve">
+    <value>Rekening deposit telah diubah, harap periksa rekening tujuan terakhir sebelum melakukan transaksi</value>
+  </data>
 </root>

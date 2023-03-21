@@ -432,4 +432,13 @@
   <data name="msg_WrongBankSubmitted_Detail" xml:space="preserve">
     <value>নির্বাচিত জমা অ্যাকাউন্টটি ভুল, অনুগ্রহ করে পুনরায় পরীক্ষা করুন বা আরও সহায়তার জন্য গ্রাহক সহায়তার সাথে যোগাযোগ করুন৷</value>
   </data>
+  <data name="msg_CryptoWalletDuplicate" xml:space="preserve">
+    <value>ক্রিপ্টো ওয়ালেট ঠিকানা ইতিমধ্যেই বিদ্যমান</value>
+  </data>
+  <data name="msg_InactiveBankAccountSubmission" xml:space="preserve">
+    <value>নিষ্ক্রিয় ব্যাঙ্ক অ্যাকাউন্ট জমা</value>
+  </data>
+  <data name="msg_InactiveBankAccountSubmission_Detail" xml:space="preserve">
+    <value>ডিপোজিট অ্যাকাউন্ট পরিবর্তন করা হয়েছে, লেনদেন করার আগে অনুগ্রহ করে সর্বশেষ রিসিভিং অ্যাকাউন্ট চেক করুন।</value>
+  </data>
 </root>
