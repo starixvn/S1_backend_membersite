@@ -37,10 +37,7 @@ internal class AuthBLLTests
         services.AddTransient(p => Substitute.For<ILogger<MySqlClient>>()); 
         services.AddSingleton(p => Substitute.For<ILogger<AuthBLL>>());
 
-        var startup = new StubStartUp(_configuration, new HostingEnvironment()
-        {
-            EnvironmentName = Environments.Development,
-        });
+        var startup = new StubStartUp(_configuration);
 
         startup.ConfigureServices(services);
         var provider = services.BuildServiceProvider();
@@ -62,6 +59,8 @@ internal class AuthBLLTests
             "\"screen\":\"1280:720:24\",";
     private string requestTimestamp = "\"timestamp\":" + ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeSeconds() + "}";
 
+    private string fromUrl = "test";
+
 
     /// <summary>
     /// 無效content
@@ -72,7 +71,7 @@ internal class AuthBLLTests
     [TestCase("123456789", false)]
     public void RequestAuthTestWithInvaildContent(string content, bool expectedResult)
     {
-        var result = _authBll.RequestAuth(content);
+        var result = _authBll.RequestAuth(fromUrl, content);
         Assert.AreEqual(result, expectedResult);
     }
 
@@ -89,7 +88,7 @@ internal class AuthBLLTests
             + requestTimestamp)
             + "\","
             + requestTimestamp;
-        var result = _authBll.RequestAuth(content);
+        var result = _authBll.RequestAuth(fromUrl, content);
         Assert.IsTrue(result);
     }
 
@@ -105,7 +104,7 @@ internal class AuthBLLTests
             + "\"token\":\"" + _publicApiAuthToken + "\","
             + requestTimestamp)
             + "\"}";
-        var result = _authBll.RequestAuth(content);
+        var result = _authBll.RequestAuth(fromUrl, content);
         Assert.IsFalse(result);
     }
 
@@ -122,7 +121,7 @@ internal class AuthBLLTests
             + requestTimestamp)
             + "\","
             + "\"timestamp\":" + 1640995200 + "}"; //2022-01-01 00:00:00 GMT+8
-        var result = _authBll.RequestAuth(content);
+        var result = _authBll.RequestAuth(fromUrl, content);
         Assert.IsFalse(result);
     }
 
@@ -139,7 +138,7 @@ internal class AuthBLLTests
             + requestTimestamp)
             + "\","
             + "\"timestamp\":\"qwertyuiop\"}"; //2022-01-01 00:00:00 GMT+8
-        var result = _authBll.RequestAuth(content);
+        var result = _authBll.RequestAuth(fromUrl, content);
         Assert.IsFalse(result);
     }
 
@@ -150,7 +149,7 @@ internal class AuthBLLTests
     public void RequestAuthTestWithoutToken()
     {
         var content = requestPlainText + requestTimestamp;
-        var result = _authBll.RequestAuth(content);
+        var result = _authBll.RequestAuth(fromUrl, content);
         Assert.IsFalse(result);
     }
 
@@ -163,7 +162,7 @@ internal class AuthBLLTests
         var content = requestPlainText +
             "\"token\":\"1qaz2wsx3edc4rfv\","
             + requestTimestamp;
-        var result = _authBll.RequestAuth(content);
+        var result = _authBll.RequestAuth(fromUrl, content);
         Assert.IsFalse(result);
     }
 }
