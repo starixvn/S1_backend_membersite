@@ -32,7 +32,7 @@ namespace MemberSite.Controllers.Api
 
 
         [HttpPost]
-        public ApiListResult<News> GetNews(ParamNews newsReq)
+        public async Task<ApiListResult<News>> GetNews(ParamNews newsReq)
         {
             var result = new ApiListResult<News>();
 
@@ -48,10 +48,12 @@ namespace MemberSite.Controllers.Api
                 var language = LanguageObject.Create(newsReq.CurrencyId, _selLangBll.GetLangId(), serverInfo.DefLang);
                 var pageNumber = newsReq.PageNumber;
 
-                result.Data = _newsBLL.GetNews(serverInfo.SiteId, language, newsReq.PageSize, ref pageNumber, out var totalPages, out var rowCount);
-                result.PageNumber = pageNumber;
-                result.TotalPages = totalPages;
-                result.RowCount = rowCount;
+                var news = await _newsBLL.GetNews(serverInfo.SiteId, language, newsReq.PageSize, pageNumber);
+
+                result.Data = news.Data;
+                result.PageNumber = news.PageNumber;
+                result.TotalPages = news.TotalPages;
+                result.RowCount = news.RowCount;
                 result.ErrorCode = 0;
             }
             catch (Exception ex)
