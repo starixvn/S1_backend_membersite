@@ -475,7 +475,7 @@ namespace MemberSite.Controllers.Api
             }
             var setList = msgReadReq.MsgIds.Select(x => new DeleteMsg() { MsgId = x, IsBatch = false }).ToList();
 
-            if (_messageBll.SetMsgRead(authData.CustId, setList))
+            if (_messageBll.SetMsgRead(authData.CustId, setList).Result)
             {
                 apiResult.ErrorCode = 0;
             }
@@ -493,7 +493,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult SetMsgReadV2(MsgReadReqV2 msgReadReq)
+        public async Task<ApiResult> SetMsgReadV2(MsgReadReqV2 msgReadReq)
         {
             var apiResult = new ApiResult<MsgContent>();
             var authData = _authorizeBll.GetAuthData();
@@ -502,7 +502,7 @@ namespace MemberSite.Controllers.Api
                 apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
                 return apiResult;
             }
-            if (_messageBll.SetMsgRead(authData.CustId, msgReadReq.SetList))
+            if (await _messageBll.SetMsgRead(authData.CustId, msgReadReq.SetList))
             {
                 apiResult.ErrorCode = 0;
             }
@@ -553,7 +553,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult DelMsg(DelMsgReq msgReq)
+        public async Task<ApiResult> DelMsg(DelMsgReq msgReq)
         {
             var apiResult = new ApiResult<MsgContent>();
             var authData = _authorizeBll.GetAuthData();
@@ -563,7 +563,7 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
 
-            apiResult.ErrorCode = _messageBll.DelMsg(authData.CustId, msgReq.DeleteList) ? 0 : 99;
+            apiResult.ErrorCode = await _messageBll.DelMsg(authData.CustId, msgReq.DeleteList) ? 0 : 99;
 
             return apiResult;
         }
