@@ -17,9 +17,9 @@ namespace MemberSite.Service.DAL
             _reportClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
         }
 
-        public bool SetRead(int msgId, int custId, bool isBatch)
+        public async Task<bool> SetRead(int msgId, int custId)
         {
-            return _mainDbClient.Execute("Member_MsgRead_Set_V2", new { MsgId = msgId, CustId = custId, IsBatch = isBatch }) > 0;
+            return await _mainDbClient.ExecuteAsync("Member_MsgRead_Set_V3", new { MsgId = msgId, CustId = custId }) > 0;
         }
 
         public async Task<bool> SetReadPopupMessageTime(int custId, int taskId)
