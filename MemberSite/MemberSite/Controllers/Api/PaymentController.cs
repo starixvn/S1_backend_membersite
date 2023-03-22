@@ -899,7 +899,9 @@ namespace MemberSite.Controllers.Api
                         .SetFilenameExtension("jpg")
                         .FileName;
 
-                    var result = await paymentBLL.SetDepositReceiptPic(authData.CustId, depositReceipt.TransId, fileName, fileBytes);
+                    var receipts = paymentBLL.GetDepositReceipt(depositReceipt.TransId,authData.CustId);
+                    var receiptNo = receipts.Any() ? receipts.Max(x => x.ReceiptNo) + 1 : 1 ;
+                    var result = await paymentBLL.SetDepositReceiptPic(authData.CustId, depositReceipt.TransId,receiptNo, fileName, fileBytes,authData.UserName);
 
                     if (result > 0)
                     {
