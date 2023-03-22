@@ -552,7 +552,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult DelMsg(DelMsgReq msgReq)
+        public async Task<ApiResult> DelMsg(DelMsgReq msgReq)
         {
             var apiResult = new ApiResult<MsgContent>();
             var authData = _authorizeBll.GetAuthData();
@@ -562,7 +562,7 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
 
-            apiResult.ErrorCode = _messageBll.DelMsg(authData.CustId, msgReq.DeleteList) ? 0 : 99;
+            apiResult.ErrorCode = await _messageBll.DelMsg(authData.CustId, msgReq.DeleteList) ? 0 : 99;
 
             return apiResult;
         }

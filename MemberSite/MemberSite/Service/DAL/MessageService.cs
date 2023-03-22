@@ -67,9 +67,9 @@ namespace MemberSite.Service.DAL
             return msg;
         }
 
-        public bool DelMsg(int custId, DeleteMsg msg)
+        public async Task<bool> DelMsg(int custId, DeleteMsg msg)
         {
-            return _mainDbClient.Execute("Msg_Del_V2", new { msg.MsgId, CustId = custId, msg.IsBatch }) > 0;
+            return await _mainDbClient.ExecuteAsync("Msg_Del_V3", new { msg.MsgId, CustId = custId }) > 0;
         }
         
         public int GetMsgCount(int custId)

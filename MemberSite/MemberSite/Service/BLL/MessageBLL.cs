@@ -67,12 +67,12 @@ namespace MemberSite.Service.BLL
         }
 
 
-        public bool DelMsg(int custId, List<DeleteMsg> list)
+        public async Task<bool> DelMsg(int custId, List<DeleteMsg> list)
         {
             var result = true;
             foreach (var msg in list)
             {
-                result &= _messageService.DelMsg(custId, msg);
+                result &= await _messageService.DelMsg(custId, msg);
             }
 
             return result;
