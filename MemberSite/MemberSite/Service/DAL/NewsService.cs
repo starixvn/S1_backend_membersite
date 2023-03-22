@@ -34,7 +34,7 @@ namespace MemberSite.Service.DAL
                 Data = news,
                 TotalPages = p.Get<int?>("TotalPages") ?? 0,
                 RowCount = p.Get<int?>("RowCount") ?? 0,
-                PageNumber = pageNumber
+                PageNumber = p.Get<int?>("PageNumber") ?? 0
             };
         }
     }
