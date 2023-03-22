@@ -36,7 +36,7 @@ namespace MemberSite.Service.Model.enums
         Redirect = 2,
         ShowQrCode = 3
     }
-    
+
     public enum DepositType
     {
         OnlineBanking = 1,
@@ -245,11 +245,11 @@ namespace MemberSite.Service.Model.enums
         Success = 0,
         IovationNotSupport = 1301
     }
-    
+
     public enum ShieldErrorCode
     {
         Success = 0,
-        InvalidRequest = -1 ,
+        InvalidRequest = -1,
         Failed = 99,
     }
     public enum SpecialCode
@@ -257,6 +257,7 @@ namespace MemberSite.Service.Model.enums
         Success = 0,
         SpecialCodeError = 99,
         SpecialCodeErrorForCheck = 1000,
+        SpecialCodeVipLevelsOrBlockTagInvalid = 1001, // VipLevel 不符合 或是有 BlockTag
         PromoCodeHasBeenUsed = 3000
     }
 
@@ -282,7 +283,7 @@ namespace MemberSite.Service.Model.enums
         Wager,//ConnectionStringWager
         Log,//ConnectionStringLog
     }
-    
+
     public enum RedisDataBase
     {
         Member = 0,
@@ -293,7 +294,7 @@ namespace MemberSite.Service.Model.enums
         Payment = 5,
         Token = 6
     }
-    
+
     public enum AppLinkAppType
     {
         Andriod = 1,
@@ -378,7 +379,7 @@ namespace MemberSite.Service.Model.enums
         Restore = 1,
         Manual = 2,
     }
-    
+
     public enum PromotionDeviceType
     {
         All = 1,
@@ -433,7 +434,7 @@ namespace MemberSite.Service.Model.enums
         Disable = 0,
         Able = 1,
     }
-    
+
     public enum ShieldRiskTagged
     {
         IsBot = 1,
@@ -453,7 +454,7 @@ namespace MemberSite.Service.Model.enums
         VirtualOs = 15,
         Hooking = 16
     }
-    
+
     public enum ShieldRiskTriggeredPoint
     {
         Registration = 1,
@@ -462,12 +463,12 @@ namespace MemberSite.Service.Model.enums
         Withdrawal = 4,
         ClaimBonus = 5,
     }
-    
+
     public enum ShieldRiskTaggedIssue
     {
-        HighRisk  = 1
+        HighRisk = 1
     }
-    
+
 
     public enum WorldCupUserTicketStatus
     {
@@ -488,8 +489,8 @@ namespace MemberSite.Service.Model.enums
         Able = 1,
     }
 
-    public enum WithdrawalTypeStatus 
-    { 
+    public enum WithdrawalTypeStatus
+    {
         LocalBank = 0,
         Crypto = 1,
         EWallet = 2
@@ -499,8 +500,8 @@ namespace MemberSite.Service.Model.enums
     {
         Disable = 0,
         Able = 1,
-	}
-	
+    }
+
     public enum RedemptionErrorCode
     {
         InsufficientPoint = -1001,
@@ -522,27 +523,19 @@ namespace MemberSite.Service.Model.enums
         Manual = 4,
         System = 5
     }
-    
+
     public enum OfflineBankAccountPurposeEnum
     {
         Deposit = 1,
         Withdrawal = 2,
         Transfer = 3
     }
-    
+
     public enum OfflineBankAccountSupportChannelEnum
     {
         LocalBank = 0,
-        EWallet = 1
-    }
-    
-    public enum FakePayGroupEnum
-    {
-        [Description("DuitNowQR")]
-        DuitNowQR = 53,
-        
-        [Description("Crypto")]
-        FakeCrypto = 57
+        EWallet = 1,
+        BankQR = 2
     }
 
     public enum PayModeEnum
@@ -554,7 +547,57 @@ namespace MemberSite.Service.Model.enums
         //將 url 以QrCode 呈現
         QrCode = 3
     }
-    
+
+    public enum HotGameTopCategory
+    {
+        HotGame = 1,
+        NewGame = 2,
+        Progressive = 3,
+        Featured = 4,
+        TopCasino = 5
+    }
+
+    public enum HotGameDeviceType
+    {
+        Pc = 1,
+        Mobile = 2
+    }
+
+    public enum DepositMessageStatus
+    {
+        DepositorsNameUnmatch = 0,
+        DepositSlipRequired = 1,
+        PaymentNotReceived = 2,
+        DepositRefunded = 3,
+        WrongAmountSubmitted = 4,
+        WrongBankSubmitted = 5
+    }
+    public enum WithdrawalMessageStatus
+    {
+        WithdrawalAccountsNameUnmatch = 0,
+        WithdrawalAccountNumberIncorrect = 1,
+        WithdrawalAccountAannotReceiveMoney = 2,
+        BeneficiarysAccountMaintenance = 3
+    }
+
+    public enum CustTagEnum
+    {
+        Duplicate = 6
+    }
+
+    public enum CustCryptoWalletDetailStatus
+    {
+        Disable = 0,
+        Able = 1,
+    }
+
+    public enum CustCryptoWalletDetailLogStatus
+    {
+        Create = 1,
+        Delete = 2,
+        Lock = 3,
+        Unlock = 4
+    }
     public enum ExchangeTypeEnum
     {
         /// <summary>

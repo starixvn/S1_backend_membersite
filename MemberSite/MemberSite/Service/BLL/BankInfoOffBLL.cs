@@ -296,6 +296,7 @@ namespace MemberSite.Service.BLL
                 .OrderBy(x => x.BSort)
                 .Select( x => new SysBankInfoFront
                 {
+                    BankId = x.BankId,
                     SysId = x.SysId,
                     BankCode = x.BankCode,
                     BankLogo = x.BankLogo,
@@ -304,9 +305,13 @@ namespace MemberSite.Service.BLL
                     BankSite = x.BankSite,
                     Status = x.Status,
                     QRCodeUrl = x.QRCodeUrl,
-                    SupportQR = x.SupportChannel.Any(y => y == OfflineBankAccountSupportChannelEnum.EWallet),
+                    SupportQR = x.SupportChannel.Any(y => 
+                        y is OfflineBankAccountSupportChannelEnum.EWallet or OfflineBankAccountSupportChannelEnum.BankQR),
                     MinAmount = x.MinAmount,
-                    MaxAmount = x.MaxAmount
+                    MaxAmount = x.MaxAmount,
+                    GroupId = x.GroupId,
+                    GroupName = x.GroupName,
+                    Type = x.Type
                 })
                 .ToList();
 
@@ -332,6 +337,12 @@ namespace MemberSite.Service.BLL
             
             return _redisHelper.TryGetOrCreate(key, TimeSpan.FromMinutes(5),
                 () => _bankInfoService.GetOfflineBankAccountDailyDeposit(siteId, currencyId, strBankIds));
+        }
+
+        public IEnumerable<LocalPaySetting> GetLocalPaymentSettingWithCache()
+        {
+            return _redisHelper.TryGetOrCreate("PaySetting:LocalPaymentSetting", TimeSpan.FromMinutes(5),
+                () => _bankInfoService.GetLocalPaySetting());
         }
     }
 }

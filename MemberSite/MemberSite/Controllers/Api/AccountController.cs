@@ -66,26 +66,34 @@ namespace MemberSite.Controllers.Api
         public async Task<ApiResult> onlineCheck()
         {
             var apiResult = new ApiResult(_selLangBll);
-            var authData = _authorizeBll.GetAuthData();
-            var fromUrl = _tools.GetFromUrl();
-            var deviceType = (int)_tools.GetDeviceId(fromUrl);
-            var result = _authorizeBll.LoginCheckin(deviceType);
-            if (!result)
+            try
             {
-                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-                apiResult.ErrorCode = 1001;
-                apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
-                if (authData is { CustId: > 0 })
+                var authData = _authorizeBll.GetAuthData();
+                var fromUrl = _tools.GetFromUrl();
+                var deviceType = (int)_tools.GetDeviceId(fromUrl);
+                var result = _authorizeBll.LoginCheckin(deviceType);
+                if (!result)
                 {
-                    _ = Task.Run(async () => { _ = await LogoutAsync(1, authData.CustId); });
+                    await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                    apiResult.ErrorCode = 1001;
+                    apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
+                    if (authData is { CustId: > 0 })
+                    {
+                        _ = Task.Run(async () => { _ = await LogoutAsync(1, authData.CustId); });
+                    }
+                }
+                else
+                {
+                    await _cacheHelper.StringFireAndForgetSetAsync(authData.CustId.ToString(), authData.Token,
+                        TimeSpan.FromMinutes(30), RedisDataBase.Token);
                 }
             }
-            else
+            catch (Exception e)
             {
-                await _cacheHelper.StringFireAndForgetSetAsync(authData.CustId.ToString(), authData.Token, TimeSpan.FromMinutes(30), RedisDataBase.Token);
-                apiResult.ErrorCode = 0;
+                _logger.LogError(e, GetCurrentAsyncMethod());
             }
-
+            
+            apiResult.ErrorCode = 0;
             return apiResult;
         }
 
@@ -383,7 +391,7 @@ namespace MemberSite.Controllers.Api
             if (custBankInfo != null)
             {
                 custBankInfo.bankInfoDetail ??= Enumerable.Empty<BankInfoDetailRep>();
-                custBankInfo.uSDTDetail ??= Enumerable.Empty<USDTDetail>();
+                custBankInfo.uSDTDetail ??= Enumerable.Empty<CryptoWalletDetail>();
             }
 
             apiResult.Data = custBankInfo;

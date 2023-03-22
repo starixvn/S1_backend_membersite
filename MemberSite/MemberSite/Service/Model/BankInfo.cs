@@ -1,4 +1,6 @@
-﻿namespace MemberSite.Service.Model
+﻿using MemberSite.Service.Model.enums;
+
+namespace MemberSite.Service.Model
 {
     public class BankInfoSys
     {
@@ -21,8 +23,9 @@
         public int Mode { get; set; }
     }
 
-    public class SysBankInfoFront
+    public class SysBankInfoFront : IPaymentLimit
     {
+        public int BankId { get; set; }
         public int SysId { get; set; }
         public string BankCode { get; set; }
         public string BankName { get; set; }
@@ -34,12 +37,15 @@
         public int Status { get; set; }
 
         public string QRCodeUrl { get; set; }
-        
-        public bool SupportQR  { get; set; }
+
+        public bool SupportQR { get; set; }
+        public int GroupId { get; set; }
+        public string GroupName { get; set; }
+        public DepositType Type { get; set; }
     }
     public class OfflineBankInfoFront : SysBankInfoFront
     {
-        public OfflineBankInfoFront(){}
+        public OfflineBankInfoFront() { }
 
         public OfflineBankInfoFront(SysBankInfoFront bankInfo, bool canSubmit)
         {
@@ -70,6 +76,16 @@
     {
         public int SysId { set; get; }
         public string AccountNum { get; set; }
+        public int Status { set; get; }
+        public string Memo { set; get; }
+        public string UpdateOperator { set; get; }
+        public DateTime UpdateTime { set; get; }
+
+    }
+
+    public class BlockCryptoWallet
+    {
+        public string Address { get; set; }
         public int Status { set; get; }
         public string Memo { set; get; }
         public string UpdateOperator { set; get; }
