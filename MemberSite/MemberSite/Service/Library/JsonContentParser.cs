@@ -8,7 +8,7 @@ namespace MemberSite.Service.Library
         public static string Parse(string content, string languageCode, string defaultLanguage)
         {
             var json = JsonConvert.DeserializeObject<Dictionary<string, string>>(content);
-            if (json.TryGetValue(languageCode, out var value)) return value;
+            if (json.TryGetValue(languageCode, out var value) && !string.IsNullOrEmpty(value)) return value;
 
             if (json.TryGetValue(defaultLanguage, out value)) return value;
 
