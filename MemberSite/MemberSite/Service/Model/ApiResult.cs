@@ -67,7 +67,7 @@ namespace MemberSite.Service.Model
         public int RowCount { get; set; }
     }
 
-    public class DataWithPage <T>
+    public class PageData <T>
     {
         public IEnumerable<T> Data { get; set; }
         public int TotalPages { get; set; }

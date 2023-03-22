@@ -7,7 +7,7 @@
         public int SenderCustId { get; set; }
         public string Sender { get; set; }
         public string Title { get; set; }
-        public DateTime CreateTime { get; set; }
+        public DateTimeOffset CreateTime { get; set; }
         public bool Flag { get; set; }
         public bool IsBatch { get; set; }
     }

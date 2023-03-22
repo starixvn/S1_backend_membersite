@@ -28,7 +28,7 @@ namespace MemberSite.Service.DAL
             return await _mainDbClient.ExecuteAsync("Member_PopupMsgRead_Set", p) > 0;
         }
 
-        public async Task<DataWithPage<Msg>> GetMsgList(int custId, int pageSize, int pageNumber)
+        public async Task<PageData<Msg>> GetMsgList(int custId, int pageSize, int pageNumber)
         {
             var p = new DynamicParameters(new { CustId = custId, PageSize = pageSize });
             p.Add("PageNumber", pageNumber, dbType: DbType.Int32, direction: ParameterDirection.InputOutput);
@@ -38,7 +38,7 @@ namespace MemberSite.Service.DAL
 
             var msgList = await _reportClient.QueryAsync<Msg>("MsgList_Get_V3", p);
 
-            return new DataWithPage<Msg>() 
+            return new PageData<Msg>() 
             {
                 Data = msgList,
                 PageNumber = p.Get<int?>("PageNumber") ?? 0,

@@ -17,12 +17,14 @@ namespace MemberSite.Service.BLL
             _messageService = provider.GetRequiredService<MessageService>();
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
         }
-        public async Task<DataWithPage<Msg>> GetMsgList(int custId, LanguageObject language, int pageSize, int pageNumber)
+        public async Task<PageData<Msg>> GetMsgList(int custId, LanguageObject language, int pageSize, int pageNumber)
         {
             var msgList = await _messageService.GetMsgList(custId, pageSize, pageNumber);
             foreach (var msg in msgList.Data)
             {
-                msg.Title = msg.Title.IsJson() ? JsonContentParser.ParseByJObject(msg.Title, language.LanguageCode, language.DefaultLanguage, "Title") : msg.Title;
+                msg.Title = msg.Title.IsJson() ? 
+                    JsonContentParser.ParseByJObject(msg.Title, language.LanguageCode, language.DefaultLanguage, "Title") : 
+                    msg.Title;
             }
             return msgList;
         }
