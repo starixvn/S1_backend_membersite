@@ -27,17 +27,17 @@ namespace MemberSite.Service.BLL
             return data;
         }
 
-        public IEnumerable<News> GetNews(int siteId, LanguageObject language, int pageSize, ref int pageNumber, out int totalPages, out int rowCount)
+        public async Task<PageData<News>> GetNews(int siteId, LanguageObject language, int pageSize, int pageNumber)
         {
-            var datas = newsService.GetNews(siteId, pageSize, ref pageNumber, out totalPages, out rowCount);
-            foreach (var data in datas)
+            var news = await newsService.GetNews(siteId, pageSize, pageNumber);
+            foreach (var data in news.Data)
             {
                 data.Title = JsonContentParser.Parse(data.Title, language.LanguageCode, language.DefaultLanguage);
                 data.Content = JsonContentParser.Parse(data.Content, language.LanguageCode, language.DefaultLanguage);
                 data.ImageURL = JsonContentParser.Parse(data.ImageURL, language.LanguageCode, language.DefaultLanguage);
             }
 
-            return datas;
+            return news;
         }
     }
 }
