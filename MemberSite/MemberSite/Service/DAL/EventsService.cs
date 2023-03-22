@@ -23,11 +23,6 @@ namespace MemberSite.Service.DAL
 
         }
         
-        public IEnumerable<Leaderboard> GetLeaderboardList(int lBCategoryId, int siteId, int currencyId, int topNum, int beforeDays)
-        {
-            return _reportDbClient.Query<Leaderboard>("Member_Leaderboard_LastDateTop_Get", new { LBCategoryId = lBCategoryId, SiteId = siteId, CurrencyId = currencyId, TopNum = topNum, BeforeDays = beforeDays });
-        }
-        
         public void GetCustRank(int lBCategoryId, int custId, int beforeDays, out int custRank, out Decimal point)
         {
             custRank = 0;
@@ -41,27 +36,19 @@ namespace MemberSite.Service.DAL
             custRank = p.Get<int?>("CustRank") ?? 0;
             point = p.Get<decimal?>("Point") ?? 0;
         }
-
-        public IEnumerable<Leaderboard> GetLeaderboardListV3(int lBCategoryId, string eventCode, int siteId, int currencyId, int topNum, int beforeDays)
+        
+        public IEnumerable<Leaderboard> GetLeaderboardList(int lBCategoryId, string eventCode, int siteId, int currencyId, int topNum, DateTime startTime , DateTime endTime)
         {
-            var p = new DynamicParameters(new { EventCode = eventCode });
-            p.Add("CustRankSP", dbType: DbType.String, direction: ParameterDirection.Output);
-            p.Add("LastDateTopSP", dbType: DbType.String, direction: ParameterDirection.Output);
-            _reportDbClient.Execute("Member_LeaderboardEventSetting_Get", p);
-
-            var custRankSp = p.Get<string>("CustRankSP");
-            var lastDateTopSp = p.Get<string>("LastDateTopSP");
-            
-            if (lastDateTopSp != null)
-                return _reportDbClient.Query<Leaderboard>(lastDateTopSp, new { LBCategoryId = lBCategoryId, EventCode = eventCode, SiteId = siteId, CurrencyId = currencyId, TopNum = topNum, BeforeDays = beforeDays });
-            else
-                return _reportDbClient.Query<Leaderboard>("Member_Leaderboard_LastDateTopV2_Get", new { LBCategoryId = lBCategoryId, EventCode = eventCode, SiteId = siteId, CurrencyId = currencyId, TopNum = topNum, BeforeDays = beforeDays });
-        }
-
-
-        public IEnumerable<Leaderboard> GetLeaderboardListMonth(int lBCategoryId, string eventCode, int siteId, int currencyId, int topNum, DateTime selectDays)
-        {
-            return _reportDbClient.Query<Leaderboard>("Member_Leaderboard_TopMonth_Get", new { LBCategoryId = lBCategoryId, EventCode = eventCode, SiteId = siteId, CurrencyId = currencyId, TopNum = topNum, SeletDay = selectDays });
+            var p = new DynamicParameters();
+            p.Add("LBCategoryId", lBCategoryId);
+            p.Add("EventCode", eventCode);
+            p.Add("SiteId", siteId);
+            p.Add("CurrencyId", currencyId);
+            p.Add("StartTime", startTime);
+            p.Add("EndTime", endTime);
+            p.Add("TopNum", topNum);
+            var result = _reportDbClient.Query<Leaderboard>("Member_Leaderboard_Get", p);
+            return result;
         }
         
         public void GetCustRankV3(int lBCategoryId, string eventCode, int custId, int beforeDays, out int custRank, out Decimal point)

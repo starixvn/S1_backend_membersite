@@ -19,9 +19,7 @@ namespace MemberSite.Service.DAL.Interface
         EventDrawInfo GetEventDrawInfo(int eventId);
         void GetLeaderboardEventCode(int siteId, out string eventCodeNow, out string eventCodeLast);
         LeaderboardInfo GetLeaderboardInfo(string eventCode, int siteId, int currencyId);
-        IEnumerable<Leaderboard> GetLeaderboardList(int lBCategoryId, int siteId, int currencyId, int topNum, int beforeDays);
-        IEnumerable<Leaderboard> GetLeaderboardListMonth(int lBCategoryId, string eventCode, int siteId, int currencyId, int topNum, DateTime selectDays);
-        IEnumerable<Leaderboard> GetLeaderboardListV3(int lBCategoryId, string eventCode, int siteId, int currencyId, int topNum, int beforeDays);
+        IEnumerable<Leaderboard> GetLeaderboardList(int lBCategoryId, string eventCode, int siteId, int currencyId, int topNum, DateTime startTime , DateTime endTime);
         Task<IEnumerable<Prize>> GetPrizes(int eventId, int currencyId);
         Task ResetPrize(int eventId, int currencyId);
         Task<IEnumerable<AngPowTicket>> GetTickets(int custId, int currencyId);
