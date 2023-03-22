@@ -32,6 +32,10 @@ namespace MemberSite.Service.BLL
                     { NetworkType.ETH, Erc20AddressValidation },
                     { NetworkType.TRC20, Trc20AddressValidation },
                     { NetworkType.BTC, BitCoinAddressValidation },
+                    { NetworkType.BSC, Erc20AddressValidation },
+                    { NetworkType.BEP20, Erc20AddressValidation },
+                    { NetworkType.XRP, XRPAddressValidation },
+                    { NetworkType.ADA, CardanoAddressValidation },
                 };
         }
 
@@ -174,6 +178,18 @@ namespace MemberSite.Service.BLL
         {
             // m/n/2 開頭為測試鏈
             var regex = new Regex(@"^(?:[1mn32]{1}[a-km-zA-HJ-NP-Z1-9]{26,33}|bc1[a-z0-9]{39,59})$");
+            return regex.IsMatch(address);
+        }
+        
+        private bool CardanoAddressValidation(string address)
+        {
+            var regex = new Regex(@"^(Ae2|Dd|addr|stake).*");
+            return regex.IsMatch(address);
+        }
+        
+        private bool XRPAddressValidation(string address)
+        {
+            var regex = new Regex(@"^r[1-9a-km-zA-HJ-NP-Z]{24,34}$");
             return regex.IsMatch(address);
         }
     }
