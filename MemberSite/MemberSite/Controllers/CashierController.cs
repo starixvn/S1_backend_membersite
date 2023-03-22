@@ -217,20 +217,32 @@ namespace MemberSite.Controllers
 
         [Route("[controller]/DepositReceip.jpg")]
         [HttpGet]
-        public IActionResult GetDepositReceiptPic(string transId)
+        public List<DepositReceiptModel> GetDepositReceiptPic(string transId)
         {
             var authData = _authorizeBll.GetAuthData();
             if (authData is not { CustId: > 0 })
             {
-                return StatusCode(404);
+                return null;
             }
             var depositReceipt = _paymentBll.GetDepositReceipt(transId, authData.CustId);
             if (depositReceipt == null)
             {
-                return StatusCode(404);
+                return null;
             }
-            var image = depositReceipt.DepositPic;
-            return File(image, "image/jpeg");
+            
+            var result = new List<DepositReceiptModel>();
+            foreach (var receipt in depositReceipt)
+            {
+                var image = receipt.DepositPic;
+                var model = new DepositReceiptModel
+                {
+                    PicFileName = receipt.PicFileName,
+                    ReceiptNo = receipt.ReceiptNo,
+                    Receipt = File(image, "image/jpeg"),
+                };
+                result.Add(model);
+            }
+            return result;
         }
 
         public class ReqDeposit
@@ -255,20 +267,33 @@ namespace MemberSite.Controllers
 
         [Route("{LangId}/[controller]/DepositReceip.jpg")]
         [HttpGet]
-        public IActionResult GetDepositReceiptPicV2(string transId)
+        public List<DepositReceiptModel> GetDepositReceiptPicV2(string transId)
         {
             var authData = _authorizeBll.GetAuthData();
             if (authData is not { CustId: > 0 })
             {
-                return StatusCode(404);
+                return null;
             }
+            
+            var result = new List<DepositReceiptModel>();
             var depositReceipt = _paymentBll.GetDepositReceipt(transId, authData.CustId);
             if (depositReceipt == null)
             {
-                return StatusCode(404);
+                return null;
             }
-            var image = depositReceipt.DepositPic;
-            return File(image, "image/jpeg");
+            
+            foreach (var receipt in depositReceipt)
+            {
+                var image = receipt.DepositPic;
+                var model = new DepositReceiptModel
+                {
+                    PicFileName = receipt.PicFileName,
+                    ReceiptNo = receipt.ReceiptNo,
+                    Receipt = File(image, "image/jpeg"),
+                };
+                result.Add(model);
+            }
+            return result;
         }
 
         public async Task<IActionResult> DepositReqQRPayAsync(int ChannelId, decimal Amount, string BonusCode)
