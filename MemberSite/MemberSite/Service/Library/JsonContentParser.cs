@@ -18,13 +18,21 @@ namespace MemberSite.Service.Library
         public static string ParseByJObject(string content, string languageCode, string defaultLanguage, string column) 
         {
             var msg = "";
-            if (JObject.Parse(content)[languageCode] != null)
+            if (JObject.Parse(content)[languageCode] != null) 
+            {
                 msg = JObject.Parse(content)[languageCode].ToString();
-
-            else if (JObject.Parse(content)[defaultLanguage] != null)
+                var value = JObject.Parse(msg)[column].ToString();
+                if (!string.IsNullOrEmpty(value)) 
+                    return value;
+            }
+            if (JObject.Parse(content)[defaultLanguage] != null) 
+            {
                 msg = JObject.Parse(content)[defaultLanguage].ToString();
-
-            return string.IsNullOrEmpty(msg) ? msg : JObject.Parse(msg)[column].ToString();
+                var value = JObject.Parse(msg)[column].ToString();
+                if (!string.IsNullOrEmpty(value))
+                    return value;
+            }
+            return msg;
             
         }
     }
