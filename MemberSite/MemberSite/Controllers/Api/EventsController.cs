@@ -27,7 +27,6 @@ namespace MemberSite.Controllers.Api
         private readonly DateTimeHelper _dateTimeHelper;
 
         public EventsController(IServiceProvider provider)
-
         {
             _authorizeBll = provider.GetRequiredService<AuthorizeBLL>();
             _eventsBll = provider.GetRequiredService<EventsBLL>();
@@ -45,144 +44,34 @@ namespace MemberSite.Controllers.Api
               {2,"MYR" },{4,"THB" },{13,"CNY" },{15,"IDR" },{51,"VND" },{61,"INR" },{96,"USDT" }
             };
         }
-
+        
         public class GetLeaderboardListReq
-        {
-            public int LBCategoryId { get; set; }
-            public int TopNum { get; set; }
-            public int BeforeDays { get; set; }
-        }
-        [Authorize]
-        [HttpPost]
-        public ApiResult<IEnumerable<Leaderboard>> GetLeaderboardList(GetLeaderboardListReq getLeaderboardListReq)
-        {
-            var apiResult = new ApiResult<IEnumerable<Leaderboard>>();
-            var authData = _authorizeBll.GetAuthData();
-            var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-
-            apiResult.Data = _eventsBll.GetLeaderboardListWithCache(getLeaderboardListReq.LBCategoryId, custInfo.SiteId, custInfo.CurrencyId, getLeaderboardListReq.TopNum, getLeaderboardListReq.BeforeDays);
-            foreach (var L in apiResult.Data)
-            {
-                if (L.CustId != authData.CustId)
-                    L.UserName = _eventsBll.MaskName(L.UserName);
-            }
-            apiResult.ErrorCode = 0;
-            return apiResult;
-        }
-        //private string MaskName(string input)
-        //{
-        //    if (string.IsNullOrEmpty(input))
-        //        return input;
-
-        //    string pattern = @"(?<=[\w]{2})[\w-\._\+%]*(?=[\w]{2})";
-        //    if (input.Length < 6)
-        //        pattern = @"(?<=[\w]{1})[\w-\._\+%]*(?=[\w]{1})";
-        //    return Regex.Replace(input, pattern, m => new string('*', m.Length));
-        //}
-        public class GetCustRankReq
-        {
-            public int LBCategoryId { get; set; }
-            public int BeforeDays { get; set; }
-        }
-        [Authorize]
-        [HttpPost]
-        public ApiResult<LeaderboardCustRank> GetCustRank(GetCustRankReq getCustRankReq)
-        {
-            var apiResult = new ApiResult<LeaderboardCustRank>
-            {
-                Data = new LeaderboardCustRank()
-            };
-            var authData = _authorizeBll.GetAuthData();
-
-            _eventsBll.GetCustRankWithCache(getCustRankReq.LBCategoryId, authData.CustId, getCustRankReq.BeforeDays, out var custRank, out var point);
-
-            apiResult.Data.CustRank = custRank;
-            apiResult.Data.point = point;
-            apiResult.ErrorCode = 0;
-            return apiResult;
-        }
-
-        public class GetLeaderboardListV2Req
         {
             public int LBCategoryId { get; set; }
             public string EventCode { get; set; }
             public int TopNum { get; set; }
             public int BeforeDays { get; set; }
         }
-        //[Authorize]
-        [HttpPost]
-        public ApiResult<IEnumerable<Leaderboard>> GetLeaderboardListV2(GetLeaderboardListV2Req getLeaderboardListV2Req)
+        
+        public class GetCustRankReq
         {
-            var apiResult = new ApiResult<IEnumerable<Leaderboard>>();
-            var custId = 0;
-            var siteId = 0;
-            var currencyId = 0;
-            
-            var authData = _authorizeBll.GetAuthData();
-            if (authData is { CustId: > 0 })
-            {
-                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-                siteId = custInfo.SiteId;
-                currencyId = custInfo.CurrencyId;
-            }
-            else
-            {
-                var serverInfo = _serverInfoBll.GetServerInfo();
-                siteId = serverInfo.SiteId;
-                currencyId = _selLangBll.GetPreferCurrencyId();
-            }
-
-            apiResult.Data = JsonSerializer.Deserialize<IEnumerable<Leaderboard>>(JsonSerializer.Serialize(
-                _eventsBll.GetLeaderboardListWithCacheV2(getLeaderboardListV2Req.EventCode,
-                    getLeaderboardListV2Req.LBCategoryId, siteId, currencyId,
-                    getLeaderboardListV2Req.TopNum, getLeaderboardListV2Req.BeforeDays)));
-            
-            foreach (var L in apiResult.Data)
-            {
-                if (L.CustId != custId)
-                    L.UserName = _eventsBll.MaskName(L.UserName);
-            }
-            apiResult.ErrorCode = 0;
-            return apiResult;
+            public int LBCategoryId { get; set; }
+            public string EventCode { get; set; }
+            public int BeforeDays { get; set; }
         }
         
-        //[Authorize]
-        [HttpPost]
-        public ApiResult<IEnumerable<Leaderboard>> GetLeaderboardListV3(GetLeaderboardListV2Req getLeaderboardListV2Req)
+        public class GetCustRankMonthReq
         {
-            var apiResult = new ApiResult<IEnumerable<Leaderboard>>();
-            var custId = 0;
-            var siteId = 0;
-            var currencyId = 0;
-            
-            var authData = _authorizeBll.GetAuthData();
-            if (authData is { CustId: > 0 })
-            {
-                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-                siteId = custInfo.SiteId;
-                currencyId = custInfo.CurrencyId;
-            }
-            else
-            {
-                var serverInfo = _serverInfoBll.GetServerInfo();
-                siteId = serverInfo.SiteId;
-                currencyId = _selLangBll.GetPreferCurrencyId();
-            }
-
-            apiResult.Data = JsonSerializer.Deserialize<IEnumerable<Leaderboard>>(JsonSerializer.Serialize(
-                _eventsBll.GetLeaderboardListWithCacheV3(getLeaderboardListV2Req.EventCode,
-                    getLeaderboardListV2Req.LBCategoryId, siteId, currencyId,
-                    getLeaderboardListV2Req.TopNum, getLeaderboardListV2Req.BeforeDays)));
-
-            foreach (var L in apiResult.Data)
-            {
-                if (L.CustId != custId)
-                    L.UserName = _eventsBll.MaskName(L.UserName);
-            }
-            apiResult.ErrorCode = 0;
-            return apiResult;
+            public int LBCategoryId { get; set; }
+            public string EventCode { get; set; }
+            public DateTime SelectDays { get; set; }
         }
-
+        
+        public class DrawPrizeReq
+        {
+            public int eventId { get; set; }
+        }
+        
         public class GetLeaderboardListMonthReq
         {
             public int LBCategoryId { get; set; }
@@ -190,14 +79,50 @@ namespace MemberSite.Controllers.Api
             public int TopNum { get; set; }
             public DateTime SelectDays { get; set; }
         }
+        
         //[Authorize]
+        [HttpPost]
+        public ApiResult<IEnumerable<Leaderboard>> GetLeaderboardList(GetLeaderboardListReq getLeaderboardListV2Req)
+        {
+            var apiResult = new ApiResult<IEnumerable<Leaderboard>>();
+            int siteId;
+            int currencyId;
+            
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is { CustId: > 0 })
+            {
+                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                siteId = custInfo.SiteId;
+                currencyId = custInfo.CurrencyId;
+            }
+            else
+            {
+                var serverInfo = _serverInfoBll.GetServerInfo();
+                siteId = serverInfo.SiteId;
+                currencyId = _selLangBll.GetPreferCurrencyId();
+            }
+
+            apiResult.Data = JsonSerializer.Deserialize<IEnumerable<Leaderboard>>(JsonSerializer.Serialize(
+                _eventsBll.GetLeaderboardListWithCache(getLeaderboardListV2Req.EventCode,
+                    getLeaderboardListV2Req.LBCategoryId, siteId, currencyId,
+                    getLeaderboardListV2Req.TopNum, getLeaderboardListV2Req.BeforeDays)));
+
+            foreach (var L in apiResult.Data)
+            {
+                if (L.CustId != authData.CustId)
+                    L.UserName = _eventsBll.MaskName(L.UserName);
+            }
+            
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+        
         [HttpPost]
         public ApiResult<IEnumerable<Leaderboard>> GetLeaderboardListMonth(GetLeaderboardListMonthReq getLeaderboardListMonthReq)
         {
             var apiResult = new ApiResult<IEnumerable<Leaderboard>>();
-            var custId = 0;
-            var siteId = 0;
-            var currencyId = 0;
+            int siteId;
+            int currencyId;
             
             var authData = _authorizeBll.GetAuthData();
             if (authData is { CustId: > 0 })
@@ -220,45 +145,33 @@ namespace MemberSite.Controllers.Api
 
             foreach (var L in apiResult.Data)
             {
-                if (L.CustId != custId)
+                if (L.CustId != authData.CustId)
                     L.UserName = _eventsBll.MaskName(L.UserName);
             }
             apiResult.ErrorCode = 0;
             return apiResult;
         }
-        public class GetCustRankV2Req
-        {
-            public int LBCategoryId { get; set; }
-            public string EventCode { get; set; }
-            public int BeforeDays { get; set; }
-        }
+        
         [Authorize]
         [HttpPost]
-        public ApiResult<LeaderboardCustRank> GetCustRankV2(GetCustRankV2Req getCustRankV2Req)
+        public ApiResult<LeaderboardCustRank> GetCustRank(GetCustRankReq input)
         {
             var apiResult = new ApiResult<LeaderboardCustRank>
             {
                 Data = new LeaderboardCustRank()
             };
             var authData = _authorizeBll.GetAuthData();
-
-            _eventsBll.GetCustRankWithCacheV2(getCustRankV2Req.LBCategoryId, getCustRankV2Req.EventCode, authData.CustId, getCustRankV2Req.BeforeDays, out var custRank, out var point);
-
-            _eventsBll.GetCustRankWithCacheV2(getCustRankV2Req.LBCategoryId, getCustRankV2Req.EventCode, authData.CustId, getCustRankV2Req.BeforeDays+1, out var yesterdaycustRank, out var yesterdaypoint);
+            var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+            _eventsBll.GetCustRankWithCache(input.LBCategoryId, input.EventCode, custInfo.SiteId , custInfo.CurrencyId ,authData.CustId, input.BeforeDays, out var custRank, out var point);
+            _eventsBll.GetCustRankWithCache(input.LBCategoryId, input.EventCode, custInfo.SiteId , custInfo.CurrencyId , authData.CustId, input.BeforeDays+1, out var yesterdayCustRank, out var yesterdayPoint);
             
             apiResult.Data.CustRank = custRank;
             apiResult.Data.point = point;
-            apiResult.Data.Status = -custRank.CompareTo(yesterdaycustRank);
+            apiResult.Data.Status = -custRank.CompareTo(yesterdayCustRank);
             apiResult.ErrorCode = 0;
             return apiResult;
         }
-
-        public class GetCustRankMonthReq
-        {
-            public int LBCategoryId { get; set; }
-            public string EventCode { get; set; }
-            public DateTime SelectDays { get; set; }
-        }
+        
         [Authorize]
         [HttpPost]
         public ApiResult<LeaderboardCustRank> GetCustRankMonth(GetCustRankMonthReq getCustRankMonthReq)
@@ -268,19 +181,16 @@ namespace MemberSite.Controllers.Api
                 Data = new LeaderboardCustRank()
             };
             var authData = _authorizeBll.GetAuthData();
-
-            _eventsBll.GetCustRankWithCacheMonth(getCustRankMonthReq.LBCategoryId, getCustRankMonthReq.EventCode, authData.CustId, getCustRankMonthReq.SelectDays, out var custRank, out var point);
+            var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+            
+            _eventsBll.GetCustRankWithCacheMonth(getCustRankMonthReq.LBCategoryId, getCustRankMonthReq.EventCode, custInfo.SiteId , custInfo.CurrencyId ,authData.CustId, getCustRankMonthReq.SelectDays, out var custRank, out var point);
 
             apiResult.Data.CustRank = custRank;
             apiResult.Data.point = point;
             apiResult.ErrorCode = 0;
             return apiResult;
         }
-
-        public class DrawPrizeReq
-        {
-            public int eventId { get; set; }
-        }
+        
         [Authorize]
         [HttpPost]
         public async Task<ApiResult<CustGift>> CheckDrawPrize(DrawPrizeReq drawPrizeReq)
@@ -534,65 +444,6 @@ namespace MemberSite.Controllers.Api
             }
          
         }
-
-        [HttpPost]
-        public ApiResult<LeaderboardEvent> GetLeaderboardEventCode()
-        {
-            var apiResult = new ApiResult<LeaderboardEvent>
-            {
-                Data = new LeaderboardEvent()
-            };
-            var siteId = 0;
-            string NowEventCode = null;
-            string LastEventCode = null;
-           
-            var authData = _authorizeBll.GetAuthData();
-            if (authData is { CustId: > 0 })
-            {
-                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-                siteId = custInfo.SiteId;
-            }
-            else
-            {
-                var serverInfo = _serverInfoBll.GetServerInfo();
-                siteId = serverInfo.SiteId;
-            }
-            _eventsBll.GetLeaderboardEventCode(siteId, out NowEventCode, out LastEventCode);
-            apiResult.Data.NowEventCode = NowEventCode;
-            apiResult.Data.LastEventCode = LastEventCode;
-            apiResult.ErrorCode = 0;
-            return apiResult;
-        }
-
-        public class LeaderboardInfoReq
-        {
-            public string EventCode { get; set; }
-            
-        }
-        [HttpPost]
-        public ApiResult<LeaderboardInfo> GetLeaderboardInfo(LeaderboardInfoReq leaderboardInfoReq)
-        {
-            var apiResult = new ApiResult<LeaderboardInfo>();
-            var siteId = 0;
-            var currencyId = 0;
-            var authData = _authorizeBll.GetAuthData();
-            if (authData is { CustId: > 0 })
-            {
-                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-                siteId = custInfo.SiteId;
-                currencyId = custInfo.CurrencyId;
-            }
-            else
-            {
-                var serverInfo = _serverInfoBll.GetServerInfo();
-                siteId = serverInfo.SiteId;
-                currencyId = _selLangBll.GetPreferCurrencyId();
-            }
-
-            apiResult.Data = _eventsBll.GetLeaderboardInfoWithCache(leaderboardInfoReq.EventCode , siteId, currencyId);
-            apiResult.ErrorCode = 0;
-            return apiResult;
-        }
-
+        
     }
 }
