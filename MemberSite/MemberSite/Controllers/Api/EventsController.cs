@@ -115,6 +115,13 @@ namespace MemberSite.Controllers.Api
                         L.UserName = _eventsBll.MaskName(L.UserName);
                 }
             }
+            else
+            {
+                foreach (var L in apiResult.Data)
+                {
+                    L.UserName = _eventsBll.MaskName(L.UserName);
+                }
+            }
 
             apiResult.ErrorCode = 0;
             return apiResult;
@@ -146,11 +153,22 @@ namespace MemberSite.Controllers.Api
                     getLeaderboardListMonthReq.LBCategoryId, siteId, currencyId,
                     getLeaderboardListMonthReq.TopNum, getLeaderboardListMonthReq.SelectDays)));
 
-            foreach (var L in apiResult.Data)
+            if (authData is {CustId: > 0})
             {
-                if (L.CustId != authData.CustId)
-                    L.UserName = _eventsBll.MaskName(L.UserName);
+                foreach (var L in apiResult.Data)
+                {
+                    if (L.CustId != authData.CustId)
+                        L.UserName = _eventsBll.MaskName(L.UserName);
+                }
             }
+            else
+            {
+                foreach (var L in apiResult.Data)
+                {
+                    L.UserName = _eventsBll.MaskName(L.UserName);
+                }
+            }
+            
             apiResult.ErrorCode = 0;
             return apiResult;
         }
