@@ -156,16 +156,17 @@ namespace MemberSite.Service.BLL
             return -99;
         }
         
-        public async Task<(int ErrorCode, string Message)> DepositReqCryptoLocalPayAsync(Customer custInfo, decimal amount, OfflineCryptoPayInfo cryptoPayInfo)
+        public async Task<(int ErrorCode, string Message, PayResult payResult)> DepositReqCryptoLocalPayAsync(
+            Customer custInfo, decimal amount, OfflineCryptoPayInfo cryptoPayInfo)
         {
             if (amount <= 0)
-                return (-1, "Amount must be greater than 0");
+                return (-1, "Amount must be greater than 0", null);
 
             var exchangeInfo =
-                await GetExchangeInfoAsync(custInfo.CustId, amount, cryptoPayInfo.ChannelName, ExchangeTypeEnum.Buy);
+                await GetExchangeInfoAsync(custInfo.SiteId, custInfo.CurrencyId, amount, cryptoPayInfo.ChannelName, ExchangeTypeEnum.Buy);
 
             if (exchangeInfo.ErrorCode != (int) ErrorCode.Success)
-                return (-2, "Get exchange info failed.");
+                return (-2, "Get exchange info failed.", null);
             
             var depositDetailInfo = new DepositDetailInfo
             {
@@ -176,12 +177,39 @@ namespace MemberSite.Service.BLL
                 SiteId = custInfo.SiteId,
                 UserName = custInfo.UserName,
                 CurrencyId = custInfo.CurrencyId,
-                DepositInfo = JsonConvert.SerializeObject(cryptoPayInfo)
+                DepositInfo = JsonConvert.SerializeObject(new
+                {
+                    cryptoPayInfo.BankId,
+                    cryptoPayInfo.AccountName,
+                    cryptoPayInfo.AccountNo,
+                    cryptoPayInfo.FrontendDisplayName,
+                    cryptoPayInfo.CryptoCurrencyId,
+                    cryptoPayInfo.Network,
+                    CurrencyName = cryptoPayInfo.CryptoCurrencyId.ToString(),
+                    cryptoPayInfo.ChannelName,
+                    ExchangeRate = exchangeInfo.Data.Rate,
+                    exchangeInfo.Data.ExchangeAmount
+                })
             };
 
             _depositService.DepositReq(depositDetailInfo, out var transId, out _);
+            var payResult = new PayResult
+            {
+                Url = cryptoPayInfo.FrontendDisplayName,
+                Mode = 3,
+                FormData = new Dictionary<string, string>
+                {
+                    { "DepositAmount", amount.ToString() },
+                    { "Rate", exchangeInfo.Data.Rate.ToString() },
+                    { "RequestAmount", exchangeInfo.Data.ExchangeAmount.ToString() },
+                    { "Token", cryptoPayInfo.ChannelName }
+                },
+                ThirdId = transId
+            };
             
-            return (0, transId);
+            return string.IsNullOrEmpty(transId) 
+                ? (-3, "Create deposit transaction failed.", null)
+                : (0, transId, payResult);
         }
 
         public async Task<ApiResult<CryptoExchangeInfo>> GetExchangeInfoAsync(int siteId, int currencyId, decimal amount, string channelName, ExchangeTypeEnum type)

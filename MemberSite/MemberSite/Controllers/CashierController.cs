@@ -215,7 +215,7 @@ namespace MemberSite.Controllers
             var random = new Random();
             var cryptoInfo = cryptoInfos[random.Next(cryptoInfos.Count - 1)];
             
-            var (errorCode, message) = _cryptoPayInfoBll.DepositReqCryptoLocalPayAsync(
+            var (errorCode, message, payResult) = await _cryptoPayInfoBll.DepositReqCryptoLocalPayAsync(
                 custInfo, req.Amount, cryptoInfo);
             
             if (errorCode != (int)ErrorCode.Success)
@@ -227,9 +227,15 @@ namespace MemberSite.Controllers
             var transId = message;
             if (_promotionBll.VerifyBonusCode(req.BonusCode))
                 _promotionBll.SetDepositPromotionQueue(transId, req.BonusCode, authData.CustId, custInfo.SiteId, custInfo.UserName, custInfo.CurrencyId, 1, 0);
-     
-            if (ActionResult(new ApiResult<PayResult>(), transId, model, PaymentView.DepositReqCryptoPay, out var actionResult))
-                return actionResult;
+
+            var apiResult = new ApiResult<PayResult>
+            {
+                Data = payResult,
+                ErrorCode = errorCode
+            };
+            
+            return ActionResult(apiResult, transId, model, PaymentView.DepositReqCryptoPay, out var actionResult)
+                ? actionResult : RedirectErrorPage(model);
         }
 
         public async Task<IActionResult> DepositReqLoadCardPayAsync(int ChannelId, string Code, string Serial, decimal Amount, string BonusCode)

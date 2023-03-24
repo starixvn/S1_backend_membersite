@@ -106,12 +106,10 @@ namespace MemberSite.Service.Model
         }
         
         public decimal DailyLimitAmount { get; set; }
-        [JsonIgnore]
         public string StrPointLevels { get; set; }
         public IEnumerable<int> PointLevels =>
             JsonConvert.DeserializeObject<IEnumerable<int>>(StrPointLevels);
         
-        [JsonIgnore]
         public string StrVipLevels { get; set; }
         public IEnumerable<int> VipLevels =>
             JsonConvert.DeserializeObject<IEnumerable<int>>(StrVipLevels);
@@ -120,7 +118,6 @@ namespace MemberSite.Service.Model
         public decimal MinAmount { get; set; }
         public decimal MaxAmount { get; set; }
         
-        [JsonIgnore]
         public string StrPurpose { get; set; }
 
         public IEnumerable<OfflineBankAccountPurposeEnum> Purposes =>
