@@ -3,6 +3,7 @@ using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
 
 namespace MemberSite.Service.BLL
 {
@@ -12,6 +13,7 @@ namespace MemberSite.Service.BLL
         private readonly DepositBLL _depositBll;
         private readonly PayService _payService;
         private readonly DepositService _depositService;
+        private readonly BankInfoOffBLL _bankInfoOffBll;
         private readonly CourierAdapter _courierAdapter;
         private readonly string _payApiUrl;
         private readonly ICacheHelper _redisHelper;
@@ -21,6 +23,7 @@ namespace MemberSite.Service.BLL
         {
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _depositBll = provider.GetRequiredService<DepositBLL>();
+            _bankInfoOffBll = provider.GetRequiredService<BankInfoOffBLL>();
             _payService = provider.GetRequiredService<PayService>();
             _depositService = provider.GetRequiredService<DepositService>();
             _payApiUrl = provider.GetRequiredService<IConfiguration>().GetValue<string>("PayService");
@@ -62,7 +65,28 @@ namespace MemberSite.Service.BLL
             }
 
             var cryptoPayInfoList = GetCryptoPayInfoListWithCache(custInfo.SiteId)
-                .Where(x => vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId).ToList();
+                .Where(x => vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId)
+                .ToList();
+
+            var localCryptoList = _bankInfoOffBll.GetFilteredOfflineCryptoPayInfo(custId)
+                .GroupBy(x => x.ChannelName)
+                .Select(g =>
+                    new CryptoPayInfo
+                    {
+                        ChannelName = g.Key,
+                        Mode = 3,
+                        MaxAmount = g.Any(x => x.MaxAmount == 0) 
+                            ? 0 : g.Max(x => x.MinAmount),
+                        MinAmount = g.Min(x => x.MinAmount),
+                        ChannelId = -1,
+                        GroupId = -1,
+                        GroupName = ((SiteId)custInfo.SiteId).ToString(),
+                        AmountRule = 1,
+                        CurrencyId = custInfo.CurrencyId,
+                        GSort = -1
+                    });
+            
+            cryptoPayInfoList.AddRange(localCryptoList);
        
             if (depositLimitInfo != null)
             {
@@ -74,7 +98,6 @@ namespace MemberSite.Service.BLL
             
             var result = cryptoPayInfoList.Where(x => x.MaxAmount > 0);
 
-            
 
             return result;
         }
@@ -131,6 +154,34 @@ namespace MemberSite.Service.BLL
             }
 
             return -99;
+        }
+        
+        public async Task<(int ErrorCode, string Message)> DepositReqCryptoLocalPayAsync(Customer custInfo, decimal amount, OfflineCryptoPayInfo cryptoPayInfo)
+        {
+            if (amount <= 0)
+                return (-1, "Amount must be greater than 0");
+
+            var exchangeInfo =
+                await GetExchangeInfoAsync(custInfo.CustId, amount, cryptoPayInfo.ChannelName, ExchangeTypeEnum.Buy);
+
+            if (exchangeInfo.ErrorCode != (int) ErrorCode.Success)
+                return (-2, "Get exchange info failed.");
+            
+            var depositDetailInfo = new DepositDetailInfo
+            {
+                Amount = amount,
+                CustId = custInfo.CustId,
+                DepositType = (int)DepositType.CryptoWallet,
+                Memo = "Local Payment",
+                SiteId = custInfo.SiteId,
+                UserName = custInfo.UserName,
+                CurrencyId = custInfo.CurrencyId,
+                DepositInfo = JsonConvert.SerializeObject(cryptoPayInfo)
+            };
+
+            _depositService.DepositReq(depositDetailInfo, out var transId, out _);
+            
+            return (0, transId);
         }
 
         public async Task<ApiResult<PaymentReq>> GetExchangeInfoAsync(int custId, decimal amount, string channelName, ExchangeTypeEnum type)

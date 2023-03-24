@@ -299,6 +299,18 @@ namespace MemberSite.Controllers.Api
             public string BonusCode { set; get; }
         }
         
+        public class DepositReqLocalCryptoPayReq : DepositReqLocalPayReq
+        {
+            /// <summary>
+            /// 參考匯率
+            /// </summary>
+            public decimal ExchangeRate { get; set; }
+            /// <summary>
+            /// 參考加密貨幣金額
+            /// </summary>
+            public decimal ExchangeAmount { get; set; }
+        }
+        
         [HttpPost]
         public ApiResult<LocalPayResp> DepositReqLocalPayAsync(DepositReqLocalPayReq req)
         {
@@ -320,8 +332,8 @@ namespace MemberSite.Controllers.Api
             var cards = bankInfoOffBLL.GetOfflineBankCardListWithCache(custId)
                 .Where(x => x.SupportQR
                             && x.GroupId == req.GroupId
-                            && req.Amount >= x.MinAmount
-                            && req.Amount <= x.MaxAmount)
+                            && (x.MinAmount == 0 || req.Amount >= x.MinAmount)
+                            && (x.MaxAmount == 0 || req.Amount <= x.MaxAmount))
                 .ToList();
 
             if (!cards.Any())

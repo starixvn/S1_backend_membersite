@@ -39,5 +39,10 @@ namespace MemberSite.Service.DAL
         {
             return _reportDbClient.Query<LocalPaySetting>("Member_LocalPaySetting_Get");
         }
+        
+        public IEnumerable<OfflineCryptoPayInfo> GetOfflineCryptoPayInfo(int siteId)
+        {
+            return _reportDbClient.Query<OfflineCryptoPayInfo>("Member_OfflineCryptoAccount_Get", new { _SiteId = siteId });
+        }
     }
 }
