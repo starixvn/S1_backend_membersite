@@ -107,12 +107,15 @@ namespace MemberSite.Controllers.Api
                     getLeaderboardListV2Req.LBCategoryId, siteId, currencyId,
                     getLeaderboardListV2Req.TopNum, getLeaderboardListV2Req.BeforeDays)));
 
-            foreach (var L in apiResult.Data)
+            if (authData is {CustId: > 0})
             {
-                if (L.CustId != authData.CustId)
-                    L.UserName = _eventsBll.MaskName(L.UserName);
+                foreach (var L in apiResult.Data)
+                {
+                    if (L.CustId != authData.CustId)
+                        L.UserName = _eventsBll.MaskName(L.UserName);
+                }
             }
-            
+
             apiResult.ErrorCode = 0;
             return apiResult;
         }
