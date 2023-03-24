@@ -1390,17 +1390,23 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
             
+            var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
             var channelName =
                 getExchangeReq.CurrencyName == getExchangeReq.Network
                     ? getExchangeReq.CurrencyName
                     : $"{getExchangeReq.CurrencyName}-{getExchangeReq.Network}";
 
-            var result = await cryptoPayInfoBLL.GetExchangeInfoAsync(authData.CustId,
+            var result = await cryptoPayInfoBLL.GetExchangeInfoAsync(custInfo.SiteId, custInfo.CurrencyId,
                 getExchangeReq.Amount, channelName, getExchangeReq.Type);
             
             if (result is { Data: { } })
             {
-                apiResult.Data = result.Data.formData;
+                apiResult.Data = new ExchangeInfo
+                {
+                    Rate = result.Data.Rate,
+                    To_Amount = result.Data.ExchangeAmount,
+                    Updated_timestamp = result.Data.Timestamp
+                };
                 apiResult.ErrorCode = result.ErrorCode;
             }
             return apiResult;

@@ -612,6 +612,7 @@ namespace MemberSite.Service.Model.enums
         Lock = 3,
         Unlock = 4
     }
+    
     public enum ExchangeTypeEnum
     {
         /// <summary>
