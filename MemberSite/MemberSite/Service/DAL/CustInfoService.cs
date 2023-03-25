@@ -349,16 +349,16 @@ namespace MemberSite.Service.DAL
             var duplicateList =
                 GetDuplicateAccountNameInfo(siteId, custId, accountName);
 
+            if (!duplicateList.Any())
+            {
+                return _mainDbClient.Execute("Service_CustBankInfo_SetV3", p) > 0;
+            }
+
             using var conn = _mainDbClient.GetMySqlConnection();
             if (trans == null)
             {
                 conn.Open();
                 trans = conn.BeginTransaction();
-            }
-
-            if (!duplicateList.Any())
-            {
-                return _mainDbClient.Execute("Service_CustBankInfo_SetV3", trans, p) > 0;
             }
 
             try
