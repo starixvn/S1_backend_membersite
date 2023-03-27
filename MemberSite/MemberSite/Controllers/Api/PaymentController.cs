@@ -298,19 +298,7 @@ namespace MemberSite.Controllers.Api
             public decimal Amount { set; get; }
             public string BonusCode { set; get; }
         }
-        
-        public class DepositReqLocalCryptoPayReq : DepositReqLocalPayReq
-        {
-            /// <summary>
-            /// 參考匯率
-            /// </summary>
-            public decimal ExchangeRate { get; set; }
-            /// <summary>
-            /// 參考加密貨幣金額
-            /// </summary>
-            public decimal ExchangeAmount { get; set; }
-        }
-        
+
         [HttpPost]
         public ApiResult<LocalPayResp> DepositReqLocalPayAsync(DepositReqLocalPayReq req)
         {
