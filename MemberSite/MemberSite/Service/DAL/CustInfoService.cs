@@ -351,7 +351,9 @@ namespace MemberSite.Service.DAL
 
             if (!duplicateList.Any())
             {
-                return _mainDbClient.Execute("Service_CustBankInfo_SetV3", p) > 0;
+                return isRegister
+                    ? _mainDbClient.Execute("Service_CustBankInfo_SetV3", trans, p) > 0
+                    : _mainDbClient.Execute("Service_CustBankInfo_SetV3", p) > 0;
             }
 
             using var conn = _mainDbClient.GetMySqlConnection();
