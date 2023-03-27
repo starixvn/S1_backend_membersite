@@ -183,14 +183,8 @@ namespace MemberSite.Controllers
             return RedirectErrorPage(model);
         }
         
-        public class DepositReqCryptoLocalPayRequest
-        {
-            public string ChannelName { get; set; }
-            public decimal Amount { get; set; }
-            public string BonusCode { get; set; }
-        }
         
-        public async Task<IActionResult> DepositReqCryptoLocalPayAsync(DepositReqCryptoLocalPayRequest req)
+        public async Task<IActionResult> DepositReqCryptoLocalPayAsync(string ChannelName, decimal Amount, string BonusCode)
         {
             var model = new ErrorData();
             var authData = _authorizeBll.GetAuthData();
@@ -200,9 +194,9 @@ namespace MemberSite.Controllers
             
             var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
             var cryptoInfos = _bankInfoOffBll.GetFilteredOfflineCryptoPayInfo(custInfo.CustId)
-                .Where(x => x.ChannelName.Equals(req.ChannelName, StringComparison.OrdinalIgnoreCase) 
-                            && (x.MinAmount == 0 || req.Amount >= x.MinAmount)
-                            && (x.MaxAmount == 0 || req.Amount <= x.MaxAmount))
+                .Where(x => x.ChannelName.Equals(ChannelName, StringComparison.OrdinalIgnoreCase) 
+                            && (x.MinAmount == 0 || Amount >= x.MinAmount)
+                            && (x.MaxAmount == 0 || Amount <= x.MaxAmount))
                 .ToList();
 
             if (!cryptoInfos.Any())
@@ -216,7 +210,7 @@ namespace MemberSite.Controllers
             var cryptoInfo = cryptoInfos[random.Next(cryptoInfos.Count - 1)];
             
             var (errorCode, message, payResult) = await _cryptoPayInfoBll.DepositReqCryptoLocalPayAsync(
-                custInfo, req.Amount, cryptoInfo);
+                custInfo, Amount, cryptoInfo);
             
             if (errorCode != (int)ErrorCode.Success)
             {
@@ -225,8 +219,8 @@ namespace MemberSite.Controllers
             }
 
             var transId = message;
-            if (_promotionBll.VerifyBonusCode(req.BonusCode))
-                _promotionBll.SetDepositPromotionQueue(transId, req.BonusCode, authData.CustId, custInfo.SiteId, custInfo.UserName, custInfo.CurrencyId, 1, 0);
+            if (_promotionBll.VerifyBonusCode(BonusCode))
+                _promotionBll.SetDepositPromotionQueue(transId, BonusCode, authData.CustId, custInfo.SiteId, custInfo.UserName, custInfo.CurrencyId, 1, 0);
 
             var apiResult = new ApiResult<PayResult>
             {
