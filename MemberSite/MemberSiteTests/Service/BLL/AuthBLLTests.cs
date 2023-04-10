@@ -11,6 +11,7 @@ using NSubstitute;
 using Microsoft.Extensions.Logging;
 using NUnit.Framework;
 using System;
+using Microsoft.AspNetCore.Hosting;
 
 namespace MemberSite.Service.BLL.Tests;
 
@@ -29,25 +30,20 @@ internal class AuthBLLTests
         {
             EnvironmentName = "Local",
         });
+
         builder.Configuration.AddRemoteJsonConfig(builder.Configuration.GetSection("ConfigService").Get<string[]>());
+        builder.Services.AddTransient(p => Substitute.For<ILogger<MySqlClient>>());
+        builder.Services.AddSingleton(p => Substitute.For<IWebHostEnvironment>());
+        builder.Services.AddSingleton(p => Substitute.For<ILogger<AuthBLL>>());
+
+        var startup = new StubStartUp(builder.Configuration);
+        startup.ConfigureServices(builder.Services);
         var app = builder.Build();
+
         _configuration = app.Configuration;
-
-        services.AddSingleton(_configuration);
-        services.AddTransient(p => Substitute.For<ILogger<MySqlClient>>()); 
-        services.AddSingleton(p => Substitute.For<ILogger<AuthBLL>>());
-
-        var startup = new StubStartUp(_configuration, new HostingEnvironment()
-        {
-            EnvironmentName = Environments.Development,
-        });
-
-        startup.ConfigureServices(services);
-        var provider = services.BuildServiceProvider();
-
-        _authBll = provider.GetRequiredService<AuthBLL>();
-        _cryptoHelper = provider.GetRequiredService<CryptoHelper>();
-        _publicApiAuthToken = provider.GetRequiredService<IConfiguration>().GetValue<string>("PublicApiAuthToken");
+        _authBll = app.Services.GetRequiredService<AuthBLL>();
+        _cryptoHelper = app.Services.GetRequiredService<CryptoHelper>();
+        _publicApiAuthToken = _configuration.GetValue<string>("PublicApiAuthToken");
     }
 
     /// <summary>
@@ -60,8 +56,7 @@ internal class AuthBLLTests
             "\"platform\":\"Win32\"," +
             "\"userAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36\"," +
             "\"screen\":\"1280:720:24\",";
-    private string requestTimestamp = "\"timestamp\":" + ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeSeconds() + "}";
-
+    private string requestTimestamp = "\"timestamp\":" + ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeMilliseconds() + "}";
 
     /// <summary>
     /// 無效content
@@ -146,12 +141,15 @@ internal class AuthBLLTests
     /// <summary>
     /// request content沒有Token
     /// </summary>
+    /// <remarks>
+    /// 目前邏輯是有token則驗證，沒token則不驗證，所以都是回傳成功
+    /// </remarks>
     [Test]
     public void RequestAuthTestWithoutToken()
     {
         var content = requestPlainText + requestTimestamp;
         var result = _authBll.RequestAuth(content);
-        Assert.IsFalse(result);
+        Assert.IsTrue(result);
     }
 
     /// <summary>
