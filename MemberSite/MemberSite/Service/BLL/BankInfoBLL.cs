@@ -36,7 +36,7 @@ namespace MemberSite.Service.BLL
         public IEnumerable<BankInfoSys> GetBankInfoSysListByCurrencyForCtrl(int currencyId)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
-            
+
             var key = $"BankInfoSysListForCtrl:{serverInfo.SiteId}";
             var dbData = _redisHelper.TryGetOrCreate(key, TimeSpan.FromMinutes(1), // BankInfoSys後台不能開關
                 () => _bankInfoService.GetBankInfoSysListForCtrl(serverInfo.SiteId));
@@ -104,40 +104,53 @@ namespace MemberSite.Service.BLL
                         MaxAmount = item.MaxAmount,
                         MinAmount = item.MinAmount
                     };
-                    
+
                     if (depositLimitInfo != null)
                     {
                         _depositBll.FixDepositLimit(p, depositLimitInfo);
                     }
-                    
+
                     return p;
                 });
-            
+
             return onlinePaymentList.Where(x => x.MaxAmount > 0);
         }
 
         public IEnumerable<SysBankInfoFront> GetOnlineBankInfoSysList(int custId, int payId)
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
+            var pointLevel = _custInfoBll.GetPointLevelWithCache(custId);
             var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
             var bankInfoPayList = GetOnlineBankList(custInfo.SiteId);
+            var depositLimitInfoList = _depositBll.GetDepositLimitInfoList(custInfo.SiteId);
+            var depositLimitInfo = depositLimitInfoList?.FirstOrDefault(x =>
+                x.SiteId == custInfo.SiteId && x.VipLevel == pointLevel &&
+                x.DepositType == (int)DepositType.OnlineBanking && x.CurrencyId == custInfo.CurrencyId);
 
             var bankInfoList = bankInfoPayList
                 .Where(x => vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.PayId == payId &&
                             x.Method is 0 or 1)
-                .GroupBy(x => new {x.SysId, x.BankCode})
+                .GroupBy(x => new { x.SysId, x.BankCode })
                 .Select(x =>
                 {
                     var d = x.First();
-                    return new SysBankInfoFront
+                    var p = new SysBankInfoFront
                     {
                         SysId = d.SysId,
                         BankCode = d.SysBankCode,
                         BankLogo = d.BankLogo,
                         BankName = d.SysBankName,
+                        MaxAmount = d.MaxAmount,
+                        MinAmount = d.MinAmount
                     };
+                    
+                    if (depositLimitInfo != null)
+                    {
+                        _depositBll.FixDepositLimit(p, depositLimitInfo);
+                    }
+                    return p;
                 });
-                
+
             return bankInfoList;
         }
 
@@ -176,12 +189,12 @@ namespace MemberSite.Service.BLL
                         MaxAmount = x.MaxAmount,
                         MinAmount = x.MinAmount
                     };
-                    
+
                     if (depositLimitInfo != null)
                     {
                         _depositBll.FixDepositLimit(p, depositLimitInfo);
                     }
-                    
+
                     return p;
                 })
                 .Where(x => x.MaxAmount >= 0)
@@ -257,6 +270,11 @@ namespace MemberSite.Service.BLL
         public IEnumerable<BlockAccount> GetBlockEWalletAccount(int sysId, string accountNum)
         {
             return _bankInfoService.GetBlockEWalletAccount(sysId, accountNum);
+        }
+
+        public IEnumerable<BlockCryptoWallet> GetBlockCryptoWallet(string address)
+        {
+            return _bankInfoService.GetBlockCryptoWallet(address);
         }
     }
 }

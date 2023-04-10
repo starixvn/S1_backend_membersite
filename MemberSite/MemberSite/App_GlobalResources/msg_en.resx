@@ -307,7 +307,13 @@
     <value>Please complete your profile and verify your phone number to enjoy our promotions.</value>
   </data>
   <data name="msg_SpecialCodeErr" xml:space="preserve">
-    <value>Your inputted special bonus code does not have available promotion for redemption.</value>
+    <value>The Promo Code is incorrect, please recheck again</value>
+  </data>
+  <data name="msg_SpecialCodeErrorForCheck" xml:space="preserve">
+    <value>The Promo Code is incorrect, please recheck again</value>
+  </data>
+  <data name="msg_SpecialCodeVipLevelsOrBlockTagInvalid" xml:space="preserve">
+    <value>Unable to participate in this promotion, please contact customer service for inquiry</value>
   </data>
   <data name="msg_IneligibleAngPow" xml:space="preserve">
     <value>Please make your deposit to entitle for this promotion</value>
@@ -346,7 +352,7 @@
     <value>You have already stored this information.</value>
   </data>
   <data name="msg_PromoCodeHasBeenUsed" xml:space="preserve">
-    <value>This Promo Code has been used.</value>
+    <value>The Promo Code has been used</value>
   </data>
   <data name="msg_PhoneWrongFormat" xml:space="preserve">
     <value>Phone Format is wrong.</value>
@@ -467,5 +473,14 @@
   </data>
   <data name="msg_WithdrawalAccountAannotReceiveMoney_Detail" xml:space="preserve">
     <value>Withdrawal account is unable to receive funds. Kindly recheck or contact Customer Support for further assistance.</value>
+  </data>
+  <data name="msg_CryptoWalletDuplicate" xml:space="preserve">
+    <value>Crypto wallet address has been used</value>
+  </data>
+  <data name="msg_InactiveBankAccountSubmission" xml:space="preserve">
+    <value>Inactive Bank Account submission</value>
+  </data>
+  <data name="msg_InactiveBankAccountSubmission_Detail" xml:space="preserve">
+    <value>The deposit account has been change, please check the latest receiving account before make a transaction .</value>
   </data>
 </root>

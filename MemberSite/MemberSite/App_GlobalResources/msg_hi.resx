@@ -306,7 +306,13 @@
     <value>कृपया अपना प्रोफ़ाइल पूरा करें और हमारे प्रचार का आनंद लेने के लिए अपने फ़ोन को सत्यापित करें।</value>
   </data>
   <data name="msg_SpecialCodeErr" xml:space="preserve">
-    <value>आपके द्वारा इनपुट किए गए विशेष बोनस कोड में मोचन के लिए उपलब्ध प्रचार नहीं है।</value>
+    <value>प्रोमो कोड गलत है, कृपया दोबारा जांचें</value>
+  </data>
+  <data name="msg_SpecialCodeErrorForCheck" xml:space="preserve">
+    <value>प्रोमो कोड गलत है, कृपया दोबारा जांचें</value>
+  </data>
+  <data name="msg_SpecialCodeVipLevelsOrBlockTagInvalid" xml:space="preserve">
+    <value>इस प्रचार में भाग लेने में असमर्थ, पूछताछ के लिए कृपया ग्राहक सेवा से संपर्क करें</value>
   </data>
   <data name="msg_IneligibleAngPow" xml:space="preserve">
     <value>कृपया इस पदोन्नति के हकदार होने के लिए अपनी जमा राशि जमा करें</value>
@@ -342,7 +348,7 @@
     <value>आप पहले ही यह जानकारी संग्रहीत कर चुके हैं।</value>
   </data>
   <data name="msg_PromoCodeHasBeenUsed" xml:space="preserve">
-    <value>इस प्रोमो कोड का इस्तेमाल किया गया है।</value>
+    <value>प्रोमो कोड का इस्तेमाल किया गया है</value>
   </data>
   <data name="msg_PhoneWrongFormat" xml:space="preserve">
     <value>फोन का फॉर्मेट गलत है।</value>
@@ -427,5 +433,14 @@
   </data>
   <data name="msg_WithdrawalAccountAannotReceiveMoney_Detail" xml:space="preserve">
     <value>निकासी खाता धन प्राप्त करने में असमर्थ है। आगे की सहायता के लिए कृपया दोबारा जांच करें या ग्राहक सहायता से संपर्क करें।</value>
+  </data>
+  <data name="msg_CryptoWalletDuplicate" xml:space="preserve">
+    <value>क्रिप्टो वॉलेट पता पहले से मौजूद है</value>
+  </data>
+  <data name="msg_InactiveBankAccountSubmission" xml:space="preserve">
+    <value>निष्क्रिय बैंक खाता जमा करना</value>
+  </data>
+  <data name="msg_InactiveBankAccountSubmission_Detail" xml:space="preserve">
+    <value>जमा खाता बदल दिया गया है, कृपया लेन-देन करने से पहले नवीनतम प्राप्त करने वाले खाते की जांच करें।</value>
   </data>
 </root>

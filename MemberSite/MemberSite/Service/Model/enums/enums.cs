@@ -257,6 +257,7 @@ namespace MemberSite.Service.Model.enums
         Success = 0,
         SpecialCodeError = 99,
         SpecialCodeErrorForCheck = 1000,
+        SpecialCodeVipLevelsOrBlockTagInvalid = 1001, // VipLevel 不符合 或是有 BlockTag
         PromoCodeHasBeenUsed = 3000
     }
 
@@ -574,7 +575,8 @@ namespace MemberSite.Service.Model.enums
         PaymentNotReceived = 2,
         DepositRefunded = 3,
         WrongAmountSubmitted = 4,
-        WrongBankSubmitted = 5
+        WrongBankSubmitted = 5,
+        InactiveBankAccountSubmission = 6
     }
     public enum WithdrawalMessageStatus
     {
@@ -587,5 +589,37 @@ namespace MemberSite.Service.Model.enums
     public enum CustTagEnum
     {
         Duplicate = 6
+    }
+
+    public enum CustCryptoWalletDetailStatus
+    {
+        Disable = 0,
+        Able = 1,
+    }
+
+    public enum CustCryptoWalletDetailLogStatus
+    {
+        Create = 1,
+        Delete = 2,
+        Lock = 3,
+        Unlock = 4
+    }
+    
+    public enum ExchangeTypeEnum
+    {
+        /// <summary>
+        /// 我方賣出(玩家提款)
+        /// </summary>
+        Sell = 0,
+        /// <summary>
+        /// 我方買入(玩家存款)
+        /// </summary>
+        Buy = 1
+    }
+    
+    public enum WithdrawalLimitLogCreateFromEnum 
+    {
+        Default = 0,
+        DrawPrize = 7
     }
 }

@@ -398,9 +398,9 @@ namespace MemberSite.Service.BLL
             withdrawalInfo.SysId = sysId;
             withdrawalInfo.IFSCCode = iFSCCode;
 
-            return withdrawalService.WithdrawalReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, withdrawalInfo, out afterAmount, out transId);
+            return withdrawalService.WithdrawalReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, JsonConvert.SerializeObject(withdrawalInfo), out afterAmount, out transId);
         }
-        public int WithdrawalCryptoReq(int custId, string accountName, USDTDetail cryptoDetail, string accountNo, decimal amount, string memo,
+        public int WithdrawalCryptoReq(int custId, string accountName, CryptoWalletDetail cryptoDetail, string accountNo, decimal amount, string memo,
             decimal tmpRate, decimal tmpCryptoAmount, out decimal afterAmount, out string transId)
         {
             afterAmount = 0;
@@ -431,7 +431,7 @@ namespace MemberSite.Service.BLL
             withdrawalCryptoInfo.TempExchangeAmount = tmpCryptoAmount;
             withdrawalCryptoInfo.TempExchangeRate = tmpRate;
             
-            return withdrawalService.WithdrawalCryptoReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, withdrawalCryptoInfo, out afterAmount, out transId);
+            return withdrawalService.WithdrawalReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, JsonConvert.SerializeObject(withdrawalCryptoInfo), out afterAmount, out transId);
         }
 
         public int WithdrawalEWalletReq(int custId, string accountName, int sysId, string accountNo, decimal amount, string memo, out decimal afterAmount, out string transId)
@@ -462,7 +462,7 @@ namespace MemberSite.Service.BLL
             withdrawalEWalletInfo.EWalletSysId = sysId;
             withdrawalEWalletInfo.EWalletName = eWalletInfoSys.EWalletName;
             withdrawalEWalletInfo.AccountType = "ewallet";
-            return withdrawalService.WithdrawalEWalletReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, withdrawalEWalletInfo, out afterAmount, out transId);
+            return withdrawalService.WithdrawalReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, JsonConvert.SerializeObject(withdrawalEWalletInfo), out afterAmount, out transId);
         }
 
         public IEnumerable<DepositInfoHistory> GetDepositInfoRecent(int custId)
@@ -500,6 +500,8 @@ namespace MemberSite.Service.BLL
                     });
                 }
                 depositInfo.DepositMessageDetail = depositMessageDetails;
+                
+                depositInfo.DepositReceipt = GetDepositReceipt(depositInfo.TransId, custId);
             }
 
             return depositInfoRecent;
@@ -561,6 +563,7 @@ namespace MemberSite.Service.BLL
                     });
                 }
                 depositInfo.DepositMessageDetail = depositMessageDetails;
+                depositInfo.DepositReceipt = GetDepositReceipt(depositInfo.TransId, custId);
             }
             return depositInfoHistory;
         }
@@ -678,12 +681,12 @@ namespace MemberSite.Service.BLL
             int.TryParse(m.Value, out depositId);
             return _depositService.SetDepositReceipt(custId, depositId, refNo, depositTime);
         }
-        public async Task<int> SetDepositReceiptPic(int custId, string transId, string picFileName, byte[] depositPic)
+        public async Task<int> SetDepositReceiptPic(int custId, string transId, int receiptNo, string picFileName, byte[] depositPic, string userName)
         {
             var depositId = 0;
             var m = Regex.Match(transId, @"\d+");
             int.TryParse(m.Value, out depositId);
-            return await _depositService.SetDepositReceiptPic(custId, depositId, picFileName, depositPic);
+            return await _depositService.SetDepositReceiptPic(custId, depositId, receiptNo, picFileName, depositPic, userName);
         }
         public int SetDepositCancel(int custId, string transId)
         {
@@ -704,7 +707,7 @@ namespace MemberSite.Service.BLL
             };
             return withdrawalService.SetWithdrawalCancel(CustInfo.CustId, transId, CustInfo.SiteId, forStatus, WithdrawalStatus.Cancelled);
         }
-        public DepositReceipt GetDepositReceipt(string transId, int custId)
+        public IEnumerable<DepositReceipt> GetDepositReceipt(string transId, int custId)
         {
             var depositId = 0;
             var m = Regex.Match(transId, @"\d+");

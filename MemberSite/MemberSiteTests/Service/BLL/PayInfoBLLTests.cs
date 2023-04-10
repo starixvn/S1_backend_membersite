@@ -31,7 +31,7 @@ namespace MemberSite.Service.BLL.Tests
             builder.Services.AddSingleton(p => Substitute.For<IWebHostEnvironment>());
             builder.Services.AddSingleton(p => Substitute.For<ILogger<CourierAdapter>>());
 
-            var startup = new Startup(builder.Configuration, builder.Environment);
+            var startup = new Startup(builder.Configuration);
             startup.ConfigureServices(builder.Services);
             var app = builder.Build();
 

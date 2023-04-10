@@ -305,7 +305,13 @@
     <value>Sila lengkapkan profil dan mengesahkan nombor telefon anda untuk menikmati promosi kami.</value>
   </data>
   <data name="msg_SpecialCodeErr" xml:space="preserve">
-    <value>Kod bonus unik yang anda masukkan tidak mempunyai sebarang promosi boleh ditebus.</value>
+    <value>Kod Promosi tidak betul, sila semak semula sekali lagi.</value>
+  </data>
+  <data name="msg_SpecialCodeErrorForCheck" xml:space="preserve">
+    <value>Kod Promosi tidak betul, sila semak semula sekali lagi.</value>
+  </data>
+  <data name="msg_SpecialCodeVipLevelsOrBlockTagInvalid" xml:space="preserve">
+    <value>Tidak dapat menyertai promosi ini, sila hubungi Live Chat untuk pertanyaan.</value>
   </data>
   <data name="msg_IneligibleAngPow" xml:space="preserve">
     <value>Sila deposit untuk layak dapatkan promosi ini</value>
@@ -344,7 +350,7 @@
     <value>Anda telah simpan maklumat ini.</value>
   </data>
   <data name="msg_PromoCodeHasBeenUsed" xml:space="preserve">
-    <value>Kod Promosi ini telah digunakan.</value>
+    <value>Kod Promosi telah digunakan.</value>
   </data>
   <data name="msg_PhoneWrongFormat" xml:space="preserve">
     <value>Format Telefon salah.</value>
@@ -453,5 +459,14 @@
   </data>
   <data name="msg_WithdrawalAccountAannotReceiveMoney_Detail" xml:space="preserve">
     <value>Akaun pengeluaran anda gagal menerima dana. Sila semak semula atau hubungi Sokongan Pelanggan untuk bantuan lanjut.</value>
+  </data>
+  <data name="msg_CryptoWalletDuplicate" xml:space="preserve">
+    <value>Alamat dompet Crypto telah digunakan</value>
+  </data>
+  <data name="msg_InactiveBankAccountSubmission" xml:space="preserve">
+    <value>Akaun Bank tidak aktif</value>
+  </data>
+  <data name="msg_InactiveBankAccountSubmission_Detail" xml:space="preserve">
+    <value>Akaun deposit akan sentiasa bertukar, sila semak akaun penerimaan terkini sebelum membuat transaksi .</value>
   </data>
 </root>

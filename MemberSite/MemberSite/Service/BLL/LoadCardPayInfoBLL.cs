@@ -67,6 +67,14 @@ namespace MemberSite.Service.BLL
                         MinAmount = d.MinAmount
                     };
                 });
+            
+            if (depositLimitInfo != null)
+            {
+                foreach (var payGroup in LoadCardPayGroupList)
+                {
+                    _depositBll.FixDepositLimit(payGroup, depositLimitInfo);
+                }
+            }
 
             return LoadCardPayGroupList;
         }

@@ -1,4 +1,5 @@
 using Amazon.S3.Model;
+using MemberSite.Extensions;
 using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Library;
@@ -20,7 +21,7 @@ public class CustPhotoIdBLL : ICustPhotoIdBLL
         _logger = logger;
         _custPhotoIdService = custPhotoIdService;
         _s3Helper = s3Helper;
-        _environment = env.IsProduction() || env.EnvironmentName == "Release" ? "PRD" : "DEV";
+        _environment = env.IsPrd() ? "PRD" : "DEV";
     }
 
     public async Task<long> UploadPhotoIdAsync(int custId, int siteId, IFormFile photo)
