@@ -52,10 +52,10 @@ namespace MemberSite.Service.Model
         public string BankLogo { get; set; }
         public string BankSite { get; set; }
         public int Sort { get; set; }
-        public string StrPurpose { get; set; }
+        public string Purpose { get; set; }
 
         public IEnumerable<OfflineBankAccountPurposeEnum> Purposes =>
-            JsonConvert.DeserializeObject<IEnumerable<OfflineBankAccountPurposeEnum>>($"[{StrPurpose ?? string.Empty}]");
+            JsonConvert.DeserializeObject<IEnumerable<OfflineBankAccountPurposeEnum>>(Purpose ?? string.Empty);
         
         public int Ver { get; set; }
         public int Status { get; set; }
