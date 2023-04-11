@@ -1,4 +1,6 @@
-﻿using MemberSite.Service.BLL;
+﻿using System.Net;
+using Amazon.S3.Model;
+using MemberSite.Service.BLL;
 using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
@@ -34,6 +36,7 @@ namespace MemberSite.Controllers.Api
         private readonly ILogger<PaymentController> _logger;
         private readonly CourierAdapter _courierAdapter;
         private readonly string _bonusServiceUrl;
+        private readonly AWSS3Helper _s3Helper;
 
         public PaymentController(IServiceProvider provider)
         {
@@ -55,6 +58,7 @@ namespace MemberSite.Controllers.Api
             _custInfoService = provider.GetRequiredService<CustInfoService>();
             _logger = provider.GetRequiredService<ILogger<PaymentController>>();
             _courierAdapter = provider.GetRequiredService<CourierAdapter>();
+            _s3Helper = provider.GetRequiredService<AWSS3Helper>();
 
             var configuration = provider.GetRequiredService<IConfiguration>();
             tpApiUrl = configuration.GetValue<string>("TpService");
@@ -915,19 +919,12 @@ namespace MemberSite.Controllers.Api
         public class DepositReceiptFile
         {
             public string TransId { get; set; }
-            public IFormFile Receipt { get; set; }
+            public string Receipt { get; set; }
         }
-
-        private readonly Dictionary<string, System.Drawing.Imaging.ImageFormat> _contentTypesCheck = new(comparer: StringComparer.OrdinalIgnoreCase)
-        {
-            {"image/png",System.Drawing.Imaging.ImageFormat.Png},
-            {"image/jpeg",System.Drawing.Imaging.ImageFormat.Jpeg},
-            { "image/gif",System.Drawing.Imaging.ImageFormat.Gif}
-        };
         
         [HttpPost]
         //[DisableFormValueModelBinding]
-        public async Task<ApiResult> UploadReceipt([FromForm] DepositReceiptFile depositReceipt)
+        public async Task<ApiResult> UploadReceipt(DepositReceiptFile depositReceipt)
         {
             var apiResult = new ApiResult();
             try
@@ -940,30 +937,37 @@ namespace MemberSite.Controllers.Api
                     return apiResult;
                 }
 
-                if (depositReceipt.Receipt != null && _contentTypesCheck.ContainsKey(depositReceipt.Receipt.ContentType))
+                if (depositReceipt.Receipt != null)
                 {
-                    await using var fileStream = depositReceipt.Receipt.OpenReadStream();
-                    using var uploadedImage = await SixLabors.ImageSharp.Image.LoadAsync(fileStream);
-                    var fileBytes = await _imageEditorBll.Resize(uploadedImage);
-
-                    var fileName = _fileNameBll
-                        .SetFileName(depositReceipt.Receipt.FileName)
-                        .ExcludePath()
-                        .SetFilenameExtension("jpg")
-                        .FileName;
-
                     var receipts = paymentBLL.GetDepositReceipt(depositReceipt.TransId,authData.CustId);
                     var receiptNo = receipts.Any() ? receipts.Max(x => x.ReceiptNo) + 1 : 1 ;
-                    var result = await paymentBLL.SetDepositReceiptPic(authData.CustId, depositReceipt.TransId,receiptNo, fileName, fileBytes,authData.UserName);
+                    
+                    var x = depositReceipt.Receipt.Replace("data:image/png;base64,", "");
+                    var bytes = Convert.FromBase64String(x);
+                    var stream = new MemoryStream(bytes);
 
-                    if (result > 0)
+                    var putRequest = new PutObjectRequest();
+                    var key = $"deposit/{depositReceipt.TransId}_{receiptNo}.png";
+                    putRequest.BucketName = "ailab-payment"; // Your bucket name
+                    putRequest.ContentType = "image/png";
+                    putRequest.InputStream = stream;
+                    putRequest.Key = key;
+                    var putResponse = await _s3Helper.PutObjectAsync(putRequest);
+
+                    if (putResponse)
                     {
-                        apiResult.ErrorCode = 0;
-                    }
-                    else
-                    {
-                        apiResult.ErrorCode = -1;
-                        apiResult.Message = "Upload fail.";
+                        var fileName = $"{depositReceipt.TransId}_{receiptNo}";
+                        var result = await paymentBLL.SetDepositReceiptPic(authData.CustId, depositReceipt.TransId,receiptNo, fileName ,authData.UserName);
+
+                        if (result > 0)
+                        {
+                            apiResult.ErrorCode = 0;
+                        }
+                        else
+                        {
+                            apiResult.ErrorCode = -1;
+                            apiResult.Message = "Upload fail.";
+                        }
                     }
                 }
                 else

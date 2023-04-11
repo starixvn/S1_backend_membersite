@@ -116,7 +116,7 @@ namespace MemberSite.Service.Model
 
     public class DepositReceiptModel
     {
-        public IActionResult Receipt { get; set; }
+        public string Receipt { get; set; }
         public int ReceiptNo { get; set; }
         public string PicFileName { get; set; }
     }
@@ -126,7 +126,7 @@ namespace MemberSite.Service.Model
         public int DepositId { get; set; }
         public string PicFileName { get; set; }
         public int ReceiptNo { get; set; }
-        public byte[] DepositPic { get; set; }
+        public string DepositPic { get; set; }
     }
 
     public class DepositLimitInfo
