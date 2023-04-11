@@ -121,7 +121,7 @@ namespace MemberSite.Service.Model
         public string StrPurpose { get; set; }
 
         public IEnumerable<OfflineBankAccountPurposeEnum> Purposes =>
-            JsonConvert.DeserializeObject<IEnumerable<OfflineBankAccountPurposeEnum>>($"[{StrPurpose ?? string.Empty}]");
+            JsonConvert.DeserializeObject<IEnumerable<OfflineBankAccountPurposeEnum>>(StrPurpose);
         
         public int Ver { get; set; }
         public int Status { get; set; }
