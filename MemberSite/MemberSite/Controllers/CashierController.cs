@@ -23,6 +23,7 @@ namespace MemberSite.Controllers
         private readonly PromotionBll _promotionBll;
         private readonly PayInfoBLL _payInfoBll;
         private readonly BankInfoBLL _bankInfoBll;
+        private readonly BankInfoOffBLL _bankInfoOffBll;
         private readonly ILogger<CashierController> _logger;
 
         public CashierController(IServiceProvider provider)
@@ -38,6 +39,7 @@ namespace MemberSite.Controllers
             _promotionBll = provider.GetRequiredService<PromotionBll>();
             _payInfoBll = provider.GetRequiredService<PayInfoBLL>();
             _bankInfoBll = provider.GetRequiredService<BankInfoBLL>();
+            _bankInfoOffBll = provider.GetRequiredService<BankInfoOffBLL>();
             _logger = provider.GetRequiredService<ILogger<CashierController>>();
 
             var configuration = provider.GetRequiredService<IConfiguration>();
@@ -152,6 +154,55 @@ namespace MemberSite.Controllers
             }
 
             return RedirectErrorPage(model);
+        }
+        
+        
+        public async Task<IActionResult> DepositReqCryptoLocalPayAsync(string ChannelName, decimal Amount, string BonusCode)
+        {
+            var model = new ErrorData();
+            var authData = _authorizeBll.GetAuthData();
+            
+            if (authData is not { CustId: > 0 })
+                return RedirectErrorPage(new ErrorData());
+            
+            var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+            var cryptoInfos = _bankInfoOffBll.GetFilteredOfflineCryptoPayInfo(custInfo.CustId)
+                .Where(x => x.ChannelName.Equals(ChannelName, StringComparison.OrdinalIgnoreCase) 
+                            && (x.MinAmount == 0 || Amount >= x.MinAmount)
+                            && (x.MaxAmount == 0 || Amount <= x.MaxAmount))
+                .ToList();
+
+            if (!cryptoInfos.Any())
+            {
+                _logger.LogError("no channels available");
+                return RedirectErrorPage(model);
+            }
+            
+            // 隨機配卡
+            var random = new Random();
+            var cryptoInfo = cryptoInfos[random.Next(cryptoInfos.Count - 1)];
+            
+            var (errorCode, message, payResult) = await _cryptoPayInfoBll.DepositReqCryptoLocalPayAsync(
+                custInfo, Amount, cryptoInfo);
+            
+            if (errorCode != (int)ErrorCode.Success)
+            {
+                _logger.LogError($"({errorCode}) {message}");
+                return RedirectErrorPage(model);
+            }
+
+            var transId = message;
+            if (_promotionBll.VerifyBonusCode(BonusCode))
+                _promotionBll.SetDepositPromotionQueue(transId, BonusCode, authData.CustId, custInfo.SiteId, custInfo.UserName, custInfo.CurrencyId, 1, 0);
+
+            var apiResult = new ApiResult<PayResult>
+            {
+                Data = payResult,
+                ErrorCode = errorCode
+            };
+            
+            return ActionResult(apiResult, transId, model, PaymentView.DepositReqCryptoPay, out var actionResult)
+                ? actionResult : RedirectErrorPage(model);
         }
 
         public async Task<IActionResult> DepositReqLoadCardPayAsync(int ChannelId, string Code, string Serial, decimal Amount, string BonusCode)
