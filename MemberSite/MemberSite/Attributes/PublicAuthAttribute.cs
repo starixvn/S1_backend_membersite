@@ -53,7 +53,7 @@ public class PublicAuthAttribute : Attribute, IAuthorizationFilter
                 : content;
         }
 
-        if (!_authBll.RequestAuth(fromUrl, content))
+        if (!_authBll.RequestAuth(content))
         {
             if (IsJsonResult(context.HttpContext.Request.ContentType))
             {

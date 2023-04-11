@@ -38,10 +38,7 @@ namespace MemberSite.Service.Library.Tests
             var logger = Substitute.For<ILogger<MySqlClient>>();
             services.AddTransient(p => logger);
 
-            var startup = new StubStartUp(_configuration, new HostingEnvironment()
-            {
-                EnvironmentName = Environments.Development,
-            });
+            var startup = new StubStartUp(_configuration);
 
             startup.ConfigureServices(services);
             var provider = services.BuildServiceProvider();
