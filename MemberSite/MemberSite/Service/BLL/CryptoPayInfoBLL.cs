@@ -96,10 +96,7 @@ namespace MemberSite.Service.BLL
                 }
             }
             
-            //var result = cryptoPayInfoList.Where(x => x.MaxAmount > 0);
-
-
-            return cryptoPayInfoList;
+            return cryptoPayInfoList.OrderBy(x => x.GSort);
         }
         public int DepositReqCryptoPay(int custId, int channelId, decimal amount, out string transId, out CryptoPayInfo cryptoPayInfo)
         {
