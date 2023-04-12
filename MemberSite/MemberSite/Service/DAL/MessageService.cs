@@ -72,35 +72,17 @@ namespace MemberSite.Service.DAL
             return await _mainDbClient.ExecuteAsync("Msg_Del_V3", new { msg.MsgId, CustId = custId }) > 0;
         }
         
-        public int GetMsgCount(int custId)
+        public async Task<int> GetMsgCount(int custId)
         {
-            return _reportClient.ExecuteScalar<int>("MsgCount_Get", new { CustId = custId, IsUnread = 1 });
+            return await _reportClient.ExecuteScalarAsync<int>("MsgCount_Get_V3", new { CustId = custId });
         }
 
         public IEnumerable<Announcement> GetAnnouncement(string LangCode, string DefaultLangCode, int LimitRow, bool IsTest, int SiteId)
         {
             return _reportClient.Query<Announcement>("Member_Announcement_Get", new { DefaultLangCode, LangCode, LimitRow, IsTest, SiteId });
         }
-        
-        public int SendMessage(int siteId, string sender, string title, string content, int custId, string CustUserName, string lang)
-        {
-            return _mainDbClient.Execute("Msg_Ins", new { Type = 99, SiteId = siteId, LangId = lang, RecipientCustId = custId, Recipient = CustUserName, SenderCustId = siteId, Sender = sender, Title = title, Content = content, MainId = 0 });
-        }
 
-        public async Task<int> SendMessageAsync(Message message)
-        {
-            var parameter = new DynamicParameters();
-            parameter.Add("Type", 99);
-            parameter.Add("SiteId", message.SiteId);
-            parameter.Add("LangId", message.LangId);
-            parameter.Add("RecipientCustId", message.CustId);
-            parameter.Add("Recipient", message.CustUserName);
-            parameter.Add("SenderCustId", message.SiteId);
-            parameter.Add("Sender", message.Sender);
-            parameter.Add("Title", message.Title);
-            parameter.Add("Content", message.Content);
-            parameter.Add("MainId", 0);
-            return await _mainDbClient.ExecuteAsync("Msg_Ins", parameter);
-        }
+        public Task<int> SendMessageAsync(Message message) =>
+            _mainDbClient.ExecuteAsync("Msg_Ins_V4", new DynamicParameters(message));
     }
 }

@@ -78,10 +78,8 @@ namespace MemberSite.Service.BLL
             return result;
         }
 
-        public int GetMsgCount(int custId)
-        {
-            return _messageService.GetMsgCount(custId);
-        }
+        public async Task<int> GetMsgCount(int custId) =>
+            await _messageService.GetMsgCount(custId);
 
         public IEnumerable<Announcement> GetAnnouncement(string LangCode, string DefaultLangCode, int LimitRow, bool IsTest, int SiteId)
         {
@@ -90,15 +88,8 @@ namespace MemberSite.Service.BLL
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(3)),
                 i => _messageService.GetAnnouncement(LangCode, DefaultLangCode, LimitRow, IsTest, SiteId));
         }
-        public int SendMessage(int siteId, string sender, string title, string content, int custId, string CustUserName, string lang)
-        {
-            return _messageService.SendMessage(siteId, sender, title, content, custId, CustUserName, lang);
-        }
 
-        public async void SendMessage(Message message)
-        {
-            await _messageService.SendMessageAsync(new Message(message.SiteId, message.Sender, message.Title, message.Content, message.CustId,
-                message.CustUserName, message.LangId));
-        }
+        public Task<int> SendMessage(Message message) =>
+            _messageService.SendMessageAsync(message);
     }
 }
