@@ -94,7 +94,7 @@ namespace MemberSite.Service.BLL
                 AccountNo = bankCardInfo.AccountNo,
                 Ver = 1,
                 IsLocalPay = true,
-                GroupId = bankCardInfo.GroupId,
+                GroupId = req.GroupId,
                 Code = code
             };
                 

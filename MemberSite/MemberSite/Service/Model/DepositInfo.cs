@@ -174,6 +174,7 @@ namespace MemberSite.Service.Model
         public int CustId { get; set; }
         public decimal Amount { get; set; }
         public int BankId { get; set; }
+        public int GroupId { get; set; }
         public DepositType Type { get; set; }
     }
 }
