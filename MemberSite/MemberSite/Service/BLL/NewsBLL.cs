@@ -1,4 +1,5 @@
 ﻿using MemberSite.Service.DAL;
+using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using Newtonsoft.Json;
 
@@ -6,49 +7,37 @@ namespace MemberSite.Service.BLL
 {
     public class NewsBLL
     {
-        private readonly SelLangBLL selLangBLL;
         private readonly NewsService newsService;
 
-        public NewsBLL(NewsService newsService, SelLangBLL selLangBLL)
+        public NewsBLL(NewsService newsService)
         {
             this.newsService = newsService;
-            this.selLangBLL = selLangBLL;
         }
 
-        private string ParseJSON(string langId, string jsonStr)
+        public async Task<News> GetNewsById(int siteId, int newsId, LanguageObject language)
         {
-            var json = JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonStr);
-            json.TryGetValue(langId, out var result);
-            return result;
-        }
-
-        public News GetNewsById(int SiteId, int NewsId)
-        {
-            var data = newsService.GetNewsById(SiteId, NewsId);
+            var data = await newsService.GetNewsById(siteId, newsId);
             if(data != null)
             {
-                var langId = selLangBLL.GetLangId();
-                data.Title = ParseJSON(langId, data.Title);
-                data.Content = ParseJSON(langId, data.Content);
-                data.ImageURL = ParseJSON(langId, data.ImageURL);
+                data.Title = JsonContentParser.Parse(data.Title, language.LanguageCode, language.DefaultLanguage);
+                data.Content = JsonContentParser.Parse(data.Content, language.LanguageCode, language.DefaultLanguage);
+                data.ImageURL = JsonContentParser.Parse(data.ImageURL, language.LanguageCode, language.DefaultLanguage);
             }
 
             return data;
         }
 
-        public IEnumerable<News> GetNews(int SiteId, int pageSize, ref int pageNumber, out int totalPages, out int rowCount)
+        public async Task<PageData<News>> GetNews(int siteId, LanguageObject language, int pageSize, int pageNumber)
         {
-            var datas = newsService.GetNews(SiteId, pageSize, ref pageNumber, out totalPages, out rowCount);
-            var langId = selLangBLL.GetLangId();
-
-            foreach (var data in datas)
+            var news = await newsService.GetNews(siteId, pageSize, pageNumber);
+            foreach (var data in news.Data)
             {
-                data.Title = ParseJSON(langId, data.Title);
-                data.Content = ParseJSON(langId, data.Content);
-                data.ImageURL = ParseJSON(langId, data.ImageURL);
+                data.Title = JsonContentParser.Parse(data.Title, language.LanguageCode, language.DefaultLanguage);
+                data.Content = JsonContentParser.Parse(data.Content, language.LanguageCode, language.DefaultLanguage);
+                data.ImageURL = JsonContentParser.Parse(data.ImageURL, language.LanguageCode, language.DefaultLanguage);
             }
 
-            return datas;
+            return news;
         }
     }
 }

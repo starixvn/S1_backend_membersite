@@ -38,6 +38,7 @@ namespace MemberSite.Controllers.Api
         private readonly ICacheHelper _cacheHelper;
         private readonly ILogger<AccountController> _logger;
         private readonly CheckAttackBLL _checkAttackBll;
+        private readonly ServerInfoBll _serverInfoBll;
 
         public AccountController(IServiceProvider provider)
         {
@@ -60,6 +61,7 @@ namespace MemberSite.Controllers.Api
             _cacheHelper = provider.GetRequiredService<ICacheHelper>();
             _logger = provider.GetRequiredService<ILogger<AccountController>>();
             _checkAttackBll = provider.GetRequiredService<CheckAttackBLL>();
+            _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
         }
 
         [HttpPost]
@@ -407,7 +409,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiListResult<Msg> GetMsgList(MsgReq msgReq)
+        public async Task<ApiListResult<Msg>> GetMsgList(MsgReq msgReq)
         {
             var apiResult = new ApiListResult<Msg>();
             var authData = _authorizeBll.GetAuthData();
@@ -418,10 +420,15 @@ namespace MemberSite.Controllers.Api
             }
             var pageNumber = msgReq.PageNumber;
             var pageSize = msgReq.PageSize == 0 ? 5 : msgReq.PageSize;
-            apiResult.Data = _messageBll.GetMsgList(authData.CustId, pageSize, ref pageNumber, out var totalPages, out var rowCount);
+            var serverInfo = _serverInfoBll.GetServerInfo();
+            var custInfo = _custInfoBll.GetCustInfo(authData.CustId);
+            var language = LanguageObject.Create(custInfo.CurrencyId, custInfo.UserLang, serverInfo.DefLang);
+
+            var msgs = await _messageBll.GetMsgList(authData.CustId, language, pageSize, pageNumber);
+            apiResult.Data = msgs.Data;
             apiResult.PageNumber = pageNumber;
-            apiResult.TotalPages = totalPages;
-            apiResult.RowCount = rowCount;
+            apiResult.TotalPages = msgs.TotalPages;
+            apiResult.RowCount = msgs.RowCount;
             apiResult.ErrorCode = 0;
             return apiResult;
         }
@@ -433,7 +440,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult<MsgContent> GetMsgContent(MsgContentReq msgContentReq)
+        public async Task<ApiResult<MsgContent>> GetMsgContent(MsgContentReq msgContentReq)
         {
             var apiResult = new ApiResult<MsgContent>();
             var authData = _authorizeBll.GetAuthData();
@@ -442,8 +449,11 @@ namespace MemberSite.Controllers.Api
                 apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
                 return apiResult;
             }
+            var serverInfo = _serverInfoBll.GetServerInfo();
+            var custInfo = _custInfoBll.GetCustInfo(authData.CustId);
+            var language = LanguageObject.Create(custInfo.CurrencyId, custInfo.UserLang, serverInfo.DefLang);
 
-            apiResult.Data = _messageBll.GetMsgContent(authData.CustId, msgContentReq.MsgId, msgContentReq.IsBatch);
+            apiResult.Data = await _messageBll.GetMsgContent(authData.CustId, language, msgContentReq.MsgId, msgContentReq.IsBatch);
             apiResult.ErrorCode = 0;
             return apiResult;
         }
@@ -464,7 +474,7 @@ namespace MemberSite.Controllers.Api
             }
             var setList = msgReadReq.MsgIds.Select(x => new DeleteMsg() { MsgId = x, IsBatch = false }).ToList();
 
-            if (_messageBll.SetMsgRead(authData.CustId, setList))
+            if (_messageBll.SetMsgRead(authData.CustId, setList).Result)
             {
                 apiResult.ErrorCode = 0;
             }
@@ -482,7 +492,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult SetMsgReadV2(MsgReadReqV2 msgReadReq)
+        public async Task<ApiResult> SetMsgReadV2(MsgReadReqV2 msgReadReq)
         {
             var apiResult = new ApiResult<MsgContent>();
             var authData = _authorizeBll.GetAuthData();
@@ -491,7 +501,7 @@ namespace MemberSite.Controllers.Api
                 apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
                 return apiResult;
             }
-            if (_messageBll.SetMsgRead(authData.CustId, msgReadReq.SetList))
+            if (await _messageBll.SetMsgRead(authData.CustId, msgReadReq.SetList))
             {
                 apiResult.ErrorCode = 0;
             }
@@ -513,8 +523,10 @@ namespace MemberSite.Controllers.Api
                 apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
                 return apiResult;
             }
-
-            apiResult.Data = await _messageBll.GetPopupMessage(authData.CustId);
+            var serverInfo = _serverInfoBll.GetServerInfo();
+            var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+            var language = LanguageObject.Create(custInfo.CurrencyId, custInfo.UserLang, serverInfo.DefLang);
+            apiResult.Data = await _messageBll.GetPopupMessage(authData.CustId, language);
             apiResult.ErrorCode = 0;
             return apiResult;
         }
@@ -540,7 +552,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult DelMsg(DelMsgReq msgReq)
+        public async Task<ApiResult> DelMsg(DelMsgReq msgReq)
         {
             var apiResult = new ApiResult<MsgContent>();
             var authData = _authorizeBll.GetAuthData();
@@ -550,13 +562,13 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
 
-            apiResult.ErrorCode = _messageBll.DelMsg(authData.CustId, msgReq.DeleteList) ? 0 : 99;
+            apiResult.ErrorCode = await _messageBll.DelMsg(authData.CustId, msgReq.DeleteList) ? 0 : 99;
 
             return apiResult;
         }
 
         [HttpPost]
-        public ApiResult GetMsgCount()
+        public async Task<ApiResult> GetMsgCount()
         {
             var apiResult = new ApiResult<int>();
             var authData = _authorizeBll.GetAuthData();
@@ -566,7 +578,7 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
 
-            apiResult.Data = _messageBll.GetMsgCount(authData.CustId);
+            apiResult.Data = await _messageBll.GetMsgCount(authData.CustId);
             apiResult.ErrorCode = 0;
             return apiResult;
         }
