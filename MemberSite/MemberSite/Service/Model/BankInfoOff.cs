@@ -55,7 +55,7 @@ namespace MemberSite.Service.Model
         public string Purpose { get; set; }
 
         public IEnumerable<OfflineBankAccountPurposeEnum> Purposes =>
-            JsonConvert.DeserializeObject<IEnumerable<OfflineBankAccountPurposeEnum>>(Purpose ?? string.Empty);
+            JsonConvert.DeserializeObject<IEnumerable<OfflineBankAccountPurposeEnum>>(Purpose ?? "[]");
         
         public int Ver { get; set; }
         public int Status { get; set; }
