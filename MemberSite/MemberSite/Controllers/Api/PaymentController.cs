@@ -322,10 +322,9 @@ namespace MemberSite.Controllers.Api
             }
             
             var cards = bankInfoOffBLL.GetOfflineBankCardListWithCache(custId)
-                .Where(x => x.SupportQR
-                            && x.GroupId == req.GroupId
-                            && (x.MinAmount == 0 || req.Amount >= x.MinAmount)
-                            && (x.MaxAmount == 0 || req.Amount <= x.MaxAmount))
+                .Where(x => x.GroupIds.Contains(req.GroupId)
+                    && req.Amount >= x.MinAmount
+                    && req.Amount <= x.MaxAmount)
                 .ToList();
 
             if (!cards.Any())

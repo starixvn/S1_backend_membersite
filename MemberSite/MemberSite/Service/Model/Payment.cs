@@ -162,6 +162,13 @@ namespace MemberSite.Service.Model
         public decimal MinAmount { get; set; }
         public decimal MaxAmount { get; set; }
     }
+    
+    public class PayGroupInfo
+    {
+        public int GroupId { get; set; }
+        public string GroupName { get; set; }
+        public DepositType Type { get; set; }
+    }
 
     public class LineChannel
     {

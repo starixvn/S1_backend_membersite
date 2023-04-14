@@ -24,6 +24,23 @@ namespace MemberSite.Service.BLL
             _bankInfoOffBll = provider.GetRequiredService<BankInfoOffBLL>();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
         }
+        
+        
+        
+        public IEnumerable<PayGroupInfo> GetPayGroupWithCache()
+        {
+            var dbData = _redisHelper.TryGetOrCreate("PayGroupInfoList", TimeSpan.FromMinutes(5),
+                () => _payService.GetPayGroup(), RedisDataBase.Shared);
+            return dbData;
+        }
+
+        private Dictionary<DepositType, OfflineBankAccountSupportChannelEnum> _dicSupportChannelMapper
+            = new ()
+            {
+                {DepositType.OnlineBanking, OfflineBankAccountSupportChannelEnum.EWallet},
+                {DepositType.MobilePayment, OfflineBankAccountSupportChannelEnum.EWallet},
+                {DepositType.QRPayPayment, OfflineBankAccountSupportChannelEnum.BankQR}
+            };
 
         public IEnumerable<PayGroup> GetPayGroupList(int custId, DepositType depositType)
         {
@@ -54,20 +71,30 @@ namespace MemberSite.Service.BLL
                 .ToList();
           
             var bankCards = _bankInfoOffBll.GetOfflineBankCardListWithCache(custId)
-                .Where(x => x.SupportQR
-                    && x.Type == depositType);
+                .Where(x => _dicSupportChannelMapper.ContainsKey(depositType) 
+                            && x.SupportChannel.Contains(_dicSupportChannelMapper[depositType]));
 
             if (bankCards.Any())
             {
-                var payGroups = bankCards.GroupBy(x => x.GroupId)
+                var payGroupInfos = GetPayGroupWithCache();
+                var payGroups = bankCards
+                    .SelectMany(b => b.GroupIds,
+                        (b, g) => new
+                        {
+                            GroupId = g,
+                            b.MinAmount,
+                            b.MaxAmount
+                        })
+                    .GroupBy(x => x.GroupId)
                     .Select(x =>
                     {
                         var bankCard = x.First();
+                        var groupInfo = payGroupInfos.First(g => g.GroupId == x.Key);
                         return new PayGroup
                         {
                             GroupId = bankCard.GroupId,
-                            ChannelName = bankCard.GroupName,
-                            GroupName = bankCard.GroupName,
+                            ChannelName = groupInfo.GroupName,
+                            GroupName = groupInfo.GroupName,
                             Mode = (int) PayModeEnum.Redirect,
                             GSort = -1,
                             MinAmount = bankCards.Min(x => x.MinAmount),
@@ -116,21 +143,23 @@ namespace MemberSite.Service.BLL
                 .ToList();
 
             var bankCards = _bankInfoOffBll.GetOfflineBankCardListWithCache(custId)
-                .Where(x => x.SupportQR
-                    && x.Type == depositType
-                    && x.GroupId == groupId);
+                .Where(x => _dicSupportChannelMapper.ContainsKey(depositType) 
+                            && x.SupportChannel.Contains(_dicSupportChannelMapper[depositType])
+                            && x.GroupIds.Contains(groupId));
                 
             if (bankCards.Any())
             {
+                var payGroupInfos = GetPayGroupWithCache();
                 var bankCard = bankCards.First();
+                var groupInfo = payGroupInfos.First(g => g.GroupId == groupId);
                 var payInfo = new PayInfo
                 {
                     ChannelId = -1,
-                    ChannelName = bankCard.GroupName,
+                    ChannelName = groupInfo.GroupName,
                     GSort = -1,
                     Mode = (int) PayModeEnum.Redirect,
-                    GroupId = bankCard.GroupId,
-                    GroupName = bankCard.GroupName,
+                    GroupId = groupId,
+                    GroupName = groupInfo.GroupName,
                     MinAmount = bankCards.Min(x => x.MinAmount),
                     MaxAmount = bankCards.Max(x => x.MaxAmount)
                 };
