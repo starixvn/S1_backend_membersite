@@ -30,7 +30,7 @@ namespace MemberSite.Service.BLL
         public IEnumerable<PayGroupInfo> GetPayGroupWithCache()
         {
             var dbData = _redisHelper.TryGetOrCreate("PayGroupInfoList", TimeSpan.FromMinutes(5),
-                () => _payService.GetPayGroup());
+                () => _payService.GetPayGroup(), RedisDataBase.Shared);
             return dbData;
         }
 
