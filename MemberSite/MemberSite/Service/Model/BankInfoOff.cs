@@ -52,10 +52,10 @@ namespace MemberSite.Service.Model
         public string BankLogo { get; set; }
         public string BankSite { get; set; }
         public int Sort { get; set; }
-        public string StrPurpose { get; set; }
+        public string Purpose { get; set; }
 
         public IEnumerable<OfflineBankAccountPurposeEnum> Purposes =>
-            JsonConvert.DeserializeObject<IEnumerable<OfflineBankAccountPurposeEnum>>($"[{StrPurpose ?? string.Empty}]");
+            JsonConvert.DeserializeObject<IEnumerable<OfflineBankAccountPurposeEnum>>(Purpose ?? "[]");
         
         public int Ver { get; set; }
         public int Status { get; set; }
@@ -65,9 +65,10 @@ namespace MemberSite.Service.Model
             JsonConvert.DeserializeObject<IEnumerable<OfflineBankAccountSupportChannelEnum>>(StrSupportChannel);
 
         public string QRCodeUrl { get; set; }
-        public int GroupId { get; set; }
-        public string GroupName { get; set; }
-        public DepositType Type { get; set; }
+        public string StrGroupIds { get; set; }
+        
+        public IEnumerable<int> GroupIds =>
+            JsonConvert.DeserializeObject<IEnumerable<int>>(StrGroupIds ?? "[]");
     }
 
     public class OfflineBankAccountDailyDeposit

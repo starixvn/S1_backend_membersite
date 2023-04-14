@@ -38,12 +38,8 @@ namespace MemberSite.Service.Model
 
         public string QRCodeUrl { get; set; }
 
-        public bool SupportQR { get; set; }
-        public int GroupId { get; set; }
-        public string GroupName { get; set; }
-        public DepositType Type { get; set; }
-        public bool IsCrypto { get; set; }
-        
+        public IEnumerable<OfflineBankAccountSupportChannelEnum> SupportChannel { get; set; }
+        public IEnumerable<int> GroupIds { get; set; }
     }
     public class OfflineBankInfoFront : SysBankInfoFront
     {
@@ -61,7 +57,7 @@ namespace MemberSite.Service.Model
             base.MaxAmount = bankInfo.MaxAmount;
             base.Status = bankInfo.Status;
             base.QRCodeUrl = bankInfo.QRCodeUrl;
-            base.SupportQR = bankInfo.SupportQR;
+            base.SupportChannel = bankInfo.SupportChannel;
             this.CanSubmit = canSubmit;
         }
         public bool CanSubmit { get; set; }

@@ -318,10 +318,9 @@ namespace MemberSite.Controllers.Api
             }
             
             var cards = bankInfoOffBLL.GetOfflineBankCardListWithCache(custId)
-                .Where(x => x.SupportQR
-                            && x.GroupId == req.GroupId
-                            && (x.MinAmount == 0 || req.Amount >= x.MinAmount)
-                            && (x.MaxAmount == 0 || req.Amount <= x.MaxAmount))
+                .Where(x => x.GroupIds.Contains(req.GroupId)
+                    && req.Amount >= x.MinAmount
+                    && req.Amount <= x.MaxAmount)
                 .ToList();
 
             if (!cards.Any())
@@ -952,7 +951,9 @@ namespace MemberSite.Controllers.Api
                         .SetFilenameExtension("jpg")
                         .FileName;
 
-                    var result = await paymentBLL.SetDepositReceiptPic(authData.CustId, depositReceipt.TransId, fileName, fileBytes);
+                    var receipts = paymentBLL.GetDepositReceipt(depositReceipt.TransId,authData.CustId);
+                    var receiptNo = receipts.Any() ? receipts.Max(x => x.ReceiptNo) + 1 : 1 ;
+                    var result = await paymentBLL.SetDepositReceiptPic(authData.CustId, depositReceipt.TransId,receiptNo, fileName, fileBytes,authData.UserName);
 
                     if (result > 0)
                     {
@@ -1225,24 +1226,37 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiListResult<TpBetRecordListDateRange> CustTpBetRecordListDateRange(TpBetRecordDateRangeReq tpBetRecordDateRangeReq)
         {
-            var apiResult = new ApiListResult<TpBetRecordListDateRange>();
-            var authData = authorizeBLL.GetAuthData();
-            if (authData is not { CustId: > 0 })
+            var apiResult = new ApiListResult<TpBetRecordListDateRange>
             {
-                apiResult.Message = selLangBLL.GetMsg("msg_ForceLogedout");
-                return apiResult;
+                Data = new List<TpBetRecordListDateRange>()
+            };
+            var pageNumber = tpBetRecordDateRangeReq.PageNumber;
+            var pageSize = tpBetRecordDateRangeReq.PageSize;
+            var totalPages = 0;
+            var rowCount = 0;
+            try
+            {
+                var authData = authorizeBLL.GetAuthData();
+                if (authData is not { CustId: > 0 })
+                {
+                    apiResult.Message = selLangBLL.GetMsg("msg_ForceLogedout");
+                    return apiResult;
+                }
+
+                apiResult.Data = paymentBLL.GetCustTpBetRecordDateRange(authData.CustId,
+                    tpBetRecordDateRangeReq.StartDate, tpBetRecordDateRangeReq.EndDate, pageSize, ref pageNumber,
+                    ref totalPages, ref rowCount);
+                
+                apiResult.PageNumber = pageNumber;
+                apiResult.RowCount = rowCount;
+                apiResult.TotalPages = totalPages;
             }
-            var PageSize = tpBetRecordDateRangeReq.PageSize;
-            var TotalPages = 0;
-            var RowCount = 0;
-            var PageNumber = tpBetRecordDateRangeReq.PageNumber;
-
+            catch (Exception e)
+            {
+                _logger.LogError(e, GetCurrentMethod());
+            }
+            
             apiResult.ErrorCode = 0;
-            apiResult.Data = paymentBLL.GetCustTpBetRecordDateRange(authData.CustId, tpBetRecordDateRangeReq.StartDate, tpBetRecordDateRangeReq.EndDate, PageSize, ref PageNumber, ref TotalPages, ref RowCount);
-            apiResult.PageNumber = PageNumber;
-            apiResult.RowCount = RowCount;
-            apiResult.TotalPages = TotalPages;
-
             return apiResult;
         }
         [HttpPost]

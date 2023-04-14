@@ -624,4 +624,10 @@ namespace MemberSite.Service.Model.enums
         /// </summary>
         Buy = 1
     }
+    
+    public enum WithdrawalLimitLogCreateFromEnum 
+    {
+        Default = 0,
+        DrawPrize = 7
+    }
 }
