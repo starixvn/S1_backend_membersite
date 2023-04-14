@@ -23,7 +23,7 @@ namespace MemberSite.Service.DAL
         
         public IEnumerable<OfflineBankAccountInfo> GetOfflineBankAccount(int siteId)
         {
-            return _reportDbClient.Query<OfflineBankAccountInfo>("Member_OfflineBankAccount_Get_V3", new { _SiteId = siteId });
+            return _reportDbClient.Query<OfflineBankAccountInfo>("Member_OfflineBankAccount_Get_V2", new { _SiteId = siteId });
         }
         
         public IEnumerable<int> GetCustOffDepositSysId(int custId)
