@@ -310,7 +310,11 @@ namespace MemberSite.Service.Model.enums
         ERC20,
         TRC20,
         ETH,
-        BTC
+        BTC,
+        BSC,
+        BEP20,
+        XRP,
+        ADA
     }
 
     public enum ActStatus
@@ -353,7 +357,15 @@ namespace MemberSite.Service.Model.enums
         USDT = 96,
         USDC = 97,
         ETH = 98,
-        BTC = 99
+        BTC = 99,
+        BNB = 100,
+        BUSD = 101,
+        DAI = 102,
+        DOGE = 103,
+        XRP = 104,
+        EOS = 105,
+        SHIB = 106,
+        ADA = 107
     }
     public enum DeepLinkType
     {
@@ -570,7 +582,8 @@ namespace MemberSite.Service.Model.enums
         PaymentNotReceived = 2,
         DepositRefunded = 3,
         WrongAmountSubmitted = 4,
-        WrongBankSubmitted = 5
+        WrongBankSubmitted = 5,
+        InactiveBankAccountSubmission = 6
     }
     public enum WithdrawalMessageStatus
     {
@@ -597,5 +610,23 @@ namespace MemberSite.Service.Model.enums
         Delete = 2,
         Lock = 3,
         Unlock = 4
+    }
+    
+    public enum ExchangeTypeEnum
+    {
+        /// <summary>
+        /// 我方賣出(玩家提款)
+        /// </summary>
+        Sell = 0,
+        /// <summary>
+        /// 我方買入(玩家存款)
+        /// </summary>
+        Buy = 1
+    }
+    
+    public enum WithdrawalLimitLogCreateFromEnum 
+    {
+        Default = 0,
+        DrawPrize = 7
     }
 }

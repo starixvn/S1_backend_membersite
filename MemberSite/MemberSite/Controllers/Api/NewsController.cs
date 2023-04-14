@@ -1,4 +1,5 @@
 ﻿using MemberSite.Service.BLL;
+using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,35 +9,51 @@ namespace MemberSite.Controllers.Api
     [ApiController]
     public class NewsController : Controller
     {
-        private readonly ServerInfoBll serverInfoBLL;
-        private readonly NewsBLL newsBLL;
-
-        public NewsController(ServerInfoBll serverInfoBLL, NewsBLL newsBLL)
+        private readonly SelLangBLL _selLangBll;
+        private readonly ServerInfoBll _serverInfoBll;
+        private readonly AuthorizeBLL _authorizeBll;
+        private readonly CustInfoBll _customerInfoBll;
+        private readonly NewsBLL _newsBLL;
+        public NewsController(SelLangBLL selLangBll, ServerInfoBll serverInfoBll, AuthorizeBLL authorizeBll, CustInfoBll customerInfoBll, NewsBLL newsBLL)
         {
-            this.serverInfoBLL = serverInfoBLL;
-            this.newsBLL = newsBLL;
+            _selLangBll = selLangBll;
+            _serverInfoBll = serverInfoBll;
+            _authorizeBll = authorizeBll;
+            _customerInfoBll = customerInfoBll;
+            _newsBLL = newsBLL;
         }
 
         public class ParamNews
         {
+            public int? CurrencyId { get; set; }
             public int PageNumber { get; set; }
             public int PageSize { get; set; }
         }
 
 
         [HttpPost]
-        public ApiListResult<News> GetNews(ParamNews NewsReq)
+        public async Task<ApiListResult<News>> GetNews(ParamNews newsReq)
         {
             var result = new ApiListResult<News>();
 
             try
-            {
-                var serverInfo = serverInfoBLL.GetServerInfo();
-                var pageNumber = NewsReq.PageNumber;
-                result.Data = newsBLL.GetNews(serverInfo.SiteId, NewsReq.PageSize, ref pageNumber, out var totalPages, out var rowCount);
-                result.PageNumber = pageNumber;
-                result.TotalPages = totalPages;
-                result.RowCount = rowCount;
+            { 
+                var authData = _authorizeBll.GetAuthData();
+                if (authData is { CustId: > 0 })
+                {
+                    var customerInfo = _customerInfoBll.GetCustInfoWithCache(authData.CustId);
+                    newsReq.CurrencyId = customerInfo.CurrencyId;
+                }
+                var serverInfo = _serverInfoBll.GetServerInfo();
+                var language = LanguageObject.Create(newsReq.CurrencyId, _selLangBll.GetLangId(), serverInfo.DefLang);
+                var pageNumber = newsReq.PageNumber;
+
+                var news = await _newsBLL.GetNews(serverInfo.SiteId, language, newsReq.PageSize, pageNumber);
+
+                result.Data = news.Data;
+                result.PageNumber = news.PageNumber;
+                result.TotalPages = news.TotalPages;
+                result.RowCount = news.RowCount;
                 result.ErrorCode = 0;
             }
             catch (Exception ex)
@@ -51,17 +68,26 @@ namespace MemberSite.Controllers.Api
 
         public class ParamNewsById
         {
+            public int? CurrencyId { get; set; }
             public int NewsId { get; set; }
         }
 
-        public ApiResult<News> GetNewsById(ParamNewsById NewsReq)
+        public async Task<ApiResult<News>> GetNewsById(ParamNewsById newsReq)
         {
             var result = new ApiResult<News>();
 
             try
             {
-                var serverInfo = serverInfoBLL.GetServerInfo();
-                result.Data = newsBLL.GetNewsById(serverInfo.SiteId, (int)NewsReq.NewsId);
+                var authData = _authorizeBll.GetAuthData();
+                if (authData is { CustId: > 0 })
+                {
+                    var customerInfo = _customerInfoBll.GetCustInfoWithCache(authData.CustId);
+                    newsReq.CurrencyId = customerInfo.CurrencyId;
+                }
+                var serverInfo = _serverInfoBll.GetServerInfo();
+                var language = LanguageObject.Create(newsReq.CurrencyId, _selLangBll.GetLangId(), serverInfo.DefLang);
+
+                result.Data = await _newsBLL.GetNewsById(serverInfo.SiteId, newsReq.NewsId, language);
                 result.ErrorCode = 0;
             }
             catch (Exception ex)

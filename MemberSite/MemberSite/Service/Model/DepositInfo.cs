@@ -1,6 +1,7 @@
 ﻿using MemberSite.Extensions;
 using MemberSite.Service.Model.enums;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MemberSite.Service.Model
 {
@@ -106,19 +107,25 @@ namespace MemberSite.Service.Model
             }
         }
         private DateTime? _depositTime { get; set; }
-
-        public string PicFileName { get; set; }
-
+        public IEnumerable<DepositReceipt> DepositReceipt { get; set; }
         [JsonIgnore]
         public string CustTimeZone { get; set; }
         public string DepositMessage { get; set; }
         public IEnumerable<DepositMessageDetail> DepositMessageDetail { get; set; }
 }
 
+    public class DepositReceiptModel
+    {
+        public IActionResult Receipt { get; set; }
+        public int ReceiptNo { get; set; }
+        public string PicFileName { get; set; }
+    }
+    
     public class DepositReceipt
     {
         public int DepositId { get; set; }
         public string PicFileName { get; set; }
+        public int ReceiptNo { get; set; }
         public byte[] DepositPic { get; set; }
     }
 
@@ -138,18 +145,6 @@ namespace MemberSite.Service.Model
         public int SysId { get; set; }
         public string AccountNo { get; set; }
         public string IFSCCode { get; set; }
-    }
-
-    public class ExchangeInfo
-    {
-        public decimal Rate { get; set; }
-        public decimal To_Amount { get; set; }
-        public long Updated_timestamp { get; set; }
-    }
-
-    public class PaymentReq
-    {
-        public ExchangeInfo formData { get; set; }
     }
 
     public class DepositMessage
