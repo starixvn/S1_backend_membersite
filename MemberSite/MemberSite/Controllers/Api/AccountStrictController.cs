@@ -460,7 +460,7 @@ namespace MemberSite.Controllers.Api
                         && !DateTime.TryParse($"{custProfile["Birth_y"]}-{custProfile["Birth_m"]}-{custProfile["Birth_d"]}", out _))
                     {
                         apiResult.ErrorCode = 21;
-                        apiResult.Message = $"({_selLangBLL.GetMsg("msg_BirthdayIsRequired")}";
+                        apiResult.Message = $"{_selLangBLL.GetMsg("msg_BirthdayIsRequired")}";
                         return apiResult;
                     }
 
