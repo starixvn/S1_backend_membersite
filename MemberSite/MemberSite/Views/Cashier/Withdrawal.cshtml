@@ -8,7 +8,6 @@
 @inject CustInfoBll custInfoBLL
 @{
     ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Withdrawal");
-    Layout = "~/Views/Shared/_Layout.cshtml";
     var authData = authorizeBLL.GetAuthData();
     var custBankInfo = custInfoBLL.GetCustBankInfo(authData.CustId);
     var submittedCustPhotoId = 0;
@@ -66,7 +65,6 @@
 }
 
 <div class="main">
-    <partial name="~/Views/Shared/_DesktopLeftMenu.cshtml" />
     <div class="page-title" role="mobile-only">
         <span class="text">@selLangBLL.GetResourceValue("lbl_Cashier")</span>
     </div>
@@ -139,14 +137,11 @@
     </script>
     @if (submittedCustPhotoId == 1)
     {
-        <script src="~/js/component/account/UploadPhotoId.min.js" asp-append-version="true"></script>
     }
     else if (!(custBankInfo == null || custBankInfo.bankInfoDetail == null || !custBankInfo.bankInfoDetail.Any()))
     {
         <script type="text/javascript">
             var hrefAllTrans = "@Url.RouteUrl("desktop", new { action = "Withdrawal", controller = "History", LangId = selLangBLL.GetLangId() })";
         </script>
-        <script src="~/lib/runtime.min.js"></script>
-        <script src="~/js/component/cashier/WithdrawalPanel.min.js" asp-append-version="true"></script>
     }
 }
