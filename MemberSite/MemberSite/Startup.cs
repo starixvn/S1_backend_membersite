@@ -141,10 +141,8 @@ namespace MemberSite
             services.AddSingleton<PromotionBll>();
             services.AddSingleton<RedemptionBLL>();
             services.AddSingleton<StoreBLL>();
-            services.AddSingleton<GamingBLL>();
             services.AddSingleton<CasinoBll>();
             services.AddSingleton<CommonBLL>();
-            services.AddSingleton<TemplateBLL>();
             services.AddSingleton<AuthBLL>();
             services.AddSingleton<BannerBLL>();
             services.AddSingleton<BonusWalletBLL>();

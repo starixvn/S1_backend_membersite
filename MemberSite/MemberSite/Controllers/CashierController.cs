@@ -4,7 +4,6 @@ using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using static MemberSite.Controllers.entPageController;
 
 namespace MemberSite.Controllers
@@ -19,7 +18,6 @@ namespace MemberSite.Controllers
         private readonly ServerInfoBll _serverInfoBll;
         private readonly PaymentBLL _paymentBll;
         private readonly CustInfoBll _custInfoBll;
-        private readonly TemplateBLL _templateBll;
         private readonly CryptoPayInfoBll _cryptoPayInfoBll;
         private readonly LoadCardPayInfoBLL _loadCardPayInfoBll;
         private readonly PromotionBll _promotionBll;
@@ -35,7 +33,6 @@ namespace MemberSite.Controllers
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
             _paymentBll = provider.GetRequiredService<PaymentBLL>();
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
-            _templateBll = provider.GetRequiredService<TemplateBLL>();
             _cryptoPayInfoBll = provider.GetRequiredService<CryptoPayInfoBll>();
             _loadCardPayInfoBll = provider.GetRequiredService<LoadCardPayInfoBLL>();
             _promotionBll = provider.GetRequiredService<PromotionBll>();
@@ -45,30 +42,6 @@ namespace MemberSite.Controllers
 
             var configuration = provider.GetRequiredService<IConfiguration>();
             _payApiUrl = configuration.GetValue<string>("PayService");
-        }
-        public IActionResult Deposit()
-        {
-            var authData = _authorizeBll.GetAuthData();
-            var custInfo = _custInfoBll.GetCustInfo(authData.CustId);
-
-            if (!custInfo.IsTest)
-                return View(_templateBll.GetTemplatePath(Url));
-            else
-                return BadRequest("This account does not allow deposit. Please contact CSD for more information!");
-        }
-        public IActionResult Withdrawal()
-        {
-            var authData = _authorizeBll.GetAuthData();
-            var custInfo = _custInfoBll.GetCustInfo(authData.CustId);
-
-            if (!custInfo.IsTest)
-                return View(_templateBll.GetTemplatePath(Url));
-            else
-                return BadRequest("This account does not allow withdrawal. Please contact CSD for more information!");
-        }
-        public IActionResult Transfer()
-        {
-            return View(_templateBll.GetTemplatePath(Url));
         }
 
         [HttpGet]
