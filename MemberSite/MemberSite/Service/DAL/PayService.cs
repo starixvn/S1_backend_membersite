@@ -16,10 +16,12 @@ namespace MemberSite.Service.DAL
         {
             return _reportDbClient.Query<MobilePayInfo>("Member_MobilePay_Get_V3", new { _SiteId = siteId });
         }
+        
         public IEnumerable<CryptoPayInfo> GetCryptoPayInfo(int siteId)
         {
             return _reportDbClient.Query<CryptoPayInfo>("Service_PayInfo_Get_V2", new { _SiteId = siteId, _DepositType = DepositType.CryptoPayment });
         }
+        
         public IEnumerable<LoadCardPayInfo> GetLoadCardPayInfo(int siteId)
         {
             return _reportDbClient.Query<LoadCardPayInfo>("Service_PayInfo_Get_V2", new { _SiteId = siteId, _DepositType = DepositType.LoadCardPayment });
@@ -33,6 +35,11 @@ namespace MemberSite.Service.DAL
         public LineChannel? GetLineChannel(int siteId, int currencyId)
         {
             return _reportDbClient.QueryFirst<LineChannel?>("Member_LineChannel_Get", new { _SiteId = siteId, _CurrencyId = currencyId });
+        }
+        
+        public IEnumerable<PayGroupInfo> GetPayGroup()
+        {
+            return _reportDbClient.Query<PayGroupInfo>("Service_PayGroup_Get");
         }
     }
 }

@@ -35,9 +35,9 @@ namespace MemberSite.Controllers.Api
         private readonly CasinoBll _casinoBll;
         private readonly BonusWalletBLL _bonusWalletBll;
         private readonly EventsBLL _eventsBll;
-        private readonly ICacheHelper _cacheHelper;
         private readonly ILogger<AccountController> _logger;
         private readonly CheckAttackBLL _checkAttackBll;
+        private readonly ICacheHelper _cacheHelper;
         private readonly ServerInfoBll _serverInfoBll;
 
         public AccountController(IServiceProvider provider)
@@ -58,8 +58,8 @@ namespace MemberSite.Controllers.Api
             _casinoBll = provider.GetRequiredService<CasinoBll>();
             _bonusWalletBll = provider.GetRequiredService<BonusWalletBLL>();
             _eventsBll = provider.GetRequiredService<EventsBLL>();
-            _cacheHelper = provider.GetRequiredService<ICacheHelper>();
             _logger = provider.GetRequiredService<ILogger<AccountController>>();
+            _cacheHelper = provider.GetRequiredService<ICacheHelper>();
             _checkAttackBll = provider.GetRequiredService<CheckAttackBLL>();
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
         }
@@ -81,7 +81,7 @@ namespace MemberSite.Controllers.Api
                     apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
                     if (authData is { CustId: > 0 })
                     {
-                        _ = Task.Run(async () => { _ = await LogoutAsync(1, authData.CustId); });
+                        _ = Task.Run(async () => { _ = await LogoutAsync(41, authData.CustId); });
                     }
                 }
                 else
@@ -113,7 +113,7 @@ namespace MemberSite.Controllers.Api
                 apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
                 if (authData is { CustId: > 0 })
                 {
-                    _ = Task.Run(async () => { _ = await LogoutAsync(1, authData.CustId); });
+                    _ = Task.Run(async () => { _ = await LogoutAsync(41, authData.CustId); });
                 }
             }
             else
@@ -142,7 +142,7 @@ namespace MemberSite.Controllers.Api
             {
                 _ = Task.Run(async () =>
                 {
-                    _ = await LogoutAsync(1, authData.CustId);
+                    _ = await LogoutAsync(41, authData.CustId);
                 });
             }
 
@@ -220,7 +220,7 @@ namespace MemberSite.Controllers.Api
             {
                 _ = Task.Run(async () =>
                 {
-                    _ = await LogoutAsync(1, authData.CustId);
+                    _ = await LogoutAsync(41, authData.CustId);
                 });
             }
 
@@ -327,6 +327,7 @@ namespace MemberSite.Controllers.Api
             public int CustId { set; get; }
             public Dictionary<string, string> inputs { set; get; }
         }
+
         private async Task<bool> LogoutAsync(int tpId, int custId)
         {
             var myUrl = $"{_apiUrl}Logout";

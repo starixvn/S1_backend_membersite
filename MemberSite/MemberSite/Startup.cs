@@ -13,8 +13,10 @@ using System.Text.Unicode;
 using MemberSite.Extensions;
 using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.DAL.Interface;
+using MemberSite.Service.Model.Options;
 using MemberSite.Service.Model.Mapping;
 using StackExchange.Redis;
+using MemberSite.Service.Model.Mapping;
 
 namespace MemberSite
 {
@@ -131,7 +133,6 @@ namespace MemberSite
             services.AddSingleton<AuthorizeBLL>();
             services.AddSingleton<BankInfoOffBLL>();
             services.AddSingleton<BankInfoBLL>();
-            services.AddSingleton<MobilePayInfoBll>();
             services.AddSingleton<CryptoPayInfoBll>();
             services.AddSingleton<LoadCardPayInfoBLL>();
             services.AddSingleton<DepositBLL>();
@@ -141,10 +142,8 @@ namespace MemberSite
             services.AddSingleton<PromotionBll>();
             services.AddSingleton<RedemptionBLL>();
             services.AddSingleton<StoreBLL>();
-            services.AddSingleton<GamingBLL>();
             services.AddSingleton<CasinoBll>();
             services.AddSingleton<CommonBLL>();
-            services.AddSingleton<TemplateBLL>();
             services.AddSingleton<AuthBLL>();
             services.AddSingleton<BannerBLL>();
             services.AddSingleton<BonusWalletBLL>();
@@ -170,10 +169,12 @@ namespace MemberSite
             services.AddSingleton<PayInfoBLL>();
             services.AddSingleton<LineLoginBLL>();
             services.AddSingleton<SiteBll>();
+            services.AddTransient<WorldCupPredictionBLL>();
             services.AddSingleton<IPBLL>();
             services.AddSingleton<ShieldBLL>();
             services.AddTransient<WorldCupPredictionBLL>();
             services.AddSingleton<SlotGameBLL>();
+            services.AddTransient<IHotGameBLL, HotGameBLL>();
             services.AddTransient<RecaptchaBLL>();
             services.AddTransient<CheckAttackBLL>();
             services.AddTransient<DateTimeHelper>();
@@ -283,7 +284,11 @@ namespace MemberSite
             services.AddControllers();
 
             services.AddOptionListByDB<TpGameTypeOption>("Admin_TpGameType_Get");
+
+            services.AddOptionListByDB<BlockIP>("Member_BlockIP_Get");
+
             services.AddOptionListByDB<AreaCodeMap>("Common_CountryList_Get");
+            services.AddOptionListByDB<SabaSportTypeOption>("Service_SabaSportType_Get");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
