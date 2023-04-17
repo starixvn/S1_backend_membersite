@@ -454,6 +454,16 @@ namespace MemberSite.Controllers.Api
                     if (!string.IsNullOrEmpty(beforeCustInfo.Birth_y))
                         custProfile["Birth_y"] = beforeCustInfo.Birth_y;
 
+                    if (string.IsNullOrEmpty(beforeCustInfo.Birth_d)
+                        && string.IsNullOrEmpty(beforeCustInfo.Birth_m)
+                        && string.IsNullOrEmpty(beforeCustInfo.Birth_y)
+                        && !DateTime.TryParse($"{custProfile["Birth_y"]}-{custProfile["Birth_m"]}-{custProfile["Birth_d"]}", out _))
+                    {
+                        apiResult.ErrorCode = 21;
+                        apiResult.Message = $"({_selLangBLL.GetMsg("msg_BirthdayIsRequired")}";
+                        return apiResult;
+                    }
+
                     if (!string.IsNullOrEmpty(beforeCustInfo.AccountName))
                     {
                         custProfile["AccountName"] = beforeCustInfo.AccountName;
