@@ -37,7 +37,7 @@ namespace MemberSite.Service.BLL
         private Dictionary<DepositType, OfflineBankAccountSupportChannelEnum> _dicSupportChannelMapper
             = new ()
             {
-                {DepositType.OnlineBanking, OfflineBankAccountSupportChannelEnum.EWallet},
+                {DepositType.OnlineBanking, OfflineBankAccountSupportChannelEnum.LocalBank},
                 {DepositType.MobilePayment, OfflineBankAccountSupportChannelEnum.EWallet},
                 {DepositType.QRPayPayment, OfflineBankAccountSupportChannelEnum.BankQR}
             };
@@ -86,6 +86,7 @@ namespace MemberSite.Service.BLL
                             b.MaxAmount
                         })
                     .GroupBy(x => x.GroupId)
+                    .Where(x => payGroupInfos.Any(g => g.GroupId == x.Key && g.Type == depositType))
                     .Select(x =>
                     {
                         var bankCard = x.First();
@@ -150,7 +151,6 @@ namespace MemberSite.Service.BLL
             if (bankCards.Any())
             {
                 var payGroupInfos = GetPayGroupWithCache();
-                var bankCard = bankCards.First();
                 var groupInfo = payGroupInfos.First(g => g.GroupId == groupId);
                 var payInfo = new PayInfo
                 {
