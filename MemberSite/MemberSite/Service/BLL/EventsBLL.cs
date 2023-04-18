@@ -100,7 +100,7 @@ namespace MemberSite.Service.BLL
         {
             var key = $"Leaderboard_{lBCategoryId}_{eventCode}_{siteId}_{currencyId}_{topNum}_{beforeDays}";
             return _cacheHelper.TryGetOrCreate(key,
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(1)),
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)),
                 i => GetLeaderboardList(lBCategoryId, eventCode, siteId, currencyId, topNum, beforeDays));
         }
 
