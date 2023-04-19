@@ -341,6 +341,7 @@ namespace MemberSite.Service.Model.enums
         IDR = 15,
         VND = 51,
         INR = 61,
+        KHUSD = 72,
         BDT = 74,
         USDT = 96
     }
