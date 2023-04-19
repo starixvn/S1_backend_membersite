@@ -233,12 +233,11 @@ namespace MemberSite.Controllers
             var result = new List<DepositReceiptModel>();
             foreach (var receipt in depositReceipt)
             {
-                var image = receipt.DepositPic;
                 var model = new DepositReceiptModel
                 {
                     PicFileName = receipt.PicFileName,
                     ReceiptNo = receipt.ReceiptNo,
-                    Receipt = File(image, "image/jpeg"),
+                    Receipt = _paymentBll.GetDepositReceiptUrl(transId, receipt.ReceiptNo)
                 };
                 result.Add(model);
             }
@@ -284,12 +283,11 @@ namespace MemberSite.Controllers
             
             foreach (var receipt in depositReceipt)
             {
-                var image = receipt.DepositPic;
                 var model = new DepositReceiptModel
                 {
                     PicFileName = receipt.PicFileName,
                     ReceiptNo = receipt.ReceiptNo,
-                    Receipt = File(image, "image/jpeg"),
+                    Receipt = _paymentBll.GetDepositReceiptUrl(transId, receipt.ReceiptNo)
                 };
                 result.Add(model);
             }
