@@ -410,18 +410,26 @@ namespace MemberSite.Controllers.Api
                 var accountName = custProfile["AccountName"].Trim();
                 if (string.IsNullOrEmpty(beforeCustInfo.AccountName) && !string.IsNullOrEmpty(beforeCustInfo.PhoneNo))
                 {
-                    var result = _custInfoBLL.SetCustBankInfo(authData.CustId, accountName);
-
-                    if (result != 0)
-                    {
-                        _logger.LogWarning($"CustId: {authData.CustId} SetCustBankInfo failed.");
-                    }
                     if (!string.IsNullOrEmpty(beforeCustInfo.CountryCode))
                         custProfile["CountryCode"] = beforeCustInfo.CountryCode;
                     if (!string.IsNullOrEmpty(beforeCustInfo.AreaCode))
                         custProfile["AreaCode"] = beforeCustInfo.AreaCode;
                     if (!string.IsNullOrEmpty(beforeCustInfo.PhoneNo))
                         custProfile["PhoneNo"] = beforeCustInfo.PhoneNo;
+                        
+                    if (!DateTime.TryParse($"{custProfile["Birth_y"]}-{custProfile["Birth_m"]}-{custProfile["Birth_d"]}", out _))
+                    {
+                        apiResult.ErrorCode = 21;
+                        apiResult.Message = $"{_selLangBLL.GetMsg("msg_BirthdayIsRequired")}";
+                        return apiResult;
+                    }
+                    
+                    var result = _custInfoBLL.SetCustBankInfo(authData.CustId, accountName);
+
+                    if (result != 0)
+                    {
+                        _logger.LogWarning($"CustId: {authData.CustId} SetCustBankInfo failed.");
+                    }
                 }
                 else
                 {
