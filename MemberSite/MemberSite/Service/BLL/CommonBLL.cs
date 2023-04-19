@@ -80,7 +80,7 @@ namespace MemberSite.Service.BLL
             var apiResult = await _courierAdapter.MyPostAsync<SendOTPSMSResult, object>(apiUrl, req);
             if (apiResult.ErrorCode == (int) ErrorCode.Success)
             {
-                _redisHelper.StringSet(key, cnt + 1, TimeSpan.FromDays(1));
+                _redisHelper.StringSet(key, cnt + 1, TimeSpan.FromDays(1), RedisDataBase.Shared);
             }
 
             return apiResult;
