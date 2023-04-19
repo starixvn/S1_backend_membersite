@@ -8,7 +8,6 @@
 @inject CustInfoBll custInfoBLL
 @{
     ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Deposit");
-    Layout = "~/Views/Shared/_Layout.cshtml";
     var authData = authorizeBLL.GetAuthData();
     var custInfoProfile = custInfoBLL.GetCustInfoProfile(authData.CustId);
 }
@@ -94,7 +93,6 @@
     <link href="@SkinRootPath/css/MobileDeposit.css" rel="stylesheet" asp-append-version="true" />
 }
 <div class="main">
-    <partial name="~/Views/Shared/_DesktopLeftMenu.cshtml" />
     <div class="page-title" role="mobile-only">
         <span class="text">@selLangBLL.GetResourceValue("lbl_Cashier")</span>
     </div>
@@ -142,8 +140,5 @@
             var OnlineBankingUrl = "@Url.RouteUrl("desktop", new { action = "DepositReqOnlineBanking", controller = "Cashier", LangId = selLangBLL.GetLangId() })";
             var MobilePayUrl = "@Url.RouteUrl("desktop", new { action = "DepositReqMobilePay", controller = "Cashier", LangId = selLangBLL.GetLangId() })";
         </script>
-        <script src="~/lib/runtime.min.js"></script>
-        <script src="~/lib/clipboard.min.js"></script>
-        <script src="~/js/component/cashier/depositPanel.min.js" asp-append-version="true"></script>
     }
 }
