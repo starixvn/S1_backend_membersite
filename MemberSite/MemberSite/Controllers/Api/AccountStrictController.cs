@@ -438,7 +438,7 @@ namespace MemberSite.Controllers.Api
 
                     if (long.TryParse(PhoneNo, out var phoneNo))
                     {
-                        PhoneNo = phoneNo.ToString();
+                        custProfile["PhoneNo"] = phoneNo.ToString();
                     }
                     else
                     {
@@ -561,7 +561,7 @@ namespace MemberSite.Controllers.Api
 
                         if (long.TryParse(PhoneNo, out var phoneNo))
                         {
-                            PhoneNo = phoneNo.ToString();
+                            custProfile["PhoneNo"] = phoneNo.ToString();
                         }
                         else
                         {

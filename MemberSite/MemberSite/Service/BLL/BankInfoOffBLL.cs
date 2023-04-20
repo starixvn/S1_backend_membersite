@@ -41,7 +41,7 @@ namespace MemberSite.Service.BLL
             var currencyId = custInfo.CurrencyId;
 
             var key = $"PaySetting:LocalBank:FakeMobilePay:{siteId}:{currencyId}:{pointLevel}:{custInfo.UserLevel}";
-            var offBankList = _redisHelper.TryGetOrCreate(key, TimeSpan.FromMinutes(5),
+            var offBankList = _redisHelper.TryGetOrCreate(key, TimeSpan.FromSeconds(5),
                 () => GetOfflineBankAccountList(siteId, currencyId, pointLevel, custInfo.UserLevel));
 
             var custDepositSysIds = _bankInfoService.GetCustOffDepositSysId(custId);
