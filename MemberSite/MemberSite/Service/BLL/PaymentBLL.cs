@@ -1,4 +1,5 @@
-﻿using MemberSite.Extensions;
+﻿using System.Net;
+using MemberSite.Extensions;
 using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
@@ -6,6 +7,7 @@ using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Interfaces;
 using Newtonsoft.Json;
 using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MemberSite.Service.BLL
 {
@@ -24,6 +26,7 @@ namespace MemberSite.Service.BLL
         private readonly IReadOnlyDictionary<int, string> _tpList;
         private readonly IReadOnlyDictionary<int, string> _gameTypeList;
         private readonly ILogger<PaymentBLL> _logger;
+        private readonly string _awsDepositUrl;
 
         public PaymentBLL(IServiceProvider provider)
         {
@@ -34,7 +37,8 @@ namespace MemberSite.Service.BLL
             bankInfoBLL = provider.GetRequiredService<BankInfoBLL>();
             statementService = provider.GetRequiredService<StatementService>();
             selLangBLL = provider.GetRequiredService<SelLangBLL>();
-          
+            var configuration = provider.GetRequiredService<IConfiguration>();
+            _awsDepositUrl = configuration.GetValue<string>("AwsDepositUrl");
             singleWalletType = new Dictionary<string, string>
             {
                 {"1", "lbl_Stake"  },
@@ -473,7 +477,7 @@ namespace MemberSite.Service.BLL
             {
                 if (depositInfo.DepositType == (int)DepositType.LocalBank)
                 {
-                    depositInfo.DepositRep = Newtonsoft.Json.JsonConvert.DeserializeObject<DepositInfo3_1>(depositInfo.DepositInfo);
+                    depositInfo.DepositRep = JsonConvert.DeserializeObject<DepositInfo3_1>(depositInfo.DepositInfo);
                     var depositInfoRef = (DepositInfo3_1)depositInfo.DepositRep;
                     depositInfo.BankInfo = bankInfoBLL.GetBankInfoSysListByCurrency(CustInfo.CurrencyId).FirstOrDefault(x => x.SysId == depositInfoRef.SysId);
                 }
@@ -502,6 +506,10 @@ namespace MemberSite.Service.BLL
                 depositInfo.DepositMessageDetail = depositMessageDetails;
                 
                 depositInfo.DepositReceipt = GetDepositReceipt(depositInfo.TransId, custId);
+                foreach (var receipt in depositInfo.DepositReceipt)
+                {
+                    receipt.DepositPic = GetDepositReceiptUrl(depositInfo.TransId, receipt.ReceiptNo);
+                }
             }
 
             return depositInfoRecent;
@@ -563,8 +571,14 @@ namespace MemberSite.Service.BLL
                     });
                 }
                 depositInfo.DepositMessageDetail = depositMessageDetails;
+                
                 depositInfo.DepositReceipt = GetDepositReceipt(depositInfo.TransId, custId);
+                foreach (var receipt in depositInfo.DepositReceipt)
+                {
+                    receipt.DepositPic = GetDepositReceiptUrl(depositInfo.TransId, receipt.ReceiptNo);
+                }
             }
+            
             return depositInfoHistory;
         }
         public IEnumerable<WithdrawalHistory> GetWithdrawalInfoHistory(int custId, long startDate, long endDate, ref int pageNumber, out int totalPages, out int rowCount)
@@ -681,12 +695,12 @@ namespace MemberSite.Service.BLL
             int.TryParse(m.Value, out depositId);
             return _depositService.SetDepositReceipt(custId, depositId, refNo, depositTime);
         }
-        public async Task<int> SetDepositReceiptPic(int custId, string transId, int receiptNo, string picFileName, byte[] depositPic, string userName)
+        public async Task<int> SetDepositReceiptPic(int custId, string transId, int receiptNo, string picFileName, string userName)
         {
             var depositId = 0;
             var m = Regex.Match(transId, @"\d+");
             int.TryParse(m.Value, out depositId);
-            return await _depositService.SetDepositReceiptPic(custId, depositId, receiptNo, picFileName, depositPic, userName);
+            return await _depositService.SetDepositReceiptPic(custId, depositId, receiptNo, picFileName, userName);
         }
         public int SetDepositCancel(int custId, string transId)
         {
@@ -714,6 +728,20 @@ namespace MemberSite.Service.BLL
             int.TryParse(m.Value, out depositId);
             var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
             return _depositService.GetDepositReceipt(depositId, CustInfo.SiteId);
+        }
+        
+        public string GetDepositReceiptUrl(string transId, int receiptNo)
+        {
+            using var client = new HttpClient();
+            var url = $"{_awsDepositUrl}deposit/{transId}_{receiptNo}.png";
+            var picUrl = new RedirectResult(url).Url;
+            var picRsp = client.GetAsync(picUrl).Result;
+            if (picRsp.StatusCode == HttpStatusCode.OK)
+            {
+                return picUrl;
+            }
+
+            return null;
         }
 
         public decimal GetWithdrawalAvailableBalance(int custId)
