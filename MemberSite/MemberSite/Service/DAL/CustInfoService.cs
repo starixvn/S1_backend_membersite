@@ -848,5 +848,10 @@ namespace MemberSite.Service.DAL
             var result = _mainDbClient.Execute("Service_CustUSDTInfoLog_Set_V3", trans, parameter);
             return result > 0;
         }
+
+        public IEnumerable<CustTpGameTypeSettingDto> GetCustTpGameTypeSetting(int custId, IEnumerable<int> types)
+        {
+            return _mainDbClient.Query<CustTpGameTypeSettingDto>("Service_CustTpGameTypeSetting_Get", new { _CustId = custId, _Types = JsonConvert.SerializeObject(types) });
+        }
     }
 }
