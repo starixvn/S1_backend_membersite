@@ -533,7 +533,7 @@ namespace MemberSite.Service.DAL
 
         public CustInfoProfile GetCustInfoProfile(int custId)
         {
-            return _reportDbClient.QueryFirst<CustInfoProfile>("Member_CustProfile_Get_V4", new { CustId = custId });
+            return _reportDbClient.QueryFirst<CustInfoProfile>("Member_CustProfile_Get_V5", new { CustId = custId });
         }
 
         public int SubmittedCustPhotoId(int custId, int siteId, int currencyId)

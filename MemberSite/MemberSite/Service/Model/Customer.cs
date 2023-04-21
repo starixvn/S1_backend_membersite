@@ -142,6 +142,7 @@ namespace MemberSite.Service.Model
         public string AddressLineFirst { get; set; }
         public string AddressLineSecond { get; set; }
         public bool IsResetPwd { get; set; }
+        public MemberTypeEnum MemberType { get; set; }
     }
     public class CustRollOver
     {
