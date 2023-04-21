@@ -877,39 +877,45 @@ namespace MemberSite.Service.BLL
         public WithdrawalInfoProcessWayEnum GetWithdrawalProcessWay(Customer custInfo, string accountNo, decimal withdrawalAmount, WithdrawalAccountTypeEnum accountType)
         {
             var setting = withdrawalService.GetAutoWithdrawalRuleSetting(custInfo.SiteId, custInfo.CurrencyId);
-            if (setting is null) return WithdrawalInfoProcessWayEnum.Manual; //沒有該幣別的設定就是手動
+            if (setting is null)
+                return WithdrawalInfoProcessWayEnum.Manual; //沒有該幣別的設定就是手動
 
-
-            var withdrawalSuccessCounter = withdrawalService.GetWithdrawalSuccessCounter(custInfo.CustId, accountNo);
+            var withdrawalSuccessCounter =
+                withdrawalService.GetWithdrawalSuccessCounter(custInfo.CustId, accountNo);
             var customerAccountType = (int)accountType;
             var customerVip = custInfo.UserLevel;
             var customerTags = string.IsNullOrEmpty(custInfo.TagList)
-                                ? new List<int>()
-                                : JsonConvert.DeserializeObject<List<int>>(custInfo.TagList);
+                ? new List<int>()
+                : JsonConvert.DeserializeObject<List<int>>(custInfo.TagList);
 
             // 玩家身上有Tag，設定也有tag 才檢查
             if (customerTags.Any() && setting.Tags.Any())
             {
-                if (!customerTags.Intersect(setting.Tags).Any()) return WithdrawalInfoProcessWayEnum.Manual;
+                if (!customerTags.Intersect(setting.Tags).Any())
+                    return WithdrawalInfoProcessWayEnum.Manual;
             }
 
             // vipLevelCheck
             if (setting.VipLevels.Any())
             {
-                if (!setting.VipLevels.Any(x => x == customerVip)) return WithdrawalInfoProcessWayEnum.Manual;
+                if (!setting.VipLevels.Any(x => x == customerVip))
+                    return WithdrawalInfoProcessWayEnum.Manual;
             }
 
             // withdrawal AccountType check
             if (setting.WithdrawalTypes.Any())
             {
-                if (!setting.WithdrawalTypes.Any(r => r == customerAccountType)) return WithdrawalInfoProcessWayEnum.Manual;
+                if (!setting.WithdrawalTypes.Any(r => r == customerAccountType))
+                    return WithdrawalInfoProcessWayEnum.Manual;
             }
 
             // withdrawal Amount check
-            if (withdrawalAmount > setting.WithdrawalAmount) return WithdrawalInfoProcessWayEnum.Manual;
+            if (withdrawalAmount > setting.WithdrawalAmount)
+                return WithdrawalInfoProcessWayEnum.Manual;
 
             // withdrawal SuccessCounter check
-            if (withdrawalSuccessCounter.SuccessWithdrawalCount < setting.AccountWithdrawalCount) return WithdrawalInfoProcessWayEnum.Manual;
+            if (withdrawalSuccessCounter.SuccessWithdrawalCount < setting.AccountWithdrawalCount)
+                return WithdrawalInfoProcessWayEnum.Manual;
 
             return WithdrawalInfoProcessWayEnum.Auto;
         }
