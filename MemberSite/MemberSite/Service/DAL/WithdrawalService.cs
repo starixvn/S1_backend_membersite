@@ -26,8 +26,10 @@ namespace MemberSite.Service.DAL
             _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
         }
         
-        public int WithdrawalReq(int custId, string userName, int currencyId, int siteId, decimal amount, string memo, string withdrawalInfo, WithdrawalInfoProcessWayEnum processWay,
-            out decimal afterAmount, out string transId)
+        public int WithdrawalReq(int custId, string userName, int currencyId, int siteId, decimal amount, string memo,
+            string withdrawalInfo,
+            out decimal afterAmount, out string transId,
+            WithdrawalInfoProcessWayEnum processWay = WithdrawalInfoProcessWayEnum.Manual)
         {
             transId = "";
             afterAmount = 0;
@@ -221,14 +223,25 @@ namespace MemberSite.Service.DAL
                 }).FirstOrDefault();
         }
 
-        public AutoWithdrawalRuleSettingDto GetAutoWithdrawalRuleSettingDto(int siteId,int currencyId)
+        public AutoWithdrawalRuleSettingDto GetAutoWithdrawalRuleSetting(int siteId,int currencyId)
         {
             return _reportDbClient.Query<AutoWithdrawalRuleSettingDto>("Member_AutoWithdrawalRuleSetting_Get",
                 new
                 {
-                    SiteId = siteId,
-                    CurrencyId = currencyId
+                    _SiteId = siteId,
+                    _CurrencyId = currencyId
                 }).FirstOrDefault();
+        }
+
+        
+        public WithdrawalAccountCounterDto GetWithdrawalSuccessCounter(int custId, string accountNo)
+        {
+            return _reportDbClient.Query<WithdrawalAccountCounterDto>("Member_WithdrawalSuccessCounter_Get",
+                new
+                {
+                    _CustId = custId,
+                    _AccountNo = accountNo
+                }).First();
         }
     }
 }

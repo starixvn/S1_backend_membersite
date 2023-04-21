@@ -402,7 +402,7 @@ namespace MemberSite.Service.BLL
             withdrawalInfo.SysId = sysId;
             withdrawalInfo.IFSCCode = iFSCCode;
 
-            return withdrawalService.WithdrawalReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, JsonConvert.SerializeObject(withdrawalInfo), out afterAmount, out transId);
+            return withdrawalService.WithdrawalReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, JsonConvert.SerializeObject(withdrawalInfo), out transId, afterAmount);
         }
         public int WithdrawalCryptoReq(int custId, string accountName, CryptoWalletDetail cryptoDetail, string accountNo, decimal amount, string memo,
             decimal tmpRate, decimal tmpCryptoAmount, out decimal afterAmount, out string transId)
@@ -435,7 +435,7 @@ namespace MemberSite.Service.BLL
             withdrawalCryptoInfo.TempExchangeAmount = tmpCryptoAmount;
             withdrawalCryptoInfo.TempExchangeRate = tmpRate;
 
-            return withdrawalService.WithdrawalReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, JsonConvert.SerializeObject(withdrawalCryptoInfo), out afterAmount, out transId);
+            return withdrawalService.WithdrawalReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, JsonConvert.SerializeObject(withdrawalCryptoInfo), out transId, afterAmount);
         }
 
         public int WithdrawalEWalletReq(int custId, string accountName, int sysId, string accountNo, decimal amount, string memo, out decimal afterAmount, out string transId)
@@ -466,7 +466,7 @@ namespace MemberSite.Service.BLL
             withdrawalEWalletInfo.EWalletSysId = sysId;
             withdrawalEWalletInfo.EWalletName = eWalletInfoSys.EWalletName;
             withdrawalEWalletInfo.AccountType = "ewallet";
-            return withdrawalService.WithdrawalReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, JsonConvert.SerializeObject(withdrawalEWalletInfo), out afterAmount, out transId);
+            return withdrawalService.WithdrawalReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, JsonConvert.SerializeObject(withdrawalEWalletInfo), out transId, afterAmount);
         }
 
         public IEnumerable<DepositInfoHistory> GetDepositInfoRecent(int custId)
@@ -870,29 +870,45 @@ namespace MemberSite.Service.BLL
             return (startDate, endDate);
         }
 
-        private WithdrawalInfoProcessWayEnum GetWithdrawalProcessWay(Customer custInfo, string accountNo, decimal amount, WithdrawalAccountTypeEnum accountType)
+        private WithdrawalInfoProcessWayEnum GetWithdrawalProcessWay(Customer custInfo, string accountNo, decimal withdrawalAmount, WithdrawalAccountTypeEnum accountType)
         {
-            var setting = withdrawalService.GetAutoWithdrawalRuleSettingDto(custInfo.SiteId, custInfo.CurrencyId);
+            var setting = withdrawalService.GetAutoWithdrawalRuleSetting(custInfo.SiteId, custInfo.CurrencyId);
             if (setting is null) return WithdrawalInfoProcessWayEnum.Manual; //沒有該幣別的設定就是手動
 
             // todo get cust accountNo success Count
+            var withdrawalSuccessCounter = withdrawalService.GetWithdrawalSuccessCounter(custInfo.CustId, accountNo);
+            var customerAccountType = (int)accountType;
             var customerVip = custInfo.UserLevel;
             var customerTags = string.IsNullOrEmpty(custInfo.TagList)
                                 ? new List<int>()
                                 : JsonConvert.DeserializeObject<List<int>>(custInfo.TagList);
 
-            //todo user 如果沒有 Tag 可以跳過 tag 檢查
+            // 玩家身上有Tag，設定也有tag 才檢查
+            if (customerTags.Any() && setting.Tags.Any())
+            {
+                if (!customerTags.Intersect(setting.Tags).Any()) return WithdrawalInfoProcessWayEnum.Manual;
+            }
+
+            // todo check vip 
+            if (setting.VipLevels.Any())
+            {
+                if(!setting.VipLevels.Any(x=>x == customerVip)) return WithdrawalInfoProcessWayEnum.Manual;
+            }
+
+            // todo check accountType
+            if (setting.WithdrawalTypes.Any())
+            {
+                if (setting.WithdrawalTypes.All(r => r == customerAccountType)) return WithdrawalInfoProcessWayEnum.Manual;
+            }
+
+            // todo check amount
+            if(withdrawalAmount > setting.WithdrawalAmount) return WithdrawalInfoProcessWayEnum.Manual;
+
+            // todo check withdrawalCounter
+            if(withdrawalSuccessCounter.SuccessWithdrawalCount < setting.AccountWithdrawalCount) return WithdrawalInfoProcessWayEnum.Manual;
 
 
-
-
-
-
-
-            // todo check condation 是否符合自動
-
-
-            return WithdrawalInfoProcessWayEnum.Manual;
+            return WithdrawalInfoProcessWayEnum.Auto;
         }
 
     }
