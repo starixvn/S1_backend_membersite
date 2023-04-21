@@ -385,9 +385,9 @@ namespace MemberSite.Service.BLL
                 return -99;
 
             var withdrawalInfo = new WithdrawalInfo();
-            var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
+            var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
             var checkAmount = amount;
-            if (custInfoBLL.IsConvertRequired(CustInfo.CurrencyId))
+            if (custInfoBLL.IsConvertRequired(custInfo.CurrencyId))
             {
                 checkAmount /= 1000;
             }
@@ -401,8 +401,9 @@ namespace MemberSite.Service.BLL
             withdrawalInfo.AccountNo = accountNo;
             withdrawalInfo.SysId = sysId;
             withdrawalInfo.IFSCCode = iFSCCode;
+            var withdrawalProcessWay = GetWithdrawalProcessWay(custInfo, accountNo, amount, WithdrawalAccountTypeEnum.BankCard);
 
-            return withdrawalService.WithdrawalReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, JsonConvert.SerializeObject(withdrawalInfo), out afterAmount, out transId);
+            return withdrawalService.WithdrawalReq(custId, custInfo.UserName, custInfo.CurrencyId, custInfo.SiteId, amount, memo, JsonConvert.SerializeObject(withdrawalInfo), withdrawalProcessWay, out afterAmount, out transId);
         }
         public int WithdrawalCryptoReq(int custId, string accountName, CryptoWalletDetail cryptoDetail, string accountNo, decimal amount, string memo,
             decimal tmpRate, decimal tmpCryptoAmount, out decimal afterAmount, out string transId)
@@ -414,9 +415,9 @@ namespace MemberSite.Service.BLL
                 return -99;
 
             var withdrawalCryptoInfo = new WithdrawalCryptoInfo();
-            var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
+            var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
             var checkAmount = amount;
-            if (custInfoBLL.IsConvertRequired(CustInfo.CurrencyId))
+            if (custInfoBLL.IsConvertRequired(custInfo.CurrencyId))
             {
                 checkAmount /= 1000;
             }
@@ -434,8 +435,9 @@ namespace MemberSite.Service.BLL
             withdrawalCryptoInfo.CurrencyId = cryptoDetail.CurrencyId;
             withdrawalCryptoInfo.TempExchangeAmount = tmpCryptoAmount;
             withdrawalCryptoInfo.TempExchangeRate = tmpRate;
+            var withdrawalProcessWay = GetWithdrawalProcessWay(custInfo, accountNo, amount, WithdrawalAccountTypeEnum.Crypto);
 
-            return withdrawalService.WithdrawalReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, JsonConvert.SerializeObject(withdrawalCryptoInfo), out afterAmount, out transId);
+            return withdrawalService.WithdrawalReq(custId, custInfo.UserName, custInfo.CurrencyId, custInfo.SiteId, amount, memo, JsonConvert.SerializeObject(withdrawalCryptoInfo), withdrawalProcessWay, out afterAmount, out transId);
         }
 
         public int WithdrawalEWalletReq(int custId, string accountName, int sysId, string accountNo, decimal amount, string memo, out decimal afterAmount, out string transId)
@@ -447,9 +449,9 @@ namespace MemberSite.Service.BLL
                 return -99;
 
             var withdrawalEWalletInfo = new WithdrawalEWalletInfo();
-            var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
+            var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
             var checkAmount = amount;
-            if (custInfoBLL.IsConvertRequired(CustInfo.CurrencyId))
+            if (custInfoBLL.IsConvertRequired(custInfo.CurrencyId))
             {
                 checkAmount /= 1000;
             }
@@ -459,14 +461,16 @@ namespace MemberSite.Service.BLL
                 return -1;
             }
 
-            var eWalletInfoSysList = bankInfoBLL.GetEWalletInfoSysListByCurrency(CustInfo.CurrencyId).ToList();
+            var eWalletInfoSysList = bankInfoBLL.GetEWalletInfoSysListByCurrency(custInfo.CurrencyId).ToList();
             var eWalletInfoSys = eWalletInfoSysList.FirstOrDefault(x => x.SysId == sysId);
             withdrawalEWalletInfo.AccountName = accountName;
             withdrawalEWalletInfo.AccountNo = accountNo;
             withdrawalEWalletInfo.EWalletSysId = sysId;
             withdrawalEWalletInfo.EWalletName = eWalletInfoSys.EWalletName;
             withdrawalEWalletInfo.AccountType = "ewallet";
-            return withdrawalService.WithdrawalReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, JsonConvert.SerializeObject(withdrawalEWalletInfo), out afterAmount, out transId);
+            var withdrawalProcessWay = GetWithdrawalProcessWay(custInfo, accountNo, amount, WithdrawalAccountTypeEnum.EWallet);
+
+            return withdrawalService.WithdrawalReq(custId, custInfo.UserName, custInfo.CurrencyId, custInfo.SiteId, amount, memo, JsonConvert.SerializeObject(withdrawalEWalletInfo), withdrawalProcessWay, out afterAmount, out transId);
         }
 
         public IEnumerable<DepositInfoHistory> GetDepositInfoRecent(int custId)
@@ -889,27 +893,25 @@ namespace MemberSite.Service.BLL
                 if (!customerTags.Intersect(setting.Tags).Any()) return WithdrawalInfoProcessWayEnum.Manual;
             }
 
-            // f
+            // vipLevelCheck
             if (setting.VipLevels.Any())
             {
                 if (!setting.VipLevels.Any(x => x == customerVip)) return WithdrawalInfoProcessWayEnum.Manual;
             }
 
-            // todo check accountType
+            // withdrawal AccountType check
             if (setting.WithdrawalTypes.Any())
             {
                 if (!setting.WithdrawalTypes.Any(r => r == customerAccountType)) return WithdrawalInfoProcessWayEnum.Manual;
             }
 
-            // todo check amount
+            // withdrawal Amount check
             if (withdrawalAmount > setting.WithdrawalAmount) return WithdrawalInfoProcessWayEnum.Manual;
 
-            // todo check withdrawalCounter
+            // withdrawal SuccessCounter check
             if (withdrawalSuccessCounter.SuccessWithdrawalCount < setting.AccountWithdrawalCount) return WithdrawalInfoProcessWayEnum.Manual;
-
 
             return WithdrawalInfoProcessWayEnum.Auto;
         }
-
     }
 }

@@ -27,9 +27,8 @@ namespace MemberSite.Service.DAL
         }
         
         public int WithdrawalReq(int custId, string userName, int currencyId, int siteId, decimal amount, string memo,
-            string withdrawalInfo,
-            out decimal afterAmount, out string transId,
-            WithdrawalInfoProcessWayEnum processWay = WithdrawalInfoProcessWayEnum.Manual)
+            string withdrawalInfo, WithdrawalInfoProcessWayEnum processWay,
+            out decimal afterAmount, out string transId)
         {
             transId = "";
             afterAmount = 0;
