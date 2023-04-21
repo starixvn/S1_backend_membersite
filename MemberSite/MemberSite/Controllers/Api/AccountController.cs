@@ -1104,7 +1104,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult<IEnumerable<CustTpGameTypeSetting>> GetCustTpGameTypeSetting()
+        public async Task<ApiResult<IEnumerable<CustTpGameTypeSetting>>> GetCustTpGameTypeSetting()
         {
             var apiResult = new ApiResult<IEnumerable<CustTpGameTypeSetting>>(_selLangBll);
             var authData = _authorizeBll.GetAuthData();
@@ -1114,7 +1114,7 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
             var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-            apiResult.Data = _custInfoBll.GetCustTpGameTypeSetting(custInfo.CustId) ;
+            apiResult.Data = await _custInfoBll.GetCustTpGameTypeSetting(custInfo.CustId) ;
             apiResult.ErrorCode = 0;
 
             return apiResult;
