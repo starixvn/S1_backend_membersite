@@ -622,7 +622,7 @@ namespace MemberSite.Service.Model.enums
         Lock = 3,
         Unlock = 4
     }
-    
+
     public enum ExchangeTypeEnum
     {
         /// <summary>
@@ -634,10 +634,17 @@ namespace MemberSite.Service.Model.enums
         /// </summary>
         Buy = 1
     }
-    
-    public enum WithdrawalLimitLogCreateFromEnum 
+
+    public enum WithdrawalLimitLogCreateFromEnum
     {
         Default = 0,
         DrawPrize = 7
+    }
+
+    public enum MemberTypeEnum
+    {
+        Normal = 1,
+        Affiliate = 2,
+        LiveStreaming = 3
     }
 }
