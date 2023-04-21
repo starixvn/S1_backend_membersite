@@ -610,6 +610,7 @@ namespace MemberSite.Controllers.Api
                         custProfile["Email"] = beforeCustInfo.Email;
                     }
 
+                    _logger.LogInformation(JsonConvert.SerializeObject(custProfile));
                     custProfile = SetCountryCodeAndAreaCode(custProfile, beforeCustInfo, custInfo.SiteId);
 
                     apiResult.ErrorCode = _custInfoBLL.SetProfileV2(authData.CustId, custProfile);
@@ -618,6 +619,7 @@ namespace MemberSite.Controllers.Api
                         apiResult.Message = _selLangBLL.GetMsg("msg_Updatesuccessful");
 
                         var custInfoProfile = _custInfoBLL.GetCustInfoProfile(authData.CustId);
+                        _logger.LogInformation(JsonConvert.SerializeObject(custInfoProfile));
                         apiResult.Data = new
                         {
                             LangCode = _selLangBLL.GetLangId(),
