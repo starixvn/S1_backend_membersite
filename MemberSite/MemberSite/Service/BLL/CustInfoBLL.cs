@@ -666,19 +666,26 @@ namespace MemberSite.Service.BLL
         {
             return _custInfoService.GetCustCryptoWalletDetail(custId);
         }
-        public IEnumerable<CustTpGameTypeSetting> GetCustTpGameTypeSetting(int custId)
+        public async Task<IEnumerable<CustTpGameTypeSetting>> GetCustTpGameTypeSetting(int custId)
         {
             var result = new List<CustTpGameTypeSetting>();
             var types = (CustTpGameTypeSettingType[])Enum.GetValues(typeof(CustTpGameTypeSettingType));
-            var typeResult = _custInfoService.GetCustTpGameTypeSetting(custId, types.Select(x => (int)x));
+            var key = $"GetCustTpGameTypeSetting:{custId}";
+            var typeResult = await _redisHelper.TryGetOrCreateAsync(key,
+                TimeSpan.FromMinutes(10),
+                async () =>
+                {
+                    return await _custInfoService.GetCustTpGameTypeSetting(custId, types.Select(x => (int)x));
+                });
+
             var gameTypeList = typeResult.Select(x => x.GameType).Distinct();
             foreach (var gameType in gameTypeList)
             {
                 result.Add(new CustTpGameTypeSetting(
                     typeResult.First(x => x.GameType == gameType).TpId,
-                    gameType,
-                    typeResult.Where(x => x.Type == CustTpGameTypeSettingType.NoShow).Any(),
-                    typeResult.Where(x => x.Type == CustTpGameTypeSettingType.NoPlay).Any()));
+                gameType,
+                    typeResult.Where(x => x.GameType == gameType && x.Type == CustTpGameTypeSettingType.NoShow).Any(),
+                    typeResult.Where(x => x.GameType == gameType && x.Type == CustTpGameTypeSettingType.NoPlay).Any()));
             }
 
             return result;
