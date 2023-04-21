@@ -849,9 +849,8 @@ namespace MemberSite.Service.DAL
             return result > 0;
         }
 
-        public IEnumerable<CustTpGameTypeSettingDto> GetCustTpGameTypeSetting(int custId, IEnumerable<int> types)
-        {
-            return _mainDbClient.Query<CustTpGameTypeSettingDto>("Service_CustTpGameTypeSetting_Get", new { _CustId = custId, _Types = JsonConvert.SerializeObject(types) });
-        }
+        public async Task<IEnumerable<CustTpGameTypeSettingDto>> GetCustTpGameTypeSetting(int custId, IEnumerable<int> types)
+            => await _mainDbClient.QueryAsync<CustTpGameTypeSettingDto>("Service_CustTpGameTypeSetting_Get", 
+                new { _CustId = custId, _Types = JsonConvert.SerializeObject(types) });
     }
 }
