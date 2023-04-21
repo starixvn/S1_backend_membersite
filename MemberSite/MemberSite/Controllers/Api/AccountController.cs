@@ -86,6 +86,7 @@ namespace MemberSite.Controllers.Api
                 }
                 else
                 {
+                    apiResult.ErrorCode = 0;
                     await _cacheHelper.StringFireAndForgetSetAsync(authData.CustId.ToString(), authData.Token,
                         TimeSpan.FromMinutes(30), RedisDataBase.Token);
                 }
@@ -95,7 +96,6 @@ namespace MemberSite.Controllers.Api
                 _logger.LogError(e, GetCurrentAsyncMethod());
             }
             
-            apiResult.ErrorCode = 0;
             return apiResult;
         }
 
