@@ -402,7 +402,7 @@ namespace MemberSite.Service.BLL
             withdrawalInfo.SysId = sysId;
             withdrawalInfo.IFSCCode = iFSCCode;
 
-            return withdrawalService.WithdrawalReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, JsonConvert.SerializeObject(withdrawalInfo), out transId, afterAmount);
+            return withdrawalService.WithdrawalReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, JsonConvert.SerializeObject(withdrawalInfo), out afterAmount, out transId);
         }
         public int WithdrawalCryptoReq(int custId, string accountName, CryptoWalletDetail cryptoDetail, string accountNo, decimal amount, string memo,
             decimal tmpRate, decimal tmpCryptoAmount, out decimal afterAmount, out string transId)
@@ -435,7 +435,7 @@ namespace MemberSite.Service.BLL
             withdrawalCryptoInfo.TempExchangeAmount = tmpCryptoAmount;
             withdrawalCryptoInfo.TempExchangeRate = tmpRate;
 
-            return withdrawalService.WithdrawalReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, JsonConvert.SerializeObject(withdrawalCryptoInfo), out transId, afterAmount);
+            return withdrawalService.WithdrawalReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, JsonConvert.SerializeObject(withdrawalCryptoInfo), out afterAmount, out transId);
         }
 
         public int WithdrawalEWalletReq(int custId, string accountName, int sysId, string accountNo, decimal amount, string memo, out decimal afterAmount, out string transId)
@@ -466,7 +466,7 @@ namespace MemberSite.Service.BLL
             withdrawalEWalletInfo.EWalletSysId = sysId;
             withdrawalEWalletInfo.EWalletName = eWalletInfoSys.EWalletName;
             withdrawalEWalletInfo.AccountType = "ewallet";
-            return withdrawalService.WithdrawalReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, JsonConvert.SerializeObject(withdrawalEWalletInfo), out transId, afterAmount);
+            return withdrawalService.WithdrawalReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, JsonConvert.SerializeObject(withdrawalEWalletInfo), out afterAmount, out transId);
         }
 
         public IEnumerable<DepositInfoHistory> GetDepositInfoRecent(int custId)
@@ -870,7 +870,7 @@ namespace MemberSite.Service.BLL
             return (startDate, endDate);
         }
 
-        private WithdrawalInfoProcessWayEnum GetWithdrawalProcessWay(Customer custInfo, string accountNo, decimal withdrawalAmount, WithdrawalAccountTypeEnum accountType)
+        public WithdrawalInfoProcessWayEnum GetWithdrawalProcessWay(Customer custInfo, string accountNo, decimal withdrawalAmount, WithdrawalAccountTypeEnum accountType)
         {
             var setting = withdrawalService.GetAutoWithdrawalRuleSetting(custInfo.SiteId, custInfo.CurrencyId);
             if (setting is null) return WithdrawalInfoProcessWayEnum.Manual; //沒有該幣別的設定就是手動
