@@ -40,5 +40,38 @@ namespace MemberSite.Controllers.Api
                 };
             }
         }
+
+        /// <summary>
+        /// Home 近期瀏覽
+        /// </summary>
+        /// <remarks>
+        ///
+        /// Http Method：POST
+        ///
+        /// Func Path：Home > [Recently Viewed]
+        ///
+        /// </remarks>
+        /// <returns>結果</returns>
+        [HttpPost]
+        public async Task<ApiResult<RecentlyViewedResponse>> GetRecentlyViewed(RecentlyViewedRequest request)
+        {
+            try
+            {
+                return new ApiResult<RecentlyViewedResponse>
+                {
+                    ErrorCode = (int)ErrorCode.Success,
+                    Data = await _slotGameBll.GetRecentlyViewed(request, User)
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                return new ApiResult<RecentlyViewedResponse>
+                {
+                    ErrorCode = (int)ErrorCode.SystemException,
+                    Message = ex.Message,
+                };
+            }
+        }
     }
 }

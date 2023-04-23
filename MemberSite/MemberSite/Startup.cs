@@ -116,6 +116,7 @@ namespace MemberSite
             services.AddTransient<RecaptchaService>();
             services.AddSingleton<PartitionService>();
             services.AddTransient<CurrencyService>();
+            services.AddTransient<GameService>();
 
             services.AddSingleton<IPService>();
             services.AddSingleton<ShieldService>();
