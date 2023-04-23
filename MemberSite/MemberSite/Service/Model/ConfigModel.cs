@@ -21,6 +21,8 @@
         public string MaintainUrl { get; set; }
 
         public string HotEventImageUrl { get; set; }
+
+        public string BannerImageUrl { get; set; }
     }
 
     public class RabbitMQConfig
