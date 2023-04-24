@@ -72,7 +72,7 @@ namespace MemberSite.Service.BLL
         private LeaderboardCustRank GetCustRank(int lBCategoryId, string eventCode, int siteId, int currencyId ,int custId, int beforeDays)
         {
             var startTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);  // 當月份1號開始
-            var endTime = DateTime.Now.AddDays(beforeDays * -1).Date.AddDays(1).AddMilliseconds(-1); 
+            var endTime = DateTime.Now.AddDays(beforeDays * -1).Date.AddDays(1).AddSeconds(-1); 
 
             if (startTime > endTime)
             {
