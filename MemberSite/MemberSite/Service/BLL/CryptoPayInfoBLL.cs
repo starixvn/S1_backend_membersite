@@ -76,7 +76,7 @@ namespace MemberSite.Service.BLL
                         ChannelName = g.Key,
                         Mode = 3,
                         MaxAmount = g.Any(x => x.MaxAmount == 0) 
-                            ? 0 : g.Max(x => x.MinAmount),
+                            ? 0 : g.Max(x => x.MaxAmount),
                         MinAmount = g.Min(x => x.MinAmount),
                         ChannelId = -1,
                         GroupId = -1,
