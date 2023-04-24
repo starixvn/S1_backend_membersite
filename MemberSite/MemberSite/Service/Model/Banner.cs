@@ -79,4 +79,10 @@
         public string BackgroundPic { get; set; }
         public int tpGameType { get; set; }
     }
+    public class VipBanner
+    {
+        public int CategoryId { get; set; }
+        public int Level { get; set; }
+        public decimal Percentage { get; set; }
+    }
 }

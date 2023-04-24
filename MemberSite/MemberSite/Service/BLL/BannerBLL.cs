@@ -104,17 +104,17 @@ namespace MemberSite.Service.BLL
                         TpId = bannerDetail.TpId,
                         GameId = bannerDetail.GameId,
                         UrlRouter = bannerDetail.UrlRouter,
-                        BannerLink = settings.TryGetValue("bannerLink", out var valueLink) ? valueLink : "" ,
-                        BannerPCUrl = settings.TryGetValue("bannerPCUrl", out var valuePcUrl) ? valuePcUrl : "" ,
-                        BannerMobileUrl = settings.TryGetValue("bannerMobileUrl", out var valueMobileUrl) ? valueMobileUrl : "" ,
+                        BannerLink = settings.TryGetValue("bannerLink", out var valueLink) ? valueLink : "",
+                        BannerPCUrl = settings.TryGetValue("bannerPCUrl", out var valuePcUrl) ? valuePcUrl : "",
+                        BannerMobileUrl = settings.TryGetValue("bannerMobileUrl", out var valueMobileUrl) ? valueMobileUrl : "",
                         tpGameType = tpGameTypeHelper.GetTpGameType(bannerDetail, currencyId),
                     });
                 }
             }
-            
+
             return banner;
         }
-        
+
         public async Task<IEnumerable<HotGame>> GetHotGames(int siteId, int currencyId, int deviceType)
         {
             var key = $"GetHotGames:{siteId}:{currencyId}";
@@ -143,6 +143,11 @@ namespace MemberSite.Service.BLL
                 2 => gameLogo.HotGameMobileUrl,
                 _ => ""
             };
+        }
+
+        public IEnumerable<VipBanner> GetVipBanner(int siteId, int currencyId)
+        {
+            return bannerService.GetVipBanner(siteId, currencyId);
         }
     }
 }
