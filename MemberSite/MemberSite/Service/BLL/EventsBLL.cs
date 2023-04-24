@@ -38,7 +38,7 @@ namespace MemberSite.Service.BLL
             }
             
             var leaderboard = _eventsService.GetLeaderboardList(lBCategoryId, eventCode, siteId, currencyId, topNum, startTime ,endTime);
-            var leaderBoardYesterday = _eventsService.GetLeaderboardList(lBCategoryId, eventCode, siteId, currencyId, topNum, startTime ,endTime.AddDays(-1) ).ToList();
+            var leaderBoardYesterday = _eventsService.GetLeaderboardList(lBCategoryId, eventCode, siteId, currencyId, topNum, startTime ,endTime.Date.AddDays(-1) ).ToList();
             
             if (leaderBoardYesterday.Any())
             {
