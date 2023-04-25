@@ -370,7 +370,7 @@ namespace MemberSite.Service.BLL
         
         private IEnumerable<OfflineCryptoPayInfo> GetOfflineCryptoPayInfoWithCache(int siteId)
         {
-            return _redisHelper.TryGetOrCreate("PaySetting:OfflineCryptoPayInfo", TimeSpan.FromMinutes(5),
+            return _redisHelper.TryGetOrCreate($"PaySetting:OfflineCryptoPayInfo:{siteId}", TimeSpan.FromMinutes(5),
                 () => _bankInfoService.GetOfflineCryptoPayInfo(siteId));
         }
     }
