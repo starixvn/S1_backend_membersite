@@ -57,11 +57,12 @@ namespace MemberSite.Service.DAL
                     customer.UserLang,
                     customer.AgentId,
                     customer.AllAgentId,
+                    MemberType = 1, //Normal Member
                     customer.UserLevel
                 });
                 p.Add("CustId", dbType: DbType.String, direction: ParameterDirection.Output);
 
-                var result = _mainDbClient.Execute("CustInfo_Ins", trans, p);
+                var result = _mainDbClient.Execute("CustInfo_Ins_V2", trans, p);
 
                 if (result > 0)
                 {
@@ -842,7 +843,7 @@ namespace MemberSite.Service.DAL
         }
 
         public async Task<IEnumerable<CustTpGameTypeSettingDto>> GetCustTpGameTypeSetting(int custId, IEnumerable<int> types)
-            => await _mainDbClient.QueryAsync<CustTpGameTypeSettingDto>("Service_CustTpGameTypeSetting_Get", 
+            => await _mainDbClient.QueryAsync<CustTpGameTypeSettingDto>("Service_CustTpGameTypeSetting_Get",
                 new { _CustId = custId, _Types = JsonConvert.SerializeObject(types) });
     }
 }
