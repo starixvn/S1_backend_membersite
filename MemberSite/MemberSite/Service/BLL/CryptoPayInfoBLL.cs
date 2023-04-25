@@ -83,7 +83,8 @@ namespace MemberSite.Service.BLL
                         GroupName = ((SiteId)custInfo.SiteId).ToString(),
                         AmountRule = 1,
                         CurrencyId = custInfo.CurrencyId,
-                        GSort = -1
+                        GSort = -1,
+                        PayName = "LetsPay"
                     });
             
             cryptoPayInfoList.AddRange(localCryptoList);
