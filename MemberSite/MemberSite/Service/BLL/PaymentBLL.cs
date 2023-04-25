@@ -520,7 +520,7 @@ namespace MemberSite.Service.BLL
             withdrawalEWalletInfo.AccountName = accountName;
             withdrawalEWalletInfo.AccountNo = accountNo;
             withdrawalEWalletInfo.EWalletSysId = sysId;
-            withdrawalEWalletInfo.EWalletName = eWalletInfoSys.EWalletName;
+            withdrawalEWalletInfo.EWalletName = eWalletInfoSys == null ? "" : eWalletInfoSys.EWalletName;
             withdrawalEWalletInfo.AccountType = "ewallet";
             var withdrawalProcessWay = GetWithdrawalProcessWay(custInfo, accountNo, amount, WithdrawalAccountTypeEnum.EWallet);
 
