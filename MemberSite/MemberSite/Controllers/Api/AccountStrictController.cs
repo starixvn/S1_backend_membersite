@@ -438,7 +438,7 @@ namespace MemberSite.Controllers.Api
 
                     if (long.TryParse(PhoneNo, out var phoneNo))
                     {
-                        PhoneNo = phoneNo.ToString();
+                        custProfile["PhoneNo"] = phoneNo.ToString();
                     }
                     else
                     {
@@ -561,7 +561,7 @@ namespace MemberSite.Controllers.Api
 
                         if (long.TryParse(PhoneNo, out var phoneNo))
                         {
-                            PhoneNo = phoneNo.ToString();
+                            custProfile["PhoneNo"] = phoneNo.ToString();
                         }
                         else
                         {
@@ -570,7 +570,7 @@ namespace MemberSite.Controllers.Api
                             return apiResult;
                         }
 
-                        if (_custInfoBLL.ExistsPhoneNo(authData.CustId, AreaCode, PhoneNo))
+                        if (_custInfoBLL.ExistsPhoneNo(authData.CustId, AreaCode, custProfile["PhoneNo"]))
                         {
                             apiResult.ErrorCode = 21;
                             apiResult.Message = $"({AreaCode}){PhoneNo} {_selLangBLL.GetMsg("msg_HasExist")}";
