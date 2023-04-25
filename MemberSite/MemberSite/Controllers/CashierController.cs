@@ -157,7 +157,7 @@ namespace MemberSite.Controllers
         }
         
         
-        public async Task<IActionResult> DepositReqCryptoLocalPayAsync(string ChannelName, decimal Amount, string BonusCode)
+        public async Task<IActionResult> DepositReqCryptoLocalPayAsync(int ChannelId, decimal Amount, string BonusCode)
         {
             var model = new ErrorData();
             var authData = _authorizeBll.GetAuthData();
@@ -167,7 +167,7 @@ namespace MemberSite.Controllers
             
             var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
             var cryptoInfos = _bankInfoOffBll.GetFilteredOfflineCryptoPayInfo(custInfo.CustId)
-                .Where(x => x.ChannelName.Equals(ChannelName, StringComparison.OrdinalIgnoreCase) 
+                .Where(x => (int)x.CryptoCurrencyId * -1 == ChannelId 
                             && (x.MinAmount == 0 || Amount >= x.MinAmount)
                             && (x.MaxAmount == 0 || Amount <= x.MaxAmount))
                 .ToList();
