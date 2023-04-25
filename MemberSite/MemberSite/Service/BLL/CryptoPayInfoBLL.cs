@@ -78,7 +78,7 @@ namespace MemberSite.Service.BLL
                         MaxAmount = g.Any(x => x.MaxAmount == 0) 
                             ? 0 : g.Max(x => x.MaxAmount),
                         MinAmount = g.Min(x => x.MinAmount),
-                        ChannelId = -1,
+                        ChannelId = -1 * (int)g.First().CryptoCurrencyId,
                         GroupId = -1,
                         GroupName = ((SiteId)custInfo.SiteId).ToString(),
                         AmountRule = 1,
