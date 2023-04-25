@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using MemberSite.Service.Model;
+using System.ComponentModel;
 
 namespace MemberSite.Service.Model.enums
 {
@@ -644,5 +645,25 @@ namespace MemberSite.Service.Model.enums
         Normal = 1,
         Affiliate = 2,
         LiveStreaming = 3
+    }
+
+    public enum WithdrawalInfoProcessWayEnum
+    {
+        /// <summary>
+        /// 手動出款
+        /// </summary>
+        Manual = 0,
+
+        /// <summary>
+        /// 自動出款
+        /// </summary>
+        Auto = 1,
+    }
+
+    public enum WithdrawalAccountTypeEnum
+    {
+        EWallet = 1,
+        BankCard = 2,
+        Crypto = 3
     }
 }
