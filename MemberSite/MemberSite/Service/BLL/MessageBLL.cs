@@ -2,6 +2,8 @@
 using MemberSite.Service.Model;
 using Microsoft.Extensions.Caching.Memory;
 using MemberSite.Service.Library;
+using System.Data;
+using MemberSite.Extensions;
 
 namespace MemberSite.Service.BLL
 {
@@ -15,28 +17,47 @@ namespace MemberSite.Service.BLL
             _messageService = provider.GetRequiredService<MessageService>();
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
         }
-        public IEnumerable<Msg> GetMsgList(int custId, int pageSize, ref int pageNumber, out int totalPages, out int rowCount)
+        public async Task<PageData<Msg>> GetMsgList(int custId, LanguageObject language, int pageSize, int pageNumber)
         {
-            totalPages = 0;
-            return _messageService.GetMsgList(custId, pageSize, ref pageNumber, out totalPages, out rowCount);
+            var msgList = await _messageService.GetMsgList(custId, pageSize, pageNumber);
+            foreach (var msg in msgList.Data)
+            {
+                msg.Title = msg.Title.IsJson() ? 
+                    JsonContentParser.ParseByJObject(msg.Title, language.LanguageCode, language.DefaultLanguage, "Title") : 
+                    msg.Title;
+            }
+            return msgList;
         }
 
-        public MsgContent GetMsgContent(int custId, int msgId, int isBatch)
+        public async Task<MsgContent> GetMsgContent(int custId, LanguageObject language, int msgId, int isBatch)
         {
-            return _messageService.GetMsgContent(custId, msgId, isBatch);
+            var msg = await _messageService.GetMsgContent(custId, msgId, isBatch);
+            if (msg != null) 
+            {
+                msg.Content = msg.Content.IsJson() ? 
+                    JsonContentParser.ParseByJObject(msg.Content, language.LanguageCode, language.DefaultLanguage, "Content") :
+                    msg.Content;
+            }
+            return msg;
         }
 
-        public async Task<PopupMsg> GetPopupMessage(int custId)
+        public async Task<PopupMsg> GetPopupMessage(int custId, LanguageObject language)
         {
-            return await _messageService.GetPopupMessage(custId);
+            var msg = await _messageService.GetPopupMessage(custId);
+            if (msg == null) return null;
+
+            msg.PopupMessage = msg.PopupMessage.IsJson() ?
+                JsonContentParser.ParseByJObject(msg.PopupMessage, language.LanguageCode, language.DefaultLanguage, "PopupMessage") :
+                msg.PopupMessage;
+            return msg;
         }
 
-        public bool SetMsgRead(int custId, List<DeleteMsg> list)
+        public async Task<bool> SetMsgRead(int custId, List<DeleteMsg> list)
         {
             var result = true;
             foreach (var item in list)
             {
-                result &= _messageService.SetRead(item.MsgId, custId, item.IsBatch);
+                result &= await _messageService.SetRead(item.MsgId, custId);
             }
 
             return result;
@@ -48,21 +69,19 @@ namespace MemberSite.Service.BLL
         }
 
 
-        public bool DelMsg(int custId, List<DeleteMsg> list)
+        public async Task<bool> DelMsg(int custId, List<DeleteMsg> list)
         {
             var result = true;
             foreach (var msg in list)
             {
-                result &= _messageService.DelMsg(custId, msg);
+                result &= await _messageService.DelMsg(custId, msg);
             }
 
             return result;
         }
 
-        public int GetMsgCount(int custId)
-        {
-            return _messageService.GetMsgCount(custId);
-        }
+        public async Task<int> GetMsgCount(int custId) =>
+            await _messageService.GetMsgCount(custId);
 
         public IEnumerable<Announcement> GetAnnouncement(string LangCode, string DefaultLangCode, int LimitRow, bool IsTest, int SiteId)
         {
@@ -71,15 +90,8 @@ namespace MemberSite.Service.BLL
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(3)),
                 i => _messageService.GetAnnouncement(LangCode, DefaultLangCode, LimitRow, IsTest, SiteId));
         }
-        public int SendMessage(int siteId, string sender, string title, string content, int custId, string CustUserName, string lang)
-        {
-            return _messageService.SendMessage(siteId, sender, title, content, custId, CustUserName, lang);
-        }
 
-        public async void SendMessage(Message message)
-        {
-            await _messageService.SendMessageAsync(new Message(message.SiteId, message.Sender, message.Title, message.Content, message.CustId,
-                message.CustUserName, message.LangId));
-        }
+        public Task<int> SendMessage(Message message) =>
+            _messageService.SendMessageAsync(message);
     }
 }
