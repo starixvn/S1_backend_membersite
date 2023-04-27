@@ -29,7 +29,7 @@ namespace MemberSite.Service.BLL
         private IEnumerable<Leaderboard> GetLeaderboardList(int lBCategoryId, string eventCode, int siteId, int currencyId, int topNum, int beforeDays)
         {
             var startTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);  // 當月份1號開始
-            var endTime = DateTime.Now.AddDays(beforeDays * -1).Date.AddDays(1).AddMilliseconds(-1); 
+            var endTime = DateTime.UtcNow.Date.AddDays(beforeDays * -1).AddDays(1).AddSeconds(-1); 
 
             if (startTime > endTime)
             {
@@ -48,8 +48,13 @@ namespace MemberSite.Service.BLL
                     count++;
                     var item = leaderBoardYesterday.FirstOrDefault(x => x.CustId == data.CustId);
                     if (item == null)
+                    {
                         data.Status = 1;
-                    data.Status = -count.CompareTo(leaderBoardYesterday.IndexOf(item) + 1);
+                    }
+                    else
+                    {
+                        data.Status = -count.CompareTo(leaderBoardYesterday.IndexOf(item) + 1);
+                    }
                 }
             }
             
@@ -67,7 +72,7 @@ namespace MemberSite.Service.BLL
         private LeaderboardCustRank GetCustRank(int lBCategoryId, string eventCode, int siteId, int currencyId ,int custId, int beforeDays)
         {
             var startTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);  // 當月份1號開始
-            var endTime = DateTime.Now.AddDays(beforeDays * -1).Date.AddDays(1).AddMilliseconds(-1); 
+            var endTime = DateTime.Now.AddDays(beforeDays * -1).Date.AddDays(1).AddSeconds(-1); 
 
             if (startTime > endTime)
             {

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using MemberSite.Service.Model;
+using System.ComponentModel;
 
 namespace MemberSite.Service.Model.enums
 {
@@ -20,6 +21,12 @@ namespace MemberSite.Service.Model.enums
         Suspend = 2,
         Closed = 3,
         Lock = 4
+    }
+
+    public enum CustTpGameTypeSettingType
+    {
+        NoShow = 1,  //有資料表示不顯示
+        NoPlay = 2   //有資料表示不可玩
     }
 
     public enum PaymentView
@@ -626,10 +633,37 @@ namespace MemberSite.Service.Model.enums
         Lock = 3,
         Unlock = 4
     }
-    
-    public enum WithdrawalLimitLogCreateFromEnum 
+
+    public enum WithdrawalLimitLogCreateFromEnum
     {
         Default = 0,
         DrawPrize = 7
+    }
+
+    public enum MemberTypeEnum
+    {
+        Normal = 1,
+        Affiliate = 2,
+        LiveStreaming = 3
+    }
+
+    public enum WithdrawalInfoProcessWayEnum
+    {
+        /// <summary>
+        /// 手動出款
+        /// </summary>
+        Manual = 0,
+
+        /// <summary>
+        /// 自動出款
+        /// </summary>
+        Auto = 1,
+    }
+
+    public enum WithdrawalAccountTypeEnum
+    {
+        EWallet = 1,
+        BankCard = 2,
+        Crypto = 3
     }
 }

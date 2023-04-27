@@ -57,11 +57,12 @@ namespace MemberSite.Service.DAL
                     customer.UserLang,
                     customer.AgentId,
                     customer.AllAgentId,
+                    MemberType = 1, //Normal Member
                     customer.UserLevel
                 });
                 p.Add("CustId", dbType: DbType.String, direction: ParameterDirection.Output);
 
-                var result = _mainDbClient.Execute("CustInfo_Ins", trans, p);
+                var result = _mainDbClient.Execute("CustInfo_Ins_V2", trans, p);
 
                 if (result > 0)
                 {
@@ -533,7 +534,7 @@ namespace MemberSite.Service.DAL
 
         public CustInfoProfile GetCustInfoProfile(int custId)
         {
-            return _reportDbClient.QueryFirst<CustInfoProfile>("Member_CustProfile_Get_V4", new { CustId = custId });
+            return _reportDbClient.QueryFirst<CustInfoProfile>("Member_CustProfile_Get_V5", new { CustId = custId });
         }
 
         public int SubmittedCustPhotoId(int custId, int siteId, int currencyId)
@@ -840,5 +841,9 @@ namespace MemberSite.Service.DAL
             var result = _mainDbClient.Execute("Service_CustUSDTInfoLog_Set_V3", trans, parameter);
             return result > 0;
         }
+
+        public async Task<IEnumerable<CustTpGameTypeSettingDto>> GetCustTpGameTypeSetting(int custId, IEnumerable<int> types)
+            => await _mainDbClient.QueryAsync<CustTpGameTypeSettingDto>("Service_CustTpGameTypeSetting_Get",
+                new { _CustId = custId, _Types = JsonConvert.SerializeObject(types) });
     }
 }

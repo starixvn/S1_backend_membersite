@@ -26,7 +26,9 @@ namespace MemberSite.Service.DAL
             _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
         }
         
-        public int WithdrawalReq(int custId, string userName, int currencyId, int siteId, decimal amount, string memo, string withdrawalInfo, out decimal afterAmount, out string transId)
+        public int WithdrawalReq(int custId, string userName, int currencyId, int siteId, decimal amount, string memo,
+            string withdrawalInfo, WithdrawalInfoProcessWayEnum processWay,
+            out decimal afterAmount, out string transId)
         {
             transId = "";
             afterAmount = 0;
@@ -34,11 +36,11 @@ namespace MemberSite.Service.DAL
             conn.Open();
             using var trans = conn.BeginTransaction();
             
-            var p = new DynamicParameters(new { _CustId = custId, _UserName = userName, _CurrencyId = currencyId, _SiteId = siteId, _Amount = amount, _Memo = memo, _WithdrawalInfo = withdrawalInfo, _Prefix = $"W{common.GetEnv()}" });
+            var p = new DynamicParameters(new { _CustId = custId, _UserName = userName, _CurrencyId = currencyId, _SiteId = siteId, _Amount = amount, _Memo = memo, _WithdrawalInfo = withdrawalInfo, _Prefix = $"W{common.GetEnv()}", _ProcessWay = (int)processWay});
             p.Add("_TransId", dbType: DbType.String, direction: ParameterDirection.Output);
             p.Add("_ToKyc", dbType: DbType.Boolean, direction: ParameterDirection.Output);
 
-            _mainDbClient.Execute("Member_WithdrawalInfo_Ins_V2", trans, p);
+            _mainDbClient.Execute("Member_WithdrawalInfo_Ins_V3", trans, p);
             transId = p.Get<string>("_TransId");
             var toKyc = p.Get<byte?>("_ToKyc") ?? 0;
 
@@ -218,6 +220,27 @@ namespace MemberSite.Service.DAL
                     SiteId = input.SiteId,
                     CurrencyId = input.CurrencyId
                 }).FirstOrDefault();
-        }      
+        }
+
+        public AutoWithdrawalRuleSettingDto GetAutoWithdrawalRuleSetting(int siteId,int currencyId)
+        {
+            return _reportDbClient.Query<AutoWithdrawalRuleSettingDto>("Member_AutoWithdrawalRuleSetting_Get",
+                new
+                {
+                    _SiteId = siteId,
+                    _CurrencyId = currencyId
+                }).FirstOrDefault();
+        }
+
+        
+        public WithdrawalAccountCounterDto GetWithdrawalSuccessCounter(int custId, string accountNo)
+        {
+            return _reportDbClient.Query<WithdrawalAccountCounterDto>("Member_WithdrawalSuccessCounter_Get",
+                new
+                {
+                    _CustId = custId,
+                    _AccountNo = accountNo
+                }).First();
+        }
     }
 }

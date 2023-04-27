@@ -86,6 +86,7 @@ namespace MemberSite.Controllers.Api
                 }
                 else
                 {
+                    apiResult.ErrorCode = 0;
                     await _cacheHelper.StringFireAndForgetSetAsync(authData.CustId.ToString(), authData.Token,
                         TimeSpan.FromMinutes(30), RedisDataBase.Token);
                 }
@@ -95,7 +96,6 @@ namespace MemberSite.Controllers.Api
                 _logger.LogError(e, GetCurrentAsyncMethod());
             }
             
-            apiResult.ErrorCode = 0;
             return apiResult;
         }
 
@@ -802,7 +802,7 @@ namespace MemberSite.Controllers.Api
 
             try
             {
-                if (_checkAttackBll.CheckAttack(rrofileReq,Request))
+                if (_checkAttackBll.CheckAttack(rrofileReq, Request))
                 {
                     Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
                     return null;
@@ -1099,6 +1099,23 @@ namespace MemberSite.Controllers.Api
             }
 
             apiResult.Data = result;
+            apiResult.ErrorCode = 0;
+
+            return apiResult;
+        }
+
+        [HttpPost]
+        public async Task<ApiResult<IEnumerable<CustTpGameTypeSetting>>> GetCustTpGameTypeSetting()
+        {
+            var apiResult = new ApiResult<IEnumerable<CustTpGameTypeSetting>>(_selLangBll);
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
+                return apiResult;
+            }
+            var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+            apiResult.Data = await _custInfoBll.GetCustTpGameTypeSetting(custInfo.CustId);
             apiResult.ErrorCode = 0;
 
             return apiResult;
