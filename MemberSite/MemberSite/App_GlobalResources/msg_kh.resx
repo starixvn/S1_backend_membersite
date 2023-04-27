@@ -154,7 +154,7 @@
     <value>ជូនចំពោះអតិថិជនជាទីគោរពរាប់អាន</value>
   </data>
   <data name="msg_CreditSignUpHint_2" xml:space="preserve">
-    <value>សូមស្វាគមន៍មកកាន់ {០} នៅពេលចុះឈ្មោះរួច សូមចូលទៅកាន់តំណភ្ជាប់នេះ ហើយរីករាយជាមួយហ្គេមរបស់យើង។</value>
+    <value>សូមស្វាគមន៍មកកាន់ {0} នៅពេលចុះឈ្មោះរួច សូមចូលទៅកាន់តំណភ្ជាប់នេះ ហើយរីករាយជាមួយហ្គេមរបស់យើង។</value>
   </data>
   <data name="msg_DecimalOutOfRange" xml:space="preserve">
     <value>ការផ្ទេរបានបរាជ័យដោយសារតែទសភាគធំជាង 2 ខ្ទង់</value>
@@ -172,10 +172,10 @@
     <value>ការចូលបានបរាជ័យ ខុសឈ្មោះអ្នកប្រើប្រាស់/ពាក្យសម្ងាត់ ឬមិនមានឈ្មោះអ្នកប្រើប្រាស់។</value>
   </data>
   <data name="msg_DrawPrize" xml:space="preserve">
-    <value>សូមអបអរសាទរ អាំងប៉ាវ {០} របស់អ្នកត្រូវបានបញ្ចូលទៅក្នុងគណនីរបស់អ្នក!</value>
+    <value>សូមអបអរសាទរ អាំងប៉ាវ {0} របស់អ្នកត្រូវបានបញ្ចូលទៅក្នុងគណនីរបស់អ្នក!</value>
   </data>
   <data name="msg_DrawPrize1" xml:space="preserve">
-    <value>អបអរសាទរ! ប្រាក់រង្វាន់ {០} របស់អ្នកសម្រាប់ {១} {២} ត្រូវបានបញ្ចូលទៅក្នុងគណនីរបស់អ្នក។</value>
+    <value>អបអរសាទរ! ប្រាក់រង្វាន់ {0} របស់អ្នកសម្រាប់ {1} {2} ត្រូវបានបញ្ចូលទៅក្នុងគណនីរបស់អ្នក។</value>
   </data>
   <data name="msg_DrawPrizeTital" xml:space="preserve">
     <value>កាដូវអាំងប៉ាវ</value>
@@ -220,13 +220,13 @@
     <value>ពាក្យ​សម្ងាត់​ចាស់​មិន​ត្រឹមត្រូវ!</value>
   </data>
   <data name="msg_LessThanWithdrawalMin" xml:space="preserve">
-    <value>ចំនួនទឹកប្រាក់ដកត្រូវតែច្រើនជាង {០}</value>
+    <value>ចំនួនទឹកប្រាក់ដកត្រូវតែច្រើនជាង {0}</value>
   </data>
   <data name="msg_LineAccountAlreadyBind" xml:space="preserve">
     <value>គណនី LINE នេះត្រូវបានប្រើប្រាស់ សូមប្រើគណនីមួយផ្សេងទៀត។</value>
   </data>
   <data name="msg_LockedAmountInsufficient" xml:space="preserve">
-    <value>សមតុល្យកាបូបលុយធំមិនត្រូវតិចជាង {០}</value>
+    <value>សមតុល្យកាបូបលុយធំមិនត្រូវតិចជាង {0}</value>
   </data>
   <data name="msg_loggedout" xml:space="preserve">
     <value>អ្នកបានចាកចេញដោយជោគជ័យ!!</value>
@@ -295,7 +295,7 @@
     <value>លេខ​យោង</value>
   </data>
   <data name="msg_RequiredAmountInsufficient" xml:space="preserve">
-    <value>ដាក់ប្រាក់យ៉ាងតិច {០} ដើម្បីមានសិទ្ធិទទួលបានប្រាក់រង្វាន់</value>
+    <value>ដាក់ប្រាក់យ៉ាងតិច {0} ដើម្បីមានសិទ្ធិទទួលបានប្រាក់រង្វាន់</value>
   </data>
   <data name="msg_SamePassword" xml:space="preserve">
     <value>ពាក្យ​សម្ងាត់​ចាស់​ និង​ពាក្យសម្ងាត់​ថ្មី​គឺ​ដូច​គ្នា​!</value>
