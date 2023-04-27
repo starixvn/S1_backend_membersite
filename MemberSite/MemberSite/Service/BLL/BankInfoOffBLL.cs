@@ -51,6 +51,11 @@ namespace MemberSite.Service.BLL
             return result;
         }
         
+        public IEnumerable<int> GetCustOffDepositSysId(int custId)
+        {
+            return _bankInfoService.GetCustOffDepositSysId(custId);
+        }
+        
         public IEnumerable<OfflineBankInfoFront> GetBankInfoOffListWithCache(int custId, string lang)
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
