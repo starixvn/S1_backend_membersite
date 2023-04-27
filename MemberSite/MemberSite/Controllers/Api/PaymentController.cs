@@ -97,7 +97,6 @@ namespace MemberSite.Controllers.Api
                 };
             }
             
-            // 220804: 詢問市場說給用戶使用只有open，所以把queryType這段拔掉
             return new ApiResult<IEnumerable<OfflineBankInfoFront>>
             {
                 Data = bankInfoOffBLL.GetBankInfoOffListWithCache(authData.CustId, authData.LangId),
@@ -217,6 +216,13 @@ namespace MemberSite.Controllers.Api
             {
                 apiResult.ErrorCode = -2;
                 apiResult.Message = selLangBLL.GetMsg("msg_NeedAccountName");
+                return apiResult;
+            }
+
+            if (bankInfoOffBLL.GetCustOffDepositSysId(authData.CustId).Contains(depositReqWireTransferReq.sysId))
+            {
+                apiResult.ErrorCode = -3;
+                apiResult.Message = "A deposit with the same bank already exists. Please complete it before trying again.";
                 return apiResult;
             }
             
