@@ -34,7 +34,7 @@ namespace MemberSite.Service.BLL
             perCountry = new CurrencyMapping().CountryMap;
             perCurrency = new Dictionary<int, string>()
             {
-              {2,"MYR" },{3,"US" },{4,"THB" },{13,"CNY" },{15,"IDR" },{61,"INR" },{51,"VND" },{74,"BD" },
+              {2,"MYR" },{3,"US" },{4,"THB" },{13,"CNY" },{15,"IDR" },{61,"INR" },{51,"VND" },{72,"KHUSD" },{74,"BD" },
             };
         }
         public void SetIovation(int custId, IovationType type, IovationCheckResult iovation)
