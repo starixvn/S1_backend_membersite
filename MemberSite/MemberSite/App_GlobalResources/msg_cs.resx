@@ -463,4 +463,7 @@
   <data name="msg_BirthdayIsRequired" xml:space="preserve">
     <value>请输入生日</value>
   </data>
+  <data name="msg_ResubmitWithdrawal" xml:space="preserve">
+    <value>请重新提交提款申请</value>
+  </data>
 </root>

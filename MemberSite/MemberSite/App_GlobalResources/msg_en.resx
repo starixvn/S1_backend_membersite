@@ -430,4 +430,7 @@
   <data name="msg_BirthdayIsRequired" xml:space="preserve">
     <value>Please fill in the birth date</value>
   </data>
+  <data name="msg_ResubmitWithdrawal" xml:space="preserve">
+    <value>Please resubmit a withdrawal request</value>
+  </data>
 </root>

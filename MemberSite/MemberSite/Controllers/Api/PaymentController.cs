@@ -642,6 +642,14 @@ namespace MemberSite.Controllers.Api
                 apiResult.Message = selLangBLL.GetMsg("msg_ForceLogedout");
                 return apiResult;
             }
+            
+            if (withdrawalReqModel.ExchangeAmount <= 0)
+            {
+                apiResult.Message = "Please resubmit a withdrawal request"; // selLangBLL.GetMsg("msg_ResubmitWithdrawal"); 語系還沒給，先回英文
+                apiResult.ErrorCode = -11;
+                return apiResult;
+            }
+            
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
            
             if (!WithdrawalReqCheck(ref apiResult, withdrawalReqModel, authData, custInfo))
