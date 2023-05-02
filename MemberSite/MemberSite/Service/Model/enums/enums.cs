@@ -225,7 +225,8 @@ namespace MemberSite.Service.Model.enums
         JILI = 32,
         TCG = 33,
         MG = 34,
-        MP = 35
+        MP = 35,
+        SBSW = 41
     }
     public enum GameType
     {

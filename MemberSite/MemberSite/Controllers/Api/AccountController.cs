@@ -81,7 +81,7 @@ namespace MemberSite.Controllers.Api
                     apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
                     if (authData is { CustId: > 0 })
                     {
-                        _ = Task.Run(async () => { _ = await LogoutAsync(1, authData.CustId); });
+                        _ = Task.Run(async () => { _ = await LogoutAsync(41, authData.CustId); });
                     }
                 }
                 else
@@ -113,7 +113,7 @@ namespace MemberSite.Controllers.Api
                 apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
                 if (authData is { CustId: > 0 })
                 {
-                    _ = Task.Run(async () => { _ = await LogoutAsync(1, authData.CustId); });
+                    _ = Task.Run(async () => { _ = await LogoutAsync(41, authData.CustId); });
                 }
             }
             else
@@ -142,7 +142,7 @@ namespace MemberSite.Controllers.Api
             {
                 _ = Task.Run(async () =>
                 {
-                    _ = await LogoutAsync(1, authData.CustId);
+                    _ = await LogoutAsync(41, authData.CustId);
                 });
             }
 
@@ -220,7 +220,7 @@ namespace MemberSite.Controllers.Api
             {
                 _ = Task.Run(async () =>
                 {
-                    _ = await LogoutAsync(1, authData.CustId);
+                    _ = await LogoutAsync(41, authData.CustId);
                 });
             }
 
@@ -327,6 +327,7 @@ namespace MemberSite.Controllers.Api
             public int CustId { set; get; }
             public Dictionary<string, string> inputs { set; get; }
         }
+
         private async Task<bool> LogoutAsync(int tpId, int custId)
         {
             var myUrl = $"{_apiUrl}Logout";
