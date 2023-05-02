@@ -1,0 +1,236 @@
+﻿@using MemberSite.Service.BLL
+@using MemberSite.Service.Library
+@using MemberSite.Service.Model.enums
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBll serverInfoBLL
+@inject Tools tools
+@inject GamingBLL gamingBLL
+@{
+    var domain = serverInfoBLL.GetDomain();
+    var pos = domain.IndexOf(".");
+    if (pos > 0)
+        domain = domain.Substring(pos+1);
+
+    var serverInfo = serverInfoBLL.GetServerInfo();
+    var StaticRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/Static/{selLangBLL.GetLangId()}");
+
+    var entFishingPageUrl = "";
+    if (User.Identity.IsAuthenticated)
+    {
+        entFishingPageUrl = gamingBLL.GetEntPageUrl(7, "10", Url, GameType.Fishing);
+        entFishingPageUrl = $"javascript:window.open('{entFishingPageUrl}', 'Tp_7_10', 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no, top=0, left=0').focus()";
+    }
+    else
+    {
+        entFishingPageUrl = "javascript:void(0);";
+    }
+}
+@functions{
+    string GetEntPageUrl(int tpId, string gameId)
+    {
+        var homeUrl = Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = selLangBLL.GetLangId() }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
+        var signupUrl = Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
+        var LoginUrl = Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = selLangBLL.GetLangId(), loginCont = 1 }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
+        var entPageUrl = "";
+
+
+        if (!User.Identity.IsAuthenticated)
+        {
+            entPageUrl = "javascript:void();";
+        }
+        else
+        {
+            //if (tpId == 1)
+            //{
+            //    var msg =  @selLangBLL.GetErrMsg(10);
+            //    entPageUrl = $"javascript:alert('{msg}');";
+            //    return entPageUrl;
+            //}
+
+            entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl, signupUrl, LoginUrl, tpId, gameId });
+            entPageUrl = $"javascript:LaunchGame('{entPageUrl}', 'Tp_{tpId}_{gameId}',{tpId}, {gameId});";
+        }
+        return entPageUrl;
+    }
+}
+<div class="footer">
+    @if (serverInfo.SiteId == 1)
+    {
+        <div class="footer__nav">
+            <div class="footer__col col1">
+                <div class="footer__heading">
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_Platform")</span>
+                </div>
+                <a class="footer__item" href="@gamingBLL.GetEntPageUrl(1, "1", Url)">
+                    <img src="~/common/images/logo/saba.png" />
+                </a>
+                <a class="footer__item @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" data-selected="false" href="@Html.Raw(GetEntPageUrl(1, "211"))">
+                    <img src="~/common/images/logo/ab.png" />
+                </a>
+                <a class="footer__item @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" data-selected="false" href="@entFishingPageUrl">
+                    <img src="~/common/images/logo/yl.png" />
+                </a>
+                <a class="footer__item @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" data-selected="false" href="@Html.Raw(GetEntPageUrl(3, "3"))">
+                    <img src="~/common/images/logo/ag.png" />
+                </a>
+                <a class="footer__item" href="@Url.RouteUrl("desktop", new { action = "Lobby", controller = "Casino", LangId = selLangBLL.GetLangId() })">
+                    <img src="~/common/images/logo/jk.png" />
+                </a>
+                <a class="footer__item" href="@Url.RouteUrl("desktop", new { action = "Lobby", controller = "Casino", LangId = selLangBLL.GetLangId() })">
+                    <img src="~/common/images/logo/gp.png" />
+                </a>
+                <a class="footer__item @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" data-selected="false" href="@Html.Raw(GetEntPageUrl(4, "4"))">
+                    <img src="~/common/images/logo/dg.png" />
+                </a>
+                <a class="footer__item @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" data-selected="false" href="@Html.Raw(GetEntPageUrl(2, "2"))">
+                    <img src="~/common/images/logo/sa.png" />
+                </a>
+                <a class="footer__item" href="@Url.RouteUrl("desktop", new { action = "Lobby", controller = "Casino", LangId = selLangBLL.GetLangId() })">
+                    <img src="~/common/images/logo/yg.png" />
+                </a>
+                <a class="footer__item" href="@Url.RouteUrl("desktop", new { action = "Lobby", controller = "Casino", LangId = selLangBLL.GetLangId() })">
+                    <img src="~/common/images/logo/pp.png" />
+                </a>
+                <a class="footer__item" href="@Url.RouteUrl("desktop", new { action = "Lobby", controller = "Casino", LangId = selLangBLL.GetLangId() })">
+                    <img src="~/common/images/logo/sg.png" />
+                </a>
+                <a class="footer__item" href="@Url.RouteUrl("desktop", new { action = "Lobby", controller = "Casino", LangId = selLangBLL.GetLangId() })">
+                    <img src="~/common/images/logo/pg.png" />
+                </a>
+                <a class="footer__item @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" data-selected="false" href="@Html.Raw(GetEntPageUrl(15, "15"))">
+                    <img src="~/common/images/logo/ae.png" />
+                </a>
+                <a class="footer__item @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" data-selected="false" href="@Html.Raw(GetEntPageUrl(18, "18"))">
+                    <img src="~/common/images/logo/eb.png" />
+                </a>
+            </div>
+            <div class="footer__col col2">
+                <div class="footer__heading">
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_Payment")</span>
+                </div>
+                <a class="footer__item" href="#">
+                    <img src="~/common/images/logo/ep.png" />
+                </a>
+                <a class="footer__item" href="#">
+                    <img src="~/common/images/logo/h2p.png" />
+                </a>
+            </div>
+            <div class="footer__col col2">
+                <div class="footer__heading">
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_License")</span>
+                </div>
+                <a class="footer__item" href="#">
+                    <img src="~/common/images/logo/pc.png" />
+                </a>
+            </div>
+        </div>
+    }
+    <div class="footer__nav">
+        <div class="footer__col">
+            <div class="footer__heading">
+                <span class="text">@selLangBLL.GetResourceValue("lbl_SportsBetting")</span>
+            </div>
+            <a class="footer__item" href="@gamingBLL.GetEntPageUrl(1,"1",Url)">
+                <span class="text">@selLangBLL.GetResourceValue("lbl_SoccerBetting")</span>
+            </a>
+            <a class="footer__item" href="@gamingBLL.GetEntPageUrl(1,"2",Url)">
+                <span class="text">@selLangBLL.GetResourceValue("lbl_BasketballBetting")</span>
+            </a>
+            @*<a class="footer__item" href="@GetEntPageUrl(1,"8")">
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_BaseballBetting")</span>
+                </a>*@
+            <a class="footer__item" href="@gamingBLL.GetEntPageUrl(1,"9",Url)">
+                <span class="text">@selLangBLL.GetResourceValue("lbl_badminton")</span>
+            </a>
+            <a class="footer__item" href="@gamingBLL.GetEntPageUrl(1,"3",Url)">
+                <span class="text">@selLangBLL.GetResourceValue("lbl_FootballBetting")</span>
+            </a>
+            <a class="footer__item" href="@gamingBLL.GetEntPageUrl(1,"5",Url)">
+                <span class="text">@selLangBLL.GetResourceValue("lbl_TennisBetting")</span>
+            </a>
+            <a class="footer__item" href="@gamingBLL.GetEntPageUrl(1,"4",Url)">
+                <span class="text">@selLangBLL.GetResourceValue("lbl_HockeyBetting")</span>
+            </a>
+            <a class="footer__item @(!User.Identity.IsAuthenticated ? "loginBtn" : string.Empty)" href="@gamingBLL.GetEntPageUrl(1,"43",Url)">
+                <span class="text">@selLangBLL.GetResourceValue("lbl_eSportsBetting")</span>
+            </a>
+        </div>
+        <div class="footer__col">
+            <a class="footer__heading">
+                <span class="text">@selLangBLL.GetResourceValue("lbl_OurPolicies")</span>
+            </a>
+            <a class="footer__item" href="@StaticRootPath/ResposibleGaming.html" target="_temp">
+                <span class="text">@selLangBLL.GetResourceValue("lbl_ResposibleGaming")</span>
+            </a>
+            <a class="footer__item" href="@StaticRootPath/TermsConditions.html" target="_temp">
+                <span class="text">@selLangBLL.GetResourceValue("lbl_TermsConditions")</span>
+            </a>
+            <a class="footer__item" href="@StaticRootPath/PrivacyPolicy.html" target="_temp">
+                <span class="text">@selLangBLL.GetResourceValue("lbl_PrivacyPolicy")</span>
+            </a>
+            <a class="footer__item" href="@StaticRootPath/CookiePolicy.html" target="_temp">
+                <span class="text">@selLangBLL.GetResourceValue("lbl_CookiePolicy")</span>
+            </a>
+        </div>
+        <div class="footer__col">
+            <a class="footer__heading">
+                <span class="text">@selLangBLL.GetResourceValue("lbl_HelpSupport")</span>
+            </a>
+            <a class="footer__item" href="@StaticRootPath/RulesandRegulations.html" target="_temp">
+                <span class="text">@selLangBLL.GetResourceValue("lbl_RuleRegulations")</span>
+            </a>
+            <a class="footer__item" href="@StaticRootPath/AccountTerms.html" target="_temp">
+                <span class="text">@selLangBLL.GetResourceValue("lbl_AccountTerms")</span>
+            </a>
+            <a class="footer__item" href="@StaticRootPath/FAQ.html" target="_temp">
+                <span class="text">@selLangBLL.GetResourceValue("lbl_FAQ")</span>
+            </a>
+            @*<a class="footer__item" href="@StaticRootPath/DepositWithdrawals.html" target="_temp">
+                <span class="text">@selLangBLL.GetResourceValue("lbl_DepositWithdrawals")</span>
+                </a>*@
+            @*<a class="footer__item" href="@StaticRootPath/Downloads.html" target="_temp">
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_Downloads")</span>
+                </a>*@
+        </div>
+        <div class="footer__col">
+            <a class="footer__heading">
+                <span class="text">@selLangBLL.GetResourceValue("lbl_Title")</span>
+            </a>
+            <a class="footer__item" href="@StaticRootPath/AboutUs.html" target="_temp">
+                <span class="text">@selLangBLL.GetResourceValue("lbl_AboutUs")</span>
+            </a>
+            <a class="footer__item" href="@StaticRootPath/Terms.html" target="_temp">
+                <span class="text">@selLangBLL.GetResourceValue("lbl_Terms")</span>
+            </a>
+            <a class="footer__item" href="@StaticRootPath/ContactUs.html" target="_temp">
+                <span class="text">@selLangBLL.GetResourceValue("lbl_ContactUs")</span>
+            </a>
+            <a class="footer__item" href="https://aff.@domain/?lang=@selLangBLL.GetLangId()" target="_temp">
+                <span class="text">@selLangBLL.GetResourceValue("lbl_Affiliates")</span>
+            </a>
+        </div>
+        <div class="footer__col-social">
+            <a class="footer__heading">
+                <span class="text">@selLangBLL.GetResourceValue("lbl_SocialMedia")</span>
+            </a>
+            <a class="footer__item" href="https://www.facebook.com/@(selLangBLL.GetResourceValue("lbl_FacebookAccount"))/" target="_blank">
+                <i class="icon icon-facebook"></i>
+                <span class="text">@selLangBLL.GetResourceValue("lbl_Facebook")</span>
+            </a>
+            <a class="footer__item" href="https://twitter.com/@(selLangBLL.GetResourceValue("lbl_TwitterAccount"))" target="_blank">
+                <i class="icon icon-twitter"></i>
+                <span class="text">@selLangBLL.GetResourceValue("lbl_Twitter")</span>
+            </a>
+            @if (serverInfo.SiteId == 1)
+            {
+                <a class="footer__item" href="https://www.instagram.com/@(selLangBLL.GetResourceValue("lbl_IGAccount"))" target="_blank">
+                    <i class="icon icon-instagram"></i>
+                    <span class="text">@selLangBLL.GetResourceValue("lbl_Instagram")</span>
+                </a>
+            }
+        </div>
+    </div>
+    <div class="footer__cpr">
+        <span class="text">© Copyright @DateTime.Now.Year. @serverInfo.SiteName. All Rights Reserved.</span>
+    </div>
+</div>

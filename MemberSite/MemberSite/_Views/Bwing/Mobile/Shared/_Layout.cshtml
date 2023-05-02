@@ -1,0 +1,621 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using MemberSite.Service.Library
+@using Microsoft.AspNetCore.Hosting
+@using System.Security.Claims
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBll serverInfoBLL
+@inject IWebHostEnvironment environment
+@inject WalletBLL walletBLL
+@inject CustInfoBll custInfoBLL
+@inject Tools tools
+@inject SelLangBLL selLangBLL
+@inject AuthorizeBLL authorizeBLL
+@{
+    var serverInfo = serverInfoBLL.GetServerInfo();
+    var SkinRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/common");
+    var StaticRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/Static/{selLangBLL.GetLangId()}");
+    var CurrencyId = 0;
+    var iSwitch = 2;
+    var showResetPwdAlert = false;
+
+    var google_id = "";
+    if (serverInfo.SiteId == 1)
+    {
+        google_id = "UA-163834722-1";
+    }
+    else if (serverInfo.SiteId == 2)
+    {
+        google_id = "UA-163812389-1";
+    }
+    else if (serverInfo.SiteId == 3)
+    {
+        google_id = "UA-163766925-1";
+    }
+}
+<!DOCTYPE html>
+<html lang="@selLangBLL.GetLangId()">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="shortcut icon" href="@SkinRootPath/images/favicon.ico" type="image/x-icon">
+    <title>@selLangBLL.GetResourceValue("lbl_Title") - @selLangBLL.GetResourceValue("lbl_TitleDesc")</title>
+
+    <meta name="twitter:card" content="website" />
+    <meta name="twitter:site" content="@selLangBLL.GetResourceValue("lbl_TwitterSite")" />
+    <meta name="twitter:creator" content="@selLangBLL.GetResourceValue("lbl_TwitterCreator")" />
+
+    <meta property="og:title" content="@selLangBLL.GetResourceValue("lbl_Title")" />
+    <meta property="og:description" content="@selLangBLL.GetResourceValue("lbl_Description")" />
+    <meta property="og:image" content="@selLangBLL.GetResourceValue("lbl_image)")" />
+    <meta property="og:url" content="@selLangBLL.GetResourceValue("lbl_URL")" />
+    <meta property=”og:type” content=”website” />
+    <meta property="og:site_name" content="@selLangBLL.GetResourceValue("lbl_Title")" />
+
+    <meta name="description" content="@selLangBLL.GetResourceValue("lbl_Description")" />
+    <meta name="author" content="@selLangBLL.GetResourceValue("lbl_Author")" />
+    <meta name="copyright" content="@string.Format(selLangBLL.GetResourceValue("lbl_Copyright"), DateTime.Now.Year)" />
+    <meta name="application-name" content="@selLangBLL.GetResourceValue("lbl_Applicationname")" />
+    <meta name="keywords" content="@selLangBLL.GetResourceValue("lbl_Keywords")">
+
+    <link href="~/SiteSkin/Bwing/Mobile/assets/css/lib/slick/slick.css" rel="stylesheet" />
+    <link href="~/SiteSkin/Bwing/Mobile/assets/css/lib/slick/slick-theme.css" rel="stylesheet" />
+    <link href="~/SiteSkin/Bwing/Mobile/assets/css/lib/popup/remodal.css" rel="stylesheet" />
+    <link href="~/SiteSkin/Bwing/Mobile/assets/css/lib/popup/remodal-default-theme.css" rel="stylesheet" />
+    <link href="~/SiteSkin/Bwing/Mobile/assets/css/App.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/SiteSkin/Bwing/Mobile/assets/css/media.css" rel="stylesheet" asp-append-version="true" />
+
+    <script>
+        var SiteLanguage = "@selLangBLL.GetLangId()";
+        var SkinRootPath = "@Url.Content($"~/SiteSkin/{serverInfo.SiteName}")";
+        var SiteName = "@serverInfo.SiteName";
+        var ResetPwdAlert = 0;
+        var DepositAlert = 0;
+    </script>
+    @RenderSection("Style", required: false)
+</head>
+<body>
+    <div class="icon-loading" style="display:none;"></div>
+    @{if (User.Identity.IsAuthenticated && !Context.Request.Cookies.ContainsKey($"InitializationReset{User.Identity.Name}"))
+        {
+            var authData = authorizeBLL.GetAuthData();
+            var custInfo = custInfoBLL.GetCustInfo(authData.CustId);
+            if (custInfo.IsResetPwd)
+            {
+                showResetPwdAlert = true;
+
+                var option = new Microsoft.AspNetCore.Http.CookieOptions
+                {
+                    Expires = DateTime.Now.AddDays(1)
+                };
+                Context.Response.Cookies.Append($"InitializationReset{User.Identity.Name}", "1", option);
+                @:<script>ResetPwdAlert = 1;</script>
+                <div id="ResetPwdAlert"></div>
+            }
+        }
+    }
+    <div class="page">
+        <partial name="~/_Views/Bwing/Mobile/Shared/_Header.cshtml" />
+        <div class="wrap-content @(User.Identity.IsAuthenticated ? "is-login":"")">
+            @RenderBody()
+        </div>
+        @if (!string.Equals(ViewContext.RouteData.Values["controller"] as string, "sports", StringComparison.OrdinalIgnoreCase))
+        {
+            <partial name="~/_Views/Bwing/Mobile/Shared/_Footer.cshtml" />
+        }
+    </div>
+
+    <div class="remodal-bg"></div>
+    @if (User.Identity.IsAuthenticated)
+    {
+
+    }
+    else
+    {
+        @*<!-- Modal Login -->*@
+        <div class="remodal" data-remodal-id="modal-login"
+             data-remodal-options="hashTracking: false, closeOnOutsideClick: false">
+            <button data-remodal-action="close" class="remodal-close"></button>
+            <div class="popup-header">@selLangBLL.GetResourceValue("lbl_Login")</div>
+            <form id="LoginForm">
+                <div class="popup-body">
+                    <p>
+                        @selLangBLL.GetResourceValue("lbl_NoAccount")
+                        <span class="link" data-remodal-target="modal-register">@selLangBLL.GetResourceValue("lbl_JoinNow")</span>
+                    </p>
+                    <div class="form">
+                        <div class="form-group">
+                            <label>@selLangBLL.GetResourceValue("lbl_Username"):</label>
+                            <input id="Login_UserName" class="input-field" type="text" placeholder="@selLangBLL.GetResourceValue("lbl_Username")" />
+                        </div>
+                        <div class="form-group">
+                            <label>@selLangBLL.GetResourceValue("lbl_Password"):</label>
+                            <div class="input-password">
+                                <input type="checkbox" id="Login_show-password" class="show-password" checked />
+                                <label for="Login_show-password" class="Control-label Control-label--showPassword">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="20" height="20" class="svg-toggle-password" title="Toggle Password Security">
+                                        <title>Hide/Show Password</title>
+                                        <path d="M24,9A23.654,23.654,0,0,0,2,24a23.633,23.633,0,0,0,44,0A23.643,23.643,0,0,0,24,9Zm0,25A10,10,0,1,1,34,24,10,10,0,0,1,24,34Zm0-16a6,6,0,1,0,6,6A6,6,0,0,0,24,18Z"></path>
+                                        <rect x="20.133" y="2.117" width="4" height="44" transform="translate(23.536 -8.587) rotate(45)" style="fill:#343434" class="closed-eye"></rect>
+                                        <rect x="22" y="3.984" width="4" height="44" transform="translate(25.403 -9.36) rotate(45)" style="fill:#fff" class="closed-eye"></rect>
+                                    </svg>
+                                </label>
+                                <input type="password" id="Login_Userpwd" autocomplete="off" autocapitalize="off" autocorrect="off" required="" class="input-field ControlInput--password" placeholder="@selLangBLL.GetResourceValue("lbl_Password")" />
+                            </div>
+                        </div>
+                        <a class="link" href="@Url.RouteUrl("desktop", new { action = "ForgetPassowrd", controller = "Home", LangId = selLangBLL.GetLangId() })">
+                            <span class="text">@selLangBLL.GetResourceValue("lbl_ForgetPassword")</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="popup-footer">
+                    <button type="submit" class="btn btn-login">
+                        @selLangBLL.GetResourceValue("lbl_Login")
+                    </button>
+                </div>
+            </form>
+        </div>
+        @*<!-- Modal Resigter -->*@
+        <div class="remodal" data-remodal-id="modal-register"
+             data-remodal-options="hashTracking: false, closeOnOutsideClick: false">
+            <button data-remodal-action="close" class="remodal-close"></button>
+            <div class="popup-header">@selLangBLL.GetResourceValue("lbl_Register")</div>
+            <form id="RegisterForm">
+                <div class="popup-body">
+                    <p>
+                        @selLangBLL.GetResourceValue("lbl_LoginMsg")
+                        <span class="link" data-remodal-target="modal-login">
+                            @selLangBLL.GetResourceValue("lbl_LoginHere")
+                        </span>
+                    </p>
+                    <div class="form">
+                        <div class="form-group">
+                            <label>@selLangBLL.GetResourceValue("lbl_Username"):</label>
+                            <input class="input-field" type="text" id="Register_UserName" />
+                            <div class="invalid-mess"></div>
+                        </div>
+                        <div class="form-group">
+                            <label>@selLangBLL.GetResourceValue("lbl_Password"):</label>
+                            <div class="input-password">
+                                <input type="checkbox" id="Register_show-password" class="show-password" checked />
+                                <label for="Register_show-password" class="Control-label Control-label--showPassword">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="20" height="20" class="svg-toggle-password" title="Toggle Password Security">
+                                        <title>Hide/Show Password</title>
+                                        <path d="M24,9A23.654,23.654,0,0,0,2,24a23.633,23.633,0,0,0,44,0A23.643,23.643,0,0,0,24,9Zm0,25A10,10,0,1,1,34,24,10,10,0,0,1,24,34Zm0-16a6,6,0,1,0,6,6A6,6,0,0,0,24,18Z"></path>
+                                        <rect x="20.133" y="2.117" width="4" height="44" transform="translate(23.536 -8.587) rotate(45)" style="fill:#343434" class="closed-eye"></rect>
+                                        <rect x="22" y="3.984" width="4" height="44" transform="translate(25.403 -9.36) rotate(45)" style="fill:#fff" class="closed-eye"></rect>
+                                    </svg>
+                                </label>
+                                <input type="password" id="Register_Userpwd" autocomplete="off" autocapitalize="off" autocorrect="off" required="" class="input-field ControlInput--password" placeholder="@selLangBLL.GetResourceValue("lbl_Password")" />
+                            </div>
+                        </div>
+
+                        @*<div class="form-group">
+                            <label>@selLangBLL.GetResourceValue("lbl_Email"):</label>
+                            <input class="input-field" type="email" id="Register_Email" />
+                            <div class="invalid-mess"></div>
+                        </div>*@
+                        @if (string.IsNullOrEmpty(Context.Request.Query["affId"].ToString()) && string.IsNullOrEmpty(Context.Request.Cookies["affId"]))
+                        {
+                            <div class="form-group" id="Register_CurrencyId">
+                                <label>@selLangBLL.GetResourceValue("lbl_PrefferedCurrency"):</label>
+                                <select class="input-field" name="Register_CurrencyId" id="Register_CurrencyId">
+                                    @foreach (var currencyId in serverInfo.ICurrencyList)
+                                    {
+                                        @:<option value="@currencyId" @(selLangBLL.GetPreferCurrencyId() == currencyId ? "selected='selected'" : "")>@selLangBLL.GetResourceValue($"Currency_{currencyId}")</option>
+                                    }
+                                </select>
+                                <div class="invalid-mess"></div>
+                            </div>
+                        }
+                        <div class="checkbox">
+                            <input id="Register_agreeterm" type="checkbox" />
+                            <label for="Register_agreeterm">
+                                @selLangBLL.GetResourceValue("lbl_Check18TC1")
+                                <a class="text-link" target="_blank" href="@StaticRootPath/TermsConditions.html">
+                                    @selLangBLL.GetResourceValue("lbl_TermsConditions")
+                                </a>@selLangBLL.GetResourceValue("lbl_Check18TC2")
+                                <a class="text-link" target="_blank" href="@StaticRootPath/RulesandRegulations.html">
+                                    @selLangBLL.GetResourceValue("lbl_RuleRegulations")
+                                </a>
+                                @selLangBLL.GetResourceValue("lbl_Check18TC3") @serverInfo.SiteName.@selLangBLL.GetResourceValue("lbl_Check18TC4")
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="popup-footer">
+                    <button class="btn btn-login" type="submit">
+                        @selLangBLL.GetResourceValue("lbl_CompleteRegistration")
+                    </button>
+                </div>
+            </form>
+        </div>
+    }
+    <script src="~/lib/moment.min.js"></script>
+    <script src="~/lib/axios.min.js"></script>
+    <script src="~/SiteSkin/Bwing/Mobile/js/lib/jquery-3.5.1.min.js"></script>
+    <script src="~/SiteSkin/Bwing/Mobile/js/lib/remodal.min.js"></script>
+    @*<script src="~/SiteSkin/Bwing/Mobile/js/lib/jquery.blockUI.min.js"></script>*@
+    <script src="~/SiteSkin/Bwing/Mobile/js/lib/slick.min.js"></script>
+    <script src="~/SiteSkin/Bwing/Mobile/js/page.js" asp-append-version="true"></script>
+    <script type="text/javascript">
+        $(".home-slider").slick({
+            dots: true,
+            autoplay: true,
+            autoplaySpeed: 3000,
+            arrows: true,
+        });
+        @if (ViewContext.RouteData.Values["action"].ToString().Equals("Register", StringComparison.OrdinalIgnoreCase))
+        {
+            @:var registerForm = $('[data-remodal-id=modal-register]').remodal({ "hashTracking": false });
+            @:registerForm.open();
+        }
+
+        $("#toggle-LiveSupport").click(function () {
+            $(".live-suport").toggleClass("open");
+        });
+    </script>
+
+    @if (environment.EnvironmentName == "Development")
+    {
+        <script src="~/lib/react.development.js"></script>
+        <script src="~/lib/react-dom.development.js"></script>
+        <script src="~/lib/babel.min.js"></script>
+    }
+    else
+    {
+        <script src="~/lib/react.production.min.js"></script>
+        <script src="~/lib/react-dom.production.min.js"></script>
+    }
+    <script>
+    @if (User.Identity.IsAuthenticated)
+    {
+        var custId = Convert.ToInt32(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
+        var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
+        if (custInfo.ActStatus == 2)
+        {
+
+        }
+        CurrencyId = custInfo.CurrencyId;
+        var i18n = new Dictionary<string, string>
+        {
+            { "lbl_LastTransaction", selLangBLL.GetResourceValue("lbl_LastTransaction") },
+            { "lbl_LastLogin", selLangBLL.GetResourceValue("lbl_LastLogin") },
+            { "lbl_ShowBalance", selLangBLL.GetResourceValue("lbl_ShowBalance") },
+            { "lbl_Currency", selLangBLL.GetResourceValue($"Currency_{CurrencyId}") }
+        };
+
+        var lbl_Txts = new string[] { "lbl_Deposit", "lbl_TransferFunds", "lbl_PromoCategory_1", "lbl_PromoCategory_2", "lbl_PromoCategory_3", "lbl_PromoCategory_4" };
+        foreach (var lbl_Txt in lbl_Txts)
+        {
+            if (!i18n.ContainsKey(lbl_Txt))
+                i18n.Add(lbl_Txt, selLangBLL.GetResourceValue(lbl_Txt));
+        }
+
+        if (showResetPwdAlert)
+        {
+            i18n.Add("msg_PasswordReq", selLangBLL.GetMsg("msg_PasswordReq"));
+            i18n.Add("msg_PasswordLength", selLangBLL.GetMsg("msg_PasswordLength"));
+            i18n.Add("msg_PasswordValidate", selLangBLL.GetMsg("msg_PasswordValidate"));
+
+            i18n.Add("lbl_ChangePassword", selLangBLL.GetResourceValue("lbl_ChangePassword"));
+            i18n.Add("lbl_OldPassword", selLangBLL.GetResourceValue("lbl_OldPassword"));
+            i18n.Add("lbl_NewPassword", selLangBLL.GetResourceValue("lbl_NewPassword"));
+            i18n.Add("lbl_PasswordTooltip", selLangBLL.GetResourceValue("lbl_PasswordTooltip"));
+            i18n.Add("lbl_Later", selLangBLL.GetResourceValue("lbl_Later"));
+            i18n.Add("lbl_Update", selLangBLL.GetResourceValue("lbl_Update"));
+        }
+
+        @:var i18n = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n));
+        @:var IsConvertRequired = @Newtonsoft.Json.JsonConvert.SerializeObject(custInfoBLL.IsConvertRequired(CurrencyId));
+    }
+    else
+    {
+        var i18n = new Dictionary<string, string>();
+
+
+        var lbl_Txts = new string[] { "lbl_JoinNow", "lbl_DontHaveAccount", "lbl_ForgetPassword", "lbl_Login", "lbl_Username", "lbl_UsernameTooltip", "lbl_Password",
+                                            "lbl_PasswordTooltip", "msg_PasswordValidate", "msg_PasswordLength", "msg_PasswordReq", "msg_UsernameValidate", "msg_UsernameLength",
+                                            "msg_UsernameReq","msg_UsernameNotAvailable","msg_MailReq","msg_MailWrongFormat","msg_MailExisted"};
+        foreach (var lbl_Txt in lbl_Txts)
+        {
+            if (!i18n.ContainsKey(lbl_Txt))
+            {
+                if (lbl_Txt.StartsWith("msg_"))
+                {
+                    i18n.Add(lbl_Txt, selLangBLL.GetMsg(lbl_Txt));
+                }
+                else
+                {
+                    i18n.Add(lbl_Txt, selLangBLL.GetResourceValue(lbl_Txt));
+                }
+            }
+        }
+
+        @:var i18n = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n));
+        @:var joinNowUrl = '@Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() })';
+        @:var forgetPassowrdUrl = '@Url.RouteUrl("desktop", new { action = "ForgetPassowrd", controller = "Home", LangId = selLangBLL.GetLangId() })';
+        CurrencyId = selLangBLL.GetPreferCurrencyId();
+        @:var IsConvertRequired = @Newtonsoft.Json.JsonConvert.SerializeObject(custInfoBLL.IsConvertRequired(CurrencyId));
+    }
+
+    $(function () {
+            var breakpoint;
+            var getBreakpoint = function () {
+                return window.getComputedStyle(document.body, '::before').content.replace(/\"/g, '');
+            };
+
+        var displayBreakpoint = function () {
+            document.querySelector('html').dataset.layout = breakpoint;
+        };
+
+        breakpoint = getBreakpoint();
+
+        displayBreakpoint();
+
+        window.addEventListener('resize', function () {
+
+            breakpoint = getBreakpoint();
+
+            displayBreakpoint();
+
+        }, false);
+
+        $(".btn-toggle-nav").on("touchstart, click", function () {
+            $(".side-bar").attr("data-open", "true");
+        });
+
+        $(".side-bar .overlay").on("touchstart, click", function () {
+            $(".side-bar").removeAttr("data-open");
+        });
+
+        //$(".side-nav__item > .dropdown > .btn").on("touchstart, click", function () {
+        //    var $dropdown = $(this).parent();
+        //    $dropdown.attr("data-open") == "true" ? $dropdown.removeAttr("data-open") : $dropdown.attr("data-open", "true");
+        //});
+
+        $(document.body).on("touchstart, mousedown", function (e) {
+            var container = $(".dropdown");
+            if (!container.is(e.target) && container.has(e.target).length === 0) {
+                container.removeAttr("data-open");
+            }
+        });
+
+        $(".dropdown > .btn").on("touchstart, click", function (e) {
+            var $target = $(this).parent();
+
+            var container = $(".dropdown");
+            if (!container.is($target) && container.has($target).length === 0) {
+                container.removeAttr("data-open");
+            }
+
+            $target.attr("data-open", $target.attr("data-open") === "true" ? "false" : "true");
+        });
+
+        if (ResetPwdAlert === 1) {
+            $("#ResetPwdAlert").attr("data-open", true);
+        } else if (DepositAlert===1) {
+            $("#DepositAlet").attr("data-open", true);
+        }
+    });
+    </script>
+    @if (User.Identity.IsAuthenticated)
+    {
+        if (iSwitch == 1)
+        {
+            <script type="text/javascript">
+                        $(function () {
+                            $(".Js-Dialog").on("touchstart, click", function () {
+                                $("#Dialog").attr("data-open", false);
+                                $("#Dialog2").attr("data-open", false);
+                            });
+
+                            $(".Js-LiveCasino").on("touchstart, click", function () {
+                                $("#Dialog").attr("data-open", false);
+                                window.open($(".Js-LiveCasino").attr("data-GameUrl"), $(".Js-LiveCasino").attr("data-WindowKey"), 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no, top=0, left=0').focus();
+                            });
+
+                            $(".Js-Sports").on("touchstart, click", function () {
+                                $("#Dialog2").attr("data-open", false);
+                                @if (tools.IsMobile())
+                                {
+                                    @:window.open($(".Js-Sports").attr("data-GameUrl"), $(".Js-LiveCasino").attr("data-WindowKey"), 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no, top=0, left=0').focus();
+                                }
+                                else
+                                {
+                                @:if ($(".Js-Sports").attr("data-GameId") == "202" || $(".Js-Sports").attr("data-GameId") == "208" || $(".Js-Sports").attr("data-GameId") == "211") {
+                                    @:window.open($(".Js-Sports").attr("data-GameUrl"), $(".Js-LiveCasino").attr("data-WindowKey"), 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no, top=0, left=0').focus();
+                                @:} else {
+                                    @:window.location.href = $(".Js-Sports").attr("data-GameUrl");
+                                @:}
+                                }
+                            });
+                        });
+
+                        function LaunchGame(GameUrl, WindowKey, TpId, GameId) {
+                            var dialogId = "#Dialog";
+                            var balanceId = ".Js-MainWallet-Balance";
+                            var enterBtn = ".Js-LiveCasino";
+
+                            if (TpId == 1) {
+                                dialogId = "#Dialog2";
+                                balanceId = ".Js-3RdWallet-Balance";
+                                enterBtn = ".Js-Sports";
+                            }
+
+                            $(enterBtn).attr("data-GameId", GameId);
+                            $(enterBtn).attr("data-GameUrl", GameUrl);
+                            $(enterBtn).attr("data-WindowKey", WindowKey);
+
+                            $(".app-loading").attr("data-open", true);
+                            axios.post('/api/Account/CheckWellet', { TpId: TpId })
+                            .then(function (response) {
+                                $(".app-loading").attr("data-open", false);
+                                let result = response.data;
+                                if (result.errorCode == 0) {
+                                    $(balanceId).html("@selLangBLL.GetResourceValue($"Currency_{CurrencyId}") " + number_format(result.data));
+                                    $(dialogId).attr("data-open", true);
+                                } else if (result.errorCode == 10) {
+                                    alert(result.message);
+                                } else {
+                                    alert(result.message);
+                                }
+                            }).catch(function (error) {
+                                $(".app-loading").attr("data-open", false);
+                                alert(error);
+                            });
+                        }
+            </script>
+        }
+        else
+        {
+            <script type="text/javascript">
+                function LaunchGame(GameUrl, WindowKey, TpId, GameId) {
+                    if (TpId == 1) {
+                        var iGameId = 0;
+
+                        if (!isNaN(GameId)) {
+                            iGameId = parseInt(GameId);
+                        }
+
+                        if (iGameId >= 200 || iGameId == 43) {
+                            window.open(GameUrl, WindowKey, 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no, top=0, left=0').focus();
+                        } else {
+                            window.location.href = GameUrl;
+                        }
+                    } else {
+                        window.open(GameUrl, WindowKey, 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no, top=0, left=0').focus();
+                    }
+                }
+            </script>
+        }
+    }
+    @if (User.Identity.IsAuthenticated)
+    {
+        <script src="~/SiteSkin/Bwing/Mobile/js/after.min.js" asp-append-version="true"></script>
+        @*<script src="~/js/commJS/common.js"></script>
+            <script src="~/js/commJS/Account.js" asp-append-version="true"></script>
+            <script src="~/js/component/app/BalancePanel.min.js" asp-append-version="true"></script>
+            <script src="~/js/component/app/WalletInfo.min.js" asp-append-version="true"></script>
+            if (showResetPwdAlert)
+            {
+                <script src="~/js/component/account/ChangePwdAlert.min.js" asp-append-version="true"></script>
+            }*@
+    }
+    else
+    {
+        <script src="~/lib/runtime.min.js"></script>
+        <script src="~/SiteSkin/Bwing/Mobile/js/before.js" asp-append-version="true"></script>
+    }
+    <!-- Start of LiveChat (www.livechatinc.com) code -->
+    <script>
+        window.__lc = window.__lc || {};
+        window.__lc.license = 12145020;
+        ; (function (n, t, c) { function i(n) { return e._h ? e._h.apply(null, n) : e._q.push(n) } var e = { _q: [], _h: null, _v: "2.0", on: function () { i(["on", c.call(arguments)]) }, once: function () { i(["once", c.call(arguments)]) }, off: function () { i(["off", c.call(arguments)]) }, get: function () { if (!e._h) throw new Error("[LiveChatWidget] You can't use getters before load."); return i(["get", c.call(arguments)]) }, call: function () { i(["call", c.call(arguments)]) }, init: function () { var n = t.createElement("script"); n.async = !0, n.type = "text/javascript", n.src = "https://cdn.livechatinc.com/tracking.js", t.head.appendChild(n) } }; !n.__lc.asyncInit && e.init(), n.LiveChatWidget = n.LiveChatWidget || e }(window, document, [].slice))
+    </script>
+    <noscript><a href="https://www.livechatinc.com/chat-with/12145020/" rel="nofollow">Chat with us</a>, powered by <a href="https://www.livechatinc.com/?welcome" rel="noopener nofollow" target="_blank">LiveChat</a></noscript>
+    <!-- End of LiveChat code -->
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=@google_id"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', '@google_id');
+    </script>
+
+    @RenderSection("Scripts", required: false)
+    @RenderSection("PromptMsg", required: false)
+    @if (User.Identity.IsAuthenticated)
+    {
+        if (tools.IsMobile())
+        {
+            <script>
+                function CloseAnnouncementDialog() {
+                    $("#AnnouncementDialog").attr('class', 'modal');
+                    $("#AnnouncementDialog").attr('data-open', 'false');
+                }
+            </script>
+            <div id="AnnouncementDialog" class="modal">
+                <div class="overlay"></div>
+                <div class="modal__dialog">
+                    <div class="modal__header">
+                        <span class="text" id="AnnouncementDialogTitle"></span>
+                        <a class="btn btn-icon" onclick="CloseAnnouncementDialog()">
+                            <i class="icon icon-clear"></i>
+                        </a>
+                    </div>
+                    <div class="modal__body" id="AnnouncementDialogContent"></div>
+                    @*<div class="modal__footer">
+                            <div class="btn-group">
+                                <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "Announcement", controller = "Message", LangId = selLangBLL.GetLangId() })">
+                                    <span class="text">@selLangBLL.GetResourceValue($"lbl_More")</span>
+                                </a>
+                            </div>
+                        </div>*@
+                </div>
+            </div>
+        }
+
+        if (iSwitch == 1)
+        {
+            <div class="modal" id="Dialog" data-open="false">
+                <div class="overlay Js-Dialog"></div>
+                <div class="modal__dialog">
+                    <div class="modal__header">
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_Reminder")</span>
+                    </div>
+                    <div class="modal__body">
+                        <p>@Html.Raw(string.Format(selLangBLL.GetMsg("msg_DepositAlert"), "", ""))</p>
+                    </div>
+                    <div class="modal__footer">
+                        <div class="btn-group">
+                            <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
+                                <span class="text">@selLangBLL.GetResourceValue("lbl_Deposit")</span>
+                            </a>
+                            <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "Transfer", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
+                                <span class="text">@selLangBLL.GetResourceValue("lbl_Transfer")</span>
+                            </a>
+                            <button class="btn btn-primary Js-LiveCasino" type="button">
+                                <span class="text">@selLangBLL.GetResourceValue("lbl_Enter")</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal" id="Dialog2" data-open="false">
+                <div class="overlay Js-Dialog"></div>
+                <div class="modal__dialog">
+                    <div class="modal__header">
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_Reminder")</span>
+                    </div>
+                    <div class="modal__body">
+                        <p>@Html.Raw(string.Format(selLangBLL.GetMsg("msg_TransferAlert"), "", ""))</p>
+                    </div>
+                    <div class="modal__footer">
+                        <div class="btn-group">
+                            <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "Transfer", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
+                                <span class="text">@selLangBLL.GetResourceValue("lbl_Transfer")</span>
+                            </a>
+                            <button class="btn btn-primary Js-Sports" type="button">
+                                <span class="text">@selLangBLL.GetResourceValue("lbl_Enter")</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="app-loading" data-open="false">
+                <div class="preloader">
+                    <div class="preloader__spiner">
+                        <div class="preloader__circles">
+                            <div class="preloader__circle-1"></div>
+                            <div class="preloader__circle-2"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</body>
+</html>

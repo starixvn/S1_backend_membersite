@@ -1,0 +1,26 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using MemberSite.Service.Library
+@using Microsoft.AspNetCore.Hosting
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBll serverInfoBLL
+@inject IWebHostEnvironment environment
+@inject WalletBLL walletBLL
+@inject CustInfoBll custInfoBLL
+@inject Tools tools
+@inject SelLangBLL selLangBLL
+@inject AuthorizeBLL authorizeBLL
+@{
+    var serverInfo = serverInfoBLL.GetServerInfo();
+}
+<!DOCTYPE html>
+<html lang="@selLangBLL.GetLangId()" data-layout="@(tools.IsMobile() ? "mobile" : "desktop")">
+<head>
+    <meta http-equiv="refresh" content="0; url = https://www.@serverInfo.host" />
+</head>
+<body>
+@RenderSection("PromptMsg", required: false)
+@RenderSection("Scripts", required: false)
+@RenderSection("Style", required: false)
+</body>
+</html>

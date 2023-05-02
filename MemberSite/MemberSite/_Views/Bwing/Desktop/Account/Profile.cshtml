@@ -1,0 +1,142 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.AspNetCore.Hosting
+@using MemberSite.Service.BLL
+@using MemberSite.Service.Model.Mapping
+@inject IWebHostEnvironment environment
+@inject SelLangBLL selLangBLL
+@inject AuthorizeBLL authorizeBLL
+@inject CustInfoBll custInfoBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Profile");
+    Layout = "~/_Views/Bwing/Desktop/Shared/_Layout.cshtml";
+}
+@{
+    var authData = authorizeBLL.GetAuthData();
+    var custInfoProfile = custInfoBLL.GetCustInfoProfile(authData.CustId);
+
+    var i18n = new Dictionary<string, string>();
+    var Country = new Dictionary<string, string>();
+    i18n.Add("lbl_Birthday", selLangBLL.GetResourceValue("lbl_Birthday"));
+    i18n.Add("msg_GoToDepositPage", selLangBLL.GetMsg("msg_GoToDepositPage"));
+    i18n.Add("msg_SelectBirthDay", selLangBLL.GetMsg("msg_SelectBirthDay"));
+    i18n.Add("msg_EnterRealName", selLangBLL.GetMsg("msg_EnterRealName"));
+    i18n.Add("msg_EnterPhoneNumber", selLangBLL.GetMsg("msg_EnterPhoneNumber"));
+    i18n.Add("lbl_ReModify", selLangBLL.GetResourceValue("lbl_ReModify"));
+    i18n.Add("lbl_ConfirmAndUpdate", selLangBLL.GetResourceValue("lbl_ConfirmAndUpdate"));
+    i18n.Add("msg_ConfirmRealNameAlert", selLangBLL.GetMsg("msg_ConfirmRealNameAlert"));
+
+    i18n.Add("lbl_Month1", selLangBLL.GetResourceValue("lbl_Month1"));
+    i18n.Add("lbl_Month2", selLangBLL.GetResourceValue("lbl_Month2"));
+    i18n.Add("lbl_Month3", selLangBLL.GetResourceValue("lbl_Month3"));
+    i18n.Add("lbl_Month4", selLangBLL.GetResourceValue("lbl_Month4"));
+    i18n.Add("lbl_Month5", selLangBLL.GetResourceValue("lbl_Month5"));
+    i18n.Add("lbl_Month6", selLangBLL.GetResourceValue("lbl_Month6"));
+    i18n.Add("lbl_Month7", selLangBLL.GetResourceValue("lbl_Month7"));
+    i18n.Add("lbl_Month8", selLangBLL.GetResourceValue("lbl_Month8"));
+    i18n.Add("lbl_Month9", selLangBLL.GetResourceValue("lbl_Month9"));
+    i18n.Add("lbl_Month10", selLangBLL.GetResourceValue("lbl_Month10"));
+    i18n.Add("lbl_Month11", selLangBLL.GetResourceValue("lbl_Month11"));
+    i18n.Add("lbl_Month12", selLangBLL.GetResourceValue("lbl_Month12"));
+
+    i18n.Add("lbl_Confirm", selLangBLL.GetResourceValue("lbl_Confirm"));
+    i18n.Add("lbl_Later", selLangBLL.GetResourceValue("lbl_Later"));
+    i18n.Add("lbl_DepositNow", selLangBLL.GetResourceValue("lbl_DepositNow"));
+    i18n.Add("lbl_Success", selLangBLL.GetResourceValue("lbl_Success"));
+    i18n.Add("lbl_Profile", selLangBLL.GetResourceValue("lbl_Profile"));
+    i18n.Add("lbl_Username", selLangBLL.GetResourceValue("lbl_Username"));
+    i18n.Add("lbl_UsernameTooltip", selLangBLL.GetResourceValue("lbl_UsernameTooltip"));
+    i18n.Add("lbl_CompletedRegistration", selLangBLL.GetResourceValue("lbl_CompletedRegistration"));
+    i18n.Add("lbl_Email", selLangBLL.GetResourceValue("lbl_Email"));
+    i18n.Add("lbl_EmailToolTip", selLangBLL.GetResourceValue("lbl_EmailToolTip"));
+    i18n.Add("lbl_BankAccountName", selLangBLL.GetResourceValue("lbl_BankAccountName"));
+    i18n.Add("lbl_BankAccountNameHint", selLangBLL.GetResourceValue("lbl_BankAccountNameHint"));
+    i18n.Add("lbl_Country", selLangBLL.GetResourceValue("lbl_Country"));
+    i18n.Add("lbl_CountryTooltip", selLangBLL.GetResourceValue("lbl_CountryTooltip"));
+    i18n.Add("lbl_Phone", selLangBLL.GetResourceValue("lbl_Phone"));
+    i18n.Add("lbl_PhoneTooltip", selLangBLL.GetResourceValue("lbl_PhoneTooltip"));
+    i18n.Add("lbl_VIPLevel", selLangBLL.GetResourceValue("lbl_VIPLevel"));
+    i18n.Add("lbl_Agent", selLangBLL.GetResourceValue("lbl_Agent"));
+    i18n.Add("lbl_RegisterTime", selLangBLL.GetResourceValue("lbl_RegisterTime"));
+    i18n.Add("lbl_LastLogin", selLangBLL.GetResourceValue("lbl_LastLogin"));
+    i18n.Add("lbl_Back", selLangBLL.GetResourceValue("lbl_Back"));
+    i18n.Add("lbl_Submit", selLangBLL.GetResourceValue("lbl_Submit"));
+    i18n.Add("lbl_Update", selLangBLL.GetResourceValue("lbl_Update"));
+    i18n.Add("msg_UsernameNotAvailable", selLangBLL.GetMsg("msg_UsernameNotAvailable"));
+    i18n.Add("msg_UsernameReq", selLangBLL.GetMsg("msg_UsernameReq"));
+    i18n.Add("msg_UsernameValidate", selLangBLL.GetMsg("msg_UsernameValidate"));
+    i18n.Add("msg_MailReq", selLangBLL.GetMsg("msg_MailReq"));
+    i18n.Add("msg_MailExisted", selLangBLL.GetMsg("msg_MailExisted"));
+    i18n.Add("msg_Wrong", selLangBLL.GetMsg("msg_Wrong"));
+    i18n.Add("msg_Updatesuccessful", selLangBLL.GetMsg("msg_Updatesuccessful"));
+
+    i18n.Add("lbl_OTPCertification", selLangBLL.GetResourceValue("lbl_OTPCertification"));
+    i18n.Add("msg_OTPSendCode", selLangBLL.GetMsg("msg_OTPSendCode"));
+    i18n.Add("msg_OTPEnterCode", selLangBLL.GetMsg("msg_OTPEnterCode"));
+    i18n.Add("lbl_Resend", selLangBLL.GetResourceValue("lbl_Resend"));
+    i18n.Add("msg_EnterOTPCode", selLangBLL.GetResourceValue("msg_EnterOTPCode"));
+    i18n.Add("lbl_EmailRequired", selLangBLL.GetResourceValue("lbl_EmailRequired"));
+    i18n.Add("lbl_EmailFormatError", selLangBLL.GetResourceValue("lbl_EmailFormatError"));
+    i18n.Add("msg_ApiServerError", selLangBLL.GetResourceValue("msg_ApiServerError"));
+    i18n.Add("msg_OTP_SendOTPSMS_5002", selLangBLL.GetResourceValue("msg_OTP_SendOTPSMS_5002"));
+    i18n.Add("msg_OTP_SendOTPSMS_1000", selLangBLL.GetResourceValue("msg_OTP_SendOTPSMS_1000"));
+
+
+    var lbl_Txts = new string[] { "lbl_RealName", "lbl_RemindForName" };
+    foreach (var lbl_Txt in lbl_Txts)
+    {
+        if (!i18n.ContainsKey(lbl_Txt))
+            i18n.Add(lbl_Txt, selLangBLL.GetResourceValue(lbl_Txt));
+    }
+
+    var PerCountry = new CurrencyMapping().CountryMap;
+    var currencyId = custInfoBLL.GetCustInfoWithCache(authorizeBLL.GetAuthData().CustId).CurrencyId;
+}
+
+@section Style{
+    <link rel="stylesheet" type="text/css" href="~/SiteSkin/Bwing/Desktop/assets/css/lib/daterangepicker.css" />
+}
+
+<div class="system-content">
+    <partial name="~/_Views/Bwing/Desktop/Shared/_DesktopLeftMenu.cshtml" />
+    <div id="content" class="right-panel"></div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        var perCountry="@PerCountry[currencyId]";
+        i18n = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n));
+        var Country = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(selLangBLL.GetCountryList()));
+    </script>
+    <script src="~/SiteSkin/Bwing/Desktop/js/lib/daterangepicker.min.js"></script>
+    <script src="~/lib/runtime.min.js"></script>
+
+    @if (custInfoProfile == null || custInfoProfile.AccountName == null || custInfoProfile.CountryCode == null || custInfoProfile.PhoneNo == null)
+    {
+        <script>
+            var SetStatus = '@(custInfoProfile == null || string.IsNullOrEmpty(custInfoProfile.AccountName) && string.IsNullOrEmpty(custInfoProfile.PhoneNo) ? 1 : string.IsNullOrEmpty(custInfoProfile.AccountName) ? 2 : 3)';
+            var custdata = {
+                AccountName:'@custInfoProfile.AccountName',
+                Birthday: {
+                    day:'@custInfoProfile.Birth_d',
+                    month: '@custInfoProfile.Birth_m',
+                    year:'@custInfoProfile.Birth_y'
+                },
+                PhoneNo: '@custInfoProfile.PhoneNo',
+                Email: '@custInfoProfile.Email'
+            }
+        </script>
+        <script src="~/js/Bwing/component/Desktop/account/UpdProfile.min.js" asp-append-version="true"></script>
+    }
+    else
+    {
+        <script src="~/js/Bwing/component/Desktop/account/Profile.min.js" asp-append-version="true"></script>
+        <script>
+            $('#showOTPPopup').click(function () {
+                $('#OTPPopupContent').attr('data-open', "true");
+                if (window.SendVerifySMS) {
+                    window.SendVerifySMS();
+                }
+            })
+        </script>
+    }
+}

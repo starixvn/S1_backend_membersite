@@ -1,0 +1,187 @@
+﻿@using MemberSite.Service.BLL
+@using MemberSite.Service.Library
+@inject SelLangBLL selLangBLL
+@inject Tools tools
+@functions{
+    string GetEntPageUrl(int tpId, string gameId)
+    {
+        var entPageUrl = "";
+        if (tpId == 1)
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                if (gameId == "202" || gameId == "208" || gameId == "211")
+                {
+                    if (tools.IsMobile())
+                    {
+                        var message = selLangBLL.GetMsg("msg_LoginToAccess");
+                        entPageUrl = "javascript:alert('" + message + "');";
+                    }
+                    else if (gameId == "211")
+                    {
+                        entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "LiveCasino", LangId = selLangBLL.GetLangId() });
+                    }
+                    else
+                    {
+                        if (tools.IsMobile())
+                        {
+                            entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "sports", LangId = selLangBLL.GetLangId(), tpId, gameId });
+                            entPageUrl = $"javascript:window.open('{entPageUrl}', 'Tp_{tpId}_{gameId}', 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no, top=0, left=0').focus();";
+                        }
+                        else
+                            entPageUrl = Url.RouteUrl("desktop", new { action = "Static", controller = "Home", LangId = selLangBLL.GetLangId(), tpId, gameId });
+                    }
+                }
+                else
+                {
+                    if (tools.IsMobile())
+                    {
+                        entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "sports", LangId = selLangBLL.GetLangId(), tpId, gameId });
+                        entPageUrl = $"javascript:window.open('{entPageUrl}', 'Tp_{tpId}_{gameId}', 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no, top=0, left=0').focus();";
+                    }
+                    else
+                        entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "sports", LangId = selLangBLL.GetLangId(), tpId, gameId });
+                }
+            }
+            else
+            {
+                var homeUrl = Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = selLangBLL.GetLangId() }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
+                var signupUrl = Url.RouteUrl("desktop", new { action = "Register", controller = "Home", LangId = selLangBLL.GetLangId() }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
+                var LoginUrl = Url.RouteUrl("desktop", new { action = ViewContext.RouteData.Values["action"], controller = ViewContext.RouteData.Values["controller"], LangId = selLangBLL.GetLangId(), loginCont = 1 }, protocol: Context.Request.Scheme, host: Context.Request.Host.Host);
+
+                if (gameId == "202" || gameId == "208")
+                {
+                    entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl, signupUrl, LoginUrl, tpId, gameId });
+                    //entPageUrl = $"javascript:window.open('{entPageUrl}', 'Tp_{tpId}_{gameId}', 'toolbar=no, menubar=no,scrollbars=no,resizable=no,location=no,directories=no,status=no, top=0, left=0').focus();";
+                    entPageUrl = $"javascript:LaunchGame('{entPageUrl}', 'Tp_{tpId}_{gameId}',{tpId}, {gameId});";
+                }
+                else if (gameId == "211")
+                {
+                    entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "LiveCasino", LangId = selLangBLL.GetLangId() });
+                }
+                else if (tools.IsMobile())
+                {
+                    entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "entPage", LangId = selLangBLL.GetLangId(), homeUrl, signupUrl, LoginUrl, tpId, gameId });
+                    entPageUrl = $"javascript:LaunchGame('{entPageUrl}', 'Tp_{tpId}_{gameId}',{tpId}, {gameId});";
+                }
+                else
+                {
+                    @*IFrame*@
+                    entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "sports", LangId = selLangBLL.GetLangId(), tpId, gameId });
+                    entPageUrl = $"javascript:LaunchGame('{entPageUrl}', 'Tp_{tpId}_{gameId}',{tpId}, {gameId});";
+                }
+            }
+        }
+        else
+        {
+            entPageUrl = Url.RouteUrl("desktop", new { action = "Index", controller = "LiveCasino", LangId = selLangBLL.GetLangId() });
+        }
+        return entPageUrl;
+    }
+}
+@{
+
+    var SelectAction = ViewContext.RouteData.Values["action"].ToString();
+    var SelectController = ViewContext.RouteData.Values["controller"].ToString();
+
+}
+<div class="left-panel">
+    <div class="account flex between">
+        <span class="account-name">@User.Identity.Name</span>
+        <i class="icon icon-logout"></i>
+    </div>
+    <div class="section">
+        <button class="toggle-section toggle-btn" data-toggle-content="section-cashier">
+            @selLangBLL.GetResourceValue("lbl_Cashier")
+        </button>
+
+        <div class="section-content" id="section-cashier">
+            <div class="page-nav">
+                <a class="@((SelectAction.Equals("Deposit", StringComparison.OrdinalIgnoreCase) && SelectController.Equals("Cashier", StringComparison.OrdinalIgnoreCase)) ? "toggle-section" : "")" href="@Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
+                    @selLangBLL.GetResourceValue("lbl_Deposit")
+                </a>
+            </div>
+            <div class="page-nav">
+                <a class="@((SelectAction.Equals("Transfer", StringComparison.OrdinalIgnoreCase) && SelectController.Equals("Cashier", StringComparison.OrdinalIgnoreCase)) ? "toggle-section" : "")" href="@Url.RouteUrl("desktop", new { action = "Transfer", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
+                    @selLangBLL.GetResourceValue("lbl_TransferFunds")
+                </a>
+            </div>
+            <div class="page-nav">
+                <a class="@((SelectAction.Equals("Withdrawal", StringComparison.OrdinalIgnoreCase) && SelectController.Equals("Cashier", StringComparison.OrdinalIgnoreCase)) ? "toggle-section" : "")" href="@Url.RouteUrl("desktop", new { action = "Withdrawal", controller = "Cashier", LangId = selLangBLL.GetLangId() })">
+                    @selLangBLL.GetResourceValue("lbl_Withdrawal")
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="section">
+        <button class="toggle-section toggle-btn" data-toggle-content="section-history">
+            @selLangBLL.GetResourceValue("lbl_TransactionHistory")
+        </button>
+
+        <div class="section-content" id="section-history">
+            <div class="page-nav">
+                <a class="@((SelectAction.Equals("Deposit", StringComparison.OrdinalIgnoreCase) && SelectController.Equals("History", StringComparison.OrdinalIgnoreCase)) ? "toggle-section" : "")" href="@Url.RouteUrl("desktop", new { action = "Deposit", controller = "History", LangId = selLangBLL.GetLangId() })">
+                    @selLangBLL.GetResourceValue("lbl_DepositHistory")
+                </a>
+            </div>
+            <div class="page-nav">
+                <a class="@((SelectAction.Equals("Transfer", StringComparison.OrdinalIgnoreCase) && SelectController.Equals("History", StringComparison.OrdinalIgnoreCase)) ? "toggle-section" : "")" href="@Url.RouteUrl("desktop", new { action = "Transfer", controller = "History", LangId = selLangBLL.GetLangId() })">
+                    @selLangBLL.GetResourceValue("lbl_TransferHistory")
+                </a>
+            </div>
+            <div class="page-nav">
+                <a class="@((SelectAction.Equals("Withdrawal", StringComparison.OrdinalIgnoreCase) && SelectController.Equals("History", StringComparison.OrdinalIgnoreCase)) ? "toggle-section" : "")" href="@Url.RouteUrl("desktop", new { action = "Withdrawal", controller = "History", LangId = selLangBLL.GetLangId() })">
+                    @selLangBLL.GetResourceValue("lbl_WithdrawalHistory")
+                </a>
+            </div>
+            <div class="page-nav">
+                <a class="@((SelectAction.Equals("Statement", StringComparison.OrdinalIgnoreCase) && SelectController.Equals("History", StringComparison.OrdinalIgnoreCase)) ? "toggle-section" : "")" href="@Url.RouteUrl("desktop", new { action = "Statement", controller = "History", LangId = selLangBLL.GetLangId() })">
+                    @selLangBLL.GetResourceValue("lbl_Statement")
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="section">
+        <button class="toggle-section toggle-btn" data-toggle-content="section-account">
+            @selLangBLL.GetResourceValue("lbl_MyAccount")
+        </button>
+
+        <div class="section-content" id="section-account">
+            <div class="page-nav">
+                <a class="@((SelectAction.Equals("Profile", StringComparison.OrdinalIgnoreCase) && SelectController.Equals("Account", StringComparison.OrdinalIgnoreCase)) ? "toggle-section" : "")" href="@Url.RouteUrl("desktop", new { action = "Profile", controller = "Account", LangId = selLangBLL.GetLangId() })">
+                    @selLangBLL.GetResourceValue("lbl_Profile")
+                </a>
+            </div>
+            <div class="page-nav">
+                <a class="@((SelectAction.Equals("ChangePwd", StringComparison.OrdinalIgnoreCase) && SelectController.Equals("Account", StringComparison.OrdinalIgnoreCase)) ? "toggle-section" : "")" href="@Url.RouteUrl("desktop", new { action = "ChangePwd", controller = "Account", LangId = selLangBLL.GetLangId() })">
+                    @selLangBLL.GetResourceValue("lbl_ChangePassword")
+                </a>
+            </div>
+            <div class="page-nav">
+                <a class="@((SelectAction.Equals("CustBankInfo", StringComparison.OrdinalIgnoreCase) && SelectController.Equals("Account", StringComparison.OrdinalIgnoreCase)) ? "toggle-section" : "")" href="@Url.RouteUrl("desktop", new { action = "CustBankInfo", controller = "Account", LangId = selLangBLL.GetLangId() })">
+                    @selLangBLL.GetResourceValue("lbl_BankInfo")
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <button class="toggle-section toggle-btn" data-toggle-content="section-message">
+            @selLangBLL.GetResourceValue("lbl_Message")
+        </button>
+
+        <div class="section-content" id="section-message">
+            <div class="page-nav">
+                <a class="@((SelectAction.Equals("PersonalMsg", StringComparison.OrdinalIgnoreCase) && SelectController.Equals("Message", StringComparison.OrdinalIgnoreCase)) ? "toggle-section" : "")" href="@Url.RouteUrl("desktop", new { action = "PersonalMsg", controller = "Message", LangId = selLangBLL.GetLangId() })">
+                    @selLangBLL.GetResourceValue("lbl_PersonalMsg")
+                </a>
+            </div>
+            <div class="page-nav">
+                <a class="@((SelectAction.Equals("Announcement", StringComparison.OrdinalIgnoreCase) && SelectController.Equals("Message", StringComparison.OrdinalIgnoreCase)) ? "toggle-section" : "")" href="@Url.RouteUrl("desktop", new { action = "Announcement", controller = "Message", LangId = selLangBLL.GetLangId() })">
+                    @selLangBLL.GetResourceValue("lbl_Announcement")
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
