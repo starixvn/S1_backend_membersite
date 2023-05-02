@@ -352,7 +352,7 @@ namespace MemberSite.Controllers
             //取得可用銀行列表
             var bankList = _bankInfoBll.GetAutoChannelBankList(custInfo, vipLevel)
                 .Where(i => i.SysId == sysId && Amount <= i.MaxAmount && Amount >= i.MinAmount);
-          
+
             foreach (var bank in bankList.OrderBy(i => i.SSort))
             {
                 var result = _paymentBll.DepositReqOnlineBanking(authData.CustId, sysId, bank.PayId, bank.ChannelId, Amount, out transId, out var onlineBank, depositType);

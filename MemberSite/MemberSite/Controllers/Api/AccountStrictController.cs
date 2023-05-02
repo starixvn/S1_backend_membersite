@@ -438,7 +438,7 @@ namespace MemberSite.Controllers.Api
 
                     if (long.TryParse(PhoneNo, out var phoneNo))
                     {
-                        PhoneNo = phoneNo.ToString();
+                        custProfile["PhoneNo"] = phoneNo.ToString();
                     }
                     else
                     {
@@ -561,7 +561,7 @@ namespace MemberSite.Controllers.Api
 
                         if (long.TryParse(PhoneNo, out var phoneNo))
                         {
-                            PhoneNo = phoneNo.ToString();
+                            custProfile["PhoneNo"] = phoneNo.ToString();
                         }
                         else
                         {
@@ -570,7 +570,7 @@ namespace MemberSite.Controllers.Api
                             return apiResult;
                         }
 
-                        if (_custInfoBLL.ExistsPhoneNo(authData.CustId, AreaCode, PhoneNo))
+                        if (_custInfoBLL.ExistsPhoneNo(authData.CustId, AreaCode, custProfile["PhoneNo"]))
                         {
                             apiResult.ErrorCode = 21;
                             apiResult.Message = $"({AreaCode}){PhoneNo} {_selLangBLL.GetMsg("msg_HasExist")}";
@@ -749,7 +749,8 @@ namespace MemberSite.Controllers.Api
 
             try
             {
-                if (authData is { CustId: > 0 })
+                _logger.LogInformation("GetCustProfile, CustId: "+ authData.CustId);
+                if (authData is {CustId: > 0})
                 {
                     var custInfo = _custInfoBLL.GetCustInfoProfile(authData.CustId);
                     var _perCountry = "";
@@ -763,10 +764,12 @@ namespace MemberSite.Controllers.Api
                         {
                             _perCountry = _custInfoBLL.GetCountryNameByAreaCode(custInfo.AreaCode);
                         }
+                        _logger.LogInformation("GetCustProfile, _perCountry: "+ _perCountry);
                     }
 
                     var isLineBinding = _lineLoginBll.GetCustLineProfile(authData.CustId, null) != null;
-
+              
+                    _logger.LogInformation("GetCustProfile, isLineBinding: "+ isLineBinding);
                     apiResult.Data = new
                     {
                         custInfo.UserName,
@@ -799,6 +802,9 @@ namespace MemberSite.Controllers.Api
                         custInfo.AddressLineSecond,
                         custInfo.IsResetPwd
                     };
+                    
+                    
+                    _logger.LogInformation("GetCustProfile"+ JsonConvert.SerializeObject(apiResult.Data));
 
                     apiResult.ErrorCode = 0;
                 }
