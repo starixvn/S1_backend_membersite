@@ -138,14 +138,29 @@
   <data name="msg_BankAccountExists" xml:space="preserve">
     <value>អ្នកបានរក្សាទុកព័ត៌មាននេះរួចហើយ។</value>
   </data>
+  <data name="msg_BeneficiarysAccountMaintenance" xml:space="preserve">
+    <value>គណនីរបស់អ្នកទទួលកំពុងស្ថិតក្រោមការថែទាំ</value>
+  </data>
+  <data name="msg_BeneficiarysAccountMaintenance_Detail" xml:space="preserve">
+    <value>បច្ចុប្បន្នធនាគារកំពុងស្ថិតក្រោមការថែទាំ កម្មវិធីដកប្រាក់របស់អ្នកនឹងត្រូវបានដំណើរការសម្រាប់អ្នកបន្ទាប់ពីការថែទាំធនាគារត្រូវបានបញ្ចប់។</value>
+  </data>
+  <data name="msg_BirthdayIsRequired" xml:space="preserve">
+    <value>សូមបំពេញថ្ងៃខែឆ្នាំកំណើត</value>
+  </data>
   <data name="msg_ClaimCashBackBonus" xml:space="preserve">
     <value>សូមអបអរសាទរ សាច់ប្រាក់ត្រឡប់របស់អ្នក {0} ត្រូវបានបញ្ចូលទៅក្នុងគណនីរបស់អ្នក!</value>
+  </data>
+  <data name="msg_CompletePhoneNumber" xml:space="preserve">
+    <value>សូមបំពេញការផ្ទៀងផ្ទាត់ទូរស័ព្ទចល័ត (OTP) របស់អ្នក។</value>
   </data>
   <data name="msg_ConfirmRealNameAlert" xml:space="preserve">
     <value>ដើម្បីធានាថាប្រតិបត្តិការទាំងអស់ត្រឹមត្រូវ សូមប្រាកដថា ឈ្មោះពិតរបស់អ្នក គឺដូចគ្នានឹងឈ្មោះគណនីធនាគាររបស់អ្នក</value>
   </data>
   <data name="msg_Congratulations" xml:space="preserve">
     <value>ការចុះឈ្មោះរបស់អ្នកត្រូវបានបញ្ចប់; អ្នកអាចចូលភ្លាមៗ ដាក់ប្រាក់ ហើយបន្ទាប់មកចាប់ផ្តើមដាក់ភ្នាល់។</value>
+  </data>
+  <data name="msg_congratulation_event_reward" xml:space="preserve">
+    <value>អបអរសាទរ! ទទួលបានចំនួន {0}</value>
   </data>
   <data name="msg_CreditSignUp" xml:space="preserve">
     <value>ជូនចំពោះអតិថិជនជាទីគោរព &lt;br /&gt;&lt;br /&gt;សូមស្វាគមន៍មកកាន់ &lt;a href="https://{0}" target="_new"&gt;{0}&lt;/a&gt; នៅពេលចុះឈ្មោះរួច សូមចូលទៅកាន់ តំណភ្ជាប់នេះ និងរីករាយជាមួយហ្គេមរបស់យើង។</value>
@@ -156,6 +171,9 @@
   <data name="msg_CreditSignUpHint_2" xml:space="preserve">
     <value>សូមស្វាគមន៍មកកាន់ {0} នៅពេលចុះឈ្មោះរួច សូមចូលទៅកាន់តំណភ្ជាប់នេះ ហើយរីករាយជាមួយហ្គេមរបស់យើង។</value>
   </data>
+  <data name="msg_CryptoWalletDuplicate" xml:space="preserve">
+    <value>អាសយដ្ឋានកាបូបគ្រីបតូត្រូវបានប្រើ</value>
+  </data>
   <data name="msg_DecimalOutOfRange" xml:space="preserve">
     <value>ការផ្ទេរបានបរាជ័យដោយសារតែទសភាគធំជាង 2 ខ្ទង់</value>
   </data>
@@ -165,11 +183,29 @@
   <data name="msg_DepositHint" xml:space="preserve">
     <value>ដាក់ប្រាក់ឥឡូវនេះ ដើម្បីរីករាយជាមួយហ្គេម និងសេវារបស់យើង។</value>
   </data>
+  <data name="msg_DepositorsNameUnmatch" xml:space="preserve">
+    <value>ឈ្មោះអ្នកដាក់ប្រាក់មិនត្រូវគ្នា</value>
+  </data>
+  <data name="msg_DepositorsNameUnmatch_Detail" xml:space="preserve">
+    <value>ឈ្មោះដែលបានចុះមិនត្រូវគ្នានឹងឈ្មោះគណនីធនាគារទេ សូមមេត្តាទាក់ទងផ្នែកជំនួយអតិថិជនសម្រាប់ជំនួយបន្ថែម។</value>
+  </data>
   <data name="msg_DepositProcessLogin_ACLocked" xml:space="preserve">
     <value>គណនីរបស់អ្នកត្រូវបានចាក់សោ; សូមទំនាក់ទំនងមកផ្នែកបម្រើសេវាអតិថិជន ២៤ម៉/៧ ថ្ងៃ។ សូមអរគុណ!</value>
   </data>
   <data name="msg_DepositProcessLogin_LoginFailed" xml:space="preserve">
     <value>ការចូលបានបរាជ័យ ខុសឈ្មោះអ្នកប្រើប្រាស់/ពាក្យសម្ងាត់ ឬមិនមានឈ្មោះអ្នកប្រើប្រាស់។</value>
+  </data>
+  <data name="msg_DepositRefunded" xml:space="preserve">
+    <value>ការដាក់ប្រាក់ត្រូវបានបង្វិលសងវិញ។</value>
+  </data>
+  <data name="msg_DepositRefunded_Detail" xml:space="preserve">
+    <value>ចំនួនទឹកប្រាក់នៃការដាក់ប្រាក់ត្រូវបានបង្វិលសងវិញ សូមពិនិត្យមើលគណនីធនាគាររបស់អ្នក។</value>
+  </data>
+  <data name="msg_DepositSlipRequired" xml:space="preserve">
+    <value>តម្រូវ​ឱ្យ​មាន​ប័ណ្ណ​ដាក់​ប្រាក់</value>
+  </data>
+  <data name="msg_DepositSlipRequired_Detail" xml:space="preserve">
+    <value>សូមភ្ជាប់ជាមួយប័ណ្ណផ្ទេរប្រាក់ ដើម្បីបង្កើនល្បឿនដំណើរការប្រតិបត្តិការ។</value>
   </data>
   <data name="msg_DrawPrize" xml:space="preserve">
     <value>សូមអបអរសាទរ អាំងប៉ាវ {0} របស់អ្នកត្រូវបានបញ្ចូលទៅក្នុងគណនីរបស់អ្នក!</value>
@@ -183,11 +219,23 @@
   <data name="msg_DrawPrizeTital1" xml:space="preserve">
     <value>{0} ប្រអប់អាថ៌កំបាំង</value>
   </data>
+  <data name="msg_EmailFormatVerify" xml:space="preserve">
+    <value>ទម្រង់អាសយដ្ឋានអ៊ីមែលមិនត្រឹមត្រូវ</value>
+  </data>
   <data name="msg_EnterPhoneNumber" xml:space="preserve">
     <value>សូមបញ្ចូលលេខទូរសព្ទ។</value>
   </data>
   <data name="msg_EnterRealName" xml:space="preserve">
     <value>សូមបញ្ចូលឈ្មោះពិតរបស់អ្នក។</value>
+  </data>
+  <data name="msg_Event_has_not_started" xml:space="preserve">
+    <value>ព្រឹត្តិការណ៍មិនទាន់បានចាប់ផ្តើមនៅឡើយទេ</value>
+  </data>
+  <data name="msg_EWalletDuplicate" xml:space="preserve">
+    <value>លេខគណនីកាបូបអេឡិចត្រូនិកស្ទួនមិនត្រូវបានអនុញ្ញាតទេ។ សូមសាកល្បងលេខគណនីកាបូបអេឡិចត្រូនិកផ្សេង។</value>
+  </data>
+  <data name="msg_EWalletIsMaintenance" xml:space="preserve">
+    <value>កាបូបអេឡិចត្រូនិកស្ថិតក្រោមការថែទាំ សូមប្រើវិធីដកប្រាក់ផ្សេងទៀត។</value>
   </data>
   <data name="msg_ForceLogedout" xml:space="preserve">
     <value>អ្នកបានចាកចេញ!! សូមចូល ហើយសាកល្បងម្ដងទៀត!!</value>
@@ -204,6 +252,12 @@
   <data name="msg_HasExist" xml:space="preserve">
     <value>ធ្លាប់​មាន​រួចហើយ។</value>
   </data>
+  <data name="msg_InactiveBankAccountSubmission" xml:space="preserve">
+    <value>គណនីធនាគារដាក់ស្នើអសកម្ម</value>
+  </data>
+  <data name="msg_InactiveBankAccountSubmission_Detail" xml:space="preserve">
+    <value>គណនីដាក់ប្រាក់ត្រូវបានផ្លាស់ប្តូរ សូមពិនិត្យមើលគណនីទទួលចុងក្រោយមុននឹងធ្វើប្រតិបត្តិការ។</value>
+  </data>
   <data name="msg_Ineligible" xml:space="preserve">
     <value>អ្នកមិនមានសិទ្ធិទទួលបានការប្រូម៉ូសិននេះទេ។ សូមទាក់ទងផ្នែកគាំទ្ររបស់យើងសម្រាប់ព័ត៌មានលម្អិតបន្ថែម។</value>
   </data>
@@ -213,14 +267,23 @@
   <data name="msg_InsufficientFund" xml:space="preserve">
     <value>ថវិកាមិនគ្រប់គ្រាន់!</value>
   </data>
+  <data name="msg_InsufficientPoint" xml:space="preserve">
+    <value>សូមអភ័យទោស! អ្នកមានពិន្ទុរង្វាន់ 88 មិនគ្រប់គ្រាន់។</value>
+  </data>
   <data name="msg_InvalidCryptoWalletAddress" xml:space="preserve">
     <value>អាសយដ្ឋានកាបូបលុយគ្រីបមិនត្រឹមត្រូវ។</value>
   </data>
   <data name="msg_InvalidOldPassword" xml:space="preserve">
     <value>ពាក្យ​សម្ងាត់​ចាស់​មិន​ត្រឹមត្រូវ!</value>
   </data>
+  <data name="msg_keep_up" xml:space="preserve">
+    <value>សូមសំណាងល្អនៅលើការក្រឡុកបន្ទាប់របស់អ្នក។</value>
+  </data>
   <data name="msg_LessThanWithdrawalMin" xml:space="preserve">
     <value>ចំនួនទឹកប្រាក់ដកត្រូវតែច្រើនជាង {0}</value>
+  </data>
+  <data name="msg_limit_has_been_reached" xml:space="preserve">
+    <value>ដែនកំណត់ថ្ងៃនេះបានដល់ហើយ</value>
   </data>
   <data name="msg_LineAccountAlreadyBind" xml:space="preserve">
     <value>គណនី LINE នេះត្រូវបានប្រើប្រាស់ សូមប្រើគណនីមួយផ្សេងទៀត។</value>
@@ -258,6 +321,9 @@
   <data name="msg_NoData" xml:space="preserve">
     <value>គ្មាន​ទិន្នន័យ</value>
   </data>
+  <data name="msg_NotInLimit" xml:space="preserve">
+    <value>មិនស្ថិតក្នុងដែនកំណត់</value>
+  </data>
   <data name="msg_OTPEnterCode" xml:space="preserve">
     <value>សូមបញ្ចូលលេខផ្ទៀងផ្ទាត់ដែលអ្នកបានទទួលខាងក្រោម។</value>
   </data>
@@ -282,14 +348,32 @@
   <data name="msg_PasswordVaildate" xml:space="preserve">
     <value>ពាក្យសម្ងាត់ត្រូវមានចន្លោះពី ៦-១៥ តួអក្សរ មានទាំងអក្សរក្រមលេខ និង តួអក្សរពិសេស (!@#$%^&amp;*)។</value>
   </data>
+  <data name="msg_PaymentNotReceived" xml:space="preserve">
+    <value>ការទូទាត់មិនត្រូវបានទទួល</value>
+  </data>
+  <data name="msg_PaymentNotReceived_Detail" xml:space="preserve">
+    <value>ការទូទាត់មិនទាន់បានទទួលនៅក្នុងធនាគារទេ សូមរង់ចាំដោយអត់ធ្មត់។</value>
+  </data>
+  <data name="msg_PhoneFormatVerify" xml:space="preserve">
+    <value>លេខទូរស័ព្ទដែលអ្នកបានបញ្ចូលមិនត្រឹមត្រូវ គួរតែស្ថិតនៅចន្លោះ {0} ខ្ទង់</value>
+  </data>
   <data name="msg_PhoneWrongFormat" xml:space="preserve">
     <value>ទ្រង់ទ្រាយទូរស័ព្ទខុស។</value>
+  </data>
+  <data name="msg_ProfileOrPhoneNotFinish" xml:space="preserve">
+    <value>ព័ត៌មានគណនីមិនទាន់បានបញ្ចប់ទេ សូមផ្ទៀងផ្ទាត់ព័ត៌មានគណនី</value>
   </data>
   <data name="msg_PromoCodeHasBeenUsed" xml:space="preserve">
     <value>លេខកូដផ្សព្វផ្សាយនេះត្រូវបានប្រើប្រាស់</value>
   </data>
   <data name="msg_PromoCodeIncorrect" xml:space="preserve">
     <value>លេខកូដប្រូម៉ូមិនត្រឹមត្រូវទេ។</value>
+  </data>
+  <data name="msg_RealNameWrongFormat" xml:space="preserve">
+    <value>ឈ្មោះពិតប្រាកដមិនអនុញ្ញាតអោយមានលេខឬតួអក្សរពិសេសបានទេ។</value>
+  </data>
+  <data name="msg_RedemptionLimitOverLimit" xml:space="preserve">
+    <value>សូមអភ័យទោស ដែនកំណត់នៃកាទទួលយករង្វាន់របស់អ្នកបានដល់ហើយ។ សូមព្យាយាមម្តងទៀតនៅលើខែថ្មី។</value>
   </data>
   <data name="msg_ReferenceNumber" xml:space="preserve">
     <value>លេខ​យោង</value>
@@ -309,14 +393,26 @@
   <data name="msg_SpecialCodeErr" xml:space="preserve">
     <value>លេខកូដប្រាក់រង្វាន់ពិសេសរបស់អ្នកដែលបានបញ្ចូល មិនមានការប្រូម៉ូសិនសម្រាប់ប្តូរយករង្វាន់ទេ។</value>
   </data>
+  <data name="msg_SpecialCodeErrorForCheck" xml:space="preserve">
+    <value>លេខកូដផ្សព្វផ្សាយមិនត្រឹមត្រូវទេ សូមពិនិត្យម្តងទៀត</value>
+  </data>
+  <data name="msg_SpecialCodeVipLevelsOrBlockTagInvalid" xml:space="preserve">
+    <value>មិនអាចចូលរួមក្នុងប្រម៉ូសិននេះទេ សូមទាក់ទងផ្នែកសេវាអតិថិជនសម្រាប់សាកសួរ</value>
+  </data>
   <data name="msg_SubmitDepositTime" xml:space="preserve">
     <value>សូមផ្ញើពេលវេលាដាក់ប្រាក់របស់អ្នក។</value>
   </data>
   <data name="msg_ThisCurrencyNotSupport" xml:space="preserve">
     <value>រូបិយបណ្ណរបស់អ្នកមិនត្រូវគ្នាទេ។</value>
   </data>
+  <data name="msg_times_chance" xml:space="preserve">
+    <value>នៅមានឱកាស {0} ដង</value>
+  </data>
   <data name="msg_TransferAlert" xml:space="preserve">
     <value>កាបូបលុយកីឡាចរន្តរបស់អ្នកគឺ : &lt;span class="popup-span Js-3RdWallet-Balance"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;ដាក់ប្រាក់ និងផ្ទេរពីកាបូបលុយធំទៅកាបូបលុយសៀវភៅកីឡាឥឡូវនេះ ដើម្បីរីករាយជាមួយហ្គេម និងសេវារបស់យើង។</value>
+  </data>
+  <data name="msg_turnover_not_enough" xml:space="preserve">
+    <value>មិនទាន់បានបញ្ចប់ការភ្នាល់ត្រឹមត្រូវដែលទាមទារ មិនអាចចូលរួមបានទេ។</value>
   </data>
   <data name="msg_UpdateFailed" xml:space="preserve">
     <value>ការធ្វើបច្ចុប្បន្នភាពបានបរាជ័យ</value>
@@ -336,6 +432,24 @@
   <data name="msg_UsernameValidate" xml:space="preserve">
     <value>អក្សរក្រមលេខចន្លោះពី ៦-១៨ (A-Z, a-z, ០-៩) តួតែប៉ុណ្ណោះ។</value>
   </data>
+  <data name="msg_WithdrawalAccountAannotReceiveMoney" xml:space="preserve">
+    <value>គណនីដកប្រាក់មិនអាចទទួលប្រាក់បានទេ។</value>
+  </data>
+  <data name="msg_WithdrawalAccountAannotReceiveMoney_Detail" xml:space="preserve">
+    <value>គណនីដកប្រាក់មិនអាចទទួលប្រាក់បានទេ។ សូមពិនិត្យមើលឡើងវិញ ឬទាក់ទងផ្នែកជំនួយអតិថិជនសម្រាប់ជំនួយបន្ថែម។</value>
+  </data>
+  <data name="msg_WithdrawalAccountNumberIncorrect" xml:space="preserve">
+    <value>លេខគណនីដកប្រាក់មិនត្រឹមត្រូវ។</value>
+  </data>
+  <data name="msg_WithdrawalAccountNumberIncorrect_Detail" xml:space="preserve">
+    <value>លេខគណនីដកប្រាក់មិនត្រឹមត្រូវ។ សូមពិនិត្យមើលលេខគណនីដកប្រាក់របស់អ្នក។</value>
+  </data>
+  <data name="msg_WithdrawalAccountsNameUnmatch" xml:space="preserve">
+    <value>ឈ្មោះគណនីដកប្រាក់មិនត្រូវគ្នា។</value>
+  </data>
+  <data name="msg_WithdrawalAccountsNameUnmatch_Detail" xml:space="preserve">
+    <value>ឈ្មោះគណនីដកប្រាក់មិនត្រូវគ្នានឹងឈ្មោះដែលបានចុះឈ្មោះទេ។ សូមទាក់ទងផ្នែកសេវាអតិថិជនសម្រាប់ជំនួយ។</value>
+  </data>
   <data name="msg_WithdrawalExists" xml:space="preserve">
     <value>សំណើប្រតិបត្តិការរបស់អ្នកកំពុងរង់ចាំ។ សូមព្យាយាមម្តងទៀត ខណៈពេលដែលប្រតិបត្តិការដែលកំពុងរង់ចាំបានបញ្ចប់</value>
   </data>
@@ -350,6 +464,18 @@
   </data>
   <data name="msg_WrongAmount" xml:space="preserve">
     <value>ចំនួនទឹកប្រាក់មិនត្រឹមត្រូវ</value>
+  </data>
+  <data name="msg_WrongAmountSubmitted" xml:space="preserve">
+    <value>ចំនួនដាក់ប្រាក់មិនត្រឹមត្រូវ</value>
+  </data>
+  <data name="msg_WrongAmountSubmitted_Detail" xml:space="preserve">
+    <value>ចំនួនដាក់ប្រាក់មិនត្រូវគ្នានឹងចំនួនក្នុងប័ណ្ណដាក់ប្រាក់ទេ សូមពិនិត្យមើលឡើងវិញ ឬទាក់ទងផ្នែកជំនួយអតិថិជនសម្រាប់ជំនួយបន្ថែម។</value>
+  </data>
+  <data name="msg_WrongBankSubmitted" xml:space="preserve">
+    <value>បានជ្រើសរើសគណនីដាក់ប្រាក់ខុស</value>
+  </data>
+  <data name="msg_WrongBankSubmitted_Detail" xml:space="preserve">
+    <value>គណនីដាក់ប្រាក់ដែលបានជ្រើសរើសគឺមិនត្រឹមត្រូវ សូមពិនិត្យមើលឡើងវិញ ឬទាក់ទងផ្នែកជំនួយអតិថិជនសម្រាប់ជំនួយបន្ថែម។</value>
   </data>
   <data name="ResetPwdSuccess" xml:space="preserve">
     <value>ពាក្យសម្ងាត់របស់អ្នកត្រូវបានកែតម្រូវវិញដោយជោគជ័យ!</value>
