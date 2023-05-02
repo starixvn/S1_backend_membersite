@@ -285,6 +285,7 @@ namespace MemberSite
 
             services.AddOptionListByDB<TpGameTypeOption>("Admin_TpGameType_Get");
             services.AddOptionListByDB<AreaCodeMap>("Common_CountryList_Get");
+            services.AddOptionListByDB<SabaSportTypeOption>("Service_SabaSportType_Get");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
