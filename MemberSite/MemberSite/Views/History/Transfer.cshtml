@@ -1,0 +1,69 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.AspNetCore.Hosting
+@using MemberSite.Service.BLL
+@inject IWebHostEnvironment environment
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBll serverInfoBLL
+@{
+    ViewData["Title"] = "Transfer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    var i18n = new Dictionary<string, string>
+    {
+        { "lbl_TransactionHistory", selLangBLL.GetResourceValue("lbl_TransactionHistory") },
+        { "lbl_From", selLangBLL.GetResourceValue("lbl_From") },
+        { "lbl_To", selLangBLL.GetResourceValue("lbl_To") },
+        { "lbl_Method", selLangBLL.GetResourceValue("lbl_Method") },
+        { "lbl_ChargeFee", selLangBLL.GetResourceValue("lbl_ChargeFee") },
+        { "lbl_Status", selLangBLL.GetResourceValue("lbl_Status") },
+        { "lbl_Submit", selLangBLL.GetResourceValue("lbl_Submit") },
+        { "lbl_Page", selLangBLL.GetResourceValue("lbl_Page") },
+        { "lbl_Of", selLangBLL.GetResourceValue("lbl_Of") },
+        { "lbl_DateMissing", selLangBLL.GetResourceValue("lbl_DateMissing") },
+        { "msg_NoData", selLangBLL.GetMsg("msg_NoData") },
+        { "lbl_QuickPick", selLangBLL.GetResourceValue("lbl_QuickPick") },
+        { "lbl_Today", selLangBLL.GetResourceValue("lbl_Today") },
+        { "lbl_YesterDay", selLangBLL.GetResourceValue("lbl_YesterDay") },
+        { "lbl_ThisWeek", selLangBLL.GetResourceValue("lbl_ThisWeek") },
+        { "lbl_LastWeek", selLangBLL.GetResourceValue("lbl_LastWeek") },
+        { "lbl_ThisMonth", selLangBLL.GetResourceValue("lbl_ThisMonth") },
+        { "lbl_LastMonth", selLangBLL.GetResourceValue("lbl_LastMonth") }
+    };
+
+
+    var lbl_Txts = new string[] { "lbl_TransferFunds", "lbl_Date", "lbl_Time", "lbl_ID", "lbl_Direction", "lbl_Amount",
+                                        "lbl_Status", "lbl_Memo", "lbl_Success", "lbl_Fail", "lbl_Pending", "lbl_MainWallet"};
+    foreach (var lbl_Txt in lbl_Txts)
+    {
+        if (!i18n.ContainsKey(lbl_Txt))
+            i18n.Add(lbl_Txt, selLangBLL.GetResourceValue(lbl_Txt));
+    }
+
+}
+<div class="main">
+    <partial name="~/Views/Shared/_DesktopLeftMenu.cshtml" />
+    <div class="page-title" role="mobile-only">
+        <span class="text">@selLangBLL.GetResourceValue("lbl_History")</span>
+    </div>
+    <div class="page-tabs" role="mobile-only">
+        <a class="page-tabs__btn" href="@Url.RouteUrl("desktop", new { action = "Deposit", controller = "History", LangId = selLangBLL.GetLangId() })">
+            <span class="text">@selLangBLL.GetResourceValue("lbl_Deposit")</span>
+        </a>
+        <a class="page-tabs__btn" data-selected="true">
+            <span class="text">@selLangBLL.GetResourceValue("lbl_TransferFunds")</span>
+        </a>
+        <a class="page-tabs__btn" href="@Url.RouteUrl("desktop", new { action = "Withdrawal", controller = "History", LangId = selLangBLL.GetLangId() })">
+            <span class="text">@selLangBLL.GetResourceValue("lbl_Withdrawal")</span>
+        </a>
+    </div>
+    <div id="History" class="page"></div>
+</div>
+@section Scripts{
+    <script type="text/javascript">
+        $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n)));
+    </script>
+    <script src="~/lib/runtime.min.js"></script>
+    <script src="~/js/component/history/Transfer.min.js" asp-append-version="true"></script>
+}
+
