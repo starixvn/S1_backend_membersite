@@ -13,6 +13,7 @@ using System.Text.Unicode;
 using MemberSite.Extensions;
 using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.DAL.Interface;
+using MemberSite.Service.Model.Options;
 using MemberSite.Service.Model.Mapping;
 using StackExchange.Redis;
 
@@ -141,10 +142,8 @@ namespace MemberSite
             services.AddSingleton<PromotionBll>();
             services.AddSingleton<RedemptionBLL>();
             services.AddSingleton<StoreBLL>();
-            services.AddSingleton<GamingBLL>();
             services.AddSingleton<CasinoBll>();
             services.AddSingleton<CommonBLL>();
-            services.AddSingleton<TemplateBLL>();
             services.AddSingleton<AuthBLL>();
             services.AddSingleton<BannerBLL>();
             services.AddSingleton<BonusWalletBLL>();
@@ -284,6 +283,7 @@ namespace MemberSite
 
             services.AddOptionListByDB<TpGameTypeOption>("Admin_TpGameType_Get");
             services.AddOptionListByDB<AreaCodeMap>("Common_CountryList_Get");
+            services.AddOptionListByDB<SabaSportTypeOption>("Service_SabaSportType_Get");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
