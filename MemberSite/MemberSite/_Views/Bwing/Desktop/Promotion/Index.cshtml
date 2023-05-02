@@ -1,0 +1,135 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using MemberSite.Service.Model
+@using System.Security.Claims
+@using System.Linq
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBll serverInfoBLL
+@inject CustInfoBll custInfoBLL
+@inject BannerBLL bannerBLL
+@inject PromotionBll promotionBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Promotions");
+    Layout = "~/_Views/Bwing/Desktop/Shared/_Layout.cshtml";
+}
+@{
+    var serverInfo = serverInfoBLL.GetServerInfo();
+    var CmsPromotionPath = Url.Content($"~/CMS/{serverInfo.SiteName}/Promotion/{selLangBLL.GetLangId()}");
+    var CurrencyId = 0;
+    Customer customer = null;
+
+    if (User.Identity.IsAuthenticated)
+    {
+        var custId = Convert.ToInt32(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
+        customer = custInfoBLL.GetCustInfoWithCache(custId);
+        CurrencyId = customer.CurrencyId;
+    }
+    else
+    {
+        CurrencyId = selLangBLL.GetPreferCurrencyId();
+    }
+    var BannerList = bannerBLL.GetBanner(CurrencyId, "Promotion");
+    var langId = selLangBLL.GetLangId();
+
+    var i18n = new Dictionary<string, string>
+    {
+        { "lbl_Bonus", selLangBLL.GetResourceValue("lbl_Bonus") },
+        { "lbl_MaxBonusAmount", selLangBLL.GetResourceValue("lbl_MaxBonusAmount") },
+        { "lbl_RollOver", selLangBLL.GetResourceValue("lbl_RollOver") },
+        { "lbl_RemainingTime", selLangBLL.GetResourceValue("lbl_RemainingTime") },
+        { "lbl_ExpiryTime", selLangBLL.GetResourceValue("lbl_ExpiryTime") },
+        { "lbl_BonusAmount", selLangBLL.GetResourceValue("lbl_BonusAmount") },
+        { "lbl_DepositRollOver", selLangBLL.GetResourceValue("lbl_DepositRollOver") },
+        { "lbl_BonusRollOver", selLangBLL.GetResourceValue("lbl_BonusRollOver") }
+    };
+
+    var lbl_Txts = new string[] { "lbl_TC", "lbl_Days", "lbl_Hours" };
+    foreach (var lbl_Txt in lbl_Txts)
+    {
+        if (!i18n.ContainsKey(lbl_Txt))
+            i18n.Add(lbl_Txt, selLangBLL.GetResourceValue(lbl_Txt));
+    }
+
+    for (var currencyId = 0; currencyId <= 51; currencyId++)
+    {
+        var ccr = selLangBLL.GetResourceValue($"Currency_{currencyId}");
+        if (ccr != null)
+            i18n.Add($"Currency_{currencyId}", ccr);
+    }
+
+    var banner_CurrencyId = !User.Identity.IsAuthenticated && CurrencyId == 13 ? 2 : CurrencyId;
+}
+    
+    <div class="system-content">
+        @if (User.Identity.IsAuthenticated)
+        {
+            <partial name="~/_Views/Bwing/Desktop/Shared/_DesktopLeftMenu.cshtml" />
+        }
+    <div id="content" class="right-panel">
+        <div class="title">@selLangBLL.GetResourceValue("lbl_PromotionsList")</div>
+        <div class="promotionsList-page page">
+            @foreach (var b in BannerList)
+            {
+                if (!b.isBonus) continue;
+
+                var _actionLink = b.actionLink;
+                var _outerLink = b.outerLink;
+
+                var _actionByLang = b.actionLinkByLang?.FirstOrDefault(x => x.lang == langId);
+                if (_actionByLang != null)
+                {
+                    _actionLink = _actionByLang.link;
+                    _outerLink = _actionByLang.outerLink ?? _outerLink;
+                }
+
+                if (!string.IsNullOrEmpty(_actionLink))
+                {
+                    if (b.urlWithLang)
+                    {
+                        <div class="promotions-module">
+                            <a href='@Url.Content($"~/{langId}/{_actionLink}")'>
+                                <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true"/>
+                            </a>
+                        </div>
+                    }
+                    else
+                    {
+                        if (_outerLink)
+                        {
+                            <div class="promotions-module">
+                                <a href='@Url.Content($"{_actionLink}")' target="_event">
+                                    <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
+                                </a>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="promotions-module">
+                                <a href='@Url.Content($"~/{_actionLink}")'>
+                                    <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
+                                </a>
+                            </div>
+                        }
+                    }
+                }
+                else
+                {
+                    <div class="promotions-module">
+                        <img src="@CmsPromotionPath/@(b.img)" asp-append-version="true" />
+                    </div>
+                }
+            }
+        </div>
+    </div>
+    </div>
+
+        
+    
+@section Scripts{
+    <script type="text/javascript">
+        $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n)));
+    </script>
+    <script src="~/lib/runtime.min.js"></script>
+    @*<script src="~/lib/clipboard.min.js"></script>*@
+    <script src="~/js/component/Promotion/promotions.min.js" asp-append-version="true"></script>
+}

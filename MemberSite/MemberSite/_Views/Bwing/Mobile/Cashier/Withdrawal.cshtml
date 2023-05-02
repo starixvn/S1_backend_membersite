@@ -1,0 +1,167 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.AspNetCore.Hosting
+@using MemberSite.Service.BLL
+@inject IWebHostEnvironment environment
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBll serverInfoBLL
+@inject AuthorizeBLL authorizeBLL
+@inject CustInfoBll custInfoBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Withdrawal");
+    Layout = "~/_Views/Bwing/Mobile/Shared/_Layout.cshtml";
+    var authData = authorizeBLL.GetAuthData();
+    var custBankInfo = custInfoBLL.GetCustBankInfo(authData.CustId);
+    var submittedCustPhotoId = 0;
+}
+@{
+    var i18n = new Dictionary<string, string>
+    {
+        { "lbl_Withdrawal", selLangBLL.GetResourceValue("lbl_Withdrawal") },
+        { "lbl_RecentTransactions", selLangBLL.GetResourceValue("lbl_RecentTransactions") },
+        { "lbl_AllTranscations", selLangBLL.GetResourceValue("lbl_AllTranscations") },
+        { "lbl_Date", selLangBLL.GetResourceValue("lbl_Date") },
+        { "lbl_Time", selLangBLL.GetResourceValue("lbl_Time") },
+        { "lbl_ID", selLangBLL.GetResourceValue("lbl_ID") },
+        { "lbl_Amount", selLangBLL.GetResourceValue("lbl_Amount") },
+        { "lbl_ChargeFee", selLangBLL.GetResourceValue("lbl_ChargeFee") },
+        { "lbl_Status", selLangBLL.GetResourceValue("lbl_Status") },
+        { "lbl_ConfirmWithdrawal", selLangBLL.GetResourceValue("lbl_ConfirmWithdrawal") },
+        { "lbl_ImportantNote", selLangBLL.GetResourceValue("lbl_ImportantNote") },
+        { "lbl_WithdrawalTo", selLangBLL.GetResourceValue("lbl_WithdrawalTo") },
+        { "lbl_BankAccountName", selLangBLL.GetResourceValue("lbl_BankAccountName") },
+        { "lbl_BankNumber", selLangBLL.GetResourceValue("lbl_BankNumber") },
+        { "lbl_WithdrawalAmount", selLangBLL.GetResourceValue("lbl_WithdrawalAmount") },
+        { "lbl_Memo", selLangBLL.GetResourceValue("lbl_Memo") },
+        { "lbl_Cancel", selLangBLL.GetResourceValue("lbl_Cancel") },
+        { "lbl_Confirm", selLangBLL.GetResourceValue("lbl_Confirm") },
+        { "lbl_Submit", selLangBLL.GetResourceValue("lbl_Submit") },
+        { "lbl_AmountTooltip", selLangBLL.GetResourceValue("lbl_AmountTooltip") },
+        { "lbl_TransferTo", selLangBLL.GetResourceValue("lbl_TransferTo") },
+        { "lbl_MomoHint", selLangBLL.GetResourceValue("lbl_MomoHint") },
+        { "lbl_CancelConfirm", selLangBLL.GetResourceValue("lbl_CancelConfirm") },
+        { "lbl_UploadPhotoId", selLangBLL.GetResourceValue("lbl_UploadPhotoId") },
+        { "lbl_UploadSuccess", selLangBLL.GetResourceValue("lbl_UploadSuccess") },
+        { "lbl_EligibleWithdrawalAmount", selLangBLL.GetResourceValue("lbl_EligibleWithdrawalAmount") },
+        { "lbl_RolloverOver", selLangBLL.GetResourceValue("lbl_RolloverOver") },
+        { "lbl_DepositOver", selLangBLL.GetResourceValue("lbl_DepositOver") },
+        { "lbl_WithdrawalOver", selLangBLL.GetResourceValue("lbl_WithdrawalOver") },
+        { "lbl_WithdrawalLimit", selLangBLL.GetResourceValue("lbl_WithdrawalLimit") },
+        { "lbl_Deduction", selLangBLL.GetResourceValue("lbl_Deduction") },
+        { "lbl_Balance", selLangBLL.GetResourceValue("lbl_Balance") },
+        { "lbl_SelectBank", selLangBLL.GetResourceValue("lbl_SelectBank") },
+        { "lbl_InputAmount", selLangBLL.GetResourceValue("lbl_InputAmount") },
+        { "lbl_DependOnTheBank", selLangBLL.GetResourceValue("lbl_DependOnTheBank") },
+        { "lbl_RecipientInfo", selLangBLL.GetResourceValue("lbl_RecipientInfo") },
+        { "lbl_WithdrawalNotice", selLangBLL.GetResourceValue("lbl_WithdrawalNotice") },
+        { "lbl_Note", selLangBLL.GetResourceValue("lbl_Note") },
+        { "lbl_AccountNumber", selLangBLL.GetResourceValue("lbl_AccountNumber") },
+        { "lbl_RecipientName", selLangBLL.GetResourceValue("lbl_RecipientName") },
+        { "lbl_PleaseSelBank", selLangBLL.GetResourceValue("lbl_PleaseSelBank") },
+        { "lbl_WithdrawalAmountTooltip", selLangBLL.GetResourceValue("lbl_WithdrawalAmountTooltip") }
+    };
+
+    var lbl_Txts = new string[] { "lbl_Close" };
+    foreach (var lbl_Txt in lbl_Txts)
+    {
+        if (!i18n.ContainsKey(lbl_Txt))
+            i18n.Add(lbl_Txt, selLangBLL.GetResourceValue(lbl_Txt));
+    }
+
+    for (var i = 0; i <= 7; i++)
+    {
+        if (!i18n.ContainsKey($"lbl_WithdrawalStatus{i}"))
+            i18n.Add($"lbl_WithdrawalStatus{i}", selLangBLL.GetResourceValue($"lbl_WithdrawalStatus{i}"));
+    }
+    i18n.Add($"lbl_WithdrawalStatus{99}", selLangBLL.GetResourceValue($"lbl_WithdrawalStatus{99}"));
+}
+
+@section Style{
+    <link rel="stylesheet" type="text/css" href="~/SiteSkin/Bwing/Mobile/assets/css/lib/daterangepicker.css" />
+    <link href="~/SiteSkin/Bwing/Mobile/assets/css/page.css" rel="stylesheet" />
+    <link href="~/SiteSkin/Bwing/Mobile/assets/css/system.css" rel="stylesheet" />
+}
+<div class="system-content">
+    <div class="page-title">@selLangBLL.GetResourceValue("lbl_Cashier")</div>
+    <div class="sub-page">
+        <div class="sub-title">
+            <a href="@Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", LangId = selLangBLL.GetLangId() })">@selLangBLL.GetResourceValue("lbl_Deposit")</a>
+        </div>
+        <div class="sub-title">
+            <a href="@Url.RouteUrl("desktop", new { action = "Transfer", controller = "Cashier", LangId = selLangBLL.GetLangId() })">@selLangBLL.GetResourceValue("lbl_TransferFunds")</a>
+        </div>
+        <div class="sub-title active">
+            <a>@selLangBLL.GetResourceValue("lbl_Withdrawal")</a>
+        </div>
+    </div>
+
+    @if (custBankInfo == null || custBankInfo.bankInfoDetail == null || !custBankInfo.bankInfoDetail.Any())
+    {
+
+    <div class="modal" id="WithdrawalAlet" data-open="true">
+        <div class="overlay"></div>
+        <div class="modal__dialog">
+            <div class="modal__header">
+                <span class="text">@selLangBLL.GetResourceValue("lbl_ImportantNote")</span>
+            </div>
+            <div class="modal__body">
+                <p>@selLangBLL.GetResourceValue("lbl_UpdateBankInfo")</p>
+            </div>
+            <div class="modal__footer">
+                <div class="btn-group">
+                    <a class="btn btn-secondary" href="@Url.RouteUrl("desktop", new { action = "CustBankInfo", controller = "Account", LangId = selLangBLL.GetLangId() })">
+                        <span class="text">@selLangBLL.GetResourceValue("lbl_UpdateBankDetail")</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+    else@*Remove Ask Upload Photo ID*@
+    {
+        submittedCustPhotoId = custInfoBLL.SubmittedCustPhotoId(authData.CustId);
+        if (submittedCustPhotoId == 2)
+        {
+            <div>
+                <div class="kyc page">
+                    <h3>@selLangBLL.GetResourceValue("lbl_WaitKYC")</h3>
+                    <div class="text">@selLangBLL.GetResourceValue("lbl_WaitKYCHint")</div>
+                </div>
+            </div>
+        }
+        else if (submittedCustPhotoId == 1)
+        {
+            <div>
+                <div class="kyc page">
+                    <h3>@selLangBLL.GetResourceValue("lbl_SubmitPhotoId")</h3>
+                    <div class="form-content" id="UploadForm"></div>
+                    <div class="text">
+                        @selLangBLL.GetResourceValue("lbl_SubmitPhotoIdHint")
+                        <pre>@selLangBLL.GetResourceValue("lbl_SubmitPhotoIdList")</pre>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+        <div id="content"></div>
+        }
+        }
+    </div>
+
+    @section Scripts{
+        <script type="text/javascript">
+        $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n)));
+        </script>
+        @if (submittedCustPhotoId == 1)
+    {
+        <script src="~/js/component/account/UploadPhotoId.min.js" asp-append-version="true"></script>
+    }
+    else if(!(custBankInfo == null || custBankInfo.bankInfoDetail == null || !custBankInfo.bankInfoDetail.Any()))
+    {
+        <script type="text/javascript">
+            var hrefAllTrans = "@Url.RouteUrl("desktop", new { action = "Withdrawal", controller = "History", LangId = selLangBLL.GetLangId() })";
+        </script>
+        <script src="~/lib/runtime.min.js"></script>
+        <script src="~/js/Bwing/component/cashier/WithdrawalPanel.min.js" asp-append-version="true"></script>
+    }
+    }

@@ -1,0 +1,79 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.AspNetCore.Hosting
+@using MemberSite.Service.BLL
+@inject IWebHostEnvironment environment
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBll serverInfoBLL
+@{
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_ChangePassword");
+    Layout = "~/_Views/Bwing/Mobile/Shared/_Layout.cshtml";
+}
+@{
+    var i18n = new Dictionary<string, string>
+    {
+        { "lbl_OldPassword", selLangBLL.GetResourceValue("lbl_OldPassword") },
+        { "lbl_NewPassword", selLangBLL.GetResourceValue("lbl_NewPassword") },
+        { "lbl_PasswordTooltip", selLangBLL.GetResourceValue("lbl_PasswordTooltip") },
+        { "lbl_Submit", selLangBLL.GetResourceValue("lbl_Submit") },
+        { "msg_PasswordReq", selLangBLL.GetMsg("msg_PasswordReq") },
+        { "msg_PasswordLength", selLangBLL.GetMsg("msg_PasswordLength") },
+        { "msg_PasswordValidate", selLangBLL.GetMsg("msg_PasswordValidate") }
+    };
+}
+@section Style{
+    <link href="~/SiteSkin/Bwing/Mobile/assets/css/page.css" rel="stylesheet" />
+    <link href="~/SiteSkin/Bwing/Mobile/assets/css/system.css" rel="stylesheet" />
+}
+<div class="system-content">
+    <div class="page-title">@selLangBLL.GetResourceValue("lbl_MyAccount")</div>
+    <div class="sub-page">
+        <div class="sub-title active">
+            <a href="@Url.RouteUrl("desktop", new { action = "ChangePwd", controller = "Account", LangId = selLangBLL.GetLangId() })">@selLangBLL.GetResourceValue("lbl_ChangePassword")</a>
+        </div>
+        <div class="sub-title">
+            <a href="@Url.RouteUrl("desktop", new { action = "Profile", controller = "Account", LangId = selLangBLL.GetLangId() })">@selLangBLL.GetResourceValue("lbl_Profile")</a>
+        </div>
+        <div class="sub-title">
+            <a href="@Url.RouteUrl("desktop", new { action = "CustBankInfo", controller = "Account", LangId = selLangBLL.GetLangId() })">@selLangBLL.GetResourceValue("lbl_CustBank")</a>
+        </div>
+    </div>
+    <div class="content">
+        <form id="ChangePwdForm">
+            <div class="form">
+                <div class="form-group">
+                    <div class="label">@selLangBLL.GetResourceValue("lbl_OldPassword"): </div>
+                    <div class="input-field">
+                        <input class="input-control oldpwd" name="OldPassword" type="password" autocomplete="off" />
+                        <div class="invalid-mess"></div>
+                    </div>
+
+                    <div class="label">@selLangBLL.GetResourceValue("lbl_NewPassword"): </div>
+                    <div class="input-field">
+                        <input class="input-control newpwd" name="NewPassword" type="password" autocomplete="off" />
+                        <div class="invalid-mess"></div>
+                    </div>
+
+                    <div class="label">@selLangBLL.GetResourceValue("lbl_Retype"): </div>
+                    <div class="input-field">
+                        <input class="input-control repwd" name="Retype" type="password" autocomplete="off" />
+                        <div class="invalid-mess"></div>
+                    </div>
+
+                    <div class="label"></div>
+                    <div class="button-group">
+                        <button class="btn btn-primary" type="submit">@selLangBLL.GetResourceValue("lbl_Submit")</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts{
+    <script type="text/javascript">
+        $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n)));
+    </script>
+
+    <script src="~/lib/runtime.min.js"></script>
+    @*<script src="~/js/component/account/ChangePwd.min.js" asp-append-version="true"></script>*@
+    <script src="~/js/Bwing/component/account/ChangePwd.js" asp-append-version="true"></script>
+}

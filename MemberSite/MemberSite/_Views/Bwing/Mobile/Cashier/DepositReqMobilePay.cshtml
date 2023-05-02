@@ -1,0 +1,51 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using MemberSite.Service.BLL
+@using MemberSite.Service.Model
+@inject ServerInfoBll serverInfoBLL
+@model ApiResult<PayResult>
+@{
+    var serverInfo = serverInfoBLL.GetServerInfo();
+    var SkinRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/common");
+}
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Deposit Online Banking</title>
+    <link href="@SkinRootPath/css/main.css" rel="stylesheet" asp-append-version="true" />
+</head>
+<body>
+    @if (Model.ErrorCode == 0)
+    {
+        var payResult = Model.Data;
+        if (payResult.Mode == 1)
+        {
+            <div class="app-loading" data-open="true">
+                <div class="preloader">
+                    <div class="preloader__spiner">
+                        <div class="preloader__circles">
+                            <div class="preloader__circle-1"></div>
+                            <div class="preloader__circle-2"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <form method="post" action="@payResult.Url">
+                @foreach (var param in payResult.FormData)
+                {
+                    <input type="hidden" name="@param.Key" value="@param.Value" />
+                }
+                @*<button type="submit">Submit</button>*@
+            </form>
+            <script>document.forms[0].submit();</script>
+        }
+    }
+    else
+    {
+        @Model.Message
+    }
+</body>
+</html>
