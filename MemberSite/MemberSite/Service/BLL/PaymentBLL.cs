@@ -78,7 +78,7 @@ namespace MemberSite.Service.BLL
                 Amount = req.Amount,
                 CustId = req.CustId,
                 DepositType = (int) DepositType.LocalBank,
-                Memo = "Local Payment",
+                Memo = $"LocalPayment:{(int) req.Type}:{req.Type}",
                 SiteId = custInfo.SiteId,
                 UserName = custInfo.UserName,
                 CurrencyId = custInfo.CurrencyId
@@ -540,9 +540,9 @@ namespace MemberSite.Service.BLL
                     depositInfo.BankInfo = bankInfoBLL.GetBankInfoSysListByCurrency(CustInfo.CurrencyId).FirstOrDefault(x => x.SysId == depositInfoRef.SysId);
                 }
 
-                if ("Fake MobilePay".Equals(depositInfo.Memo, StringComparison.OrdinalIgnoreCase))
+                if (!string.IsNullOrEmpty(depositInfo.Memo) && depositInfo.Memo.StartsWith("LocalPayment"))
                 {
-                    depositInfo.DepositType = (int)DepositType.MobilePayment;
+                    depositInfo.DepositType = int.Parse(depositInfo.Memo.Split(":")[1]);
                 }
 
                 List<DepositMessageDetail> depositMessageDetails = new List<DepositMessageDetail>();
