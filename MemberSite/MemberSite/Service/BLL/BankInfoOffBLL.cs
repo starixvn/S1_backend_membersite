@@ -111,6 +111,8 @@ namespace MemberSite.Service.BLL
             }
 
             var info = localBankList
+                .Where(x => !x.SupportChannel.Any() 
+                    || x.SupportChannel.Contains(OfflineBankAccountSupportChannelEnum.LocalBank))
                 .OrderBy(x => x.BSort)
                 .Select(x => new
                 {
