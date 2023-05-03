@@ -48,26 +48,26 @@ public class SiteBll
             return customer;
         }
         
-        if (checkReCaptchaToken)
-        {
-            var country = _geoIpApi.CheckIp(_tools.GetClientIP()).Result;
-            if (country.Code != "CN")
-            {
-                if (string.IsNullOrWhiteSpace(signupModel.ReCaptchaToken) || signupModel.ReCaptchaToken.Length < 500)
-                {
-                    apiResult.ErrorCode = (int)ErrorCode.Attack;
-                    return customer;
-                }
+        //if (checkReCaptchaToken)
+        //{
+        //    var country = _geoIpApi.CheckIp(_tools.GetClientIP()).Result;
+        //    if (country.Code != "CN")
+        //    {
+        //        if (string.IsNullOrWhiteSpace(signupModel.ReCaptchaToken) || signupModel.ReCaptchaToken.Length < 500)
+        //        {
+        //            apiResult.ErrorCode = (int)ErrorCode.Attack;
+        //            return customer;
+        //        }
                 
-                var verifyResult = _recaptcha.Verify(signupModel.ReCaptchaToken);
-                if (!verifyResult.success)
-                {
-                    apiResult.ErrorCode = -97;
-                    apiResult.Message = verifyResult.errorCodes.FirstOrDefault();
-                    return customer;
-                } 
-            }
-        }
+        //        var verifyResult = _recaptcha.Verify(signupModel.ReCaptchaToken);
+        //        if (!verifyResult.success)
+        //        {
+        //            apiResult.ErrorCode = -97;
+        //            apiResult.Message = verifyResult.errorCodes.FirstOrDefault();
+        //            return customer;
+        //        } 
+        //    }
+        //}
         
         var serverInfo = _serverInfoBll.GetServerInfo();
         if (serverInfo.SiteId == (int)SiteId.Nova88)
