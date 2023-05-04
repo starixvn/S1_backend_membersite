@@ -157,6 +157,7 @@ namespace MemberSite.Service.BLL
                     ChannelId = -1,
                     ChannelName = groupInfo.GroupName,
                     GSort = groupInfo.Sort,
+                    SSort = -1,
                     Mode = (int) PayModeEnum.Redirect,
                     GroupId = groupId,
                     GroupName = groupInfo.GroupName,
