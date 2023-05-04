@@ -1,0 +1,186 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.AspNetCore.Hosting
+@using MemberSite.Service.BLL
+@using MemberSite.Service.Model
+@using System.Security.Claims
+@inject IWebHostEnvironment environment
+@inject SelLangBLL selLangBLL
+@inject ServerInfoBll serverInfoBLL
+@inject GamingBLL gamingBLL
+@inject AuthorizeBLL authorizeBLL
+@inject CustInfoBll custInfoBLL
+@inject CasinoBll casinoBLL
+@inject BannerBLL bannerBLL
+@{
+    var serverInfo = serverInfoBLL.GetServerInfo();
+    ViewData["Title"] = @selLangBLL.GetResourceValue("lbl_Title") + '|' + @selLangBLL.GetResourceValue("lbl_TitleDesc") + "|" + @selLangBLL.GetResourceValue("lbl_Casino");
+    Layout = $"~/_Views/{serverInfo.SiteName}/Desktop/Shared/_Layout.cshtml";
+
+    var SkinRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/common");
+    //var SkinRootPath = Url.Content($"~/SiteSkin/{serverInfo.SiteName}/Mobile");
+    var CmsEventPath = Url.Content($"~/CMS/{serverInfo.SiteName}/Casino/{selLangBLL.GetLangId()}");
+    var CurrencyId = 0;
+    Customer customer = null;
+
+    if (User.Identity.IsAuthenticated)
+    {
+        var custId = Convert.ToInt32(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
+        customer = custInfoBLL.GetCustInfoWithCache(custId);
+        CurrencyId = customer.CurrencyId;
+    }
+    else
+    {
+        CurrencyId = selLangBLL.GetPreferCurrencyId();
+    }
+    var BannerList = bannerBLL.GetBanner(CurrencyId, "Casino");
+    var langId = selLangBLL.GetLangId();
+}
+@section Style{
+    <link rel="stylesheet" href="@SkinRootPath/css/CasinoLobby.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/SiteSkin/Bwing/Desktop/assets/css/swiper.css" asp-append-version="true" />
+}
+<div class="main">
+    <div class="lobby-banner-swiper">
+        <div class="swiper-wrapper">
+            @foreach (var b in BannerList)
+            {
+                var _actionLink = b.actionLink;
+                var _outerLink = b.outerLink;
+
+                var _actionByLang = b.actionLinkByLang?.FirstOrDefault(x => x.lang == langId);
+                if (_actionByLang != null)
+                {
+                    _actionLink = _actionByLang.link;
+                    _outerLink = _actionByLang.outerLink ?? _outerLink;
+                }
+
+                if (!string.IsNullOrEmpty(_actionLink))
+                {
+                    if (b.urlWithLang)
+                    {
+                        <div class="swiper-slide">
+                            <a href='@Url.Content($"~/{langId}/{_actionLink}")' target="_event">
+                                <img src="@CmsEventPath/@(b.img)" asp-append-version="true" />
+                            </a>
+                        </div>
+                    }
+                    else
+                    {
+                        if (_outerLink)
+                        {
+                            <div class="swiper-slide">
+                                <a href='@Url.Content($"{_actionLink}")' target="_event">
+                                    <img src="@CmsEventPath/@(b.img)" asp-append-version="true" />
+                                </a>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="swiper-slide">
+                                <a href='@Url.Content($"~/{_actionLink}")' target="_event">
+                                    <img src="@CmsEventPath/@(b.img)" asp-append-version="true" />
+                                </a>
+                            </div>
+                        }
+                    }
+                }
+                else
+                {
+                    <div class="swiper-slide">
+                        <img src="@CmsEventPath/@(b.img)" asp-append-version="true" />
+                    </div>
+                }
+            }
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
+    <div class="page CasinoSelect" id="casino_content"></div>
+</div>
+@{
+    IEnumerable<dynamic> result = null;
+    IEnumerable<int> tpIds = null;
+
+    if (User.Identity.IsAuthenticated)
+    {
+        var authData = authorizeBLL.GetAuthData();
+        var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
+        var data = casinoBLL.GetFavoriteGames(custInfo.CustId);
+        result = data != null && data.Any() ? data.Select(x => new { x.ProviderId, x.GameId }) : null;
+        tpIds = casinoBLL.GetProviderIdByCurrency(custInfo.CurrencyId, serverInfo.SiteId);
+    }
+    else
+    {
+        tpIds = casinoBLL.GetProviderIdByCurrency(0, serverInfo.SiteId);
+    }
+
+    var i18n = new Dictionary<string, string>
+    {
+        { "lbl_Feature", selLangBLL.GetResourceValue("lbl_Feature") },
+        { "lbl_AllGames", selLangBLL.GetResourceValue("lbl_AllGames") },
+        { "lbl_Favourite", selLangBLL.GetResourceValue("lbl_Favourite") },
+        { "lbl_Slots", selLangBLL.GetResourceValue("lbl_Slots") },
+        { "lbl_Provider", selLangBLL.GetResourceValue("lbl_Provider") },
+        { "lbl_GPI", selLangBLL.GetResourceValue("lbl_GPI") },
+        { "lbl_PlayNow", selLangBLL.GetResourceValue("lbl_PlayNow") },
+        { "lbl_Free", selLangBLL.GetResourceValue("lbl_Free") },
+        { "lbl_NoMatching", selLangBLL.GetResourceValue("lbl_NoMatching") },
+        { "lbl_All", selLangBLL.GetResourceValue("lbl_All") },
+        { "lbl_Table", selLangBLL.GetResourceValue("lbl_Table") },
+        { "lbl_Arcade", selLangBLL.GetResourceValue("lbl_Arcade") },
+        { "lbl_Promo", selLangBLL.GetResourceValue("lbl_Promo") }
+    };
+
+}
+@section Scripts{
+    <script>
+        @if (User.Identity.IsAuthenticated)
+        {
+            @:var entPageUrl = '@Html.Raw(gamingBLL.GetEntPageUrl(0,"",Url, MemberSite.Service.Model.enums.GameType.Slots))';
+        }
+        var langCode = '@selLangBLL.GetLangId()';
+        var FavoriteGames = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(result));
+        var isLogin = '@(User.Identity.IsAuthenticated ? 1 : 0)';
+        var TpIds = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(tpIds));
+        $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n)));
+    </script>
+    <script src="~/lib/swiper.min.js"></script>
+    <script>
+        $(function () {
+            var bannerSwiper = new Swiper('.lobby-banner-swiper', {
+                loop: true,
+                autoplay: {
+                    delay: 3000,
+                },
+                pagination: {
+                    el: '.swiper-pagination',
+                },
+                observer: true,
+                observeParents: true,
+                updateTranslate: true,
+            });
+            bannerSwiper.updateSize();
+            bannerSwiper.updateSlides();
+        });
+
+        $(function () {
+            var productSwiper = new Swiper('.lobby-product-swiper', {
+                loop: true,
+                autoplay: {
+                    delay: 6000,
+                },
+                slidesPerView: 4,
+                breakpoints: {
+                    768: {
+                        slidesPerView: 1,
+                    }
+                },
+                observer: true,
+                observeParents: true,
+                updateTranslate: true,
+            });
+            //productSwiper.updateSize();
+            //productSwiper.updateSlides();
+        });
+    </script>
+    <script src="~/js/component/casino/lobby.min.js" asp-append-version="true"></script>
+}

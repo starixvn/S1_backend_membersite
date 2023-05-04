@@ -13,9 +13,9 @@ using System.Text.Unicode;
 using MemberSite.Extensions;
 using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.DAL.Interface;
-using MemberSite.Service.Model.Options;
 using MemberSite.Service.Model.Mapping;
 using StackExchange.Redis;
+using MemberSite.Service.Model.Options;
 
 namespace MemberSite
 {
@@ -142,8 +142,10 @@ namespace MemberSite
             services.AddSingleton<PromotionBll>();
             services.AddSingleton<RedemptionBLL>();
             services.AddSingleton<StoreBLL>();
+            services.AddSingleton<GamingBLL>();
             services.AddSingleton<CasinoBll>();
             services.AddSingleton<CommonBLL>();
+            services.AddSingleton<TemplateBLL>();
             services.AddSingleton<AuthBLL>();
             services.AddSingleton<BannerBLL>();
             services.AddSingleton<BonusWalletBLL>();
