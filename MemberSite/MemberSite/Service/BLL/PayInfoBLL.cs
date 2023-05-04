@@ -97,7 +97,7 @@ namespace MemberSite.Service.BLL
                             ChannelName = groupInfo.GroupName,
                             GroupName = groupInfo.GroupName,
                             Mode = (int) PayModeEnum.Redirect,
-                            GSort = -1,
+                            GSort = groupInfo.Sort,
                             MinAmount = bankCards.Min(x => x.MinAmount),
                             MaxAmount = bankCards.Max(x => x.MaxAmount)
                         };
@@ -156,7 +156,7 @@ namespace MemberSite.Service.BLL
                 {
                     ChannelId = -1,
                     ChannelName = groupInfo.GroupName,
-                    GSort = -1,
+                    GSort = groupInfo.Sort,
                     Mode = (int) PayModeEnum.Redirect,
                     GroupId = groupId,
                     GroupName = groupInfo.GroupName,
