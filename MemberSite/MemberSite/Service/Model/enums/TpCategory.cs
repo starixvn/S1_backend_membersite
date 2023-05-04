@@ -11,6 +11,7 @@
         VirtualSports = 7,
         P2P = 8,
         Crypto = 9,
-        Games = 10
+        Games = 10,
+        ESports = 11
     }
 }

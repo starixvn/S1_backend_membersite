@@ -148,7 +148,8 @@ namespace MemberSite.Service.Model.enums
         SlotsGame = 1,
         LiveCasino = 2,
         SabaSports = 4,
-        Lottery = 5
+        Lottery = 5,
+        ESports = 11
     }
 
     public enum TpCategoryId
@@ -160,7 +161,8 @@ namespace MemberSite.Service.Model.enums
         Cockfighting = 5,
         Lottery = 6,
         VirtualSports = 7,
-        Poker = 8
+        P2P = 8,
+        ESports = 11
     }
 
     public enum PromotionType
