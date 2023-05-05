@@ -1,37 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="metadata">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
-              </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="assembly">
-            <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
-            </xsd:complexType>
-          </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
                 <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
                 <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
               <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
               <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
@@ -46,67 +27,21 @@
       </xsd:complexType>
     </xsd:element>
   </xsd:schema>
-  <resheader name="resmimetype">
-    <value>text/microsoft-resx</value>
-  </resheader>
-  <resheader name="version">
-    <value>2.0</value>
-  </resheader>
-  <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <data name="Code_10" xml:space="preserve">
-    <value>[10]  Trò chơi này đang bảo trì vui lòng thử lại sau </value>
-  </data>
-  <data name="Code_1101" xml:space="preserve">
-    <value>[1101] ID người dùng không tồn tại, vui lòng liên hệ với CSD</value>
-  </data>
-  <data name="Code_1102" xml:space="preserve">
-    <value>[1102] Người dùng đã bị khóa , vui lòng liên hệ với CSD</value>
-  </data>
-  <data name="Code_1103" xml:space="preserve">
-    <value>[1103] Người dùng chưa đăng nhập , vui lòng đăng nhập</value>
-  </data>
-  <data name="Code_1104" xml:space="preserve">
-    <value>[1104] Kết nối bị chấm dứt , do đăng nhập trùng lặp</value>
-  </data>
-  <data name="Code_1105" xml:space="preserve">
-    <value>[1105 Lỗi hệ thống, vui lòng liên hệ với CSD</value>
-  </data>
-  <data name="Code_1200" xml:space="preserve">
-    <value>[1200] Chuyển khoản không thành công , vui lòng thử lại</value>
-  </data>
-  <data name="Code_1201" xml:space="preserve">
-    <value>[1201] Chuyển khoản không thành công, vui lòng kiểm tra số tiền chuyển</value>
-  </data>
-  <data name="Code_1202" xml:space="preserve">
-    <value>[1202]  TransID trùng lặp , vui lòng liên hệ với CSD</value>
-  </data>
-  <data name="Code_1203" xml:space="preserve">
-    <value>[1203] Vượt quá số tiền chuyển, vui lòng kiểm tra</value>
-  </data>
-  <data name="Code_1204" xml:space="preserve">
-    <value>[1204] Lỗi hệ thống, vui lòng liên hệ với CSD</value>
-  </data>
-  <data name="Code_1205" xml:space="preserve">
-    <value>[1205] Lỗi hệ thống, vui lòng liên hệ với CSD</value>
-  </data>
-  <data name="Code_1999" xml:space="preserve">
-    <value>[1999] Lỗi hệ thống, vui lòng liên hệ với CSD</value>
-  </data>
-  <data name="Code_2000" xml:space="preserve">
-    <value>[2000] Lỗi hệ thống, vui lòng liên hệ với CSD</value>
-  </data>
-  <data name="Code_2002" xml:space="preserve">
-    <value>[2002] Lỗi hệ thống, vui lòng liên hệ với CSD</value>
-  </data>
-  <data name="Code_9000" xml:space="preserve">
-    <value>[9000] Lỗi hệ thống, vui lòng liên hệ với CSD</value>
-  </data>
-  <data name="Cod_0" xml:space="preserve">
-    <value>Thành công !!</value>
-  </data>
-</root>
+<resheader name="resmimetype"><value>text/microsoft-resx</value></resheader><resheader name="version"><value>1.3</value></resheader><resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader><resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader><data name="Code_10"><value>[10] Trò chơi này đang bảo trì vui lòng thử lại sau</value></data>
+  <data name="Cod_0"><value>Thành công !!</value></data>
+  <data name="Code_2000"><value>[2000] Lỗi hệ thống, vui lòng liên hệ với CSD</value></data>
+  <data name="Code_2002"><value>[2002] Lỗi hệ thống, vui lòng liên hệ với CSD</value></data>
+  <data name="Code_1204"><value>[1204] Lỗi hệ thống, vui lòng liên hệ với CSD</value></data>
+  <data name="Code_1205"><value>[1205] Lỗi hệ thống, vui lòng liên hệ với CSD</value></data>
+  <data name="Code_1200"><value>[1200] Chuyển khoản không thành công , vui lòng thử lại</value></data>
+  <data name="Code_1201"><value>[1201] Chuyển khoản không thành công, vui lòng kiểm tra số tiền chuyển</value></data>
+  <data name="Code_1202"><value>[1202] TransID trùng lặp , vui lòng liên hệ với CSD</value></data>
+  <data name="Code_1203"><value>[1203] Vượt quá số tiền chuyển, vui lòng kiểm tra</value></data>
+  <data name="Code_1105"><value>[1105 Lỗi hệ thống, vui lòng liên hệ với CSD</value></data>
+  <data name="Code_1104"><value>[1104] Kết nối bị chấm dứt , do đăng nhập trùng lặp</value></data>
+  <data name="Code_1103"><value>[1103] Người dùng chưa đăng nhập , vui lòng đăng nhập</value></data>
+  <data name="Code_1102"><value>[1102] Người dùng đã bị khóa , vui lòng liên hệ với CSD</value></data>
+  <data name="Code_1101"><value>[1101] ID người dùng không tồn tại, vui lòng liên hệ với CSD</value></data>
+  <data name="Code_1999"><value>[1999] Lỗi hệ thống, vui lòng liên hệ với CSD</value></data>
+  <data name="Code_9000"><value>[9000] Lỗi hệ thống, vui lòng liên hệ với CSD</value></data>
+  </root>
