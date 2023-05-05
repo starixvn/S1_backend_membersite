@@ -1,37 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="metadata">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
-              </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="assembly">
-            <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
-            </xsd:complexType>
-          </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
                 <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
                 <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
               <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
               <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
@@ -46,109 +27,37 @@
       </xsd:complexType>
     </xsd:element>
   </xsd:schema>
-  <resheader name="resmimetype">
-    <value>text/microsoft-resx</value>
-  </resheader>
-  <resheader name="version">
-    <value>2.0</value>
-  </resheader>
-  <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <data name="lbl_Applicationname" xml:space="preserve">
-    <value>Bwing</value>
-  </data>
-  <data name="lbl_Author" xml:space="preserve">
-    <value>Bwing</value>
-  </data>
-  <data name="lbl_ContactUsHint" xml:space="preserve">
-    <value>Our 24/7 online support team is always available to listen and answer your questions. We support via online chat, phone and many other popular channels such as: Zalo, Telegram and Skype.</value>
-  </data>
-  <data name="lbl_Description" xml:space="preserve">
-    <value>Bwing is the world leading sportsbook offering one of the kind gambling experience in live betting covering all sports, casino, slots, keno, esports, rng casino, fantasy sports, virtual sports, lottery, live casino, live dealer, bingo, and racing.</value>
-  </data>
-  <data name="lbl_FacebookAccount" xml:space="preserve">
-    <value>Bwing-Tin-Tức-Thể-thao-105589621321154</value>
-  </data>
-  <data name="lbl_FAQ" xml:space="preserve">
-    <value>FREQUENTLY ASKED QUESTIONS</value>
-  </data>
-  <data name="lbl_FAQHint" xml:space="preserve">
-    <value>How to create an account, transaction fees, how to change passwords, ...</value>
-  </data>
-  <data name="lbl_Fullversion" xml:space="preserve">
-    <value>Full version</value>
-  </data>
-  <data name="lbl_HowToDepoist" xml:space="preserve">
-    <value>HOW TO DEPOSIT</value>
-  </data>
-  <data name="lbl_HowToDepoistHint" xml:space="preserve">
-    <value>Support multiple payment channels, absolute safety</value>
-  </data>
-  <data name="lbl_HowToPlay" xml:space="preserve">
-    <value>HOW TO PLAY</value>
-  </data>
-  <data name="lbl_HowToPlayHint" xml:space="preserve">
-    <value>Easy, attractive, diverse games, attractive incentives</value>
-  </data>
-  <data name="lbl_HowToWithdraw" xml:space="preserve">
-    <value>HOW TO WITHDRAW</value>
-  </data>
-  <data name="lbl_HowToWithdrawHint" xml:space="preserve">
-    <value>Quickly money transaction, information security</value>
-  </data>
-  <data name="lbl_IGAccount" xml:space="preserve">
-    <value>bwingofficial</value>
-  </data>
-  <data name="lbl_Image" xml:space="preserve">
-    <value>https://www.bwing.com/SiteSkin/Bwing/common/images/logo.png</value>
-  </data>
-  <data name="lbl_Keywords" xml:space="preserve">
-    <value>Bwing is the world leading sportsbook offering one of the kind gambling experience in live betting covering all sports, casino, slots, keno, esports, rng casino, fantasy sports, virtual sports, lottery, live casino, live dealer, bingo, and racing.</value>
-  </data>
-  <data name="lbl_LiveChat" xml:space="preserve">
-    <value>Live Chat</value>
-  </data>
-  <data name="lbl_LiveChatURL" xml:space="preserve">
-    <value>https://direct.lc.chat/11638088/7</value>
-  </data>
-  <data name="lbl_NoAccount" xml:space="preserve">
-    <value> Don't have an account?</value>
-  </data>
-  <data name="lbl_SelectLanguage" xml:space="preserve">
-    <value>Click to select the language</value>
-  </data>
-  <data name="lbl_SelfCasino" xml:space="preserve">
-    <value>Bwing Casino</value>
-  </data>
-  <data name="lbl_Title" xml:space="preserve">
-    <value>Bwing</value>
-  </data>
-  <data name="lbl_TitleDesc" xml:space="preserve">
-    <value>Asia's leading sports betting &amp; Casino Site</value>
-  </data>
-  <data name="lbl_TitleKeywords" xml:space="preserve">
-    <value>Bwing is the world leading sportsbook offering one of the kind gambling experience in live betting covering all sports, casino, slots, keno, esports, rng casino, fantasy sports, virtual sports, lottery, live casino, live dealer, bingo, and racing.</value>
-  </data>
-  <data name="lbl_TpWallet_1" xml:space="preserve">
-    <value>Saba Wallet</value>
-  </data>
-  <data name="lbl_TwitterAccount" xml:space="preserve">
-    <value>bwingofficial</value>
-  </data>
-  <data name="lbl_TwitterCreator" xml:space="preserve">
-    <value>@Bwingofficial</value>
-  </data>
-  <data name="lbl_TwitterSite" xml:space="preserve">
-    <value>@Bwingofficial</value>
-  </data>
-  <data name="lbl_URL" xml:space="preserve">
-    <value>https://www.bwing.com</value>
-  </data>
-  <data name="lbl_Wallet_Saba" xml:space="preserve">
-    <value>Saba Wallet</value>
-  </data>
-</root>
+<resheader name="resmimetype"><value>text/microsoft-resx</value></resheader><resheader name="version"><value>1.3</value></resheader><resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader><resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader><data name="lbl_HowToDepoist"><value>HOW TO DEPOSIT</value></data>
+  <data name="lbl_HowToDepoistHint"><value>Support multiple payment channels, absolute safety</value></data>
+  <data name="lbl_Fullversion"><value>Full version</value></data>
+  <data name="lbl_TpWallet_1"><value>Saba Wallet</value></data>
+  <data name="lbl_HowToWithdraw"><value>HOW TO WITHDRAW</value></data>
+  <data name="lbl_LiveChat"><value>Live Chat</value></data>
+  <data name="lbl_Applicationname"><value>Bwing</value></data>
+  <data name="lbl_ContactUsHint"><value>Our 24/7 online support team is always available to listen and answer your questions. We support via online chat, phone and many other popular channels such as: Zalo, Telegram and Skype.</value></data>
+  <data name="FTDP2Title"><value>125% Welcome Bonus up to VND2,000('000)</value></data>
+  <data name="lbl_TwitterSite"><value>@Bwingofficial</value></data>
+  <data name="lbl_FacebookAccount"><value>Bwing-Tin-Tức-Thể-thao-105589621321154</value></data>
+  <data name="lbl_TitleDesc"><value>Asia's leading sports betting &amp; Casino Site</value></data>
+  <data name="lbl_Wallet_Saba"><value>Saba Wallet</value></data>
+  <data name="FTDP2Description"><value>125% Welcome Bonus up to VND2,000('000)</value></data>
+  <data name="lbl_FAQHint"><value>How to create an account, transaction fees, how to change passwords, ...</value></data>
+  <data name="lbl_URL"><value>https://www.bwing.com</value></data>
+  <data name="lbl_FAQ"><value>FREQUENTLY ASKED QUESTIONS</value></data>
+  <data name="lbl_Description"><value>Bwing is the world leading sportsbook offering one of the kind gambling experience in live betting covering all sports, casino, slots, keno, esports, rng casino, fantasy sports, virtual sports, lottery, live casino, live dealer, bingo, and racing.</value></data>
+  <data name="lbl_SelectLanguage"><value>Click to select the language</value></data>
+  <data name="lbl_TwitterCreator"><value>@Bwingofficial</value></data>
+  <data name="lbl_Keywords"><value>Bwing is the world leading sportsbook offering one of the kind gambling experience in live betting covering all sports, casino, slots, keno, esports, rng casino, fantasy sports, virtual sports, lottery, live casino, live dealer, bingo, and racing.</value></data>
+  <data name="lbl_NoAccount"><value>Don't have an account?</value></data>
+  <data name="lbl_Title"><value>Bwing</value></data>
+  <data name="lbl_Image"><value>https://www.bwing.com/SiteSkin/Bwing/common/images/logo.png</value></data>
+  <data name="lbl_SelfCasino"><value>Bwing Casino</value></data>
+  <data name="lbl_HowToWithdrawHint"><value>Quickly money transaction, information security</value></data>
+  <data name="lbl_TwitterAccount"><value>bwingofficial</value></data>
+  <data name="lbl_IGAccount"><value>bwingofficial</value></data>
+  <data name="lbl_Author"><value>Bwing</value></data>
+  <data name="lbl_TitleKeywords"><value>Bwing is the world leading sportsbook offering one of the kind gambling experience in live betting covering all sports, casino, slots, keno, esports, rng casino, fantasy sports, virtual sports, lottery, live casino, live dealer, bingo, and racing.</value></data>
+  <data name="lbl_HowToPlayHint"><value>Easy, attractive, diverse games, attractive incentives</value></data>
+  <data name="lbl_LiveChatURL"><value>https://direct.lc.chat/11638088/7</value></data>
+  <data name="lbl_HowToPlay"><value>HOW TO PLAY</value></data>
+  </root>

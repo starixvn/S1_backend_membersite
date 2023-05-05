@@ -1,37 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="metadata">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
-              </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="assembly">
-            <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
-            </xsd:complexType>
-          </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
                 <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
                 <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
               <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
               <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
@@ -46,1806 +27,602 @@
       </xsd:complexType>
     </xsd:element>
   </xsd:schema>
-  <resheader name="resmimetype">
-    <value>text/microsoft-resx</value>
-  </resheader>
-  <resheader name="version">
-    <value>2.0</value>
-  </resheader>
-  <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <data name="Currency_1" xml:space="preserve">
-    <value>SGD</value>
-  </data>
-  <data name="Currency_12" xml:space="preserve">
-    <value>GBP</value>
-  </data>
-  <data name="Currency_13" xml:space="preserve">
-    <value>CNY</value>
-  </data>
-  <data name="Currency_15" xml:space="preserve">
-    <value>IDR</value>
-  </data>
-  <data name="Currency_2" xml:space="preserve">
-    <value>MYR</value>
-  </data>
-  <data name="Currency_20" xml:space="preserve">
-    <value>UUS</value>
-  </data>
-  <data name="Currency_3" xml:space="preserve">
-    <value>USD</value>
-  </data>
-  <data name="Currency_32" xml:space="preserve">
-    <value>JPY</value>
-  </data>
-  <data name="Currency_4" xml:space="preserve">
-    <value>THB</value>
-  </data>
-  <data name="Currency_41" xml:space="preserve">
-    <value>CHF</value>
-  </data>
-  <data name="Currency_45" xml:space="preserve">
-    <value>WON</value>
-  </data>
-  <data name="Currency_51" xml:space="preserve">
-    <value>VND</value>
-  </data>
-  <data name="Currency_6" xml:space="preserve">
-    <value>EURO</value>
-  </data>
-  <data name="Currency_9" xml:space="preserve">
-    <value>AUD</value>
-  </data>
-  <data name="lbl_5mins" xml:space="preserve">
-    <value>5 मिनट</value>
-  </data>
-  <data name="lbl_AboutUs" xml:space="preserve">
-    <value>हमारे बारे में/ परिचय</value>
-  </data>
-  <data name="lbl_AccountTerms" xml:space="preserve">
-    <value>खाता शर्तें</value>
-  </data>
-  <data name="lbl_AddNewAccount" xml:space="preserve">
-    <value>नया खाता जोड़ें</value>
-  </data>
-  <data name="lbl_Affiliates" xml:space="preserve">
-    <value>शाखा</value>
-  </data>
-  <data name="lbl_Agent" xml:space="preserve">
-    <value>एजेंट</value>
-  </data>
-  <data name="lbl_AllTranscations" xml:space="preserve">
-    <value>सभी लेन - देन</value>
-  </data>
-  <data name="lbl_Amount" xml:space="preserve">
-    <value>राशि/ रकम</value>
-  </data>
-  <data name="lbl_AmountTooltip" xml:space="preserve">
-    <value>राशि 0 से कम नहीं हो सकती।</value>
-  </data>
-  <data name="lbl_Applicationname" xml:space="preserve">
-    <value>Nova88</value>
-  </data>
-  <data name="lbl_AttachFile" xml:space="preserve">
-    <value>कृपया अपना बैंक स्लिप यहां संलग्न करें। (वैकल्पिक)</value>
-  </data>
-  <data name="lbl_Author" xml:space="preserve">
-    <value>Nova88</value>
-  </data>
-  <data name="lbl_Back" xml:space="preserve">
-    <value>वापस</value>
-  </data>
-  <data name="lbl_BankAccount" xml:space="preserve">
-    <value>बैंक खाता</value>
-  </data>
-  <data name="lbl_BankAccountName" xml:space="preserve">
-    <value>खाते का नाम</value>
-  </data>
-  <data name="lbl_BankAccountNameHint" xml:space="preserve">
-    <value>कृपया खाते के नाम के लिए अपने वास्तविक नाम का उपयोग करें। एक बार दर्ज करने के बाद इस फ़ील्ड को नहीं बदला जा सकता है!</value>
-  </data>
-  <data name="lbl_BankInfo" xml:space="preserve">
-    <value>बैंक की जानकारी</value>
-  </data>
-  <data name="lbl_BankName" xml:space="preserve">
-    <value>बैंक का नाम</value>
-  </data>
-  <data name="lbl_BankNumber" xml:space="preserve">
-    <value>खाता संख्या</value>
-  </data>
-  <data name="lbl_Baseball" xml:space="preserve">
-    <value>बेसबॉल</value>
-  </data>
-  <data name="lbl_BaseballBetting" xml:space="preserve">
-    <value>बेसबॉल सट्टेबाजी</value>
-  </data>
-  <data name="lbl_Basketball" xml:space="preserve">
-    <value>बास्केटबाल</value>
-  </data>
-  <data name="lbl_BasketballBetting" xml:space="preserve">
-    <value>बास्केटबॉल सट्टेबाजी</value>
-  </data>
-  <data name="lbl_Cancel" xml:space="preserve">
-    <value>रद्द करना</value>
-  </data>
-  <data name="lbl_CancelConfirm" xml:space="preserve">
-    <value>क्या आप वाकई इसे रद्द करना चाहते हैं? इसे रद्द करने के बाद पुनर्स्थापित नहीं किया जा सकता है!</value>
-  </data>
-  <data name="lbl_Cashier" xml:space="preserve">
-    <value>केशियर</value>
-  </data>
-  <data name="lbl_Casino" xml:space="preserve">
-    <value>कैसिनो</value>
-  </data>
-  <data name="lbl_CasinoSlogon" xml:space="preserve">
-    <value>एशियाई बाजार के लिए विभिन्न विषय</value>
-  </data>
-  <data name="lbl_ChangePassword" xml:space="preserve">
-    <value>पासवर्ड बदलें</value>
-  </data>
-  <data name="lbl_ChargeFee" xml:space="preserve">
-    <value>शुल्क</value>
-  </data>
-  <data name="lbl_Check18TC1" xml:space="preserve">
-    <value>मैं इसके लिए सहमत हूँ</value>
-  </data>
-  <data name="lbl_Check18TC2" xml:space="preserve">
-    <value>और यह</value>
-  </data>
-  <data name="lbl_Check18TC3" xml:space="preserve">
-    <value>का</value>
-  </data>
-  <data name="lbl_Check18TC4" xml:space="preserve">
-    <value>मैं स्वीकार करता हूं कि मेरी आयु कम से कम 21 वर्ष है।</value>
-  </data>
-  <data name="lbl_Check18TCTooltip" xml:space="preserve">
-    <value>खाता पंजीकरण आवश्यकताओं की पुष्टि करने के लिए कृपया उपरोक्त चेकबॉक्स पर क्लिक करें</value>
-  </data>
-  <data name="lbl_CheckConfirm" xml:space="preserve">
-    <value>क्या आप वाकई इसॆ हटाना चाहते हैं? इसे हटाने के बाद पुनर्स्थापित नहीं किया जा सकता है!</value>
-  </data>
-  <data name="lbl_Clickhereforbonus" xml:space="preserve">
-    <value>बोनस के लिए यहां क्लिक करें</value>
-  </data>
-  <data name="lbl_Clickhereforjoin" xml:space="preserve">
-    <value>शामिल होने के लिए यहां क्लिक करें</value>
-  </data>
-  <data name="lbl_Clickhereforsupport" xml:space="preserve">
-    <value>समर्थन पाने के लिए यहां क्लिक करें</value>
-  </data>
-  <data name="lbl_Close" xml:space="preserve">
-    <value>बंद करे</value>
-  </data>
-  <data name="lbl_CompletedRegistration" xml:space="preserve">
-    <value>पूर्ण पंजीकरण</value>
-  </data>
-  <data name="lbl_CompleteRegistration" xml:space="preserve">
-    <value>पंजीकरण पूर्ण करें</value>
-  </data>
-  <data name="lbl_Confirm" xml:space="preserve">
-    <value>पुष्टि करें</value>
-  </data>
-  <data name="lbl_ConfirmDeposit" xml:space="preserve">
-    <value>कृपया जमा जानकारी की पुष्टि करें।</value>
-  </data>
-  <data name="lbl_ConfirmWithdrawal" xml:space="preserve">
-    <value>कृपया वापसी की जानकारी की पुष्टि करें।</value>
-  </data>
-  <data name="lbl_ContactCSD" xml:space="preserve">
-    <value>संशोधन के किसी भी अनुरोध के लिए, कृपया CSD से संपर्क करें।</value>
-  </data>
-  <data name="lbl_ContactUs" xml:space="preserve">
-    <value>संपर्क करें</value>
-  </data>
-  <data name="lbl_CookiePolicy" xml:space="preserve">
-    <value>कूकी नीति</value>
-  </data>
-  <data name="lbl_Copyright" xml:space="preserve">
-    <value>कॉपीराइट {0}</value>
-  </data>
-  <data name="lbl_Country" xml:space="preserve">
-    <value>देश</value>
-  </data>
-  <data name="lbl_CountryAF" xml:space="preserve">
-    <value>अफ़ग़ानिस्तान</value>
-  </data>
-  <data name="lbl_CountryAI" xml:space="preserve">
-    <value>एंगुइला</value>
-  </data>
-  <data name="lbl_CountryAO" xml:space="preserve">
-    <value>अंगोला</value>
-  </data>
-  <data name="lbl_CountryAR" xml:space="preserve">
-    <value>अर्जेंटीना</value>
-  </data>
-  <data name="lbl_CountryAW" xml:space="preserve">
-    <value>अरूबा</value>
-  </data>
-  <data name="lbl_CountryBB" xml:space="preserve">
-    <value>बारबाडोस</value>
-  </data>
-  <data name="lbl_CountryBD" xml:space="preserve">
-    <value>बांग्लादेश</value>
-  </data>
-  <data name="lbl_CountryBF" xml:space="preserve">
-    <value>बुर्किना फासो</value>
-  </data>
-  <data name="lbl_CountryBH" xml:space="preserve">
-    <value>बहरीन</value>
-  </data>
-  <data name="lbl_CountryBI" xml:space="preserve">
-    <value>बुस्र्न्दी</value>
-  </data>
-  <data name="lbl_CountryBJ" xml:space="preserve">
-    <value>बेनिन</value>
-  </data>
-  <data name="lbl_CountryBM" xml:space="preserve">
-    <value>बरमूडा</value>
-  </data>
-  <data name="lbl_CountryBN" xml:space="preserve">
-    <value>ब्रूनेइ्र दारएस्सलाम</value>
-  </data>
-  <data name="lbl_CountryBO" xml:space="preserve">
-    <value>बोलीविया</value>
-  </data>
-  <data name="lbl_CountryBR" xml:space="preserve">
-    <value>ब्राज़िल</value>
-  </data>
-  <data name="lbl_CountryBS" xml:space="preserve">
-    <value>बहामा</value>
-  </data>
-  <data name="lbl_CountryBT" xml:space="preserve">
-    <value>भूटान</value>
-  </data>
-  <data name="lbl_CountryBW" xml:space="preserve">
-    <value>बोत्सवाना</value>
-  </data>
-  <data name="lbl_CountryBZ" xml:space="preserve">
-    <value>बेलीज़</value>
-  </data>
-  <data name="lbl_CountryCA" xml:space="preserve">
-    <value>कनाडा</value>
-  </data>
-  <data name="lbl_CountryCD" xml:space="preserve">
-    <value>डोमिनिकन गणराज्य</value>
-  </data>
-  <data name="lbl_CountryCF" xml:space="preserve">
-    <value>केंद्रीय अफ्रीकन गणराज्य</value>
-  </data>
-  <data name="lbl_CountryCG" xml:space="preserve">
-    <value>कांगो</value>
-  </data>
-  <data name="lbl_CountryCI" xml:space="preserve">
-    <value>कोटे डी आइवर</value>
-  </data>
-  <data name="lbl_CountryCK" xml:space="preserve">
-    <value>कुक द्वीपसमूह</value>
-  </data>
-  <data name="lbl_CountryCL" xml:space="preserve">
-    <value>चिली</value>
-  </data>
-  <data name="lbl_CountryCM" xml:space="preserve">
-    <value>कैमरून</value>
-  </data>
-  <data name="lbl_CountryCO" xml:space="preserve">
-    <value>कोलंबिया</value>
-  </data>
-  <data name="lbl_CountryCR" xml:space="preserve">
-    <value>कोस्टा रिका</value>
-  </data>
-  <data name="lbl_CountryCS" xml:space="preserve">
-    <value>चीन</value>
-  </data>
-  <data name="lbl_CountryCV" xml:space="preserve">
-    <value>केप वर्दे</value>
-  </data>
-  <data name="lbl_CountryDZ" xml:space="preserve">
-    <value>एलजीरिया</value>
-  </data>
-  <data name="lbl_CountryEC" xml:space="preserve">
-    <value>इक्वेडोर</value>
-  </data>
-  <data name="lbl_CountryEG" xml:space="preserve">
-    <value>मिस्र</value>
-  </data>
-  <data name="lbl_CountryER" xml:space="preserve">
-    <value>इरिट्रिया</value>
-  </data>
-  <data name="lbl_CountryET" xml:space="preserve">
-    <value>इथियोपिया</value>
-  </data>
-  <data name="lbl_CountryFJ" xml:space="preserve">
-    <value>फ़िजी</value>
-  </data>
-  <data name="lbl_CountryFO" xml:space="preserve">
-    <value>फ़ॉकलैंड द्वीप समूह (माल्विनास)</value>
-  </data>
-  <data name="lbl_CountryGA" xml:space="preserve">
-    <value>गैबॉन</value>
-  </data>
-  <data name="lbl_CountryGD" xml:space="preserve">
-    <value>ग्रेनेडा</value>
-  </data>
-  <data name="lbl_CountryGH" xml:space="preserve">
-    <value>घाना</value>
-  </data>
-  <data name="lbl_CountryGI" xml:space="preserve">
-    <value>जिब्राल्टर</value>
-  </data>
-  <data name="lbl_CountryGN" xml:space="preserve">
-    <value>गिन्नी</value>
-  </data>
-  <data name="lbl_CountryGT" xml:space="preserve">
-    <value>ग्वाटेमाला</value>
-  </data>
-  <data name="lbl_CountryGY" xml:space="preserve">
-    <value>गुयाना</value>
-  </data>
-  <data name="lbl_CountryHN" xml:space="preserve">
-    <value>होंडुरस</value>
-  </data>
-  <data name="lbl_CountryHT" xml:space="preserve">
-    <value>हैती</value>
-  </data>
-  <data name="lbl_CountryID" xml:space="preserve">
-    <value>इंडोनेशिया</value>
-  </data>
-  <data name="lbl_CountryIN" xml:space="preserve">
-    <value>भारत</value>
-  </data>
-  <data name="lbl_CountryJM" xml:space="preserve">
-    <value>जमैका</value>
-  </data>
-  <data name="lbl_CountryJO" xml:space="preserve">
-    <value>जॉर्डन</value>
-  </data>
-  <data name="lbl_CountryJP" xml:space="preserve">
-    <value>जापान</value>
-  </data>
-  <data name="lbl_CountryKE" xml:space="preserve">
-    <value>केन्या</value>
-  </data>
-  <data name="lbl_CountryKH" xml:space="preserve">
-    <value>कंबोडिया</value>
-  </data>
-  <data name="lbl_CountryKR" xml:space="preserve">
-    <value>कोरिया</value>
-  </data>
-  <data name="lbl_CountryKW" xml:space="preserve">
-    <value>कुवैट</value>
-  </data>
-  <data name="lbl_CountryKY" xml:space="preserve">
-    <value>केमन द्वीपसमूह</value>
-  </data>
-  <data name="lbl_CountryKZ" xml:space="preserve">
-    <value>कजाखस्तान</value>
-  </data>
-  <data name="lbl_CountryLA" xml:space="preserve">
-    <value>लाओ पीपुल्स डेमोक्रेटिक रिपब्लिक</value>
-  </data>
-  <data name="lbl_CountryLB" xml:space="preserve">
-    <value>लेबनान</value>
-  </data>
-  <data name="lbl_CountryLC" xml:space="preserve">
-    <value>सेंट लूसिया</value>
-  </data>
-  <data name="lbl_CountryLK" xml:space="preserve">
-    <value>श्रीलंका</value>
-  </data>
-  <data name="lbl_CountryLS" xml:space="preserve">
-    <value>लिसोटो</value>
-  </data>
-  <data name="lbl_CountryMA" xml:space="preserve">
-    <value>मोरक्को</value>
-  </data>
-  <data name="lbl_CountryMG" xml:space="preserve">
-    <value>मेडागास्कर</value>
-  </data>
-  <data name="lbl_CountryML" xml:space="preserve">
-    <value>माली</value>
-  </data>
-  <data name="lbl_CountryMM" xml:space="preserve">
-    <value>म्यांमार</value>
-  </data>
-  <data name="lbl_CountryMN" xml:space="preserve">
-    <value>मंगोलिया</value>
-  </data>
-  <data name="lbl_CountryMR" xml:space="preserve">
-    <value>मॉरिटानिया</value>
-  </data>
-  <data name="lbl_CountryMU" xml:space="preserve">
-    <value>मॉरीशस</value>
-  </data>
-  <data name="lbl_CountryMV" xml:space="preserve">
-    <value>मालदीव</value>
-  </data>
-  <data name="lbl_CountryMW" xml:space="preserve">
-    <value>मलावी</value>
-  </data>
-  <data name="lbl_CountryMX" xml:space="preserve">
-    <value>मेक्सिको</value>
-  </data>
-  <data name="lbl_CountryMY" xml:space="preserve">
-    <value>मलेशिया</value>
-  </data>
-  <data name="lbl_CountryNA" xml:space="preserve">
-    <value>नामिबिया</value>
-  </data>
-  <data name="lbl_CountryNC" xml:space="preserve">
-    <value>न्यू कैलेडोनिया</value>
-  </data>
-  <data name="lbl_CountryNE" xml:space="preserve">
-    <value>नाइजर</value>
-  </data>
-  <data name="lbl_CountryNG" xml:space="preserve">
-    <value>नाइजीरिया</value>
-  </data>
-  <data name="lbl_CountryNP" xml:space="preserve">
-    <value>नेपाल</value>
-  </data>
-  <data name="lbl_CountryNR" xml:space="preserve">
-    <value>नाउरू</value>
-  </data>
-  <data name="lbl_CountryNZ" xml:space="preserve">
-    <value>न्यूज़ीलैंड</value>
-  </data>
-  <data name="lbl_CountryOM" xml:space="preserve">
-    <value>ओमान</value>
-  </data>
-  <data name="lbl_CountryPA" xml:space="preserve">
-    <value>पनामा</value>
-  </data>
-  <data name="lbl_CountryPE" xml:space="preserve">
-    <value>पेरू</value>
-  </data>
-  <data name="lbl_CountryPG" xml:space="preserve">
-    <value>पापुआ न्यू गिनी</value>
-  </data>
-  <data name="lbl_CountryPK" xml:space="preserve">
-    <value>पाकिस्तान</value>
-  </data>
-  <data name="lbl_CountryPN" xml:space="preserve">
-    <value>पिटकेर्न द्वीप समूह</value>
-  </data>
-  <data name="lbl_CountryPY" xml:space="preserve">
-    <value>परागुआ</value>
-  </data>
-  <data name="lbl_CountryQA" xml:space="preserve">
-    <value>कतर</value>
-  </data>
-  <data name="lbl_CountrySA" xml:space="preserve">
-    <value>Saudi Arabia</value>
-  </data>
-  <data name="lbl_CountrySB" xml:space="preserve">
-    <value>सोलोमन इस्लैंडस</value>
-  </data>
-  <data name="lbl_CountrySC" xml:space="preserve">
-    <value>सेशल्स</value>
-  </data>
-  <data name="lbl_CountrySD" xml:space="preserve">
-    <value>सूडान</value>
-  </data>
-  <data name="lbl_CountrySL" xml:space="preserve">
-    <value>सेरा लिओन</value>
-  </data>
-  <data name="lbl_CountrySN" xml:space="preserve">
-    <value>सेनेगल</value>
-  </data>
-  <data name="lbl_CountrySO" xml:space="preserve">
-    <value>सोमालिया</value>
-  </data>
-  <data name="lbl_CountrySR" xml:space="preserve">
-    <value>सूरीनाम</value>
-  </data>
-  <data name="lbl_CountryST" xml:space="preserve">
-    <value>साओ टोमे और प्रिंसिपे</value>
-  </data>
-  <data name="lbl_CountrySV" xml:space="preserve">
-    <value>एल साल्वाडोर</value>
-  </data>
-  <data name="lbl_CountrySY" xml:space="preserve">
-    <value>सीरियाई अरब गणराज्य</value>
-  </data>
-  <data name="lbl_CountrySZ" xml:space="preserve">
-    <value>स्वाजीलैंड</value>
-  </data>
-  <data name="lbl_CountryTD" xml:space="preserve">
-    <value>चाड</value>
-  </data>
-  <data name="lbl_CountryTG" xml:space="preserve">
-    <value>टोंगा</value>
-  </data>
-  <data name="lbl_CountryTH" xml:space="preserve">
-    <value>थाईलैंड</value>
-  </data>
-  <data name="lbl_CountryTJ" xml:space="preserve">
-    <value>तजाकिस्तान</value>
-  </data>
-  <data name="lbl_CountryTN" xml:space="preserve">
-    <value>ट्यूनीशिया</value>
-  </data>
-  <data name="lbl_CountryTooltip" xml:space="preserve">
-    <value>कृपया अपने निवास का देश चुनें</value>
-  </data>
-  <data name="lbl_CountryTT" xml:space="preserve">
-    <value>त्रिनिदाद और टोबैगो</value>
-  </data>
-  <data name="lbl_CountryTZ" xml:space="preserve">
-    <value>तंजानिया</value>
-  </data>
-  <data name="lbl_CountryUG" xml:space="preserve">
-    <value>युगांडा</value>
-  </data>
-  <data name="lbl_CountryUY" xml:space="preserve">
-    <value>उरुग्वे</value>
-  </data>
-  <data name="lbl_CountryUZ" xml:space="preserve">
-    <value>उज़्बेकिस्तान</value>
-  </data>
-  <data name="lbl_CountryVC" xml:space="preserve">
-    <value>संत विंसेंट अँड थे ग्रेनडीनेस</value>
-  </data>
-  <data name="lbl_CountryVE" xml:space="preserve">
-    <value>वेनेजुएला</value>
-  </data>
-  <data name="lbl_CountryVN" xml:space="preserve">
-    <value>वियतनाम</value>
-  </data>
-  <data name="lbl_CountryVU" xml:space="preserve">
-    <value>वानुअतु</value>
-  </data>
-  <data name="lbl_CountryWF" xml:space="preserve">
-    <value>वाली और फ़्युटुना</value>
-  </data>
-  <data name="lbl_CountryWS" xml:space="preserve">
-    <value>मलेशियाई रिंग्गित</value>
-  </data>
-  <data name="lbl_CountryYE" xml:space="preserve">
-    <value>यमन</value>
-  </data>
-  <data name="lbl_CountryZA" xml:space="preserve">
-    <value>दक्षिण अफ्रीका</value>
-  </data>
-  <data name="lbl_CountryZM" xml:space="preserve">
-    <value>जाम्बिया</value>
-  </data>
-  <data name="lbl_CountryZW" xml:space="preserve">
-    <value>जिम्बाब्वे</value>
-  </data>
-  <data name="lbl_CreditTime" xml:space="preserve">
-    <value>क्रेडिट समय</value>
-  </data>
-  <data name="lbl_Currency_1" xml:space="preserve">
-    <value>सिंगापुर डॉलर</value>
-  </data>
-  <data name="lbl_Currency_12" xml:space="preserve">
-    <value>ब्रिटिश पाउंड</value>
-  </data>
-  <data name="lbl_Currency_13" xml:space="preserve">
-    <value>चीनी रेनमिनबी</value>
-  </data>
-  <data name="lbl_Currency_15" xml:space="preserve">
-    <value>इंडोनेशिया रुपिया</value>
-  </data>
-  <data name="lbl_Currency_2" xml:space="preserve">
-    <value>मलेशियाई रिंग्गित</value>
-  </data>
-  <data name="lbl_Currency_20" xml:space="preserve">
-    <value>वर्चुअल डॉलर (परीक्षण प्रस्ताव के लिए)</value>
-  </data>
-  <data name="lbl_Currency_3" xml:space="preserve">
-    <value>अमेरिकी डॉलर</value>
-  </data>
-  <data name="lbl_Currency_32" xml:space="preserve">
-    <value>जापान येनो</value>
-  </data>
-  <data name="lbl_Currency_4" xml:space="preserve">
-    <value>थाईलैण्ड की मुद्रा</value>
-  </data>
-  <data name="lbl_Currency_41" xml:space="preserve">
-    <value>स्विस फ्रैंक</value>
-  </data>
-  <data name="lbl_Currency_45" xml:space="preserve">
-    <value>कोरियाई वोन</value>
-  </data>
-  <data name="lbl_Currency_5" xml:space="preserve">
-    <value>होन्ग कोंग डॉलर</value>
-  </data>
-  <data name="lbl_Currency_51" xml:space="preserve">
-    <value>वियतनामी डोंग</value>
-  </data>
-  <data name="lbl_Currency_6" xml:space="preserve">
-    <value>यूरो</value>
-  </data>
-  <data name="lbl_Currency_9" xml:space="preserve">
-    <value>ऑस्ट्रलियन डॉलर</value>
-  </data>
-  <data name="lbl_CustBank" xml:space="preserve">
-    <value>बैंक</value>
-  </data>
-  <data name="lbl_CustBankInfo" xml:space="preserve">
-    <value>बैंक की जानकारी अपडेट करें</value>
-  </data>
-  <data name="lbl_Date" xml:space="preserve">
-    <value>तारीख</value>
-  </data>
-  <data name="lbl_DateMissing" xml:space="preserve">
-    <value>कृपया पूछताछ के लिए तिथि दर्ज करें।</value>
-  </data>
-  <data name="lbl_Deposit" xml:space="preserve">
-    <value>जमा</value>
-  </data>
-  <data name="lbl_DepositAmount" xml:space="preserve">
-    <value>जमा राशि</value>
-  </data>
-  <data name="lbl_DepositNow" xml:space="preserve">
-    <value>अभी जमा करें</value>
-  </data>
-  <data name="lbl_DepositOptionHint" xml:space="preserve">
-    <value>आप नीचे दिए गए विकल्प में से सबसे उपयुक्त जमा विकल्प चुन सकते हैं:</value>
-  </data>
-  <data name="lbl_DepositStatus0" xml:space="preserve">
-    <value>प्रारूप</value>
-  </data>
-  <data name="lbl_DepositStatus1" xml:space="preserve">
-    <value>लंबित/ अपूर्ण</value>
-  </data>
-  <data name="lbl_DepositStatus2" xml:space="preserve">
-    <value>भुगतान किया</value>
-  </data>
-  <data name="lbl_DepositStatus3" xml:space="preserve">
-    <value>स्वीकृत</value>
-  </data>
-  <data name="lbl_DepositStatus4" xml:space="preserve">
-    <value>अस्वीकृत</value>
-  </data>
-  <data name="lbl_DepositStatus5" xml:space="preserve">
-    <value>रद्द</value>
-  </data>
-  <data name="lbl_DepositStatus6" xml:space="preserve">
-    <value>समय सीमा समाप्त</value>
-  </data>
-  <data name="lbl_DepositStatus7" xml:space="preserve">
-    <value>होल्ड पर</value>
-  </data>
-  <data name="lbl_DepositStatus8" xml:space="preserve">
-    <value>प्रसंस्करण</value>
-  </data>
-  <data name="lbl_DepositStatus99" xml:space="preserve">
-    <value>त्रुटि/एरर</value>
-  </data>
-  <data name="lbl_DepositTime" xml:space="preserve">
-    <value>जमा करते समय</value>
-  </data>
-  <data name="lbl_DepositTimeToolTip" xml:space="preserve">
-    <value>कृपया अपनी राशि समय पर जमा करें।</value>
-  </data>
-  <data name="lbl_DepositType1" xml:space="preserve">
-    <value>ऑनलाइन बैंकिंग</value>
-  </data>
-  <data name="lbl_DepositType2" xml:space="preserve">
-    <value>मोबाइल भुगतान</value>
-  </data>
-  <data name="lbl_DepositType3" xml:space="preserve">
-    <value>स्थानीय बैंक</value>
-  </data>
-  <data name="lbl_DepositWithdrawals" xml:space="preserve">
-    <value>जमा और निकासी</value>
-  </data>
-  <data name="lbl_Description" xml:space="preserve">
-    <value>Nova88 दुनिया की अग्रणी स्पोर्ट्सबुक है जो सभी खेलों, कैसिनो, स्लॉट्स, केनो, एस्पोर्ट्स, आरएनजी कैसिनो, फैंटेसी स्पोर्ट्स, वर्चुअल स्पोर्ट्स, लॉटरी, लाइव कैसिनो, लाइव डीलर, बिंगो, और रेसिंग को कवर करते हुए लाइव सट्टेबाजी में एक तरह का जुआ अनुभव प्रदान करती है।</value>
-  </data>
-  <data name="lbl_DontHaveAccount" xml:space="preserve">
-    <value>खाता नहीं है?</value>
-  </data>
-  <data name="lbl_DownloadApp" xml:space="preserve">
-    <value>राशि बदलें</value>
-  </data>
-  <data name="lbl_Downloads" xml:space="preserve">
-    <value>डाउनलोड</value>
-  </data>
-  <data name="lbl_Email" xml:space="preserve">
-    <value>ईमेल</value>
-  </data>
-  <data name="lbl_EmailToolTip" xml:space="preserve">
-    <value>प्रस्तुत करने के बाद ईमेल नहीं बदला जा सकता है।</value>
-  </data>
-  <data name="lbl_eSports" xml:space="preserve">
-    <value>ई-खेल</value>
-  </data>
-  <data name="lbl_eSportsBetting" xml:space="preserve">
-    <value>ई-स्पोर्ट बेटिंग</value>
-  </data>
-  <data name="lbl_Facebook" xml:space="preserve">
-    <value>फेसबुक</value>
-  </data>
-  <data name="lbl_FAQ" xml:space="preserve">
-    <value>सामान्य प्रश्न/ अक्सर पूछे जाने वाले सवाल</value>
-  </data>
-  <data name="lbl_FootballBetting" xml:space="preserve">
-    <value>ई-स्पोर्ट बेटिंग</value>
-  </data>
-  <data name="lbl_ForgetPassword" xml:space="preserve">
-    <value>पासवर्ड भूल गए</value>
-    <comment>00339. Deposit</comment>
-  </data>
-  <data name="lbl_ForgetPwdHint" xml:space="preserve">
-    <value>यदि आप अपना उपयोगकर्ता नाम या पासवर्ड भूल गए हैं, तो कृपया अपना ईमेल प्रदान करें और हम आपका नया पासवर्ड आपके पंजीकृत ईमेल पते पर भेज देंगे।</value>
-  </data>
-  <data name="lbl_From" xml:space="preserve">
-    <value>से</value>
-  </data>
-  <data name="lbl_Help" xml:space="preserve">
-    <value>मदद</value>
-  </data>
-  <data name="lbl_HelpSupport" xml:space="preserve">
-    <value>मदद तथा सहयोग</value>
-  </data>
-  <data name="lbl_History" xml:space="preserve">
-    <value>इतिहास</value>
-  </data>
-  <data name="lbl_HockeyBetting" xml:space="preserve">
-    <value>हॉकी बेटिंग</value>
-  </data>
-  <data name="lbl_Home" xml:space="preserve">
-    <value>घर</value>
-  </data>
-  <data name="lbl_ID" xml:space="preserve">
-    <value>आईडी</value>
-  </data>
-  <data name="lbl_Image" xml:space="preserve">
-    <value>https://www.nova88.net/SiteSkin/Nova88/common/images/logo.png</value>
-  </data>
-  <data name="lbl_ImportantNote" xml:space="preserve">
-    <value>Important Note</value>
-  </data>
-  <data name="lbl_Instant" xml:space="preserve">
-    <value>तुरंत</value>
-  </data>
-  <data name="lbl_JoinNow" xml:space="preserve">
-    <value>अब जुडे/ अब शामिल हों</value>
-  </data>
-  <data name="lbl_Keno" xml:space="preserve">
-    <value>केनो</value>
-  </data>
-  <data name="lbl_KenoSlogon" xml:space="preserve">
-    <value>खेलने के कई तरीके, जीतने के ज्यादा मौके!</value>
-  </data>
-  <data name="lbl_Keywords" xml:space="preserve">
-    <value>Nova88 दुनिया की अग्रणी स्पोर्ट्सबुक है जो सभी खेलों, कैसिनो, स्लॉट्स, केनो, एस्पोर्ट्स, आरएनजी कैसिनो, फैंटेसी स्पोर्ट्स, वर्चुअल स्पोर्ट्स, लॉटरी, लाइव कैसिनो, लाइव डीलर, बिंगो, और रेसिंग को कवर करते हुए लाइव सट्टेबाजी में एक तरह का जुआ अनुभव प्रदान करती है।</value>
-  </data>
-  <data name="lbl_LastLogin" xml:space="preserve">
-    <value>अंतिम लॉगइन</value>
-  </data>
-  <data name="lbl_LastTransaction" xml:space="preserve">
-    <value>अंतिम लेन-देन</value>
-  </data>
-  <data name="lbl_Limit" xml:space="preserve">
-    <value>सीमा</value>
-  </data>
-  <data name="lbl_LiveCasino" xml:space="preserve">
-    <value>कैसिनो</value>
-  </data>
-  <data name="lbl_LiveCasinoSlogon" xml:space="preserve">
-    <value>असली कैसीनो अनुभव</value>
-  </data>
-  <data name="lbl_LiveSupport" xml:space="preserve">
-    <value>24/7 ग्राहक सेवा</value>
-  </data>
-  <data name="lbl_Login" xml:space="preserve">
-    <value>लॉग इन करें</value>
-  </data>
-  <data name="lbl_LoginHere" xml:space="preserve">
-    <value>यहां लॉगिन करें</value>
-  </data>
-  <data name="lbl_LoginMsg" xml:space="preserve">
-    <value>कृपया ध्यान दें कि हम सदस्यों को एक (1) खाते से अधिक की अनुमति नहीं देते हैं।</value>
-  </data>
-  <data name="lbl_Logout" xml:space="preserve">
-    <value>लॉग आउट</value>
-  </data>
-  <data name="lbl_Memo" xml:space="preserve">
-    <value>मेमो</value>
-  </data>
-  <data name="lbl_Message" xml:space="preserve">
-    <value>संदेश</value>
-  </data>
-  <data name="lbl_Method" xml:space="preserve">
-    <value>तरीका</value>
-  </data>
-  <data name="lbl_MobileDeposit" xml:space="preserve">
-    <value>मोबाइल जमा</value>
-  </data>
-  <data name="lbl_MomoHint" xml:space="preserve">
-    <value>जल्द जमा करने के लिए, कृपया अपने बैंक खाते का नाम और बैंक नंबर यहाँ छोड़ दें।</value>
-  </data>
-  <data name="lbl_MyAccount" xml:space="preserve">
-    <value>मेरा खाता</value>
-  </data>
-  <data name="lbl_NewPassword" xml:space="preserve">
-    <value>नया पासवर्ड</value>
-  </data>
-  <data name="lbl_NotinLimit" xml:space="preserve">
-    <value>सीमा में नहीं।</value>
-  </data>
-  <data name="lbl_NumberGame" xml:space="preserve">
-    <value>नंबर गेम</value>
-  </data>
-  <data name="lbl_Of" xml:space="preserve">
-    <value>का</value>
-  </data>
-  <data name="lbl_OldPassword" xml:space="preserve">
-    <value>पुराना पासवर्ड</value>
-  </data>
-  <data name="lbl_OnlineBanking" xml:space="preserve">
-    <value>ऑनलाइन बैंकिंग</value>
-  </data>
-  <data name="lbl_Optional" xml:space="preserve">
-    <value>वैकल्पिक</value>
-  </data>
-  <data name="lbl_OurPolicies" xml:space="preserve">
-    <value>हमारी नीतियां</value>
-  </data>
-  <data name="lbl_Page" xml:space="preserve">
-    <value>पृष्ठ</value>
-  </data>
-  <data name="lbl_Password" xml:space="preserve">
-    <value>पारण शब्द</value>
-  </data>
-  <data name="lbl_PasswordTooltip" xml:space="preserve">
-    <value>Password must be 6-15 characters, contain both alphanumeric and a special characters (!@#$%^&amp;*)</value>
-  </data>
-  <data name="lbl_PaymentOptions" xml:space="preserve">
-    <value>भुगतान विकल्प</value>
-  </data>
-  <data name="lbl_Phone" xml:space="preserve">
-    <value>फ़ोन नंबर</value>
-  </data>
-  <data name="lbl_PhoneTooltip" xml:space="preserve">
-    <value>कृपया अपना फ़ोन नंबर दर्ज करें, यह दर्ज करने के बाद बदला नहीं जा सकता है!</value>
-  </data>
-  <data name="lbl_PhotoID" xml:space="preserve">
-    <value>फोटो पहचान पत्र</value>
-  </data>
-  <data name="lbl_Postscript" xml:space="preserve">
-    <value>पोस्टस्क्रिप्ट</value>
-  </data>
-  <data name="lbl_PostscriptHint" xml:space="preserve">
-    <value>तुरन्त जमा करने के लिए पोस्टस्क्रिप्ट भरें।</value>
-  </data>
-  <data name="lbl_PreferredCurrencyToolTip" xml:space="preserve">
-    <value>पंजीकरण के बाद पसंदीदा मुद्रा को बदला नहीं जा सकता है।</value>
-  </data>
-  <data name="lbl_PrefferedCurrency" xml:space="preserve">
-    <value>पसंदीदा मुद्रा</value>
-  </data>
-  <data name="lbl_PrivacyPolicy" xml:space="preserve">
-    <value>गोपनीयता नीति</value>
-  </data>
-  <data name="lbl_Profile" xml:space="preserve">
-    <value>प्रोफ़ाइल</value>
-  </data>
-  <data name="lbl_Promotion" xml:space="preserve">
-    <value>प्रचार / प्रचार</value>
-  </data>
-  <data name="lbl_RebatebonusonMobile" xml:space="preserve">
-    <value>मोबाइल पर छूट बोनस</value>
-  </data>
-  <data name="lbl_RecentTransactions" xml:space="preserve">
-    <value>हाल ही के लेनदेन</value>
-  </data>
-  <data name="lbl_Refno" xml:space="preserve">
-    <value>संदर्भ संक्या।</value>
-  </data>
-  <data name="lbl_RefnoToolTip" xml:space="preserve">
-    <value>कृपया अपना बैंक स्लिप संदर्भ संख्या जमा करें</value>
-  </data>
-  <data name="lbl_Register" xml:space="preserve">
-    <value>रजिस्टर करें</value>
-  </data>
-  <data name="lbl_RegisterTime" xml:space="preserve">
-    <value>जीकरण समय</value>
-  </data>
-  <data name="lbl_Required" xml:space="preserve">
-    <value>यह फ़ील्ड आवश्यक है</value>
-  </data>
-  <data name="lbl_ResposibleGaming" xml:space="preserve">
-    <value>जिम्मेदार गेमिंग</value>
-  </data>
-  <data name="lbl_RuleRegulations" xml:space="preserve">
-    <value>नियम और विनियम</value>
-  </data>
-  <data name="lbl_SelectAll" xml:space="preserve">
-    <value>सभी का चयन करे</value>
-  </data>
-  <data name="lbl_ShowBalance" xml:space="preserve">
-    <value>संतुलन दिखाएं</value>
-  </data>
-  <data name="lbl_Soccer" xml:space="preserve">
-    <value>फुटबॉल</value>
-  </data>
-  <data name="lbl_SoccerBetting" xml:space="preserve">
-    <value>फ़ुटबॉल सट्टेबाजी</value>
-  </data>
-  <data name="lbl_SocialMedia" xml:space="preserve">
-    <value>सामाजिक मीडिया</value>
-  </data>
-  <data name="lbl_Sports" xml:space="preserve">
-    <value>खेल</value>
-  </data>
-  <data name="lbl_SportsBetting" xml:space="preserve">
-    <value>खेल में सट्टेबाजी</value>
-  </data>
-  <data name="lbl_Status" xml:space="preserve">
-    <value>स्थिति</value>
-  </data>
-  <data name="lbl_Submit" xml:space="preserve">
-    <value>प्रस्तुत</value>
-  </data>
-  <data name="lbl_SubmitPhotoId" xml:space="preserve">
-    <value>फोटो आईडी जमा करें</value>
-  </data>
-  <data name="lbl_SubmitPhotoIdHint" xml:space="preserve">
-    <value>"निकासी को पूरा करने के लिए, सरकार द्वारा जारी दस्तावेजों के साथ जाँच पूरी
-  करना आवश्यक है:"</value>
-  </data>
-  <data name="lbl_SubmitProof" xml:space="preserve">
-    <value>बैंक स्लिप जमा करें</value>
-  </data>
-  <data name="lbl_Tennis" xml:space="preserve">
-    <value>टेनिस</value>
-  </data>
-  <data name="lbl_TennisBetting" xml:space="preserve">
-    <value>टेनिस बेटिंग</value>
-  </data>
-  <data name="lbl_Terms" xml:space="preserve">
-    <value>उपयोग की शर्तें</value>
-  </data>
-  <data name="lbl_TermsConditions" xml:space="preserve">
-    <value>नियम और शर्तें</value>
-  </data>
-  <data name="lbl_Time" xml:space="preserve">
-    <value>समय</value>
-  </data>
-  <data name="lbl_Title" xml:space="preserve">
-    <value>Nova88</value>
-  </data>
-  <data name="lbl_TitleDesc" xml:space="preserve">
-    <value>ऑनलाइन खेल सट्टेबाजी और Nova88 में सर्वश्रेष्ठ बाधाओं के साथ लाइव सट्टेबाजी</value>
-  </data>
-  <data name="lbl_TitleKeywords" xml:space="preserve">
-    <value>ऑनलाइन खेल सट्टेबाजी और Nova88 में सर्वश्रेष्ठ बाधाओं के साथ लाइव सट्टेबाजी</value>
-  </data>
-  <data name="lbl_To" xml:space="preserve">
-    <value>सेवा मेरे</value>
-  </data>
-  <data name="lbl_Transaction" xml:space="preserve">
-    <value>खाता संख्या</value>
-  </data>
-  <data name="lbl_TransactionHint" xml:space="preserve">
-    <value>कृपया खाते में राशि स्थानांतरित करें।</value>
-  </data>
-  <data name="lbl_TransactionHistory" xml:space="preserve">
-    <value>ट्रांजेक्शन इतिहास</value>
-  </data>
-  <data name="lbl_TransferFunds" xml:space="preserve">
-    <value>धनराशि का ट्रांसफर</value>
-  </data>
-  <data name="lbl_TransferTo" xml:space="preserve">
-    <value>स्थानांतरण के लिए</value>
-  </data>
-  <data name="lbl_TryMobile" xml:space="preserve">
-    <value>मोबाइल द्वारा हमारी वेबसाइट ब्राउज़ करने का प्रयास करें</value>
-  </data>
-  <data name="lbl_TryNow" xml:space="preserve">
-    <value>अब कोशिश करो</value>
-  </data>
-  <data name="lbl_Twitter" xml:space="preserve">
-    <value>Twitter</value>
-  </data>
-  <data name="lbl_TwitterCreator" xml:space="preserve">
-    <value>@Nova88official</value>
-  </data>
-  <data name="lbl_TwitterSite" xml:space="preserve">
-    <value>@Nova88official</value>
-  </data>
-  <data name="lbl_Unlimited" xml:space="preserve">
-    <value>असीमित</value>
-  </data>
-  <data name="lbl_Update" xml:space="preserve">
-    <value>अपडेट करें</value>
-  </data>
-  <data name="lbl_UpdateBankDetail" xml:space="preserve">
-    <value>बैंक की जानकारी अपडेट करें</value>
-  </data>
-  <data name="lbl_UpdateBankInfo" xml:space="preserve">
-    <value>निकासी करने से पहले कृपया अपनी व्यक्तिगत जानकारी अपडेट करें।</value>
-  </data>
-  <data name="lbl_UpdatePersonalDetail" xml:space="preserve">
-    <value>व्यक्तिगत विवरण अपडेट करें</value>
-  </data>
-  <data name="lbl_UpdatePersonalInfo" xml:space="preserve">
-    <value>निकासी करने से पहले कृपया अपने बैंक खाते का विवरण अपडेट करें।</value>
-  </data>
-  <data name="lbl_UpdateSuccess" xml:space="preserve">
-    <value>अद्यतन सफल</value>
-  </data>
-  <data name="lbl_UploadFile" xml:space="preserve">
-    <value>फ़ाइल अपलोड करें</value>
-  </data>
-  <data name="lbl_UploadSuccess" xml:space="preserve">
-    <value>आपकी फ़ाइल सफलतापूर्वक अपलोड कर दी गई थी।</value>
-  </data>
-  <data name="lbl_URL" xml:space="preserve">
-    <value>https://www.nova88.net</value>
-  </data>
-  <data name="lbl_Username" xml:space="preserve">
-    <value>उपयोगकर्ता नाम/ यूज़र नाम</value>
-  </data>
-  <data name="lbl_UsernameTooltip" xml:space="preserve">
-    <value>सुरक्षा के दृष्टि से हम सुझाव देते हैं कि आपके उपयोगकर्ता नाम में आपका वास्तविक नाम नहीं है।</value>
-  </data>
-  <data name="lbl_VariousBankingOptions" xml:space="preserve">
-    <value>विभिन्न बैंकिंग विकल्प</value>
-  </data>
-  <data name="lbl_VIPLevel" xml:space="preserve">
-    <value>वीआईपी स्तर</value>
-  </data>
-  <data name="lbl_VirtualSports" xml:space="preserve">
-    <value>वर्चुअल स्पोर्ट्स</value>
-  </data>
-  <data name="lbl_VirtualSportsSlogon" xml:space="preserve">
-    <value>लोकप्रिय खेलों के अलावा, हम अग्रणी इन-प्ले समाधान प्रदान करते हैं।</value>
-  </data>
-  <data name="lbl_Welcome" xml:space="preserve">
-    <value>स्वागत हे</value>
-  </data>
-  <data name="lbl_WireTransfers" xml:space="preserve">
-    <value>स्थानीय बैंक स्थानांतरण</value>
-  </data>
-  <data name="lbl_Withdrawal" xml:space="preserve">
-    <value>निकासी</value>
-  </data>
-  <data name="lbl_WithdrawalAmount" xml:space="preserve">
-    <value>निकाली गयी राशि</value>
-  </data>
-  <data name="lbl_WithdrawalStatus0" xml:space="preserve">
-    <value>प्रारूप</value>
-  </data>
-  <data name="lbl_WithdrawalStatus1" xml:space="preserve">
-    <value>लंबित/ अपूर्ण</value>
-  </data>
-  <data name="lbl_WithdrawalStatus2" xml:space="preserve">
-    <value>होल्ड पर</value>
-  </data>
-  <data name="lbl_WithdrawalStatus3" xml:space="preserve">
-    <value>सत्यापित करें</value>
-  </data>
-  <data name="lbl_WithdrawalStatus4" xml:space="preserve">
-    <value>प्रसंस्करण</value>
-  </data>
-  <data name="lbl_WithdrawalStatus5" xml:space="preserve">
-    <value>रद्द</value>
-  </data>
-  <data name="lbl_WithdrawalStatus6" xml:space="preserve">
-    <value>स्वीकृत</value>
-  </data>
-  <data name="lbl_WithdrawalStatus7" xml:space="preserve">
-    <value>अस्वीकृत</value>
-  </data>
-  <data name="lbl_WithdrawalStatus99" xml:space="preserve">
-    <value>त्रुटि/एरर</value>
-  </data>
-  <data name="lbl_WithdrawalTo" xml:space="preserve">
-    <value>वापस लेना</value>
-  </data>
-  <data name="lbl_WithdrawalType0" xml:space="preserve">
-    <value>अपरिभाषित</value>
-  </data>
-  <data name="lbl_WithdrawalType1" xml:space="preserve">
-    <value>ऑनलाइन भुगतान</value>
-  </data>
-  <data name="lbl_WithdrawalType2" xml:space="preserve">
-    <value>स्थानीय बैंक</value>
-  </data>
-  <data name="lbl_YourEmail" xml:space="preserve">
-    <value>आपका ईमेल पता</value>
-  </data>
-  <data name="lbl_Forget" xml:space="preserve">
-    <value>उपयोगकर्ता का नाम या पासवर्ड भूल गए</value>
-    <comment>00337.</comment>
-  </data>
-  <data name="lbl_ForgetNote" xml:space="preserve">
-    <value>क्या आपको अपना पासवर्ड भूल जाना चाहिए, कृपया अपना ईमेल पता, सुरक्षा प्रश्न और उत्तर प्रदान करें। हम आपके पंजीकृत ईमेल पते पर एक नया पासवर्ड भेजेंगे।</value>
-    <comment>00338. Deposit</comment>
-  </data>
-  <data name="lbl_RealName" xml:space="preserve">
-    <value>वास्तविक नाम</value>
-  </data>
-  <data name="lbl_UploadPhotoId" xml:space="preserve">
-    <value>अपलोड</value>
-  </data>
-  <data name="lbl_RemindForName" xml:space="preserve">
-    <value>* तत्काल जमा करने के लिए आपके नाम को आपके बैंक खाते के नाम से मेल खाना चाहिए</value>
-  </data>
-  <data name="lbl_badminton" xml:space="preserve">
-    <value>बैडमिंटन</value>
-    <comment>00131.</comment>
-  </data>
-  <data name="lbl_Promotions" xml:space="preserve">
-    <value>प्रचार / प्रचार</value>
-  </data>
-  <data name="FTDPDescription" xml:space="preserve">
-    <value>Nova88 के साथ अपनी पहली जमा राशि के साथ MYR888 बोनस तक का आनंद लें! अब शामिल हों!</value>
-  </data>
-  <data name="FTDPTitle" xml:space="preserve">
-    <value>MYR 888 तक 150% स्वागत बोनस</value>
-  </data>
-  <data name="lbl_TC" xml:space="preserve">
-    <value>प्रचार -विशिष्ट नियम और शर्तें</value>
-  </data>
-  <data name="lbl_Bonus" xml:space="preserve">
-    <value>बोनस</value>
-  </data>
-  <data name="lbl_BonusAmount" xml:space="preserve">
-    <value>बोनस की राशि</value>
-  </data>
-  <data name="lbl_ExpiryTime" xml:space="preserve">
-    <value>समाप्ति समय</value>
-  </data>
-  <data name="lbl_MaxBonusAmount" xml:space="preserve">
-    <value>अधिकतम बोनस राशि</value>
-  </data>
-  <data name="lbl_Product" xml:space="preserve">
-    <value>उत्पादों</value>
-  </data>
-  <data name="lbl_PromotionsList" xml:space="preserve">
-    <value>प्रचार सूची</value>
-  </data>
-  <data name="lbl_RemainingTime" xml:space="preserve">
-    <value>शेष समय</value>
-  </data>
-  <data name="lbl_RollOver" xml:space="preserve">
-    <value>रोल ओवर</value>
-  </data>
-  <data name="PromotionCategory1" xml:space="preserve">
-    <value>पहला जमा</value>
-  </data>
-  <data name="lbl_Notice" xml:space="preserve">
-    <value>नोटिस</value>
-  </data>
-  <data name="lbl_Later" xml:space="preserve">
-    <value>बाद में</value>
-  </data>
-  <data name="lbl_EligibleWithdrawal" xml:space="preserve">
-    <value>योग्य निकासी</value>
-  </data>
-  <data name="lbl_Req" xml:space="preserve">
-    <value>निवेदन</value>
-  </data>
-  <data name="lbl_RolloverProgress" xml:space="preserve">
-    <value>रोलओवर प्रगति</value>
-  </data>
-  <data name="lbl_BonusConfirm" xml:space="preserve">
-    <value>आपने हमारा प्रचार बोनस चुना था, क्या आप इसे जारी रखना चाहते हैं?</value>
-  </data>
-  <data name="lbl_DepositOver" xml:space="preserve">
-    <value>आपकी आवश्यक निकासी राशि आपके वर्तमान उपलब्ध शेष राशि से अधिक हो गई है।</value>
-  </data>
-  <data name="lbl_EligibleWithdrawalAmount" xml:space="preserve">
-    <value>आपकी पात्र निकासी राशि है</value>
-  </data>
-  <data name="lbl_RolloverOver" xml:space="preserve">
-    <value>अपर्याप्त रोलओवर टर्नओवर</value>
-  </data>
-  <data name="lbl_WithdrawalOver" xml:space="preserve">
-    <value>आपकी आवश्यक निकासी राशि आपकी सुगम निकासी राशि से अधिक हो गई है।</value>
-  </data>
-  <data name="lbl_Clickhereforpromotion" xml:space="preserve">
-    <value>अपने उपलब्ध प्रचार को देखने के लिए यहां क्लिक करें</value>
-  </data>
-  <data name="lbl_GameList" xml:space="preserve">
-    <value>खेल सूची</value>
-  </data>
-  <data name="lbl_AGCasino" xml:space="preserve">
-    <value>फीनिक्स सुइट</value>
-  </data>
-  <data name="lbl_AllbetCasino" xml:space="preserve">
-    <value>प्लेटिनम सुइट</value>
-  </data>
-  <data name="lbl_ComingSoon" xml:space="preserve">
-    <value>शीघ्र आ रहा है</value>
-  </data>
-  <data name="lbl_SACasino" xml:space="preserve">
-    <value>एथेना सुइट</value>
-  </data>
-  <data name="lbl_Days" xml:space="preserve">
-    <value>दिन</value>
-  </data>
-  <data name="lbl_Hours" xml:space="preserve">
-    <value>घंटे</value>
-  </data>
-  <data name="lbl_MainWallet" xml:space="preserve">
-    <value>मुख्य वॉलेट</value>
-  </data>
-  <data name="lbl_Wallet_Saba" xml:space="preserve">
-    <value>स्पोर्ट्सबुक वॉलेट</value>
-  </data>
-  <data name="lbl_Balance" xml:space="preserve">
-    <value>संतुलन</value>
-  </data>
-  <data name="lbl_DepositHistory" xml:space="preserve">
-    <value>जमा इतिहास</value>
-  </data>
-  <data name="lbl_DreamGaming" xml:space="preserve">
-    <value>क्रिस्टल सुइट</value>
-  </data>
-  <data name="lbl_MaxAmount" xml:space="preserve">
-    <value>अधिकतम राशि</value>
-  </data>
-  <data name="lbl_OtherWallet" xml:space="preserve">
-    <value>अन्य वॉलेट</value>
-  </data>
-  <data name="lbl_RetriveAllIn" xml:space="preserve">
-    <value>सभी को पुनः प्राप्त करें</value>
-  </data>
-  <data name="lbl_TransferAll" xml:space="preserve">
-    <value>मुख्य बटुए में स्थानांतरण</value>
-  </data>
-  <data name="lbl_TransferFrom" xml:space="preserve">
-    <value>इससे स्थानांतरित करें</value>
-  </data>
-  <data name="lbl_TransferHistory" xml:space="preserve">
-    <value>ट्रांजेक्शन इतिहास</value>
-  </data>
-  <data name="lbl_TransferIn" xml:space="preserve">
-    <value>फंड में</value>
-  </data>
-  <data name="lbl_TransferOut" xml:space="preserve">
-    <value>बाहर स्थानांतरण</value>
-  </data>
-  <data name="lbl_WalletDescription_Saba" xml:space="preserve">
-    <value>OneRNG, PP और प्लेटिनम सूट (AB) शामिल करें</value>
-  </data>
-  <data name="lbl_WithdrawalHistory" xml:space="preserve">
-    <value>वापसी का इतिहास</value>
-  </data>
-  <data name="lbl_FacebookAccount" xml:space="preserve">
-    <value>nova88official</value>
-  </data>
-  <data name="lbl_TwitterAccount" xml:space="preserve">
-    <value>nova88official</value>
-  </data>
-  <data name="lbl_Enter" xml:space="preserve">
-    <value>डायरेक्ट एंटर करें</value>
-  </data>
-  <data name="lbl_Reminder" xml:space="preserve">
-    <value>अनुस्मारक</value>
-  </data>
-  <data name="lbl_Transfer" xml:space="preserve">
-    <value>स्थानांतरण</value>
-  </data>
-  <data name="lbl_Direction" xml:space="preserve">
-    <value>दिशा</value>
-  </data>
-  <data name="lbl_WalletType" xml:space="preserve">
-    <value>वॉलेट प्रकार</value>
-  </data>
-  <data name="lbl_DGCasino" xml:space="preserve">
-    <value>क्रिस्टल सुइट</value>
-  </data>
-  <data name="lbl_Alipay" xml:space="preserve">
-    <value>Alipay</value>
-  </data>
-  <data name="lbl_JDpay" xml:space="preserve">
-    <value>JDpay</value>
-  </data>
-  <data name="lbl_MOMO" xml:space="preserve">
-    <value>Momo</value>
-  </data>
-  <data name="lbl_QQpay" xml:space="preserve">
-    <value>QQpay</value>
-  </data>
-  <data name="lbl_ThaiQR" xml:space="preserve">
-    <value>Thai QR</value>
-  </data>
-  <data name="lbl_Unionpay" xml:space="preserve">
-    <value>Unionpay</value>
-  </data>
-  <data name="lbl_WeChatPay" xml:space="preserve">
-    <value>WeChat Pay</value>
-  </data>
-  <data name="lbl_ZALO" xml:space="preserve">
-    <value>Zalo</value>
-  </data>
-  <data name="lbl_VIETTELPAY" xml:space="preserve">
-    <value>Viettel Pay</value>
-  </data>
-  <data name="lbl_Games" xml:space="preserve">
-    <value>खेल</value>
-  </data>
-  <data name="lbl_KenoAndLottery" xml:space="preserve">
-    <value>केनो और लॉटरी</value>
-  </data>
-  <data name="lbl_Birthday" xml:space="preserve">
-    <value>जन्मदिन</value>
-  </data>
-  <data name="lbl_ConfirmAndUpdate" xml:space="preserve">
-    <value>अपडेट के लिए पुष्टि करें</value>
-  </data>
-  <data name="lbl_Month1" xml:space="preserve">
-    <value>जनवरी</value>
-  </data>
-  <data name="lbl_Month10" xml:space="preserve">
-    <value>अक्टूबर</value>
-  </data>
-  <data name="lbl_Month11" xml:space="preserve">
-    <value>नवम्बर</value>
-  </data>
-  <data name="lbl_Month12" xml:space="preserve">
-    <value>दिसम्बर</value>
-  </data>
-  <data name="lbl_Month2" xml:space="preserve">
-    <value>फ़रवरी</value>
-  </data>
-  <data name="lbl_Month3" xml:space="preserve">
-    <value>मार्च</value>
-  </data>
-  <data name="lbl_Month4" xml:space="preserve">
-    <value>अप्रैल</value>
-  </data>
-  <data name="lbl_Month5" xml:space="preserve">
-    <value>मई</value>
-  </data>
-  <data name="lbl_Month6" xml:space="preserve">
-    <value>जून</value>
-  </data>
-  <data name="lbl_Month7" xml:space="preserve">
-    <value>जुलाई</value>
-  </data>
-  <data name="lbl_Month8" xml:space="preserve">
-    <value>अगस्त</value>
-  </data>
-  <data name="lbl_Month9" xml:space="preserve">
-    <value>सितम्बर</value>
-  </data>
-  <data name="lbl_ReModify" xml:space="preserve">
-    <value>फिर से संशोधित करें</value>
-  </data>
-  <data name="lbl_VirtualGames" xml:space="preserve">
-    <value>आभासी खेल</value>
-  </data>
-  <data name="lbl_All" xml:space="preserve">
-    <value>सब</value>
-  </data>
-  <data name="lbl_AllGames" xml:space="preserve">
-    <value>सभी खेल</value>
-  </data>
-  <data name="lbl_CasinoLobby" xml:space="preserve">
-    <value>कैसीनो लॉबी</value>
-  </data>
-  <data name="lbl_Favourite" xml:space="preserve">
-    <value>पसंदीदा</value>
-  </data>
-  <data name="lbl_Feature" xml:space="preserve">
-    <value>फ़ीचर</value>
-  </data>
-  <data name="lbl_Free" xml:space="preserve">
-    <value>डेमो</value>
-  </data>
-  <data name="lbl_GPI" xml:space="preserve">
-    <value>GPI</value>
-  </data>
-  <data name="lbl_NoMatching" xml:space="preserve">
-    <value>कोई मिलान उत्पाद नहीं मिला</value>
-  </data>
-  <data name="lbl_OWCasino" xml:space="preserve">
-    <value>OW कैसिनो</value>
-  </data>
-  <data name="lbl_PlayNow" xml:space="preserve">
-    <value>प्ले</value>
-  </data>
-  <data name="lbl_Provider" xml:space="preserve">
-    <value>प्रदाता</value>
-  </data>
-  <data name="lbl_SelfCasino" xml:space="preserve">
-    <value>Nova कैसिनो</value>
-  </data>
-  <data name="lbl_Slots" xml:space="preserve">
-    <value>स्लॉट्स</value>
-  </data>
-  <data name="lbl_Fishing" xml:space="preserve">
-    <value>मछली पकड़ना</value>
-  </data>
-  <data name="lbl_Statement" xml:space="preserve">
-    <value>विवरण</value>
-  </data>
-  <data name="lbl_AfterAmount" xml:space="preserve">
-    <value>राशि के बाद</value>
-  </data>
-  <data name="lbl_BeforeAmount" xml:space="preserve">
-    <value>राशि से पहले</value>
-  </data>
-  <data name="lbl_ChangeAmount" xml:space="preserve">
-    <value>राशि बदलें</value>
-  </data>
-  <data name="lbl_RefTransId" xml:space="preserve">
-    <value>संदर्भ लेनदेन आईडी</value>
-  </data>
-  <data name="lbl_TypeName" xml:space="preserve">
-    <value>नाम लिखो</value>
-  </data>
-  <data name="lbl_Refund" xml:space="preserve">
-    <value>धन की वापसी</value>
-  </data>
-  <data name="lbl_Settled" xml:space="preserve">
-    <value>निस्तारण</value>
-  </data>
-  <data name="lbl_Stake" xml:space="preserve">
-    <value>दाँव</value>
-  </data>
-  <data name="lbl_LastMonth" xml:space="preserve">
-    <value>เดือนที่แล้ว</value>
-  </data>
-  <data name="lbl_LastWeek" xml:space="preserve">
-    <value>อาทิตย์ที่แล้ว</value>
-  </data>
-  <data name="lbl_QuickPick" xml:space="preserve">
-    <value>त्वरित चुनाव</value>
-  </data>
-  <data name="lbl_ThisMonth" xml:space="preserve">
-    <value>เดือนนี้</value>
-  </data>
-  <data name="lbl_ThisWeek" xml:space="preserve">
-    <value>อาทิตย์ที่แล้ว</value>
-  </data>
-  <data name="lbl_Today" xml:space="preserve">
-    <value>วันนี้</value>
-  </data>
-  <data name="lbl_YesterDay" xml:space="preserve">
-    <value>เมื่อวานนี้</value>
-  </data>
-  <data name="lbl_Table" xml:space="preserve">
-    <value>टेबल</value>
-  </data>
-  <data name="lbl_WithdrawalLimit" xml:space="preserve">
-    <value>निकासी अस्वीकृत, आवश्यक टर्नओवर तक पहुंचने के लिए शेष</value>
-  </data>
-  <data name="lbl_Announcement" xml:space="preserve">
-    <value>मुनादी करना</value>
-  </data>
-  <data name="lbl_PersonalMsg" xml:space="preserve">
-    <value>व्यक्तिगत संदेश</value>
-  </data>
-  <data name="lbl_License" xml:space="preserve">
-    <value>लाइसेंस</value>
-  </data>
-  <data name="lbl_Payment" xml:space="preserve">
-    <value>भुगतान</value>
-  </data>
-  <data name="lbl_Platform" xml:space="preserve">
-    <value>प्रदाता</value>
-  </data>
-  <data name="lbl_More" xml:space="preserve">
-    <value>अधिक</value>
-  </data>
-  <data name="lbl_IGAccount" xml:space="preserve">
-    <value>nova88_official</value>
-  </data>
-  <data name="lbl_Instagram" xml:space="preserve">
-    <value>Instagram</value>
-  </data>
-  <data name="lbl_Deduction" xml:space="preserve">
-    <value>ऑफसेट रोलओवर अंतर राशि</value>
-  </data>
-  <data name="lbl_Arcade" xml:space="preserve">
-    <value>आर्केड</value>
-  </data>
-  <data name="lbl_PPCasino" xml:space="preserve">
-    <value>पश्चिमी सुइट</value>
-  </data>
-  <data name="lbl_Scratch" xml:space="preserve">
-    <value>स्क्रैच कार्ड</value>
-  </data>
-  <data name="lbl_SG" xml:space="preserve">
-    <value>SG</value>
-  </data>
-  <data name="lbl_Promo" xml:space="preserve">
-    <value>प्रोमो</value>
-  </data>
-  <data name="lbl_Indo4d" xml:space="preserve">
-    <value>Indo 4D</value>
-  </data>
-  <data name="lbl_Lottery" xml:space="preserve">
-    <value>लॉटरी</value>
-  </data>
-  <data name="lbl_PromotionInfo" xml:space="preserve">
-    <value>प्रचार जानकारी</value>
-  </data>
-  <data name="FTDPDescription13" xml:space="preserve">
-    <value>Nova88 के साथ अपनी पहली जमा राशि के साथ RMB588 बोनस तक का आनंद लें! अब शामिल हों!</value>
-  </data>
-  <data name="FTDPTitle13" xml:space="preserve">
-    <value>MYR 588 तक 100% स्वागत बोनस</value>
-  </data>
-  <data name="FTDP3Description" xml:space="preserve">
-    <value>अब शामिल हों! Nova88 के साथ अपनी पहली जमा राशि के साथ MYR388 बोनस तक का आनंद लें!</value>
-  </data>
-  <data name="FTDP3Title" xml:space="preserve">
-    <value>MYR 388 तक 100% स्वागत बोनस</value>
-  </data>
-  <data name="lbl_ResetPassword" xml:space="preserve">
-    <value>पासवर्ड रीसेट</value>
-  </data>
-  <data name="lbl_ResetPasswordSubmit" xml:space="preserve">
-    <value>पासवर्ड रीसेट अनुरोध</value>
-  </data>
-  <data name="lbl_Retype" xml:space="preserve">
-    <value>पुन: लिखें</value>
-  </data>
-  <data name="lbl_SubmitPhotoIdList" xml:space="preserve">
-    <value>"1. राष्ट्रीय पहचान पत्र
- 2. पासपोर्ट
- 3. ड्राइविंग लाइसेंस
- 4. जन्म प्रमाण पत्र """</value>
-  </data>
-  <data name="lbl_WaitKYC" xml:space="preserve">
-    <value>सत्यापन चल रहा है</value>
-  </data>
-  <data name="lbl_WaitKYCHint" xml:space="preserve">
-    <value>आवश्यक दस्तावेज जमा करने के लिए धन्यवाद, कृपया हमारे साथ प्रतीक्षा करें रहें आपका सत्यापन प्रगति पर है।</value>
-  </data>
-  <data name="lbl_ABCasino" xml:space="preserve">
-    <value>AB कैसीनो</value>
-  </data>
-  <data name="lbl_BirthCertificate" xml:space="preserve">
-    <value>जन्म प्रमाणपत्र</value>
-  </data>
-  <data name="lbl_Details" xml:space="preserve">
-    <value>विवरण</value>
-  </data>
-  <data name="lbl_DrivingLicense" xml:space="preserve">
-    <value>ड्राइविंग लाइसेंस</value>
-  </data>
-  <data name="lbl_Football" xml:space="preserve">
-    <value>फ़ुटबॉल</value>
-  </data>
-  <data name="lbl_Guest" xml:space="preserve">
-    <value>अतिथि</value>
-  </data>
-  <data name="lbl_Hockey" xml:space="preserve">
-    <value>हॉकी</value>
-  </data>
-  <data name="lbl_KYCSubmitHint" xml:space="preserve">
-    <value>कृपया नीचे दिए गए सूचीबद्ध आईडी में से किसी एक को जमा करें:</value>
-  </data>
-  <data name="lbl_Languages" xml:space="preserve">
-    <value>भाषा</value>
-  </data>
-  <data name="lbl_LiveChat" xml:space="preserve">
-    <value>सीधी बातचीत</value>
-  </data>
-  <data name="lbl_Loading" xml:space="preserve">
-    <value>प्रक्रिया के तहत</value>
-  </data>
-  <data name="lbl_Me" xml:space="preserve">
-    <value>मुझे</value>
-  </data>
-  <data name="lbl_NationalIdentityCard" xml:space="preserve">
-    <value>राष्ट्रीय पहचान पत्र</value>
-  </data>
-  <data name="lbl_Other" xml:space="preserve">
-    <value>अन्य</value>
-  </data>
-  <data name="lbl_Passport" xml:space="preserve">
-    <value>पासपोर्ट</value>
-  </data>
-  <data name="lbl_Setting" xml:space="preserve">
-    <value>अस्त</value>
-  </data>
-  <data name="lbl_Statement1" xml:space="preserve">
-    <value>विवरण</value>
-  </data>
-  <data name="lbl_Themes" xml:space="preserve">
-    <value>विषयों</value>
-  </data>
-  <data name="lbl_Wallet" xml:space="preserve">
-    <value>पर्स</value>
-  </data>
-  <data name="lbl_RotationHint_1" xml:space="preserve">
-    <value>प्रिय मूल्यवान ग्राहक</value>
-  </data>
-  <data name="lbl_RotationHint_2" xml:space="preserve">
-    <value>ताकि बेहतर अनुभव और उत्पादों को पेश किया जा सके</value>
-  </data>
-  <data name="lbl_RotationHint_3" xml:space="preserve">
-    <value>बेहतर गेम अनुभव के लिए कृपया अपने फोन को पोर्ट्रेट में घुमाएं</value>
-  </data>
-  <data name="lbl_RotationHint_4" xml:space="preserve">
-    <value>आपको हुई असुविधा के लिए हम माफी माँगते हैं, और आपसे अत्यधिक समझ की उम्मीद करते हैं। धन्यवाद!</value>
-  </data>
-  <data name="lbl_SexyCasino" xml:space="preserve">
-    <value>वीनस सुइट</value>
-  </data>
-  <data name="lbl_Fail" xml:space="preserve">
-    <value>अनुत्तीर्ण होना/ फेलङ</value>
-  </data>
-  <data name="lbl_Pending" xml:space="preserve">
-    <value>अपूर्ण</value>
-  </data>
-  <data name="lbl_Success" xml:space="preserve">
-    <value>ความสำเร็จ</value>
-  </data>
-  <data name="lbl_ViewHistory" xml:space="preserve">
-    <value>इतिहास देखें</value>
-  </data>
-  <data name="lbl_DependOnTheBank" xml:space="preserve">
-    <value>बैंक पर निर्भर करता है</value>
-  </data>
-  <data name="lbl_InputAmount" xml:space="preserve">
-    <value>Input amount</value>
-  </data>
-  <data name="lbl_SelectBank" xml:space="preserve">
-    <value>बैंक का चयन करें</value>
-  </data>
-  <data name="lbl_TpWallet_1" xml:space="preserve">
-    <value>स्पोर्ट्सबुक वॉलेट</value>
-  </data>
-  <data name="lbl_PromoCategory_1" xml:space="preserve">
-    <value>เกมสล็อต</value>
-  </data>
-  <data name="lbl_PromoCategory_2" xml:space="preserve">
-    <value>คาสิโนสด</value>
-  </data>
-  <data name="lbl_PromoCategory_3" xml:space="preserve">
-    <value>เกมยิงปลา</value>
-  </data>
-  <data name="lbl_PromoCategory_4" xml:space="preserve">
-    <value>ซาบา สปอร์ต</value>
-  </data>
-  <data name="lbl_TurnoverAccmulateHint" xml:space="preserve">
-    <value>रोलओवर आवश्यकता पूरी नहीं होने के कारण आपका फंड ट्रांसफर करने के लिए बंद है।</value>
-  </data>
-  <data name="lbl_TurnoverAccumulated" xml:space="preserve">
-    <value>टर्नओवर संचित</value>
-  </data>
-  <data name="lbl_AccountNumber" xml:space="preserve">
-    <value>खाता संख्या</value>
-  </data>
-  <data name="lbl_AreYouSure" xml:space="preserve">
-    <value>क्या आपको यकीन है?</value>
-  </data>
-  <data name="lbl_Note" xml:space="preserve">
-    <value>ध्यान दें</value>
-  </data>
-  <data name="lbl_RecipientInfo" xml:space="preserve">
-    <value>प्राप्तकर्ता जानकारी</value>
-  </data>
-  <data name="lbl_RecipientName" xml:space="preserve">
-    <value>प्राप्तकर्ता का नाम</value>
-  </data>
-  <data name="lbl_ViewStatement" xml:space="preserve">
-    <value>विवरण देखें</value>
-  </data>
-  <data name="lbl_WithdrawalNotice" xml:space="preserve">
-    <value>हम गलत जानकारी प्राप्तकरने या हैक किए गए खाते के लिए ज़िम्मेदार नहीं हैं</value>
-  </data>
-  <data name="lbl_WithdrawalAmountTooltip" xml:space="preserve">
-    <value>कृपया निकासी राशि का पूरा आंकड़ा भरें। उदा: 3 मिलियन के लिए 3,000,000</value>
-  </data>
-  <data name="lbl_GoToOTP" xml:space="preserve">
-    <value>OTP पर जाएं</value>
-  </data>
-  <data name="lbl_OTPCertification" xml:space="preserve">
-    <value>OTP प्रमाणन</value>
-  </data>
-  <data name="lbl_Resend" xml:space="preserve">
-    <value>पुन: भेजें</value>
-  </data>
-  <data name="msg_EnterOTPCode" xml:space="preserve">
-    <value>कृपया OTP कोड दर्ज करें।</value>
-  </data>
-  <data name="lbl_PleaseSelBank" xml:space="preserve">
-    <value>कृपया बैंक का चयन करें।</value>
-  </data>
-  <data name="lbl_GoToProfile" xml:space="preserve">
-    <value>प्रोफ़ाइल में जाएँ</value>
-  </data>
-  <data name="lbl_EbetCasino" xml:space="preserve">
-    <value>शाही सुइट</value>
-  </data>
-  <data name="lbl_PoweredBy" xml:space="preserve">
-    <value>द्वारा संचालित</value>
-  </data>
-  <data name="lbl_Prize" xml:space="preserve">
-    <value>पुरस्कार</value>
-  </data>
-  <data name="lbl_UnSettle" xml:space="preserve">
-    <value>अस्थिर करना</value>
-  </data>
-  <data name="lbl_AffiliateSlog" xml:space="preserve">
-    <value>सफलता मे आपका साथी</value>
-  </data>
-  <data name="lbl_PromoRemind" xml:space="preserve">
-    <value>विशेष अवसर का आनंद लेने के लिए अभी जमा करें</value>
-  </data>
-  <data name="msg_ApiServerError" xml:space="preserve">
-    <value>API सर्वर त्रुटि।</value>
-  </data>
-  <data name="msg_OTP_SendOTPSMS_5002" xml:space="preserve">
-    <value>गलत फ़ोन नंबर दर्ज किया गया है।</value>
-  </data>
-  <data name="msg_OTP_SendOTPSMS_1000" xml:space="preserve">
-    <value>अमान्य ओटीपी कोड</value>
-  </data>
-  <data name="lbl_FishingSG1" xml:space="preserve">
-    <value>मछली पकड़ने वाला भगवान</value>
-  </data>
-  <data name="lbl_FishingSG2" xml:space="preserve">
-    <value>मछली पकड़ने का युद्ध</value>
-  </data>
-  <data name="lbl_FishingGG" xml:space="preserve">
-    <value>मछली पकड़ने की दुनिया</value>
-  </data>
-  <data name="Currency_96" xml:space="preserve">
-    <value>USDT</value>
-  </data>
-  <data name="lbl_Currency_96" xml:space="preserve">
-    <value>USDT</value>
-  </data>
-  <data name="lbl_WMCasino" xml:space="preserve">
-    <value>एफ़्रोडाइट सुइट</value>
-  </data>
-  <data name="lbl_WalletDescription_Kiss918" xml:space="preserve">
-    <value>918 चुंबन</value>
-  </data>
-  <data name="lbl_Wallet_Kiss918" xml:space="preserve">
-    <value>918 किश</value>
-  </data>
-  <data name="lbl_Error_Message" xml:space="preserve">
-    <value>यह अप्रत्याशित है ....</value>
-  </data>
-  <data name="lbl_Error_Title" xml:space="preserve">
-    <value>गोली मारो !</value>
-  </data>
-  <data name="lbl_TpWallet_27" xml:space="preserve">
-    <value>PT वॉलेट</value>
-  </data>
-  <data name="lbl_Cashback_Sports" xml:space="preserve">
-    <value>खेल</value>
-  </data>
-  <data name="lbl_Cashback_RNG" xml:space="preserve">
-    <value>आरएनजी कैसिनो</value>
-  </data>
-  <data name="lbl_Cashback_Lottery" xml:space="preserve">
-    <value>लॉटरी</value>
-  </data>
-  <data name="lbl_Cashback_Virtual_Sports" xml:space="preserve">
-    <value>वर्चुअल स्पोर्ट्स</value>
-  </data>
-  <data name="lbl_WalletDescription_PT" xml:space="preserve">
-    <value>PT पर्स</value>
-  </data>
-  <data name="lbl_Wallet_PT" xml:space="preserve">
-    <value>पीटी पर्स</value>
-  </data>
-  <data name="lbl_WalletDescription_NineW" xml:space="preserve">
-    <value>9W पर्स</value>
-  </data>
-  <data name="lbl_Wallet_NineW" xml:space="preserve">
-    <value>9W पर्स</value>
-  </data>
-  <data name="lbl_WalletDescription_Mega" xml:space="preserve">
-    <value>Megaपर्स</value>
-  </data>
-  <data name="lbl_Wallet_Mega" xml:space="preserve">
-    <value>Megaपर्स</value>
-  </data>
-  <data name="Currency_74" xml:space="preserve">
-    <value>BDT</value>
-  </data>
-</root>
+<resheader name="resmimetype"><value>text/microsoft-resx</value></resheader><resheader name="version"><value>1.3</value></resheader><resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader><resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader><data name="lbl_Success"><value>ความสำเร็จ</value></data>
+  <data name="lbl_Lottery"><value>लॉटरी</value></data>
+  <data name="lbl_MobileDeposit"><value>मोबाइल जमा</value></data>
+  <data name="lbl_WalletDescription_Kiss918"><value>918 चुंबन</value></data>
+  <data name="lbl_Loading"><value>प्रक्रिया के तहत</value></data>
+  <data name="lbl_Page"><value>पृष्ठ</value></data>
+  <data name="lbl_Time"><value>समय</value></data>
+  <data name="lbl_Help"><value>मदद</value></data>
+  <data name="lbl_Home"><value>घर</value></data>
+  <data name="lbl_Keno"><value>केनो</value></data>
+  <data name="lbl_Memo"><value>मेमो</value></data>
+  <data name="lbl_More"><value>अधिक</value></data>
+  <data name="lbl_Days"><value>दिन</value></data>
+  <data name="lbl_Date"><value>तारीख</value></data>
+  <data name="lbl_Back"><value>वापस</value></data>
+  <data name="lbl_From"><value>से</value></data>
+  <data name="lbl_Free"><value>डेमो</value></data>
+  <data name="lbl_Fail"><value>अनुत्तीर्ण होना/ फेलङ</value></data>
+  <data name="lbl_WaitKYC"><value>सत्यापन चल रहा है</value></data>
+  <data name="lbl_LastMonth"><value>เดือนที่แล้ว</value></data>
+  <data name="lbl_LastLogin"><value>अंतिम लॉगइन</value></data>
+  <data name="lbl_SelectAll"><value>सभी का चयन करे</value></data>
+  <data name="lbl_NotinLimit"><value>सीमा में नहीं।</value></data>
+  <data name="FTDP3Description"><value>अब शामिल हों! Nova88 के साथ अपनी पहली जमा राशि के साथ MYR388 बोनस तक का आनंद लें!</value></data>
+  <data name="lbl_ComingSoon"><value>शीघ्र आ रहा है</value></data>
+  <data name="lbl_OldPassword"><value>पुराना पासवर्ड</value></data>
+  <data name="lbl_DateMissing"><value>कृपया पूछताछ के लिए तिथि दर्ज करें।</value></data>
+  <data name="lbl_SportsBetting"><value>खेल में सट्टेबाजी</value></data>
+  <data name="lbl_EligibleWithdrawal"><value>योग्य निकासी</value></data>
+  <data name="lbl_ForgetPwdHint"><value>यदि आप अपना उपयोगकर्ता नाम या पासवर्ड भूल गए हैं, तो कृपया अपना ईमेल प्रदान करें और हम आपका नया पासवर्ड आपके पंजीकृत ईमेल पते पर भेज देंगे।</value></data>
+  <data name="lbl_RetriveAllIn"><value>सभी को पुनः प्राप्त करें</value></data>
+  <data name="lbl_VariousBankingOptions"><value>विभिन्न बैंकिंग विकल्प</value></data>
+  <data name="lbl_DownloadApp"><value>राशि बदलें</value></data>
+  <data name="lbl_TryMobile"><value>मोबाइल द्वारा हमारी वेबसाइट ब्राउज़ करने का प्रयास करें</value></data>
+  <data name="lbl_PasswordTooltip"><value>Password must be 6-15 characters, contain both alphanumeric and a special characters (!@#$%^&amp;*)</value></data>
+  <data name="lbl_VirtualGames"><value>आभासी खेल</value></data>
+  <data name="lbl_YesterDay"><value>เมื่อวานนี้</value></data>
+  <data name="lbl_QuickPick"><value>त्वरित चुनाव</value></data>
+  <data name="FTDPTitle"><value>MYR 888 तक 150% स्वागत बोनस</value></data>
+  <data name="lbl_MainWallet"><value>मुख्य वॉलेट</value></data>
+  <data name="lbl_License"><value>लाइसेंस</value></data>
+  <data name="lbl_MyAccount"><value>मेरा खाता</value></data>
+  <data name="lbl_Transfer"><value>स्थानांतरण</value></data>
+  <data name="lbl_TransferFrom"><value>इससे स्थानांतरित करें</value></data>
+  <data name="lbl_ContactCSD"><value>संशोधन के किसी भी अनुरोध के लिए, कृपया CSD से संपर्क करें।</value></data>
+  <data name="lbl_AGCasino"><value>फीनिक्स सुइट</value></data>
+  <data name="lbl_Month11"><value>नवम्बर</value></data>
+  <data name="lbl_Month10"><value>अक्टूबर</value></data>
+  <data name="lbl_Month12"><value>दिसम्बर</value></data>
+  <data name="lbl_NumberGame"><value>नंबर गेम</value></data>
+  <data name="lbl_Fishing"><value>मछली पकड़ना</value></data>
+  <data name="lbl_TpWallet_1"><value>स्पोर्ट्सबुक वॉलेट</value></data>
+  <data name="lbl_DepositStatus8"><value>प्रसंस्करण</value></data>
+  <data name="lbl_DepositStatus4"><value>अस्वीकृत</value></data>
+  <data name="lbl_DepositStatus5"><value>रद्द</value></data>
+  <data name="lbl_DepositStatus6"><value>समय सीमा समाप्त</value></data>
+  <data name="lbl_DepositStatus7"><value>होल्ड पर</value></data>
+  <data name="lbl_DepositStatus0"><value>प्रारूप</value></data>
+  <data name="lbl_DepositStatus1"><value>लंबित/ अपूर्ण</value></data>
+  <data name="lbl_DepositStatus2"><value>भुगतान किया</value></data>
+  <data name="lbl_DepositStatus3"><value>स्वीकृत</value></data>
+  <data name="lbl_Statement"><value>विवरण</value></data>
+  <data name="lbl_AllTranscations"><value>सभी लेन - देन</value></data>
+  <data name="lbl_WithdrawalAmount"><value>निकाली गयी राशि</value></data>
+  <data name="lbl_CasinoLobby"><value>कैसीनो लॉबी</value></data>
+  <data name="lbl_RefTransId"><value>संदर्भ लेनदेन आईडी</value></data>
+  <data name="lbl_PrivacyPolicy"><value>गोपनीयता नीति</value></data>
+  <data name="lbl_eSportsBetting"><value>ई-स्पोर्ट बेटिंग</value></data>
+  <data name="lbl_WalletDescription_Mega"><value>Megaपर्स</value></data>
+  <data name="lbl_WalletDescription_Saba"><value>OneRNG, PP और प्लेटिनम सूट (AB) शामिल करें</value></data>
+  <data name="lbl_ShowBalance"><value>संतुलन दिखाएं</value></data>
+  <data name="lbl_Feature"><value>फ़ीचर</value></data>
+  <data name="lbl_LiveChat"><value>सीधी बातचीत</value></data>
+  <data name="Currency_41"><value>CHF</value></data>
+  <data name="Currency_45"><value>WON</value></data>
+  <data name="Currency_51"><value>VND</value></data>
+  <data name="Currency_74"><value>BDT</value></data>
+  <data name="Currency_15"><value>IDR</value></data>
+  <data name="Currency_12"><value>GBP</value></data>
+  <data name="Currency_13"><value>CNY</value></data>
+  <data name="Currency_20"><value>UUS</value></data>
+  <data name="Currency_32"><value>JPY</value></data>
+  <data name="lbl_BasketballBetting"><value>बास्केटबॉल सट्टेबाजी</value></data>
+  <data name="lbl_TpWallet_27"><value>PT वॉलेट</value></data>
+  <data name="lbl_Applicationname"><value>Nova88</value></data>
+  <data name="FTDPDescription13"><value>Nova88 के साथ अपनी पहली जमा राशि के साथ RMB588 बोनस तक का आनंद लें! अब शामिल हों!</value></data>
+  <data name="lbl_Wallet_PT"><value>पीटी पर्स</value></data>
+  <data name="lbl_RegisterTime"><value>जीकरण समय</value></data>
+  <data name="lbl_YourEmail"><value>आपका ईमेल पता</value></data>
+  <data name="lbl_WithdrawalOver"><value>आपकी आवश्यक निकासी राशि आपकी सुगम निकासी राशि से अधिक हो गई है।</value></data>
+  <data name="lbl_Clickhereforjoin"><value>शामिल होने के लिए यहां क्लिक करें</value></data>
+  <data name="lbl_LiveCasinoSlogon"><value>असली कैसीनो अनुभव</value></data>
+  <data name="lbl_CompleteRegistration"><value>पंजीकरण पूर्ण करें</value></data>
+  <data name="lbl_RefnoToolTip"><value>कृपया अपना बैंक स्लिप संदर्भ संख्या जमा करें</value></data>
+  <data name="FTDP3Title"><value>MYR 388 तक 100% स्वागत बोनस</value></data>
+  <data name="lbl_eSports"><value>ई-खेल</value></data>
+  <data name="lbl_EmailToolTip"><value>प्रस्तुत करने के बाद ईमेल नहीं बदला जा सकता है।</value></data>
+  <data name="lbl_HockeyBetting"><value>हॉकी बेटिंग</value></data>
+  <data name="lbl_WalletDescription_PT"><value>PT पर्स</value></data>
+  <data name="lbl_RollOver"><value>रोल ओवर</value></data>
+  <data name="lbl_Cashback_Lottery"><value>लॉटरी</value></data>
+  <data name="lbl_NoMatching"><value>कोई मिलान उत्पाद नहीं मिला</value></data>
+  <data name="lbl_WeChatPay"><value>WeChat Pay</value></data>
+  <data name="lbl_AboutUs"><value>हमारे बारे में/ परिचय</value></data>
+  <data name="lbl_RolloverOver"><value>अपर्याप्त रोलओवर टर्नओवर</value></data>
+  <data name="lbl_AddNewAccount"><value>नया खाता जोड़ें</value></data>
+  <data name="PromotionCategory1"><value>पहला जमा</value></data>
+  <data name="lbl_PromoRemind"><value>विशेष अवसर का आनंद लेने के लिए अभी जमा करें</value></data>
+  <data name="lbl_TransferTo"><value>स्थानांतरण के लिए</value></data>
+  <data name="lbl_TransferIn"><value>फंड में</value></data>
+  <data name="lbl_TwitterSite"><value>@Nova88official</value></data>
+  <data name="lbl_PPCasino"><value>पश्चिमी सुइट</value></data>
+  <data name="lbl_PrefferedCurrency"><value>पसंदीदा मुद्रा</value></data>
+  <data name="lbl_Reminder"><value>अनुस्मारक</value></data>
+  <data name="lbl_DepositTimeToolTip"><value>कृपया अपनी राशि समय पर जमा करें।</value></data>
+  <data name="lbl_Error_Title"><value>गोली मारो !</value></data>
+  <data name="lbl_Postscript"><value>पोस्टस्क्रिप्ट</value></data>
+  <data name="lbl_Register"><value>रजिस्टर करें</value></data>
+  <data name="lbl_Provider"><value>प्रदाता</value></data>
+  <data name="lbl_CompletedRegistration"><value>पूर्ण पंजीकरण</value></data>
+  <data name="lbl_PersonalMsg"><value>व्यक्तिगत संदेश</value></data>
+  <data name="lbl_ImportantNote"><value>Important Note</value></data>
+  <data name="lbl_MaxBonusAmount"><value>अधिकतम बोनस राशि</value></data>
+  <data name="lbl_WalletDescription_NineW"><value>9W पर्स</value></data>
+  <data name="lbl_ExpiryTime"><value>समाप्ति समय</value></data>
+  <data name="lbl_Unionpay"><value>Unionpay</value></data>
+  <data name="lbl_CheckConfirm"><value>क्या आप वाकई इसॆ हटाना चाहते हैं? इसे हटाने के बाद पुनर्स्थापित नहीं किया जा सकता है!</value></data>
+  <data name="lbl_VIPLevel"><value>वीआईपी स्तर</value></data>
+  <data name="lbl_RemainingTime"><value>शेष समय</value></data>
+  <data name="lbl_PhotoID"><value>फोटो पहचान पत्र</value></data>
+  <data name="lbl_FacebookAccount"><value>nova88official</value></data>
+  <data name="lbl_Birthday"><value>जन्मदिन</value></data>
+  <data name="lbl_BankNumber"><value>खाता संख्या</value></data>
+  <data name="lbl_SexyCasino"><value>वीनस सुइट</value></data>
+  <data name="lbl_DepositStatus99"><value>त्रुटि/एरर</value></data>
+  <data name="lbl_TitleDesc"><value>ऑनलाइन खेल सट्टेबाजी और Nova88 में सर्वश्रेष्ठ बाधाओं के साथ लाइव सट्टेबाजी</value></data>
+  <data name="lbl_Wallet_Mega"><value>Megaपर्स</value></data>
+  <data name="lbl_Wallet_Saba"><value>स्पोर्ट्सबुक वॉलेट</value></data>
+  <data name="lbl_Deposit"><value>जमा</value></data>
+  <data name="lbl_Details"><value>विवरण</value></data>
+  <data name="lbl_PlayNow"><value>प्ले</value></data>
+  <data name="lbl_CustBank"><value>बैंक</value></data>
+  <data name="lbl_RealName"><value>वास्तविक नाम</value></data>
+  <data name="lbl_WalletType"><value>वॉलेट प्रकार</value></data>
+  <data name="lbl_TransactionHistory"><value>ट्रांजेक्शन इतिहास</value></data>
+  <data name="lbl_AllGames"><value>सभी खेल</value></data>
+  <data name="FTDPTitle13"><value>MYR 588 तक 100% स्वागत बोनस</value></data>
+  <data name="lbl_Check18TCTooltip"><value>खाता पंजीकरण आवश्यकताओं की पुष्टि करने के लिए कृपया उपरोक्त चेकबॉक्स पर क्लिक करें</value></data>
+  <data name="lbl_Payment"><value>भुगतान</value></data>
+  <data name="lbl_UpdateBankInfo"><value>निकासी करने से पहले कृपया अपनी व्यक्तिगत जानकारी अपडेट करें।</value></data>
+  <data name="lbl_TransferAll"><value>मुख्य बटुए में स्थानांतरण</value></data>
+  <data name="lbl_TransferOut"><value>बाहर स्थानांतरण</value></data>
+  <data name="lbl_GameList"><value>खेल सूची</value></data>
+  <data name="lbl_OWCasino"><value>OW कैसिनो</value></data>
+  <data name="lbl_UpdatePersonalDetail"><value>व्यक्तिगत विवरण अपडेट करें</value></data>
+  <data name="lbl_BirthCertificate"><value>जन्म प्रमाणपत्र</value></data>
+  <data name="lbl_Transaction"><value>खाता संख्या</value></data>
+  <data name="lbl_CookiePolicy"><value>कूकी नीति</value></data>
+  <data name="lbl_CustBankInfo"><value>बैंक की जानकारी अपडेट करें</value></data>
+  <data name="lbl_Pending"><value>अपूर्ण</value></data>
+  <data name="lbl_NewPassword"><value>नया पासवर्ड</value></data>
+  <data name="lbl_TransferFunds"><value>धनराशि का ट्रांसफर</value></data>
+  <data name="lbl_PhoneTooltip"><value>कृपया अपना फ़ोन नंबर दर्ज करें, यह दर्ज करने के बाद बदला नहीं जा सकता है!</value></data>
+  <data name="lbl_Wallet_Kiss918"><value>918 किश</value></data>
+  <data name="lbl_EligibleWithdrawalAmount"><value>आपकी पात्र निकासी राशि है</value></data>
+  <data name="lbl_Req"><value>निवेदन</value></data>
+  <data name="lbl_URL"><value>https://www.nova88.net</value></data>
+  <data name="lbl_All"><value>सब</value></data>
+  <data name="lbl_GPI"><value>GPI</value></data>
+  <data name="lbl_FAQ"><value>सामान्य प्रश्न/ अक्सर पूछे जाने वाले सवाल</value></data>
+  <data name="lbl_Description"><value>Nova88 दुनिया की अग्रणी स्पोर्ट्सबुक है जो सभी खेलों, कैसिनो, स्लॉट्स, केनो, एस्पोर्ट्स, आरएनजी कैसिनो, फैंटेसी स्पोर्ट्स, वर्चुअल स्पोर्ट्स, लॉटरी, लाइव कैसिनो, लाइव डीलर, बिंगो, और रेसिंग को कवर करते हुए लाइव सट्टेबाजी में एक तरह का जुआ अनुभव प्रदान करती है।</value></data>
+  <data name="lbl_BankAccountName"><value>खाते का नाम</value></data>
+  <data name="lbl_SubmitPhotoIdList"><value>"1. राष्ट्रीय पहचान पत्र
+  2. पासपोर्ट
+  3. ड्राइविंग लाइसेंस
+  4. जन्म प्रमाण पत्र """</value></data>
+  <data name="lbl_SubmitPhotoIdHint"><value>"निकासी को पूरा करने के लिए, सरकार द्वारा जारी दस्तावेजों के साथ जाँच पूरी
+  करना आवश्यक है:"</value></data>
+  <data name="lbl_PreferredCurrencyToolTip"><value>पंजीकरण के बाद पसंदीदा मुद्रा को बदला नहीं जा सकता है।</value></data>
+  <data name="lbl_Optional"><value>वैकल्पिक</value></data>
+  <data name="lbl_LiveCasino"><value>कैसिनो</value></data>
+  <data name="lbl_SoccerBetting"><value>फ़ुटबॉल सट्टेबाजी</value></data>
+  <data name="lbl_AccountTerms"><value>खाता शर्तें</value></data>
+  <data name="lbl_TransferHistory"><value>ट्रांजेक्शन इतिहास</value></data>
+  <data name="lbl_TwitterCreator"><value>@Nova88official</value></data>
+  <data name="lbl_ThisWeek"><value>อาทิตย์ที่แล้ว</value></data>
+  <data name="lbl_Copyright"><value>कॉपीराइट {0}</value></data>
+  <data name="lbl_ResposibleGaming"><value>जिम्मेदार गेमिंग</value></data>
+  <data name="lbl_Required"><value>यह फ़ील्ड आवश्यक है</value></data>
+  <data name="lbl_UpdateBankDetail"><value>बैंक की जानकारी अपडेट करें</value></data>
+  <data name="lbl_UploadSuccess"><value>आपकी फ़ाइल सफलतापूर्वक अपलोड कर दी गई थी।</value></data>
+  <data name="lbl_Product"><value>उत्पादों</value></data>
+  <data name="lbl_Profile"><value>प्रोफ़ाइल</value></data>
+  <data name="lbl_Themes"><value>विषयों</value></data>
+  <data name="lbl_Tennis"><value>टेनिस</value></data>
+  <data name="lbl_DrivingLicense"><value>ड्राइविंग लाइसेंस</value></data>
+  <data name="lbl_TurnoverAccmulateHint"><value>रोलओवर आवश्यकता पूरी नहीं होने के कारण आपका फंड ट्रांसफर करने के लिए बंद है।</value></data>
+  <data name="lbl_ChargeFee"><value>शुल्क</value></data>
+  <data name="lbl_SubmitProof"><value>बैंक स्लिप जमा करें</value></data>
+  <data name="lbl_WithdrawalTo"><value>वापस लेना</value></data>
+  <data name="lbl_UploadFile"><value>फ़ाइल अपलोड करें</value></data>
+  <data name="lbl_TryNow"><value>अब कोशिश करो</value></data>
+  <data name="lbl_Soccer"><value>फुटबॉल</value></data>
+  <data name="lbl_BeforeAmount"><value>राशि से पहले</value></data>
+  <data name="lbl_ReModify"><value>फिर से संशोधित करें</value></data>
+  <data name="lbl_BaseballBetting"><value>बेसबॉल सट्टेबाजी</value></data>
+  <data name="lbl_Submit"><value>प्रस्तुत</value></data>
+  <data name="lbl_Sports"><value>खेल</value></data>
+  <data name="lbl_Status"><value>स्थिति</value></data>
+  <data name="lbl_Unlimited"><value>असीमित</value></data>
+  <data name="lbl_Refund"><value>धन की वापसी</value></data>
+  <data name="lbl_DGCasino"><value>क्रिस्टल सुइट</value></data>
+  <data name="lbl_KenoAndLottery"><value>केनो और लॉटरी</value></data>
+  <data name="lbl_UpdateSuccess"><value>अद्यतन सफल</value></data>
+  <data name="lbl_Affiliates"><value>शाखा</value></data>
+  <data name="lbl_ResetPassword"><value>पासवर्ड रीसेट</value></data>
+  <data name="lbl_Keywords"><value>Nova88 दुनिया की अग्रणी स्पोर्ट्सबुक है जो सभी खेलों, कैसिनो, स्लॉट्स, केनो, एस्पोर्ट्स, आरएनजी कैसिनो, फैंटेसी स्पोर्ट्स, वर्चुअल स्पोर्ट्स, लॉटरी, लाइव कैसिनो, लाइव डीलर, बिंगो, और रेसिंग को कवर करते हुए लाइव सट्टेबाजी में एक तरह का जुआ अनुभव प्रदान करती है।</value></data>
+  <data name="lbl_Clickhereforpromotion"><value>अपने उपलब्ध प्रचार को देखने के लिए यहां क्लिक करें</value></data>
+  <data name="lbl_5mins"><value>5 मिनट</value></data>
+  <data name="lbl_LoginMsg"><value>कृपया ध्यान दें कि हम सदस्यों को एक (1) खाते से अधिक की अनुमति नहीं देते हैं।</value></data>
+  <data name="lbl_TermsConditions"><value>नियम और शर्तें</value></data>
+  <data name="lbl_RecentTransactions"><value>हाल ही के लेनदेन</value></data>
+  <data name="lbl_ConfirmDeposit"><value>कृपया जमा जानकारी की पुष्टि करें।</value></data>
+  <data name="lbl_WithdrawalStatus3"><value>सत्यापित करें</value></data>
+  <data name="lbl_WithdrawalStatus2"><value>होल्ड पर</value></data>
+  <data name="lbl_WithdrawalStatus1"><value>लंबित/ अपूर्ण</value></data>
+  <data name="lbl_WithdrawalStatus0"><value>प्रारूप</value></data>
+  <data name="lbl_WithdrawalStatus7"><value>अस्वीकृत</value></data>
+  <data name="lbl_WithdrawalStatus6"><value>स्वीकृत</value></data>
+  <data name="lbl_WithdrawalStatus5"><value>रद्द</value></data>
+  <data name="lbl_WithdrawalStatus4"><value>प्रसंस्करण</value></data>
+  <data name="lbl_Facebook"><value>फेसबुक</value></data>
+  <data name="lbl_ThisMonth"><value>เดือนนี้</value></data>
+  <data name="lbl_Cashback_Virtual_Sports"><value>वर्चुअल स्पोर्ट्स</value></data>
+  <data name="lbl_VirtualSports"><value>वर्चुअल स्पोर्ट्स</value></data>
+  <data name="lbl_LiveSupport"><value>24/7 ग्राहक सेवा</value></data>
+  <data name="lbl_AllbetCasino"><value>प्लेटिनम सुइट</value></data>
+  <data name="lbl_Phone"><value>फ़ोन नंबर</value></data>
+  <data name="lbl_Promo"><value>प्रोमो</value></data>
+  <data name="lbl_Today"><value>วันนี้</value></data>
+  <data name="lbl_Title"><value>Nova88</value></data>
+  <data name="lbl_Terms"><value>उपयोग की शर्तें</value></data>
+  <data name="lbl_Table"><value>टेबल</value></data>
+  <data name="lbl_Slots"><value>स्लॉट्स</value></data>
+  <data name="lbl_Stake"><value>दाँव</value></data>
+  <data name="lbl_Refno"><value>संदर्भ संक्या।</value></data>
+  <data name="lbl_QQpay"><value>QQpay</value></data>
+  <data name="lbl_Hours"><value>घंटे</value></data>
+  <data name="lbl_Later"><value>बाद में</value></data>
+  <data name="lbl_Login"><value>लॉग इन करें</value></data>
+  <data name="lbl_Limit"><value>सीमा</value></data>
+  <data name="lbl_FishingSG1"><value>मछली पकड़ने वाला भगवान</value></data>
+  <data name="lbl_FishingSG2"><value>मछली पकड़ने का युद्ध</value></data>
+  <data name="lbl_JDpay"><value>JDpay</value></data>
+  <data name="lbl_Image"><value>https://www.nova88.net/SiteSkin/Nova88/common/images/logo.png</value></data>
+  <data name="lbl_Other"><value>अन्य</value></data>
+  <data name="lbl_Close"><value>बंद करे</value></data>
+  <data name="lbl_Bonus"><value>बोनस</value></data>
+  <data name="lbl_Agent"><value>एजेंट</value></data>
+  <data name="lbl_Guest"><value>अतिथि</value></data>
+  <data name="lbl_Email"><value>ईमेल</value></data>
+  <data name="lbl_Enter"><value>डायरेक्ट एंटर करें</value></data>
+  <data name="lbl_Update"><value>अपडेट करें</value></data>
+  <data name="lbl_Country"><value>देश</value></data>
+  <data name="lbl_Logout"><value>लॉग आउट</value></data>
+  <data name="lbl_EbetCasino"><value>शाही सुइट</value></data>
+  <data name="lbl_DepositWithdrawals"><value>जमा और निकासी</value></data>
+  <data name="lbl_Confirm"><value>पुष्टि करें</value></data>
+  <data name="lbl_badminton"><value>बैडमिंटन</value></data>
+  <data name="lbl_JoinNow"><value>अब जुडे/ अब शामिल हों</value></data>
+  <data name="lbl_Languages"><value>भाषा</value></data>
+  <data name="lbl_Announcement"><value>मुनादी करना</value></data>
+  <data name="lbl_PostscriptHint"><value>तुरन्त जमा करने के लिए पोस्टस्क्रिप्ट भरें।</value></data>
+  <data name="lbl_Cashier"><value>केशियर</value></data>
+  <data name="lbl_HelpSupport"><value>मदद तथा सहयोग</value></data>
+  <data name="lbl_DepositAmount"><value>जमा राशि</value></data>
+  <data name="lbl_Indo4d"><value>Indo 4D</value></data>
+  <data name="lbl_Deduction"><value>ऑफसेट रोलओवर अंतर राशि</value></data>
+  <data name="lbl_TurnoverAccumulated"><value>टर्नओवर संचित</value></data>
+  <data name="lbl_TennisBetting"><value>टेनिस बेटिंग</value></data>
+  <data name="lbl_SelfCasino"><value>Nova कैसिनो</value></data>
+  <data name="lbl_OtherWallet"><value>अन्य वॉलेट</value></data>
+  <data name="lbl_PromotionsList"><value>प्रचार सूची</value></data>
+  <data name="lbl_Notice"><value>नोटिस</value></data>
+  <data name="lbl_Method"><value>तरीका</value></data>
+  <data name="FTDPDescription"><value>Nova88 के साथ अपनी पहली जमा राशि के साथ MYR888 बोनस तक का आनंद लें! अब शामिल हों!</value></data>
+  <data name="lbl_ForgetPassword"><value>पासवर्ड भूल गए</value></data>
+  <data name="lbl_Month8"><value>अगस्त</value></data>
+  <data name="lbl_Month9"><value>सितम्बर</value></data>
+  <data name="lbl_Month1"><value>जनवरी</value></data>
+  <data name="lbl_Month2"><value>फ़रवरी</value></data>
+  <data name="lbl_Month3"><value>मार्च</value></data>
+  <data name="lbl_Month4"><value>अप्रैल</value></data>
+  <data name="lbl_Month5"><value>मई</value></data>
+  <data name="lbl_Month6"><value>जून</value></data>
+  <data name="lbl_Month7"><value>जुलाई</value></data>
+  <data name="lbl_RolloverProgress"><value>रोलओवर प्रगति</value></data>
+  <data name="lbl_BankAccountNameHint"><value>कृपया खाते के नाम के लिए अपने वास्तविक नाम का उपयोग करें। एक बार दर्ज करने के बाद इस फ़ील्ड को नहीं बदला जा सकता है!</value></data>
+  <data name="lbl_ForgetNote"><value>क्या आपको अपना पासवर्ड भूल जाना चाहिए, कृपया अपना ईमेल पता, सुरक्षा प्रश्न और उत्तर प्रदान करें। हम आपके पंजीकृत ईमेल पते पर एक नया पासवर्ड भेजेंगे।</value></data>
+  <data name="lbl_WireTransfers"><value>स्थानीय बैंक स्थानांतरण</value></data>
+  <data name="lbl_Twitter"><value>Twitter</value></data>
+  <data name="lbl_CancelConfirm"><value>क्या आप वाकई इसे रद्द करना चाहते हैं? इसे रद्द करने के बाद पुनर्स्थापित नहीं किया जा सकता है!</value></data>
+  <data name="lbl_KYCSubmitHint"><value>कृपया नीचे दिए गए सूचीबद्ध आईडी में से किसी एक को जमा करें:</value></data>
+  <data name="lbl_TwitterAccount"><value>nova88official</value></data>
+  <data name="lbl_Favourite"><value>पसंदीदा</value></data>
+  <data name="lbl_Casino"><value>कैसिनो</value></data>
+  <data name="lbl_Cancel"><value>रद्द करना</value></data>
+  <data name="lbl_WithdrawalType2"><value>स्थानीय बैंक</value></data>
+  <data name="lbl_WithdrawalType1"><value>ऑनलाइन भुगतान</value></data>
+  <data name="lbl_WithdrawalType0"><value>अपरिभाषित</value></data>
+  <data name="lbl_ResetPasswordSubmit"><value>पासवर्ड रीसेट अनुरोध</value></data>
+  <data name="lbl_PaymentOptions"><value>भुगतान विकल्प</value></data>
+  <data name="lbl_Author"><value>Nova88</value></data>
+  <data name="lbl_Arcade"><value>आर्केड</value></data>
+  <data name="lbl_WithdrawalLimit"><value>निकासी अस्वीकृत, आवश्यक टर्नओवर तक पहुंचने के लिए शेष</value></data>
+  <data name="lbl_Amount"><value>राशि/ रकम</value></data>
+  <data name="lbl_Alipay"><value>Alipay</value></data>
+  <data name="lbl_DepositOptionHint"><value>आप नीचे दिए गए विकल्प में से सबसे उपयुक्त जमा विकल्प चुन सकते हैं:</value></data>
+  <data name="lbl_WaitKYCHint"><value>आवश्यक दस्तावेज जमा करने के लिए धन्यवाद, कृपया हमारे साथ प्रतीक्षा करें रहें आपका सत्यापन प्रगति पर है।</value></data>
+  <data name="lbl_LoginHere"><value>यहां लॉगिन करें</value></data>
+  <data name="lbl_Forget"><value>उपयोगकर्ता का नाम या पासवर्ड भूल गए</value></data>
+  <data name="lbl_CreditTime"><value>क्रेडिट समय</value></data>
+  <data name="lbl_SACasino"><value>एथेना सुइट</value></data>
+  <data name="lbl_MomoHint"><value>जल्द जमा करने के लिए, कृपया अपने बैंक खाते का नाम और बैंक नंबर यहाँ छोड़ दें।</value></data>
+  <data name="lbl_FootballBetting"><value>ई-स्पोर्ट बेटिंग</value></data>
+  <data name="lbl_CountryTooltip"><value>कृपया अपने निवास का देश चुनें</value></data>
+  <data name="lbl_UsernameTooltip"><value>सुरक्षा के दृष्टि से हम सुझाव देते हैं कि आपके उपयोगकर्ता नाम में आपका वास्तविक नाम नहीं है।</value></data>
+  <data name="lbl_AttachFile"><value>कृपया अपना बैंक स्लिप यहां संलग्न करें। (वैकल्पिक)</value></data>
+  <data name="lbl_Baseball"><value>बेसबॉल</value></data>
+  <data name="lbl_AmountTooltip"><value>राशि 0 से कम नहीं हो सकती।</value></data>
+  <data name="lbl_TypeName"><value>नाम लिखो</value></data>
+  <data name="lbl_Wallet_NineW"><value>9W पर्स</value></data>
+  <data name="lbl_AfterAmount"><value>राशि के बाद</value></data>
+  <data name="lbl_UpdatePersonalInfo"><value>निकासी करने से पहले कृपया अपने बैंक खाते का विवरण अपडेट करें।</value></data>
+  <data name="lbl_DepositOver"><value>आपकी आवश्यक निकासी राशि आपके वर्तमान उपलब्ध शेष राशि से अधिक हो गई है।</value></data>
+  <data name="lbl_DepositTime"><value>जमा करते समय</value></data>
+  <data name="lbl_Promotion"><value>प्रचार / प्रचार</value></data>
+  <data name="lbl_Withdrawal"><value>निकासी</value></data>
+  <data name="lbl_UploadPhotoId"><value>अपलोड</value></data>
+  <data name="lbl_DontHaveAccount"><value>खाता नहीं है?</value></data>
+  <data name="lbl_LastTransaction"><value>अंतिम लेन-देन</value></data>
+  <data name="lbl_ChangeAmount"><value>राशि बदलें</value></data>
+  <data name="lbl_WithdrawalHistory"><value>वापसी का इतिहास</value></data>
+  <data name="lbl_OnlineBanking"><value>ऑनलाइन बैंकिंग</value></data>
+  <data name="lbl_Instagram"><value>Instagram</value></data>
+  <data name="lbl_LastWeek"><value>อาทิตย์ที่แล้ว</value></data>
+  <data name="lbl_Cashback_Sports"><value>खेल</value></data>
+  <data name="lbl_RotationHint_1"><value>प्रिय मूल्यवान ग्राहक</value></data>
+  <data name="lbl_RotationHint_2"><value>ताकि बेहतर अनुभव और उत्पादों को पेश किया जा सके</value></data>
+  <data name="lbl_RotationHint_3"><value>बेहतर गेम अनुभव के लिए कृपया अपने फोन को पोर्ट्रेट में घुमाएं</value></data>
+  <data name="lbl_RotationHint_4"><value>आपको हुई असुविधा के लिए हम माफी माँगते हैं, और आपसे अत्यधिक समझ की उम्मीद करते हैं। धन्यवाद!</value></data>
+  <data name="lbl_Currency_20"><value>वर्चुअल डॉलर (परीक्षण प्रस्ताव के लिए)</value></data>
+  <data name="lbl_Currency_13"><value>चीनी रेनमिनबी</value></data>
+  <data name="lbl_Currency_12"><value>ब्रिटिश पाउंड</value></data>
+  <data name="lbl_Currency_15"><value>इंडोनेशिया रुपिया</value></data>
+  <data name="lbl_Currency_45"><value>कोरियाई वोन</value></data>
+  <data name="lbl_Currency_41"><value>स्विस फ्रैंक</value></data>
+  <data name="lbl_Currency_32"><value>जापान येनो</value></data>
+  <data name="lbl_Currency_51"><value>वियतनामी डोंग</value></data>
+  <data name="lbl_DepositType1"><value>ऑनलाइन बैंकिंग</value></data>
+  <data name="lbl_DepositType2"><value>मोबाइल भुगतान</value></data>
+  <data name="lbl_DepositType3"><value>स्थानीय बैंक</value></data>
+  <data name="lbl_TitleKeywords"><value>ऑनलाइन खेल सट्टेबाजी और Nova88 में सर्वश्रेष्ठ बाधाओं के साथ लाइव सट्टेबाजी</value></data>
+  <data name="lbl_Promotions"><value>प्रचार / प्रचार</value></data>
+  <data name="lbl_Cashback_RNG"><value>आरएनजी कैसिनो</value></data>
+  <data name="lbl_RemindForName"><value>* तत्काल जमा करने के लिए आपके नाम को आपके बैंक खाते के नाम से मेल खाना चाहिए</value></data>
+  <data name="Currency_9"><value>AUD</value></data>
+  <data name="Currency_4"><value>THB</value></data>
+  <data name="Currency_6"><value>EURO</value></data>
+  <data name="Currency_1"><value>SGD</value></data>
+  <data name="Currency_3"><value>USD</value></data>
+  <data name="Currency_2"><value>MYR</value></data>
+  <data name="lbl_Clickhereforsupport"><value>समर्थन पाने के लिए यहां क्लिक करें</value></data>
+  <data name="lbl_To"><value>सेवा मेरे</value></data>
+  <data name="lbl_TC"><value>प्रचार -विशिष्ट नियम और शर्तें</value></data>
+  <data name="lbl_ID"><value>आईडी</value></data>
+  <data name="lbl_Of"><value>का</value></data>
+  <data name="lbl_Me"><value>मुझे</value></data>
+  <data name="lbl_RebatebonusonMobile"><value>मोबाइल पर छूट बोनस</value></data>
+  <data name="lbl_BankName"><value>बैंक का नाम</value></data>
+  <data name="lbl_BankInfo"><value>बैंक की जानकारी</value></data>
+  <data name="lbl_Scratch"><value>स्क्रैच कार्ड</value></data>
+  <data name="lbl_Clickhereforbonus"><value>बोनस के लिए यहां क्लिक करें</value></data>
+  <data name="lbl_ConfirmWithdrawal"><value>कृपया वापसी की जानकारी की पुष्टि करें।</value></data>
+  <data name="lbl_Direction"><value>दिशा</value></data>
+  <data name="lbl_Settled"><value>निस्तारण</value></data>
+  <data name="lbl_Setting"><value>अस्त</value></data>
+  <data name="lbl_History"><value>इतिहास</value></data>
+  <data name="lbl_NationalIdentityCard"><value>राष्ट्रीय पहचान पत्र</value></data>
+  <data name="lbl_Downloads"><value>डाउनलोड</value></data>
+  <data name="lbl_Check18TC1"><value>मैं इसके लिए सहमत हूँ</value></data>
+  <data name="lbl_Check18TC2"><value>और यह</value></data>
+  <data name="lbl_Check18TC3"><value>का</value></data>
+  <data name="lbl_Check18TC4"><value>मैं स्वीकार करता हूं कि मेरी आयु कम से कम 21 वर्ष है।</value></data>
+  <data name="lbl_BonusAmount"><value>बोनस की राशि</value></data>
+  <data name="lbl_AffiliateSlog"><value>सफलता मे आपका साथी</value></data>
+  <data name="lbl_FishingGG"><value>मछली पकड़ने की दुनिया</value></data>
+  <data name="lbl_BonusConfirm"><value>आपने हमारा प्रचार बोनस चुना था, क्या आप इसे जारी रखना चाहते हैं?</value></data>
+  <data name="lbl_CountrySC"><value>सेशल्स</value></data>
+  <data name="lbl_CountrySB"><value>सोलोमन इस्लैंडस</value></data>
+  <data name="lbl_CountrySA"><value>Saudi Arabia</value></data>
+  <data name="lbl_CountrySD"><value>सूडान</value></data>
+  <data name="lbl_CountrySO"><value>सोमालिया</value></data>
+  <data name="lbl_CountrySN"><value>सेनेगल</value></data>
+  <data name="lbl_CountrySL"><value>सेरा लिओन</value></data>
+  <data name="lbl_CountrySR"><value>सूरीनाम</value></data>
+  <data name="lbl_CountrySV"><value>एल साल्वाडोर</value></data>
+  <data name="lbl_CountryST"><value>साओ टोमे और प्रिंसिपे</value></data>
+  <data name="lbl_CountrySZ"><value>स्वाजीलैंड</value></data>
+  <data name="lbl_CountrySY"><value>सीरियाई अरब गणराज्य</value></data>
+  <data name="lbl_CountryPA"><value>पनामा</value></data>
+  <data name="lbl_CountryPE"><value>पेरू</value></data>
+  <data name="lbl_CountryPG"><value>पापुआ न्यू गिनी</value></data>
+  <data name="lbl_CountryPK"><value>पाकिस्तान</value></data>
+  <data name="lbl_CountryPN"><value>पिटकेर्न द्वीप समूह</value></data>
+  <data name="lbl_CountryPY"><value>परागुआ</value></data>
+  <data name="lbl_CountryQA"><value>कतर</value></data>
+  <data name="lbl_CountryVE"><value>वेनेजुएला</value></data>
+  <data name="lbl_CountryVC"><value>संत विंसेंट अँड थे ग्रेनडीनेस</value></data>
+  <data name="lbl_CountryVN"><value>वियतनाम</value></data>
+  <data name="lbl_CountryVU"><value>वानुअतु</value></data>
+  <data name="lbl_CountryWF"><value>वाली और फ़्युटुना</value></data>
+  <data name="lbl_CountryWS"><value>मलेशियाई रिंग्गित</value></data>
+  <data name="lbl_CountryTD"><value>चाड</value></data>
+  <data name="lbl_CountryTG"><value>टोंगा</value></data>
+  <data name="lbl_CountryTN"><value>ट्यूनीशिया</value></data>
+  <data name="lbl_CountryTH"><value>थाईलैंड</value></data>
+  <data name="lbl_CountryTJ"><value>तजाकिस्तान</value></data>
+  <data name="lbl_CountryTT"><value>त्रिनिदाद और टोबैगो</value></data>
+  <data name="lbl_CountryTZ"><value>तंजानिया</value></data>
+  <data name="lbl_CountryUG"><value>युगांडा</value></data>
+  <data name="lbl_CountryUY"><value>उरुग्वे</value></data>
+  <data name="lbl_CountryUZ"><value>उज़्बेकिस्तान</value></data>
+  <data name="lbl_CountryZM"><value>जाम्बिया</value></data>
+  <data name="lbl_CountryZA"><value>दक्षिण अफ्रीका</value></data>
+  <data name="lbl_CountryZW"><value>जिम्बाब्वे</value></data>
+  <data name="lbl_CountryYE"><value>यमन</value></data>
+  <data name="lbl_CountryBR"><value>ब्राज़िल</value></data>
+  <data name="lbl_CountryBS"><value>बहामा</value></data>
+  <data name="lbl_CountryBW"><value>बोत्सवाना</value></data>
+  <data name="lbl_CountryBT"><value>भूटान</value></data>
+  <data name="lbl_CountryBZ"><value>बेलीज़</value></data>
+  <data name="lbl_CountryBB"><value>बारबाडोस</value></data>
+  <data name="lbl_CountryBF"><value>बुर्किना फासो</value></data>
+  <data name="lbl_CountryBD"><value>बांग्लादेश</value></data>
+  <data name="lbl_CountryBJ"><value>बेनिन</value></data>
+  <data name="lbl_CountryBH"><value>बहरीन</value></data>
+  <data name="lbl_CountryBI"><value>बुस्र्न्दी</value></data>
+  <data name="lbl_CountryBN"><value>ब्रूनेइ्र दारएस्सलाम</value></data>
+  <data name="lbl_CountryBO"><value>बोलीविया</value></data>
+  <data name="lbl_CountryBM"><value>बरमूडा</value></data>
+  <data name="lbl_CountryCS"><value>चीन</value></data>
+  <data name="lbl_CountryCR"><value>कोस्टा रिका</value></data>
+  <data name="lbl_CountryCV"><value>केप वर्दे</value></data>
+  <data name="lbl_CountryCA"><value>कनाडा</value></data>
+  <data name="lbl_CountryCG"><value>कांगो</value></data>
+  <data name="lbl_CountryCF"><value>केंद्रीय अफ्रीकन गणराज्य</value></data>
+  <data name="lbl_CountryCD"><value>डोमिनिकन गणराज्य</value></data>
+  <data name="lbl_CountryCK"><value>कुक द्वीपसमूह</value></data>
+  <data name="lbl_CountryCI"><value>कोटे डी आइवर</value></data>
+  <data name="lbl_CountryCO"><value>कोलंबिया</value></data>
+  <data name="lbl_CountryCM"><value>कैमरून</value></data>
+  <data name="lbl_CountryCL"><value>चिली</value></data>
+  <data name="lbl_CountryAR"><value>अर्जेंटीना</value></data>
+  <data name="lbl_CountryAW"><value>अरूबा</value></data>
+  <data name="lbl_CountryAF"><value>अफ़ग़ानिस्तान</value></data>
+  <data name="lbl_CountryAI"><value>एंगुइला</value></data>
+  <data name="lbl_CountryAO"><value>अंगोला</value></data>
+  <data name="lbl_CountryFO"><value>फ़ॉकलैंड द्वीप समूह (माल्विनास)</value></data>
+  <data name="lbl_CountryFJ"><value>फ़िजी</value></data>
+  <data name="lbl_CountryGT"><value>ग्वाटेमाला</value></data>
+  <data name="lbl_CountryGY"><value>गुयाना</value></data>
+  <data name="lbl_CountryGD"><value>ग्रेनेडा</value></data>
+  <data name="lbl_CountryGA"><value>गैबॉन</value></data>
+  <data name="lbl_CountryGN"><value>गिन्नी</value></data>
+  <data name="lbl_CountryGI"><value>जिब्राल्टर</value></data>
+  <data name="lbl_CountryGH"><value>घाना</value></data>
+  <data name="lbl_CountryDZ"><value>एलजीरिया</value></data>
+  <data name="lbl_CountryET"><value>इथियोपिया</value></data>
+  <data name="lbl_CountryER"><value>इरिट्रिया</value></data>
+  <data name="lbl_CountryEG"><value>मिस्र</value></data>
+  <data name="lbl_CountryEC"><value>इक्वेडोर</value></data>
+  <data name="lbl_CountryJP"><value>जापान</value></data>
+  <data name="lbl_CountryJO"><value>जॉर्डन</value></data>
+  <data name="lbl_CountryJM"><value>जमैका</value></data>
+  <data name="lbl_CountryKZ"><value>कजाखस्तान</value></data>
+  <data name="lbl_CountryKY"><value>केमन द्वीपसमूह</value></data>
+  <data name="lbl_CountryKR"><value>कोरिया</value></data>
+  <data name="lbl_CountryKW"><value>कुवैट</value></data>
+  <data name="lbl_CountryKH"><value>कंबोडिया</value></data>
+  <data name="lbl_CountryKE"><value>केन्या</value></data>
+  <data name="lbl_CountryHT"><value>हैती</value></data>
+  <data name="lbl_CountryHN"><value>होंडुरस</value></data>
+  <data name="lbl_CountryIN"><value>भारत</value></data>
+  <data name="lbl_CountryID"><value>इंडोनेशिया</value></data>
+  <data name="lbl_CountryNZ"><value>न्यूज़ीलैंड</value></data>
+  <data name="lbl_CountryNR"><value>नाउरू</value></data>
+  <data name="lbl_CountryNP"><value>नेपाल</value></data>
+  <data name="lbl_CountryNG"><value>नाइजीरिया</value></data>
+  <data name="lbl_CountryNE"><value>नाइजर</value></data>
+  <data name="lbl_CountryNC"><value>न्यू कैलेडोनिया</value></data>
+  <data name="lbl_CountryNA"><value>नामिबिया</value></data>
+  <data name="lbl_CountryOM"><value>ओमान</value></data>
+  <data name="lbl_CountryLS"><value>लिसोटो</value></data>
+  <data name="lbl_CountryLK"><value>श्रीलंका</value></data>
+  <data name="lbl_CountryLA"><value>लाओ पीपुल्स डेमोक्रेटिक रिपब्लिक</value></data>
+  <data name="lbl_CountryLB"><value>लेबनान</value></data>
+  <data name="lbl_CountryLC"><value>सेंट लूसिया</value></data>
+  <data name="lbl_CountryMY"><value>मलेशिया</value></data>
+  <data name="lbl_CountryMX"><value>मेक्सिको</value></data>
+  <data name="lbl_CountryMU"><value>मॉरीशस</value></data>
+  <data name="lbl_CountryMW"><value>मलावी</value></data>
+  <data name="lbl_CountryMV"><value>मालदीव</value></data>
+  <data name="lbl_CountryMR"><value>मॉरिटानिया</value></data>
+  <data name="lbl_CountryMM"><value>म्यांमार</value></data>
+  <data name="lbl_CountryML"><value>माली</value></data>
+  <data name="lbl_CountryMN"><value>मंगोलिया</value></data>
+  <data name="lbl_CountryMG"><value>मेडागास्कर</value></data>
+  <data name="lbl_CountryMA"><value>मोरक्को</value></data>
+  <data name="lbl_TransactionHint"><value>कृपया खाते में राशि स्थानांतरित करें।</value></data>
+  <data name="lbl_ConfirmAndUpdate"><value>अपडेट के लिए पुष्टि करें</value></data>
+  <data name="lbl_VirtualSportsSlogon"><value>लोकप्रिय खेलों के अलावा, हम अग्रणी इन-प्ले समाधान प्रदान करते हैं।</value></data>
+  <data name="lbl_OurPolicies"><value>हमारी नीतियां</value></data>
+  <data name="lbl_BankAccount"><value>बैंक खाता</value></data>
+  <data name="lbl_Platform"><value>प्रदाता</value></data>
+  <data name="lbl_Instant"><value>तुरंत</value></data>
+  <data name="lbl_WithdrawalStatus99"><value>त्रुटि/एरर</value></data>
+  <data name="lbl_KenoSlogon"><value>खेलने के कई तरीके, जीतने के ज्यादा मौके!</value></data>
+  <data name="lbl_CasinoSlogon"><value>एशियाई बाजार के लिए विभिन्न विषय</value></data>
+  <data name="lbl_Message"><value>संदेश</value></data>
+  <data name="lbl_Username"><value>उपयोगकर्ता नाम/ यूज़र नाम</value></data>
+  <data name="lbl_DreamGaming"><value>क्रिस्टल सुइट</value></data>
+  <data name="lbl_Currency_1"><value>सिंगापुर डॉलर</value></data>
+  <data name="lbl_Currency_2"><value>मलेशियाई रिंग्गित</value></data>
+  <data name="lbl_Currency_3"><value>अमेरिकी डॉलर</value></data>
+  <data name="lbl_Currency_4"><value>थाईलैण्ड की मुद्रा</value></data>
+  <data name="lbl_Currency_5"><value>होन्ग कोंग डॉलर</value></data>
+  <data name="lbl_Currency_6"><value>यूरो</value></data>
+  <data name="lbl_Currency_9"><value>ऑस्ट्रलियन डॉलर</value></data>
+  <data name="lbl_RuleRegulations"><value>नियम और विनियम</value></data>
+  <data name="lbl_Balance"><value>संतुलन</value></data>
+  <data name="lbl_Error_Message"><value>यह अप्रत्याशित है ....</value></data>
+  <data name="lbl_SocialMedia"><value>सामाजिक मीडिया</value></data>
+  <data name="lbl_ContactUs"><value>संपर्क करें</value></data>
+  <data name="lbl_Basketball"><value>बास्केटबाल</value></data>
+  <data name="lbl_ChangePassword"><value>पासवर्ड बदलें</value></data>
+  <data name="lbl_DepositHistory"><value>जमा इतिहास</value></data>
+  <data name="lbl_Welcome"><value>स्वागत हे</value></data>
+  <data name="lbl_SubmitPhotoId"><value>फोटो आईडी जमा करें</value></data>
+  <data name="lbl_DepositNow"><value>अभी जमा करें</value></data>
+  <data name="lbl_MaxAmount"><value>अधिकतम राशि</value></data>
+  <data name="lbl_Passport"><value>पासपोर्ट</value></data>
+  <data name="lbl_Password"><value>पारण शब्द</value></data>
+  <data name="lbl_ZALO"><value>Zalo</value></data>
+  <data name="lbl_Note"><value>ध्यान दें</value></data>
+  <data name="lbl_MOMO"><value>Momo</value></data>
+  <data name="lbl_AreYouSure"><value>क्या आपको यकीन है?</value></data>
+  <data name="msg_ApiServerError"><value>API सर्वर त्रुटि।</value></data>
+  <data name="lbl_UnSettle"><value>अस्थिर करना</value></data>
+  <data name="Currency_96"><value>USDT</value></data>
+  <data name="lbl_WithdrawalNotice"><value>हम गलत जानकारी प्राप्तकरने या हैक किए गए खाते के लिए ज़िम्मेदार नहीं हैं</value></data>
+  <data name="lbl_ABCasino"><value>AB कैसीनो</value></data>
+  <data name="lbl_PleaseSelBank"><value>कृपया बैंक का चयन करें।</value></data>
+  <data name="msg_OTP_SendOTPSMS_1000"><value>अमान्य ओटीपी कोड</value></data>
+  <data name="msg_OTP_SendOTPSMS_5002"><value>गलत फ़ोन नंबर दर्ज किया गया है।</value></data>
+  <data name="lbl_VIETTELPAY"><value>Viettel Pay</value></data>
+  <data name="lbl_InputAmount"><value>Input amount</value></data>
+  <data name="lbl_OTPCertification"><value>OTP प्रमाणन</value></data>
+  <data name="lbl_Football"><value>फ़ुटबॉल</value></data>
+  <data name="lbl_PoweredBy"><value>द्वारा संचालित</value></data>
+  <data name="lbl_GoToProfile"><value>प्रोफ़ाइल में जाएँ</value></data>
+  <data name="lbl_WithdrawalAmountTooltip"><value>कृपया निकासी राशि का पूरा आंकड़ा भरें। उदा: 3 मिलियन के लिए 3,000,000</value></data>
+  <data name="lbl_AccountNumber"><value>खाता संख्या</value></data>
+  <data name="msg_EnterOTPCode"><value>कृपया OTP कोड दर्ज करें।</value></data>
+  <data name="lbl_PromotionInfo"><value>प्रचार जानकारी</value></data>
+  <data name="lbl_ThaiQR"><value>Thai QR</value></data>
+  <data name="lbl_Resend"><value>पुन: भेजें</value></data>
+  <data name="lbl_Retype"><value>पुन: लिखें</value></data>
+  <data name="lbl_Hockey"><value>हॉकी</value></data>
+  <data name="lbl_Wallet"><value>पर्स</value></data>
+  <data name="lbl_Prize"><value>पुरस्कार</value></data>
+  <data name="lbl_Games"><value>खेल</value></data>
+  <data name="lbl_Statement1"><value>विवरण</value></data>
+  <data name="lbl_IGAccount"><value>nova88_official</value></data>
+  <data name="lbl_GoToOTP"><value>OTP पर जाएं</value></data>
+  <data name="lbl_SelectBank"><value>बैंक का चयन करें</value></data>
+  <data name="lbl_Currency_96"><value>USDT</value></data>
+  <data name="lbl_WMCasino"><value>एफ़्रोडाइट सुइट</value></data>
+  <data name="lbl_SG"><value>SG</value></data>
+  <data name="lbl_DependOnTheBank"><value>बैंक पर निर्भर करता है</value></data>
+  <data name="lbl_PromoCategory_1"><value>เกมสล็อต</value></data>
+  <data name="lbl_PromoCategory_2"><value>คาสิโนสด</value></data>
+  <data name="lbl_PromoCategory_3"><value>เกมยิงปลา</value></data>
+  <data name="lbl_PromoCategory_4"><value>ซาบา สปอร์ต</value></data>
+  <data name="lbl_ViewStatement"><value>विवरण देखें</value></data>
+  <data name="lbl_ViewHistory"><value>इतिहास देखें</value></data>
+  <data name="lbl_RecipientInfo"><value>प्राप्तकर्ता जानकारी</value></data>
+  <data name="lbl_RecipientName"><value>प्राप्तकर्ता का नाम</value></data>
+  </root>
