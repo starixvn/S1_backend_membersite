@@ -1,37 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="metadata">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
-              </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="assembly">
-            <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
-            </xsd:complexType>
-          </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
                 <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
                 <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
               <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
               <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
@@ -46,112 +27,36 @@
       </xsd:complexType>
     </xsd:element>
   </xsd:schema>
-  <resheader name="resmimetype">
-    <value>text/microsoft-resx</value>
-  </resheader>
-  <resheader name="version">
-    <value>2.0</value>
-  </resheader>
-  <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <data name="FTDP2Description" xml:space="preserve">
-    <value>Thưởng 125% cho lần đầu nạp tiền, tối đa 2,000('000) VND</value>
-  </data>
-  <data name="FTDP2Title" xml:space="preserve">
-    <value>Thưởng 125% cho lần đầu nạp tiền, tối đa 2,000('000) VND</value>
-  </data>
-  <data name="lbl_Applicationname" xml:space="preserve">
-    <value>Bwing</value>
-  </data>
-  <data name="lbl_Author" xml:space="preserve">
-    <value>Bwing</value>
-  </data>
-  <data name="lbl_ContactUsHint" xml:space="preserve">
-    <value>Bộ phận hỗ trợ trực tuyến 24/7 luôn sẵn sàng lắng nghe và giải đáp những thắc mắc của thành viên. Chúng tôi hỗ trợ thông qua chat hỗ trợ trực tuyến, điện thoại và nhiều kênh thông dụng khác như : Zalo, Telegram và Skype.</value>
-  </data>
-  <data name="lbl_Description" xml:space="preserve">
-    <value>Bwing là cá cược thể thao hàng đầu thế giới,cung cấp trải nghiệm chơi trò chơi tốt nhất,bao gồm tất cả các môn thể thao : Sòng bạc, máy đánh bạc, xổ số hạnh phúc, thể thao điện tử,sản phẩm sòng bạc , trận đấu tưởng tượng, thể thao ảo, xổ số, sòng bạc trực tiếp,đại lý trực tiếp,chơi lô tô và đua xe</value>
-  </data>
-  <data name="lbl_FacebookAccount" xml:space="preserve">
-    <value>Bwing-Tin-Tức-Thể-thao-105589621321154/</value>
-  </data>
-  <data name="lbl_FAQ" xml:space="preserve">
-    <value>CÂU HỎI THƯỜNG GẶP</value>
-  </data>
-  <data name="lbl_FAQHint" xml:space="preserve">
-    <value>Cách tạo tài khoản, phí giao dịch, cách đổi mật khẩu,...</value>
-  </data>
-  <data name="lbl_Fishing" xml:space="preserve">
-    <value>Bắn Cá</value>
-  </data>
-  <data name="lbl_Fullversion" xml:space="preserve">
-    <value>Phiên bản đầy đủ</value>
-  </data>
-  <data name="lbl_HowToDepoist" xml:space="preserve">
-    <value>HƯỚNG DẪN NẠP TIỀN</value>
-  </data>
-  <data name="lbl_HowToDepoistHint" xml:space="preserve">
-    <value>Hỗ trợ nhiều kênh thanh toán, an toàn tuyệt đối</value>
-  </data>
-  <data name="lbl_HowToPlay" xml:space="preserve">
-    <value>HƯỚNG DẪN CÁCH CHƠI</value>
-  </data>
-  <data name="lbl_HowToPlayHint" xml:space="preserve">
-    <value>Dễ dàng, lôi cuốn, đa dạng trò chơi, ưu đãi hấp dẫn</value>
-  </data>
-  <data name="lbl_HowToWithdraw" xml:space="preserve">
-    <value>HƯỚNG DẪN RÚT TIỀN</value>
-  </data>
-  <data name="lbl_HowToWithdrawHint" xml:space="preserve">
-    <value>Giao dịch tiền về nhanh chóng, bảo mật thông tin</value>
-  </data>
-  <data name="lbl_Image" xml:space="preserve">
-    <value>https://www.bwing.com/SiteSkin/Bwing/common/images/logo.png</value>
-  </data>
-  <data name="lbl_Keywords" xml:space="preserve">
-    <value>Bwing là cá cược thể thao hàng đầu thế giới,cung cấp trải nghiệm chơi trò chơi tốt nhất,bao gồm tất cả các môn thể thao : Sòng bạc, máy đánh bạc, xổ số hạnh phúc, thể thao điện tử,sản phẩm sòng bạc , trận đấu tưởng tượng, thể thao ảo, xổ số, sòng bạc trực tiếp,đại lý trực tiếp,chơi lô tô và đua xe</value>
-  </data>
-  <data name="lbl_LiveChatURL" xml:space="preserve">
-    <value>https://direct.lc.chat/11638088/7</value>
-  </data>
-  <data name="lbl_NoAccount" xml:space="preserve">
-    <value>Chưa có tài khoản?</value>
-  </data>
-  <data name="lbl_SelectLanguage" xml:space="preserve">
-    <value>Chọn ngôn ngữ</value>
-  </data>
-  <data name="lbl_SelfCasino" xml:space="preserve">
-    <value>Sòng bạc Bwing</value>
-  </data>
-  <data name="lbl_Title" xml:space="preserve">
-    <value>Bwing</value>
-  </data>
-  <data name="lbl_TitleDesc" xml:space="preserve">
-    <value>Nhà cái Thể thao, Casino hàng đầu Châu Á</value>
-  </data>
-  <data name="lbl_TitleKeywords" xml:space="preserve">
-    <value>Bwing là cá cược thể thao hàng đầu thế giới,cung cấp trải nghiệm chơi trò chơi tốt nhất,bao gồm tất cả các môn thể thao : Sòng bạc, máy đánh bạc, xổ số hạnh phúc, thể thao điện tử,sản phẩm sòng bạc , trận đấu tưởng tượng, thể thao ảo, xổ số, sòng bạc trực tiếp,đại lý trực tiếp,chơi lô tô và đua xe</value>
-  </data>
-  <data name="lbl_TpWallet_1" xml:space="preserve">
-    <value>Ví Saba</value>
-  </data>
-  <data name="lbl_TwitterAccount" xml:space="preserve">
-    <value>bwingofficial</value>
-  </data>
-  <data name="lbl_TwitterCreator" xml:space="preserve">
-    <value>@Bwingofficial</value>
-  </data>
-  <data name="lbl_TwitterSite" xml:space="preserve">
-    <value>@Bwingofficial</value>
-  </data>
-  <data name="lbl_URL" xml:space="preserve">
-    <value>https://www.bwing.com</value>
-  </data>
-  <data name="lbl_Wallet_Saba" xml:space="preserve">
-    <value>Ví Saba</value>
-  </data>
-</root>
+<resheader name="resmimetype"><value>text/microsoft-resx</value></resheader><resheader name="version"><value>1.3</value></resheader><resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader><resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader><data name="lbl_HowToDepoist"><value>HƯỚNG DẪN NẠP TIỀN</value></data>
+  <data name="lbl_HowToDepoistHint"><value>Hỗ trợ nhiều kênh thanh toán, an toàn tuyệt đối</value></data>
+  <data name="lbl_Fullversion"><value>Phiên bản đầy đủ</value></data>
+  <data name="lbl_TpWallet_1"><value>Ví Saba</value></data>
+  <data name="lbl_HowToWithdraw"><value>HƯỚNG DẪN RÚT TIỀN</value></data>
+  <data name="lbl_Applicationname"><value>Bwing</value></data>
+  <data name="lbl_ContactUsHint"><value>Bộ phận hỗ trợ trực tuyến 24/7 luôn sẵn sàng lắng nghe và giải đáp những thắc mắc của thành viên. Chúng tôi hỗ trợ thông qua chat hỗ trợ trực tuyến, điện thoại và nhiều kênh thông dụng khác như : Zalo, Telegram và Skype.</value></data>
+  <data name="FTDP2Title"><value>Thưởng 125% cho lần đầu nạp tiền, tối đa 2,000('000) VND</value></data>
+  <data name="lbl_TwitterSite"><value>@Bwingofficial</value></data>
+  <data name="lbl_FacebookAccount"><value>Bwing-Tin-Tức-Thể-thao-105589621321154/</value></data>
+  <data name="lbl_TitleDesc"><value>Nhà cái Thể thao, Casino hàng đầu Châu Á</value></data>
+  <data name="lbl_Wallet_Saba"><value>Ví Saba</value></data>
+  <data name="FTDP2Description"><value>Thưởng 125% cho lần đầu nạp tiền, tối đa 2,000('000) VND</value></data>
+  <data name="lbl_FAQHint"><value>Cách tạo tài khoản, phí giao dịch, cách đổi mật khẩu,...</value></data>
+  <data name="lbl_URL"><value>https://www.bwing.com</value></data>
+  <data name="lbl_FAQ"><value>CÂU HỎI THƯỜNG GẶP</value></data>
+  <data name="lbl_Description"><value>Bwing là cá cược thể thao hàng đầu thế giới,cung cấp trải nghiệm chơi trò chơi tốt nhất,bao gồm tất cả các môn thể thao : Sòng bạc, máy đánh bạc, xổ số hạnh phúc, thể thao điện tử,sản phẩm sòng bạc , trận đấu tưởng tượng, thể thao ảo, xổ số, sòng bạc trực tiếp,đại lý trực tiếp,chơi lô tô và đua xe</value></data>
+  <data name="lbl_SelectLanguage"><value>Chọn ngôn ngữ</value></data>
+  <data name="lbl_TwitterCreator"><value>@Bwingofficial</value></data>
+  <data name="lbl_Keywords"><value>Bwing là cá cược thể thao hàng đầu thế giới,cung cấp trải nghiệm chơi trò chơi tốt nhất,bao gồm tất cả các môn thể thao : Sòng bạc, máy đánh bạc, xổ số hạnh phúc, thể thao điện tử,sản phẩm sòng bạc , trận đấu tưởng tượng, thể thao ảo, xổ số, sòng bạc trực tiếp,đại lý trực tiếp,chơi lô tô và đua xe</value></data>
+  <data name="lbl_NoAccount"><value>Chưa có tài khoản?</value></data>
+  <data name="lbl_Title"><value>Bwing</value></data>
+  <data name="lbl_Image"><value>https://www.bwing.com/SiteSkin/Bwing/common/images/logo.png</value></data>
+  <data name="lbl_SelfCasino"><value>Sòng bạc Bwing</value></data>
+  <data name="lbl_HowToWithdrawHint"><value>Giao dịch tiền về nhanh chóng, bảo mật thông tin</value></data>
+  <data name="lbl_TwitterAccount"><value>bwingofficial</value></data>
+  <data name="lbl_Author"><value>Bwing</value></data>
+  <data name="lbl_TitleKeywords"><value>Bwing là cá cược thể thao hàng đầu thế giới,cung cấp trải nghiệm chơi trò chơi tốt nhất,bao gồm tất cả các môn thể thao : Sòng bạc, máy đánh bạc, xổ số hạnh phúc, thể thao điện tử,sản phẩm sòng bạc , trận đấu tưởng tượng, thể thao ảo, xổ số, sòng bạc trực tiếp,đại lý trực tiếp,chơi lô tô và đua xe</value></data>
+  <data name="lbl_HowToPlayHint"><value>Dễ dàng, lôi cuốn, đa dạng trò chơi, ưu đãi hấp dẫn</value></data>
+  <data name="lbl_LiveChatURL"><value>https://direct.lc.chat/11638088/7</value></data>
+  <data name="lbl_HowToPlay"><value>HƯỚNG DẪN CÁCH CHƠI</value></data>
+  <data name="lbl_Fishing"><value>Bắn Cá</value></data>
+  </root>

@@ -1,96 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
-    Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
-    associated with the data types.
-    
-    Example:
-    
-    ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
-                
-    There are any number of "resheader" rows that contain simple 
-    name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
-    mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
-    extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
-    read any of the formats listed below.
-    
-    mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
-            : and then encoded with base64 encoding.
-    
-    mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
-            : and then encoded with base64 encoding.
-
-    mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
-            : using a System.ComponentModel.TypeConverter
-            : and then encoded with base64 encoding.
-    -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="metadata">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
-              </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="assembly">
-            <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
-            </xsd:complexType>
-          </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
                 <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
                 <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
               <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
               <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
@@ -105,343 +27,112 @@
       </xsd:complexType>
     </xsd:element>
   </xsd:schema>
-  <resheader name="resmimetype">
-    <value>text/microsoft-resx</value>
-  </resheader>
-  <resheader name="version">
-    <value>2.0</value>
-  </resheader>
-  <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <data name="msg_Congratulations" xml:space="preserve">
-    <value>আপনার নিবন্ধন সম্পন্ন হয়েছে; আপনি অবিলম্বে লগইন করতে পারেন, জমা করতে পারেন এবং তারপর বাজি রাখা শুরু করতে পারেন।</value>
-  </data>
-  <data name="msg_DepositProcessLogin_ACLocked" xml:space="preserve">
-    <value>আপনার অ্যাকাউন্ট লক করা আছে;২৪/৭ গ্রাহক পরিষেবার সাথে যোগাযোগ করুন, ধন্যবাদ!</value>
-  </data>
-  <data name="msg_DepositProcessLogin_LoginFailed" xml:space="preserve">
-    <value>প্রবেশ ব্যর্থ হয়েছে, ব্যবহারকারীর নাম/পাসওয়ার্ড ভুল বা ব্যবহারকারীর নাম বিদ্যমান নেই৷</value>
-  </data>
-  <data name="msg_ForceLogedout" xml:space="preserve">
-    <value>আপনি প্রস্থান করেছেন!! অনুগ্রহ করে প্রবেশ করুন এবং আবার চেষ্টা করুন!!</value>
-  </data>
-  <data name="msg_HasExist" xml:space="preserve">
-    <value>মেইল আগে থেকেই আছে।</value>
-  </data>
-  <data name="msg_InvalidOldPassword" xml:space="preserve">
-    <value>অবৈধ পুরানো পাসওয়ার্ড!</value>
-  </data>
-  <data name="msg_loggedout" xml:space="preserve">
-    <value>আপনি সফলভাবে প্রস্থান করেছেন!!</value>
-  </data>
-  <data name="msg_LoginToAccess" xml:space="preserve">
-    <value>খেলার অনুমতির জন্য প্রবেশ করুন</value>
-  </data>
-  <data name="msg_MailExisted" xml:space="preserve">
-    <value>মেইল আগে থেকেই আছে।</value>
-  </data>
-  <data name="msg_MailReq" xml:space="preserve">
-    <value>জমা দেওয়ার পরে ইমেল পরিবর্তন করা যাবে না</value>
-  </data>
-  <data name="msg_MailWrongFormat" xml:space="preserve">
-    <value>মেইল বিন্যাস ভুল.</value>
-  </data>
-  <data name="msg_NeedAccountName" xml:space="preserve">
-    <value>অ্যাকাউন্ট নাম প্রয়োজন</value>
-  </data>
-  <data name="msg_NeedAccountNo" xml:space="preserve">
-    <value>অ্যাকাউন্ট নম্বর প্রয়োজন</value>
-  </data>
-  <data name="msg_NoData" xml:space="preserve">
-    <value>কোন তথ্য নেই</value>
-  </data>
-  <data name="msg_PasswordLength" xml:space="preserve">
-    <value>পাসওয়ার্ড ৬ থেকে ১৮ অক্ষরের মধ্যে হতে হবে।</value>
-  </data>
-  <data name="msg_PasswordReq" xml:space="preserve">
-    <value>পাসওয়ার্ড প্রয়োজন.</value>
-  </data>
-  <data name="msg_PasswordValidate" xml:space="preserve">
-    <value>এই পাসওয়ার্ডটি অবশ্যই ৬-১৫ অক্ষরের হতে হবে, এতে বর্ণসংখ্যা**</value>
-  </data>
-  <data name="msg_SamePassword" xml:space="preserve">
-    <value>পুরাতন পাসওয়ার্ড এবং নতুন পাসওয়ার্ড একই!</value>
-  </data>
-  <data name="msg_ThisCurrencyNotSupport" xml:space="preserve">
-    <value>আপনার মূদ্রা সমর্থন করে না.</value>
-  </data>
-  <data name="msg_UpdateFailed" xml:space="preserve">
-    <value>হালনাগাদ ব্যর্থ</value>
-  </data>
-  <data name="msg_Updatesuccessful" xml:space="preserve">
-    <value>সফলভাবে হালনাগাদ</value>
-  </data>
-  <data name="msg_UsernameLength" xml:space="preserve">
-    <value>ব্যবহারকারীর নাম ৬ থেকে ১৮ অক্ষরের মধ্যে হতে হবে।</value>
-  </data>
-  <data name="msg_UsernameNotAvailable" xml:space="preserve">
-    <value>ব্যবহারকারীর নাম আর উপলব্ধ নেই৷</value>
-  </data>
-  <data name="msg_UsernameReq" xml:space="preserve">
-    <value>ইউজার নাম দরকার.</value>
-  </data>
-  <data name="msg_UsernameValidate" xml:space="preserve">
-    <value>৬-১৮আলফানিউমেরিক (এ-জেড, এ-জেড, ০-৯) অক্ষর</value>
-  </data>
-  <data name="msg_AffCodeValidate" xml:space="preserve">
-    <value>অ্যাফিলিয়েট আইডি শুধুমাত্র ৫-২০ সংখ্যার অনুমতি দেয়।</value>
-  </data>
-  <data name="msg_WithdrawalNoFund" xml:space="preserve">
-    <value>আপনার উত্তোলনের অনুরোধ অপর্যাপ্ত অর্থের কারণে ব্যর্থ হয়েছে!</value>
-  </data>
-  <data name="msg_WithdrawalFailed" xml:space="preserve">
-    <value>আপনার উত্তোলন অনুরোধ ব্যর্থ হয়েছে. আরও তথ্যের জন্য অনুগ্রহ করে সিএসডি-এর সাথে চেক করুন।</value>
-  </data>
-  <data name="msg_WithdrawalSuccessful" xml:space="preserve">
-    <value>আপনার উত্তোলনের অনুরোধ সফল হয়েছে। এটি সম্পন্ন হলে আমরা আপনাকে অবহিত করব।</value>
-  </data>
-  <data name="ForgetPwdFail" xml:space="preserve">
-    <value>এই ইমেল ঠিকানাটি অবৈধ!</value>
-    <comment>0024. Deposit</comment>
-  </data>
-  <data name="ForgetPwdSuccess" xml:space="preserve">
-    <value>আপনার জন্য একটি নতুন পাসওয়ার্ড আপনার নিবন্ধিত ই-মেইল ঠিকানায় পাঠানো হয়েছে।</value>
-    <comment>0026. Deposit</comment>
-  </data>
-  <data name="msg_CreditSignUp" xml:space="preserve">
-    <value>প্রিয় মূল্যবান গ্রাহক, &lt;br /&gt;&lt;br /&gt;&lt;a href="https://{0}" target="_new"&gt;{0}&lt;/a&gt;-এ স্বাগতম, রেজিস্ট্রেশন হলে অনুগ্রহ করে দেখুন উল্লেখিত লিঙ্ক এবং আমাদের খেলা উপভোগ করুন.
-</value>
-  </data>
-  <data name="msg_DepositAlert" xml:space="preserve">
-    <value>আপনার প্রধান ওয়ালেট অর্থের পরিমাণ হল : &lt;span class="popup-span Js-MainWallet-Balance"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;আমাদের খেলা এবং পরিষেবাগুলি উপভোগ করতে এখনই জমা করুন বা খেলাধুলা বইয়ের ওয়ালেট থেকে মূল ওয়ালেটে স্থানান্তর করুন .</value>
-  </data>
-  <data name="msg_InsufficientFund" xml:space="preserve">
-    <value>অপর্যাপ্ত তহবিল!</value>
-  </data>
-  <data name="mag_AffiliateNotExist" xml:space="preserve">
-    <value>আপনার অধিভুক্ত কোডটি অবৈধ. আবার চেক করুন!</value>
-  </data>
-  <data name="msg_TransferAlert" xml:space="preserve">
-    <value>আপনার বর্তমান খেলাধুলা বইয়ের ওয়ালেট হল: &lt;span class="popup-span Js-3RdWallet-Balance"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;আমাদের খেলা এবং পরিষেবাগুলি উপভোগ করতে এখনই মূল ওয়ালেট থেকে খেলাধুলা বইয়ের ওয়ালেটে জমা এবং স্থানান্তর .</value>
-  </data>
-  <data name="msg_ConfirmRealNameAlert" xml:space="preserve">
-    <value>সমস্ত লেনদেন সঠিক হয়েছে তা নিশ্চিত করতে, অনুগ্রহ করে নিশ্চিত করুন যে আপনার আসল নাম আপনার ব্যাংক অ্যাকাউন্টের নামের সাথে একই</value>
-  </data>
-  <data name="msg_EnterPhoneNumber" xml:space="preserve">
-    <value>ফোন নম্বর লিখুন.</value>
-  </data>
-  <data name="msg_EnterRealName" xml:space="preserve">
-    <value>অনুগ্রহ করে আপনার আসল নাম প্রবেশ করান.</value>
-  </data>
-  <data name="msg_GoToDepositPage" xml:space="preserve">
-    <value>আমানত পৃষ্ঠায় যান?</value>
-  </data>
-  <data name="msg_SelectBirthDay" xml:space="preserve">
-    <value>আপনার জন্মদিন নির্বাচন করুন.</value>
-  </data>
-  <data name="ResetPwdSuccess" xml:space="preserve">
-    <value>আপনার পাসওয়ার্ড সফলভাবে পুনরায় বসানো হয়েছে!</value>
-  </data>
-  <data name="msg_ApiServerError" xml:space="preserve">
-    <value>এপিআই সার্ভার ত্রূটি ৷</value>
-  </data>
-  <data name="msg_ReferenceNumber" xml:space="preserve">
-    <value>আপনার ব্যাংক স্লিপ রেফারেন্স নম্বর জমা দিন</value>
-  </data>
-  <data name="msg_SelectFile" xml:space="preserve">
-    <value>ফাইল নির্বাচন</value>
-  </data>
-  <data name="msg_SubmitDepositTime" xml:space="preserve">
-    <value>অনুগ্রহপূর্বক আপনার আমানতের সময় জমা দিন</value>
-  </data>
-  <data name="msg_WrongAmount" xml:space="preserve">
-    <value>ভুল পরিমাণ</value>
-  </data>
-  <data name="msg_BalanceHint" xml:space="preserve">
-    <value>আপনার বর্তমান অর্থের পরিমাণ হল</value>
-  </data>
-  <data name="msg_DepositHint" xml:space="preserve">
-    <value>আমাদের খেলা এবং পরিষেবা উপভোগ করতে এখনই আমানত করুন।</value>
-  </data>
-  <data name="msg_ForceLogedoutHint" xml:space="preserve">
-    <value>এই আইডিটি ইতিমধ্যে অন্য ব্রাউজার উইন্ডো বা ডিভাইস থেকে লগ ইন করেছে। আপনাকে এই অধিবেশন থেকে লগআউট করতে বাধ্য করা হবে৷</value>
-  </data>
-  <data name="msg_CreditSignUpHint_1" xml:space="preserve">
-    <value>প্রিয় মূল্যবান গ্রাহক,</value>
-  </data>
-  <data name="msg_CreditSignUpHint_2" xml:space="preserve">
-    <value>{0}-এ স্বাগতম, নিবন্ধন করার পরে অনুগ্রহ করে উল্লিখিত লিঙ্কটিতে যান এবং আমাদের খেলা গুলি উপভোগ করুন৷</value>
-  </data>
-  <data name="msg_OTPEnterCode" xml:space="preserve">
-    <value>দয়া করে আপনি নীচে প্রাপ্ত যাচাইকরণ নম্বর লিখুন.</value>
-  </data>
-  <data name="msg_OTPHint1" xml:space="preserve">
-    <value>আপনি কি আমাদের সম্পূর্ণ পণ্য ও সেবা উপভোগ করতে চান?</value>
-  </data>
-  <data name="msg_OTPHint2" xml:space="preserve">
-    <value>এখন আপনার ফোন নাম্বার যাচাই করুন</value>
-  </data>
-  <data name="msg_OTPSendCode" xml:space="preserve">
-    <value>আমরা আপনার নিবন্ধিত মোবাইল নম্বরে যাচাইকরণ কোড পাঠিয়েছিলাম। অনুগ্রহ করে চেক করুন এবং নিচের যাচাইকরণ কোডটি লিখুন।</value>
-  </data>
-  <data name="msg_LockedAmountInsufficient" xml:space="preserve">
-    <value>মূল ওয়ালেট পরিমাণ {0} এর কম হওয়া উচিত নয়</value>
-  </data>
-  <data name="msg_Ineligible" xml:space="preserve">
-    <value>আপনি এই প্রচারণার জন্য যোগ্য নন। বিস্তারিত জানার জন্য আমাদের সাপোর্ট সার্ভিসে যোগাযোগ করুন।</value>
-  </data>
-  <data name="msg_MustInteger" xml:space="preserve">
-    <value>অনুগ্রহ করে সম্পূর্ণ চিত্রটি পূরণ করুন, দশমিক সংখ্যা অনুমোদিত নয়।</value>
-  </data>
-  <data name="msg_RequiredAmountInsufficient" xml:space="preserve">
-    <value>বোনাসের জন্য যোগ্য হতে কমপক্ষে {0} জমা করুন</value>
-  </data>
-  <data name="msg_OTPHint" xml:space="preserve">
-    <value>আমাদের প্রচারগুলি উপভোগ করতে অনুগ্রহ করে আপনার প্রোফাইল সম্পূর্ণ করুন এবং আপনার ফোন নম্বর যাচাই করুন৷</value>
-  </data>
-  <data name="msg_SpecialCodeErr" xml:space="preserve">
-    <value>প্রচার কোডটি ভুল, অনুগ্রহ করে আবার পরীক্ষা করুন</value>
-  </data>
-  <data name="msg_SpecialCodeErrorForCheck" xml:space="preserve">
-    <value>প্রচার কোডটি ভুল, অনুগ্রহ করে আবার পরীক্ষা করুন</value>
-  </data>
-  <data name="msg_SpecialCodeVipLevelsOrBlockTagInvalid" xml:space="preserve">
-    <value>এই প্রচারে অংশগ্রহণ করতে অক্ষম, অনুসন্ধানের জন্য গ্রাহক পরিষেবার সাথে যোগাযোগ করুন</value>
-  </data>
-  <data name="msg_IneligibleAngPow" xml:space="preserve">
-    <value>এই প্রচারণায় যুক্ত হতে জমা করুন</value>
-  </data>
-  <data name="msg_DrawPrize" xml:space="preserve">
-    <value>অভিনন্দন, আপনার আং পাও {0} আপনার অ্যাকাউন্টে জমা হয়েছে!</value>
-  </data>
-  <data name="msg_DrawPrizeTital" xml:space="preserve">
-    <value>আং পাও বিতরণ কর</value>
-  </data>
-  <data name="msg_PromoCodeIncorrect" xml:space="preserve">
-    <value>প্রচার কোড ভুল.</value>
-  </data>
-  <data name="msg_DrawPrize1" xml:space="preserve">
-    <value>অভিনন্দন! আপনার {0} বোনাস {১} {২} আপনার অ্যাকাউন্টে জমা হয়েছে৷</value>
-  </data>
-  <data name="msg_DrawPrizeTital1" xml:space="preserve">
-    <value>{0} রহস্য বাক্স</value>
-  </data>
-  <data name="msg_ClaimCashBackBonus" xml:space="preserve">
-    <value>অভিনন্দন, আপনার ফেরত অর্থ {0} আপনার অ্যাকাউন্টে জমা হয়েছে!</value>
-  </data>
-  <data name="msg_MustDeposit" xml:space="preserve">
-    <value>উত্তোলন করার আগে দয়া করে জমা করুন</value>
-  </data>
-  <data name="msg_LessThanWithdrawalMin" xml:space="preserve">
-    <value>উত্তোলনের পরিমাণ অবশ্যই {0} এর থেকে বেশি হতে হবে</value>
-  </data>
-  <data name="msg_GreaterThanWithdrawalMax" xml:space="preserve">
-    <value>আপনার দৈনিক সীমায় পৌঁছে গেছে।</value>
-  </data>
-  <data name="msg_WithdrawalExists" xml:space="preserve">
-    <value>আপনার লেনদেনের অনুরোধ মুলতুবি রয়েছে। মুলতুবি লেনদেন সম্পূর্ণ হয়ে গেলে অনুগ্রহ করে আবার চেষ্টা করুন।</value>
-  </data>
-  <data name="msg_BankAccountExists" xml:space="preserve">
-    <value>আপনি ইতিমধ্যে এই তথ্য সংরক্ষণ করেছেন.</value>
-  </data>
-  <data name="msg_PromoCodeHasBeenUsed" xml:space="preserve">
-    <value>প্রচার কোড ব্যবহার করা হয়েছে</value>
-  </data>
-  <data name="msg_PhoneWrongFormat" xml:space="preserve">
-    <value>ফোনের বিন্যাস ভুল.</value>
-  </data>
-  <data name="msg_PhoneFormatVerify" xml:space="preserve">
-    <value>আপনার দেওয়া ফোন নম্বরটি ভুল, {0} সংখ্যার মধ্যে হওয়া উচিত৷</value>
-  </data>
-  <data name="msg_EmailFormatVerify" xml:space="preserve">
-    <value>ইমেল ঠিকানা বিন্যাস ভুল</value>
-  </data>
-  <data name="msg_InvalidCryptoWalletAddress" xml:space="preserve">
-    <value>অবৈধ ক্রিপ্টো ওয়ালেট ঠিকানা</value>
-  </data>
-  <data name="msg_DecimalOutOfRange" xml:space="preserve">
-    <value>2টি সংখ্যার চেয়ে বেশি দশমিকের কারণে স্থানান্তর ব্যর্থ হয়েছে৷</value>
-  </data>
-  <data name="msg_BankAccountDuplicate" xml:space="preserve">
-    <value>নকল ব্যাংক অ্যাকাউন্ট নম্বর অনুমোদিত নয়। অনুগ্রহ করে আরেকটি অ্যাকাউন্ট নম্বর চেষ্টা করুন.</value>
-  </data>
-  <data name="msg_NotInLimit" xml:space="preserve">
-    <value>লিমিট শেষ</value>
-  </data>
-  <data name="msg_DepositorsNameUnmatch" xml:space="preserve">
-    <value>আমানতকারীর নাম অতুলনীয়</value>
-  </data>
-  <data name="msg_DepositorsNameUnmatch_Detail" xml:space="preserve">
-    <value>নিবন্ধিত নামটি ব্যাঙ্ক অ্যাকাউন্টের নামের সাথে মেলে না, অনুগ্রহ করে আরও সহায়তার জন্য গ্রাহক সহায়তার সাথে যোগাযোগ করুন৷</value>
-  </data>
-  <data name="msg_DepositRefunded" xml:space="preserve">
-    <value>আমানত ফেরত</value>
-  </data>
-  <data name="msg_DepositRefunded_Detail" xml:space="preserve">
-    <value>জমার পরিমাণ ফেরত দেওয়া হয়েছে, অনুগ্রহ করে আপনার ব্যাঙ্ক অ্যাকাউন্ট চেক করুন।</value>
-  </data>
-  <data name="msg_DepositSlipRequired" xml:space="preserve">
-    <value>জমা স্লিপ প্রয়োজন</value>
-  </data>
-  <data name="msg_DepositSlipRequired_Detail" xml:space="preserve">
-    <value>লেনদেন প্রক্রিয়াকরণের সময় দ্রুত করার জন্য অনুগ্রহ করে ট্রান্সফার স্লিপ সংযুক্ত করুন।</value>
-  </data>
-  <data name="msg_PaymentNotReceived" xml:space="preserve">
-    <value>আমানত এখনও পাওয়া যায়নি</value>
-  </data>
-  <data name="msg_PaymentNotReceived_Detail" xml:space="preserve">
-    <value>আমানত পাইনি, দয়া করে ধৈর্য ধরে অপেক্ষা করুন।</value>
-  </data>
-  <data name="msg_WithdrawalAccountNumberIncorrect" xml:space="preserve">
-    <value>টাকা তোলার অ্যাকাউন্টের নাম মেলে না</value>
-  </data>
-  <data name="msg_WithdrawalAccountNumberIncorrect_Detail" xml:space="preserve">
-    <value>প্রত্যাহার অ্যাকাউন্ট নম্বর ভুল। অনুগ্রহ করে আপনার প্রত্যাহার অ্যাকাউন্ট নম্বর চেক করুন।</value>
-  </data>
-  <data name="msg_WithdrawalAccountsNameUnmatch" xml:space="preserve">
-    <value>টাকা তোলার অ্যাকাউন্টের নাম মেলে না</value>
-  </data>
-  <data name="msg_WithdrawalAccountsNameUnmatch_Detail" xml:space="preserve">
-    <value>উত্তোলন অ্যাকাউন্টের নাম নিবন্ধিত নামের সাথে মেলে না। সহায়তার জন্য গ্রাহক পরিষেবার সাথে যোগাযোগ করুন.</value>
-  </data>
-  <data name="msg_BeneficiarysAccountMaintenance" xml:space="preserve">
-    <value>সুবিধাভোগী অ্যাকাউন্ট রক্ষণাবেক্ষণ</value>
-  </data>
-  <data name="msg_BeneficiarysAccountMaintenance_Detail" xml:space="preserve">
-    <value>ব্যাঙ্কটি বর্তমানে রক্ষণাবেক্ষণের অধীনে রয়েছে, ব্যাঙ্ক রক্ষণাবেক্ষণ সম্পূর্ণ হওয়ার পরে আপনার তোলার অনুরোধ প্রক্রিয়া করা হবে।</value>
-  </data>
-  <data name="msg_WithdrawalAccountAannotReceiveMoney" xml:space="preserve">
-    <value>প্রত্যাহার অ্যাকাউন্ট তহবিল পেতে ব্যর্থ</value>
-  </data>
-  <data name="msg_WithdrawalAccountAannotReceiveMoney_Detail" xml:space="preserve">
-    <value>প্রত্যাহার অ্যাকাউন্ট তহবিল পেতে অক্ষম. অনুগ্রহ করে পুনরায় পরীক্ষা করুন বা আরও সহায়তার জন্য গ্রাহক সহায়তার সাথে যোগাযোগ করুন।</value>
-  </data>
-  <data name="msg_WrongAmountSubmitted" xml:space="preserve">
-    <value>জমার পরিমাণ ভুল</value>
-  </data>
-  <data name="msg_WrongAmountSubmitted_Detail" xml:space="preserve">
-    <value>ডিপোজিটের পরিমাণ ডিপোজিট স্লিপ আবেদনের পরিমাণের সাথে মেলে না, অনুগ্রহ করে পুনরায় পরীক্ষা করুন বা আরও সহায়তার জন্য গ্রাহক সহায়তার সাথে যোগাযোগ করুন।</value>
-  </data>
-  <data name="msg_WrongBankSubmitted" xml:space="preserve">
-    <value>ভুল জমা অ্যাকাউন্ট নির্বাচন করা হয়েছে</value>
-  </data>
-  <data name="msg_WrongBankSubmitted_Detail" xml:space="preserve">
-    <value>নির্বাচিত জমা অ্যাকাউন্টটি ভুল, অনুগ্রহ করে পুনরায় পরীক্ষা করুন বা আরও সহায়তার জন্য গ্রাহক সহায়তার সাথে যোগাযোগ করুন৷</value>
-  </data>
-  <data name="msg_CryptoWalletDuplicate" xml:space="preserve">
-    <value>ক্রিপ্টো ওয়ালেট ঠিকানা ইতিমধ্যেই বিদ্যমান</value>
-  </data>
-  <data name="msg_InactiveBankAccountSubmission" xml:space="preserve">
-    <value>নিষ্ক্রিয় ব্যাঙ্ক অ্যাকাউন্ট জমা</value>
-  </data>
-  <data name="msg_InactiveBankAccountSubmission_Detail" xml:space="preserve">
-    <value>ডিপোজিট অ্যাকাউন্ট পরিবর্তন করা হয়েছে, লেনদেন করার আগে অনুগ্রহ করে সর্বশেষ রিসিভিং অ্যাকাউন্ট চেক করুন।</value>
-  </data>
-  <data name="msg_BirthdayIsRequired" xml:space="preserve">
-    <value>জন্মদিন পূরণ করুন</value>
-  </data>
-</root>
+<resheader name="resmimetype"><value>text/microsoft-resx</value></resheader><resheader name="version"><value>1.3</value></resheader><resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader><resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader><data name="msg_TransferAlert"><value>আপনার বর্তমান খেলাধুলা বইয়ের ওয়ালেট হল: &lt;span class="popup-span Js-3RdWallet-Balance"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;আমাদের খেলা এবং পরিষেবাগুলি উপভোগ করতে এখনই মূল ওয়ালেট থেকে খেলাধুলা বইয়ের ওয়ালেটে জমা এবং স্থানান্তর .</value></data>
+  <data name="msg_SubmitDepositTime"><value>অনুগ্রহপূর্বক আপনার আমানতের সময় জমা দিন</value></data>
+  <data name="msg_ClaimCashBackBonus"><value>অভিনন্দন, আপনার ফেরত অর্থ {0} আপনার অ্যাকাউন্টে জমা হয়েছে!</value></data>
+  <data name="msg_BirthdayIsRequired"><value>জন্মদিন পূরণ করুন</value></data>
+  <data name="msg_UsernameReq"><value>ইউজার নাম দরকার.</value></data>
+  <data name="msg_ApiServerError"><value>এপিআই সার্ভার ত্রূটি ৷</value></data>
+  <data name="msg_MustInteger"><value>অনুগ্রহ করে সম্পূর্ণ চিত্রটি পূরণ করুন, দশমিক সংখ্যা অনুমোদিত নয়।</value></data>
+  <data name="msg_LoginToAccess"><value>খেলার অনুমতির জন্য প্রবেশ করুন</value></data>
+  <data name="msg_WithdrawalAccountNumberIncorrect_Detail"><value>প্রত্যাহার অ্যাকাউন্ট নম্বর ভুল। অনুগ্রহ করে আপনার প্রত্যাহার অ্যাকাউন্ট নম্বর চেক করুন।</value></data>
+  <data name="msg_CreditSignUp"><value>প্রিয় মূল্যবান গ্রাহক, &lt;br /&gt;&lt;br /&gt;&lt;a href="https://{0}" target="_new"&gt;{0}&lt;/a&gt;-এ স্বাগতম, রেজিস্ট্রেশন হলে অনুগ্রহ করে দেখুন উল্লেখিত লিঙ্ক এবং আমাদের খেলা উপভোগ করুন.</value></data>
+  <data name="msg_WrongAmountSubmitted_Detail"><value>ডিপোজিটের পরিমাণ ডিপোজিট স্লিপ আবেদনের পরিমাণের সাথে মেলে না, অনুগ্রহ করে পুনরায় পরীক্ষা করুন বা আরও সহায়তার জন্য গ্রাহক সহায়তার সাথে যোগাযোগ করুন।</value></data>
+  <data name="msg_BankAccountDuplicate"><value>নকল ব্যাংক অ্যাকাউন্ট নম্বর অনুমোদিত নয়। অনুগ্রহ করে আরেকটি অ্যাকাউন্ট নম্বর চেষ্টা করুন.</value></data>
+  <data name="msg_WithdrawalNoFund"><value>আপনার উত্তোলনের অনুরোধ অপর্যাপ্ত অর্থের কারণে ব্যর্থ হয়েছে!</value></data>
+  <data name="msg_EmailFormatVerify"><value>ইমেল ঠিকানা বিন্যাস ভুল</value></data>
+  <data name="msg_loggedout"><value>আপনি সফলভাবে প্রস্থান করেছেন!!</value></data>
+  <data name="msg_PhoneFormatVerify"><value>আপনার দেওয়া ফোন নম্বরটি ভুল, {0} সংখ্যার মধ্যে হওয়া উচিত৷</value></data>
+  <data name="msg_PhoneWrongFormat"><value>ফোনের বিন্যাস ভুল.</value></data>
+  <data name="msg_Updatesuccessful"><value>সফলভাবে হালনাগাদ</value></data>
+  <data name="msg_WithdrawalFailed"><value>আপনার উত্তোলন অনুরোধ ব্যর্থ হয়েছে. আরও তথ্যের জন্য অনুগ্রহ করে সিএসডি-এর সাথে চেক করুন।</value></data>
+  <data name="msg_CryptoWalletDuplicate"><value>ক্রিপ্টো ওয়ালেট ঠিকানা ইতিমধ্যেই বিদ্যমান</value></data>
+  <data name="msg_WithdrawalExists"><value>আপনার লেনদেনের অনুরোধ মুলতুবি রয়েছে। মুলতুবি লেনদেন সম্পূর্ণ হয়ে গেলে অনুগ্রহ করে আবার চেষ্টা করুন।</value></data>
+  <data name="msg_LessThanWithdrawalMin"><value>উত্তোলনের পরিমাণ অবশ্যই {0} এর থেকে বেশি হতে হবে</value></data>
+  <data name="msg_ReferenceNumber"><value>আপনার ব্যাংক স্লিপ রেফারেন্স নম্বর জমা দিন</value></data>
+  <data name="mag_AffiliateNotExist"><value>আপনার অধিভুক্ত কোডটি অবৈধ. আবার চেক করুন!</value></data>
+  <data name="msg_Congratulations"><value>আপনার নিবন্ধন সম্পন্ন হয়েছে; আপনি অবিলম্বে লগইন করতে পারেন, জমা করতে পারেন এবং তারপর বাজি রাখা শুরু করতে পারেন।</value></data>
+  <data name="msg_PaymentNotReceived"><value>আমানত এখনও পাওয়া যায়নি</value></data>
+  <data name="msg_DepositHint"><value>আমাদের খেলা এবং পরিষেবা উপভোগ করতে এখনই আমানত করুন।</value></data>
+  <data name="msg_WrongAmount"><value>ভুল পরিমাণ</value></data>
+  <data name="msg_WithdrawalAccountsNameUnmatch"><value>টাকা তোলার অ্যাকাউন্টের নাম মেলে না</value></data>
+  <data name="msg_PasswordValidate"><value>এই পাসওয়ার্ডটি অবশ্যই ৬-১৫ অক্ষরের হতে হবে, এতে বর্ণসংখ্যা**</value></data>
+  <data name="msg_WrongAmountSubmitted"><value>জমার পরিমাণ ভুল</value></data>
+  <data name="msg_UsernameNotAvailable"><value>ব্যবহারকারীর নাম আর উপলব্ধ নেই৷</value></data>
+  <data name="msg_WithdrawalAccountsNameUnmatch_Detail"><value>উত্তোলন অ্যাকাউন্টের নাম নিবন্ধিত নামের সাথে মেলে না। সহায়তার জন্য গ্রাহক পরিষেবার সাথে যোগাযোগ করুন.</value></data>
+  <data name="msg_NeedAccountName"><value>অ্যাকাউন্ট নাম প্রয়োজন</value></data>
+  <data name="msg_DrawPrizeTital"><value>আং পাও বিতরণ কর</value></data>
+  <data name="msg_UsernameLength"><value>ব্যবহারকারীর নাম ৬ থেকে ১৮ অক্ষরের মধ্যে হতে হবে।</value></data>
+  <data name="msg_DepositSlipRequired_Detail"><value>লেনদেন প্রক্রিয়াকরণের সময় দ্রুত করার জন্য অনুগ্রহ করে ট্রান্সফার স্লিপ সংযুক্ত করুন।</value></data>
+  <data name="msg_NeedAccountNo"><value>অ্যাকাউন্ট নম্বর প্রয়োজন</value></data>
+  <data name="msg_DrawPrize"><value>অভিনন্দন, আপনার আং পাও {0} আপনার অ্যাকাউন্টে জমা হয়েছে!</value></data>
+  <data name="msg_SpecialCodeErrorForCheck"><value>প্রচার কোডটি ভুল, অনুগ্রহ করে আবার পরীক্ষা করুন</value></data>
+  <data name="msg_InvalidOldPassword"><value>অবৈধ পুরানো পাসওয়ার্ড!</value></data>
+  <data name="msg_WithdrawalAccountAannotReceiveMoney_Detail"><value>প্রত্যাহার অ্যাকাউন্ট তহবিল পেতে অক্ষম. অনুগ্রহ করে পুনরায় পরীক্ষা করুন বা আরও সহায়তার জন্য গ্রাহক সহায়তার সাথে যোগাযোগ করুন।</value></data>
+  <data name="msg_PasswordLength"><value>পাসওয়ার্ড ৬ থেকে ১৮ অক্ষরের মধ্যে হতে হবে।</value></data>
+  <data name="msg_GreaterThanWithdrawalMax"><value>আপনার দৈনিক সীমায় পৌঁছে গেছে।</value></data>
+  <data name="msg_MailWrongFormat"><value>মেইল বিন্যাস ভুল.</value></data>
+  <data name="msg_NotInLimit"><value>লিমিট শেষ</value></data>
+  <data name="msg_UsernameValidate"><value>৬-১৮আলফানিউমেরিক (এ-জেড, এ-জেড, ০-৯) অক্ষর</value></data>
+  <data name="msg_WrongBankSubmitted_Detail"><value>নির্বাচিত জমা অ্যাকাউন্টটি ভুল, অনুগ্রহ করে পুনরায় পরীক্ষা করুন বা আরও সহায়তার জন্য গ্রাহক সহায়তার সাথে যোগাযোগ করুন৷</value></data>
+  <data name="msg_DepositSlipRequired"><value>জমা স্লিপ প্রয়োজন</value></data>
+  <data name="msg_OTPEnterCode"><value>দয়া করে আপনি নীচে প্রাপ্ত যাচাইকরণ নম্বর লিখুন.</value></data>
+  <data name="msg_UpdateFailed"><value>হালনাগাদ ব্যর্থ</value></data>
+  <data name="msg_EnterRealName"><value>অনুগ্রহ করে আপনার আসল নাম প্রবেশ করান.</value></data>
+  <data name="msg_SelectBirthDay"><value>আপনার জন্মদিন নির্বাচন করুন.</value></data>
+  <data name="msg_RequiredAmountInsufficient"><value>বোনাসের জন্য যোগ্য হতে কমপক্ষে {0} জমা করুন</value></data>
+  <data name="msg_DepositProcessLogin_LoginFailed"><value>প্রবেশ ব্যর্থ হয়েছে, ব্যবহারকারীর নাম/পাসওয়ার্ড ভুল বা ব্যবহারকারীর নাম বিদ্যমান নেই৷</value></data>
+  <data name="msg_SelectFile"><value>ফাইল নির্বাচন</value></data>
+  <data name="msg_DepositProcessLogin_ACLocked"><value>আপনার অ্যাকাউন্ট লক করা আছে;২৪/৭ গ্রাহক পরিষেবার সাথে যোগাযোগ করুন, ধন্যবাদ!</value></data>
+  <data name="msg_InactiveBankAccountSubmission"><value>নিষ্ক্রিয় ব্যাঙ্ক অ্যাকাউন্ট জমা</value></data>
+  <data name="msg_ConfirmRealNameAlert"><value>সমস্ত লেনদেন সঠিক হয়েছে তা নিশ্চিত করতে, অনুগ্রহ করে নিশ্চিত করুন যে আপনার আসল নাম আপনার ব্যাংক অ্যাকাউন্টের নামের সাথে একই</value></data>
+  <data name="msg_MustDeposit"><value>উত্তোলন করার আগে দয়া করে জমা করুন</value></data>
+  <data name="msg_GoToDepositPage"><value>আমানত পৃষ্ঠায় যান?</value></data>
+  <data name="msg_PromoCodeHasBeenUsed"><value>প্রচার কোড ব্যবহার করা হয়েছে</value></data>
+  <data name="msg_PaymentNotReceived_Detail"><value>আমানত পাইনি, দয়া করে ধৈর্য ধরে অপেক্ষা করুন।</value></data>
+  <data name="msg_DrawPrize1"><value>অভিনন্দন! আপনার {0} বোনাস {১} {২} আপনার অ্যাকাউন্টে জমা হয়েছে৷</value></data>
+  <data name="msg_BalanceHint"><value>আপনার বর্তমান অর্থের পরিমাণ হল</value></data>
+  <data name="msg_HasExist"><value>মেইল আগে থেকেই আছে।</value></data>
+  <data name="msg_InsufficientFund"><value>অপর্যাপ্ত তহবিল!</value></data>
+  <data name="msg_DepositRefunded_Detail"><value>জমার পরিমাণ ফেরত দেওয়া হয়েছে, অনুগ্রহ করে আপনার ব্যাঙ্ক অ্যাকাউন্ট চেক করুন।</value></data>
+  <data name="msg_LockedAmountInsufficient"><value>মূল ওয়ালেট পরিমাণ {0} এর কম হওয়া উচিত নয়</value></data>
+  <data name="msg_OTPSendCode"><value>আমরা আপনার নিবন্ধিত মোবাইল নম্বরে যাচাইকরণ কোড পাঠিয়েছিলাম। অনুগ্রহ করে চেক করুন এবং নিচের যাচাইকরণ কোডটি লিখুন।</value></data>
+  <data name="msg_InactiveBankAccountSubmission_Detail"><value>ডিপোজিট অ্যাকাউন্ট পরিবর্তন করা হয়েছে, লেনদেন করার আগে অনুগ্রহ করে সর্বশেষ রিসিভিং অ্যাকাউন্ট চেক করুন।</value></data>
+  <data name="msg_WithdrawalAccountAannotReceiveMoney"><value>প্রত্যাহার অ্যাকাউন্ট তহবিল পেতে ব্যর্থ</value></data>
+  <data name="msg_SamePassword"><value>পুরাতন পাসওয়ার্ড এবং নতুন পাসওয়ার্ড একই!</value></data>
+  <data name="msg_BeneficiarysAccountMaintenance_Detail"><value>ব্যাঙ্কটি বর্তমানে রক্ষণাবেক্ষণের অধীনে রয়েছে, ব্যাঙ্ক রক্ষণাবেক্ষণ সম্পূর্ণ হওয়ার পরে আপনার তোলার অনুরোধ প্রক্রিয়া করা হবে।</value></data>
+  <data name="msg_DepositorsNameUnmatch_Detail"><value>নিবন্ধিত নামটি ব্যাঙ্ক অ্যাকাউন্টের নামের সাথে মেলে না, অনুগ্রহ করে আরও সহায়তার জন্য গ্রাহক সহায়তার সাথে যোগাযোগ করুন৷</value></data>
+  <data name="msg_WithdrawalAccountNumberIncorrect"><value>টাকা তোলার অ্যাকাউন্টের নাম মেলে না</value></data>
+  <data name="msg_DepositAlert"><value>আপনার প্রধান ওয়ালেট অর্থের পরিমাণ হল : &lt;span class="popup-span Js-MainWallet-Balance"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;আমাদের খেলা এবং পরিষেবাগুলি উপভোগ করতে এখনই জমা করুন বা খেলাধুলা বইয়ের ওয়ালেট থেকে মূল ওয়ালেটে স্থানান্তর করুন .</value></data>
+  <data name="msg_ForceLogedoutHint"><value>এই আইডিটি ইতিমধ্যে অন্য ব্রাউজার উইন্ডো বা ডিভাইস থেকে লগ ইন করেছে। আপনাকে এই অধিবেশন থেকে লগআউট করতে বাধ্য করা হবে৷</value></data>
+  <data name="msg_WithdrawalSuccessful"><value>আপনার উত্তোলনের অনুরোধ সফল হয়েছে। এটি সম্পন্ন হলে আমরা আপনাকে অবহিত করব।</value></data>
+  <data name="msg_EnterPhoneNumber"><value>ফোন নম্বর লিখুন.</value></data>
+  <data name="msg_PasswordReq"><value>পাসওয়ার্ড প্রয়োজন.</value></data>
+  <data name="msg_NoData"><value>কোন তথ্য নেই</value></data>
+  <data name="msg_ThisCurrencyNotSupport"><value>আপনার মূদ্রা সমর্থন করে না.</value></data>
+  <data name="msg_InvalidCryptoWalletAddress"><value>অবৈধ ক্রিপ্টো ওয়ালেট ঠিকানা</value></data>
+  <data name="msg_DrawPrizeTital1"><value>{0} রহস্য বাক্স</value></data>
+  <data name="ForgetPwdSuccess"><value>আপনার জন্য একটি নতুন পাসওয়ার্ড আপনার নিবন্ধিত ই-মেইল ঠিকানায় পাঠানো হয়েছে।</value></data>
+  <data name="msg_BankAccountExists"><value>আপনি ইতিমধ্যে এই তথ্য সংরক্ষণ করেছেন.</value></data>
+  <data name="msg_Ineligible"><value>আপনি এই প্রচারণার জন্য যোগ্য নন। বিস্তারিত জানার জন্য আমাদের সাপোর্ট সার্ভিসে যোগাযোগ করুন।</value></data>
+  <data name="msg_CreditSignUpHint_1"><value>প্রিয় মূল্যবান গ্রাহক,</value></data>
+  <data name="msg_CreditSignUpHint_2"><value>{0}-এ স্বাগতম, নিবন্ধন করার পরে অনুগ্রহ করে উল্লিখিত লিঙ্কটিতে যান এবং আমাদের খেলা গুলি উপভোগ করুন৷</value></data>
+  <data name="ResetPwdSuccess"><value>আপনার পাসওয়ার্ড সফলভাবে পুনরায় বসানো হয়েছে!</value></data>
+  <data name="msg_DepositorsNameUnmatch"><value>আমানতকারীর নাম অতুলনীয়</value></data>
+  <data name="msg_PromoCodeIncorrect"><value>প্রচার কোড ভুল.</value></data>
+  <data name="msg_SpecialCodeErr"><value>প্রচার কোডটি ভুল, অনুগ্রহ করে আবার পরীক্ষা করুন</value></data>
+  <data name="msg_IneligibleAngPow"><value>এই প্রচারণায় যুক্ত হতে জমা করুন</value></data>
+  <data name="msg_MailReq"><value>জমা দেওয়ার পরে ইমেল পরিবর্তন করা যাবে না</value></data>
+  <data name="msg_ForceLogedout"><value>আপনি প্রস্থান করেছেন!! অনুগ্রহ করে প্রবেশ করুন এবং আবার চেষ্টা করুন!!</value></data>
+  <data name="msg_WrongBankSubmitted"><value>ভুল জমা অ্যাকাউন্ট নির্বাচন করা হয়েছে</value></data>
+  <data name="msg_BeneficiarysAccountMaintenance"><value>সুবিধাভোগী অ্যাকাউন্ট রক্ষণাবেক্ষণ</value></data>
+  <data name="ForgetPwdFail"><value>এই ইমেল ঠিকানাটি অবৈধ!</value></data>
+  <data name="msg_OTPHint"><value>আমাদের প্রচারগুলি উপভোগ করতে অনুগ্রহ করে আপনার প্রোফাইল সম্পূর্ণ করুন এবং আপনার ফোন নম্বর যাচাই করুন৷</value></data>
+  <data name="msg_MailExisted"><value>মেইল আগে থেকেই আছে।</value></data>
+  <data name="msg_SpecialCodeVipLevelsOrBlockTagInvalid"><value>এই প্রচারে অংশগ্রহণ করতে অক্ষম, অনুসন্ধানের জন্য গ্রাহক পরিষেবার সাথে যোগাযোগ করুন</value></data>
+  <data name="msg_AffCodeValidate"><value>অ্যাফিলিয়েট আইডি শুধুমাত্র ৫-২০ সংখ্যার অনুমতি দেয়।</value></data>
+  <data name="msg_OTPHint2"><value>এখন আপনার ফোন নাম্বার যাচাই করুন</value></data>
+  <data name="msg_OTPHint1"><value>আপনি কি আমাদের সম্পূর্ণ পণ্য ও সেবা উপভোগ করতে চান?</value></data>
+  <data name="msg_DepositRefunded"><value>আমানত ফেরত</value></data>
+  <data name="msg_DecimalOutOfRange"><value>2টি সংখ্যার চেয়ে বেশি দশমিকের কারণে স্থানান্তর ব্যর্থ হয়েছে৷</value></data>
+  </root>
