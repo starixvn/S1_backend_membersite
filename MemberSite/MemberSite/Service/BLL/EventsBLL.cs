@@ -63,7 +63,7 @@ namespace MemberSite.Service.BLL
 
         private IEnumerable<Leaderboard> GetLeaderboardListMonth(int lBCategoryId, string eventCode, int siteId, int currencyId, int topNum, DateTime selectDays)
         {
-            var endTime = new DateTime(selectDays.Year, selectDays.Month, 1).AddMonths(1).AddMilliseconds(-1);
+            var endTime = new DateTime(selectDays.Year, selectDays.Month, 1).AddMonths(1).AddSeconds(-1);
             var leaderboard = _eventsService.GetLeaderboardList(lBCategoryId, eventCode, siteId, currencyId, topNum, selectDays ,endTime);
             
             return leaderboard;
