@@ -159,13 +159,13 @@ namespace MemberSite.Controllers.Api
                 };
             }
 
-            if (loginModel.di != null)
-            {
-                _ = Task.Run(async () =>
-                {
-                    await _sFpsBll.FPSChecksAsync(customer.CustId, "login", "Successfully", loginModel.url, loginModel.platform, loginModel.userAgent, loginModel.screen, loginModel.di, ip);
-                });
-            }
+            // if (loginModel.di != null)
+            // {
+            //     _ = Task.Run(async () =>
+            //     {
+            //         await _sFpsBll.FPSChecksAsync(customer.CustId, "login", "Successfully", loginModel.url, loginModel.platform, loginModel.userAgent, loginModel.screen, loginModel.di, ip);
+            //     });
+            // }
 
             await _cacheHelper.StringFireAndForgetSetAsync(customer.CustId.ToString(), token, TimeSpan.FromMinutes(30), RedisDataBase.Token);
             Response.Cookies.Delete($"Initialization{User.Identity?.Name}");
@@ -240,13 +240,13 @@ namespace MemberSite.Controllers.Api
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
-            if (loginModel.di != null)
-            {
-                _ = Task.Run(async () =>
-                {
-                    await _sFpsBll.FPSChecksAsync(customer.CustId, "login", "Successfully", loginModel.url, loginModel.platform, loginModel.userAgent, loginModel.screen, loginModel.di, ip);
-                });
-            }
+            // if (loginModel.di != null)
+            // {
+            //     _ = Task.Run(async () =>
+            //     {
+            //         await _sFpsBll.FPSChecksAsync(customer.CustId, "login", "Successfully", loginModel.url, loginModel.platform, loginModel.userAgent, loginModel.screen, loginModel.di, ip);
+            //     });
+            // }
 
             var accessToken = _tools.GenerateJwtTokens(claims);
             var data = new JwtAuthData
