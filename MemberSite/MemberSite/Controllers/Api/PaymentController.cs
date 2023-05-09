@@ -1445,7 +1445,7 @@ namespace MemberSite.Controllers.Api
             }
             
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-            var result = paymentBLL.GetSupportCryptoInfo(custInfo.SiteId);
+            var result = paymentBLL.GetSupportCryptoInfoWithCache(custInfo.SiteId);
  
             return new ApiResult<CryptoInfoData>
             {

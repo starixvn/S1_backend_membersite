@@ -890,6 +890,12 @@ namespace MemberSite.Service.BLL
             };
         }
 
+        public CryptoInfoData GetSupportCryptoInfoWithCache(int siteId)
+        {
+            return _cacheHelper.TryGetOrCreate($"PaySetting:SupportCrypto:{siteId}", TimeSpan.FromMinutes(5),
+                () => GetSupportCryptoInfo(siteId));
+        }
+
         public IEnumerable<USDTWithdrawalLimitInfoOutput> GetUSDTWithdrawalLimitInfoV2(USDTWithdrawalLimitInfoInput input)
         {
             return withdrawalService.GetUSDTWithdrawalLimitInfoV2(input);
