@@ -106,7 +106,7 @@ namespace MemberSite.Service.BLL
  
         public IEnumerable<Leaderboard> GetLeaderboardListWithCache(string eventCode, int lBCategoryId, int siteId, int currencyId, int topNum, int beforeDays)
         {
-            var key = $"Leaderboard_{lBCategoryId}_{eventCode}_{siteId}_{currencyId}_{topNum}_{beforeDays}";
+            var key = $"Leaderboard:{lBCategoryId}:{eventCode}:{siteId}:{currencyId}:{topNum}:{beforeDays}";
             return _redisHelper.TryGetOrCreate(key, TimeSpan.FromMinutes(10),
                 () => GetLeaderboardList(lBCategoryId, eventCode, siteId, currencyId, topNum, beforeDays));
         }
@@ -120,7 +120,7 @@ namespace MemberSite.Service.BLL
    
         public void GetCustRankWithCache(int lBCategoryId, string eventCode, int siteId, int currencyId  ,int custId ,int beforeDays, out int custRank, out decimal point)
         {
-            var key = $"Leaderboard_{lBCategoryId}_{eventCode}_{custId}_{beforeDays}";
+            var key = $"Leaderboard:{lBCategoryId}:{eventCode}:{custId}:{beforeDays}";
             var result = _redisHelper.TryGetOrCreate(key, TimeSpan.FromMinutes(10),
                 () => GetCustRank(lBCategoryId, eventCode, siteId ,currencyId , custId, beforeDays));
 
@@ -130,7 +130,7 @@ namespace MemberSite.Service.BLL
 
         public void GetCustRankWithCacheMonth(int lBCategoryId, string eventCode,  int siteId, int currencyId ,int custId, DateTime selectDays, out int custRank, out Decimal point)
         {
-            var key = $"Leaderboard_{lBCategoryId}_{eventCode}_{custId}_{selectDays}";
+            var key = $"Leaderboard:{lBCategoryId}:{eventCode}:{custId}:{selectDays}";
             var result = _redisHelper.TryGetOrCreate(key, TimeSpan.FromMinutes(10),
                 () => GetCustRankMonth(lBCategoryId, eventCode, siteId ,currencyId, custId, selectDays));
 
