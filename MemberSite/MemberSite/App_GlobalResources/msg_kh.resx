@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+<resheader name="resmimetype"><value>text/microsoft-resx</value></resheader><resheader name="version"><value>1.3</value></resheader><resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader><resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader><data name="msg_TransferAlert"><value>កាបូបលុយកីឡាចរន្តរបស់អ្នកគឺ : &lt;span class="popup-span Js-3RdWallet-Balance"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;ដាក់ប្រាក់ និងផ្ទេរពីកាបូបលុយធំទៅកាបូបលុយសៀវភៅកីឡាឥឡូវនេះ ដើម្បីរីករាយជាមួយហ្គេម និងសេវារបស់យើង។</value></data>
+  <data name="msg_SubmitDepositTime"><value>សូមផ្ញើពេលវេលាដាក់ប្រាក់របស់អ្នក។</value></data>
+  <data name="msg_ClaimCashBackBonus"><value>សូមអបអរសាទរ សាច់ប្រាក់ត្រឡប់របស់អ្នក {0} ត្រូវបានបញ្ចូលទៅក្នុងគណនីរបស់អ្នក!</value></data>
+  <data name="msg_BirthdayIsRequired"><value>សូមបំពេញថ្ងៃខែឆ្នាំកំណើត</value></data>
+  <data name="msg_UsernameReq"><value>ត្រូវការឈ្មោះអ្នកប្រើប្រាស់។</value></data>
+  <data name="msg_ApiServerError"><value>កំហុសម៉ាស៊ីនមេ API ។</value></data>
+  <data name="msg_MustInteger"><value>សូមបំពេញតួរលេខឱ្យបានពេញលេញ លេខទសភាគមិនត្រូវបានអនុញ្ញាតទេ។</value></data>
+  <data name="msg_LoginToAccess"><value>សូមចូលដើម្បីចូលលេងហ្គេម។</value></data>
+  <data name="msg_WithdrawalAccountNumberIncorrect_Detail"><value>លេខគណនីដកប្រាក់មិនត្រឹមត្រូវ។ សូមពិនិត្យមើលលេខគណនីដកប្រាក់របស់អ្នក។</value></data>
+  <data name="msg_CreditSignUp"><value>ជូនចំពោះអតិថិជនជាទីគោរព &lt;br /&gt;&lt;br /&gt;សូមស្វាគមន៍មកកាន់ &lt;a href="https://{0}" target="_new"&gt;{0}&lt;/a&gt; នៅពេលចុះឈ្មោះរួច សូមចូលទៅកាន់ តំណភ្ជាប់នេះ និងរីករាយជាមួយហ្គេមរបស់យើង។</value></data>
+  <data name="msg_WrongAmountSubmitted_Detail"><value>ចំនួនដាក់ប្រាក់មិនត្រូវគ្នានឹងចំនួនក្នុងប័ណ្ណដាក់ប្រាក់ទេ សូមពិនិត្យមើលឡើងវិញ ឬទាក់ទងផ្នែកជំនួយអតិថិជនសម្រាប់ជំនួយបន្ថែម។</value></data>
+  <data name="msg_BankAccountDuplicate"><value>លេខគណនីធនាគារស្ទួនមិនត្រូវបានអនុញ្ញាតទេ។ សូមសាកល្បងលេខគណនីផ្សេងទៀត</value></data>
+  <data name="msg_WithdrawalNoFund"><value>សំណើដកប្រាក់របស់អ្នកត្រូវបានបរាជ័យដោយសារតែសមតុល្យទឹកប្រាក់មិនគ្រប់គ្រាន់!</value></data>
+  <data name="msg_EmailFormatVerify"><value>ទម្រង់អាសយដ្ឋានអ៊ីមែលមិនត្រឹមត្រូវ</value></data>
+  <data name="msg_loggedout"><value>អ្នកបានចាកចេញដោយជោគជ័យ!!</value></data>
+  <data name="msg_PhoneFormatVerify"><value>លេខទូរស័ព្ទដែលអ្នកបានបញ្ចូលមិនត្រឹមត្រូវ គួរតែស្ថិតនៅចន្លោះ {0} ខ្ទង់</value></data>
+  <data name="msg_PhoneWrongFormat"><value>ទ្រង់ទ្រាយទូរស័ព្ទខុស។</value></data>
+  <data name="msg_Updatesuccessful"><value>ការធ្វើបច្ចុប្បន្នភាពបានជោគជ័យ</value></data>
+  <data name="msg_WithdrawalFailed"><value>សំណើដកប្រាក់របស់អ្នក ត្រូវបានបរាជ័យ ។ សូមផ្ទៀងផ្ទាត់ជាមួយ CSD សម្រាប់ព័ត៌មានបន្ថែម។</value></data>
+  <data name="msg_CryptoWalletDuplicate"><value>អាសយដ្ឋានកាបូបគ្រីបតូត្រូវបានប្រើ</value></data>
+  <data name="msg_WithdrawalExists"><value>សំណើប្រតិបត្តិការរបស់អ្នកកំពុងរង់ចាំ។ សូមព្យាយាមម្តងទៀត ខណៈពេលដែលប្រតិបត្តិការដែលកំពុងរង់ចាំបានបញ្ចប់</value></data>
+  <data name="msg_LessThanWithdrawalMin"><value>ចំនួនទឹកប្រាក់ដកត្រូវតែច្រើនជាង {0}</value></data>
+  <data name="msg_ReferenceNumber"><value>លេខ​យោង</value></data>
+  <data name="mag_AffiliateNotExist"><value>លេខកូដសមាជិកសម្ព័ន្ធរបស់អ្នកគឺមិនត្រឹមត្រូវទេ។ សូមពិនិត្យម្តងទៀត!</value></data>
+  <data name="msg_Congratulations"><value>ការចុះឈ្មោះរបស់អ្នកត្រូវបានបញ្ចប់; អ្នកអាចចូលភ្លាមៗ ដាក់ប្រាក់ ហើយបន្ទាប់មកចាប់ផ្តើមដាក់ភ្នាល់។</value></data>
+  <data name="msg_PaymentNotReceived"><value>ការទូទាត់មិនត្រូវបានទទួល</value></data>
+  <data name="msg_DepositHint"><value>ដាក់ប្រាក់ឥឡូវនេះ ដើម្បីរីករាយជាមួយហ្គេម និងសេវារបស់យើង។</value></data>
+  <data name="msg_WrongAmount"><value>ចំនួនទឹកប្រាក់មិនត្រឹមត្រូវ</value></data>
+  <data name="msg_WithdrawalAccountsNameUnmatch"><value>ឈ្មោះគណនីដកប្រាក់មិនត្រូវគ្នា។</value></data>
+  <data name="msg_WrongAmountSubmitted"><value>ចំនួនដាក់ប្រាក់មិនត្រឹមត្រូវ</value></data>
+  <data name="msg_UsernameNotAvailable"><value>ឈ្មោះអ្នកប្រើប្រាស់លែងមានទៀតហើយ។</value></data>
+  <data name="msg_WithdrawalAccountsNameUnmatch_Detail"><value>ឈ្មោះគណនីដកប្រាក់មិនត្រូវគ្នានឹងឈ្មោះដែលបានចុះឈ្មោះទេ។ សូមទាក់ទងផ្នែកសេវាអតិថិជនសម្រាប់ជំនួយ។</value></data>
+  <data name="msg_NeedAccountName"><value>ត្រូវការឈ្មោះគណនី</value></data>
+  <data name="msg_DrawPrizeTital"><value>កាដូវអាំងប៉ាវ</value></data>
+  <data name="msg_UsernameLength"><value>ឈ្មោះអ្នកប្រើប្រាស់ត្រូវមានចន្លោះពី ៦ ទៅ ១៨ តួអក្សរ ។</value></data>
+  <data name="msg_DepositSlipRequired_Detail"><value>សូមភ្ជាប់ជាមួយប័ណ្ណផ្ទេរប្រាក់ ដើម្បីបង្កើនល្បឿនដំណើរការប្រតិបត្តិការ។</value></data>
+  <data name="msg_NeedAccountNo"><value>ត្រូវការលេខគណនី</value></data>
+  <data name="msg_DrawPrize"><value>សូមអបអរសាទរ អាំងប៉ាវ {0} របស់អ្នកត្រូវបានបញ្ចូលទៅក្នុងគណនីរបស់អ្នក!</value></data>
+  <data name="msg_SpecialCodeErrorForCheck"><value>លេខកូដផ្សព្វផ្សាយមិនត្រឹមត្រូវទេ សូមពិនិត្យម្តងទៀត</value></data>
+  <data name="msg_InvalidOldPassword"><value>ពាក្យ​សម្ងាត់​ចាស់​មិន​ត្រឹមត្រូវ!</value></data>
+  <data name="msg_WithdrawalAccountAannotReceiveMoney_Detail"><value>គណនីដកប្រាក់មិនអាចទទួលប្រាក់បានទេ។ សូមពិនិត្យមើលឡើងវិញ ឬទាក់ទងផ្នែកជំនួយអតិថិជនសម្រាប់ជំនួយបន្ថែម។</value></data>
+  <data name="msg_PasswordLength"><value>ពាក្យ​សម្ងាត់​ត្រូវ​មាន​ចន្លោះ​ពី ៦ ទៅ ១៨ តួអក្សរ។</value></data>
+  <data name="msg_GreaterThanWithdrawalMax"><value>បានឈានដល់ដែនកំណត់ប្រចាំថ្ងៃរបស់អ្នក</value></data>
+  <data name="msg_MailWrongFormat"><value>ទម្រង់សំបុត្រខុស។</value></data>
+  <data name="msg_NotInLimit"><value>មិនស្ថិតក្នុងដែនកំណត់</value></data>
+  <data name="msg_UsernameValidate"><value>អក្សរក្រមលេខចន្លោះពី ៦-១៨ (A-Z, a-z, ០-៩) តួតែប៉ុណ្ណោះ។</value></data>
+  <data name="msg_WrongBankSubmitted_Detail"><value>គណនីដាក់ប្រាក់ដែលបានជ្រើសរើសគឺមិនត្រឹមត្រូវ សូមពិនិត្យមើលឡើងវិញ ឬទាក់ទងផ្នែកជំនួយអតិថិជនសម្រាប់ជំនួយបន្ថែម។</value></data>
+  <data name="msg_DepositSlipRequired"><value>តម្រូវ​ឱ្យ​មាន​ប័ណ្ណ​ដាក់​ប្រាក់</value></data>
+  <data name="msg_OTPEnterCode"><value>សូមបញ្ចូលលេខផ្ទៀងផ្ទាត់ដែលអ្នកបានទទួលខាងក្រោម។</value></data>
+  <data name="msg_UpdateFailed"><value>ការធ្វើបច្ចុប្បន្នភាពបានបរាជ័យ</value></data>
+  <data name="msg_EnterRealName"><value>សូមបញ្ចូលឈ្មោះពិតរបស់អ្នក។</value></data>
+  <data name="msg_SelectBirthDay"><value>សូមជ្រើសរើសថ្ងៃកំណើតរបស់អ្នក។</value></data>
+  <data name="msg_RequiredAmountInsufficient"><value>ដាក់ប្រាក់យ៉ាងតិច {0} ដើម្បីមានសិទ្ធិទទួលបានប្រាក់រង្វាន់</value></data>
+  <data name="msg_DepositProcessLogin_LoginFailed"><value>ការចូលបានបរាជ័យ ខុសឈ្មោះអ្នកប្រើប្រាស់/ពាក្យសម្ងាត់ ឬមិនមានឈ្មោះអ្នកប្រើប្រាស់។</value></data>
+  <data name="msg_SelectFile"><value>ជ្រើសរើសឯកសារ</value></data>
+  <data name="msg_DepositProcessLogin_ACLocked"><value>គណនីរបស់អ្នកត្រូវបានចាក់សោ; សូមទំនាក់ទំនងមកផ្នែកបម្រើសេវាអតិថិជន ២៤ម៉/៧ ថ្ងៃ។ សូមអរគុណ!</value></data>
+  <data name="msg_InactiveBankAccountSubmission"><value>គណនីធនាគារដាក់ស្នើអសកម្ម</value></data>
+  <data name="msg_ConfirmRealNameAlert"><value>ដើម្បីធានាថាប្រតិបត្តិការទាំងអស់ត្រឹមត្រូវ សូមប្រាកដថា ឈ្មោះពិតរបស់អ្នក គឺដូចគ្នានឹងឈ្មោះគណនីធនាគាររបស់អ្នក</value></data>
+  <data name="msg_MustDeposit"><value>សូមបំពេញការដាក់ប្រាក់ជាមុនសិន មុននឹងដាក់ស្នើដកប្រាក់</value></data>
+  <data name="msg_GoToDepositPage"><value>ចូលទៅកាន់ទំព័រដាក់ប្រាក់?</value></data>
+  <data name="msg_PromoCodeHasBeenUsed"><value>លេខកូដផ្សព្វផ្សាយនេះត្រូវបានប្រើប្រាស់</value></data>
+  <data name="msg_PaymentNotReceived_Detail"><value>ការទូទាត់មិនទាន់បានទទួលនៅក្នុងធនាគារទេ សូមរង់ចាំដោយអត់ធ្មត់។</value></data>
+  <data name="msg_DrawPrize1"><value>អបអរសាទរ! ប្រាក់រង្វាន់ {0} របស់អ្នកសម្រាប់ {1} {2} ត្រូវបានបញ្ចូលទៅក្នុងគណនីរបស់អ្នក។</value></data>
+  <data name="msg_HasExist"><value>ធ្លាប់​មាន​រួចហើយ។</value></data>
+  <data name="msg_InsufficientFund"><value>ថវិកាមិនគ្រប់គ្រាន់!</value></data>
+  <data name="msg_DepositRefunded_Detail"><value>ចំនួនទឹកប្រាក់នៃការដាក់ប្រាក់ត្រូវបានបង្វិលសងវិញ សូមពិនិត្យមើលគណនីធនាគាររបស់អ្នក។</value></data>
+  <data name="msg_LockedAmountInsufficient"><value>សមតុល្យកាបូបលុយធំមិនត្រូវតិចជាង {0}</value></data>
+  <data name="msg_OTPSendCode"><value>យើងបានផ្ញើលេខកូដផ្ទៀងផ្ទាត់ទៅទូរសព្ទចុះឈ្មោះរបស់អ្នក។ សូមពិនិត្យមើលទូរសព្ទរបស់អ្នក ហើយបញ្ចូលលេខកូដផ្ទៀងផ្ទាត់របស់អ្នកខាងក្រោម។</value></data>
+  <data name="msg_InactiveBankAccountSubmission_Detail"><value>គណនីដាក់ប្រាក់ត្រូវបានផ្លាស់ប្តូរ សូមពិនិត្យមើលគណនីទទួលចុងក្រោយមុននឹងធ្វើប្រតិបត្តិការ។</value></data>
+  <data name="msg_WithdrawalAccountAannotReceiveMoney"><value>គណនីដកប្រាក់មិនអាចទទួលប្រាក់បានទេ។</value></data>
+  <data name="msg_SamePassword"><value>ពាក្យ​សម្ងាត់​ចាស់​ និង​ពាក្យសម្ងាត់​ថ្មី​គឺ​ដូច​គ្នា​!</value></data>
+  <data name="msg_BeneficiarysAccountMaintenance_Detail"><value>បច្ចុប្បន្នធនាគារកំពុងស្ថិតក្រោមការថែទាំ កម្មវិធីដកប្រាក់របស់អ្នកនឹងត្រូវបានដំណើរការសម្រាប់អ្នកបន្ទាប់ពីការថែទាំធនាគារត្រូវបានបញ្ចប់។</value></data>
+  <data name="msg_DepositorsNameUnmatch_Detail"><value>ឈ្មោះដែលបានចុះមិនត្រូវគ្នានឹងឈ្មោះគណនីធនាគារទេ សូមមេត្តាទាក់ទងផ្នែកជំនួយអតិថិជនសម្រាប់ជំនួយបន្ថែម។</value></data>
+  <data name="msg_WithdrawalAccountNumberIncorrect"><value>លេខគណនីដកប្រាក់មិនត្រឹមត្រូវ។</value></data>
+  <data name="msg_DepositAlert"><value>សមតុល្យកាបូបលុយធំរបស់អ្នកគឺ៖ &lt;span class="popup-span Js-MainWallet-Balance"&gt;{0} {1}&lt;/span&gt;&lt;br&gt; ដាក់ប្រាក់ឥឡូវនេះ ឬផ្ទេរពីកាបូបលុយកីឡាទៅកាបូបលុយធំ ដើម្បីរីករាយជាមួយហ្គេម និងសេវារបស់យើង .</value></data>
+  <data name="msg_ForceLogedoutHint"><value>អត្តលេខនេះបានចូលរួចហើយពីបង្អួច ឬឧបករណ៍កម្មវិធីរុករកផ្សេងទៀត ។ អ្នកនឹងត្រូវបង្ខំឲ្យចេញពីកម្មវិធីនេះ ។</value></data>
+  <data name="msg_WithdrawalSuccessful"><value>សំណើដកប្រាក់របស់អ្នក ទទួលបានជោគជ័យ ។ យើងនឹងជូនដំណឹងដល់អ្នក នៅពេលដែលធ្វើរួចរាល់ ។</value></data>
+  <data name="msg_EnterPhoneNumber"><value>សូមបញ្ចូលលេខទូរសព្ទ។</value></data>
+  <data name="msg_PasswordReq"><value>ត្រូវការពាក្យ​សម្ងាត់​។</value></data>
+  <data name="msg_NoData"><value>គ្មាន​ទិន្នន័យ</value></data>
+  <data name="msg_ThisCurrencyNotSupport"><value>រូបិយបណ្ណរបស់អ្នកមិនត្រូវគ្នាទេ។</value></data>
+  <data name="msg_InvalidCryptoWalletAddress"><value>អាសយដ្ឋានកាបូបលុយគ្រីបមិនត្រឹមត្រូវ។</value></data>
+  <data name="msg_DrawPrizeTital1"><value>{0} ប្រអប់អាថ៌កំបាំង</value></data>
+  <data name="ForgetPwdSuccess"><value>ពាក្យសម្ងាត់ថ្មីរបស់អ្នកត្រូវបានផ្ញើទៅកាន់អាសយដ្ឋានអ៊ីម៉ែលរបស់អ្នកដែលបានចុះឈ្មោះ។</value></data>
+  <data name="msg_BankAccountExists"><value>អ្នកបានរក្សាទុកព័ត៌មាននេះរួចហើយ។</value></data>
+  <data name="msg_Ineligible"><value>អ្នកមិនមានសិទ្ធិទទួលបានការប្រូម៉ូសិននេះទេ។ សូមទាក់ទងផ្នែកគាំទ្ររបស់យើងសម្រាប់ព័ត៌មានលម្អិតបន្ថែម។</value></data>
+  <data name="msg_CreditSignUpHint_1"><value>ជូនចំពោះអតិថិជនជាទីគោរពរាប់អាន</value></data>
+  <data name="msg_CreditSignUpHint_2"><value>សូមស្វាគមន៍មកកាន់ {0} នៅពេលចុះឈ្មោះរួច សូមចូលទៅកាន់តំណភ្ជាប់នេះ ហើយរីករាយជាមួយហ្គេមរបស់យើង។</value></data>
+  <data name="ResetPwdSuccess"><value>ពាក្យសម្ងាត់របស់អ្នកត្រូវបានកែតម្រូវវិញដោយជោគជ័យ!</value></data>
+  <data name="msg_DepositorsNameUnmatch"><value>ឈ្មោះអ្នកដាក់ប្រាក់មិនត្រូវគ្នា</value></data>
+  <data name="msg_PromoCodeIncorrect"><value>លេខកូដប្រូម៉ូមិនត្រឹមត្រូវទេ។</value></data>
+  <data name="msg_SpecialCodeErr"><value>លេខកូដប្រាក់រង្វាន់ពិសេសរបស់អ្នកដែលបានបញ្ចូល មិនមានការប្រូម៉ូសិនសម្រាប់ប្តូរយករង្វាន់ទេ។</value></data>
+  <data name="msg_IneligibleAngPow"><value>សូមធ្វើការដាក់ប្រាក់របស់អ្នក ដើម្បីទទួលបានការប្រូម៉ូសិននេះ។</value></data>
+  <data name="msg_MailReq"><value>អ៊ីម៉ែលមិនអាចផ្លាស់ប្តូរបានទេបន្ទាប់ពីការចុចបញ្ជូន</value></data>
+  <data name="msg_ForceLogedout"><value>អ្នកបានចាកចេញ!! សូមចូល ហើយសាកល្បងម្ដងទៀត!!</value></data>
+  <data name="msg_WrongBankSubmitted"><value>បានជ្រើសរើសគណនីដាក់ប្រាក់ខុស</value></data>
+  <data name="msg_BeneficiarysAccountMaintenance"><value>គណនីរបស់អ្នកទទួលកំពុងស្ថិតក្រោមការថែទាំ</value></data>
+  <data name="ForgetPwdFail"><value>អាសយដ្ឋានអ៊ីម៉ែលនេះមិនត្រឹមត្រូវទេ!</value></data>
+  <data name="msg_OTPHint"><value>សូមបំពេញប្រវត្តិរូបរបស់អ្នក និងផ្ទៀងផ្ទាត់លេខទូរសព្ទរបស់អ្នក ដើម្បីរីករាយជាមួយការប្រូម៉ូសិនរបស់យើង។</value></data>
+  <data name="msg_MailExisted"><value>សំបុត្រមានរួចហើយ។</value></data>
+  <data name="msg_SpecialCodeVipLevelsOrBlockTagInvalid"><value>មិនអាចចូលរួមក្នុងប្រម៉ូសិននេះទេ សូមទាក់ទងផ្នែកសេវាអតិថិជនសម្រាប់សាកសួរ</value></data>
+  <data name="msg_AffCodeValidate"><value>អត្តលេខសមាជិកសម្ព័ន្ធអនុញ្ញាតឱ្យមានតែលេខ ៥-២០ ប៉ុណ្ណោះ។</value></data>
+  <data name="msg_OTPHint2"><value>ផ្ទៀងផ្ទាត់ទូរសព្ទរបស់អ្នកឥឡូវនេះ?</value></data>
+  <data name="msg_OTPHint1"><value>តើអ្នកចង់រីករាយជាមួយផលិតផល និងសេវាដ៏ពេញលេញរបស់យើងទេ?</value></data>
+  <data name="msg_DepositRefunded"><value>ការដាក់ប្រាក់ត្រូវបានបង្វិលសងវិញ។</value></data>
+  <data name="msg_DecimalOutOfRange"><value>ការផ្ទេរបានបរាជ័យដោយសារតែទសភាគធំជាង 2 ខ្ទង់</value></data>
+  <data name="msg_RedemptionLimitOverLimit"><value>សូមអភ័យទោស ដែនកំណត់នៃកាទទួលយករង្វាន់របស់អ្នកបានដល់ហើយ។ សូមព្យាយាមម្តងទៀតនៅលើខែថ្មី។</value></data>
+  <data name="msg_times_chance"><value>នៅមានឱកាស {0} ដង</value></data>
+  <data name="msg_congratulation_event_reward"><value>អបអរសាទរ! ទទួលបានចំនួន {0}</value></data>
+  <data name="msg_ProfileOrPhoneNotFinish"><value>ព័ត៌មានគណនីមិនទាន់បានបញ្ចប់ទេ សូមផ្ទៀងផ្ទាត់ព័ត៌មានគណនី</value></data>
+  <data name="msg_EWalletIsMaintenance"><value>កាបូបអេឡិចត្រូនិកស្ថិតក្រោមការថែទាំ សូមប្រើវិធីដកប្រាក់ផ្សេងទៀត។</value></data>
+  <data name="msg_turnover_not_enough"><value>មិនទាន់បានបញ្ចប់ការភ្នាល់ត្រឹមត្រូវដែលទាមទារ មិនអាចចូលរួមបានទេ។</value></data>
+  <data name="msg_Event_has_not_started"><value>ព្រឹត្តិការណ៍មិនទាន់បានចាប់ផ្តើមនៅឡើយទេ</value></data>
+  <data name="msg_limit_has_been_reached"><value>ដែនកំណត់ថ្ងៃនេះបានដល់ហើយ</value></data>
+  <data name="msg_InsufficientPoint"><value>សូមអភ័យទោស! អ្នកមានពិន្ទុរង្វាន់ 88 មិនគ្រប់គ្រាន់។</value></data>
+  <data name="msg_keep_up"><value>សូមសំណាងល្អនៅលើការក្រឡុកបន្ទាប់របស់អ្នក។</value></data>
+  <data name="msg_EWalletDuplicate"><value>លេខគណនីកាបូបអេឡិចត្រូនិកស្ទួនមិនត្រូវបានអនុញ្ញាតទេ។ សូមសាកល្បងលេខគណនីកាបូបអេឡិចត្រូនិកផ្សេង។</value></data>
+  <data name="msg_CompletePhoneNumber"><value>សូមបំពេញការផ្ទៀងផ្ទាត់ទូរស័ព្ទចល័ត (OTP) របស់អ្នក។</value></data>
+  <data name="msg_LineAccountAlreadyBind"><value>គណនី LINE នេះត្រូវបានប្រើប្រាស់ សូមប្រើគណនីមួយផ្សេងទៀត។</value></data>
+  <data name="msg_RealNameWrongFormat"><value>ឈ្មោះពិតប្រាកដមិនអនុញ្ញាតអោយមានលេខឬតួអក្សរពិសេសបានទេ។</value></data>
+  <data name="msg_PasswordVaildate"><value>ពាក្យសម្ងាត់ត្រូវមានចន្លោះពី ៦-១៥ តួអក្សរ មានទាំងអក្សរក្រមលេខ និង តួអក្សរពិសេស (!@#$%^&amp;*)។</value></data>
+  </root>
