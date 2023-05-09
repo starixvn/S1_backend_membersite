@@ -69,6 +69,8 @@ namespace MemberSite.Service.BLL
 
             var custDepositSysIds = _bankInfoService.GetCustOffDepositSysId(custId);
             var result = offBankList
+                .Where(x => !x.SupportChannel.Any() 
+                            || x.SupportChannel.Contains(OfflineBankAccountSupportChannelEnum.LocalBank))
                 .Select(x => new OfflineBankInfoFront(x, !custDepositSysIds.Contains(x.SysId)));
             return result;
         }
@@ -114,6 +116,8 @@ namespace MemberSite.Service.BLL
             }
 
             var info = localBankList
+                .Where(x => !x.SupportChannel.Any() 
+                    || x.SupportChannel.Contains(OfflineBankAccountSupportChannelEnum.LocalBank))
                 .OrderBy(x => x.BSort)
                 .Select(x => new
                 {
@@ -260,7 +264,7 @@ namespace MemberSite.Service.BLL
                         BankSite = d.BankSite,
                         Status = d.Status,
                         QRCodeUrl = d.QRCodeUrl,
-                        SupportQR = d.SupportChannel.Any(y => y == OfflineBankAccountSupportChannelEnum.EWallet),
+                        SupportChannel = d.SupportChannel,
                         MinAmount = x.Min(y => y.MinAmount),
                         MaxAmount = x.Max(y => y.MaxAmount)
                     };
@@ -301,6 +305,7 @@ namespace MemberSite.Service.BLL
                 .OrderBy(x => x.BSort)
                 .Select( x => new SysBankInfoFront
                 {
+                    BankId = x.BankId,
                     SysId = x.SysId,
                     BankCode = x.BankCode,
                     BankLogo = x.BankLogo,
@@ -309,9 +314,10 @@ namespace MemberSite.Service.BLL
                     BankSite = x.BankSite,
                     Status = x.Status,
                     QRCodeUrl = x.QRCodeUrl,
-                    SupportQR = x.SupportChannel.Any(y => y == OfflineBankAccountSupportChannelEnum.EWallet),
+                    SupportChannel = x.SupportChannel,
                     MinAmount = x.MinAmount,
-                    MaxAmount = x.MaxAmount
+                    MaxAmount = x.MaxAmount,
+                    GroupIds = x.GroupIds
                 })
                 .ToList();
 
@@ -337,6 +343,12 @@ namespace MemberSite.Service.BLL
             
             return _redisHelper.TryGetOrCreate(key, TimeSpan.FromMinutes(5),
                 () => _bankInfoService.GetOfflineBankAccountDailyDeposit(siteId, currencyId, strBankIds));
+        }
+
+        public IEnumerable<LocalPaySetting> GetLocalPaymentSettingWithCache()
+        {
+            return _redisHelper.TryGetOrCreate("PaySetting:LocalPaymentSetting", TimeSpan.FromMinutes(5),
+                () => _bankInfoService.GetLocalPaySetting());
         }
     }
 }

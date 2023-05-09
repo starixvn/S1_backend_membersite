@@ -24,6 +24,23 @@ namespace MemberSite.Service.BLL
             _bankInfoOffBll = provider.GetRequiredService<BankInfoOffBLL>();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
         }
+        
+        
+        
+        public IEnumerable<PayGroupInfo> GetPayGroupWithCache()
+        {
+            var dbData = _redisHelper.TryGetOrCreate("PayGroupInfoList", TimeSpan.FromMinutes(5),
+                () => _payService.GetPayGroup(), RedisDataBase.Shared);
+            return dbData;
+        }
+
+        private Dictionary<DepositType, OfflineBankAccountSupportChannelEnum> _dicSupportChannelMapper
+            = new ()
+            {
+                {DepositType.OnlineBanking, OfflineBankAccountSupportChannelEnum.LocalBank},
+                {DepositType.MobilePayment, OfflineBankAccountSupportChannelEnum.EWallet},
+                {DepositType.QRPayPayment, OfflineBankAccountSupportChannelEnum.BankQR}
+            };
 
         public IEnumerable<PayGroup> GetPayGroupList(int custId, DepositType depositType)
         {
@@ -52,24 +69,51 @@ namespace MemberSite.Service.BLL
                 })
                 .Distinct(i => i.GroupId)
                 .ToList();
-            // BankQR
-            if (custInfo.CurrencyId == (int) CurrencyId.MYR && depositType == DepositType.MobilePayment)
-            {
-                var bankCards = _bankInfoOffBll.GetOfflineBankCardListWithCache(custId)
-                    .Where(x => x.SupportQR);
+          
+            var bankCards = _bankInfoOffBll.GetOfflineBankCardListWithCache(custId)
+                .Where(x => _dicSupportChannelMapper.ContainsKey(depositType) 
+                            && x.SupportChannel.Contains(_dicSupportChannelMapper[depositType]));
 
-                if (bankCards.Any())
-                {
-                    payGroupList.Add(new PayGroup
+            if (bankCards.Any())
+            {
+                var payGroupInfos = GetPayGroupWithCache();
+                var payGroups = bankCards
+                    .SelectMany(b => b.GroupIds,
+                        (b, g) => new
+                        {
+                            GroupId = g,
+                            b.MinAmount,
+                            b.MaxAmount
+                        })
+                    .GroupBy(x => x.GroupId)
+                    .Where(x => payGroupInfos.Any(g => g.GroupId == x.Key && g.Type == depositType))
+                    .Select(x =>
                     {
-                        ChannelName = FakePayGroupEnum.DuitNowQR.GetDescription(),
-                        GroupId = (int) FakePayGroupEnum.DuitNowQR,
-                        GroupName = FakePayGroupEnum.DuitNowQR.ToString(),
-                        Mode = (int) PayModeEnum.QrCode,
-                        GSort = -1,
-                        MinAmount = bankCards.Min(x => x.MinAmount),
-                        MaxAmount = bankCards.Max(x => x.MaxAmount)
+                        var bankCard = x.First();
+                        var groupInfo = payGroupInfos.First(g => g.GroupId == x.Key);
+                        return new PayGroup
+                        {
+                            GroupId = bankCard.GroupId,
+                            ChannelName = groupInfo.GroupName,
+                            GroupName = groupInfo.GroupName,
+                            Mode = (int) PayModeEnum.Redirect,
+                            GSort = groupInfo.Sort,
+                            MinAmount = bankCards.Min(x => x.MinAmount),
+                            MaxAmount = bankCards.Max(x => x.MaxAmount)
+                        };
                     });
+
+                foreach (var payGroup in payGroups)
+                {
+                    var g = payGroupList.FirstOrDefault(x => x.GroupId == payGroup.GroupId);
+                    if (g == null)
+                    {
+                        payGroupList.Add(payGroup);
+                        continue;
+                    }
+                    
+                    g.MaxAmount = payGroup.MaxAmount > g.MaxAmount? payGroup.MaxAmount : g.MinAmount;
+                    g.MinAmount = payGroup.MinAmount < g.MinAmount? payGroup.MinAmount : g.MinAmount;
                 }
             }
             
@@ -92,30 +136,38 @@ namespace MemberSite.Service.BLL
             var depositLimitInfo = GetDepositLimitInfo(custInfo, vipLevel, depositType);
             if (depositLimitInfo?.DepositStatus == 0)
             {
-                return new List<PayInfo>();
+                return Array.Empty<PayInfo>();
             }
             
-            if (depositType == DepositType.MobilePayment && FakeMobilePay.FakeMobilePayInfoMap.Keys.Any(x => (int)x == groupId))
-            {
-                var bankCards = _bankInfoOffBll.GetOfflineBankCardListWithCache(custId)
-                    .Where(x => x.SupportQR);
-                
-                if (!bankCards.Any())
-                {
-                    return Array.Empty<PayInfo>();
-                }
-                
-                var payInfo = FakeMobilePay.FakeMobilePayInfoMap[(FakePayGroupEnum) groupId];
-                payInfo.MinAmount = bankCards.Min(x => x.MinAmount);
-                payInfo.MaxAmount = bankCards.Max(x => x.MaxAmount);
-                _depositBll.FixDepositLimit(payInfo, depositLimitInfo);
-                
-                return new[] { payInfo };
-            }
-
             var payInfoList = GetPayInfoList(custInfo.SiteId, depositType)
-                .Where(x => vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.GroupId == groupId);
+                .Where(x => vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.GroupId == groupId)
+                .ToList();
 
+            var bankCards = _bankInfoOffBll.GetOfflineBankCardListWithCache(custId)
+                .Where(x => _dicSupportChannelMapper.ContainsKey(depositType) 
+                            && x.SupportChannel.Contains(_dicSupportChannelMapper[depositType])
+                            && x.GroupIds.Contains(groupId));
+                
+            if (bankCards.Any())
+            {
+                var payGroupInfos = GetPayGroupWithCache();
+                var groupInfo = payGroupInfos.First(g => g.GroupId == groupId);
+                var payInfo = new PayInfo
+                {
+                    ChannelId = -1,
+                    ChannelName = groupInfo.GroupName,
+                    GSort = groupInfo.Sort,
+                    SSort = -1,
+                    Mode = (int) PayModeEnum.Redirect,
+                    GroupId = groupId,
+                    GroupName = groupInfo.GroupName,
+                    MinAmount = bankCards.Min(x => x.MinAmount),
+                    MaxAmount = bankCards.Max(x => x.MaxAmount)
+                };
+                
+                payInfoList.Add(payInfo);
+            }
+            
             if (depositLimitInfo != null && payInfoList != null)
             {
                 foreach (var payInfo in payInfoList)
@@ -124,7 +176,8 @@ namespace MemberSite.Service.BLL
                 }
             }
 
-            return payInfoList.Where(x => x.MaxAmount > 0);
+            return payInfoList.Where(x => x.MaxAmount > 0)
+                .OrderBy(x => x.GSort);
         }
 
         public int DepositReqPay(int custId, int channelId, decimal amount, out string transId, out PayInfo payInfo, DepositType depositType)
