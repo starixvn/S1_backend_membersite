@@ -256,6 +256,7 @@ namespace MemberSite.Service.BLL
 
                     return new SysBankInfoFront
                     {
+                        BankId = d.BankId,
                         SysId = d.SysId,
                         BankCode = d.BankCode,
                         BankLogo = d.BankLogo,
