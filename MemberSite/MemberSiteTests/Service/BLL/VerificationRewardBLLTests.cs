@@ -1,6 +1,8 @@
 ﻿using System.Threading.Tasks;
 using MemberSite.Service.DAL.Interface;
+using MemberSite.Service.Model;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -10,17 +12,25 @@ namespace MemberSite.Service.BLL.Tests
     public class VerificationRewardBLLTests
     {
         [Test]
-        public async Task New_User_Verify_Phone_And_Get_Reward_50()
+        public void New_User_Verify_Phone_And_Get_Reward_50()
         {
             var custId = 250032;
             var services = new ServiceCollection();
             var verificationRewardService = Substitute.For<IVerificationRewardService>();
+            var optionsMock = Substitute.For<IOptions<RabbitMQConfig>>();
+            var myOptions = new RabbitMQConfig
+            {
+                HostName = "18.139.54.64",
+                UserName = "ailab",
+                Password = "VynvPGTm7N"
+            };
+            optionsMock.Value.Returns(myOptions);
             services.AddTransient(p => verificationRewardService);
             
             var serviceProvider = services.BuildServiceProvider();
-            var verificationRewardBll = new VerificationRewardBLL(serviceProvider);
+            var verificationRewardBll = new VerificationRewardBLL(optionsMock);
 
-            await verificationRewardBll.PhoneReward(custId);
+            verificationRewardBll.PhoneReward(custId);
         }
     }
 }
