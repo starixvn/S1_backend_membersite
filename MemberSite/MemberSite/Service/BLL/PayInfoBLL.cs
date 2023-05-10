@@ -112,7 +112,7 @@ namespace MemberSite.Service.BLL
                         continue;
                     }
                     
-                    g.MaxAmount = payGroup.MaxAmount > g.MaxAmount? payGroup.MaxAmount : g.MinAmount;
+                    g.MaxAmount = payGroup.MaxAmount > g.MaxAmount? payGroup.MaxAmount : g.MaxAmount;
                     g.MinAmount = payGroup.MinAmount < g.MinAmount? payGroup.MinAmount : g.MinAmount;
                 }
             }
