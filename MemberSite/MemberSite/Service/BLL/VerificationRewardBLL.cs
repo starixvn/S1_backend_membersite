@@ -1,23 +1,74 @@
 ﻿using MemberSite.Service.DAL.Interface;
+using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
+using RabbitMQ.Client;
+using System.Text;
 
 namespace MemberSite.Service.BLL
 {
     public class VerificationRewardBLL
     {
-        private readonly IVerificationRewardService _verificationRewardService;
-        public VerificationRewardBLL(IServiceProvider provider)
+        private readonly RabbitMQConfig _config;
+        public VerificationRewardBLL(IOptions<RabbitMQConfig> config)
         {
-            _verificationRewardService = provider.GetRequiredService<IVerificationRewardService>();
+            _config = config.Value;
         }
-        public async Task PhoneReward(int custId)
+        public void PhoneReward(int custId)
         {
-            await _verificationRewardService.SetVerificationReward(custId, (int) OTPType.SMS);
+            var factory = new ConnectionFactory
+            {
+                HostName = _config.HostName,
+                UserName = _config.UserName,
+                Password = _config.Password
+            };
+            using var connection = factory.CreateConnection();
+            using var channel = connection.CreateModel();
+
+            var data = new
+            {
+                CustId = custId,
+                OTPType = (int)OTPType.SMS
+            };
+            var message = JsonConvert.SerializeObject(data);
+            var body = Encoding.UTF8.GetBytes(message);
+
+            var properties = channel.CreateBasicProperties();
+            properties.ContentType = "application/json";
+
+            channel.BasicPublish(exchange: "MemberExchange",
+                                 routingKey: "verify.phone",
+                                 basicProperties: properties,
+                                 body: body);
         }
 
-        public async Task EmailReward(int custId)
+        public void EmailReward(int custId)
         {
-            await _verificationRewardService.SetVerificationReward(custId, (int) OTPType.Email);
+            var factory = new ConnectionFactory
+            {
+                HostName = _config.HostName, 
+                UserName = _config.UserName, 
+                Password = _config.Password
+            };
+            using var connection = factory.CreateConnection();
+            using var channel = connection.CreateModel();
+
+            var data = new
+            {
+                CustId = custId,
+                OTPType = (int)OTPType.Email
+            };
+            var message = JsonConvert.SerializeObject(data);
+            var body = Encoding.UTF8.GetBytes(message);
+
+            var properties = channel.CreateBasicProperties();
+            properties.ContentType = "application/json";
+
+            channel.BasicPublish(exchange: "MemberExchange",
+                                 routingKey: "verify.email",
+                                 basicProperties: properties,
+                                 body: body);
         }
     }
 }
