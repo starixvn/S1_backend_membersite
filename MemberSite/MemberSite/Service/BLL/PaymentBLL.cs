@@ -118,7 +118,7 @@ namespace MemberSite.Service.BLL
         /// <param name="memo">meno</param>
         /// <param name="depositRep3">output</param>
         /// <returns></returns>
-        public int DepositReqLocalBank(int custId, int sysId, string accountNo, decimal amount, string memo, out DepositRep3 depositRep3)
+        public int DepositReqLocalBank(int custId, int sysId, int bankId, decimal amount, string memo, out DepositRep3 depositRep3)
         {
             depositRep3 = new DepositRep3();
 
@@ -152,7 +152,7 @@ namespace MemberSite.Service.BLL
                 }
             }
 
-            var info = localBankList.FirstOrDefault(x => !string.IsNullOrEmpty(accountNo) && x.AccountNo.Equals(accountNo)) ??
+            var info = localBankList.FirstOrDefault(x => bankId != 0 && x.BankId == bankId) ??
                        localBankList
                 .Where(x => (x.MinAmount == 0 && x.MaxAmount == 0) || (amount >= x.MinAmount && amount <= x.MaxAmount))
                 .OrderBy(x => x.BSort).FirstOrDefault();
@@ -230,7 +230,7 @@ namespace MemberSite.Service.BLL
             return 0;
         }
 
-        public int DepositReqLocalBankWithFrom(int custId, int sysId, string accountNo, decimal amount, string memo, string depositFromInfo, out DepositRep3 depositRep3)
+        public int DepositReqLocalBankWithFrom(int custId, int sysId, int bankId, decimal amount, string memo, string depositFromInfo, out DepositRep3 depositRep3)
         {
             depositRep3 = new DepositRep3();
 
@@ -261,7 +261,7 @@ namespace MemberSite.Service.BLL
                 }
             }
 
-            var info = localBankList.FirstOrDefault(x => !string.IsNullOrEmpty(accountNo) && x.AccountNo.Equals(accountNo)) ??
+            var info = localBankList.FirstOrDefault(x => bankId != 0 && x.BankId == bankId) ??
                        localBankList
                            .Where(x => (x.MinAmount == 0 && x.MaxAmount == 0) || (amount >= x.MinAmount && amount <= x.MaxAmount))
                            .OrderBy(x => x.BSort).FirstOrDefault();

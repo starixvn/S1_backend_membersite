@@ -187,7 +187,7 @@ namespace MemberSite.Controllers.Api
             public decimal amount { set; get; }
             public string memo { set; get; }
             
-            public string accountNo { set; get; }
+            public int bankId { set; get; }
             public int fromChannel { set; get; }
             public int fromSysId { set; get; }
             public string fromAccountNum { set; get; }
@@ -230,10 +230,10 @@ namespace MemberSite.Controllers.Api
 
             if (depositReqWireTransferReq.fromChannel == 0 && depositReqWireTransferReq.fromSysId == 0 && depositReqWireTransferReq.fromAccountNum == null)
                 apiResult.ErrorCode = paymentBLL.DepositReqLocalBank(authData.CustId, depositReqWireTransferReq.sysId,
-                    depositReqWireTransferReq.accountNo, depositReqWireTransferReq.amount, depositReqWireTransferReq.memo, out depositRep3);
+                    depositReqWireTransferReq.bankId, depositReqWireTransferReq.amount, depositReqWireTransferReq.memo, out depositRep3);
             else
                 apiResult.ErrorCode = paymentBLL.DepositReqLocalBankWithFrom(authData.CustId, depositReqWireTransferReq.sysId,
-                    depositReqWireTransferReq.accountNo, depositReqWireTransferReq.amount, depositReqWireTransferReq.memo, fromInfo, out depositRep3);
+                    depositReqWireTransferReq.bankId, depositReqWireTransferReq.amount, depositReqWireTransferReq.memo, fromInfo, out depositRep3);
 
             if (apiResult.ErrorCode == (int)ErrorCode.Success)
             {
