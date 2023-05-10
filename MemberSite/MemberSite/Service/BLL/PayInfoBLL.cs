@@ -112,7 +112,7 @@ namespace MemberSite.Service.BLL
                         continue;
                     }
                     
-                    g.MaxAmount = payGroup.MaxAmount > g.MaxAmount? payGroup.MaxAmount : g.MinAmount;
+                    g.MaxAmount = payGroup.MaxAmount > g.MaxAmount? payGroup.MaxAmount : g.MaxAmount;
                     g.MinAmount = payGroup.MinAmount < g.MinAmount? payGroup.MinAmount : g.MinAmount;
                 }
             }
@@ -177,7 +177,8 @@ namespace MemberSite.Service.BLL
             }
 
             return payInfoList.Where(x => x.MaxAmount > 0)
-                .OrderBy(x => x.GSort);
+                .OrderBy(x => x.GSort)
+                .ThenBy(x => x.SSort);
         }
 
         public int DepositReqPay(int custId, int channelId, decimal amount, out string transId, out PayInfo payInfo, DepositType depositType)
