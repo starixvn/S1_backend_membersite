@@ -185,6 +185,8 @@ namespace MemberSite.Controllers.Api
             public int sysId { set; get; }
             public decimal amount { set; get; }
             public string memo { set; get; }
+            
+            public int bankId { set; get; }
             public int fromChannel { set; get; }
             public int fromSysId { set; get; }
             public string fromAccountNum { set; get; }
@@ -226,9 +228,11 @@ namespace MemberSite.Controllers.Api
             var fromInfo = Newtonsoft.Json.JsonConvert.SerializeObject(depositFromInfo);
 
             if (depositReqWireTransferReq.fromChannel == 0 && depositReqWireTransferReq.fromSysId == 0 && depositReqWireTransferReq.fromAccountNum == null)
-                apiResult.ErrorCode = paymentBLL.DepositReqLocalBank(authData.CustId, depositReqWireTransferReq.sysId, depositReqWireTransferReq.amount, depositReqWireTransferReq.memo, out depositRep3);
+                apiResult.ErrorCode = paymentBLL.DepositReqLocalBank(authData.CustId, depositReqWireTransferReq.sysId,
+                    depositReqWireTransferReq.bankId, depositReqWireTransferReq.amount, depositReqWireTransferReq.memo, out depositRep3);
             else
-                apiResult.ErrorCode = paymentBLL.DepositReqLocalBankWithFrom(authData.CustId, depositReqWireTransferReq.sysId, depositReqWireTransferReq.amount, depositReqWireTransferReq.memo, fromInfo, out depositRep3);
+                apiResult.ErrorCode = paymentBLL.DepositReqLocalBankWithFrom(authData.CustId, depositReqWireTransferReq.sysId,
+                    depositReqWireTransferReq.bankId, depositReqWireTransferReq.amount, depositReqWireTransferReq.memo, fromInfo, out depositRep3);
 
             if (apiResult.ErrorCode == (int)ErrorCode.Success)
             {

@@ -40,7 +40,7 @@ namespace MemberSite.Service.BLL
             var siteId = custInfo.SiteId;
             var currencyId = custInfo.CurrencyId;
 
-            var key = $"PaySetting:LocalBank:FakeMobilePay:{siteId}:{currencyId}:{pointLevel}:{custInfo.UserLevel}";
+            var key = $"PaySetting:LocalBank:LocalPayment:{siteId}:{currencyId}:{pointLevel}:{custInfo.UserLevel}";
             var offBankList = _redisHelper.TryGetOrCreate(key, TimeSpan.FromMinutes(5),
                 () => GetOfflineBankAccountList(siteId, currencyId, pointLevel, custInfo.UserLevel));
 
@@ -256,6 +256,7 @@ namespace MemberSite.Service.BLL
 
                     return new SysBankInfoFront
                     {
+                        BankId = d.BankId,
                         SysId = d.SysId,
                         BankCode = d.BankCode,
                         BankLogo = d.BankLogo,
