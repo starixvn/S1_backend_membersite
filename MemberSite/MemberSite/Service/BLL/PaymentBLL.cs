@@ -118,7 +118,7 @@ namespace MemberSite.Service.BLL
         /// <param name="memo">meno</param>
         /// <param name="depositRep3">output</param>
         /// <returns></returns>
-        public int DepositReqLocalBank(int custId, int sysId, decimal amount, string memo, out DepositRep3 depositRep3)
+        public int DepositReqLocalBank(int custId, int sysId, int bankId, decimal amount, string memo, out DepositRep3 depositRep3)
         {
             depositRep3 = new DepositRep3();
 
@@ -133,6 +133,7 @@ namespace MemberSite.Service.BLL
                             && x.VipLevels.Contains(custInfo.UserLevel)
                             && x.SysId == sysId)
                 .ToList();
+            
             var depositLimitInfoList = _depositService.GetDepositLimitInfoList();
             var depositLimitInfo = depositLimitInfoList?.FirstOrDefault(x =>
                 x.SiteId == custInfo.SiteId && x.VipLevel == pointLevel && x.DepositType == (int)DepositType.LocalBank &&
@@ -141,6 +142,16 @@ namespace MemberSite.Service.BLL
             if (depositLimitInfo?.DepositStatus == 0)
             {
                 return -4;
+            }
+
+            if (bankId != 0)
+            {
+                var i = localBankList.FindIndex(x => x.BankId == bankId);
+
+                if (i >= 0)
+                {
+                    localBankList[i].BSort = -99;
+                }
             }
 
             if (depositLimitInfo != null)
@@ -239,7 +250,7 @@ namespace MemberSite.Service.BLL
             return 0;
         }
 
-        public int DepositReqLocalBankWithFrom(int custId, int sysId, decimal amount, string memo, string depositFromInfo, out DepositRep3 depositRep3)
+        public int DepositReqLocalBankWithFrom(int custId, int sysId, int bankId, decimal amount, string memo, string depositFromInfo, out DepositRep3 depositRep3)
         {
             depositRep3 = new DepositRep3();
 
@@ -260,6 +271,16 @@ namespace MemberSite.Service.BLL
             if (depositLimitInfo?.DepositStatus == 0)
             {
                 return -4;
+            }
+            
+            if (bankId != 0)
+            {
+                var i = localBankList.FindIndex(x => x.BankId == bankId);
+
+                if (i >= 0)
+                {
+                    localBankList[i].BSort = -99;
+                }
             }
 
             if (depositLimitInfo != null && localBankList != null)

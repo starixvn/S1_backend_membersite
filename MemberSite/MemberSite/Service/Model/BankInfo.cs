@@ -47,6 +47,7 @@ namespace MemberSite.Service.Model
 
         public OfflineBankInfoFront(SysBankInfoFront bankInfo, bool canSubmit)
         {
+            base.BankId = bankInfo.BankId;
             base.SysId = bankInfo.SysId;
             base.BankCode = bankInfo.BankCode;
             base.BankName = bankInfo.BankName;
