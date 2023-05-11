@@ -690,5 +690,17 @@ namespace MemberSite.Service.BLL
 
             return result;
         }
+
+        public async Task<IEnumerable<CustRecentlyViewedInfo>> GetCustRecentlyViewed(int custId)
+        {
+            var key = $"GetCustRecentlyViewed:{custId}";
+            var result = await _redisHelper.TryGetOrCreateAsync(key,
+                TimeSpan.FromMinutes(3),
+                async () =>
+                {
+                    return await _custInfoService.GetCustRecentlyViewed(custId);
+                });
+            return result;
+        }
     }
 }
