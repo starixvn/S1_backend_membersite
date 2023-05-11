@@ -80,7 +80,7 @@ namespace MemberSite.Service.BLL
                         MinAmount = g.Min(x => x.MinAmount),
                         ChannelId = -1 * (int)g.First().CryptoCurrencyId,
                         GroupId = -1,
-                        GroupName = ((SiteId)custInfo.SiteId).ToString(),
+                        GroupName = "LetsPay",
                         AmountRule = 1,
                         CurrencyId = custInfo.CurrencyId,
                         GSort = -1,
