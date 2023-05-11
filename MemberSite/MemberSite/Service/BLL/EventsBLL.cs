@@ -10,6 +10,8 @@ namespace MemberSite.Service.BLL
     {
         private readonly EventsService _eventsService;
         private readonly CacheHelper _cacheHelper;
+        private readonly ICacheHelper _redisHelper;
+        
         public string MaskName(string input)
         {
             if (string.IsNullOrEmpty(input))
@@ -24,6 +26,7 @@ namespace MemberSite.Service.BLL
         {
             _eventsService = provider.GetRequiredService<EventsService>();
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
+            _redisHelper = provider.GetRequiredService<ICacheHelper>();
         }
         
         private IEnumerable<Leaderboard> GetLeaderboardList(int lBCategoryId, string eventCode, int siteId, int currencyId, int topNum, int beforeDays)
@@ -103,26 +106,23 @@ namespace MemberSite.Service.BLL
  
         public IEnumerable<Leaderboard> GetLeaderboardListWithCache(string eventCode, int lBCategoryId, int siteId, int currencyId, int topNum, int beforeDays)
         {
-            var key = $"Leaderboard_{lBCategoryId}_{eventCode}_{siteId}_{currencyId}_{topNum}_{beforeDays}";
-            return _cacheHelper.TryGetOrCreate(key,
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)),
-                i => GetLeaderboardList(lBCategoryId, eventCode, siteId, currencyId, topNum, beforeDays));
+            var key = $"Leaderboard:{lBCategoryId}:{eventCode}:{siteId}:{currencyId}:{topNum}:{beforeDays}";
+            return _redisHelper.TryGetOrCreate(key, TimeSpan.FromHours(1),
+                () => GetLeaderboardList(lBCategoryId, eventCode, siteId, currencyId, topNum, beforeDays));
         }
 
         public IEnumerable<Leaderboard> GetLeaderboardListMonthWithCache(string eventCode, int lBCategoryId, int siteId, int currencyId, int topNum, DateTime selectDays)
         {
-            var key = $"Leaderboard_{lBCategoryId}_{eventCode}_{siteId}_{currencyId}_{topNum}_{selectDays.Date}";
-            return _cacheHelper.TryGetOrCreate(key,
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)),
-                i => GetLeaderboardListMonth(lBCategoryId, eventCode, siteId, currencyId, topNum, selectDays));
+            var key = $"Leaderboard:{lBCategoryId}:{eventCode}:{siteId}:{currencyId}:{topNum}:{selectDays.Date}";
+            return _redisHelper.TryGetOrCreate(key, TimeSpan.FromDays(1),
+                () => GetLeaderboardListMonth(lBCategoryId, eventCode, siteId, currencyId, topNum, selectDays));
         }
    
         public void GetCustRankWithCache(int lBCategoryId, string eventCode, int siteId, int currencyId  ,int custId ,int beforeDays, out int custRank, out decimal point)
         {
-            var key = $"Leaderboard_{lBCategoryId}_{eventCode}_{custId}_{beforeDays}";
-            var result = _cacheHelper.TryGetOrCreate(key,
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)),
-                i => GetCustRank(lBCategoryId, eventCode, siteId ,currencyId , custId, beforeDays));
+            var key = $"Leaderboard:{lBCategoryId}:{eventCode}:{custId}:{beforeDays}";
+            var result = _redisHelper.TryGetOrCreate(key, TimeSpan.FromHours(1),
+                () => GetCustRank(lBCategoryId, eventCode, siteId ,currencyId , custId, beforeDays));
 
             custRank = result.CustRank;
             point = result.point;
@@ -130,10 +130,9 @@ namespace MemberSite.Service.BLL
 
         public void GetCustRankWithCacheMonth(int lBCategoryId, string eventCode,  int siteId, int currencyId ,int custId, DateTime selectDays, out int custRank, out Decimal point)
         {
-            var key = $"Leaderboard_{lBCategoryId}_{eventCode}_{custId}_{selectDays}";
-            var result = _cacheHelper.TryGetOrCreate(key,
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)),
-                i => GetCustRankMonth(lBCategoryId, eventCode, siteId ,currencyId, custId, selectDays));
+            var key = $"Leaderboard:{lBCategoryId}:{eventCode}:{custId}:{selectDays}";
+            var result = _redisHelper.TryGetOrCreate(key, TimeSpan.FromDays(1),
+                () => GetCustRankMonth(lBCategoryId, eventCode, siteId ,currencyId, custId, selectDays));
 
             custRank = result.CustRank;
             point = result.point;
