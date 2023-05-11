@@ -37,7 +37,7 @@ namespace MemberSite.Service.BLL
         private Dictionary<DepositType, OfflineBankAccountSupportChannelEnum> _dicSupportChannelMapper
             = new ()
             {
-                {DepositType.OnlineBanking, OfflineBankAccountSupportChannelEnum.EWallet},
+                {DepositType.OnlineBanking, OfflineBankAccountSupportChannelEnum.LocalBank},
                 {DepositType.MobilePayment, OfflineBankAccountSupportChannelEnum.EWallet},
                 {DepositType.QRPayPayment, OfflineBankAccountSupportChannelEnum.BankQR}
             };
@@ -86,6 +86,7 @@ namespace MemberSite.Service.BLL
                             b.MaxAmount
                         })
                     .GroupBy(x => x.GroupId)
+                    .Where(x => payGroupInfos.Any(g => g.GroupId == x.Key && g.Type == depositType))
                     .Select(x =>
                     {
                         var bankCard = x.First();
@@ -96,7 +97,7 @@ namespace MemberSite.Service.BLL
                             ChannelName = groupInfo.GroupName,
                             GroupName = groupInfo.GroupName,
                             Mode = (int) PayModeEnum.Redirect,
-                            GSort = -1,
+                            GSort = groupInfo.Sort,
                             MinAmount = bankCards.Min(x => x.MinAmount),
                             MaxAmount = bankCards.Max(x => x.MaxAmount)
                         };
@@ -111,7 +112,7 @@ namespace MemberSite.Service.BLL
                         continue;
                     }
                     
-                    g.MaxAmount = payGroup.MaxAmount > g.MaxAmount? payGroup.MaxAmount : g.MinAmount;
+                    g.MaxAmount = payGroup.MaxAmount > g.MaxAmount? payGroup.MaxAmount : g.MaxAmount;
                     g.MinAmount = payGroup.MinAmount < g.MinAmount? payGroup.MinAmount : g.MinAmount;
                 }
             }
@@ -150,13 +151,13 @@ namespace MemberSite.Service.BLL
             if (bankCards.Any())
             {
                 var payGroupInfos = GetPayGroupWithCache();
-                var bankCard = bankCards.First();
                 var groupInfo = payGroupInfos.First(g => g.GroupId == groupId);
                 var payInfo = new PayInfo
                 {
                     ChannelId = -1,
                     ChannelName = groupInfo.GroupName,
-                    GSort = -1,
+                    GSort = groupInfo.Sort,
+                    SSort = -1,
                     Mode = (int) PayModeEnum.Redirect,
                     GroupId = groupId,
                     GroupName = groupInfo.GroupName,
@@ -176,7 +177,8 @@ namespace MemberSite.Service.BLL
             }
 
             return payInfoList.Where(x => x.MaxAmount > 0)
-                .OrderBy(x => x.GSort);
+                .OrderBy(x => x.GSort)
+                .ThenBy(x => x.SSort);
         }
 
         public int DepositReqPay(int custId, int channelId, decimal amount, out string transId, out PayInfo payInfo, DepositType depositType)

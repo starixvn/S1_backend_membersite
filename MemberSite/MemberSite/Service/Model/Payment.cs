@@ -168,6 +168,7 @@ namespace MemberSite.Service.Model
         public int GroupId { get; set; }
         public string GroupName { get; set; }
         public DepositType Type { get; set; }
+        public int Sort { get; set; }
     }
 
     public class LineChannel

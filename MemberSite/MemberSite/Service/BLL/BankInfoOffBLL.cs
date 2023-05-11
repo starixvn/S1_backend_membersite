@@ -51,6 +51,11 @@ namespace MemberSite.Service.BLL
             return result;
         }
         
+        public IEnumerable<int> GetCustOffDepositSysId(int custId)
+        {
+            return _bankInfoService.GetCustOffDepositSysId(custId);
+        }
+        
         public IEnumerable<OfflineBankInfoFront> GetBankInfoOffListWithCache(int custId, string lang)
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
@@ -111,6 +116,8 @@ namespace MemberSite.Service.BLL
             }
 
             var info = localBankList
+                .Where(x => !x.SupportChannel.Any() 
+                    || x.SupportChannel.Contains(OfflineBankAccountSupportChannelEnum.LocalBank))
                 .OrderBy(x => x.BSort)
                 .Select(x => new
                 {
@@ -249,6 +256,7 @@ namespace MemberSite.Service.BLL
 
                     return new SysBankInfoFront
                     {
+                        BankId = d.BankId,
                         SysId = d.SysId,
                         BankCode = d.BankCode,
                         BankLogo = d.BankLogo,
