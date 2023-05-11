@@ -228,7 +228,7 @@ namespace MemberSite.Controllers.Api
                 };
             }
 
-            var key = $"Deposite:LocalBank:{authData.CustId}:{depositReqWireTransferReq.fromAccountNum}";
+            var key = $"Deposite:LocalBank:{authData.CustId}:{depositReqWireTransferReq.sysId}";
             if (await _cacheHelper.SetNxAsync(key, "", TimeSpan.FromSeconds(5)))
             {
                 DepositRep3 depositRep3;
