@@ -6,6 +6,7 @@ using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using Microsoft.AspNetCore.Mvc;
 using static MemberSite.Extensions.MethodExtension;
 
@@ -37,6 +38,7 @@ namespace MemberSite.Controllers.Api
         private readonly CourierAdapter _courierAdapter;
         private readonly string _bonusServiceUrl;
         private readonly AWSS3Helper _s3Helper;
+        private readonly ICacheHelper _cacheHelper;
 
         public PaymentController(IServiceProvider provider)
         {
@@ -59,6 +61,7 @@ namespace MemberSite.Controllers.Api
             _logger = provider.GetRequiredService<ILogger<PaymentController>>();
             _courierAdapter = provider.GetRequiredService<CourierAdapter>();
             _s3Helper = provider.GetRequiredService<AWSS3Helper>();
+            _cacheHelper = provider.GetRequiredService<ICacheHelper>();
 
             var configuration = provider.GetRequiredService<IConfiguration>();
             tpApiUrl = configuration.GetValue<string>("TpService");
@@ -200,7 +203,7 @@ namespace MemberSite.Controllers.Api
         /// <param name="depositReqWireTransferReq"></param>
         /// <returns></returns>
         [HttpPost]
-        public ApiResult<DepositRep3> DepositReqWireTransfer(DepositReqWireTransferReq depositReqWireTransferReq)
+        public async Task<ApiResult<DepositRep3>> DepositReqWireTransfer(DepositReqWireTransferReq depositReqWireTransferReq)
         {
             var apiResult = new ApiResult<DepositRep3>();
             var authData = authorizeBLL.GetAuthData();
@@ -217,28 +220,31 @@ namespace MemberSite.Controllers.Api
                 };
             }
 
-            DepositRep3 depositRep3;
-            var depositFromInfo = new DepositFromInfo
+            var key = $"Deposite:LocalBank:{authData.CustId}:{depositReqWireTransferReq.sysId}";
+            if (await _cacheHelper.SetNxAsync(key, "", TimeSpan.FromSeconds(5)))
             {
-                Channel = depositReqWireTransferReq.fromChannel,
-                SysId = depositReqWireTransferReq.fromSysId,
-                AccountNo = depositReqWireTransferReq.fromAccountNum,
-                IFSCCode = depositReqWireTransferReq.fromIFSCCode
-            };
-            var fromInfo = Newtonsoft.Json.JsonConvert.SerializeObject(depositFromInfo);
+                DepositRep3 depositRep3;
+                var depositFromInfo = new DepositFromInfo
+                {
+                    Channel = depositReqWireTransferReq.fromChannel,
+                    SysId = depositReqWireTransferReq.fromSysId,
+                    AccountNo = depositReqWireTransferReq.fromAccountNum,
+                    IFSCCode = depositReqWireTransferReq.fromIFSCCode
+                };
+                var fromInfo = Newtonsoft.Json.JsonConvert.SerializeObject(depositFromInfo);
 
-            if (depositReqWireTransferReq.fromChannel == 0 && depositReqWireTransferReq.fromSysId == 0 && depositReqWireTransferReq.fromAccountNum == null)
-                apiResult.ErrorCode = paymentBLL.DepositReqLocalBank(authData.CustId, depositReqWireTransferReq.sysId,
-                    depositReqWireTransferReq.bankId, depositReqWireTransferReq.amount, depositReqWireTransferReq.memo, out depositRep3);
-            else
-                apiResult.ErrorCode = paymentBLL.DepositReqLocalBankWithFrom(authData.CustId, depositReqWireTransferReq.sysId,
-                    depositReqWireTransferReq.bankId, depositReqWireTransferReq.amount, depositReqWireTransferReq.memo, fromInfo, out depositRep3);
+                if (depositReqWireTransferReq.fromChannel == 0 && depositReqWireTransferReq.fromSysId == 0 && depositReqWireTransferReq.fromAccountNum == null)
+                    apiResult.ErrorCode = paymentBLL.DepositReqLocalBank(authData.CustId, depositReqWireTransferReq.sysId,
+                        depositReqWireTransferReq.bankId, depositReqWireTransferReq.amount, depositReqWireTransferReq.memo, out depositRep3);
+                else
+                    apiResult.ErrorCode = paymentBLL.DepositReqLocalBankWithFrom(authData.CustId, depositReqWireTransferReq.sysId,
+                        depositReqWireTransferReq.bankId, depositReqWireTransferReq.amount, depositReqWireTransferReq.memo, fromInfo, out depositRep3);
 
-            if (apiResult.ErrorCode == (int)ErrorCode.Success)
-            {
-                apiResult.Data = depositRep3;
+                if (apiResult.ErrorCode == (int)ErrorCode.Success)
+                {
+                    apiResult.Data = depositRep3;
+                }
             }
-
             return apiResult;
         }
 
