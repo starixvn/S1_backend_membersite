@@ -210,7 +210,7 @@ namespace MemberSite.Controllers.Api
             {
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
             
-                _eventsBll.GetCustRankWithCacheMonth(getCustRankMonthReq.LBCategoryId, getCustRankMonthReq.EventCode, custInfo.SiteId , custInfo.CurrencyId ,authData.CustId, getCustRankMonthReq.SelectDays, out var custRank, out var point);
+                var (custRank, point) = _eventsBll.GetCustRankWithCacheMonth(getCustRankMonthReq.LBCategoryId, getCustRankMonthReq.EventCode, custInfo.SiteId , custInfo.CurrencyId ,authData.CustId, getCustRankMonthReq.SelectDays);
 
                 apiResult.Data.CustRank = custRank;
                 apiResult.Data.point = point;

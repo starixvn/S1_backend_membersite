@@ -122,7 +122,7 @@ namespace MemberSite.Service.BLL
             point = result.point;
         }
 
-        public void GetCustRankWithCacheMonth(int lBCategoryId, string eventCode,  int siteId, int currencyId ,int custId, DateTime selectDays, out int custRank, out Decimal point)
+        public (int custRank , decimal point) GetCustRankWithCacheMonth(int lBCategoryId, string eventCode,  int siteId, int currencyId ,int custId, DateTime selectDays)
         {
             var key = $"LeaderboardListMonth:{lBCategoryId}:{eventCode}:{siteId}:{currencyId}:{selectDays.Date.ToString("yyyyMM")}";
             // var result = _redisHelper.TryGetOrCreate(key, TimeSpan.FromDays(1),
@@ -130,9 +130,17 @@ namespace MemberSite.Service.BLL
             var list = _redisHelper.TryGetOrCreate(key, TimeSpan.FromDays(1),
                 () => new List<Leaderboard>()).OrderByDescending(x => x.WTurnover).ToList();
             
-            var exist = list.FirstOrDefault(x => x.CustId == custId) != null;
-            custRank = exist ? list.FindIndex(x => x.CustId == custId) + 1 : 0;
-            point = exist ? list.FirstOrDefault(x => x.CustId == custId).WTurnover : 0;
+            var rank = 0;
+            foreach (var data in list)
+            {
+                rank++;
+                if (data.CustId == custId)
+                {
+                    return (rank,data.WTurnover);
+                }
+            }
+            
+            return (0,0);
         }
 
         public IEnumerable<Prize> CheckDrawPrize(ref int eventId, int custId, int currencyId, out int prizeId, out int result)
