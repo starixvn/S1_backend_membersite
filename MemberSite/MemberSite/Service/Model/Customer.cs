@@ -334,4 +334,11 @@ namespace MemberSite.Service.Model
             NoPlay = noPlay;
         }
     }
+
+    public class CustRecentlyViewedInfo
+    {
+        public int CustId { set; get; }
+        public string RecentlyViewed { set; get; }
+        public DateTime UpdateTime { set; get; }
+    }
 }
