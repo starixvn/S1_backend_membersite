@@ -249,6 +249,7 @@ namespace MemberSite.Service.BLL
             }
 
             var infos = localBankList
+                .OrderBy(x => x.Sort)
                 .GroupBy(x => new {x.SysId, x.BankCode})
                 .Select(x =>
                 {

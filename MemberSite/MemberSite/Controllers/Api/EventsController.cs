@@ -186,11 +186,11 @@ namespace MemberSite.Controllers.Api
             {
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                 _eventsBll.GetCustRankWithCache(input.LBCategoryId, input.EventCode, custInfo.SiteId , custInfo.CurrencyId ,authData.CustId, input.BeforeDays, out var custRank, out var point);
-                _eventsBll.GetCustRankWithCache(input.LBCategoryId, input.EventCode, custInfo.SiteId , custInfo.CurrencyId , authData.CustId, input.BeforeDays+1, out var yesterdayCustRank, out var yesterdayPoint);
+                // _eventsBll.GetCustRankWithCache(input.LBCategoryId, input.EventCode, custInfo.SiteId , custInfo.CurrencyId , authData.CustId, input.BeforeDays+1, out var yesterdayCustRank, out var yesterdayPoint);
             
                 apiResult.Data.CustRank = custRank;
                 apiResult.Data.point = point;
-                apiResult.Data.Status = -custRank.CompareTo(yesterdayCustRank);
+                // apiResult.Data.Status = -custRank.CompareTo(yesterdayCustRank);
                 apiResult.ErrorCode = 0;
             }
             
@@ -210,7 +210,7 @@ namespace MemberSite.Controllers.Api
             {
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
             
-                _eventsBll.GetCustRankWithCacheMonth(getCustRankMonthReq.LBCategoryId, getCustRankMonthReq.EventCode, custInfo.SiteId , custInfo.CurrencyId ,authData.CustId, getCustRankMonthReq.SelectDays, out var custRank, out var point);
+                var (custRank, point) = _eventsBll.GetCustRankWithCacheMonth(getCustRankMonthReq.LBCategoryId, getCustRankMonthReq.EventCode, custInfo.SiteId , custInfo.CurrencyId ,authData.CustId, getCustRankMonthReq.SelectDays);
 
                 apiResult.Data.CustRank = custRank;
                 apiResult.Data.point = point;
