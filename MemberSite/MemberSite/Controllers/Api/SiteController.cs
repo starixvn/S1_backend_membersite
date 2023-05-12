@@ -1189,6 +1189,21 @@ namespace MemberSite.Controllers.Api
         [HttpGet, HttpPost]
         public ApiResult<IEnumerable<TpMaintain>> GetTpMaintainList()
         {
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is { CustId: > 0 })
+            {
+                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                if (custInfo.IsTest == true)
+                {
+                    return new ApiResult<IEnumerable<TpMaintain>>()
+                    {
+                        ErrorCode = 0,
+                        Data = new List<TpMaintain>(),
+                        Message = $"UtcNow is {DateTime.UtcNow:yyyy/MM/dd HH:mm:ss}"
+                    };
+                }
+            }
+
             return new ApiResult<IEnumerable<TpMaintain>>()
             {
                 ErrorCode = 0,

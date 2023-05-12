@@ -201,7 +201,7 @@ namespace MemberSite.Controllers.Api
                 result.Message = _selLangBll.GetMsg("msg_ForceLogedout");
                 return result;
             }
-            
+
             var bonusWalletInfo = inTpTransfer.direction == TpDirection.ToMain ? _bonusWalletBll.CheckBonusWallet(authData.CustId, inTpTransfer.TpId) : null;
             if (bonusWalletInfo != null)
             {
@@ -376,7 +376,7 @@ namespace MemberSite.Controllers.Api
                 return result;
             }
         }
-        
+
         public class HistoryReq
         {
             public long StartDate { get; set; }
@@ -427,9 +427,9 @@ namespace MemberSite.Controllers.Api
                 apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
                 return apiResult;
             }
-
+            var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
             var serverInfo = _serverInfoBll.GetServerInfo();
-            if (_gameBll.IsMaintain(serverInfo.SiteId, request.TpId, request.TpGameType.ToString(), out var tpMaintain))
+            if (custInfo.IsTest == false && _gameBll.IsMaintain(serverInfo.SiteId, request.TpId, request.TpGameType.ToString(), out var tpMaintain))
             {
                 apiResult.Data = new TpMaintainCheckResponse
                 {
@@ -439,7 +439,7 @@ namespace MemberSite.Controllers.Api
                 apiResult.ErrorCode = 0;
                 return apiResult;
             }
-        
+
             apiResult.Data = new TpMaintainCheckResponse
             {
                 IsMaintain = false,
@@ -455,7 +455,7 @@ namespace MemberSite.Controllers.Api
             public string RequestId { get; set; }
         }
         public class TpMaintainCheckResponse
-        { 
+        {
             public bool IsMaintain { get; set; }
 
             public string MaintainEndTime { get; set; }
