@@ -87,7 +87,8 @@ namespace MemberSite.Service.BLL
             
             var key = $"LeaderboardListMonth:{lBCategoryId}:{eventCode}:{siteId}:{currencyId}:{selectDays.Date.ToString("yyyyMM")}";
             var list = _redisHelper.TryGetOrCreate(key, TimeSpan.FromDays(1),
-                () => GetLeaderboardListMonth(lBCategoryId, eventCode, siteId, currencyId, topNum, selectDays));
+                () => GetLeaderboardListMonth(lBCategoryId, eventCode, siteId, currencyId, topNum, selectDays))
+                .OrderByDescending(x => x.WTurnover).ToList();
             return list.Take(topNum);
         }
         
