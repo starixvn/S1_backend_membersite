@@ -63,10 +63,23 @@ namespace MemberSite.Controllers.Api
                 var tpGameType = inInfo.inputs.GetValueOrDefault("tpGameType");
                 var host = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
 
-                if (_gameBll.IsMaintain(serverInfo.SiteId, inInfo.TpId, tpGameType, out var tpMaintain))
+                var authData = _authorizeBll.GetAuthData();
+                if (authData is { CustId: > 0 })
                 {
-                    var maintainUrl = _gameBll.GetMaintainUrl(tpMaintain, host, _selLangBll.GetLangId() ?? "en");
-                    return new ApiResult(3000, maintainUrl);
+                    var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                    if (custInfo.IsTest == false && _gameBll.IsMaintain(serverInfo.SiteId, inInfo.TpId, tpGameType, out var tpMaintainForNormalCust))
+                    {
+                        var maintainUrl = _gameBll.GetMaintainUrl(tpMaintainForNormalCust, host, _selLangBll.GetLangId() ?? "en");
+                        return new ApiResult(3000, maintainUrl);
+                    }
+                }
+                else
+                {
+                    if (_gameBll.IsMaintain(serverInfo.SiteId, inInfo.TpId, tpGameType, out var tpMaintain))
+                    {
+                        var maintainUrl = _gameBll.GetMaintainUrl(tpMaintain, host, _selLangBll.GetLangId() ?? "en");
+                        return new ApiResult(3000, maintainUrl);
+                    }
                 }
 
                 var input = new Dictionary<string, string>();
@@ -84,7 +97,6 @@ namespace MemberSite.Controllers.Api
 
                 input.Add("Host", host);
                 input.Add("ClientIP", _tools.GetClientIP());
-                var authData = _authorizeBll.GetAuthData();
 
                 if (input.TryGetValue("fun", out var fun) && fun.Equals("1"))
                 {
