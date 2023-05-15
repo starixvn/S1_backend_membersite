@@ -67,8 +67,9 @@ namespace MemberSite.Service.BLL
         public IEnumerable<Leaderboard> GetLeaderboardListWithCache(string eventCode, int lBCategoryId, int siteId, int currencyId, int topNum, int beforeDays)
         {
             var key = $"Leaderboard:{lBCategoryId}:{eventCode}:{siteId}:{currencyId}:{topNum}:{beforeDays}";
-            return _redisHelper.TryGetOrCreate(key, TimeSpan.FromHours(1),
-                () => GetLeaderboardList(lBCategoryId, eventCode, siteId, currencyId, topNum, beforeDays));
+            return _cacheHelper.TryGetOrCreate(key,
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromHours(1)),
+                i => GetLeaderboardList(lBCategoryId, eventCode, siteId, currencyId, topNum, beforeDays));
         }
 
         private IEnumerable<Leaderboard> GetLeaderboardListMonth(int lBCategoryId, string eventCode, int siteId, int currencyId, int topNum, DateTime selectDays)
