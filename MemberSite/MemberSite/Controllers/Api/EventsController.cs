@@ -133,6 +133,11 @@ namespace MemberSite.Controllers.Api
             var apiResult = new ApiResult<IEnumerable<Leaderboard>>();
             int siteId;
             int currencyId;
+
+            if (getLeaderboardListMonthReq.SelectDays.Month <= DateTime.UtcNow.AddMonths(-2).Month)
+            {
+                return apiResult;
+            }
             
             var authData = _authorizeBll.GetAuthData();
             if (authData is { CustId: > 0 })
