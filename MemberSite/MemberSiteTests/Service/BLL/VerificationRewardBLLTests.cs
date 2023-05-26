@@ -1,10 +1,8 @@
-﻿using System.Threading.Tasks;
-using MemberSite.Service.DAL.Interface;
-using MemberSite.Service.Model;
+﻿using MemberSite.Service.DAL.Interface;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using NSubstitute;
 using NUnit.Framework;
+using RabbitMQ.Client;
 
 namespace MemberSite.Service.BLL.Tests
 {
@@ -17,14 +15,12 @@ namespace MemberSite.Service.BLL.Tests
             var custId = 250032;
             var services = new ServiceCollection();
             var verificationRewardService = Substitute.For<IVerificationRewardService>();
-            var optionsMock = Substitute.For<IOptions<RabbitMQConfig>>();
-            var myOptions = new RabbitMQConfig
+            var optionsMock = new ConnectionFactory()
             {
                 HostName = "18.139.54.64",
                 UserName = "ailab",
                 Password = "VynvPGTm7N"
             };
-            optionsMock.Value.Returns(myOptions);
             services.AddTransient(p => verificationRewardService);
             
             var serviceProvider = services.BuildServiceProvider();
