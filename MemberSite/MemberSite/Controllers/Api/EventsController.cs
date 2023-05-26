@@ -102,10 +102,13 @@ namespace MemberSite.Controllers.Api
                 currencyId = _selLangBll.GetPreferCurrencyId();
             }
 
-            apiResult.Data = JsonSerializer.Deserialize<IEnumerable<Leaderboard>>(JsonSerializer.Serialize(
-                _eventsBll.GetLeaderboardList(getLeaderboardListV2Req.EventCode,
-                    getLeaderboardListV2Req.LBCategoryId, siteId, currencyId,
-                    getLeaderboardListV2Req.TopNum, getLeaderboardListV2Req.BeforeDays)));
+            apiResult.Data = _eventsBll.GetLeaderboardList(
+                getLeaderboardListV2Req.EventCode,
+                getLeaderboardListV2Req.LBCategoryId, 
+                siteId, 
+                currencyId,
+                getLeaderboardListV2Req.TopNum, 
+                getLeaderboardListV2Req.BeforeDays);
 
             if (authData is {CustId: > 0})
             {
@@ -153,10 +156,13 @@ namespace MemberSite.Controllers.Api
                 currencyId = _selLangBll.GetPreferCurrencyId();
             }
 
-            apiResult.Data = JsonSerializer.Deserialize<IEnumerable<Leaderboard>>(JsonSerializer.Serialize(
-                _eventsBll.GetLeaderboardListMonth(getLeaderboardListMonthReq.EventCode,
-                    getLeaderboardListMonthReq.LBCategoryId, siteId, currencyId,
-                    getLeaderboardListMonthReq.TopNum, getLeaderboardListMonthReq.SelectDays)));
+            apiResult.Data = _eventsBll.GetLeaderboardListMonth(
+                getLeaderboardListMonthReq.EventCode,
+                getLeaderboardListMonthReq.LBCategoryId, 
+                siteId, 
+                currencyId,
+                getLeaderboardListMonthReq.TopNum, 
+                getLeaderboardListMonthReq.SelectDays);
 
             if (authData is {CustId: > 0})
             {
