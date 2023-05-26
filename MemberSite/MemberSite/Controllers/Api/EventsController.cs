@@ -103,7 +103,7 @@ namespace MemberSite.Controllers.Api
             }
 
             apiResult.Data = JsonSerializer.Deserialize<IEnumerable<Leaderboard>>(JsonSerializer.Serialize(
-                _eventsBll.GetLeaderboardListWithCache(getLeaderboardListV2Req.EventCode,
+                _eventsBll.GetLeaderboardList(getLeaderboardListV2Req.EventCode,
                     getLeaderboardListV2Req.LBCategoryId, siteId, currencyId,
                     getLeaderboardListV2Req.TopNum, getLeaderboardListV2Req.BeforeDays)));
 
@@ -154,7 +154,7 @@ namespace MemberSite.Controllers.Api
             }
 
             apiResult.Data = JsonSerializer.Deserialize<IEnumerable<Leaderboard>>(JsonSerializer.Serialize(
-                _eventsBll.GetLeaderboardListMonthWithCache(getLeaderboardListMonthReq.EventCode,
+                _eventsBll.GetLeaderboardListMonth(getLeaderboardListMonthReq.EventCode,
                     getLeaderboardListMonthReq.LBCategoryId, siteId, currencyId,
                     getLeaderboardListMonthReq.TopNum, getLeaderboardListMonthReq.SelectDays)));
 
@@ -190,12 +190,7 @@ namespace MemberSite.Controllers.Api
             if (authData is {CustId: > 0})
             {
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-                _eventsBll.GetCustRankWithCache(input.LBCategoryId, input.EventCode, custInfo.SiteId , custInfo.CurrencyId ,authData.CustId, input.BeforeDays, out var custRank, out var point);
-                // _eventsBll.GetCustRankWithCache(input.LBCategoryId, input.EventCode, custInfo.SiteId , custInfo.CurrencyId , authData.CustId, input.BeforeDays+1, out var yesterdayCustRank, out var yesterdayPoint);
-            
-                apiResult.Data.CustRank = custRank;
-                apiResult.Data.point = point;
-                // apiResult.Data.Status = -custRank.CompareTo(yesterdayCustRank);
+                apiResult.Data = _eventsBll.GetCustRank(input.LBCategoryId, input.EventCode, custInfo.CurrencyId, custInfo.SiteId, authData.CustId, input.BeforeDays); ;                
                 apiResult.ErrorCode = 0;
             }
             
