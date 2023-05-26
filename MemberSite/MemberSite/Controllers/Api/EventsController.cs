@@ -196,7 +196,7 @@ namespace MemberSite.Controllers.Api
             if (authData is {CustId: > 0})
             {
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-                apiResult.Data = _eventsBll.GetCustRank(input.LBCategoryId, input.EventCode, custInfo.CurrencyId, custInfo.SiteId, authData.CustId, input.BeforeDays); ;                
+                apiResult.Data = _eventsBll.GetCustRank(input.LBCategoryId, input.EventCode, custInfo.SiteId, custInfo.CurrencyId, authData.CustId, input.BeforeDays); ;                
                 apiResult.ErrorCode = 0;
             }
             
