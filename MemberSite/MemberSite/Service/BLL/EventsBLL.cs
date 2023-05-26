@@ -59,7 +59,7 @@ namespace MemberSite.Service.BLL
 
         public LeaderboardCustRank GetCustRank(int lBCategoryId, string eventCode, int siteId, int currencyId ,int custId, int beforeDays)
         {
-            var list = GetLeaderboardList(eventCode, lBCategoryId, siteId, currencyId, 10000, beforeDays);
+            var list = GetLeaderboardListWithCache(eventCode, lBCategoryId, siteId, currencyId, beforeDays);
             var rank = 0;
 
             foreach (var data in list.OrderByDescending(x => x.WTurnover))
