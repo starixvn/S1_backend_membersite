@@ -20,40 +20,7 @@ namespace MemberSite.Service.DAL
             _withdrawalLimitService = provider.GetRequiredService<WithdrawalLimitService>();
             _mainDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Main);
             _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
-        }
-        
-        public IEnumerable<Leaderboard> GetLeaderboardList(int lBCategoryId, string eventCode, int siteId, int currencyId, int topNum, DateTime startTime , DateTime endTime)
-        {
-            var p = new DynamicParameters();
-            p.Add("LBCategoryId", lBCategoryId);
-            p.Add("EventCode", eventCode);
-            p.Add("SiteId", siteId);
-            p.Add("CurrencyId", currencyId);
-            p.Add("StartTime", startTime);
-            p.Add("EndTime", endTime);
-            p.Add("TopNum", topNum);
-            var result = _reportDbClient.Query<Leaderboard>("Member_Leaderboard_Get", p);
-            return result;
-        }
-        
-        public void GetCustRank(int lBCategoryId, string eventCode, int siteId, int currencyId ,int custId, DateTime startTime , DateTime endTime, out int custRank, out decimal point)
-        {
-            var p = new DynamicParameters();
-            p.Add("_SiteId", siteId);
-            p.Add("_CurrencyId", currencyId);
-            p.Add("_CustId", custId);
-            p.Add("_LBCategoryId", lBCategoryId);
-            p.Add("_EventCode", eventCode);
-            p.Add("_StartTime", startTime);
-            p.Add("_EndTime", endTime);
-            p.Add("_CustRank", dbType: DbType.Int32, direction: ParameterDirection.Output);
-            p.Add("_Point", dbType: DbType.Decimal, direction: ParameterDirection.Output);
-            _reportDbClient.Execute("Member_LeaderboardCustRank_Get", p);
-            
-            custRank = p.Get<int?>("_CustRank") ?? 0;
-            point = p.Get<decimal?>("_Point") ?? 0;
-
-        }
+        }       
         
         public IEnumerable<Prize> CheckDrawPrize(ref int eventId, int custId, int currencyId, out int prizeId, out int result)
         {
