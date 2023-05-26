@@ -1,7 +1,4 @@
-﻿using MemberSite.Service.DAL.Interface;
-using MemberSite.Service.Model;
-using MemberSite.Service.Model.enums;
-using Microsoft.Extensions.Options;
+﻿using MemberSite.Service.Model.enums;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 using System.Text;
@@ -10,20 +7,14 @@ namespace MemberSite.Service.BLL
 {
     public class VerificationRewardBLL
     {
-        private readonly RabbitMQConfig _config;
-        public VerificationRewardBLL(IOptions<RabbitMQConfig> config)
+        private readonly IConnectionFactory _connectionFactory;
+        public VerificationRewardBLL(IConnectionFactory connectionFactory)
         {
-            _config = config.Value;
+            _connectionFactory = connectionFactory;
         }
         public void PhoneReward(int custId)
         {
-            var factory = new ConnectionFactory
-            {
-                HostName = _config.HostName,
-                UserName = _config.UserName,
-                Password = _config.Password
-            };
-            using var connection = factory.CreateConnection();
+            using var connection = _connectionFactory.CreateConnection();
             using var channel = connection.CreateModel();
 
             var data = new
@@ -45,13 +36,7 @@ namespace MemberSite.Service.BLL
 
         public void EmailReward(int custId)
         {
-            var factory = new ConnectionFactory
-            {
-                HostName = _config.HostName, 
-                UserName = _config.UserName, 
-                Password = _config.Password
-            };
-            using var connection = factory.CreateConnection();
+            using var connection = _connectionFactory.CreateConnection();
             using var channel = connection.CreateModel();
 
             var data = new
