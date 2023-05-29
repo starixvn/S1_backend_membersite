@@ -62,6 +62,7 @@ namespace MemberSite
             services.Configure<Dictionary<string, AWSKeyConfig>>(_configuration.GetSection("AwsKeyConfig"));
             services.AddMemoryCache();
             services.AddDatabaseConnection(_configuration);
+            services.AddMessageQueueConnection(_configuration);
             services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(_configuration.GetValue<string>("RedisConnection")));
             services.AddSingleton<ICacheHelper, RedisCacheHelper>();
             
