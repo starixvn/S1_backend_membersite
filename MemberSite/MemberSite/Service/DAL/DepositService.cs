@@ -37,8 +37,8 @@ namespace MemberSite.Service.DAL
 
             var result = _mainDbClient.Execute("DepositInfo_Ins", trans, p);
             trans.Commit();
-
-            if (depositDetailInfo is { SiteId: (int)SiteId.Goal123 })
+            
+            if (depositDetailInfo.SiteId != (int)SiteId.Nova88)
             {
                 _ = Task.Run(async () =>
                 {
@@ -75,8 +75,8 @@ namespace MemberSite.Service.DAL
 
             var result = _mainDbClient.Execute("DepositInfoWithFrom_Ins", trans ,p);
             trans.Commit();
-
-            if (depositDetailInfo is { SiteId: (int)SiteId.Goal123 })
+            
+            if (depositDetailInfo.SiteId != (int)SiteId.Nova88)
             {
                 _ = Task.Run(async () =>
                 {
@@ -100,7 +100,7 @@ namespace MemberSite.Service.DAL
 
         public IEnumerable<DepositInfoHistory> GetDepositInfoRecent(int custId, int siteId, int topNum)
         {
-            return _reportDbClient.Query<DepositInfoHistory>("DepositInfoRecent_Get_V3", new { CustId = custId, SiteId = siteId, TopNum = topNum });
+            return _reportDbClient.Query<DepositInfoHistory>("DepositInfoRecent_Get_V4", new { CustId = custId, SiteId = siteId, TopNum = topNum });
         }
 
         public IEnumerable<DepositInfoHistory> GetDepositInfoHistory(int custId, long startDate, long endDate, int siteId, int pageSize, ref int pageNumber, out int totalPages, out int rowCount)
@@ -111,7 +111,7 @@ namespace MemberSite.Service.DAL
             p.Add("RowCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
             p.Add("StartIndex", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
-            var depositInfoHistoryResult = _reportDbClient.Query<DepositInfoHistory>("DepositInfoSearch_Get_V3", p);
+            var depositInfoHistoryResult = _reportDbClient.Query<DepositInfoHistory>("DepositInfoSearch_Get_V4", p);
             totalPages = p.Get<int?>("TotalPages") ?? 0;
             rowCount = p.Get<int?>("RowCount") ?? 0;
             return depositInfoHistoryResult;
@@ -122,11 +122,18 @@ namespace MemberSite.Service.DAL
             return _mainDbClient.Execute("DepositReceipt_Set", new { CustId = custId, DepositId = depositId, RefNo = refNo, DepositTime = depositTime });
         }
 
-        public async Task<int> SetDepositReceiptPic(int custId, int depositId, string picFileName, byte[] depositPic)
+        public async Task<int> SetDepositReceiptPic(int custId, int depositId, int receiptNo, string picFileName, string userName)
         {
             var p = new DynamicParameters(new
-            { CustId = custId, DepositId = depositId, PicFileName = picFileName, DepositPic = depositPic });
-            return await _mainDbClient.ExecuteAsync("DepositReceiptPic_Set", p);
+            {   
+                CustId = custId,
+                DepositId = depositId, 
+                PicFileName = picFileName,
+                ReceiptNo = receiptNo,
+                Creator = userName,
+                CreateFrom = 1
+            });
+            return await _mainDbClient.ExecuteAsync("DepositReceiptPic_Set_V3", p);
         }
         
         public int SetDepositCancel(int custId, int depositId, int siteId)
@@ -141,9 +148,9 @@ namespace MemberSite.Service.DAL
             return result;
         }
         
-        public DepositReceipt GetDepositReceipt(int depositId, int siteId)
+        public IEnumerable<DepositReceipt> GetDepositReceipt(int depositId, int siteId)
         {
-            return _reportDbClient.QueryFirst<DepositReceipt>("DepositReceipt_Get", new { DepositId = depositId, SiteId = siteId });
+            return _reportDbClient.Query<DepositReceipt>("DepositReceipt_Get_V2", new { DepositId = depositId, SiteId = siteId });
         }
         
         public IEnumerable<DepositLimitInfo> GetDepositLimitInfoList()

@@ -138,7 +138,7 @@ namespace MemberSite.Service.BLL
             var result = _custInfoService.AddCustInfo(regCustInfo, Email, lineUserId, out custId, signupUrl, referralUrl, PhoneNo, AreaCode,
                 RealName, promoCode, Birth_d, Birth_m, Birth_y);
 
-            if (result == 0 && regCustInfo.SiteId == (int)SiteId.Goal123)
+            if (result == 0 && regCustInfo.SiteId != (int)SiteId.Nova88)
             {
                 regCustInfo.CustId = custId;
                 _ = Task.Run(async () =>
@@ -199,7 +199,7 @@ namespace MemberSite.Service.BLL
                 return -3;
             }
 
-            if (customer is { SiteId: (int)SiteId.Goal123 })
+            if (customer.SiteId != (int)SiteId.Nova88)
             {
                 var info = customer;
                 _ = Task.Run(async () =>
@@ -213,6 +213,7 @@ namespace MemberSite.Service.BLL
                     // send custId to tp.Shield
                     var request = new SendShieldAttributesRequest()
                     {
+                        SiteId = info.SiteId ,
                         UserId = info.CustId.ToString()
                     };
                     var result = await _shieldBll.SendShieldAttributes(request);
@@ -353,6 +354,7 @@ namespace MemberSite.Service.BLL
         public int SetCustBankInfo(int custId, string accountName, bool forceUseMainDb = false)
         {
             var custInfo = GetCustInfoWithCache(custId, forceUseMainDb);
+
             return _custInfoService.SetCustBankInfo(custId, custInfo.SiteId, accountName) ? 0 : -1;
         }
         public int InsertCustBankInfo(int custId, string accountName, int sysId, string accountNum, string iFSCCode, CustBankInfoLogStatus status)
@@ -360,8 +362,8 @@ namespace MemberSite.Service.BLL
             var custInfo = GetCustInfoWithCache(custId);
             return _custInfoService.InsertCustBankInfo(custId, custInfo.SiteId, accountName, sysId, accountNum, iFSCCode, status) ? 0 : -1;
         }
-        
-        public int SetCustUSDTInfo(int custId, string accountName, IEnumerable<USDTDetail> uSDTInfo, IEnumerable<USDTDetailLog> uSDTInfoLog)
+
+        public int SetCustUSDTInfo(int custId, string accountName, IEnumerable<CryptoWalletDetail> uSDTInfo, IEnumerable<CryptoWalletDetailLog> uSDTInfoLog)
         {
             var custInfo = GetCustInfoWithCache(custId);
             return _custInfoService.SettCustUSDTInfo(custId, custInfo.SiteId, accountName, uSDTInfo, uSDTInfoLog) ? 0 : -1;
@@ -374,19 +376,11 @@ namespace MemberSite.Service.BLL
             {
                 var bankInfoDetailList = _custInfoService.GetCustBankDetail(custId);
                 custBankInfo.bankInfoDetail = bankInfoDetailList;
+
+                var cryptoWalletDetail = _custInfoService.GetCustCryptoWalletDetail(custId);
+                custBankInfo.usdtDetail = cryptoWalletDetail;
             }
-            if (custBankInfo is { USDTInfo: { } })
-            {
-                var uSDTDetailList = JsonConvert.DeserializeObject<IEnumerable<USDTDetail>>(custBankInfo.USDTInfo);
-                if (uSDTDetailList != null)
-                {
-                    uSDTDetailList = uSDTDetailList.Where(x => x.USDTAddress != null);//filiter null data
-                    if (uSDTDetailList.Any())
-                    {
-                        custBankInfo.usdtDetail = uSDTDetailList;
-                    }
-                }
-            }
+
             return custBankInfo;
         }
         public string GetDefAccountNo(int custId)
@@ -461,7 +455,7 @@ namespace MemberSite.Service.BLL
             var result = await _commonBll.SendResetPwdMailAsync(custId, resetPasswordUrl);
             return result;
         }
-        
+
         public async Task<ApiResult> VerifyOTPAsync(int custId, string inputOTP)
         {
             var apiResult = await _commonBll.VerifyOTPAsync(custId, inputOTP);
@@ -469,7 +463,7 @@ namespace MemberSite.Service.BLL
             if (apiResult.ErrorCode == 0 && !await _custInfoService.GetPhoneVerified(custId))
             {
                 _custInfoService.SetPhoneVerified(custId);
-                await _verificationRewardBll.PhoneReward(custId);
+                _verificationRewardBll.PhoneReward(custId);
             }
             return apiResult;
         }
@@ -481,7 +475,7 @@ namespace MemberSite.Service.BLL
             if (apiResult.ErrorCode == 0 && !await _custInfoService.GetEmailVerified(custId))
             {
                 _custInfoService.SetEmailVerified(custId);
-                await _verificationRewardBll.EmailReward(custId);
+                _verificationRewardBll.EmailReward(custId);
             }
             return apiResult;
         }
@@ -649,6 +643,28 @@ namespace MemberSite.Service.BLL
         {
             var custInfo = GetCustInfoWithCache(custId);
             return _custInfoService.DeleteCustEWalletDetail(custId, custInfo.SiteId, sysId, accountNum, status) ? 0 : -1;
+        }
+
+        public IEnumerable<CryptoWalletDetailData> GetCustCryptoWalletDetail(string address, int siteId)
+        {
+            return _custInfoService.GetCustCryptoWalletDetail(address, siteId);
+        }
+
+        public int InsertCustCryptoWalletDetail(int custId, int currencyId, string network, string address, string nickName, string accountName)
+        {
+            var custInfo = GetCustInfoWithCache(custId);
+            return _custInfoService.InsertCustCryptoWalletDetail(custId, custInfo.SiteId, currencyId, network, address, nickName, accountName) ? 0 : -1;
+        }
+
+        public int DeleteCustCryptoWalletDetail(int custId, int currencyId, string network, string address, string nickName)
+        {
+            var custInfo = GetCustInfoWithCache(custId);
+            return _custInfoService.DeleteCustCryptoWalletDetail(custId, custInfo.SiteId, currencyId, network, address, nickName) ? 0 : -1;
+        }
+
+        public IEnumerable<CryptoWalletDetail> GetCustCryptoWalletDetail(int custId)
+        {
+            return _custInfoService.GetCustCryptoWalletDetail(custId);
         }
     }
 }

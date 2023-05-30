@@ -1,6 +1,7 @@
 ﻿using MemberSite.Extensions;
 using MemberSite.Service.Model.enums;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MemberSite.Service.Model
 {
@@ -37,6 +38,9 @@ namespace MemberSite.Service.Model
         public string AccountNo { get; set; }
         public string IFSCCode { get; set; }
         public int CurrencyId { get; set; }
+        public bool IsLocalPay { get; set; }
+        public int GroupId { get; set; }
+        public string Code { get; set; }
     }
 
     public class DepositRep3
@@ -53,12 +57,14 @@ namespace MemberSite.Service.Model
         public decimal MaxAmount { get; set; }
     }
 
-    public class FakeMobilePayResp
+    public class LocalPayResp
     {
 
         public string TransId { get; set; }
         public decimal Amount { get; set; }
         public string ReturnUrl { set; get; }
+        public string Code { set; get; }
+        public string BankLogo { set; get; }
     }
 
     public class DepositInfoHistory
@@ -101,20 +107,26 @@ namespace MemberSite.Service.Model
             }
         }
         private DateTime? _depositTime { get; set; }
-
-        public string PicFileName { get; set; }
-
+        public IEnumerable<DepositReceipt> DepositReceipt { get; set; }
         [JsonIgnore]
         public string CustTimeZone { get; set; }
         public string DepositMessage { get; set; }
         public IEnumerable<DepositMessageDetail> DepositMessageDetail { get; set; }
 }
 
+    public class DepositReceiptModel
+    {
+        public string Receipt { get; set; }
+        public int ReceiptNo { get; set; }
+        public string PicFileName { get; set; }
+    }
+    
     public class DepositReceipt
     {
         public int DepositId { get; set; }
         public string PicFileName { get; set; }
-        public byte[] DepositPic { get; set; }
+        public int ReceiptNo { get; set; }
+        public string DepositPic { get; set; }
     }
 
     public class DepositLimitInfo
@@ -135,18 +147,6 @@ namespace MemberSite.Service.Model
         public string IFSCCode { get; set; }
     }
 
-    public class ExchangeInfo
-    {
-        public decimal Rate { get; set; }
-        public decimal To_Amount { get; set; }
-        public long Updated_timestamp { get; set; }
-    }
-
-    public class PaymentReq
-    {
-        public ExchangeInfo formData { get; set; }
-    }
-
     public class DepositMessage
     {
         public DepositMessageStatus Status { get; set; }
@@ -162,5 +162,14 @@ namespace MemberSite.Service.Model
         public string ErrorTypeName { get; set; }
         public string Message { get; set; }
         public DateTimeOffset CreateTime { get; set; }
+    }
+
+    public class DepositReqLocalPayModel
+    {
+        public int CustId { get; set; }
+        public decimal Amount { get; set; }
+        public int BankId { get; set; }
+        public int GroupId { get; set; }
+        public DepositType Type { get; set; }
     }
 }

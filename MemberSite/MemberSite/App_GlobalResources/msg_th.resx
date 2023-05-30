@@ -1,96 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
-    Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
-    associated with the data types.
-    
-    Example:
-    
-    ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
-                
-    There are any number of "resheader" rows that contain simple 
-    name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
-    mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
-    extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
-    read any of the formats listed below.
-    
-    mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
-            : and then encoded with base64 encoding.
-    
-    mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
-            : and then encoded with base64 encoding.
-
-    mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
-            : using a System.ComponentModel.TypeConverter
-            : and then encoded with base64 encoding.
-    -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="metadata">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
-              </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="assembly">
-            <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
-            </xsd:complexType>
-          </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
                 <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
                 <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
               <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
               <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
@@ -105,324 +27,121 @@
       </xsd:complexType>
     </xsd:element>
   </xsd:schema>
-  <resheader name="resmimetype">
-    <value>text/microsoft-resx</value>
-  </resheader>
-  <resheader name="version">
-    <value>2.0</value>
-  </resheader>
-  <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <data name="msg_Congratulations" xml:space="preserve">
-    <value>การลงทะเบียนของคุณเสร็จสมบูรณ์ คุณสามารถเข้าสู้ระบบฝากเงินและเริ่มเดิมพันได้ทันที</value>
-  </data>
-  <data name="msg_DepositProcessLogin_ACLocked" xml:space="preserve">
-    <value>บัญชีของคุณถูกล๊อค โปรดติดต่อฝ่ายบริการลูกค้าได้ตลอด 24/7 ขอบคุณ</value>
-  </data>
-  <data name="msg_DepositProcessLogin_LoginFailed" xml:space="preserve">
-    <value>ไม่สามารถเข้าสู่ระบบได้, ชื่อบัญชี/รหัสผ่านไม่ถูกต้อง หรือ ไม่มีชื่อบัญชีนี้</value>
-  </data>
-  <data name="msg_ForceLogedout" xml:space="preserve">
-    <value>คุณได้ทำการออกจากระบบ โปรดล็อคอินใหม่อีกครั้ง</value>
-  </data>
-  <data name="msg_HasExist" xml:space="preserve">
-    <value>มีอยู่ในระบบแล้ว</value>
-  </data>
-  <data name="msg_InvalidOldPassword" xml:space="preserve">
-    <value>รหัสผ่านเก่าไม่ถูกต้อง!</value>
-  </data>
-  <data name="msg_loggedout" xml:space="preserve">
-    <value>คุณออกจากระบบเรียบร้อยแล้ว !!</value>
-  </data>
-  <data name="msg_LoginToAccess" xml:space="preserve">
-    <value>โปรดล็อคอินเพื่อเข้าสู่เกม</value>
-  </data>
-  <data name="msg_MailExisted" xml:space="preserve">
-    <value>มีจดหมาย</value>
-  </data>
-  <data name="msg_MailReq" xml:space="preserve">
-    <value>ชื่ออีเมล์ไม่สามารถเปลี่ยนได้หลังจากยืนยัน</value>
-  </data>
-  <data name="msg_MailWrongFormat" xml:space="preserve">
-    <value>รูปแบบอีเมล์ไม่ถูกต้อง</value>
-  </data>
-  <data name="msg_NeedAccountName" xml:space="preserve">
-    <value>ต้องใส่ชื่อบัญชีผู้ใช้</value>
-  </data>
-  <data name="msg_NeedAccountNo" xml:space="preserve">
-    <value>ต้องใส่หมายเลขบัญชี</value>
-  </data>
-  <data name="msg_NoData" xml:space="preserve">
-    <value>ไม่มีข้อมูล</value>
-  </data>
-  <data name="msg_PasswordLength" xml:space="preserve">
-    <value>รหัสผ่านควรมีความยาวระหว่าง 6 ถึง 18 ตัวอักษร</value>
-  </data>
-  <data name="msg_PasswordReq" xml:space="preserve">
-    <value>ต้องใส่รหัสผ่าน</value>
-  </data>
-  <data name="msg_PasswordValidate" xml:space="preserve">
-    <value>รหัสผ่านต้องมีความยาว 6-15 ตัว ประกอบด้วยตัวอักษรและตัวเลข</value>
-  </data>
-  <data name="msg_SamePassword" xml:space="preserve">
-    <value>รหัสผ่านเก่าและรหัสผ่านใหม่เหมือนกัน!</value>
-  </data>
-  <data name="msg_ThisCurrencyNotSupport" xml:space="preserve">
-    <value>ไม่รองรับสกุลเงินนี้</value>
-  </data>
-  <data name="msg_UpdateFailed" xml:space="preserve">
-    <value>ไม่สามารถอัพเดทได้</value>
-  </data>
-  <data name="msg_Updatesuccessful" xml:space="preserve">
-    <value>อัพเดทเสร็จเรียบร้อย</value>
-  </data>
-  <data name="msg_UsernameLength" xml:space="preserve">
-    <value>ชื่อบัญชีผู้ใช้ควรมีความยาวระหว่าง 6 ถึง 18 ตัวอักษร</value>
-  </data>
-  <data name="msg_UsernameNotAvailable" xml:space="preserve">
-    <value>ชื่อบัญชีผู้ใช้ไม่สามารถใช้ได้อีกต่อไป</value>
-  </data>
-  <data name="msg_UsernameReq" xml:space="preserve">
-    <value>ต้องใส่ชื่อบัญชีผู้ใช้</value>
-  </data>
-  <data name="msg_UsernameValidate" xml:space="preserve">
-    <value>ตัวอักษรและตัวเลข 6-18 ตัว (A-Z, a-z, 0-9) เท่านั้น</value>
-  </data>
-  <data name="msg_AffCodeValidate" xml:space="preserve">
-    <value>ไอดีพันธมิตรอนุญาตให้ใช้ตัวเลข 5-20 เท่านั้น</value>
-  </data>
-  <data name="msg_WithdrawalNoFund" xml:space="preserve">
-    <value>ไม่สามารถถอนเงินได้เนื่องจากยอดเงินของคุณไม่พอ</value>
-  </data>
-  <data name="msg_WithdrawalFailed" xml:space="preserve">
-    <value>คำขอถอนเงินของคุณไม่สำเร็จ โปรดตรวจสอบกับ CSD สำหรับข้อมูลเพิ่มเติม</value>
-  </data>
-  <data name="msg_WithdrawalSuccessful" xml:space="preserve">
-    <value>คำขอถอนเงินของคุณสำเร็จแล้ว เราจะแจ้งให้คุณทราบเมื่อดำเนินการเสร็จ</value>
-  </data>
-  <data name="ForgetPwdFail" xml:space="preserve">
-    <value>คุณได้กรอกอีเมล์และคำถามคำตอบเพื่อความปลอดภัยไม่ถูกต้อง ,กรุณาลองใหม่อีกครั้ง!</value>
-    <comment>0024. Deposit</comment>
-  </data>
-  <data name="ForgetPwdSuccess" xml:space="preserve">
-    <value>รหัสผ่านใหม่ของคุณถูกส่งไปยังที่อยู่อีเมลที่คุณลงทะเบียนไว้</value>
-    <comment>0026. Deposit</comment>
-  </data>
-  <data name="msg_CreditSignUp" xml:space="preserve">
-    <value>เรียนลูกค้าที่เคารพรัก, &lt;br /&gt;&lt;br /&gt;ยินดีต้อนรับสู่ &lt;a href="https:/{0}" target="_new"&gt;{0}&lt;/a&gt;,  หลังจากทะเบียนแล้วคุณสามารถเข้าสู่เว็บไซต์เราเพื่อเพลิดเพลินและสนุกสนานกับทั้งหมดของเรา
-</value>
-  </data>
-  <data name="msg_DepositAlert" xml:space="preserve">
-    <value>ยอดเงินคงเหลือใน Wallet หลักของคุณคือ:&lt;span class="popup-span Js-MainWallet-Balance"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;ฝากตอนนี้หรือโอนจาก Sportsbook Wallet ไปยังกระเป๋าเงินหลักเพื่อสนุกกับเกมและบริการของเรา</value>
-  </data>
-  <data name="msg_HasExist1" xml:space="preserve">
-    <value>มีอยู่ในระบบแล้ว</value>
-  </data>
-  <data name="msg_InsufficientFund" xml:space="preserve">
-    <value>จำนวนเงินไม่เพียงพอ!</value>
-  </data>
-  <data name="msg_TransferAlert" xml:space="preserve">
-    <value>Sportsbook Wallet ปัจจุบันของคุณคือ:&lt;span class="popup-span Js-3RdWallet-Balance"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;ฝากและโอนจากกระเป๋าเงินหลักไปยัง Sportsbook Wallet ได้ทันทีเพื่อเพลิดเพลินกับเกมและบริการของเรา</value>
-  </data>
-  <data name="msg_ConfirmRealNameAlert" xml:space="preserve">
-    <value>เพื่อเป็นการยืนยันว่าการเปลี่ยนทุกอย่างถูกต้อง โปรดตรวจสอบชื่อจริงของคุณว่าตรงกับชื่อบัญชีธนาคารของคุณ</value>
-  </data>
-  <data name="msg_EnterPhoneNumber" xml:space="preserve">
-    <value>โปรดใส่เบอร์โทรศัพท์</value>
-  </data>
-  <data name="msg_EnterRealName" xml:space="preserve">
-    <value>โปรดใส่ชื่อจริง</value>
-  </data>
-  <data name="msg_GoToDepositPage" xml:space="preserve">
-    <value>ต้องการไปที่หน้าฝากเงิน?</value>
-  </data>
-  <data name="msg_SelectBirthDay" xml:space="preserve">
-    <value>โปรดเลือกวันเกิด</value>
-  </data>
-  <data name="ResetPwdSuccess" xml:space="preserve">
-    <value>รีเซ็ตรหัสผ่านของคุณสำเร็จแล้ว!</value>
-  </data>
-  <data name="msg_BalanceHint" xml:space="preserve">
-    <value>ยอดคงเหลือปัจจุบันของคุณคือ
-</value>
-  </data>
-  <data name="msg_DepositHint" xml:space="preserve">
-    <value>ฝากเงินเลย เพื่อเพลินเงินกับเกมและบริการของเร</value>
-  </data>
-  <data name="msg_ApiServerError" xml:space="preserve">
-    <value>API Server  Error</value>
-  </data>
-  <data name="msg_ForceLogedoutHint" xml:space="preserve">
-    <value>ID นี้ได้เข้าสู่ระบบจากเบราว์เซอร์หรืออุปกรณ์อื่นแล้วคุณจะโดนล็อคเอาท์ออกจากเซสชันนี้โดยอัตโนมัติ</value>
-  </data>
-  <data name="msg_ReferenceNumber" xml:space="preserve">
-    <value>หมายเลขอ้างอิง</value>
-  </data>
-  <data name="msg_SelectFile" xml:space="preserve">
-    <value>เลือกไฟล์</value>
-  </data>
-  <data name="msg_SubmitDepositTime" xml:space="preserve">
-    <value>โปรดส่งเวลาการฝากเงินของคุณ</value>
-  </data>
-  <data name="msg_WrongAmount" xml:space="preserve">
-    <value>จำนวนเงินไม่ถูกต้อง</value>
-  </data>
-  <data name="msg_CreditSignUpHint_1" xml:space="preserve">
-    <value>เรียนลูกค้าที่เคารพรัก,
-</value>
-  </data>
-  <data name="msg_CreditSignUpHint_2" xml:space="preserve">
-    <value>ยินดีต้อนรับสู่ {0},  หลังจากทะเบียนแล้วคุณสามารถเข้าสู่เว็บไซต์เราเพื่อเพลิดเพลินและสนุกสนานกับทั้งหมดของเรา</value>
-  </data>
-  <data name="msg_LockedAmountInsufficient" xml:space="preserve">
-    <value>ยอดเงินกระเป๋าเงินหลักไม่ควรต่ำกว่า {0}</value>
-  </data>
-  <data name="msg_Ineligible" xml:space="preserve">
-    <value>สมาชิกไม่มีสิทธิ์รับโปรโมชั่นนี้ สามารถติดต่อแชทสดสำหรับรายละเอียดเพิ่มเติมค่ะ</value>
-  </data>
-  <data name="msg_MustInteger" xml:space="preserve">
-    <value>กรุณากรอกตัวเลขให้ครบถ้วน ไม่อนุญาตให้ใช้เลขหลักทศนิยม</value>
-  </data>
-  <data name="msg_RequiredAmountInsufficient" xml:space="preserve">
-    <value>ฝากขั้นต่ำ {0} เพื่อรับโบนัส</value>
-  </data>
-  <data name="msg_OTPHint" xml:space="preserve">
-    <value>กรุณากรอกข้อมูลส่วนตัวและยืนยันหมายเลขโทรศัพท์ก่อนเข้าร่วมกิจกรรม</value>
-  </data>
-  <data name="msg_OTPHint1" xml:space="preserve">
-    <value>คุณต้องการเล่นเกมแบบเต็มรูปแบบที่เราให้บริการหรือไม่?</value>
-  </data>
-  <data name="msg_OTPHint2" xml:space="preserve">
-    <value>ต้องการยืนยันเบอร์โทรศัพท์ของคุณตอนนี้?</value>
-  </data>
-  <data name="msg_SpecialCodeErr" xml:space="preserve">
-    <value>รหัสโบนัสพิเศษที่คุณป้อน ไม่มีโปรโมชั่นสำหรับขอแลกรับ</value>
-  </data>
-  <data name="msg_DrawPrize" xml:space="preserve">
-    <value>ขอแสดงความยินดีเงินคืนของคุณ {0} ได้รับการบันทึกเครดิตเข้าบัญชีของคุณแล้ว!ขอแสดงความยินดีด้วย, อังเปาได้ส่งเข้าไปที่บัญชีเครดิตของคุณแล้ว</value>
-  </data>
-  <data name="msg_DrawPrizeTital" xml:space="preserve">
-    <value>ต้อนรับปีวัวทอง</value>
-  </data>
-  <data name="msg_IneligibleAngPow" xml:space="preserve">
-    <value>กรุณาทำการฝากเงินเพื่อรับสิทธิ์สำหรับโปรโมชั่นนี้</value>
-  </data>
-  <data name="msg_PromoCodeIncorrect" xml:space="preserve">
-    <value>โค้ดโปรโมชั่นไม่ถูกต้อง</value>
-  </data>
-  <data name="msg_DrawPrize1" xml:space="preserve">
-    <value>ขอแสดงความยินดีด้วยค่ะ! โบนัส {0} จำนวน {2} บาท ถูกปรับเข้าบัญชีผู้ใช้ของท่านเรียบร้อยแล้วค่ะ</value>
-  </data>
-  <data name="msg_DrawPrizeTital1" xml:space="preserve">
-    <value>{0} กล่องปริศนา</value>
-  </data>
-  <data name="msg_ClaimCashBackBonus" xml:space="preserve">
-    <value>ขอแสดงความยินดีเครดิตเงินคืน {0} ของคุณเข้าบัญชีของคุณแล้ว!</value>
-  </data>
-  <data name="msg_MustDeposit" xml:space="preserve">
-    <value>กรุณาทำการฝากเงินให้เรียบร้อยก่อนทำการถอน</value>
-  </data>
-  <data name="msg_LessThanWithdrawalMin" xml:space="preserve">
-    <value>จำนวนเงินที่ถอนต้องมากกว่า {0}</value>
-  </data>
-  <data name="msg_GreaterThanWithdrawalMax" xml:space="preserve">
-    <value>จำนวนยอดถอนต่อวันของคุณครบแล้ว</value>
-  </data>
-  <data name="msg_WithdrawalExists" xml:space="preserve">
-    <value>คำขอธุรกรรมของคุณอยู่ระหว่างรอดำเนินการ, โปรดรอจนกว่าธุรกรรมของคุณที่รอดำเนินการจะเสร็จสมบูรณ์แล้วลองอีกครั้ง</value>
-  </data>
-  <data name="msg_BankAccountExists" xml:space="preserve">
-    <value>คุณได้ทำการจัดเก็บข้อมูลนี้ไว้เรียบร้อยแล้ว</value>
-  </data>
-  <data name="msg_PromoCodeHasBeenUsed" xml:space="preserve">
-    <value>รหัสโปรโมชั่นนี้ถูกใช้แล้ว</value>
-  </data>
-  <data name="msg_PhoneWrongFormat" xml:space="preserve">
-    <value>รูปแบบโทรศัพท์ไม่ถูกต้อง</value>
-  </data>
-  <data name="msg_InvalidCryptoWalletAddress" xml:space="preserve">
-    <value>ที่อยู่กระเป๋าเงินเข้ารหัสลับไม่ถูกต้อง</value>
-  </data>
-  <data name="msg_DecimalOutOfRange" xml:space="preserve">
-    <value>การโอนล้มเหลวเนื่องจากมีทศนิยมมากกว่า 2 หลัก</value>
-  </data>
-  <data name="msg_LineAccountAlreadyBind" xml:space="preserve">
-    <value>บัญชีไลน์นี้ถูกใช้งานแล้ว โปรดใช้บัญชีไลน์อื่น</value>
-  </data>
-  <data name="msg_BankAccountDuplicate" xml:space="preserve">
-    <value>ไม่อนุญาตให้ใช้หมายเลขบัญชีธนาคารซ้ำ โปรดลองหมายเลขบัญชีอื่น</value>
-  </data>
-  <data name="msg_RedemptionLimitOverLimit" xml:space="preserve">
-    <value>ขออภัย ถึงขีดจำกัดการแลกของคุณแล้ว โปรดลองใหม่อีกครั้งในเดือนหน้า</value>
-  </data>
-  <data name="msg_InsufficientPoint" xml:space="preserve">
-    <value>ขออภัยค่ะ! คุณมีคะแนนรางวัลไม่เพียงพอ 88 คะแนน</value>
-  </data>
-  <data name="msg_EWalletIsMaintenance" xml:space="preserve">
-    <value>E-Wallet คือการบำรุงรักษา โปรดใช้วิธีถอนเงินแบบอื่น</value>
-  </data>
-  <data name="msg_NotInLimit" xml:space="preserve">
-    <value>จำนวนเงินมากกว่าหรือน้อยกว่าที่กำหนดไว้</value>
-  </data>
-  <data name="msg_congratulation_event_reward" xml:space="preserve">
-    <value>ยินดีด้วยค่ะ! คุณได้รับอั่งเปาจำนวน {0}</value>
-  </data>
-  <data name="msg_keep_up" xml:space="preserve">
-    <value>ขอให้โชคดีในการเขย่าครั้งต่อไป</value>
-  </data>
-  <data name="msg_limit_has_been_reached" xml:space="preserve">
-    <value>ขออภัยค่ะ เต็มจำนวนจำกัดสำหรับวันนี้แล้ว</value>
-  </data>
-  <data name="msg_turnover_not_enough" xml:space="preserve">
-    <value>คุณยังไม่เริ่มเดิมพันขั้นต่ำ ไม่สามารถเข้าร่วมได้ค่ะ</value>
-  </data>
-  <data name="msg_times_chance" xml:space="preserve">
-    <value>มีโอกาส {0} เท่า</value>
-  </data>
-  <data name="msg_ProfileOrPhoneNotFinish" xml:space="preserve">
-    <value>ข้อมูลบัญชีไม่ครบถ้วน กรุณาทำการยืนยันบัญชีของท่าน</value>
-  </data>
-  <data name="msg_Event_has_not_started" xml:space="preserve">
-    <value>เหตุการณ์ยังไม่เริ่ม</value>
-  </data>
-  <data name="msg_DepositorsNameUnmatch" xml:space="preserve">
-    <value>ชื่อผู้ฝากไม่ตรง</value>
-  </data>
-  <data name="msg_DepositorsNameUnmatch_Detail" xml:space="preserve">
-    <value>ชื่อที่ลงทะเบียนไม่ตรงกับชื่อบัญชีธนาคาร กรุณาติดต่อฝ่ายบริการลูกค้าเพื่อขอความช่วยเหลือเพิ่มเติม</value>
-  </data>
-  <data name="msg_DepositSlipRequired" xml:space="preserve">
-    <value>ต้องใช้สลิปเงินฝากธนาคาร</value>
-  </data>
-  <data name="msg_DepositSlipRequired_Detail" xml:space="preserve">
-    <value>กรุณาแนบสลิปการโอนเงินเพื่อความรวดเร็วในการทำธุรกรรม</value>
-  </data>
-  <data name="msg_PaymentNotReceived" xml:space="preserve">
-    <value>ไม่ได้รับยอดเงินฝาก</value>
-  </data>
-  <data name="msg_PaymentNotReceived_Detail" xml:space="preserve">
-    <value>ยังไม่ได้รับยอดเงินฝากในบัญชีธนาคาร กรุณารอสักครู่</value>
-  </data>
-  <data name="msg_DepositRefunded" xml:space="preserve">
-    <value>คืนยอดเงินฝากเรียบร้อยแล้ว</value>
-  </data>
-  <data name="msg_DepositRefunded_Detail" xml:space="preserve">
-    <value>คืนยอดเงินฝากเรียบร้อยแล้ว โปรดทำการตรวจสอบบัญชีธนาคารของคุณ</value>
-  </data>
-  <data name="msg_WithdrawalAccountNumberIncorrect" xml:space="preserve">
-    <value>หมายเลขบัญชีถอนเงินไม่ถูกต้อง</value>
-  </data>
-  <data name="msg_WithdrawalAccountNumberIncorrect_Detail" xml:space="preserve">
-    <value>หมายเลขบัญชีถอนเงินไม่ถูกต้อง กรุณาตรวจสอบหมายเลขบัญชีถอนเงินของคุณ</value>
-  </data>
-  <data name="msg_WithdrawalAccountsNameUnmatch" xml:space="preserve">
-    <value>ชื่อบัญชีการถอนเงินไม่ตรงกัน</value>
-  </data>
-  <data name="msg_WithdrawalAccountsNameUnmatch_Detail" xml:space="preserve">
-    <value>ชื่อบัญชีถอนเงินไม่ตรงกับชื่อที่ลงทะเบียน โปรดติดต่อฝ่ายบริการลูกค้าเพื่อขอความช่วยเหลือ</value>
-  </data>
-</root>
+<resheader name="resmimetype"><value>text/microsoft-resx</value></resheader><resheader name="version"><value>1.3</value></resheader><resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader><resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader><data name="msg_TransferAlert"><value>Sportsbook Wallet ปัจจุบันของคุณคือ:&lt;span class="popup-span Js-3RdWallet-Balance"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;ฝากและโอนจากกระเป๋าเงินหลักไปยัง Sportsbook Wallet ได้ทันทีเพื่อเพลิดเพลินกับเกมและบริการของเรา</value></data>
+  <data name="msg_SubmitDepositTime"><value>โปรดส่งเวลาการฝากเงินของคุณ</value></data>
+  <data name="msg_ClaimCashBackBonus"><value>ขอแสดงความยินดีเครดิตเงินคืน {0} ของคุณเข้าบัญชีของคุณแล้ว!</value></data>
+  <data name="msg_BirthdayIsRequired"><value>กรุณากรอกวันเกิด</value></data>
+  <data name="msg_UsernameReq"><value>ต้องใส่ชื่อบัญชีผู้ใช้</value></data>
+  <data name="msg_ApiServerError"><value>API Server Error</value></data>
+  <data name="msg_MustInteger"><value>กรุณากรอกตัวเลขให้ครบถ้วน ไม่อนุญาตให้ใช้เลขหลักทศนิยม</value></data>
+  <data name="msg_LoginToAccess"><value>โปรดล็อคอินเพื่อเข้าสู่เกม</value></data>
+  <data name="msg_WithdrawalAccountNumberIncorrect_Detail"><value>หมายเลขบัญชีถอนเงินไม่ถูกต้อง กรุณาตรวจสอบหมายเลขบัญชีถอนเงินของคุณ</value></data>
+  <data name="msg_CreditSignUp"><value>เรียนลูกค้าที่เคารพรัก, &lt;br /&gt;&lt;br /&gt;ยินดีต้อนรับสู่ &lt;a href="https:/{0}" target="_new"&gt;{0}&lt;/a&gt;, หลังจากทะเบียนแล้วคุณสามารถเข้าสู่เว็บไซต์เราเพื่อเพลิดเพลินและสนุกสนานกับทั้งหมดของเรา</value></data>
+  <data name="msg_WrongAmountSubmitted_Detail"><value>จำนวนเงินฝากไม่ตรงกับสลิป โปรดตรวจสอบอีกครั้งหรือติดต่อฝ่ายบริการลูกค้าเพื่อขอความช่วยเหลือเพิ่มเติม</value></data>
+  <data name="msg_BankAccountDuplicate"><value>ไม่อนุญาตให้ใช้หมายเลขบัญชีธนาคารซ้ำ โปรดลองหมายเลขบัญชีอื่น</value></data>
+  <data name="msg_WithdrawalNoFund"><value>ไม่สามารถถอนเงินได้เนื่องจากยอดเงินของคุณไม่พอ</value></data>
+  <data name="msg_EmailFormatVerify"><value>รูปแบบที่อยู่อีเมลไม่ถูกต้อง</value></data>
+  <data name="msg_loggedout"><value>คุณออกจากระบบเรียบร้อยแล้ว !!</value></data>
+  <data name="msg_PhoneFormatVerify"><value>หมายเลขโทรศัพท์ที่คุณกรอกไม่ถูกต้อง ระหว่าง {0} หลัก</value></data>
+  <data name="msg_PhoneWrongFormat"><value>รูปแบบโทรศัพท์ไม่ถูกต้อง</value></data>
+  <data name="msg_Updatesuccessful"><value>อัพเดทเสร็จเรียบร้อย</value></data>
+  <data name="msg_WithdrawalFailed"><value>คำขอถอนเงินของคุณไม่สำเร็จ โปรดตรวจสอบกับ CSD สำหรับข้อมูลเพิ่มเติม</value></data>
+  <data name="msg_CryptoWalletDuplicate"><value>กระเป๋าคริปโตได้ลงทะเบียนไว้เรียบร้อยแล้ว</value></data>
+  <data name="msg_WithdrawalExists"><value>คำขอธุรกรรมของคุณอยู่ระหว่างรอดำเนินการ, โปรดรอจนกว่าธุรกรรมของคุณที่รอดำเนินการจะเสร็จสมบูรณ์แล้วลองอีกครั้ง</value></data>
+  <data name="msg_LessThanWithdrawalMin"><value>จำนวนเงินที่ถอนต้องมากกว่า {0}</value></data>
+  <data name="msg_ReferenceNumber"><value>หมายเลขอ้างอิง</value></data>
+  <data name="msg_Congratulations"><value>การลงทะเบียนของคุณเสร็จสมบูรณ์ คุณสามารถเข้าสู้ระบบฝากเงินและเริ่มเดิมพันได้ทันที</value></data>
+  <data name="msg_PaymentNotReceived"><value>ไม่ได้รับยอดเงินฝาก</value></data>
+  <data name="msg_DepositHint"><value>ฝากเงินเลย เพื่อเพลินเงินกับเกมและบริการของเร</value></data>
+  <data name="msg_WrongAmount"><value>จำนวนเงินไม่ถูกต้อง</value></data>
+  <data name="msg_WithdrawalAccountsNameUnmatch"><value>ชื่อบัญชีการถอนเงินไม่ตรงกัน</value></data>
+  <data name="msg_PasswordValidate"><value>รหัสผ่านต้องมีความยาว 6-15 ตัว ประกอบด้วยตัวอักษรและตัวเลข</value></data>
+  <data name="msg_WrongAmountSubmitted"><value>จำนวนเงินฝากไม่ถูกต้อง</value></data>
+  <data name="msg_UsernameNotAvailable"><value>ชื่อบัญชีผู้ใช้ไม่สามารถใช้ได้อีกต่อไป</value></data>
+  <data name="msg_WithdrawalAccountsNameUnmatch_Detail"><value>ชื่อบัญชีถอนเงินไม่ตรงกับชื่อที่ลงทะเบียน โปรดติดต่อฝ่ายบริการลูกค้าเพื่อขอความช่วยเหลือ</value></data>
+  <data name="msg_NeedAccountName"><value>ต้องใส่ชื่อบัญชีผู้ใช้</value></data>
+  <data name="msg_DrawPrizeTital"><value>ต้อนรับปีวัวทอง</value></data>
+  <data name="msg_UsernameLength"><value>ชื่อบัญชีผู้ใช้ควรมีความยาวระหว่าง 6 ถึง 18 ตัวอักษร</value></data>
+  <data name="msg_DepositSlipRequired_Detail"><value>กรุณาแนบสลิปการโอนเงินเพื่อความรวดเร็วในการทำธุรกรรม</value></data>
+  <data name="msg_NeedAccountNo"><value>ต้องใส่หมายเลขบัญชี</value></data>
+  <data name="msg_DrawPrize"><value>ขอแสดงความยินดีเงินคืนของคุณ {0} ได้รับการบันทึกเครดิตเข้าบัญชีของคุณแล้ว!ขอแสดงความยินดีด้วย, อังเปาได้ส่งเข้าไปที่บัญชีเครดิตของคุณแล้ว</value></data>
+  <data name="msg_SpecialCodeErrorForCheck"><value>โปรโมชั่นโค้ดไม่ถูกต้อง กรุณาตรวจสอบอีกครั้ง</value></data>
+  <data name="msg_InvalidOldPassword"><value>รหัสผ่านเก่าไม่ถูกต้อง!</value></data>
+  <data name="msg_WithdrawalAccountAannotReceiveMoney_Detail"><value>บัญชีถอนเงินไม่สามารถรับเงิน. กรุณาตรวจสอบอีกครั้งหรือติดต่อฝ่ายบริการลูกค้าของเราเพื่อขอความช่วยเหลือเพิ่มเติม.</value></data>
+  <data name="msg_PasswordLength"><value>รหัสผ่านควรมีความยาวระหว่าง 6 ถึง 18 ตัวอักษร</value></data>
+  <data name="msg_GreaterThanWithdrawalMax"><value>จำนวนยอดถอนต่อวันของคุณครบแล้ว</value></data>
+  <data name="msg_MailWrongFormat"><value>รูปแบบอีเมล์ไม่ถูกต้อง</value></data>
+  <data name="msg_NotInLimit"><value>จำนวนเงินมากกว่าหรือน้อยกว่าที่กำหนดไว้</value></data>
+  <data name="msg_UsernameValidate"><value>ตัวอักษรและตัวเลข 6-18 ตัว (A-Z, a-z, 0-9) เท่านั้น</value></data>
+  <data name="msg_WrongBankSubmitted_Detail"><value>บัญชีเงินฝากที่เลือกไม่ถูกต้อง โปรดตรวจสอบอีกครั้งหรือติดต่อฝ่ายบริการลูกค้าเพื่อขอความช่วยเหลือเพิ่มเติม</value></data>
+  <data name="msg_DepositSlipRequired"><value>ต้องใช้สลิปเงินฝากธนาคาร</value></data>
+  <data name="msg_UpdateFailed"><value>ไม่สามารถอัพเดทได้</value></data>
+  <data name="msg_EnterRealName"><value>โปรดใส่ชื่อจริง</value></data>
+  <data name="msg_SelectBirthDay"><value>โปรดเลือกวันเกิด</value></data>
+  <data name="msg_RequiredAmountInsufficient"><value>ฝากขั้นต่ำ {0} เพื่อรับโบนัส</value></data>
+  <data name="msg_DepositProcessLogin_LoginFailed"><value>ไม่สามารถเข้าสู่ระบบได้, ชื่อบัญชี/รหัสผ่านไม่ถูกต้อง หรือ ไม่มีชื่อบัญชีนี้</value></data>
+  <data name="msg_SelectFile"><value>เลือกไฟล์</value></data>
+  <data name="msg_DepositProcessLogin_ACLocked"><value>บัญชีของคุณถูกล๊อค โปรดติดต่อฝ่ายบริการลูกค้าได้ตลอด 24/7 ขอบคุณ</value></data>
+  <data name="msg_InactiveBankAccountSubmission"><value>บัญชีธนาคารที่ไม่ได้ใช้งาน</value></data>
+  <data name="msg_ConfirmRealNameAlert"><value>เพื่อเป็นการยืนยันว่าการเปลี่ยนทุกอย่างถูกต้อง โปรดตรวจสอบชื่อจริงของคุณว่าตรงกับชื่อบัญชีธนาคารของคุณ</value></data>
+  <data name="msg_MustDeposit"><value>กรุณาทำการฝากเงินให้เรียบร้อยก่อนทำการถอน</value></data>
+  <data name="msg_GoToDepositPage"><value>ต้องการไปที่หน้าฝากเงิน?</value></data>
+  <data name="msg_PromoCodeHasBeenUsed"><value>โค้ดโปรโมชั่นนี้ได้ถูกใช้งานเรียบร้อยแล้ว</value></data>
+  <data name="msg_PaymentNotReceived_Detail"><value>ยังไม่ได้รับยอดเงินฝากในบัญชีธนาคาร กรุณารอสักครู่</value></data>
+  <data name="msg_DrawPrize1"><value>ขอแสดงความยินดีด้วยค่ะ! โบนัส {0} จำนวน {2} บาท ถูกปรับเข้าบัญชีผู้ใช้ของท่านเรียบร้อยแล้วค่ะ</value></data>
+  <data name="msg_BalanceHint"><value>ยอดคงเหลือปัจจุบันของคุณคือ</value></data>
+  <data name="msg_HasExist"><value>มีอยู่ในระบบแล้ว</value></data>
+  <data name="msg_InsufficientFund"><value>จำนวนเงินไม่เพียงพอ!</value></data>
+  <data name="msg_DepositRefunded_Detail"><value>คืนยอดเงินฝากเรียบร้อยแล้ว โปรดทำการตรวจสอบบัญชีธนาคารของคุณ</value></data>
+  <data name="msg_LockedAmountInsufficient"><value>ยอดเงินกระเป๋าเงินหลักไม่ควรต่ำกว่า {0}</value></data>
+  <data name="msg_InactiveBankAccountSubmission_Detail"><value>บัญชีธนาคารมีการเปลี่ยนแปลง กรุณาตรวจสอบบัญชีธนาคารที่หน้าเว็บไซต์ก่อนทำรายการ</value></data>
+  <data name="msg_WithdrawalAccountAannotReceiveMoney"><value>บัญชีถอนล้มเหลว ไม่สามารถรับเงิน</value></data>
+  <data name="msg_SamePassword"><value>รหัสผ่านเก่าและรหัสผ่านใหม่เหมือนกัน!</value></data>
+  <data name="msg_BeneficiarysAccountMaintenance_Detail"><value>ขณะนี้ธนาคารอยู่ระหว่างการปิดปรับปรุง รายการถอนเงินของสมาชิกจะถูกดำเนินการหลังจากการปิดปรับปรุงเรียบร้อยแล้ว</value></data>
+  <data name="msg_DepositorsNameUnmatch_Detail"><value>ชื่อที่ลงทะเบียนไม่ตรงกับชื่อบัญชีธนาคาร กรุณาติดต่อฝ่ายบริการลูกค้าเพื่อขอความช่วยเหลือเพิ่มเติม</value></data>
+  <data name="msg_WithdrawalAccountNumberIncorrect"><value>หมายเลขบัญชีถอนเงินไม่ถูกต้อง</value></data>
+  <data name="msg_DepositAlert"><value>ยอดเงินคงเหลือใน Wallet หลักของคุณคือ:&lt;span class="popup-span Js-MainWallet-Balance"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;ฝากตอนนี้หรือโอนจาก Sportsbook Wallet ไปยังกระเป๋าเงินหลักเพื่อสนุกกับเกมและบริการของเรา</value></data>
+  <data name="msg_ForceLogedoutHint"><value>ID นี้ได้เข้าสู่ระบบจากเบราว์เซอร์หรืออุปกรณ์อื่นแล้วคุณจะโดนล็อคเอาท์ออกจากเซสชันนี้โดยอัตโนมัติ</value></data>
+  <data name="msg_WithdrawalSuccessful"><value>คำขอถอนเงินของคุณสำเร็จแล้ว เราจะแจ้งให้คุณทราบเมื่อดำเนินการเสร็จ</value></data>
+  <data name="msg_EnterPhoneNumber"><value>โปรดใส่เบอร์โทรศัพท์</value></data>
+  <data name="msg_PasswordReq"><value>ต้องใส่รหัสผ่าน</value></data>
+  <data name="msg_NoData"><value>ไม่มีข้อมูล</value></data>
+  <data name="msg_ThisCurrencyNotSupport"><value>ไม่รองรับสกุลเงินนี้</value></data>
+  <data name="msg_InvalidCryptoWalletAddress"><value>ที่อยู่กระเป๋าเงินเข้ารหัสลับไม่ถูกต้อง</value></data>
+  <data name="msg_DrawPrizeTital1"><value>{0} กล่องปริศนา</value></data>
+  <data name="ForgetPwdSuccess"><value>รหัสผ่านใหม่ของคุณถูกส่งไปยังที่อยู่อีเมลที่คุณลงทะเบียนไว้</value></data>
+  <data name="msg_BankAccountExists"><value>คุณได้ทำการจัดเก็บข้อมูลนี้ไว้เรียบร้อยแล้ว</value></data>
+  <data name="msg_Ineligible"><value>สมาชิกไม่มีสิทธิ์รับโปรโมชั่นนี้ สามารถติดต่อแชทสดสำหรับรายละเอียดเพิ่มเติมค่ะ</value></data>
+  <data name="msg_CreditSignUpHint_1"><value>เรียนลูกค้าที่เคารพรัก,</value></data>
+  <data name="msg_CreditSignUpHint_2"><value>ยินดีต้อนรับสู่ {0}, หลังจากทะเบียนแล้วคุณสามารถเข้าสู่เว็บไซต์เราเพื่อเพลิดเพลินและสนุกสนานกับทั้งหมดของเรา</value></data>
+  <data name="ResetPwdSuccess"><value>รีเซ็ตรหัสผ่านของคุณสำเร็จแล้ว!</value></data>
+  <data name="msg_DepositorsNameUnmatch"><value>ชื่อผู้ฝากไม่ตรง</value></data>
+  <data name="msg_PromoCodeIncorrect"><value>โค้ดโปรโมชั่นไม่ถูกต้อง</value></data>
+  <data name="msg_SpecialCodeErr"><value>โปรโมชั่นโค้ดไม่ถูกต้อง กรุณาตรวจสอบอีกครั้ง</value></data>
+  <data name="msg_IneligibleAngPow"><value>กรุณาทำการฝากเงินเพื่อรับสิทธิ์สำหรับโปรโมชั่นนี้</value></data>
+  <data name="msg_MailReq"><value>ชื่ออีเมล์ไม่สามารถเปลี่ยนได้หลังจากยืนยัน</value></data>
+  <data name="msg_ForceLogedout"><value>คุณได้ทำการออกจากระบบ โปรดล็อคอินใหม่อีกครั้ง</value></data>
+  <data name="msg_WrongBankSubmitted"><value>บัญชีเงินฝากที่เลือกไม่ถูกต้อง</value></data>
+  <data name="msg_BeneficiarysAccountMaintenance"><value>ปิดปรับปรุงบัญชีของผู้รับเงิน</value></data>
+  <data name="ForgetPwdFail"><value>คุณได้กรอกอีเมล์และคำถามคำตอบเพื่อความปลอดภัยไม่ถูกต้อง ,กรุณาลองใหม่อีกครั้ง!</value></data>
+  <data name="msg_OTPHint"><value>กรุณากรอกข้อมูลส่วนตัวและยืนยันหมายเลขโทรศัพท์ก่อนเข้าร่วมกิจกรรม</value></data>
+  <data name="msg_MailExisted"><value>มีจดหมาย</value></data>
+  <data name="msg_SpecialCodeVipLevelsOrBlockTagInvalid"><value>ไม่สามารถเข้าร่วมโปรโมชั่นนี้ได้ โปรดติดต่อฝ่ายบริการลูกค้าเพื่อสอบถาม</value></data>
+  <data name="msg_AffCodeValidate"><value>ไอดีพันธมิตรอนุญาตให้ใช้ตัวเลข 5-20 เท่านั้น</value></data>
+  <data name="msg_OTPHint2"><value>ต้องการยืนยันเบอร์โทรศัพท์ของคุณตอนนี้?</value></data>
+  <data name="msg_OTPHint1"><value>คุณต้องการเล่นเกมแบบเต็มรูปแบบที่เราให้บริการหรือไม่?</value></data>
+  <data name="msg_DepositRefunded"><value>คืนยอดเงินฝากเรียบร้อยแล้ว</value></data>
+  <data name="msg_DecimalOutOfRange"><value>การโอนล้มเหลวเนื่องจากมีทศนิยมมากกว่า 2 หลัก</value></data>
+  <data name="msg_RedemptionLimitOverLimit"><value>ขออภัย ถึงขีดจำกัดการแลกของคุณแล้ว โปรดลองใหม่อีกครั้งในเดือนหน้า</value></data>
+  <data name="msg_times_chance"><value>มีโอกาส {0} เท่า</value></data>
+  <data name="msg_congratulation_event_reward"><value>ยินดีด้วยค่ะ! คุณได้รับอั่งเปาจำนวน {0}</value></data>
+  <data name="msg_ProfileOrPhoneNotFinish"><value>ข้อมูลบัญชีไม่ครบถ้วน กรุณาทำการยืนยันบัญชีของท่าน</value></data>
+  <data name="msg_EWalletIsMaintenance"><value>E-Wallet คือการบำรุงรักษา โปรดใช้วิธีถอนเงินแบบอื่น</value></data>
+  <data name="msg_turnover_not_enough"><value>คุณยังไม่เริ่มเดิมพันขั้นต่ำ ไม่สามารถเข้าร่วมได้ค่ะ</value></data>
+  <data name="msg_Event_has_not_started"><value>เหตุการณ์ยังไม่เริ่ม</value></data>
+  <data name="msg_limit_has_been_reached"><value>ขออภัยค่ะ เต็มจำนวนจำกัดสำหรับวันนี้แล้ว</value></data>
+  <data name="msg_InsufficientPoint"><value>ขออภัยค่ะ! คุณมีคะแนนรางวัลไม่เพียงพอ 88 คะแนน</value></data>
+  <data name="msg_keep_up"><value>ขอให้โชคดีในการเขย่าครั้งต่อไป</value></data>
+  <data name="msg_LineAccountAlreadyBind"><value>บัญชีไลน์นี้ถูกใช้งานแล้ว โปรดใช้บัญชีไลน์อื่น</value></data>
+  <data name="msg_HasExist1"><value>มีอยู่ในระบบแล้ว</value></data>
+  </root>

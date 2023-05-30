@@ -1,4 +1,5 @@
-﻿using MemberSite.Extensions;
+﻿using System.Net;
+using MemberSite.Extensions;
 using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
@@ -6,6 +7,7 @@ using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Interfaces;
 using Newtonsoft.Json;
 using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MemberSite.Service.BLL
 {
@@ -24,6 +26,7 @@ namespace MemberSite.Service.BLL
         private readonly IReadOnlyDictionary<int, string> _tpList;
         private readonly IReadOnlyDictionary<int, string> _gameTypeList;
         private readonly ILogger<PaymentBLL> _logger;
+        private readonly string _awsDepositUrl;
 
         public PaymentBLL(IServiceProvider provider)
         {
@@ -34,7 +37,8 @@ namespace MemberSite.Service.BLL
             bankInfoBLL = provider.GetRequiredService<BankInfoBLL>();
             statementService = provider.GetRequiredService<StatementService>();
             selLangBLL = provider.GetRequiredService<SelLangBLL>();
-          
+            var configuration = provider.GetRequiredService<IConfiguration>();
+            _awsDepositUrl = configuration.GetValue<string>("AwsDepositUrl");
             singleWalletType = new Dictionary<string, string>
             {
                 {"1", "lbl_Stake"  },
@@ -50,6 +54,60 @@ namespace MemberSite.Service.BLL
             _gameTypeList = statementService.GetGameTypeListWithCache().ToDictionary(i => i.Type, i => i.TypeName);
             _logger = provider.GetRequiredService<ILogger<PaymentBLL>>();
         }
+        
+        public (int errorCode, string message) DepositReqLocalBank(DepositReqLocalPayModel req, out string transId, out string code)
+        {
+            transId = string.Empty;
+            code = string.Empty;
+            
+            if (req.Amount <= 0)
+                return (-3, "Amount must be greater than 0");
+            
+            var custInfo = custInfoBLL.GetCustInfoWithCache(req.CustId);
+            var bankCardInfo = bankInfoOffBLL.GetOfflineBankAccount(custInfo.SiteId)
+                .FirstOrDefault(x => x.BankId == req.BankId);
+            
+            if (bankCardInfo == null)
+            {
+                
+                return (-4, $"Cannot found bank card info ({req.BankId}).");
+            }
+            
+            var depositDetailInfo = new DepositDetailInfo
+            {
+                Amount = req.Amount,
+                CustId = req.CustId,
+                DepositType = (int) DepositType.LocalBank,
+                Memo = $"LocalPayment:{(int) req.Type}:{req.Type}",
+                SiteId = custInfo.SiteId,
+                UserName = custInfo.UserName,
+                CurrencyId = custInfo.CurrencyId
+            };
+
+            if (req.Type == DepositType.QRPayPayment)
+            {
+                var random = new Random();
+                code = random.Next(0, 1000000).ToString("000000");
+            }
+            
+            var depositInfo3_1 = new DepositInfo3_1
+            {
+                AccountName = bankCardInfo.AccountName,
+                CurrencyId = custInfo.CurrencyId,
+                SysId = bankCardInfo.SysId,
+                AccountNo = bankCardInfo.AccountNo,
+                Ver = 1,
+                IsLocalPay = true,
+                GroupId = req.GroupId,
+                Code = code
+            };
+                
+            depositDetailInfo.DepositInfo = JsonConvert.SerializeObject(depositInfo3_1);
+
+            _depositService.DepositReq(depositDetailInfo, out transId, out var postScript);
+                
+            return (0, string.Empty);
+        }
 
         /// <summary>
         /// Deposit for Local Bank
@@ -60,7 +118,7 @@ namespace MemberSite.Service.BLL
         /// <param name="memo">meno</param>
         /// <param name="depositRep3">output</param>
         /// <returns></returns>
-        public int DepositReqLocalBank(int custId, int sysId, decimal amount, string memo, out DepositRep3 depositRep3)
+        public int DepositReqLocalBank(int custId, int sysId, int bankId, decimal amount, string memo, out DepositRep3 depositRep3)
         {
             depositRep3 = new DepositRep3();
 
@@ -75,6 +133,7 @@ namespace MemberSite.Service.BLL
                             && x.VipLevels.Contains(custInfo.UserLevel)
                             && x.SysId == sysId)
                 .ToList();
+            
             var depositLimitInfoList = _depositService.GetDepositLimitInfoList();
             var depositLimitInfo = depositLimitInfoList?.FirstOrDefault(x =>
                 x.SiteId == custInfo.SiteId && x.VipLevel == pointLevel && x.DepositType == (int)DepositType.LocalBank &&
@@ -93,21 +152,11 @@ namespace MemberSite.Service.BLL
                 }
             }
 
-            var info = localBankList
+            var info = localBankList.FirstOrDefault(x => bankId != 0 && x.BankId == bankId) ??
+                       localBankList
                 .Where(x => (x.MinAmount == 0 && x.MaxAmount == 0) || (amount >= x.MinAmount && amount <= x.MaxAmount))
-                .OrderBy(x => x.BSort)
-                .Select(x => new
-                {
-                    x.SysId,
-                    x.BankId,
-                    x.BankLogo,
-                    x.BankName,
-                    x.BankSite,
-                    x.AccountName,
-                    x.AccountNo,
-                    IFSCCode = x.AccountCode
-                }).FirstOrDefault();
-                
+                .OrderBy(x => x.BSort).FirstOrDefault();
+
             if (info != null)
             {
                 var depositDetailInfo = new DepositDetailInfo
@@ -127,7 +176,7 @@ namespace MemberSite.Service.BLL
                     CurrencyId = custInfo.CurrencyId,
                     SysId = info.SysId,
                     AccountNo = info.AccountNo,
-                    IFSCCode = info.IFSCCode,
+                    IFSCCode = info.AccountCode,
                     Ver = 1
                 };
                 depositDetailInfo.DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(depositInfo3_1);
@@ -181,7 +230,7 @@ namespace MemberSite.Service.BLL
             return 0;
         }
 
-        public int DepositReqLocalBankWithFrom(int custId, int sysId, decimal amount, string memo, string depositFromInfo, out DepositRep3 depositRep3)
+        public int DepositReqLocalBankWithFrom(int custId, int sysId, int bankId, decimal amount, string memo, string depositFromInfo, out DepositRep3 depositRep3)
         {
             depositRep3 = new DepositRep3();
 
@@ -212,20 +261,10 @@ namespace MemberSite.Service.BLL
                 }
             }
 
-            var info = localBankList
-                .Where(x => (x.MinAmount == 0 && x.MaxAmount == 0) || (amount >= x.MinAmount && amount <= x.MaxAmount))
-                .OrderBy(x => x.BSort)
-                .Select(x => new
-                {
-                    x.SysId,
-                    x.BankId,
-                    x.BankLogo,
-                    x.BankName,
-                    x.BankSite,
-                    x.AccountName,
-                    x.AccountNo,
-                    IFSCCode = x.AccountCode
-                }).FirstOrDefault();
+            var info = localBankList.FirstOrDefault(x => bankId != 0 && x.BankId == bankId) ??
+                       localBankList
+                           .Where(x => (x.MinAmount == 0 && x.MaxAmount == 0) || (amount >= x.MinAmount && amount <= x.MaxAmount))
+                           .OrderBy(x => x.BSort).FirstOrDefault();
 
             if (info != null)
             {
@@ -246,7 +285,7 @@ namespace MemberSite.Service.BLL
                     CurrencyId = custInfo.CurrencyId,
                     SysId = info.SysId,
                     AccountNo = info.AccountNo,
-                    IFSCCode = info.IFSCCode,
+                    IFSCCode = info.AccountCode,
                     Ver = 1
                 };
                 depositDetailInfo.DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(depositInfo3_1);
@@ -398,9 +437,9 @@ namespace MemberSite.Service.BLL
             withdrawalInfo.SysId = sysId;
             withdrawalInfo.IFSCCode = iFSCCode;
 
-            return withdrawalService.WithdrawalReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, withdrawalInfo, out afterAmount, out transId);
+            return withdrawalService.WithdrawalReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, JsonConvert.SerializeObject(withdrawalInfo), out afterAmount, out transId);
         }
-        public int WithdrawalCryptoReq(int custId, string accountName, USDTDetail cryptoDetail, string accountNo, decimal amount, string memo,
+        public int WithdrawalCryptoReq(int custId, string accountName, CryptoWalletDetail cryptoDetail, string accountNo, decimal amount, string memo,
             decimal tmpRate, decimal tmpCryptoAmount, out decimal afterAmount, out string transId)
         {
             afterAmount = 0;
@@ -431,7 +470,7 @@ namespace MemberSite.Service.BLL
             withdrawalCryptoInfo.TempExchangeAmount = tmpCryptoAmount;
             withdrawalCryptoInfo.TempExchangeRate = tmpRate;
             
-            return withdrawalService.WithdrawalCryptoReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, withdrawalCryptoInfo, out afterAmount, out transId);
+            return withdrawalService.WithdrawalReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, JsonConvert.SerializeObject(withdrawalCryptoInfo), out afterAmount, out transId);
         }
 
         public int WithdrawalEWalletReq(int custId, string accountName, int sysId, string accountNo, decimal amount, string memo, out decimal afterAmount, out string transId)
@@ -462,7 +501,7 @@ namespace MemberSite.Service.BLL
             withdrawalEWalletInfo.EWalletSysId = sysId;
             withdrawalEWalletInfo.EWalletName = eWalletInfoSys.EWalletName;
             withdrawalEWalletInfo.AccountType = "ewallet";
-            return withdrawalService.WithdrawalEWalletReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, withdrawalEWalletInfo, out afterAmount, out transId);
+            return withdrawalService.WithdrawalReq(custId, CustInfo.UserName, CustInfo.CurrencyId, CustInfo.SiteId, amount, memo, JsonConvert.SerializeObject(withdrawalEWalletInfo), out afterAmount, out transId);
         }
 
         public IEnumerable<DepositInfoHistory> GetDepositInfoRecent(int custId)
@@ -473,14 +512,14 @@ namespace MemberSite.Service.BLL
             {
                 if (depositInfo.DepositType == (int)DepositType.LocalBank)
                 {
-                    depositInfo.DepositRep = Newtonsoft.Json.JsonConvert.DeserializeObject<DepositInfo3_1>(depositInfo.DepositInfo);
+                    depositInfo.DepositRep = JsonConvert.DeserializeObject<DepositInfo3_1>(depositInfo.DepositInfo);
                     var depositInfoRef = (DepositInfo3_1)depositInfo.DepositRep;
                     depositInfo.BankInfo = bankInfoBLL.GetBankInfoSysListByCurrency(CustInfo.CurrencyId).FirstOrDefault(x => x.SysId == depositInfoRef.SysId);
                 }
 
-                if ("Fake MobilePay".Equals(depositInfo.Memo, StringComparison.OrdinalIgnoreCase))
+                if (!string.IsNullOrEmpty(depositInfo.Memo) && depositInfo.Memo.StartsWith("LocalPayment"))
                 {
-                    depositInfo.DepositType = (int)DepositType.MobilePayment;
+                    depositInfo.DepositType = int.Parse(depositInfo.Memo.Split(":")[1]);
                 }
 
                 List<DepositMessageDetail> depositMessageDetails = new List<DepositMessageDetail>();
@@ -500,6 +539,12 @@ namespace MemberSite.Service.BLL
                     });
                 }
                 depositInfo.DepositMessageDetail = depositMessageDetails;
+                
+                depositInfo.DepositReceipt = GetDepositReceipt(depositInfo.TransId, custId);
+                foreach (var receipt in depositInfo.DepositReceipt)
+                {
+                    receipt.DepositPic = GetDepositReceiptUrl(depositInfo.TransId, receipt.ReceiptNo);
+                }
             }
 
             return depositInfoRecent;
@@ -561,7 +606,14 @@ namespace MemberSite.Service.BLL
                     });
                 }
                 depositInfo.DepositMessageDetail = depositMessageDetails;
+                
+                depositInfo.DepositReceipt = GetDepositReceipt(depositInfo.TransId, custId);
+                foreach (var receipt in depositInfo.DepositReceipt)
+                {
+                    receipt.DepositPic = GetDepositReceiptUrl(depositInfo.TransId, receipt.ReceiptNo);
+                }
             }
+            
             return depositInfoHistory;
         }
         public IEnumerable<WithdrawalHistory> GetWithdrawalInfoHistory(int custId, long startDate, long endDate, ref int pageNumber, out int totalPages, out int rowCount)
@@ -678,12 +730,12 @@ namespace MemberSite.Service.BLL
             int.TryParse(m.Value, out depositId);
             return _depositService.SetDepositReceipt(custId, depositId, refNo, depositTime);
         }
-        public async Task<int> SetDepositReceiptPic(int custId, string transId, string picFileName, byte[] depositPic)
+        public async Task<int> SetDepositReceiptPic(int custId, string transId, int receiptNo, string picFileName, string userName)
         {
             var depositId = 0;
             var m = Regex.Match(transId, @"\d+");
             int.TryParse(m.Value, out depositId);
-            return await _depositService.SetDepositReceiptPic(custId, depositId, picFileName, depositPic);
+            return await _depositService.SetDepositReceiptPic(custId, depositId, receiptNo, picFileName, userName);
         }
         public int SetDepositCancel(int custId, string transId)
         {
@@ -704,13 +756,27 @@ namespace MemberSite.Service.BLL
             };
             return withdrawalService.SetWithdrawalCancel(CustInfo.CustId, transId, CustInfo.SiteId, forStatus, WithdrawalStatus.Cancelled);
         }
-        public DepositReceipt GetDepositReceipt(string transId, int custId)
+        public IEnumerable<DepositReceipt> GetDepositReceipt(string transId, int custId)
         {
             var depositId = 0;
             var m = Regex.Match(transId, @"\d+");
             int.TryParse(m.Value, out depositId);
             var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
             return _depositService.GetDepositReceipt(depositId, CustInfo.SiteId);
+        }
+        
+        public string GetDepositReceiptUrl(string transId, int receiptNo)
+        {
+            using var client = new HttpClient();
+            var url = $"{_awsDepositUrl}deposit/{transId}_{receiptNo}.png";
+            var picUrl = new RedirectResult(url).Url;
+            var picRsp = client.GetAsync(picUrl).Result;
+            if (picRsp.StatusCode == HttpStatusCode.OK)
+            {
+                return picUrl;
+            }
+
+            return null;
         }
 
         public decimal GetWithdrawalAvailableBalance(int custId)

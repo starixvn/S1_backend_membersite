@@ -140,7 +140,8 @@ namespace MemberSite.Service.Model.enums
         SlotsGame = 1,
         LiveCasino = 2,
         SabaSports = 4,
-        Lottery = 5
+        Lottery = 5,
+        ESports = 11
     }
 
     public enum TpCategoryId
@@ -152,7 +153,8 @@ namespace MemberSite.Service.Model.enums
         Cockfighting = 5,
         Lottery = 6,
         VirtualSports = 7,
-        Poker = 8
+        P2P = 8,
+        ESports = 11
     }
 
     public enum PromotionType
@@ -225,7 +227,8 @@ namespace MemberSite.Service.Model.enums
         JILI = 32,
         TCG = 33,
         MG = 34,
-        MP = 35
+        MP = 35,
+        SBSW = 41
     }
     public enum GameType
     {
@@ -257,6 +260,7 @@ namespace MemberSite.Service.Model.enums
         Success = 0,
         SpecialCodeError = 99,
         SpecialCodeErrorForCheck = 1000,
+        SpecialCodeVipLevelsOrBlockTagInvalid = 1001, // VipLevel 不符合 或是有 BlockTag
         PromoCodeHasBeenUsed = 3000
     }
 
@@ -309,7 +313,11 @@ namespace MemberSite.Service.Model.enums
         ERC20,
         TRC20,
         ETH,
-        BTC
+        BTC,
+        BSC,
+        BEP20,
+        XRP,
+        ADA
     }
 
     public enum ActStatus
@@ -336,6 +344,7 @@ namespace MemberSite.Service.Model.enums
         IDR = 15,
         VND = 51,
         INR = 61,
+        KHUSD = 72,
         BDT = 74,
         USDT = 96
     }
@@ -352,7 +361,15 @@ namespace MemberSite.Service.Model.enums
         USDT = 96,
         USDC = 97,
         ETH = 98,
-        BTC = 99
+        BTC = 99,
+        BNB = 100,
+        BUSD = 101,
+        DAI = 102,
+        DOGE = 103,
+        XRP = 104,
+        EOS = 105,
+        SHIB = 106,
+        ADA = 107
     }
     public enum DeepLinkType
     {
@@ -533,13 +550,8 @@ namespace MemberSite.Service.Model.enums
     public enum OfflineBankAccountSupportChannelEnum
     {
         LocalBank = 0,
-        EWallet = 1
-    }
-
-    public enum FakePayGroupEnum
-    {
-        [Description("DuitNowQR")]
-        DuitNowQR = 53,
+        EWallet = 1,
+        BankQR = 2
     }
 
     public enum PayModeEnum
@@ -572,11 +584,53 @@ namespace MemberSite.Service.Model.enums
         DepositorsNameUnmatch = 0,
         DepositSlipRequired = 1,
         PaymentNotReceived = 2,
-        DepositRefunded = 3
+        DepositRefunded = 3,
+        WrongAmountSubmitted = 4,
+        WrongBankSubmitted = 5,
+        InactiveBankAccountSubmission = 6
     }
     public enum WithdrawalMessageStatus
     {
         WithdrawalAccountsNameUnmatch = 0,
-        WithdrawalAccountNumberIncorrect = 1
+        WithdrawalAccountNumberIncorrect = 1,
+        WithdrawalAccountAannotReceiveMoney = 2,
+        BeneficiarysAccountMaintenance = 3
+    }
+
+    public enum CustTagEnum
+    {
+        Duplicate = 6
+    }
+
+    public enum CustCryptoWalletDetailStatus
+    {
+        Disable = 0,
+        Able = 1,
+    }
+
+    public enum CustCryptoWalletDetailLogStatus
+    {
+        Create = 1,
+        Delete = 2,
+        Lock = 3,
+        Unlock = 4
+    }
+    
+    public enum ExchangeTypeEnum
+    {
+        /// <summary>
+        /// 我方賣出(玩家提款)
+        /// </summary>
+        Sell = 0,
+        /// <summary>
+        /// 我方買入(玩家存款)
+        /// </summary>
+        Buy = 1
+    }
+    
+    public enum WithdrawalLimitLogCreateFromEnum 
+    {
+        Default = 0,
+        DrawPrize = 7
     }
 }

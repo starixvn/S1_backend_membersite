@@ -45,25 +45,6 @@ namespace MemberSite.Service.Model
         public int SSort { get; set; }
     }
 
-    public class FakeMobilePay
-    {
-        public static Dictionary<FakePayGroupEnum, PayInfo> FakeMobilePayInfoMap =>
-            new ()
-            {
-                { FakePayGroupEnum.DuitNowQR,
-                    new PayInfo
-                    {
-                        ChannelId = -1,
-                        ChannelName = FakePayGroupEnum.DuitNowQR.GetDescription(),
-                        CurrencyId = (int) CurrencyId.MYR,
-                        GSort = 99,
-                        GroupId = (int) FakePayGroupEnum.DuitNowQR,
-                        Mode = (int) PayModeEnum.QrCode
-                    }
-                },
-            };
-    }
-    
     public class MobilePayGroup
     {
         public int GroupId { get; set; }
@@ -130,7 +111,7 @@ namespace MemberSite.Service.Model
         public string Code { get; set; }
         public string Serial { get; set; }
     }
-    public class LoadCardPayGroup
+    public class LoadCardPayGroup : IPaymentLimit
     {
         public int GroupId { get; set; }
         public string GroupName { get; set; }
@@ -170,7 +151,7 @@ namespace MemberSite.Service.Model
         public int SSort { get; set; }
     }
 
-    public class PayGroup
+    public class PayGroup : IPaymentLimit
     {
         public int GroupId { get; set; }
         public string GroupName { get; set; }
@@ -179,6 +160,14 @@ namespace MemberSite.Service.Model
         public string ChannelName { get; set; }
         public decimal MinAmount { get; set; }
         public decimal MaxAmount { get; set; }
+    }
+    
+    public class PayGroupInfo
+    {
+        public int GroupId { get; set; }
+        public string GroupName { get; set; }
+        public DepositType Type { get; set; }
+        public int Sort { get; set; }
     }
 
     public class LineChannel
@@ -189,5 +178,28 @@ namespace MemberSite.Service.Model
         public int CurrencyId { get; set; }
         public string IsoCode { get; set; }
         public string Link { get; set; }
+    }
+    
+    public class ExchangeInfo
+    {
+        public decimal Rate { get; set; }
+        public decimal To_Amount { get; set; }
+        public long Updated_timestamp { get; set; }
+    }
+    
+    public class CryptoExchangeInfo
+    {
+        public decimal Rate { get; set; }
+        public decimal ExchangeAmount { get; set; }
+        public long Timestamp { get; set; }
+    }
+    
+    public class CryptoExchangeReq
+    {
+        public int SiteId { get; set; }
+        public int CurrencyId { get; set; }
+        public string ChannelName { get; set; }
+        public decimal Amount { get; set; }
+        public ExchangeTypeEnum Type { get; set; }
     }
 }

@@ -20,93 +20,8 @@ namespace MemberSite.Service.DAL
             _withdrawalLimitService = provider.GetRequiredService<WithdrawalLimitService>();
             _mainDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Main);
             _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
-
-        }
+        }       
         
-        public IEnumerable<Leaderboard> GetLeaderboardList(int lBCategoryId, int siteId, int currencyId, int topNum, int beforeDays)
-        {
-            return _reportDbClient.Query<Leaderboard>("Member_Leaderboard_LastDateTop_Get", new { LBCategoryId = lBCategoryId, SiteId = siteId, CurrencyId = currencyId, TopNum = topNum, BeforeDays = beforeDays });
-        }
-        
-        public void GetCustRank(int lBCategoryId, int custId, int beforeDays, out int custRank, out Decimal point)
-        {
-            custRank = 0;
-            point = 0;
-            
-            var p = new DynamicParameters(new { LBCategoryId = lBCategoryId, CustId = custId, BeforeDays = beforeDays });
-            p.Add("CustRank", dbType: DbType.Int32, direction: ParameterDirection.Output);
-            p.Add("Point", dbType: DbType.Decimal, direction: ParameterDirection.Output);
-            _reportDbClient.Execute("Member_Leaderboard_CustRank_Get", p);
-
-            custRank = p.Get<int?>("CustRank") ?? 0;
-            point = p.Get<decimal?>("Point") ?? 0;
-        }
-
-        public IEnumerable<Leaderboard> GetLeaderboardListV3(int lBCategoryId, string eventCode, int siteId, int currencyId, int topNum, int beforeDays)
-        {
-            var p = new DynamicParameters(new { EventCode = eventCode });
-            p.Add("CustRankSP", dbType: DbType.String, direction: ParameterDirection.Output);
-            p.Add("LastDateTopSP", dbType: DbType.String, direction: ParameterDirection.Output);
-            _reportDbClient.Execute("Member_LeaderboardEventSetting_Get", p);
-
-            var custRankSp = p.Get<string>("CustRankSP");
-            var lastDateTopSp = p.Get<string>("LastDateTopSP");
-            
-            if (lastDateTopSp != null)
-                return _reportDbClient.Query<Leaderboard>(lastDateTopSp, new { LBCategoryId = lBCategoryId, EventCode = eventCode, SiteId = siteId, CurrencyId = currencyId, TopNum = topNum, BeforeDays = beforeDays });
-            else
-                return _reportDbClient.Query<Leaderboard>("Member_Leaderboard_LastDateTopV2_Get", new { LBCategoryId = lBCategoryId, EventCode = eventCode, SiteId = siteId, CurrencyId = currencyId, TopNum = topNum, BeforeDays = beforeDays });
-        }
-
-
-        public IEnumerable<Leaderboard> GetLeaderboardListMonth(int lBCategoryId, string eventCode, int siteId, int currencyId, int topNum, DateTime selectDays)
-        {
-            return _reportDbClient.Query<Leaderboard>("Member_Leaderboard_TopMonth_Get", new { LBCategoryId = lBCategoryId, EventCode = eventCode, SiteId = siteId, CurrencyId = currencyId, TopNum = topNum, SeletDay = selectDays });
-        }
-        
-        public void GetCustRankV3(int lBCategoryId, string eventCode, int custId, int beforeDays, out int custRank, out Decimal point)
-        {
-            custRank = 0;
-            point = 0;
-            var p = new DynamicParameters(new { EventCode = eventCode });
-            p.Add("CustRankSP", dbType: DbType.String, direction: ParameterDirection.Output);
-            p.Add("LastDateTopSP", dbType: DbType.String, direction: ParameterDirection.Output);
-            _reportDbClient.Execute("Member_LeaderboardEventSetting_Get", p);
-
-            var custRankSp = p.Get<string>("CustRankSP");
-            var lastDateTopSp = p.Get<string>("LastDateTopSP");
-
-            var p1 = new DynamicParameters(new { LBCategoryId = lBCategoryId, EventCode = eventCode, CustId = custId, BeforeDays = beforeDays });
-            p1.Add("CustRank", dbType: DbType.Int32, direction: ParameterDirection.Output);
-            p1.Add("Point", dbType: DbType.Decimal, direction: ParameterDirection.Output);
-            if (custRankSp != null)
-            {
-                _reportDbClient.Execute(custRankSp, p1);
-            }
-            else
-            {
-                _reportDbClient.Execute("Member_Leaderboard_CustRankV2_Get", p);
-            }
-            custRank = p1.Get<int?>("CustRank") ?? 0;
-            point = p1.Get<decimal?>("Point") ?? 0;
-
-        }
-
-        public void GetCustRankMonth(int lBCategoryId, string eventCode, int custId, DateTime selectDays, out int custRank, out Decimal point)
-        {
-            custRank = 0;
-            point = 0;
-
-            var p1 = new DynamicParameters(new { LBCategoryId = lBCategoryId, EventCode = eventCode, CustId = custId, SeletDay = selectDays });
-            p1.Add("CustRank", dbType: DbType.Int32, direction: ParameterDirection.Output);
-            p1.Add("Point", dbType: DbType.Decimal, direction: ParameterDirection.Output);
-            {
-                _reportDbClient.Execute("Member_Leaderboard_CustRank_Month_Get", p1);
-            }
-            custRank = p1.Get<int?>("CustRank") ?? 0;
-            point = p1.Get<decimal?>("Point") ?? 0;
-        }
-
         public IEnumerable<Prize> CheckDrawPrize(ref int eventId, int custId, int currencyId, out int prizeId, out int result)
         {
             using var conn = _mainDbClient.GetMySqlConnection();
@@ -219,7 +134,7 @@ namespace MemberSite.Service.DAL
                 if (drawPrize.PrizeType == 1) //money
                 {
                     _walletService.SetBalance(custId, siteId, userName, prizeAmount, 8, $"Prize: {prizeAmount.ToString("#,##0.##")}", eventId.ToString(), out _, out _, trans);
-                    _withdrawalLimitService.SetWithdrawalLimit(custId, userName, siteId, prizeAmount, null, eventId.ToString(), out var afterWithdrawalLimit, trans);
+                    _withdrawalLimitService.SetWithdrawalLimit(custId, userName, siteId, prizeAmount, 1  ,null, eventId.ToString(), (int)WithdrawalLimitLogCreateFromEnum.DrawPrize , "System", out var afterWithdrawalLimit, trans);
                 }
                 trans.Commit();
                 conn.Close();
@@ -239,7 +154,7 @@ namespace MemberSite.Service.DAL
             {
                 var memo = $"Prize: {prizeAmount.ToString("#,##0.##")}";
                 res = _walletService.SetBalance(custId, siteId, userName, prizeAmount, 8, memo, eventId.ToString(), out _, out _, trans);
-                res = _withdrawalLimitService.SetWithdrawalLimit(custId, userName, siteId, prizeAmount, memo, eventId.ToString(), out var afterWithdrawalLimit, trans);
+                res = _withdrawalLimitService.SetWithdrawalLimit(custId, userName, siteId, prizeAmount, 1 , memo, eventId.ToString(), (int)WithdrawalLimitLogCreateFromEnum.DrawPrize , "System", out var afterWithdrawalLimit, trans);
             }
             if (res > 0) 
             {
@@ -267,22 +182,6 @@ namespace MemberSite.Service.DAL
             return _reportDbClient.Query<PrizeDisPlayList>("Member_DrawPrizeDisPlaySetting_Get", new { EventId = eventId }, commandType: CommandType.StoredProcedure);
         }
         
-        public void GetLeaderboardEventCode( int siteId,out string eventCodeNow,out string eventCodeLast)
-        {
-            var p = new DynamicParameters(new { SiteId = siteId});
-            p.Add("NowEventCode", dbType: DbType.String, direction: ParameterDirection.Output);
-            p.Add("LastEventCode", dbType: DbType.String, direction: ParameterDirection.Output);
-            _reportDbClient.Execute("Member_LeaderboardEvent_Get", p);
-            
-            eventCodeNow = p.Get<string>("NowEventCode");
-            eventCodeLast = p.Get<string>("LastEventCode");
-        }
-        public LeaderboardInfo GetLeaderboardInfo(string eventCode, int siteId, int currencyId)
-        {
-            var info = _reportDbClient.QueryFirst<LeaderboardInfo>("Member_LeaderboardEventInfo_Get", new { EventCode = eventCode, SiteId = siteId });
-            info.RewardInfolist = _reportDbClient.Query<RewardInfo>("Member_LeaderboardRewardInfo_Get", new { EventCode = eventCode, SiteId = siteId, CurrencyId = currencyId });
-            return info;
-        }
         public EventDrawInfo GetEventDrawInfo(int eventId)
         {
             var p = new DynamicParameters(new { EventId = eventId });

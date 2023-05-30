@@ -126,7 +126,7 @@ namespace MemberSite.Controllers.Api
                 
                     apiResult = await _courierAdapter.MyPostAsync<ApiResult, PromotionRequest>(apiUrl, req);
                 
-                    if (custInfo is {SiteId: (int) SiteId.Goal123})
+                    if (custInfo.SiteId != (int)SiteId.Nova88)
                     {
                         _ = Task.Run(async () =>
                         {
@@ -307,6 +307,8 @@ namespace MemberSite.Controllers.Api
                 result.Message = result.ErrorCode switch
                 {
                     (int)SpecialCode.SpecialCodeError => _selLangBll.GetMsg("msg_SpecialCodeErr"),
+                    (int)SpecialCode.SpecialCodeVipLevelsOrBlockTagInvalid => _selLangBll.GetMsg("msg_SpecialCodeVipLevelsOrBlockTagInvalid"),
+                    101 => _selLangBll.GetMsg("msg_PromoCodeHasBeenUsed"),
                     9000 => _selLangBll.GetMsg("msg_Ineligible"),
                     _ => result.Message
                 };
