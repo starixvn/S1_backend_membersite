@@ -1,23 +1,59 @@
-﻿using MemberSite.Service.DAL.Interface;
-using MemberSite.Service.Model.enums;
+﻿using MemberSite.Service.Model.enums;
+using Newtonsoft.Json;
+using RabbitMQ.Client;
+using System.Text;
 
 namespace MemberSite.Service.BLL
 {
     public class VerificationRewardBLL
     {
-        private readonly IVerificationRewardService _verificationRewardService;
-        public VerificationRewardBLL(IServiceProvider provider)
+        private readonly IConnectionFactory _connectionFactory;
+        public VerificationRewardBLL(IConnectionFactory connectionFactory)
         {
-            _verificationRewardService = provider.GetRequiredService<IVerificationRewardService>();
+            _connectionFactory = connectionFactory;
         }
-        public async Task PhoneReward(int custId)
+        public void PhoneReward(int custId)
         {
-            await _verificationRewardService.SetVerificationReward(custId, (int) OTPType.SMS);
+            using var connection = _connectionFactory.CreateConnection();
+            using var channel = connection.CreateModel();
+
+            var data = new
+            {
+                CustId = custId,
+                OTPType = (int)OTPType.SMS
+            };
+            var message = JsonConvert.SerializeObject(data);
+            var body = Encoding.UTF8.GetBytes(message);
+
+            var properties = channel.CreateBasicProperties();
+            properties.ContentType = "application/json";
+
+            channel.BasicPublish(exchange: "MemberExchange",
+                                 routingKey: "verify.phone",
+                                 basicProperties: properties,
+                                 body: body);
         }
 
-        public async Task EmailReward(int custId)
+        public void EmailReward(int custId)
         {
-            await _verificationRewardService.SetVerificationReward(custId, (int) OTPType.Email);
+            using var connection = _connectionFactory.CreateConnection();
+            using var channel = connection.CreateModel();
+
+            var data = new
+            {
+                CustId = custId,
+                OTPType = (int)OTPType.Email
+            };
+            var message = JsonConvert.SerializeObject(data);
+            var body = Encoding.UTF8.GetBytes(message);
+
+            var properties = channel.CreateBasicProperties();
+            properties.ContentType = "application/json";
+
+            channel.BasicPublish(exchange: "MemberExchange",
+                                 routingKey: "verify.email",
+                                 basicProperties: properties,
+                                 body: body);
         }
     }
 }
