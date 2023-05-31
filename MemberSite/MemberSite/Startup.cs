@@ -167,7 +167,7 @@ namespace MemberSite
             services.AddTransient<AppLinkBLL>();
             services.AddTransient<FileNameBLL>();
             services.AddTransient<ImageEditorBLL>();
-            services.AddTransient<VerificationRewardBLL>();
+            services.AddSingleton<VerificationRewardBLL>();
             services.AddTransient<DeepLinkBLL>();
             services.AddSingleton<PayInfoBLL>();
             services.AddSingleton<LineLoginBLL>();
