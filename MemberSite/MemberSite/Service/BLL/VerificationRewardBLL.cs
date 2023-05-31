@@ -1,6 +1,7 @@
 ﻿using MemberSite.Service.Model.enums;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
+using RabbitMQ.Client.Exceptions;
 using System.Text;
 
 namespace MemberSite.Service.BLL
@@ -39,7 +40,7 @@ namespace MemberSite.Service.BLL
                                          body: body);
                     return;
                 }
-                catch (Exception ex)
+                catch (BrokerUnreachableException ex)
                 {
                     _logger.LogError(ex, $"publish fail MemberExchange, verify.phone, {message}");
                 }
@@ -71,7 +72,7 @@ namespace MemberSite.Service.BLL
                                          body: body);
                     return;
                 }
-                catch (Exception ex)
+                catch (BrokerUnreachableException ex)
                 {
                     _logger.LogError(ex, $"publish fail MemberExchange, verify.email, {message}");
                 }
