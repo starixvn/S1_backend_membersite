@@ -1,6 +1,7 @@
 ﻿using MemberSite.Service.Model.enums;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
+using RabbitMQ.Client.Exceptions;
 using System.Text;
 
 namespace MemberSite.Service.BLL
@@ -8,52 +9,74 @@ namespace MemberSite.Service.BLL
     public class VerificationRewardBLL
     {
         private readonly IConnectionFactory _connectionFactory;
-        public VerificationRewardBLL(IConnectionFactory connectionFactory)
+        private readonly ILogger<VerificationRewardBLL> _logger;
+        public VerificationRewardBLL(IConnectionFactory connectionFactory, ILogger<VerificationRewardBLL> logger)
         {
             _connectionFactory = connectionFactory;
+            _logger = logger;
         }
         public void PhoneReward(int custId)
         {
-            using var connection = _connectionFactory.CreateConnection();
-            using var channel = connection.CreateModel();
-
             var data = new
             {
                 CustId = custId,
                 OTPType = (int)OTPType.SMS
             };
             var message = JsonConvert.SerializeObject(data);
-            var body = Encoding.UTF8.GetBytes(message);
+            for (int i = 0; i < 3; i++)
+            {
+                try
+                {
+                    using var connection = _connectionFactory.CreateConnection();
+                    using var channel = connection.CreateModel();
 
-            var properties = channel.CreateBasicProperties();
-            properties.ContentType = "application/json";
+                    var body = Encoding.UTF8.GetBytes(message);
+                    var properties = channel.CreateBasicProperties();
+                    properties.ContentType = "application/json";
 
-            channel.BasicPublish(exchange: "MemberExchange",
-                                 routingKey: "verify.phone",
-                                 basicProperties: properties,
-                                 body: body);
+                    channel.BasicPublish(exchange: "MemberExchange",
+                                         routingKey: "verify.phone",
+                                         basicProperties: properties,
+                                         body: body);
+                    return;
+                }
+                catch (BrokerUnreachableException ex)
+                {
+                    _logger.LogError(ex, $"publish fail MemberExchange, verify.phone, {message}");
+                }
+            }
         }
 
         public void EmailReward(int custId)
         {
-            using var connection = _connectionFactory.CreateConnection();
-            using var channel = connection.CreateModel();
-
             var data = new
             {
                 CustId = custId,
                 OTPType = (int)OTPType.Email
             };
             var message = JsonConvert.SerializeObject(data);
-            var body = Encoding.UTF8.GetBytes(message);
+            for (int i = 0; i < 3; i++)
+            {
+                try
+                {
+                    using var connection = _connectionFactory.CreateConnection();
+                    using var channel = connection.CreateModel();
 
-            var properties = channel.CreateBasicProperties();
-            properties.ContentType = "application/json";
+                    var body = Encoding.UTF8.GetBytes(message);
+                    var properties = channel.CreateBasicProperties();
+                    properties.ContentType = "application/json";
 
-            channel.BasicPublish(exchange: "MemberExchange",
-                                 routingKey: "verify.email",
-                                 basicProperties: properties,
-                                 body: body);
+                    channel.BasicPublish(exchange: "MemberExchange",
+                                         routingKey: "verify.email",
+                                         basicProperties: properties,
+                                         body: body);
+                    return;
+                }
+                catch (BrokerUnreachableException ex)
+                {
+                    _logger.LogError(ex, $"publish fail MemberExchange, verify.email, {message}");
+                }
+            }
         }
     }
 }
