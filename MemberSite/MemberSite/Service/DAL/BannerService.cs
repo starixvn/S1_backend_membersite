@@ -33,9 +33,17 @@ namespace MemberSite.Service.DAL
             return result;
         }
 
-        public IEnumerable<VipBanner> GetVipBanner(int SiteId, int CurrencyId)
+        public IEnumerable<RebateCategory> GetRebateCategory(int SiteId, int CurrencyId)
         {
-            return _reportDbClient.Query<VipBanner>("Member_RebateCategory_Get", new { SiteId, CurrencyId });
+            return _reportDbClient.Query<RebateCategory>("Member_RebateCategory_Get", new { SiteId, CurrencyId });
+        }
+        public IEnumerable<VipBannerData> GetVipBanner(int SiteId, int CurrencyId)
+        {
+            return _reportDbClient.Query<VipBannerData>("Member_VipBanner_Get", new { SiteId, CurrencyId });
+        }
+        public LastUpdateTime GetVipBannerLastUpdateTime(int SiteId, int CurrencyId)
+        {
+            return _reportDbClient.Query<LastUpdateTime>("Member_VipBannerLastUpdateTime_Get", new { SiteId, CurrencyId }).FirstOrDefault();
         }
     }
 }

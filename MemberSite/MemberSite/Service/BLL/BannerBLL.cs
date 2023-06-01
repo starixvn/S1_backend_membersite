@@ -145,9 +145,34 @@ namespace MemberSite.Service.BLL
             };
         }
 
-        public IEnumerable<VipBanner> GetVipBanner(int siteId, int currencyId)
+        public VipBanner GetVipBanner(int siteId, int currencyId)
         {
-            return bannerService.GetVipBanner(siteId, currencyId);
+            var result = new VipBanner();
+            var lastUpdateTimeList = new List<DateTime>();
+            var membershipRenewal = new Dictionary<int, string>();
+            membershipRenewal.Add(1, "Normal");
+            membershipRenewal.Add(2, "Lifetime");
+            membershipRenewal.Add(3, "3 Months");
+            membershipRenewal.Add(4, "3 Months");
+            membershipRenewal.Add(5, "3 Months");
+            membershipRenewal.Add(6, "3 Months");
+            var vipBanner = bannerService.GetVipBanner(siteId, currencyId);
+            var rebateCategory = bannerService.GetRebateCategory(siteId, currencyId).ToList();
+            foreach (var vip in vipBanner)
+            {
+                vip.RebateCategory = rebateCategory.FindAll(x => x.Level == vip.Level);
+                vip.RankingValidityMembershipRenewal = membershipRenewal[vip.Level];
+            }
+
+            var lastUpdateTime = bannerService.GetVipBannerLastUpdateTime(siteId, currencyId);
+            lastUpdateTimeList.Add(lastUpdateTime.RebateCategoryLastUpdateTime);
+            lastUpdateTimeList.Add(lastUpdateTime.WithdrawalLimitInfoLastUpdateTime);
+            lastUpdateTimeList.Add(lastUpdateTime.VipSystemLastUpdateTime);
+
+            return new VipBanner() {
+                VipBannerData = vipBanner,
+                LastUpdateTime = lastUpdateTimeList.Max()
+            };           
         }
     }
 }

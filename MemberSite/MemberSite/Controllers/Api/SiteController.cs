@@ -1311,9 +1311,9 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult<IEnumerable<VipBanner>> GetVipBanner(VipBannerReq vipBannerReq)
+        public ApiResult<VipBanner> GetVipBanner(VipBannerReq vipBannerReq)
         {
-            var apiResult = new ApiResult<IEnumerable<VipBanner>>();
+            var apiResult = new ApiResult<VipBanner>();
             int siteId;
             try
             {
