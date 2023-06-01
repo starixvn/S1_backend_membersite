@@ -54,11 +54,31 @@ namespace MemberSite.Service.BLL
             _gameTypeList = statementService.GetGameTypeListWithCache().ToDictionary(i => i.Type, i => i.TypeName);
             _logger = provider.GetRequiredService<ILogger<PaymentBLL>>();
         }
+
+        public static string GenerateVietQr(OfflineBankAccountInfo card, string transId, decimal amount)
+        {
+            var strAmount = amount.ToString("#");
+            
+            var bnbId = "0006" + card.BIN;
+            var consumerId = $"01{card.AccountNo.Length:00}{card.AccountNo}";
+            var pamentNetwork = $"01{10 + consumerId.Length}{bnbId}{consumerId}";
+            var accountInfo = $"38{pamentNetwork.Length + 14 + 12}0010A000000727{pamentNetwork}0208QRIBFTTA";
+            var additionalData = $"08{transId.Length:00}{transId}";
+            
+            var tmp =$"000201010212{accountInfo}530370454{strAmount.Length:00}{strAmount}5802VN62{additionalData.Length:00}{additionalData}6304";
+            
+            var crc = CRCCalculationExtension.CalculateCRC0xFFFF(tmp);
+            var result = tmp + crc;
+            
+            return result;
+        }
         
-        public (int errorCode, string message) DepositReqLocalBank(DepositReqLocalPayModel req, out string transId, out string code)
+        public (int errorCode, string message) DepositReqLocalBank(DepositReqLocalPayModel req,
+            out string transId, out string code, out OfflineBankAccountInfo bankAccountInfo)
         {
             transId = string.Empty;
             code = string.Empty;
+            bankAccountInfo = null;
             
             if (req.Amount <= 0)
                 return (-3, "Amount must be greater than 0");
@@ -72,7 +92,8 @@ namespace MemberSite.Service.BLL
                 
                 return (-4, $"Cannot found bank card info ({req.BankId}).");
             }
-            
+
+            bankAccountInfo = bankCardInfo;
             var depositDetailInfo = new DepositDetailInfo
             {
                 Amount = req.Amount,

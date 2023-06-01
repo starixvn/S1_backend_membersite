@@ -46,6 +46,7 @@ namespace MemberSite.Service.Model
         
         public string Memo { get; set; }
         public int BSort { get; set; }
+        public string BIN { get; set; }
         public int CurrencyId { get; set; }
         public string BankCode { get; set; }
         public string BankName { get; set; }
