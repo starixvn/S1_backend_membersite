@@ -289,13 +289,13 @@ namespace MemberSite.Controllers.Api
                 };
             }
 
-            if (loginData.di != null)
-            {
-                _ = Task.Run(async () =>
-                {
-                    await _sFpsBll.FPSChecksAsync(customer.CustId, "login", "Successfully", loginData.url, loginData.platform, loginData.userAgent, loginData.screen, loginData.di, ip);
-                });
-            }
+            // if (loginData.di != null)
+            // {
+            //     _ = Task.Run(async () =>
+            //     {
+            //         await _sFpsBll.FPSChecksAsync(customer.CustId, "login", "Successfully", loginData.url, loginData.platform, loginData.userAgent, loginData.screen, loginData.di, ip);
+            //     });
+            // }
 
             if (deviceType != (int)DeviceId.APP)
             {

@@ -65,6 +65,10 @@ namespace MemberSite.Service.Model
             JsonConvert.DeserializeObject<IEnumerable<OfflineBankAccountSupportChannelEnum>>(StrSupportChannel);
 
         public string QRCodeUrl { get; set; }
+        public string StrGroupIds { get; set; }
+        
+        public IEnumerable<int> GroupIds =>
+            JsonConvert.DeserializeObject<IEnumerable<int>>(StrGroupIds ?? "[]");
     }
 
     public class OfflineBankAccountDailyDeposit
@@ -72,5 +76,16 @@ namespace MemberSite.Service.Model
         public int BankId { get; set; }
         
         public decimal DailyDeposit { get; set; }
+    }
+    
+    public class LocalPaySetting
+    {
+        public int CurrencyId { get; set; }
+        
+        public int GroupId { get; set; }
+        
+        public string GroupName { get; set; }
+        
+        public DepositType Type { get; set; }
     }
 }

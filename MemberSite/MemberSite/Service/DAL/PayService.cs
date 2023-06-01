@@ -34,5 +34,10 @@ namespace MemberSite.Service.DAL
         {
             return _reportDbClient.QueryFirst<LineChannel?>("Member_LineChannel_Get", new { _SiteId = siteId, _CurrencyId = currencyId });
         }
+        
+        public IEnumerable<PayGroupInfo> GetPayGroup()
+        {
+            return _reportDbClient.Query<PayGroupInfo>("Service_PayGroup_Get");
+        }
     }
 }

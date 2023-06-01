@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using MemberSite.Service.Model.enums;
 using Serilog.Context;
+using MemberSite.Service.Model;
 
 namespace MemberSite.Controllers
 {
@@ -53,12 +54,26 @@ namespace MemberSite.Controllers
 
             //針對BTI強制走https避免js找不到
             var host = tpId == 29 ? $"https://{Request.Host}{Request.PathBase}" : $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
-       
-            if (_gameBll.IsMaintain(serverInfo.SiteId, tpId, inputs.GetValueOrDefault("tpGameType"), out var tpMaintain))
+
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is { CustId: > 0 })
             {
-                var entPageUrl = new Uri($"{Request.Scheme}://{Request.Host}{Request.Path}{Request.QueryString}").AbsoluteUri;
-                var maintainUrl = _gameBll.GetMaintainUrl(tpMaintain, host, _selLangBll.GetLangId() ?? "en", entPageUrl);
-                return Redirect(maintainUrl);
+                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                if (custInfo.IsTest == false && _gameBll.IsMaintain(serverInfo.SiteId, tpId, inputs.GetValueOrDefault("tpGameType"), out var tpMaintainForNormalCust))
+                {
+                    var entPageUrl = new Uri($"{Request.Scheme}://{Request.Host}{Request.Path}{Request.QueryString}").AbsoluteUri;
+                    var maintainUrl = _gameBll.GetMaintainUrl(tpMaintainForNormalCust, host, _selLangBll.GetLangId() ?? "en", entPageUrl);
+                    return Redirect(maintainUrl);
+                }
+            }
+            else
+            {
+                if (_gameBll.IsMaintain(serverInfo.SiteId, tpId, inputs.GetValueOrDefault("tpGameType"), out var tpMaintain))
+                {
+                    var entPageUrl = new Uri($"{Request.Scheme}://{Request.Host}{Request.Path}{Request.QueryString}").AbsoluteUri;
+                    var maintainUrl = _gameBll.GetMaintainUrl(tpMaintain, host, _selLangBll.GetLangId() ?? "en", entPageUrl);
+                    return Redirect(maintainUrl);
+                }
             }
 
             var myUrl = $"{_apiUrl}GotoGame";
@@ -79,7 +94,6 @@ namespace MemberSite.Controllers
 
             try
             {
-                var authData = _authorizeBll.GetAuthData();
                 if (authData is { CustId: > 0 })
                 {
                     var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
@@ -142,7 +156,7 @@ namespace MemberSite.Controllers
         {
             public string Message { get; set; }
         }
-        
+
         private ViewResult RedirectErrorPage(ErrorData model)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();

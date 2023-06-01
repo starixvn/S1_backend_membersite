@@ -15,6 +15,7 @@ using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Model.Mapping;
 using StackExchange.Redis;
+using MemberSite.Service.Model.Options;
 
 namespace MemberSite
 {
@@ -61,6 +62,7 @@ namespace MemberSite
             services.Configure<Dictionary<string, AWSKeyConfig>>(_configuration.GetSection("AwsKeyConfig"));
             services.AddMemoryCache();
             services.AddDatabaseConnection(_configuration);
+            services.AddMessageQueueConnection(_configuration);
             services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(_configuration.GetValue<string>("RedisConnection")));
             services.AddSingleton<ICacheHelper, RedisCacheHelper>();
             
@@ -131,7 +133,6 @@ namespace MemberSite
             services.AddSingleton<AuthorizeBLL>();
             services.AddSingleton<BankInfoOffBLL>();
             services.AddSingleton<BankInfoBLL>();
-            services.AddSingleton<MobilePayInfoBll>();
             services.AddSingleton<CryptoPayInfoBll>();
             services.AddSingleton<LoadCardPayInfoBLL>();
             services.AddSingleton<DepositBLL>();
@@ -165,7 +166,7 @@ namespace MemberSite
             services.AddTransient<AppLinkBLL>();
             services.AddTransient<FileNameBLL>();
             services.AddTransient<ImageEditorBLL>();
-            services.AddTransient<VerificationRewardBLL>();
+            services.AddSingleton<VerificationRewardBLL>();
             services.AddTransient<DeepLinkBLL>();
             services.AddSingleton<PayInfoBLL>();
             services.AddSingleton<LineLoginBLL>();
@@ -284,6 +285,7 @@ namespace MemberSite
 
             services.AddOptionListByDB<TpGameTypeOption>("Admin_TpGameType_Get");
             services.AddOptionListByDB<AreaCodeMap>("Common_CountryList_Get");
+            services.AddOptionListByDB<SabaSportTypeOption>("Service_SabaSportType_Get");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

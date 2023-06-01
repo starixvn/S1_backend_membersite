@@ -1,23 +1,82 @@
-﻿using MemberSite.Service.DAL.Interface;
-using MemberSite.Service.Model.enums;
+﻿using MemberSite.Service.Model.enums;
+using Newtonsoft.Json;
+using RabbitMQ.Client;
+using RabbitMQ.Client.Exceptions;
+using System.Text;
 
 namespace MemberSite.Service.BLL
 {
     public class VerificationRewardBLL
     {
-        private readonly IVerificationRewardService _verificationRewardService;
-        public VerificationRewardBLL(IServiceProvider provider)
+        private readonly IConnectionFactory _connectionFactory;
+        private readonly ILogger<VerificationRewardBLL> _logger;
+        public VerificationRewardBLL(IConnectionFactory connectionFactory, ILogger<VerificationRewardBLL> logger)
         {
-            _verificationRewardService = provider.GetRequiredService<IVerificationRewardService>();
+            _connectionFactory = connectionFactory;
+            _logger = logger;
         }
-        public async Task PhoneReward(int custId)
+        public void PhoneReward(int custId)
         {
-            await _verificationRewardService.SetVerificationReward(custId, (int) OTPType.SMS);
+            var data = new
+            {
+                CustId = custId,
+                OTPType = (int)OTPType.SMS
+            };
+            var message = JsonConvert.SerializeObject(data);
+            for (int i = 0; i < 3; i++)
+            {
+                try
+                {
+                    using var connection = _connectionFactory.CreateConnection();
+                    using var channel = connection.CreateModel();
+
+                    var body = Encoding.UTF8.GetBytes(message);
+                    var properties = channel.CreateBasicProperties();
+                    properties.ContentType = "application/json";
+
+                    channel.BasicPublish(exchange: "MemberExchange",
+                                         routingKey: "verify.phone",
+                                         basicProperties: properties,
+                                         body: body);
+                    return;
+                }
+                catch (BrokerUnreachableException ex)
+                {
+                    _logger.LogError(ex, $"publish fail MemberExchange, verify.phone, {message}");
+                }
+            }
         }
 
-        public async Task EmailReward(int custId)
+        public void EmailReward(int custId)
         {
-            await _verificationRewardService.SetVerificationReward(custId, (int) OTPType.Email);
+            var data = new
+            {
+                CustId = custId,
+                OTPType = (int)OTPType.Email
+            };
+            var message = JsonConvert.SerializeObject(data);
+            for (int i = 0; i < 3; i++)
+            {
+                try
+                {
+                    using var connection = _connectionFactory.CreateConnection();
+                    using var channel = connection.CreateModel();
+
+                    var body = Encoding.UTF8.GetBytes(message);
+                    var properties = channel.CreateBasicProperties();
+                    properties.ContentType = "application/json";
+
+                    channel.BasicPublish(exchange: "MemberExchange",
+                                         routingKey: "verify.email",
+                                         basicProperties: properties,
+                                         body: body);
+                    return;
+                }
+                catch (BrokerUnreachableException ex)
+                {
+                    _logger.LogError(ex, $"publish fail MemberExchange, verify.email, {message}");
+                }
+            }
         }
     }
 }
