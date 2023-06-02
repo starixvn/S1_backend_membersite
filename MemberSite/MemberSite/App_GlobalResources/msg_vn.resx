@@ -134,4 +134,5 @@
   <data name="msg_Event_has_not_started"><value>Sự kiện vẫn chưa bắt đầu</value></data>
   <data name="msg_limit_has_been_reached"><value>Đã đạt đến giới hạn của ngày hôm nay</value></data>
   <data name="msg_keep_up"><value>Chúc may mắn trong lần rút tiếp theo của bạn</value></data>
+  <data name="msg_OTPDailyLimit"><value>Bạn đã gửi nhiều yêu cầu OTP trước đó, vui lòng liên hệ bộ phận Live Chat để được hỗ trợ</value></data>
   </root>
