@@ -593,4 +593,10 @@
   <data name="lbl_Month121"><value>Tháng 12</value></data>
   <data name="lbl_ReModify1"><value>Sửa lại</value></data>
   <data name="lbl_Birthday1"><value>Sinh Nhật</value></data>
+  <data name="lbl_Vip_High"><value>Cao</value></data>
+  <data name="lbl_Vip_3Months"><value>3 tháng</value></data>
+  <data name="lbl_Vip_Lifetime"><value>Vĩnh viễn</value></data>
+  <data name="lbl_Vip_Normal"><value>Thông thường</value></data>
+  <data name="lbl_Vip_ByInvitation"><value>Được mời</value></data>
+  <data name="lbl_VIP_unlimited"><value>Không giới hạn</value></data>
   </root>

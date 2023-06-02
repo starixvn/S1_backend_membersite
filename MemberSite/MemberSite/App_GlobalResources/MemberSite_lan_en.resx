@@ -630,4 +630,10 @@
   <data name="lbl_ViewHistory"><value>View History</value></data>
   <data name="lbl_RecipientInfo"><value>Recipient Info</value></data>
   <data name="lbl_RecipientName"><value>Recipient Name</value></data>
+  <data name="lbl_Vip_High"><value>High</value></data>
+  <data name="lbl_Vip_3Months"><value>3 Months</value></data>
+  <data name="lbl_Vip_Lifetime"><value>Lifetime</value></data>
+  <data name="lbl_Vip_Normal"><value>Normal</value></data>
+  <data name="lbl_Vip_ByInvitation"><value>By Invitation</value></data>
+  <data name="lbl_VIP_unlimited"><value>Unlimited</value></data>
   </root>

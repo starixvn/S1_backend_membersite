@@ -15,6 +15,7 @@ namespace MemberSite.Service.BLL
         private readonly IOptions<Dictionary<string, SiteConfig>> siteConfig;
         private readonly TpGameTypeHelper tpGameTypeHelper;
         private readonly ICacheHelper _redisHelper;
+        private readonly SelLangBLL selLangBLL;
 
         public BannerBLL(IServiceProvider provider)
         {
@@ -25,6 +26,7 @@ namespace MemberSite.Service.BLL
             siteConfig = provider.GetRequiredService<IOptions<Dictionary<string, SiteConfig>>>();
             tpGameTypeHelper = provider.GetRequiredService<TpGameTypeHelper>();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
+            selLangBLL = provider.GetRequiredService<SelLangBLL>();
         }
 
         public IEnumerable<BannerSettingItem> GetBanner(int perferCurr, string FolderName)
@@ -147,21 +149,53 @@ namespace MemberSite.Service.BLL
 
         public VipBanner GetVipBanner(int siteId, int currencyId)
         {
-            var result = new VipBanner();
             var lastUpdateTimeList = new List<DateTime>();
             var membershipRenewal = new Dictionary<int, string>();
-            membershipRenewal.Add(1, "Normal");
-            membershipRenewal.Add(2, "Lifetime");
-            membershipRenewal.Add(3, "3 Months");
-            membershipRenewal.Add(4, "3 Months");
-            membershipRenewal.Add(5, "3 Months");
-            membershipRenewal.Add(6, "3 Months");
+            var depositPriority = new Dictionary<int, string>();
+            var withdrawalPriority = new Dictionary<int, string>();
+            var serviceSupport = new Dictionary<int, string>();
+            var designatedAccountManager = new Dictionary<int, bool>();
+
+            membershipRenewal.Add(1, "lbl_Vip_Normal");
+            membershipRenewal.Add(2, "lbl_Vip_Lifetime");
+            membershipRenewal.Add(3, "lbl_Vip_3Months");
+            membershipRenewal.Add(4, "lbl_Vip_3Months");
+            membershipRenewal.Add(5, "lbl_Vip_3Months");
+            membershipRenewal.Add(6, "lbl_Vip_3Months");
+            depositPriority.Add(3, "lbl_Vip_High");
+            depositPriority.Add(4, "lbl_Vip_High");
+            depositPriority.Add(5, "lbl_Vip_High");
+            depositPriority.Add(6, "lbl_Vip_High");
+            withdrawalPriority.Add(3, "lbl_Vip_High");
+            withdrawalPriority.Add(4, "lbl_Vip_High");
+            withdrawalPriority.Add(5, "lbl_Vip_High");
+            withdrawalPriority.Add(6, "lbl_Vip_High");
+            serviceSupport.Add(3, "lbl_Vip_High");
+            serviceSupport.Add(4, "lbl_Vip_High");
+            serviceSupport.Add(5, "lbl_Vip_High");
+            serviceSupport.Add(6, "lbl_Vip_High");
+            designatedAccountManager.Add(4, true);
+            designatedAccountManager.Add(5, true);
+            designatedAccountManager.Add(6, true);
             var vipBanner = bannerService.GetVipBanner(siteId, currencyId);
             var rebateCategory = bannerService.GetRebateCategory(siteId, currencyId).ToList();
             foreach (var vip in vipBanner)
             {
                 vip.RebateCategory = rebateCategory.FindAll(x => x.Level == vip.Level);
-                vip.RankingValidityMembershipRenewal = membershipRenewal[vip.Level];
+                vip.RankingValidityMembershipRenewal = selLangBLL.GetResourceValue(membershipRenewal[vip.Level]);
+                vip.DepositPriority = depositPriority.ContainsKey(vip.Level) ? selLangBLL.GetResourceValue(membershipRenewal[vip.Level]) : null;
+                vip.WithdrawalPriority = withdrawalPriority.ContainsKey(vip.Level) ? selLangBLL.GetResourceValue(withdrawalPriority[vip.Level]) : null;
+                vip.ServiceSupport = serviceSupport.ContainsKey(vip.Level) ? selLangBLL.GetResourceValue(serviceSupport[vip.Level]) : null;
+                vip.DesignatedAccountManager = designatedAccountManager.ContainsKey(vip.Level);
+                if(vip.Level == 6)
+                {
+                    vip.WithdrawalMax = selLangBLL.GetResourceValue("lbl_Vip_ByInvitation");
+                    vip.Times = selLangBLL.GetResourceValue("lbl_VIP_unlimited");
+                    vip.UpBonus = selLangBLL.GetResourceValue("lbl_Vip_ByInvitation");
+                    vip.UpDeposit = selLangBLL.GetResourceValue("lbl_Vip_ByInvitation");
+                    vip.DownDeposit = selLangBLL.GetResourceValue("lbl_Vip_ByInvitation");
+                    vip.DownTurnover = selLangBLL.GetResourceValue("lbl_Vip_ByInvitation");
+                }
             }
 
             var lastUpdateTime = bannerService.GetVipBannerLastUpdateTime(siteId, currencyId);
