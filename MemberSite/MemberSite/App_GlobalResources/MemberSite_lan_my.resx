@@ -629,4 +629,10 @@
   <data name="lbl_ViewHistory"><value>Lihat Sejarah</value></data>
   <data name="lbl_RecipientInfo"><value>Maklumat Penerima</value></data>
   <data name="lbl_RecipientName"><value>Nama Penerima</value></data>
+  <data name="lbl_Vip_High"><value>Tinggi</value></data>
+  <data name="lbl_Vip_3Months"><value>3 Bulan</value></data>
+  <data name="lbl_Vip_Lifetime"><value>Seumur hidup</value></data>
+  <data name="lbl_Vip_Normal"><value>Normal</value></data>
+  <data name="lbl_Vip_ByInvitation"><value>Dengan Jemputan</value></data>
+  <data name="lbl_VIP_unlimited"><value>Tiada Had</value></data>
   </root>
