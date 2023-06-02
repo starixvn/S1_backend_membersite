@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace MemberSite.Service.Model.enums
+﻿namespace MemberSite.Service.Model.enums
 {
     public enum WalletStatus
     {
@@ -20,6 +18,12 @@ namespace MemberSite.Service.Model.enums
         Suspend = 2,
         Closed = 3,
         Lock = 4
+    }
+
+    public enum CustTpGameTypeSettingType
+    {
+        NoShow = 1,  //有資料表示不顯示
+        NoPlay = 2   //有資料表示不可玩
     }
 
     public enum PaymentView
@@ -46,6 +50,7 @@ namespace MemberSite.Service.Model.enums
         LoadCardPayment = 5,
         QRPayPayment = 6,
         BankAutoChannel = 7,
+        CryptoWallet = 8
     }
 
     /// <summary>
@@ -330,11 +335,13 @@ namespace MemberSite.Service.Model.enums
         Promotion = 0,
         Deposit = 1
     }
+
     public enum OTPType
     {
         SMS = 0,
         Email = 1
     }
+    
     public enum CurrencyId
     {
         MYR = 2,
@@ -347,13 +354,6 @@ namespace MemberSite.Service.Model.enums
         KHUSD = 72,
         BDT = 74,
         USDT = 96
-    }
-    public enum DeviceId
-    {
-        Old = 0,
-        Desktop = 1,
-        H5 = 2,
-        APP = 3
     }
 
     public enum CryptoCurrencyId
@@ -370,6 +370,14 @@ namespace MemberSite.Service.Model.enums
         EOS = 105,
         SHIB = 106,
         ADA = 107
+    }
+    
+    public enum DeviceId
+    {
+        Old = 0,
+        Desktop = 1,
+        H5 = 2,
+        APP = 3
     }
     public enum DeepLinkType
     {
@@ -395,14 +403,13 @@ namespace MemberSite.Service.Model.enums
         Restore = 1,
         Manual = 2,
     }
-
     public enum PromotionDeviceType
     {
         All = 1,
         Web = 2,
         App = 3
     }
-
+    
     public enum LineLoginErrorCode
     {
         Success = 0,
@@ -492,6 +499,27 @@ namespace MemberSite.Service.Model.enums
         Finished = 2,
         UnStarted = 3
     }
+    public enum RedemptionErrorCode
+    {
+        InsufficientPoint = -1001,
+        RedemptionLimitOverLimit = -1002
+    }
+
+
+    public enum PointTypeEnum
+    {
+        Deposit = 1,
+        Turnover = 2,
+        /// <summary>
+        /// 兌換物品
+        /// </summary>
+        Redemption = 3,
+        /// <summary>
+        /// 手動
+        /// </summary>
+        Manual = 4,
+        System = 5
+    }
     public enum CustEWalletDetailLogStatus
     {
         Create = 1,
@@ -516,29 +544,7 @@ namespace MemberSite.Service.Model.enums
     {
         Disable = 0,
         Able = 1,
-    }
-
-    public enum RedemptionErrorCode
-    {
-        InsufficientPoint = -1001,
-        RedemptionLimitOverLimit = -1002
-    }
-
-
-    public enum PointTypeEnum
-    {
-        Deposit = 1,
-        Turnover = 2,
-        /// <summary>
-        /// 兌換物品
-        /// </summary>
-        Redemption = 3,
-        /// <summary>
-        /// 手動
-        /// </summary>
-        Manual = 4,
-        System = 5
-    }
+	}
 
     public enum OfflineBankAccountPurposeEnum
     {
@@ -589,6 +595,11 @@ namespace MemberSite.Service.Model.enums
         WrongBankSubmitted = 5,
         InactiveBankAccountSubmission = 6
     }
+
+    public enum CustTagEnum
+    {
+        Duplicate = 6
+    }
     public enum WithdrawalMessageStatus
     {
         WithdrawalAccountsNameUnmatch = 0,
@@ -596,10 +607,16 @@ namespace MemberSite.Service.Model.enums
         WithdrawalAccountAannotReceiveMoney = 2,
         BeneficiarysAccountMaintenance = 3
     }
-
-    public enum CustTagEnum
+    public enum ExchangeTypeEnum
     {
-        Duplicate = 6
+        /// <summary>
+        /// 我方賣出(玩家提款)
+        /// </summary>
+        Sell = 0,
+        /// <summary>
+        /// 我方買入(玩家存款)
+        /// </summary>
+        Buy = 1
     }
 
     public enum CustCryptoWalletDetailStatus
@@ -615,22 +632,42 @@ namespace MemberSite.Service.Model.enums
         Lock = 3,
         Unlock = 4
     }
-    
-    public enum ExchangeTypeEnum
-    {
-        /// <summary>
-        /// 我方賣出(玩家提款)
-        /// </summary>
-        Sell = 0,
-        /// <summary>
-        /// 我方買入(玩家存款)
-        /// </summary>
-        Buy = 1
-    }
-    
-    public enum WithdrawalLimitLogCreateFromEnum 
+
+    public enum WithdrawalLimitLogCreateFromEnum
     {
         Default = 0,
         DrawPrize = 7
+    }
+
+    public enum MemberTypeEnum
+    {
+        Normal = 1,
+        Affiliate = 2,
+        LiveStreaming = 3
+    }
+
+    public enum WithdrawalInfoProcessWayEnum
+    {
+        /// <summary>
+        /// 手動出款
+        /// </summary>
+        Manual = 0,
+
+        /// <summary>
+        /// 自動出款
+        /// </summary>
+        Auto = 1,
+    }
+
+    public enum WithdrawalAccountTypeEnum
+    {
+        EWallet = 1,
+        BankCard = 2,
+        Crypto = 3
+    }
+    public enum RecentlyViewedTypeEnum
+    {
+        LobbyName = 1, // saba sport
+        GameName = 2, // Golden Grimoire
     }
 }

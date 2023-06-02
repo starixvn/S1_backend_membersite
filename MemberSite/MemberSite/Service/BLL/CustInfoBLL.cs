@@ -61,7 +61,7 @@ namespace MemberSite.Service.BLL
         }
 
         public int AddCustInfo(string UserName, string Userpwd, string Email, int CurrencyId, string UserLang,
-            string refId, string affId, string aff, string affCode, string lineUserId, out int custId, string signupUrl = null,
+            string refId, string affId, string aff, string affCode, string lineUserId,int deviceType, out int custId, string signupUrl = null,
             string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null,
             int Birth_d = 0, int Birth_m = 0, int Birth_y = 0)
         {
@@ -135,7 +135,7 @@ namespace MemberSite.Service.BLL
                 signupUrl = _tools.GetFromUrl();
             }
 
-            var result = _custInfoService.AddCustInfo(regCustInfo, Email, lineUserId, out custId, signupUrl, referralUrl, PhoneNo, AreaCode,
+            var result = _custInfoService.AddCustInfo(regCustInfo, Email, lineUserId, deviceType, out custId, signupUrl, referralUrl, PhoneNo, AreaCode,
                 RealName, promoCode, Birth_d, Birth_m, Birth_y);
 
             if (result == 0 && regCustInfo.SiteId != (int)SiteId.Nova88)
@@ -213,7 +213,7 @@ namespace MemberSite.Service.BLL
                     // send custId to tp.Shield
                     var request = new SendShieldAttributesRequest()
                     {
-                        SiteId = info.SiteId ,
+                        SiteId = info.SiteId,
                         UserId = info.CustId.ToString()
                     };
                     var result = await _shieldBll.SendShieldAttributes(request);
@@ -591,9 +591,21 @@ namespace MemberSite.Service.BLL
             return true;
         }
 
+        public IEnumerable<BankInfoDetailData> GetCustBankDetail(int sysId, string accountNo, int siteId)
+        {
+            return _custInfoService.GetCustBankDetail(sysId, accountNo, siteId);
+        }
+
+        public int DeleteCustBankInfo(int custId, int sysId, string accountNum, string iFSCCode, CustBankDetailStatus status)
+        {
+            var custInfo = GetCustInfoWithCache(custId);
+            return _custInfoService.DeleteCustBankInfo(custId, custInfo.SiteId, sysId, accountNum, iFSCCode, status) ? 0 : -1;
+        }
+
         private static List<string> AddressKeys = new List<string>() { "Country", "State", "PostCode", "City", "LineFirst", "LineSecond" };
         private Dictionary<string, string> ConvertAddress(Dictionary<string, string> addressProfile)
         {
+
             var result = new Dictionary<string, string>();
             foreach (var key in AddressKeys)
             {
@@ -609,18 +621,6 @@ namespace MemberSite.Service.BLL
             }
 
             return result;
-            ;
-        }
-
-        public IEnumerable<BankInfoDetailData> GetCustBankDetail(int sysId, string accountNo, int siteId)
-        {
-            return _custInfoService.GetCustBankDetail(sysId, accountNo, siteId);
-        }
-
-        public int DeleteCustBankInfo(int custId, int sysId, string accountNum, string iFSCCode, CustBankDetailStatus status)
-        {
-            var custInfo = GetCustInfoWithCache(custId);
-            return _custInfoService.DeleteCustBankInfo(custId, custInfo.SiteId, sysId, accountNum, iFSCCode, status) ? 0 : -1;
         }
 
         public IEnumerable<EWalletInfoDetail> GetCustEWalletInfo(int custId)
@@ -665,6 +665,42 @@ namespace MemberSite.Service.BLL
         public IEnumerable<CryptoWalletDetail> GetCustCryptoWalletDetail(int custId)
         {
             return _custInfoService.GetCustCryptoWalletDetail(custId);
+        }
+        public async Task<IEnumerable<CustTpGameTypeSetting>> GetCustTpGameTypeSetting(int custId)
+        {
+            var result = new List<CustTpGameTypeSetting>();
+            var types = (CustTpGameTypeSettingType[])Enum.GetValues(typeof(CustTpGameTypeSettingType));
+            var key = $"GetCustTpGameTypeSetting:{custId}";
+            var typeResult = await _redisHelper.TryGetOrCreateAsync(key,
+                TimeSpan.FromMinutes(10),
+                async () =>
+                {
+                    return await _custInfoService.GetCustTpGameTypeSetting(custId, types.Select(x => (int)x));
+                });
+
+            var gameTypeList = typeResult.Select(x => x.GameType).Distinct();
+            foreach (var gameType in gameTypeList)
+            {
+                result.Add(new CustTpGameTypeSetting(
+                    typeResult.First(x => x.GameType == gameType).TpId,
+                gameType,
+                    typeResult.Where(x => x.GameType == gameType && x.Type == CustTpGameTypeSettingType.NoShow).Any(),
+                    typeResult.Where(x => x.GameType == gameType && x.Type == CustTpGameTypeSettingType.NoPlay).Any()));
+            }
+
+            return result;
+        }
+
+        public async Task<IEnumerable<CustRecentlyViewedInfo>> GetCustRecentlyViewed(int custId)
+        {
+            var key = $"GetCustRecentlyViewed:{custId}";
+            var result = await _redisHelper.TryGetOrCreateAsync(key,
+                TimeSpan.FromMinutes(3),
+                async () =>
+                {
+                    return await _custInfoService.GetCustRecentlyViewed(custId);
+                });
+            return result;
         }
     }
 }

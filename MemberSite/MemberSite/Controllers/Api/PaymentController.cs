@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using Amazon.S3.Model;
+using MemberSite.Extensions;
 using MemberSite.Service.BLL;
 using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
@@ -208,6 +209,13 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<DepositRep3>();
             var authData = authorizeBLL.GetAuthData();
+            
+            if (bankInfoOffBLL.GetCustOffDepositSysId(authData.CustId).Contains(depositReqWireTransferReq.sysId))
+            {
+                apiResult.ErrorCode = -3;
+                apiResult.Message = "A deposit with the same bank already exists. Please complete it before trying again.";
+                return apiResult;
+            }
 
             var checkResult = CheckDeposit(authData, depositReqWireTransferReq.amount,
                 depositReqWireTransferReq.hasPromotion);
@@ -311,7 +319,7 @@ namespace MemberSite.Controllers.Api
             public decimal Amount { set; get; }
             public string BonusCode { set; get; }
         }
-        
+
         [HttpPost]
         public ApiResult<LocalPayResp> DepositReqLocalPayAsync(DepositReqLocalPayReq req)
         {
@@ -366,7 +374,7 @@ namespace MemberSite.Controllers.Api
                 CustId = custId,
                 BankId = card.BankId,
                 Type = localPayment.Type
-            }, out var transId, out var code);
+            }, out var transId, out var code, out var bankAccount);
             
             if (errorCode != 0)
             {
@@ -390,6 +398,24 @@ namespace MemberSite.Controllers.Api
                         0))
                 {
                     _logger.LogError($"TransId:{transId} SetDepositPromotionQueue Failed");
+                };
+            }
+
+            if (localPayment.Type == DepositType.QRPayPayment && custInfo.CurrencyId == (int) CurrencyId.VND)
+            {
+                var vietQr = PaymentBLL.GenerateVietQr(bankAccount, transId, req.Amount);
+                return new ApiResult<LocalPayResp>
+                {
+                    Data = new LocalPayResp
+                    {
+                        GenerateQr = true,
+                        Amount = req.Amount,
+                        ReturnUrl = vietQr,
+                        TransId = transId,
+                        Code = code,
+                        BankLogo = card.BankLogo
+                    },
+                    ErrorCode = 0
                 };
             }
             
@@ -1448,7 +1474,7 @@ namespace MemberSite.Controllers.Api
             }
             
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-            var result = paymentBLL.GetSupportCryptoInfo(custInfo.SiteId);
+            var result = paymentBLL.GetSupportCryptoInfoWithCache(custInfo.SiteId);
  
             return new ApiResult<CryptoInfoData>
             {

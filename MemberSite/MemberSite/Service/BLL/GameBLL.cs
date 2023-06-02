@@ -13,6 +13,7 @@ namespace MemberSite.Service.BLL
         private readonly ICacheHelper _cacheHelper;
         private readonly Dictionary<int, string> _openPathList;
         private readonly StatementService _statementService;
+        private readonly GameService _gameService;
         private readonly ThirdPartyBll _thirdPartyBll;
 
         public GameBLL(IServiceProvider provider)
@@ -24,6 +25,7 @@ namespace MemberSite.Service.BLL
                 { 22, "mega888"}
             };
             _statementService = provider.GetRequiredService<StatementService>();
+            _gameService = provider.GetRequiredService<GameService>();
             _thirdPartyBll = provider.GetRequiredService<ThirdPartyBll>();
         }
 
@@ -85,8 +87,8 @@ namespace MemberSite.Service.BLL
 
         public string GetMaintainUrl(TpMaintain tpMaintain, string host, string langId, string entPageUrl = null)
         {
-            var requestId = Guid.NewGuid().ToString();        
-            
+            var requestId = Guid.NewGuid().ToString();
+
             //維護結束後要回到哪個url，GotoGame入口只能回到首頁
             var returnUrl = entPageUrl ?? host;
             var tpName = _statementService.GetTpListWithCache()?.First(i => i.Id == tpMaintain.TpId)?.TpName;
@@ -97,8 +99,21 @@ namespace MemberSite.Service.BLL
                 $"g={tpMaintain.TpGameType}&" +
                 $"r={requestId}";
 
-            _cacheHelper.StringSet($"TpMaintain:{requestId}", returnUrl, TimeSpan.FromDays(1));          
+            _cacheHelper.StringSet($"TpMaintain:{requestId}", returnUrl, TimeSpan.FromDays(1));
             return maintainUrl;
+        }
+
+        public async Task<List<TpGameIdListData>> GetTpGameIdList()
+        {
+            var key = $"GetTpGameIdList";
+            var result = await _cacheHelper.TryGetOrCreateAsync(key,
+                TimeSpan.FromMinutes(10),
+                async () =>
+                {
+                    var result = await _gameService.GetTpGameIdList();
+                    return result;
+                });
+            return result.ToList();
         }
     }
 }

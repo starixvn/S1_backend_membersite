@@ -8,10 +8,8 @@
 @inject CustInfoBll custInfoBLL
 @{
     ViewData["Title"] = "Transfer";
-    Layout = "~/Views/Shared/_Layout.cshtml";
     var authData = authorizeBLL.GetAuthData();
     var custInfo = custInfoBLL.GetCustInfo(authData.CustId);
-    //var custInfoProfile = custInfoBLL.GetCustInfoProfile(authData.CustId);
 }
 @{
 
@@ -47,7 +45,6 @@
 }
 @{
     <div class="main">
-        <partial name="~/Views/Shared/_DesktopLeftMenu.cshtml" />
         <div class="page-title" role="mobile-only">
             <span class="text">@selLangBLL.GetResourceValue("lbl_Cashier")</span>
         </div>
@@ -75,6 +72,4 @@
         $.extend(i18n, @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(i18n)));
         var hrefAllTrans = "@Url.RouteUrl("desktop", new { action = "Transfer", controller = "History", LangId = selLangBLL.GetLangId() })";
     </script>
-    <script src="~/lib/runtime.min.js"></script>
-    <script src="~/js/component/cashier/TransferPanel.min.js" asp-append-version="true"></script>
 }

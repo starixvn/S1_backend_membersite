@@ -3,6 +3,7 @@ using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
 
 namespace MemberSite.Service.BLL
 {
@@ -12,6 +13,7 @@ namespace MemberSite.Service.BLL
         private readonly DepositBLL _depositBll;
         private readonly PayService _payService;
         private readonly DepositService _depositService;
+        private readonly BankInfoOffBLL _bankInfoOffBll;
         private readonly CourierAdapter _courierAdapter;
         private readonly string _payApiUrl;
         private readonly ICacheHelper _redisHelper;
@@ -21,6 +23,7 @@ namespace MemberSite.Service.BLL
         {
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _depositBll = provider.GetRequiredService<DepositBLL>();
+            _bankInfoOffBll = provider.GetRequiredService<BankInfoOffBLL>();
             _payService = provider.GetRequiredService<PayService>();
             _depositService = provider.GetRequiredService<DepositService>();
             _payApiUrl = provider.GetRequiredService<IConfiguration>().GetValue<string>("PayService");
@@ -58,13 +61,34 @@ namespace MemberSite.Service.BLL
 
             if (depositLimitInfo?.DepositStatus == 0)
             {
-                return new CryptoPayInfo[] { };
+                return Array.Empty<CryptoPayInfo>();
             }
 
             var cryptoPayInfoList = GetCryptoPayInfoListWithCache(custInfo.SiteId)
-                .Where(x => vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId).ToList();
-       
+                .Where(x => vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId)
+                .ToList();
 
+            var localCryptoList = _bankInfoOffBll.GetFilteredOfflineCryptoPayInfo(custId)
+                .GroupBy(x => x.ChannelName)
+                .Select(g =>
+                    new CryptoPayInfo
+                    {
+                        ChannelName = g.Key,
+                        Mode = 3,
+                        MaxAmount = g.Any(x => x.MaxAmount == 0) 
+                            ? 0 : g.Max(x => x.MaxAmount),
+                        MinAmount = g.Min(x => x.MinAmount),
+                        ChannelId = -1 * (int)g.First().CryptoCurrencyId,
+                        GroupId = -1,
+                        GroupName = "LetsPay",
+                        AmountRule = 1,
+                        CurrencyId = custInfo.CurrencyId,
+                        GSort = -1,
+                        PayName = "LetsPay"
+                    });
+            
+            cryptoPayInfoList.AddRange(localCryptoList);
+       
             if (depositLimitInfo != null)
             {
                 foreach (var cryptoPayInfo in cryptoPayInfoList)
@@ -72,8 +96,8 @@ namespace MemberSite.Service.BLL
                     _depositBll.FixDepositLimit(cryptoPayInfo, depositLimitInfo);
                 }
             }
-
-            return cryptoPayInfoList.Where(x => x.MaxAmount > 0);
+            
+            return cryptoPayInfoList.OrderBy(x => x.GSort);
         }
         public int DepositReqCryptoPay(int custId, int channelId, decimal amount, out string transId, out CryptoPayInfo cryptoPayInfo)
         {
@@ -128,6 +152,62 @@ namespace MemberSite.Service.BLL
             }
 
             return -99;
+        }
+        
+        public async Task<(int ErrorCode, string Message, PayResult payResult)> DepositReqCryptoLocalPayAsync(
+            Customer custInfo, decimal amount, OfflineCryptoPayInfo cryptoPayInfo)
+        {
+            if (amount <= 0)
+                return (-1, "Amount must be greater than 0", null);
+
+            var exchangeInfo =
+                await GetExchangeInfoAsync(custInfo.SiteId, custInfo.CurrencyId, amount, cryptoPayInfo.ChannelName, ExchangeTypeEnum.Buy);
+
+            if (exchangeInfo.ErrorCode != (int) ErrorCode.Success)
+                return (-2, "Get exchange info failed.", null);
+            
+            var depositDetailInfo = new DepositDetailInfo
+            {
+                Amount = amount,
+                CustId = custInfo.CustId,
+                DepositType = (int)DepositType.CryptoWallet,
+                Memo = "Local Payment",
+                SiteId = custInfo.SiteId,
+                UserName = custInfo.UserName,
+                CurrencyId = custInfo.CurrencyId,
+                DepositInfo = JsonConvert.SerializeObject(new
+                {
+                    cryptoPayInfo.BankId,
+                    cryptoPayInfo.AccountName,
+                    cryptoPayInfo.AccountNo,
+                    cryptoPayInfo.FrontendDisplayName,
+                    cryptoPayInfo.CryptoCurrencyId,
+                    cryptoPayInfo.Network,
+                    CurrencyName = cryptoPayInfo.CryptoCurrencyId.ToString(),
+                    cryptoPayInfo.ChannelName,
+                    ExchangeRate = exchangeInfo.Data.Rate,
+                    exchangeInfo.Data.ExchangeAmount
+                })
+            };
+
+            _depositService.DepositReq(depositDetailInfo, out var transId, out _);
+            var payResult = new PayResult
+            {
+                Url = cryptoPayInfo.FrontendDisplayName,
+                Mode = 3,
+                FormData = new Dictionary<string, string>
+                {
+                    { "DepositAmount", amount.ToString() },
+                    { "Rate", exchangeInfo.Data.Rate.ToString() },
+                    { "RequestAmount", exchangeInfo.Data.ExchangeAmount.ToString() },
+                    { "Token", cryptoPayInfo.ChannelName }
+                },
+                ThirdId = transId
+            };
+            
+            return string.IsNullOrEmpty(transId) 
+                ? (-3, "Create deposit transaction failed.", null)
+                : (0, transId, payResult);
         }
 
         public async Task<ApiResult<CryptoExchangeInfo>> GetExchangeInfoAsync(int siteId, int currencyId, decimal amount, string channelName, ExchangeTypeEnum type)

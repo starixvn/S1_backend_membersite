@@ -61,6 +61,7 @@ namespace MemberSite.Service.Model
         public string Network { set; get; }
         public int CurrencyId { set; get; }
         public string CurrencyName { set; get; }
+        public bool Disabled { set; get; }
     }
 
     public class CryptoWalletDetailLog : CryptoWalletDetail
@@ -142,6 +143,7 @@ namespace MemberSite.Service.Model
         public string AddressLineFirst { get; set; }
         public string AddressLineSecond { get; set; }
         public bool IsResetPwd { get; set; }
+        public MemberTypeEnum MemberType { get; set; }
     }
     public class CustRollOver
     {
@@ -308,5 +310,35 @@ namespace MemberSite.Service.Model
     public class CryptoWalletDetailData : CryptoWalletDetail
     {
         public int CustId { set; get; }
+    }
+
+    public class CustTpGameTypeSettingDto
+    {
+        public int TpId { set; get; }
+        public int GameType { set; get; }
+        public CustTpGameTypeSettingType Type { set; get; }
+    }
+
+    public class CustTpGameTypeSetting
+    {
+        public int TpId { set; get; }
+        public int GameType { set; get; }
+        public bool NoShow { set; get; }
+        public bool NoPlay { set; get; }
+
+        public CustTpGameTypeSetting(int tpId, int gameType, bool noShow, bool noPlay)
+        {
+            TpId = tpId;
+            GameType = gameType;
+            NoShow = noShow;
+            NoPlay = noPlay;
+        }
+    }
+
+    public class CustRecentlyViewedInfo
+    {
+        public int CustId { set; get; }
+        public string RecentlyViewed { set; get; }
+        public DateTime UpdateTime { set; get; }
     }
 }

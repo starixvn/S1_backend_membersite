@@ -35,9 +35,9 @@ namespace MemberSite.Controllers.Api
         private readonly CasinoBll _casinoBll;
         private readonly BonusWalletBLL _bonusWalletBll;
         private readonly EventsBLL _eventsBll;
-        private readonly ICacheHelper _cacheHelper;
         private readonly ILogger<AccountController> _logger;
         private readonly CheckAttackBLL _checkAttackBll;
+        private readonly ICacheHelper _cacheHelper;
         private readonly ServerInfoBll _serverInfoBll;
 
         public AccountController(IServiceProvider provider)
@@ -58,8 +58,8 @@ namespace MemberSite.Controllers.Api
             _casinoBll = provider.GetRequiredService<CasinoBll>();
             _bonusWalletBll = provider.GetRequiredService<BonusWalletBLL>();
             _eventsBll = provider.GetRequiredService<EventsBLL>();
-            _cacheHelper = provider.GetRequiredService<ICacheHelper>();
             _logger = provider.GetRequiredService<ILogger<AccountController>>();
+            _cacheHelper = provider.GetRequiredService<ICacheHelper>();
             _checkAttackBll = provider.GetRequiredService<CheckAttackBLL>();
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
         }
@@ -393,7 +393,18 @@ namespace MemberSite.Controllers.Api
             if (custBankInfo != null)
             {
                 custBankInfo.bankInfoDetail ??= Enumerable.Empty<BankInfoDetailRep>();
-                custBankInfo.uSDTDetail ??= Enumerable.Empty<CryptoWalletDetail>();
+                custBankInfo.uSDTDetail ??= Array.Empty<CryptoWalletDetail>();
+
+                if (custBankInfo.uSDTDetail != null && custBankInfo.uSDTDetail.Any())
+                {
+                    var supportCryptoInfo = _paymentBll.GetSupportCryptoInfoWithCache(custInfo.SiteId);
+                    foreach (var crypto in custBankInfo.uSDTDetail)
+                    {
+                        if (!supportCryptoInfo.CryptoNetwork.Any(x => x.CurrencyId == crypto.CurrencyId
+                            && x.Network == crypto.Network))
+                            crypto.Disabled = true;
+                    }
+                }
             }
 
             apiResult.Data = custBankInfo;
@@ -801,7 +812,7 @@ namespace MemberSite.Controllers.Api
 
             try
             {
-                if (_checkAttackBll.CheckAttack(rrofileReq,Request))
+                if (_checkAttackBll.CheckAttack(rrofileReq, Request))
                 {
                     Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
                     return null;
@@ -1098,6 +1109,23 @@ namespace MemberSite.Controllers.Api
             }
 
             apiResult.Data = result;
+            apiResult.ErrorCode = 0;
+
+            return apiResult;
+        }
+
+        [HttpPost]
+        public async Task<ApiResult<IEnumerable<CustTpGameTypeSetting>>> GetCustTpGameTypeSetting()
+        {
+            var apiResult = new ApiResult<IEnumerable<CustTpGameTypeSetting>>(_selLangBll);
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
+                return apiResult;
+            }
+            var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+            apiResult.Data = await _custInfoBll.GetCustTpGameTypeSetting(custInfo.CustId);
             apiResult.ErrorCode = 0;
 
             return apiResult;
