@@ -69,7 +69,7 @@ namespace MemberSite.Service.BLL
 
             if (cnt >= 5)
             {
-                return new ApiResult<SendOTPSMSResult>(-1, _selLangBLL.GetMsg("msg_Updatesuccessful"), null);
+                return new ApiResult<SendOTPSMSResult>(-1, _selLangBLL.GetMsg("msg_OTPDailyLimit"), null);
             }
             
             var apiUrl = $"{_commonServiceUrl}OTPSMS/SendOTPSMS";
