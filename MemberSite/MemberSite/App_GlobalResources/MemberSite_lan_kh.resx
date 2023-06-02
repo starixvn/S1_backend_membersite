@@ -614,4 +614,10 @@
   <data name="lbl_ViewHistory"><value>មើលប្រវត្តិ</value></data>
   <data name="lbl_RecipientInfo"><value>ព័ត៌មានអំពីអ្នកទទួល</value></data>
   <data name="lbl_RecipientName"><value>ឈ្មោះ​អ្នក​ទទួល</value></data>
+  <data name="lbl_Vip_High"><value>ខ្ពស់</value></data>
+  <data name="lbl_Vip_3Months"><value>៣ ខែ</value></data>
+  <data name="lbl_Vip_Lifetime"><value>ពេញមួយជីវិត</value></data>
+  <data name="lbl_Vip_Normal"><value>ធម្មតា</value></data>
+  <data name="lbl_Vip_ByInvitation"><value>តាមការអញ្ជើញ</value></data>
+  <data name="lbl_VIP_unlimited"><value>គ្មានដែនកំណត់</value></data>
   </root>
