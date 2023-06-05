@@ -58,12 +58,13 @@ namespace MemberSite.Service.BLL
         public static string GenerateVietQr(OfflineBankAccountInfo card, string transId, decimal amount)
         {
             var strAmount = amount.ToString("#");
+            var strDepositId = Regex.Match(transId, @"\d+").Value;
             
             var bnbId = "0006" + card.BIN;
             var consumerId = $"01{card.AccountNo.Length:00}{card.AccountNo}";
             var pamentNetwork = $"01{10 + consumerId.Length}{bnbId}{consumerId}";
             var accountInfo = $"38{pamentNetwork.Length + 14 + 12}0010A000000727{pamentNetwork}0208QRIBFTTA";
-            var additionalData = $"08{transId.Length:00}{transId}";
+            var additionalData = $"08{strDepositId.Length:00}{strDepositId}";
             
             var tmp =$"000201010212{accountInfo}530370454{strAmount.Length:00}{strAmount}5802VN62{additionalData.Length:00}{additionalData}6304";
             
