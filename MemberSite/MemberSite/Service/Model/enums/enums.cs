@@ -46,6 +46,7 @@ namespace MemberSite.Service.Model.enums
         LoadCardPayment = 5,
         QRPayPayment = 6,
         BankAutoChannel = 7,
+        CryptoWallet = 8
     }
 
     /// <summary>

@@ -79,6 +79,7 @@ namespace MemberSite.Service.Model
         public int GSort { get; set; }
         public int SSort { get; set; }
     }
+    
     public class CryptoPayGroup
     {
         public int GroupId { get; set; }

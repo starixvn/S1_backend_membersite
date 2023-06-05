@@ -3,6 +3,7 @@ using MemberSite.Service.Model;
 using Microsoft.Extensions.Caching.Memory;
 using System.Text.RegularExpressions;
 using MemberSite.Service.Library;
+using Newtonsoft.Json;
 
 namespace MemberSite.Service.BLL
 {
@@ -22,117 +23,70 @@ namespace MemberSite.Service.BLL
                 pattern = @"(?<=[\w]{1})[\w-\._\+%]*(?=[\w]{1})";
             return Regex.Replace(input, pattern, m => new string('*', m.Length));
         }
+
         public EventsBLL(IServiceProvider provider)
         {
             _eventsService = provider.GetRequiredService<EventsService>();
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
-        }
+        }              
         
-        private IEnumerable<Leaderboard> GetLeaderboardList(int lBCategoryId, string eventCode, int siteId, int currencyId, int topNum, int beforeDays)
+        public IEnumerable<Leaderboard> GetLeaderboardList(string eventCode, int lBCategoryId, int siteId, int currencyId, int topNum, int beforeDays)
         {
-            var startTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);  // 當月份1號開始
-            var endTime = DateTime.UtcNow.Date.AddDays(beforeDays * -1).AddDays(1).AddSeconds(-1); 
+            var list = GetLeaderboardListWithCache(eventCode, lBCategoryId, siteId, currencyId, beforeDays);
+            return list.OrderByDescending(x => x.WTurnover).Take(topNum);
+        }
 
-            if (startTime > endTime)
+        public IEnumerable<Leaderboard> GetLeaderboardListWithCache(string eventCode, int lBCategoryId, int siteId, int currencyId, int beforeDays)
+        {
+            var key = $"LeaderboardListDays:{lBCategoryId}:{eventCode}:{siteId}:{currencyId}:{beforeDays}";
+            var json = _redisHelper.StringGet(key);
+            return JsonConvert.DeserializeObject<IEnumerable<Leaderboard>>(json);
+        }
+
+        public IEnumerable<Leaderboard> GetLeaderboardListMonth(string eventCode, int lBCategoryId, int siteId, int currencyId, int topNum, DateTime selectDays)
+        {           
+            var list = GetLeaderboardListMonthWithCache(eventCode, lBCategoryId, siteId, currencyId, selectDays.Date.ToString("yyyyMM"));
+            return list.OrderByDescending(x => x.WTurnover).Take(topNum);
+        }
+
+        public IEnumerable<Leaderboard> GetLeaderboardListMonthWithCache(string eventCode, int lBCategoryId, int siteId, int currencyId, string yyyyMM)
+        {
+            var key = $"LeaderboardListMonth:{lBCategoryId}:{eventCode}:{siteId}:{currencyId}:{yyyyMM}";
+            var json = _redisHelper.StringGet(key);
+            return JsonConvert.DeserializeObject<IEnumerable<Leaderboard>>(json);
+        }
+
+        public LeaderboardCustRank GetCustRank(int lBCategoryId, string eventCode, int siteId, int currencyId ,int custId, int beforeDays)
+        {
+            var list = GetLeaderboardListWithCache(eventCode, lBCategoryId, siteId, currencyId, beforeDays);
+            var rank = 0;
+
+            foreach (var data in list.OrderByDescending(x => x.WTurnover))
             {
-                (startTime, endTime) = (endTime, startTime);
-                startTime = startTime.Date;
+                rank++;
+                if (data.CustId == custId)
+                {
+                    return new LeaderboardCustRank
+                    {
+                        CustRank = rank,
+                        point = data.WTurnover
+                    };
+                }
             }
-            
-            var leaderboard = _eventsService.GetLeaderboardList(lBCategoryId, eventCode, siteId, currencyId, topNum, startTime ,endTime);
-            // var leaderBoardYesterday = _eventsService.GetLeaderboardList(lBCategoryId, eventCode, siteId, currencyId, topNum, startTime ,endTime.AddDays(-1) ).ToList();
-            //
-            // if (leaderBoardYesterday.Any())
-            // {
-            //     var count = 0;
-            //     foreach (var data in leaderboard)
-            //     {
-            //         count++;
-            //         var item = leaderBoardYesterday.FirstOrDefault(x => x.CustId == data.CustId);
-            //         if (item == null)
-            //         {
-            //             data.Status = 1;
-            //         }
-            //         else
-            //         {
-            //             data.Status = -count.CompareTo(leaderBoardYesterday.IndexOf(item) + 1);
-            //         }
-            //     }
-            // }
-            
-            return leaderboard;
-        }
-        
-        public IEnumerable<Leaderboard> GetLeaderboardListWithCache(string eventCode, int lBCategoryId, int siteId, int currencyId, int topNum, int beforeDays)
-        {
-            var key = $"Leaderboard:{lBCategoryId}:{eventCode}:{siteId}:{currencyId}:{topNum}:{beforeDays}";
-            return _cacheHelper.TryGetOrCreate(key,
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromHours(1)),
-                i => GetLeaderboardList(lBCategoryId, eventCode, siteId, currencyId, topNum, beforeDays));
-        }
 
-        private IEnumerable<Leaderboard> GetLeaderboardListMonth(int lBCategoryId, string eventCode, int siteId, int currencyId, int topNum, DateTime selectDays)
-        {
-            var endTime = new DateTime(selectDays.Year, selectDays.Month, 1).AddMonths(1).AddSeconds(-1);
-            var leaderboard = _eventsService.GetLeaderboardList(lBCategoryId, eventCode, siteId, currencyId, topNum, selectDays ,endTime);
-            
-            return leaderboard;
-        }
-        
-        public IEnumerable<Leaderboard> GetLeaderboardListMonthWithCache(string eventCode, int lBCategoryId, int siteId, int currencyId, int topNum, DateTime selectDays)
-        {
-            // var key = $"Leaderboard:{lBCategoryId}:{eventCode}:{siteId}:{currencyId}:{topNum}:{selectDays.Date}";
-            // return _redisHelper.TryGetOrCreate(key, TimeSpan.FromDays(1),
-            //     () => GetLeaderboardListMonth(lBCategoryId, eventCode, siteId, currencyId, topNum, selectDays));
-            
-            var key = $"LeaderboardListMonth:{lBCategoryId}:{eventCode}:{siteId}:{currencyId}:{selectDays.Date.ToString("yyyyMM")}";
-            var list = _redisHelper.TryGetOrCreate(key, TimeSpan.FromDays(1),
-                () => GetLeaderboardListMonth(lBCategoryId, eventCode, siteId, currencyId, topNum, selectDays))
-                .OrderByDescending(x => x.WTurnover).ToList();
-            return list.Take(topNum);
-        }
-        
-        private LeaderboardCustRank GetCustRank(int lBCategoryId, string eventCode, int siteId, int currencyId ,int custId, int beforeDays)
-        {
-            var startTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);  // 當月份1號開始
-            var endTime = DateTime.Now.AddDays(beforeDays * -1).Date.AddDays(1).AddSeconds(-1); 
-
-            if (startTime > endTime)
-            {
-                (startTime, endTime) = (endTime, startTime);
-                startTime = startTime.Date;
-            }
-            
-            _eventsService.GetCustRank(lBCategoryId, eventCode, siteId ,currencyId , custId, startTime ,endTime , out var custRank, out var point);
-            
             return new LeaderboardCustRank
             {
-                CustRank = custRank,
-                point = point
+                CustRank = 0,
+                point = 0
             };
         }
         
-        public void GetCustRankWithCache(int lBCategoryId, string eventCode, int siteId, int currencyId  ,int custId ,int beforeDays, out int custRank, out decimal point)
-        {
-            var key = $"Leaderboard:{lBCategoryId}:{eventCode}:{custId}:{beforeDays}";
-            var result = _redisHelper.TryGetOrCreate(key, TimeSpan.FromHours(1),
-                () => GetCustRank(lBCategoryId, eventCode, siteId ,currencyId , custId, beforeDays));
-
-            custRank = result.CustRank;
-            point = result.point;
-        }
-
         public (int custRank , decimal point) GetCustRankWithCacheMonth(int lBCategoryId, string eventCode,  int siteId, int currencyId ,int custId, DateTime selectDays)
         {
-            var key = $"LeaderboardListMonth:{lBCategoryId}:{eventCode}:{siteId}:{currencyId}:{selectDays.Date.ToString("yyyyMM")}";
-            // var result = _redisHelper.TryGetOrCreate(key, TimeSpan.FromDays(1),
-            //     () => GetCustRankMonth(lBCategoryId, eventCode, siteId ,currencyId, custId, selectDays));
-            var list = _redisHelper.TryGetOrCreate(key, TimeSpan.FromDays(1),
-                () => new List<Leaderboard>()).OrderByDescending(x => x.WTurnover).ToList();
-            
+            var list = GetLeaderboardListMonthWithCache(eventCode, lBCategoryId, siteId, currencyId, selectDays.Date.ToString("yyyyMM"));
             var rank = 0;
-            foreach (var data in list)
+            foreach (var data in list.OrderByDescending(x => x.WTurnover))
             {
                 rank++;
                 if (data.CustId == custId)
@@ -141,7 +95,7 @@ namespace MemberSite.Service.BLL
                 }
             }
             
-            return (0,0);
+            return (0, 0);
         }
 
         public IEnumerable<Prize> CheckDrawPrize(ref int eventId, int custId, int currencyId, out int prizeId, out int result)
