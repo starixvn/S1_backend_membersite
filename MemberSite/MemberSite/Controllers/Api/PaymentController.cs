@@ -311,7 +311,7 @@ namespace MemberSite.Controllers.Api
             public decimal Amount { set; get; }
             public string BonusCode { set; get; }
         }
-        
+
         [HttpPost]
         public ApiResult<LocalPayResp> DepositReqLocalPayAsync(DepositReqLocalPayReq req)
         {
