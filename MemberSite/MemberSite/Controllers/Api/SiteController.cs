@@ -159,13 +159,13 @@ namespace MemberSite.Controllers.Api
                 };
             }
 
-            if (loginModel.di != null)
-            {
-                _ = Task.Run(async () =>
-                {
-                    await _sFpsBll.FPSChecksAsync(customer.CustId, "login", "Successfully", loginModel.url, loginModel.platform, loginModel.userAgent, loginModel.screen, loginModel.di, ip);
-                });
-            }
+            // if (loginModel.di != null)
+            // {
+            //     _ = Task.Run(async () =>
+            //     {
+            //         await _sFpsBll.FPSChecksAsync(customer.CustId, "login", "Successfully", loginModel.url, loginModel.platform, loginModel.userAgent, loginModel.screen, loginModel.di, ip);
+            //     });
+            // }
 
             await _cacheHelper.StringFireAndForgetSetAsync(customer.CustId.ToString(), token, TimeSpan.FromMinutes(30), RedisDataBase.Token);
 
@@ -241,13 +241,13 @@ namespace MemberSite.Controllers.Api
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
-            if (loginModel.di != null)
-            {
-                _ = Task.Run(async () =>
-                {
-                    await _sFpsBll.FPSChecksAsync(customer.CustId, "login", "Successfully", loginModel.url, loginModel.platform, loginModel.userAgent, loginModel.screen, loginModel.di, ip);
-                });
-            }
+            // if (loginModel.di != null)
+            // {
+            //     _ = Task.Run(async () =>
+            //     {
+            //         await _sFpsBll.FPSChecksAsync(customer.CustId, "login", "Successfully", loginModel.url, loginModel.platform, loginModel.userAgent, loginModel.screen, loginModel.di, ip);
+            //     });
+            // }
 
             var accessToken = _tools.GenerateJwtTokens(claims);
             var data = new JwtAuthData
@@ -1189,6 +1189,21 @@ namespace MemberSite.Controllers.Api
         [HttpGet, HttpPost]
         public ApiResult<IEnumerable<TpMaintain>> GetTpMaintainList()
         {
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is { CustId: > 0 })
+            {
+                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                if (custInfo.IsTest == true)
+                {
+                    return new ApiResult<IEnumerable<TpMaintain>>()
+                    {
+                        ErrorCode = 0,
+                        Data = new List<TpMaintain>(),
+                        Message = $"UtcNow is {DateTime.UtcNow:yyyy/MM/dd HH:mm:ss}"
+                    };
+                }
+            }
+
             return new ApiResult<IEnumerable<TpMaintain>>()
             {
                 ErrorCode = 0,

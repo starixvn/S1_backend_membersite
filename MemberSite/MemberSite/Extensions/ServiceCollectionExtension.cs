@@ -1,6 +1,7 @@
 ﻿using MemberSite.Service.Library;
 using MemberSite.Service.Model.enums;
 using MemberSite.Service.DAL;
+using RabbitMQ.Client;
 
 namespace MemberSite.Extensions
 {
@@ -30,7 +31,20 @@ namespace MemberSite.Extensions
                    DataBase = DataBase.Log
                });
         }
-    
+
+        public static void AddMessageQueueConnection(this IServiceCollection services, IConfiguration config)
+        {
+            var hostName = config.GetSection("RabbitMQ:HostName");
+            var userName = config.GetSection("RabbitMQ:UserName");
+            var password = config.GetSection("RabbitMQ:Password");
+            services.AddSingleton<IConnectionFactory>(_ => new ConnectionFactory()
+            {
+                HostName = hostName.Value,
+                UserName = userName.Value,
+                Password = password.Value
+            });
+        }
+
         public static IServiceCollection AddOptionListByDB<T>(this IServiceCollection services, string sql, object parameters = null)
         {
             var provider = services.BuildServiceProvider();

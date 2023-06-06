@@ -54,6 +54,60 @@ namespace MemberSite.Service.BLL
             _gameTypeList = statementService.GetGameTypeListWithCache().ToDictionary(i => i.Type, i => i.TypeName);
             _logger = provider.GetRequiredService<ILogger<PaymentBLL>>();
         }
+        
+        public (int errorCode, string message) DepositReqLocalBank(DepositReqLocalPayModel req, out string transId, out string code)
+        {
+            transId = string.Empty;
+            code = string.Empty;
+            
+            if (req.Amount <= 0)
+                return (-3, "Amount must be greater than 0");
+            
+            var custInfo = custInfoBLL.GetCustInfoWithCache(req.CustId);
+            var bankCardInfo = bankInfoOffBLL.GetOfflineBankAccount(custInfo.SiteId)
+                .FirstOrDefault(x => x.BankId == req.BankId);
+            
+            if (bankCardInfo == null)
+            {
+                
+                return (-4, $"Cannot found bank card info ({req.BankId}).");
+            }
+            
+            var depositDetailInfo = new DepositDetailInfo
+            {
+                Amount = req.Amount,
+                CustId = req.CustId,
+                DepositType = (int) DepositType.LocalBank,
+                Memo = $"LocalPayment:{(int) req.Type}:{req.Type}",
+                SiteId = custInfo.SiteId,
+                UserName = custInfo.UserName,
+                CurrencyId = custInfo.CurrencyId
+            };
+
+            if (req.Type == DepositType.QRPayPayment)
+            {
+                var random = new Random();
+                code = random.Next(0, 1000000).ToString("000000");
+            }
+            
+            var depositInfo3_1 = new DepositInfo3_1
+            {
+                AccountName = bankCardInfo.AccountName,
+                CurrencyId = custInfo.CurrencyId,
+                SysId = bankCardInfo.SysId,
+                AccountNo = bankCardInfo.AccountNo,
+                Ver = 1,
+                IsLocalPay = true,
+                GroupId = req.GroupId,
+                Code = code
+            };
+                
+            depositDetailInfo.DepositInfo = JsonConvert.SerializeObject(depositInfo3_1);
+
+            _depositService.DepositReq(depositDetailInfo, out transId, out var postScript);
+                
+            return (0, string.Empty);
+        }
 
         /// <summary>
         /// Deposit for Local Bank
@@ -64,7 +118,7 @@ namespace MemberSite.Service.BLL
         /// <param name="memo">meno</param>
         /// <param name="depositRep3">output</param>
         /// <returns></returns>
-        public int DepositReqLocalBank(int custId, int sysId, decimal amount, string memo, out DepositRep3 depositRep3)
+        public int DepositReqLocalBank(int custId, int sysId, int bankId, decimal amount, string memo, out DepositRep3 depositRep3)
         {
             depositRep3 = new DepositRep3();
 
@@ -79,6 +133,7 @@ namespace MemberSite.Service.BLL
                             && x.VipLevels.Contains(custInfo.UserLevel)
                             && x.SysId == sysId)
                 .ToList();
+            
             var depositLimitInfoList = _depositService.GetDepositLimitInfoList();
             var depositLimitInfo = depositLimitInfoList?.FirstOrDefault(x =>
                 x.SiteId == custInfo.SiteId && x.VipLevel == pointLevel && x.DepositType == (int)DepositType.LocalBank &&
@@ -97,20 +152,10 @@ namespace MemberSite.Service.BLL
                 }
             }
 
-            var info = localBankList
+            var info = localBankList.FirstOrDefault(x => bankId != 0 && x.BankId == bankId) ??
+                       localBankList
                 .Where(x => (x.MinAmount == 0 && x.MaxAmount == 0) || (amount >= x.MinAmount && amount <= x.MaxAmount))
-                .OrderBy(x => x.BSort)
-                .Select(x => new
-                {
-                    x.SysId,
-                    x.BankId,
-                    x.BankLogo,
-                    x.BankName,
-                    x.BankSite,
-                    x.AccountName,
-                    x.AccountNo,
-                    IFSCCode = x.AccountCode
-                }).FirstOrDefault();
+                .OrderBy(x => x.BSort).FirstOrDefault();
 
             if (info != null)
             {
@@ -131,7 +176,7 @@ namespace MemberSite.Service.BLL
                     CurrencyId = custInfo.CurrencyId,
                     SysId = info.SysId,
                     AccountNo = info.AccountNo,
-                    IFSCCode = info.IFSCCode,
+                    IFSCCode = info.AccountCode,
                     Ver = 1
                 };
                 depositDetailInfo.DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(depositInfo3_1);
@@ -185,7 +230,7 @@ namespace MemberSite.Service.BLL
             return 0;
         }
 
-        public int DepositReqLocalBankWithFrom(int custId, int sysId, decimal amount, string memo, string depositFromInfo, out DepositRep3 depositRep3)
+        public int DepositReqLocalBankWithFrom(int custId, int sysId, int bankId, decimal amount, string memo, string depositFromInfo, out DepositRep3 depositRep3)
         {
             depositRep3 = new DepositRep3();
 
@@ -216,20 +261,10 @@ namespace MemberSite.Service.BLL
                 }
             }
 
-            var info = localBankList
-                .Where(x => (x.MinAmount == 0 && x.MaxAmount == 0) || (amount >= x.MinAmount && amount <= x.MaxAmount))
-                .OrderBy(x => x.BSort)
-                .Select(x => new
-                {
-                    x.SysId,
-                    x.BankId,
-                    x.BankLogo,
-                    x.BankName,
-                    x.BankSite,
-                    x.AccountName,
-                    x.AccountNo,
-                    IFSCCode = x.AccountCode
-                }).FirstOrDefault();
+            var info = localBankList.FirstOrDefault(x => bankId != 0 && x.BankId == bankId) ??
+                       localBankList
+                           .Where(x => (x.MinAmount == 0 && x.MaxAmount == 0) || (amount >= x.MinAmount && amount <= x.MaxAmount))
+                           .OrderBy(x => x.BSort).FirstOrDefault();
 
             if (info != null)
             {
@@ -250,7 +285,7 @@ namespace MemberSite.Service.BLL
                     CurrencyId = custInfo.CurrencyId,
                     SysId = info.SysId,
                     AccountNo = info.AccountNo,
-                    IFSCCode = info.IFSCCode,
+                    IFSCCode = info.AccountCode,
                     Ver = 1
                 };
                 depositDetailInfo.DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(depositInfo3_1);
@@ -486,9 +521,9 @@ namespace MemberSite.Service.BLL
                     depositInfo.BankInfo = bankInfoBLL.GetBankInfoSysListByCurrency(CustInfo.CurrencyId).FirstOrDefault(x => x.SysId == depositInfoRef.SysId);
                 }
 
-                if ("Fake MobilePay".Equals(depositInfo.Memo, StringComparison.OrdinalIgnoreCase))
+                if (!string.IsNullOrEmpty(depositInfo.Memo) && depositInfo.Memo.StartsWith("LocalPayment"))
                 {
-                    depositInfo.DepositType = (int)DepositType.MobilePayment;
+                    depositInfo.DepositType = int.Parse(depositInfo.Memo.Split(":")[1]);
                 }
 
                 List<DepositMessageDetail> depositMessageDetails = new List<DepositMessageDetail>();

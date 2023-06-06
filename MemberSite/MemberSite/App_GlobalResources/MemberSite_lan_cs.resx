@@ -1,37 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="metadata">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
-              </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="assembly">
-            <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
-            </xsd:complexType>
-          </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
                 <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
                 <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
               <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
               <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
@@ -46,1671 +27,557 @@
       </xsd:complexType>
     </xsd:element>
   </xsd:schema>
-  <resheader name="resmimetype">
-    <value>text/microsoft-resx</value>
-  </resheader>
-  <resheader name="version">
-    <value>2.0</value>
-  </resheader>
-  <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <data name="Currency_1" xml:space="preserve">
-    <value>SGD</value>
-  </data>
-  <data name="Currency_12" xml:space="preserve">
-    <value>GBP</value>
-  </data>
-  <data name="Currency_13" xml:space="preserve">
-    <value>CNY</value>
-  </data>
-  <data name="Currency_15" xml:space="preserve">
-    <value>IDR</value>
-  </data>
-  <data name="Currency_2" xml:space="preserve">
-    <value>MYR</value>
-  </data>
-  <data name="Currency_20" xml:space="preserve">
-    <value>UUS</value>
-  </data>
-  <data name="Currency_3" xml:space="preserve">
-    <value>USD</value>
-  </data>
-  <data name="Currency_32" xml:space="preserve">
-    <value>JPY</value>
-  </data>
-  <data name="Currency_4" xml:space="preserve">
-    <value>THB</value>
-  </data>
-  <data name="Currency_41" xml:space="preserve">
-    <value>CHF</value>
-  </data>
-  <data name="Currency_45" xml:space="preserve">
-    <value>WON</value>
-  </data>
-  <data name="Currency_51" xml:space="preserve">
-    <value>VND</value>
-  </data>
-  <data name="Currency_6" xml:space="preserve">
-    <value>EURO</value>
-  </data>
-  <data name="Currency_9" xml:space="preserve">
-    <value>AUD</value>
-  </data>
-  <data name="lbl_5mins" xml:space="preserve">
-    <value>5分鐘</value>
-  </data>
-  <data name="lbl_AboutUs" xml:space="preserve">
-    <value>关于我们</value>
-  </data>
-  <data name="lbl_AccountTerms" xml:space="preserve">
-    <value>账户条款</value>
-  </data>
-  <data name="lbl_AddNewAccount" xml:space="preserve">
-    <value>新增账户</value>
-  </data>
-  <data name="lbl_Affiliates" xml:space="preserve">
-    <value>合作伙伴</value>
-  </data>
-  <data name="lbl_Agent" xml:space="preserve">
-    <value>代理</value>
-  </data>
-  <data name="lbl_AllTranscations" xml:space="preserve">
-    <value>所有交易</value>
-  </data>
-  <data name="lbl_Amount" xml:space="preserve">
-    <value>金额</value>
-  </data>
-  <data name="lbl_AmountTooltip" xml:space="preserve">
-    <value>金额不得小于0</value>
-  </data>
-  <data name="lbl_Applicationname" xml:space="preserve">
-    <value>欧亚体育</value>
-  </data>
-  <data name="lbl_AttachFile" xml:space="preserve">
-    <value>请附上您银行收据(非必要)</value>
-  </data>
-  <data name="lbl_Author" xml:space="preserve">
-    <value>欧亚体育</value>
-  </data>
-  <data name="lbl_Back" xml:space="preserve">
-    <value>返回</value>
-  </data>
-  <data name="lbl_BankAccount" xml:space="preserve">
-    <value>银行账户</value>
-  </data>
-  <data name="lbl_BankAccountName" xml:space="preserve">
-    <value>账户名称</value>
-  </data>
-  <data name="lbl_BankAccountNameHint" xml:space="preserve">
-    <value>账号名称请填写真实姓名，完成后将无法修改！</value>
-  </data>
-  <data name="lbl_BankInfo" xml:space="preserve">
-    <value>银行资讯</value>
-  </data>
-  <data name="lbl_BankName" xml:space="preserve">
-    <value>银行名称</value>
-  </data>
-  <data name="lbl_BankNumber" xml:space="preserve">
-    <value>银行账户号码</value>
-  </data>
-  <data name="lbl_Baseball" xml:space="preserve">
-    <value>棒球</value>
-  </data>
-  <data name="lbl_BaseballBetting" xml:space="preserve">
-    <value>棒球投注</value>
-  </data>
-  <data name="lbl_Basketball" xml:space="preserve">
-    <value>篮球</value>
-  </data>
-  <data name="lbl_BasketballBetting" xml:space="preserve">
-    <value>篮球投注</value>
-  </data>
-  <data name="lbl_Cancel" xml:space="preserve">
-    <value>取消</value>
-  </data>
-  <data name="lbl_CancelConfirm" xml:space="preserve">
-    <value>确定取消？取消后将无法还原！</value>
-  </data>
-  <data name="lbl_Cashier" xml:space="preserve">
-    <value>收银</value>
-  </data>
-  <data name="lbl_Casino" xml:space="preserve">
-    <value>电子游戏</value>
-  </data>
-  <data name="lbl_CasinoSlogon" xml:space="preserve">
-    <value>亚洲市场的多种主题</value>
-  </data>
-  <data name="lbl_ChangePassword" xml:space="preserve">
-    <value>更改密码</value>
-  </data>
-  <data name="lbl_ChargeFee" xml:space="preserve">
-    <value>手续费</value>
-  </data>
-  <data name="lbl_Check18TC1" xml:space="preserve">
-    <value>我同意</value>
-  </data>
-  <data name="lbl_Check18TC2" xml:space="preserve">
-    <value>和</value>
-  </data>
-  <data name="lbl_Check18TC3" xml:space="preserve">
-    <value>在</value>
-  </data>
-  <data name="lbl_Check18TC4" xml:space="preserve">
-    <value>我确认我至少21岁</value>
-  </data>
-  <data name="lbl_Check18TCTooltip" xml:space="preserve">
-    <value>请点选上方格子以确认符合账号注册条件</value>
-  </data>
-  <data name="lbl_CheckConfirm" xml:space="preserve">
-    <value>确定要删除么？删除后将无法还原！</value>
-  </data>
-  <data name="lbl_Clickhereforbonus" xml:space="preserve">
-    <value>点击此处取得红利</value>
-  </data>
-  <data name="lbl_Clickhereforjoin" xml:space="preserve">
-    <value>点击这里加入</value>
-  </data>
-  <data name="lbl_Clickhereforsupport" xml:space="preserve">
-    <value>点击这裡获得支援</value>
-  </data>
-  <data name="lbl_Close" xml:space="preserve">
-    <value>关闭</value>
-  </data>
-  <data name="lbl_CompletedRegistration" xml:space="preserve">
-    <value>已完成注册</value>
-  </data>
-  <data name="lbl_CompleteRegistration" xml:space="preserve">
-    <value>完成注册</value>
-  </data>
-  <data name="lbl_Confirm" xml:space="preserve">
-    <value>确认</value>
-  </data>
-  <data name="lbl_ConfirmDeposit" xml:space="preserve">
-    <value>请确认充值资讯。</value>
-  </data>
-  <data name="lbl_ConfirmWithdrawal" xml:space="preserve">
-    <value>请确认提现资讯。</value>
-  </data>
-  <data name="lbl_ContactCSD" xml:space="preserve">
-    <value>如有任何修改需求，请联系客服。</value>
-  </data>
-  <data name="lbl_ContactUs" xml:space="preserve">
-    <value>联络我们</value>
-  </data>
-  <data name="lbl_CookiePolicy" xml:space="preserve">
-    <value>Cookie政策</value>
-  </data>
-  <data name="lbl_Copyright" xml:space="preserve">
-    <value>{0}版权所有</value>
-  </data>
-  <data name="lbl_Country" xml:space="preserve">
-    <value>国家</value>
-  </data>
-  <data name="lbl_CountryAF" xml:space="preserve">
-    <value>阿富汗</value>
-  </data>
-  <data name="lbl_CountryAI" xml:space="preserve">
-    <value>安圭拉岛</value>
-  </data>
-  <data name="lbl_CountryAO" xml:space="preserve">
-    <value>安哥拉</value>
-  </data>
-  <data name="lbl_CountryAR" xml:space="preserve">
-    <value>阿根廷</value>
-  </data>
-  <data name="lbl_CountryAW" xml:space="preserve">
-    <value>阿鲁巴岛</value>
-  </data>
-  <data name="lbl_CountryBB" xml:space="preserve">
-    <value>巴巴多斯</value>
-  </data>
-  <data name="lbl_CountryBD" xml:space="preserve">
-    <value>孟加拉国</value>
-  </data>
-  <data name="lbl_CountryBF" xml:space="preserve">
-    <value>布吉纳法索</value>
-  </data>
-  <data name="lbl_CountryBH" xml:space="preserve">
-    <value>巴林</value>
-  </data>
-  <data name="lbl_CountryBI" xml:space="preserve">
-    <value>布隆迪</value>
-  </data>
-  <data name="lbl_CountryBJ" xml:space="preserve">
-    <value>贝宁</value>
-  </data>
-  <data name="lbl_CountryBM" xml:space="preserve">
-    <value>百慕大</value>
-  </data>
-  <data name="lbl_CountryBN" xml:space="preserve">
-    <value>文莱达鲁萨兰国</value>
-  </data>
-  <data name="lbl_CountryBO" xml:space="preserve">
-    <value>玻利维亚</value>
-  </data>
-  <data name="lbl_CountryBR" xml:space="preserve">
-    <value>巴西</value>
-  </data>
-  <data name="lbl_CountryBS" xml:space="preserve">
-    <value>巴哈马</value>
-  </data>
-  <data name="lbl_CountryBT" xml:space="preserve">
-    <value>不丹</value>
-  </data>
-  <data name="lbl_CountryBW" xml:space="preserve">
-    <value>博茨瓦纳</value>
-  </data>
-  <data name="lbl_CountryBZ" xml:space="preserve">
-    <value>伯利兹</value>
-  </data>
-  <data name="lbl_CountryCA" xml:space="preserve">
-    <value>加拿大</value>
-  </data>
-  <data name="lbl_CountryCD" xml:space="preserve">
-    <value>多米尼加共和国</value>
-  </data>
-  <data name="lbl_CountryCF" xml:space="preserve">
-    <value>中非共和国</value>
-  </data>
-  <data name="lbl_CountryCG" xml:space="preserve">
-    <value>刚果</value>
-  </data>
-  <data name="lbl_CountryCI" xml:space="preserve">
-    <value>科特迪瓦</value>
-  </data>
-  <data name="lbl_CountryCK" xml:space="preserve">
-    <value>库克群岛</value>
-  </data>
-  <data name="lbl_CountryCL" xml:space="preserve">
-    <value>智利</value>
-  </data>
-  <data name="lbl_CountryCM" xml:space="preserve">
-    <value>喀麦隆</value>
-  </data>
-  <data name="lbl_CountryCO" xml:space="preserve">
-    <value>哥伦比亚</value>
-  </data>
-  <data name="lbl_CountryCR" xml:space="preserve">
-    <value>哥斯达黎加</value>
-  </data>
-  <data name="lbl_CountryCS" xml:space="preserve">
-    <value>中国</value>
-  </data>
-  <data name="lbl_CountryCV" xml:space="preserve">
-    <value>佛得角</value>
-  </data>
-  <data name="lbl_CountryDZ" xml:space="preserve">
-    <value>阿尔及利亚</value>
-  </data>
-  <data name="lbl_CountryEC" xml:space="preserve">
-    <value>厄瓜多尔</value>
-  </data>
-  <data name="lbl_CountryEG" xml:space="preserve">
-    <value>埃及</value>
-  </data>
-  <data name="lbl_CountryER" xml:space="preserve">
-    <value>厄立特里亚</value>
-  </data>
-  <data name="lbl_CountryET" xml:space="preserve">
-    <value>埃塞俄比亚</value>
-  </data>
-  <data name="lbl_CountryFJ" xml:space="preserve">
-    <value>斐济</value>
-  </data>
-  <data name="lbl_CountryFO" xml:space="preserve">
-    <value>福克兰群岛(马尔维纳斯)</value>
-  </data>
-  <data name="lbl_CountryGA" xml:space="preserve">
-    <value>加蓬</value>
-  </data>
-  <data name="lbl_CountryGD" xml:space="preserve">
-    <value>格林纳达</value>
-  </data>
-  <data name="lbl_CountryGH" xml:space="preserve">
-    <value>加纳</value>
-  </data>
-  <data name="lbl_CountryGI" xml:space="preserve">
-    <value>直布罗陀</value>
-  </data>
-  <data name="lbl_CountryGN" xml:space="preserve">
-    <value>几内亚</value>
-  </data>
-  <data name="lbl_CountryGT" xml:space="preserve">
-    <value>危地马拉</value>
-  </data>
-  <data name="lbl_CountryGY" xml:space="preserve">
-    <value>圭亚那</value>
-  </data>
-  <data name="lbl_CountryHN" xml:space="preserve">
-    <value>洪都拉斯</value>
-  </data>
-  <data name="lbl_CountryHT" xml:space="preserve">
-    <value>海地</value>
-  </data>
-  <data name="lbl_CountryID" xml:space="preserve">
-    <value>印尼</value>
-  </data>
-  <data name="lbl_CountryIN" xml:space="preserve">
-    <value>印度</value>
-  </data>
-  <data name="lbl_CountryJM" xml:space="preserve">
-    <value>牙买加</value>
-  </data>
-  <data name="lbl_CountryJO" xml:space="preserve">
-    <value>约旦</value>
-  </data>
-  <data name="lbl_CountryJP" xml:space="preserve">
-    <value>日本</value>
-  </data>
-  <data name="lbl_CountryKE" xml:space="preserve">
-    <value>肯尼亚</value>
-  </data>
-  <data name="lbl_CountryKH" xml:space="preserve">
-    <value>柬埔寨</value>
-  </data>
-  <data name="lbl_CountryKR" xml:space="preserve">
-    <value>韩国</value>
-  </data>
-  <data name="lbl_CountryKW" xml:space="preserve">
-    <value>科威特</value>
-  </data>
-  <data name="lbl_CountryKY" xml:space="preserve">
-    <value>开曼群岛</value>
-  </data>
-  <data name="lbl_CountryKZ" xml:space="preserve">
-    <value>哈萨克斯坦</value>
-  </data>
-  <data name="lbl_CountryLA" xml:space="preserve">
-    <value>老挝</value>
-  </data>
-  <data name="lbl_CountryLB" xml:space="preserve">
-    <value>黎巴嫩</value>
-  </data>
-  <data name="lbl_CountryLC" xml:space="preserve">
-    <value>圣卢西亚岛</value>
-  </data>
-  <data name="lbl_CountryLK" xml:space="preserve">
-    <value>斯里兰卡</value>
-  </data>
-  <data name="lbl_CountryLS" xml:space="preserve">
-    <value>莱索托</value>
-  </data>
-  <data name="lbl_CountryMA" xml:space="preserve">
-    <value>摩洛哥</value>
-  </data>
-  <data name="lbl_CountryMG" xml:space="preserve">
-    <value>马达加斯加</value>
-  </data>
-  <data name="lbl_CountryML" xml:space="preserve">
-    <value>马里</value>
-  </data>
-  <data name="lbl_CountryMM" xml:space="preserve">
-    <value>缅甸</value>
-  </data>
-  <data name="lbl_CountryMN" xml:space="preserve">
-    <value>蒙古</value>
-  </data>
-  <data name="lbl_CountryMR" xml:space="preserve">
-    <value>毛利塔尼亚</value>
-  </data>
-  <data name="lbl_CountryMU" xml:space="preserve">
-    <value>毛里求斯</value>
-  </data>
-  <data name="lbl_CountryMV" xml:space="preserve">
-    <value>马尔代夫</value>
-  </data>
-  <data name="lbl_CountryMW" xml:space="preserve">
-    <value>马拉维</value>
-  </data>
-  <data name="lbl_CountryMX" xml:space="preserve">
-    <value>墨西哥</value>
-  </data>
-  <data name="lbl_CountryMY" xml:space="preserve">
-    <value>马来西亚</value>
-  </data>
-  <data name="lbl_CountryNA" xml:space="preserve">
-    <value>纳米比亚</value>
-  </data>
-  <data name="lbl_CountryNC" xml:space="preserve">
-    <value>新喀里多尼亚</value>
-  </data>
-  <data name="lbl_CountryNE" xml:space="preserve">
-    <value>尼日尔</value>
-  </data>
-  <data name="lbl_CountryNG" xml:space="preserve">
-    <value>尼日利亚</value>
-  </data>
-  <data name="lbl_CountryNP" xml:space="preserve">
-    <value>尼泊尔</value>
-  </data>
-  <data name="lbl_CountryNR" xml:space="preserve">
-    <value>瑙鲁</value>
-  </data>
-  <data name="lbl_CountryNZ" xml:space="preserve">
-    <value>新西兰</value>
-  </data>
-  <data name="lbl_CountryOM" xml:space="preserve">
-    <value>阿曼</value>
-  </data>
-  <data name="lbl_CountryPA" xml:space="preserve">
-    <value>巴拿马</value>
-  </data>
-  <data name="lbl_CountryPE" xml:space="preserve">
-    <value>秘鲁</value>
-  </data>
-  <data name="lbl_CountryPG" xml:space="preserve">
-    <value>巴布新几内亚</value>
-  </data>
-  <data name="lbl_CountryPK" xml:space="preserve">
-    <value>巴基斯坦</value>
-  </data>
-  <data name="lbl_CountryPN" xml:space="preserve">
-    <value>皮特克恩岛</value>
-  </data>
-  <data name="lbl_CountryPY" xml:space="preserve">
-    <value>巴拉圭</value>
-  </data>
-  <data name="lbl_CountryQA" xml:space="preserve">
-    <value>卡塔尔</value>
-  </data>
-  <data name="lbl_CountrySA" xml:space="preserve">
-    <value>沙特阿拉伯</value>
-  </data>
-  <data name="lbl_CountrySB" xml:space="preserve">
-    <value>所罗门群岛</value>
-  </data>
-  <data name="lbl_CountrySC" xml:space="preserve">
-    <value>塞舌尔</value>
-  </data>
-  <data name="lbl_CountrySD" xml:space="preserve">
-    <value>苏丹</value>
-  </data>
-  <data name="lbl_CountrySL" xml:space="preserve">
-    <value>塞拉利昂</value>
-  </data>
-  <data name="lbl_CountrySN" xml:space="preserve">
-    <value>塞内加尔</value>
-  </data>
-  <data name="lbl_CountrySO" xml:space="preserve">
-    <value>索马里</value>
-  </data>
-  <data name="lbl_CountrySR" xml:space="preserve">
-    <value>苏里南</value>
-  </data>
-  <data name="lbl_CountryST" xml:space="preserve">
-    <value>圣多美和普林西比</value>
-  </data>
-  <data name="lbl_CountrySV" xml:space="preserve">
-    <value>萨尔瓦多</value>
-  </data>
-  <data name="lbl_CountrySY" xml:space="preserve">
-    <value>阿拉伯叙利亚共和国</value>
-  </data>
-  <data name="lbl_CountrySZ" xml:space="preserve">
-    <value>斯威士兰</value>
-  </data>
-  <data name="lbl_CountryTD" xml:space="preserve">
-    <value>乍得</value>
-  </data>
-  <data name="lbl_CountryTG" xml:space="preserve">
-    <value>汤加</value>
-  </data>
-  <data name="lbl_CountryTH" xml:space="preserve">
-    <value>泰国</value>
-  </data>
-  <data name="lbl_CountryTJ" xml:space="preserve">
-    <value>塔吉克斯坦</value>
-  </data>
-  <data name="lbl_CountryTN" xml:space="preserve">
-    <value>突尼斯</value>
-  </data>
-  <data name="lbl_CountryTooltip" xml:space="preserve">
-    <value>请选择您的居住国家</value>
-  </data>
-  <data name="lbl_CountryTT" xml:space="preserve">
-    <value>特立尼达和多巴哥</value>
-  </data>
-  <data name="lbl_CountryTZ" xml:space="preserve">
-    <value>坦桑尼亚联合共和国</value>
-  </data>
-  <data name="lbl_CountryUG" xml:space="preserve">
-    <value>乌干达</value>
-  </data>
-  <data name="lbl_CountryUY" xml:space="preserve">
-    <value>乌拉圭</value>
-  </data>
-  <data name="lbl_CountryUZ" xml:space="preserve">
-    <value>乌兹别克斯坦</value>
-  </data>
-  <data name="lbl_CountryVC" xml:space="preserve">
-    <value>圣文森特和格林纳丁斯</value>
-  </data>
-  <data name="lbl_CountryVE" xml:space="preserve">
-    <value>委内瑞拉</value>
-  </data>
-  <data name="lbl_CountryVN" xml:space="preserve">
-    <value>越南</value>
-  </data>
-  <data name="lbl_CountryVU" xml:space="preserve">
-    <value>瓦努阿图</value>
-  </data>
-  <data name="lbl_CountryWF" xml:space="preserve">
-    <value>瓦利斯群岛和富图纳群岛</value>
-  </data>
-  <data name="lbl_CountryWS" xml:space="preserve">
-    <value>西撒哈拉</value>
-  </data>
-  <data name="lbl_CountryYE" xml:space="preserve">
-    <value>也门</value>
-  </data>
-  <data name="lbl_CountryZA" xml:space="preserve">
-    <value>南非</value>
-  </data>
-  <data name="lbl_CountryZM" xml:space="preserve">
-    <value>赞比亚</value>
-  </data>
-  <data name="lbl_CountryZW" xml:space="preserve">
-    <value>津巴布韦</value>
-  </data>
-  <data name="lbl_CreditTime" xml:space="preserve">
-    <value>所需时间</value>
-  </data>
-  <data name="lbl_Currency_1" xml:space="preserve">
-    <value>新加坡元</value>
-  </data>
-  <data name="lbl_Currency_12" xml:space="preserve">
-    <value>英镑</value>
-  </data>
-  <data name="lbl_Currency_13" xml:space="preserve">
-    <value>人民币</value>
-  </data>
-  <data name="lbl_Currency_15" xml:space="preserve">
-    <value>印度卢比</value>
-  </data>
-  <data name="lbl_Currency_2" xml:space="preserve">
-    <value>马币</value>
-  </data>
-  <data name="lbl_Currency_20" xml:space="preserve">
-    <value>虚拟币(测试用)</value>
-  </data>
-  <data name="lbl_Currency_3" xml:space="preserve">
-    <value>美元</value>
-  </data>
-  <data name="lbl_Currency_32" xml:space="preserve">
-    <value>日元</value>
-  </data>
-  <data name="lbl_Currency_4" xml:space="preserve">
-    <value>泰铢</value>
-  </data>
-  <data name="lbl_Currency_41" xml:space="preserve">
-    <value>瑞士法郎</value>
-  </data>
-  <data name="lbl_Currency_45" xml:space="preserve">
-    <value>南韩圜</value>
-  </data>
-  <data name="lbl_Currency_5" xml:space="preserve">
-    <value>港元</value>
-  </data>
-  <data name="lbl_Currency_51" xml:space="preserve">
-    <value>越南盾</value>
-  </data>
-  <data name="lbl_Currency_6" xml:space="preserve">
-    <value>欧元</value>
-  </data>
-  <data name="lbl_Currency_9" xml:space="preserve">
-    <value>澳元</value>
-  </data>
-  <data name="lbl_CustBank" xml:space="preserve">
-    <value>银行</value>
-  </data>
-  <data name="lbl_CustBankInfo" xml:space="preserve">
-    <value>更新银行资讯</value>
-  </data>
-  <data name="lbl_Date" xml:space="preserve">
-    <value>日期</value>
-  </data>
-  <data name="lbl_DateMissing" xml:space="preserve">
-    <value>请输入咨询日期</value>
-  </data>
-  <data name="lbl_Deposit" xml:space="preserve">
-    <value>充值</value>
-  </data>
-  <data name="lbl_DepositAmount" xml:space="preserve">
-    <value>充值金额</value>
-  </data>
-  <data name="lbl_DepositNow" xml:space="preserve">
-    <value>马上充值</value>
-  </data>
-  <data name="lbl_DepositOptionHint" xml:space="preserve">
-    <value>从下方选出最符合您需求的充值方式：</value>
-  </data>
-  <data name="lbl_DepositStatus0" xml:space="preserve">
-    <value>草稿</value>
-  </data>
-  <data name="lbl_DepositStatus1" xml:space="preserve">
-    <value>待定</value>
-  </data>
-  <data name="lbl_DepositStatus2" xml:space="preserve">
-    <value>已付款</value>
-  </data>
-  <data name="lbl_DepositStatus3" xml:space="preserve">
-    <value>已核准</value>
-  </data>
-  <data name="lbl_DepositStatus4" xml:space="preserve">
-    <value>已拒绝</value>
-  </data>
-  <data name="lbl_DepositStatus5" xml:space="preserve">
-    <value>已取消</value>
-  </data>
-  <data name="lbl_DepositStatus6" xml:space="preserve">
-    <value>逾期</value>
-  </data>
-  <data name="lbl_DepositStatus7" xml:space="preserve">
-    <value>搁置</value>
-  </data>
-  <data name="lbl_DepositStatus8" xml:space="preserve">
-    <value>处理中</value>
-  </data>
-  <data name="lbl_DepositStatus99" xml:space="preserve">
-    <value>错误</value>
-  </data>
-  <data name="lbl_DepositTime" xml:space="preserve">
-    <value>充值时间</value>
-  </data>
-  <data name="lbl_DepositTimeToolTip" xml:space="preserve">
-    <value>請提交您的充值存入時間。</value>
-  </data>
-  <data name="lbl_DepositType1" xml:space="preserve">
-    <value>网络银行</value>
-  </data>
-  <data name="lbl_DepositType2" xml:space="preserve">
-    <value>手机支付</value>
-  </data>
-  <data name="lbl_DepositType3" xml:space="preserve">
-    <value>银行卡</value>
-  </data>
-  <data name="lbl_DepositWithdrawals" xml:space="preserve">
-    <value>充值與提现</value>
-  </data>
-  <data name="lbl_Description" xml:space="preserve">
-    <value>欧亚体育是世界领先的体育博彩，提供最佳的博彩体验，涵盖所有体育，娱乐城，老虎机，快乐彩，电子竞技，rng娱乐城，梦幻对垒，虚拟体育，彩票，真人娱乐场，真人荷官，宾果游戏和赛车。</value>
-  </data>
-  <data name="lbl_DontHaveAccount" xml:space="preserve">
-    <value>没有账户吗?</value>
-  </data>
-  <data name="lbl_DownloadApp" xml:space="preserve">
-    <value>下载APP</value>
-  </data>
-  <data name="lbl_Downloads" xml:space="preserve">
-    <value>下载</value>
-  </data>
-  <data name="lbl_Email" xml:space="preserve">
-    <value>邮箱地址</value>
-  </data>
-  <data name="lbl_EmailToolTip" xml:space="preserve">
-    <value>提交后无法变更电子邮件地址。</value>
-  </data>
-  <data name="lbl_eSports" xml:space="preserve">
-    <value>电子竞技</value>
-  </data>
-  <data name="lbl_eSportsBetting" xml:space="preserve">
-    <value>电子竞技投注</value>
-  </data>
-  <data name="lbl_Facebook" xml:space="preserve">
-    <value>脸书</value>
-  </data>
-  <data name="lbl_FAQ" xml:space="preserve">
-    <value>常见疑问</value>
-  </data>
-  <data name="lbl_FootballBetting" xml:space="preserve">
-    <value>美式足球投注</value>
-  </data>
-  <data name="lbl_ForgetPassword" xml:space="preserve">
-    <value>忘记您的密码</value>
-    <comment>00340. Deposit</comment>
-  </data>
-  <data name="lbl_ForgetPwdHint" xml:space="preserve">
-    <value>请输入您的注册电子邮件以重置密码</value>
-  </data>
-  <data name="lbl_From" xml:space="preserve">
-    <value>从</value>
-  </data>
-  <data name="lbl_Help" xml:space="preserve">
-    <value>帮助</value>
-  </data>
-  <data name="lbl_HelpSupport" xml:space="preserve">
-    <value>帮助及支持</value>
-  </data>
-  <data name="lbl_History" xml:space="preserve">
-    <value>历史记录</value>
-  </data>
-  <data name="lbl_HockeyBetting" xml:space="preserve">
-    <value>曲棍球投注</value>
-  </data>
-  <data name="lbl_Home" xml:space="preserve">
-    <value>首页</value>
-  </data>
-  <data name="lbl_ID" xml:space="preserve">
-    <value>ID</value>
-  </data>
-  <data name="lbl_Image" xml:space="preserve">
-    <value>https://www.nova88.net/SiteSkin/Nova88/common/images/logo.png</value>
-  </data>
-  <data name="lbl_ImportantNote" xml:space="preserve">
-    <value>温馨提醒</value>
-  </data>
-  <data name="lbl_Instant" xml:space="preserve">
-    <value>即时</value>
-  </data>
-  <data name="lbl_JoinNow" xml:space="preserve">
-    <value>立即加入</value>
-  </data>
-  <data name="lbl_Keno" xml:space="preserve">
-    <value>快乐彩</value>
-  </data>
-  <data name="lbl_KenoSlogon" xml:space="preserve">
-    <value>玩法精采多元，更多获胜机会！</value>
-  </data>
-  <data name="lbl_Keywords" xml:space="preserve">
-    <value>欧亚体育是世界领先的体育博彩，提供最佳的博彩体验，涵盖所有体育，娱乐城，老虎机，快乐彩，电子竞技，rng娱乐城，梦幻对垒，虚拟体育，彩票，真人娱乐场，真人荷官，宾果游戏和 赛车。</value>
-  </data>
-  <data name="lbl_LastLogin" xml:space="preserve">
-    <value>最后登入</value>
-  </data>
-  <data name="lbl_LastTransaction" xml:space="preserve">
-    <value>最后交易</value>
-  </data>
-  <data name="lbl_Limit" xml:space="preserve">
-    <value>限制</value>
-  </data>
-  <data name="lbl_LiveCasino" xml:space="preserve">
-    <value>真人娱乐</value>
-  </data>
-  <data name="lbl_LiveCasinoSlogon" xml:space="preserve">
-    <value>真实赌场体验</value>
-  </data>
-  <data name="lbl_LiveSupport" xml:space="preserve">
-    <value>24/7 在线客服</value>
-  </data>
-  <data name="lbl_Login" xml:space="preserve">
-    <value>登入</value>
-  </data>
-  <data name="lbl_LoginHere" xml:space="preserve">
-    <value>此处登入</value>
-  </data>
-  <data name="lbl_LoginMsg" xml:space="preserve">
-    <value>请注意，一个会员仅能注册一个账号。</value>
-  </data>
-  <data name="lbl_Logout" xml:space="preserve">
-    <value>登出</value>
-  </data>
-  <data name="lbl_Memo" xml:space="preserve">
-    <value>备忘录</value>
-  </data>
-  <data name="lbl_Message" xml:space="preserve">
-    <value>信息</value>
-  </data>
-  <data name="lbl_Method" xml:space="preserve">
-    <value>方式</value>
-  </data>
-  <data name="lbl_MobileDeposit" xml:space="preserve">
-    <value>手机充值</value>
-  </data>
-  <data name="lbl_MomoHint" xml:space="preserve">
-    <value>如欲快速充值，请在此处留下您的银行账户姓名及银行账户号码。</value>
-  </data>
-  <data name="lbl_MyAccount" xml:space="preserve">
-    <value>我的账户</value>
-  </data>
-  <data name="lbl_NewPassword" xml:space="preserve">
-    <value>新密码</value>
-  </data>
-  <data name="lbl_NotinLimit" xml:space="preserve">
-    <value>不在设定范围</value>
-  </data>
-  <data name="lbl_NumberGame" xml:space="preserve">
-    <value>百练赛</value>
-  </data>
-  <data name="lbl_Of" xml:space="preserve">
-    <value>之</value>
-  </data>
-  <data name="lbl_OldPassword" xml:space="preserve">
-    <value>当前密码</value>
-  </data>
-  <data name="lbl_OnlineBanking" xml:space="preserve">
-    <value>网络银行</value>
-  </data>
-  <data name="lbl_Optional" xml:space="preserve">
-    <value>选填</value>
-  </data>
-  <data name="lbl_OurPolicies" xml:space="preserve">
-    <value>我们的政策</value>
-  </data>
-  <data name="lbl_Page" xml:space="preserve">
-    <value>页</value>
-  </data>
-  <data name="lbl_Password" xml:space="preserve">
-    <value>密码</value>
-  </data>
-  <data name="lbl_PasswordTooltip" xml:space="preserve">
-    <value>6到18个数字、英文字母大写、英文字母小写或特殊字符(@$*!%#?&amp;)</value>
-  </data>
-  <data name="lbl_PaymentOptions" xml:space="preserve">
-    <value>支付方式</value>
-  </data>
-  <data name="lbl_Phone" xml:space="preserve">
-    <value>手机号码</value>
-  </data>
-  <data name="lbl_PhoneTooltip" xml:space="preserve">
-    <value>请输入您的手机号码，输入后将无法更改！</value>
-  </data>
-  <data name="lbl_PhotoID" xml:space="preserve">
-    <value>附有照片的身份证</value>
-  </data>
-  <data name="lbl_Postscript" xml:space="preserve">
-    <value>验证码</value>
-  </data>
-  <data name="lbl_PostscriptHint" xml:space="preserve">
-    <value>输入验证码立即充值</value>
-  </data>
-  <data name="lbl_PreferredCurrencyToolTip" xml:space="preserve">
-    <value>一旦完成注册，即无法修改选定币别。</value>
-  </data>
-  <data name="lbl_PrefferedCurrency" xml:space="preserve">
-    <value>首选货币</value>
-  </data>
-  <data name="lbl_PrivacyPolicy" xml:space="preserve">
-    <value>隐私权政策</value>
-  </data>
-  <data name="lbl_Profile" xml:space="preserve">
-    <value>个人资料</value>
-  </data>
-  <data name="lbl_Promotion" xml:space="preserve">
-    <value>优惠活动</value>
-  </data>
-  <data name="lbl_RebatebonusonMobile" xml:space="preserve">
-    <value>手机返水红利</value>
-  </data>
-  <data name="lbl_RecentTransactions" xml:space="preserve">
-    <value>最近交易</value>
-  </data>
-  <data name="lbl_Refno" xml:space="preserve">
-    <value>参考编号</value>
-  </data>
-  <data name="lbl_RefnoToolTip" xml:space="preserve">
-    <value>请提交您的银行收据编号。</value>
-  </data>
-  <data name="lbl_Register" xml:space="preserve">
-    <value>注册</value>
-  </data>
-  <data name="lbl_RegisterTime" xml:space="preserve">
-    <value>注册时间</value>
-  </data>
-  <data name="lbl_Required" xml:space="preserve">
-    <value>必填栏位</value>
-  </data>
-  <data name="lbl_ResposibleGaming" xml:space="preserve">
-    <value>博彩责任</value>
-  </data>
-  <data name="lbl_RuleRegulations" xml:space="preserve">
-    <value>投注规则与规定</value>
-  </data>
-  <data name="lbl_SelectAll" xml:space="preserve">
-    <value>全选</value>
-  </data>
-  <data name="lbl_ShowBalance" xml:space="preserve">
-    <value>显示余额</value>
-  </data>
-  <data name="lbl_Soccer" xml:space="preserve">
-    <value>足球</value>
-  </data>
-  <data name="lbl_SoccerBetting" xml:space="preserve">
-    <value>足球投注</value>
-  </data>
-  <data name="lbl_SocialMedia" xml:space="preserve">
-    <value>社交媒体</value>
-  </data>
-  <data name="lbl_Sports" xml:space="preserve">
-    <value>体育博彩</value>
-  </data>
-  <data name="lbl_SportsBetting" xml:space="preserve">
-    <value>体育投注</value>
-  </data>
-  <data name="lbl_Status" xml:space="preserve">
-    <value>状态</value>
-  </data>
-  <data name="lbl_Submit" xml:space="preserve">
-    <value>提交</value>
-  </data>
-  <data name="lbl_SubmitPhotoId" xml:space="preserve">
-    <value>提交附有照片的身份证</value>
-  </data>
-  <data name="lbl_SubmitPhotoIdHint" xml:space="preserve">
-    <value>请上传国家政府发行证件以完成提款验证流程：</value>
-  </data>
-  <data name="lbl_SubmitProof" xml:space="preserve">
-    <value>提交银行收据</value>
-  </data>
-  <data name="lbl_Tennis" xml:space="preserve">
-    <value>网球</value>
-  </data>
-  <data name="lbl_TennisBetting" xml:space="preserve">
-    <value>网球投注</value>
-  </data>
-  <data name="lbl_Terms" xml:space="preserve">
-    <value>使用条款</value>
-  </data>
-  <data name="lbl_TermsConditions" xml:space="preserve">
-    <value>条款及规则</value>
-  </data>
-  <data name="lbl_Time" xml:space="preserve">
-    <value>时间</value>
-  </data>
-  <data name="lbl_Title" xml:space="preserve">
-    <value>欧亚体育</value>
-  </data>
-  <data name="lbl_TitleDesc" xml:space="preserve">
-    <value>欧亚体育提供线上体育博彩和现场博彩的最佳赔率</value>
-  </data>
-  <data name="lbl_TitleKeywords" xml:space="preserve">
-    <value>欧亚体育是世界领先的体育博彩，提供最佳的博彩体验，涵盖所有体育，娱乐城，老虎机，快乐彩，电子竞技，rng娱乐城，梦幻对垒，虚拟体育，彩票，真人娱乐场，真人荷官，宾果游戏和赛车。</value>
-  </data>
-  <data name="lbl_To" xml:space="preserve">
-    <value>至</value>
-  </data>
-  <data name="lbl_Transaction" xml:space="preserve">
-    <value>交易</value>
-  </data>
-  <data name="lbl_TransactionHint" xml:space="preserve">
-    <value>请转账到该账户</value>
-  </data>
-  <data name="lbl_TransactionHistory" xml:space="preserve">
-    <value>交易历史记录</value>
-  </data>
-  <data name="lbl_TransferFunds" xml:space="preserve">
-    <value>资金转移</value>
-  </data>
-  <data name="lbl_TransferTo" xml:space="preserve">
-    <value>转账至</value>
-  </data>
-  <data name="lbl_TryMobile" xml:space="preserve">
-    <value>使用手机游览我们的网站</value>
-  </data>
-  <data name="lbl_TryNow" xml:space="preserve">
-    <value>马上试用</value>
-  </data>
-  <data name="lbl_Twitter" xml:space="preserve">
-    <value>推特</value>
-  </data>
-  <data name="lbl_TwitterCreator" xml:space="preserve">
-    <value>@Nova88official</value>
-  </data>
-  <data name="lbl_TwitterSite" xml:space="preserve">
-    <value>@Nova88official</value>
-  </data>
-  <data name="lbl_Unlimited" xml:space="preserve">
-    <value>无上限</value>
-  </data>
-  <data name="lbl_Update" xml:space="preserve">
-    <value>更新</value>
-  </data>
-  <data name="lbl_UpdateBankDetail" xml:space="preserve">
-    <value>更新银行资讯</value>
-  </data>
-  <data name="lbl_UpdateBankInfo" xml:space="preserve">
-    <value>请在提现前完成更新银行资讯</value>
-  </data>
-  <data name="lbl_UpdatePersonalDetail" xml:space="preserve">
-    <value>更新个人资料</value>
-  </data>
-  <data name="lbl_UpdatePersonalInfo" xml:space="preserve">
-    <value>请在充值前更新您的个人资料。</value>
-  </data>
-  <data name="lbl_UpdateSuccess" xml:space="preserve">
-    <value>更新成功。我们会尽快处理您的要求！</value>
-  </data>
-  <data name="lbl_UploadFile" xml:space="preserve">
-    <value>上传档案</value>
-  </data>
-  <data name="lbl_UploadSuccess" xml:space="preserve">
-    <value>档案上传成功</value>
-  </data>
-  <data name="lbl_URL" xml:space="preserve">
-    <value>https://www.nova88.net</value>
-  </data>
-  <data name="lbl_Username" xml:space="preserve">
-    <value>用戶名</value>
-  </data>
-  <data name="lbl_UsernameTooltip" xml:space="preserve">
-    <value>基于安全考量，我们建议用户名不要使用或包含您的真实姓名。</value>
-  </data>
-  <data name="lbl_VariousBankingOptions" xml:space="preserve">
-    <value>各个银行选项</value>
-  </data>
-  <data name="lbl_VIPLevel" xml:space="preserve">
-    <value>贵宾等级</value>
-  </data>
-  <data name="lbl_VirtualSports" xml:space="preserve">
-    <value>虚拟运动</value>
-  </data>
-  <data name="lbl_VirtualSportsSlogon" xml:space="preserve">
-    <value>除了流行的运动项目，我们还提供开创新的虚拟游戏。</value>
-  </data>
-  <data name="lbl_Welcome" xml:space="preserve">
-    <value>欢迎</value>
-  </data>
-  <data name="lbl_WireTransfers" xml:space="preserve">
-    <value>银行卡转帐</value>
-  </data>
-  <data name="lbl_Withdrawal" xml:space="preserve">
-    <value>提现</value>
-  </data>
-  <data name="lbl_WithdrawalAmount" xml:space="preserve">
-    <value>提现金额</value>
-  </data>
-  <data name="lbl_WithdrawalStatus0" xml:space="preserve">
-    <value>草稿</value>
-  </data>
-  <data name="lbl_WithdrawalStatus1" xml:space="preserve">
-    <value>待定</value>
-  </data>
-  <data name="lbl_WithdrawalStatus2" xml:space="preserve">
-    <value>搁置</value>
-  </data>
-  <data name="lbl_WithdrawalStatus3" xml:space="preserve">
-    <value>审核</value>
-  </data>
-  <data name="lbl_WithdrawalStatus4" xml:space="preserve">
-    <value>处理中</value>
-  </data>
-  <data name="lbl_WithdrawalStatus5" xml:space="preserve">
-    <value>已取消</value>
-  </data>
-  <data name="lbl_WithdrawalStatus6" xml:space="preserve">
-    <value>已核准</value>
-  </data>
-  <data name="lbl_WithdrawalStatus7" xml:space="preserve">
-    <value>已拒绝</value>
-  </data>
-  <data name="lbl_WithdrawalStatus99" xml:space="preserve">
-    <value>错误</value>
-  </data>
-  <data name="lbl_WithdrawalTo" xml:space="preserve">
-    <value>提现至</value>
-  </data>
-  <data name="lbl_WithdrawalType0" xml:space="preserve">
-    <value>无法定义</value>
-  </data>
-  <data name="lbl_WithdrawalType1" xml:space="preserve">
-    <value>网上支付</value>
-  </data>
-  <data name="lbl_WithdrawalType2" xml:space="preserve">
-    <value>银行卡</value>
-  </data>
-  <data name="lbl_YourEmail" xml:space="preserve">
-    <value>您的邮箱地址</value>
-  </data>
-  <data name="lbl_Forget" xml:space="preserve">
-    <value>忘记您的用户名或者密码?</value>
-    <comment>00338.</comment>
-  </data>
-  <data name="lbl_ForgetNote" xml:space="preserve">
-    <value>如果您忘记了您的密码，请提供您的电子邮箱地址，安全问题及答案，我们将会发送新的密码到您登记的电子邮箱地址。</value>
-    <comment>00339. Deposit</comment>
-  </data>
-  <data name="lbl_RealName" xml:space="preserve">
-    <value>真实姓名</value>
-  </data>
-  <data name="lbl_UploadPhotoId" xml:space="preserve">
-    <value>上传</value>
-  </data>
-  <data name="lbl_RemindForName" xml:space="preserve">
-    <value>*请填写与您银行账户一致的完整姓名，以加速充值和提现操作。</value>
-  </data>
-  <data name="lbl_badminton" xml:space="preserve">
-    <value>羽毛球</value>
-    <comment>00132.</comment>
-  </data>
-  <data name="lbl_Promotions" xml:space="preserve">
-    <value>优惠活动</value>
-  </data>
-  <data name="FTDPDescription" xml:space="preserve">
-    <value>在歐亞88完成第一筆充值以享受高達 馬幣888 的優惠回饋！立即加入！</value>
-  </data>
-  <data name="FTDPTitle" xml:space="preserve">
-    <value>150% 首存红利，最高 马币888</value>
-  </data>
-  <data name="lbl_TC" xml:space="preserve">
-    <value>优惠活动专用条款和条件</value>
-  </data>
-  <data name="lbl_Bonus" xml:space="preserve">
-    <value>优惠</value>
-  </data>
-  <data name="lbl_BonusAmount" xml:space="preserve">
-    <value>红利金额</value>
-  </data>
-  <data name="lbl_ExpiryTime" xml:space="preserve">
-    <value>到期时间</value>
-  </data>
-  <data name="lbl_MaxBonusAmount" xml:space="preserve">
-    <value>最高红利</value>
-  </data>
-  <data name="lbl_Product" xml:space="preserve">
-    <value>产品</value>
-  </data>
-  <data name="lbl_PromotionsList" xml:space="preserve">
-    <value>红利活动清单</value>
-  </data>
-  <data name="lbl_RemainingTime" xml:space="preserve">
-    <value>剩余时间</value>
-  </data>
-  <data name="lbl_RollOver" xml:space="preserve">
-    <value>最低投注倍数</value>
-  </data>
-  <data name="PromotionCategory1" xml:space="preserve">
-    <value>首次充值</value>
-  </data>
-  <data name="lbl_Notice" xml:space="preserve">
-    <value>通知</value>
-  </data>
-  <data name="lbl_Later" xml:space="preserve">
-    <value>稍后</value>
-  </data>
-  <data name="lbl_DepositOver" xml:space="preserve">
-    <value>您的提现申请超过您的馀额</value>
-  </data>
-  <data name="lbl_EligibleWithdrawal" xml:space="preserve">
-    <value>提款限额</value>
-  </data>
-  <data name="lbl_RolloverProgress" xml:space="preserve">
-    <value>流水金额进度</value>
-  </data>
-  <data name="lbl_BonusConfirm" xml:space="preserve">
-    <value>您点选了加入优惠活动，请问是否确定要参加？</value>
-  </data>
-  <data name="lbl_EligibleWithdrawalAmount" xml:space="preserve">
-    <value>您可提现的金额为</value>
-  </data>
-  <data name="lbl_Req" xml:space="preserve">
-    <value>条件</value>
-  </data>
-  <data name="lbl_RolloverOver" xml:space="preserve">
-    <value>您的红利回馈流水未达最低金额</value>
-  </data>
-  <data name="lbl_WithdrawalOver" xml:space="preserve">
-    <value>您的提现申请超过您可提现金额</value>
-  </data>
-  <data name="lbl_AllbetCasino" xml:space="preserve">
-    <value>至尊厅</value>
-  </data>
-  <data name="lbl_Clickhereforpromotion" xml:space="preserve">
-    <value>点击这里查看您现有的优惠活动</value>
-  </data>
-  <data name="lbl_SACasino" xml:space="preserve">
-    <value>雅典娜厅</value>
-  </data>
-  <data name="lbl_Days" xml:space="preserve">
-    <value>天</value>
-  </data>
-  <data name="lbl_Hours" xml:space="preserve">
-    <value>小时</value>
-  </data>
-  <data name="lbl_FacebookAccount" xml:space="preserve">
-    <value>nova88official</value>
-  </data>
-  <data name="lbl_TwitterAccount" xml:space="preserve">
-    <value>nova88official</value>
-  </data>
-  <data name="lbl_Balance" xml:space="preserve">
-    <value>余额</value>
-  </data>
-  <data name="lbl_DepositHistory" xml:space="preserve">
-    <value>充值历史记录</value>
-  </data>
-  <data name="lbl_DreamGaming" xml:space="preserve">
-    <value>水晶厅</value>
-  </data>
-  <data name="lbl_MainWallet" xml:space="preserve">
-    <value>中心钱包</value>
-  </data>
-  <data name="lbl_MaxAmount" xml:space="preserve">
-    <value>总金额</value>
-  </data>
-  <data name="lbl_OtherWallet" xml:space="preserve">
-    <value>其它钱包</value>
-  </data>
-  <data name="lbl_RetriveAllIn" xml:space="preserve">
-    <value>一键转入</value>
-  </data>
-  <data name="lbl_TransferAll" xml:space="preserve">
-    <value>输入中心钱包</value>
-  </data>
-  <data name="lbl_TransferFrom" xml:space="preserve">
-    <value>转帐从</value>
-  </data>
-  <data name="lbl_TransferHistory" xml:space="preserve">
-    <value>转账历史记录</value>
-  </data>
-  <data name="lbl_TransferIn" xml:space="preserve">
-    <value>资金转入</value>
-  </data>
-  <data name="lbl_TransferOut" xml:space="preserve">
-    <value>转出</value>
-  </data>
-  <data name="lbl_WalletDescription_Saba" xml:space="preserve">
-    <value>包含 OneRNG, PP 和 至尊厅 (AB)</value>
-  </data>
-  <data name="lbl_Wallet_Saba" xml:space="preserve">
-    <value>体育钱包</value>
-  </data>
-  <data name="lbl_WithdrawalHistory" xml:space="preserve">
-    <value>提现历史记录</value>
-  </data>
-  <data name="lbl_AGCasino" xml:space="preserve">
-    <value>凤凰厅</value>
-  </data>
-  <data name="lbl_ComingSoon" xml:space="preserve">
-    <value>即将推出</value>
-  </data>
-  <data name="lbl_Enter" xml:space="preserve">
-    <value>直接进入</value>
-  </data>
-  <data name="lbl_GameList" xml:space="preserve">
-    <value>游戏列表</value>
-  </data>
-  <data name="lbl_Reminder" xml:space="preserve">
-    <value>提醒</value>
-  </data>
-  <data name="lbl_Transfer" xml:space="preserve">
-    <value>转帐</value>
-  </data>
-  <data name="lbl_Direction" xml:space="preserve">
-    <value>方向</value>
-  </data>
-  <data name="lbl_Fail" xml:space="preserve">
-    <value>失败</value>
-  </data>
-  <data name="lbl_Pending" xml:space="preserve">
-    <value>待定</value>
-  </data>
-  <data name="lbl_Success" xml:space="preserve">
-    <value>成功</value>
-  </data>
-  <data name="lbl_WalletType" xml:space="preserve">
-    <value>钱包种类</value>
-  </data>
-  <data name="lbl_Alipay" xml:space="preserve">
-    <value>支付宝</value>
-  </data>
-  <data name="lbl_JDpay" xml:space="preserve">
-    <value>京东钱包</value>
-  </data>
-  <data name="lbl_QQpay" xml:space="preserve">
-    <value>QQ钱包</value>
-  </data>
-  <data name="lbl_Unionpay" xml:space="preserve">
-    <value>云闪付</value>
-  </data>
-  <data name="lbl_WeChatPay" xml:space="preserve">
-    <value>微信支付</value>
-  </data>
-  <data name="lbl_DGCasino" xml:space="preserve">
-    <value>水晶厅</value>
-  </data>
-  <data name="lbl_Birthday" xml:space="preserve">
-    <value>生日</value>
-  </data>
-  <data name="lbl_ConfirmAndUpdate" xml:space="preserve">
-    <value>确认更新</value>
-  </data>
-  <data name="lbl_Month1" xml:space="preserve">
-    <value>一月</value>
-  </data>
-  <data name="lbl_Month10" xml:space="preserve">
-    <value>十月</value>
-  </data>
-  <data name="lbl_Month11" xml:space="preserve">
-    <value>十一月</value>
-  </data>
-  <data name="lbl_Month12" xml:space="preserve">
-    <value>十二月</value>
-  </data>
-  <data name="lbl_Month2" xml:space="preserve">
-    <value>二月</value>
-  </data>
-  <data name="lbl_Month3" xml:space="preserve">
-    <value>三月</value>
-  </data>
-  <data name="lbl_Month4" xml:space="preserve">
-    <value>四月</value>
-  </data>
-  <data name="lbl_Month5" xml:space="preserve">
-    <value>五月</value>
-  </data>
-  <data name="lbl_Month6" xml:space="preserve">
-    <value>六月</value>
-  </data>
-  <data name="lbl_Month7" xml:space="preserve">
-    <value>七月</value>
-  </data>
-  <data name="lbl_Month8" xml:space="preserve">
-    <value>八月</value>
-  </data>
-  <data name="lbl_Month9" xml:space="preserve">
-    <value>九月</value>
-  </data>
-  <data name="lbl_ReModify" xml:space="preserve">
-    <value>重新更改</value>
-  </data>
-  <data name="lbl_VirtualGames" xml:space="preserve">
-    <value>虚拟娱乐城</value>
-  </data>
-  <data name="lbl_All" xml:space="preserve">
-    <value>全部</value>
-  </data>
-  <data name="lbl_AllGames" xml:space="preserve">
-    <value>所有游戏</value>
-  </data>
-  <data name="lbl_CasinoLobby" xml:space="preserve">
-    <value>电子游戏大厅</value>
-  </data>
-  <data name="lbl_Favourite" xml:space="preserve">
-    <value>我的最爱</value>
-  </data>
-  <data name="lbl_Feature" xml:space="preserve">
-    <value>特色游戏</value>
-  </data>
-  <data name="lbl_Free" xml:space="preserve">
-    <value>免费试玩</value>
-  </data>
-  <data name="lbl_GPI" xml:space="preserve">
-    <value>优品</value>
-  </data>
-  <data name="lbl_NoMatching" xml:space="preserve">
-    <value>搜索相符产品结果不符</value>
-  </data>
-  <data name="lbl_OWCasino" xml:space="preserve">
-    <value>OW 娱乐城</value>
-  </data>
-  <data name="lbl_PlayNow" xml:space="preserve">
-    <value>立即游戏</value>
-  </data>
-  <data name="lbl_Provider" xml:space="preserve">
-    <value>供应商</value>
-  </data>
-  <data name="lbl_SelfCasino" xml:space="preserve">
-    <value>欧亚娱乐城</value>
-  </data>
-  <data name="lbl_Slots" xml:space="preserve">
-    <value>老虎机</value>
-  </data>
-  <data name="lbl_Fishing" xml:space="preserve">
-    <value>捕鱼</value>
-  </data>
-  <data name="lbl_AfterAmount" xml:space="preserve">
-    <value>账变后余额</value>
-  </data>
-  <data name="lbl_BeforeAmount" xml:space="preserve">
-    <value>账变前余额</value>
-  </data>
-  <data name="lbl_ChangeAmount" xml:space="preserve">
-    <value>账变金额</value>
-  </data>
-  <data name="lbl_RefTransId" xml:space="preserve">
-    <value>注单编号</value>
-  </data>
-  <data name="lbl_Refund" xml:space="preserve">
-    <value>退款</value>
-  </data>
-  <data name="lbl_Settled" xml:space="preserve">
-    <value>已派彩</value>
-  </data>
-  <data name="lbl_Stake" xml:space="preserve">
-    <value>本金</value>
-  </data>
-  <data name="lbl_Statement" xml:space="preserve">
-    <value>账变记录</value>
-  </data>
-  <data name="lbl_TypeName" xml:space="preserve">
-    <value>账变类型</value>
-  </data>
-  <data name="lbl_LastMonth" xml:space="preserve">
-    <value>上月</value>
-  </data>
-  <data name="lbl_LastWeek" xml:space="preserve">
-    <value>上周</value>
-  </data>
-  <data name="lbl_QuickPick" xml:space="preserve">
-    <value>时间快选</value>
-  </data>
-  <data name="lbl_ThisMonth" xml:space="preserve">
-    <value>本月</value>
-  </data>
-  <data name="lbl_ThisWeek" xml:space="preserve">
-    <value>本周</value>
-  </data>
-  <data name="lbl_Today" xml:space="preserve">
-    <value>今日</value>
-  </data>
-  <data name="lbl_YesterDay" xml:space="preserve">
-    <value>昨日</value>
-  </data>
-  <data name="lbl_Table" xml:space="preserve">
-    <value>牌桌</value>
-  </data>
-  <data name="lbl_WithdrawalLimit" xml:space="preserve">
-    <value>提款禁止，距离流水门槛尚差</value>
-  </data>
-  <data name="lbl_Announcement" xml:space="preserve">
-    <value>公告</value>
-  </data>
-  <data name="lbl_Instagram" xml:space="preserve">
-    <value>IG</value>
-  </data>
-  <data name="lbl_License" xml:space="preserve">
-    <value>监管机构</value>
-  </data>
-  <data name="lbl_More" xml:space="preserve">
-    <value>更多</value>
-  </data>
-  <data name="lbl_Payment" xml:space="preserve">
-    <value>支付方式</value>
-  </data>
-  <data name="lbl_PersonalMsg" xml:space="preserve">
-    <value>站内信</value>
-  </data>
-  <data name="lbl_Platform" xml:space="preserve">
-    <value>游戏平台</value>
-  </data>
-  <data name="lbl_Deduction" xml:space="preserve">
-    <value>相抵流水缺欠金额</value>
-  </data>
-  <data name="lbl_Arcade" xml:space="preserve">
-    <value>街机</value>
-  </data>
-  <data name="lbl_PPCasino" xml:space="preserve">
-    <value>西式厅</value>
-  </data>
-  <data name="lbl_Scratch" xml:space="preserve">
-    <value>刮刮卡</value>
-  </data>
-  <data name="lbl_Promo" xml:space="preserve">
-    <value>优惠</value>
-  </data>
-  <data name="lbl_Indo4d" xml:space="preserve">
-    <value>Indo 4D</value>
-  </data>
-  <data name="lbl_Lottery" xml:space="preserve">
-    <value>彩票</value>
-  </data>
-  <data name="FTDPDescription13" xml:space="preserve">
-    <value>在欧亚88完成第一笔存款以享受高达人民币588的优惠回馈！立即加入！</value>
-  </data>
-  <data name="FTDPTitle13" xml:space="preserve">
-    <value>100％欢迎红利，最高人民币588</value>
-  </data>
-  <data name="FTDP3Description" xml:space="preserve">
-    <value>立即加入！在 “Nova88“ 完成第一笔存款以享受高达 MYR388 的优惠奖金！</value>
-  </data>
-  <data name="FTDP3Title" xml:space="preserve">
-    <value>100% 欢迎红利，高达 MYR 388</value>
-  </data>
-  <data name="lbl_ResetPassword" xml:space="preserve">
-    <value>重设密码</value>
-  </data>
-  <data name="lbl_ResetPasswordSubmit" xml:space="preserve">
-    <value>密码重置请求</value>
-  </data>
-  <data name="lbl_SubmitPhotoIdList" xml:space="preserve">
-    <value>下列中，请上传其一证件：
-1. 国民身份证
-2. 护照副本
-3. 驾驶执照
-4. 出生证明</value>
-  </data>
-  <data name="lbl_WaitKYC" xml:space="preserve">
-    <value>审查流程进行中</value>
-  </data>
-  <data name="lbl_WaitKYCHint" xml:space="preserve">
-    <value>感谢您上传所需文件，审查流程正进行中，恳请稍后</value>
-  </data>
-  <data name="lbl_BirthCertificate" xml:space="preserve">
-    <value>出生证明</value>
-  </data>
-  <data name="lbl_Details" xml:space="preserve">
-    <value>详情</value>
-  </data>
-  <data name="lbl_DrivingLicense" xml:space="preserve">
-    <value>驾驶执照</value>
-  </data>
-  <data name="lbl_Guest" xml:space="preserve">
-    <value>访客</value>
-  </data>
-  <data name="lbl_KYCSubmitHint" xml:space="preserve">
-    <value>下列中，请上传其一证件：</value>
-  </data>
-  <data name="lbl_Languages" xml:space="preserve">
-    <value>语系</value>
-  </data>
-  <data name="lbl_LiveChat" xml:space="preserve">
-    <value>线上客服</value>
-  </data>
-  <data name="lbl_Loading" xml:space="preserve">
-    <value>加载中</value>
-  </data>
-  <data name="lbl_Me" xml:space="preserve">
-    <value>我</value>
-  </data>
-  <data name="lbl_NationalIdentityCard" xml:space="preserve">
-    <value>国民身份证</value>
-  </data>
-  <data name="lbl_Other" xml:space="preserve">
-    <value>其它</value>
-  </data>
-  <data name="lbl_Passport" xml:space="preserve">
-    <value>护照副本</value>
-  </data>
-  <data name="lbl_Setting" xml:space="preserve">
-    <value>设定</value>
-  </data>
-  <data name="lbl_Themes" xml:space="preserve">
-    <value>主题</value>
-  </data>
-  <data name="lbl_KenoAndLottery" xml:space="preserve">
-    <value>快乐彩与彩票</value>
-  </data>
-  <data name="lbl_RotationHint_1" xml:space="preserve">
-    <value>尊敬的客户</value>
-  </data>
-  <data name="lbl_RotationHint_2" xml:space="preserve">
-    <value>为了给您带来更好的游戏体验和产品</value>
-  </data>
-  <data name="lbl_RotationHint_3" xml:space="preserve">
-    <value>请将手机竖屏体验本产品</value>
-  </data>
-  <data name="lbl_RotationHint_4" xml:space="preserve">
-    <value>给您带来不便，敬请您谅解，谢谢！</value>
-  </data>
-  <data name="lbl_SexyCasino" xml:space="preserve">
-    <value>维纳斯厅</value>
-  </data>
-  <data name="lbl_TpWallet_1" xml:space="preserve">
-    <value>体育钱包</value>
-  </data>
-  <data name="lbl_TurnoverAccmulateHint" xml:space="preserve">
-    <value>欲转移余额需先达标流水要求。</value>
-  </data>
-  <data name="lbl_TurnoverAccumulated" xml:space="preserve">
-    <value>累计流水</value>
-  </data>
-  <data name="lbl_EbetCasino" xml:space="preserve">
-    <value>皇家厅</value>
-  </data>
-  <data name="lbl_AffiliateSlog" xml:space="preserve">
-    <value>您的成功伴侣</value>
-  </data>
-  <data name="lbl_PromoRemind" xml:space="preserve">
-    <value>存款立即享有丰厚优惠</value>
-  </data>
-  <data name="lbl_FishingSG1" xml:space="preserve">
-    <value>捕鱼天王</value>
-  </data>
-  <data name="lbl_FishingSG2" xml:space="preserve">
-    <value>捕鱼大战</value>
-  </data>
-  <data name="lbl_FishingGG" xml:space="preserve">
-    <value>捕鱼天下</value>
-  </data>
-  <data name="lbl_WalletDescription_Kiss918" xml:space="preserve">
-    <value>918Kiss</value>
-  </data>
-  <data name="lbl_Wallet_Kiss918" xml:space="preserve">
-    <value>918Kiss</value>
-  </data>
-  <data name="lbl_Error_Message" xml:space="preserve">
-    <value>好吧，这是无法预期的....</value>
-  </data>
-  <data name="lbl_Error_Title" xml:space="preserve">
-    <value>噢！</value>
-  </data>
-  <data name="lbl_TpWallet_27" xml:space="preserve">
-    <value>PT钱包</value>
-  </data>
-  <data name="lbl_Cashback_Sports" xml:space="preserve">
-    <value>体育博彩</value>
-  </data>
-  <data name="lbl_Cashback_RNG" xml:space="preserve">
-    <value>RNG</value>
-  </data>
-  <data name="lbl_Cashback_Lottery" xml:space="preserve">
-    <value>彩票</value>
-  </data>
-  <data name="lbl_Cashback_Virtual_Sports" xml:space="preserve">
-    <value>虚拟运动</value>
-  </data>
-  <data name="lbl_Wallet_PT" xml:space="preserve">
-    <value>PT钱包</value>
-  </data>
-  <data name="lbl_WalletDescription_PT" xml:space="preserve">
-    <value>PT钱包</value>
-  </data>
-  <data name="lbl_WalletDescription_NineW" xml:space="preserve">
-    <value>9W钱包</value>
-  </data>
-  <data name="lbl_Wallet_NineW" xml:space="preserve">
-    <value>9W钱包</value>
-  </data>
-  <data name="lbl_WalletDescription_Mega" xml:space="preserve">
-    <value>Mega钱包</value>
-  </data>
-  <data name="lbl_Wallet_Mega" xml:space="preserve">
-    <value>Mega钱包</value>
-  </data>
-  <data name="Currency_74" xml:space="preserve">
-    <value>BDT</value>
-  </data>
-</root>
+<resheader name="resmimetype"><value>text/microsoft-resx</value></resheader><resheader name="version"><value>1.3</value></resheader><resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader><resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader><data name="lbl_Success"><value>成功</value></data>
+  <data name="lbl_Lottery"><value>彩票</value></data>
+  <data name="lbl_MobileDeposit"><value>手机充值</value></data>
+  <data name="lbl_WalletDescription_Kiss918"><value>918Kiss</value></data>
+  <data name="lbl_Loading"><value>加载中</value></data>
+  <data name="lbl_Page"><value>页</value></data>
+  <data name="lbl_Time"><value>时间</value></data>
+  <data name="lbl_Help"><value>帮助</value></data>
+  <data name="lbl_Home"><value>首页</value></data>
+  <data name="lbl_Keno"><value>快乐彩</value></data>
+  <data name="lbl_Memo"><value>备忘录</value></data>
+  <data name="lbl_More"><value>更多</value></data>
+  <data name="lbl_Days"><value>天</value></data>
+  <data name="lbl_Date"><value>日期</value></data>
+  <data name="lbl_Back"><value>返回</value></data>
+  <data name="lbl_From"><value>从</value></data>
+  <data name="lbl_Free"><value>免费试玩</value></data>
+  <data name="lbl_Fail"><value>失败</value></data>
+  <data name="lbl_WaitKYC"><value>审查流程进行中</value></data>
+  <data name="lbl_LastMonth"><value>上月</value></data>
+  <data name="lbl_LastLogin"><value>最后登入</value></data>
+  <data name="lbl_SelectAll"><value>全选</value></data>
+  <data name="lbl_NotinLimit"><value>不在设定范围</value></data>
+  <data name="FTDP3Description"><value>立即加入！在 “Nova88“ 完成第一笔存款以享受高达 MYR388 的优惠奖金！</value></data>
+  <data name="lbl_ComingSoon"><value>即将推出</value></data>
+  <data name="lbl_OldPassword"><value>当前密码</value></data>
+  <data name="lbl_DateMissing"><value>请输入咨询日期</value></data>
+  <data name="lbl_SportsBetting"><value>体育投注</value></data>
+  <data name="lbl_EligibleWithdrawal"><value>提款限额</value></data>
+  <data name="lbl_ForgetPwdHint"><value>请输入您的注册电子邮件以重置密码</value></data>
+  <data name="lbl_RetriveAllIn"><value>一键转入</value></data>
+  <data name="lbl_VariousBankingOptions"><value>各个银行选项</value></data>
+  <data name="lbl_DownloadApp"><value>下载APP</value></data>
+  <data name="lbl_TryMobile"><value>使用手机游览我们的网站</value></data>
+  <data name="lbl_PasswordTooltip"><value>6到18个数字、英文字母大写、英文字母小写或特殊字符(@$*!%#?&amp;)</value></data>
+  <data name="lbl_VirtualGames"><value>虚拟娱乐城</value></data>
+  <data name="lbl_YesterDay"><value>昨日</value></data>
+  <data name="lbl_QuickPick"><value>时间快选</value></data>
+  <data name="FTDPTitle"><value>150% 首存红利，最高 马币888</value></data>
+  <data name="lbl_MainWallet"><value>中心钱包</value></data>
+  <data name="lbl_License"><value>监管机构</value></data>
+  <data name="lbl_MyAccount"><value>我的账户</value></data>
+  <data name="lbl_Transfer"><value>转帐</value></data>
+  <data name="lbl_TransferFrom"><value>转帐从</value></data>
+  <data name="lbl_ContactCSD"><value>如有任何修改需求，请联系客服。</value></data>
+  <data name="lbl_AGCasino"><value>凤凰厅</value></data>
+  <data name="lbl_Month11"><value>十一月</value></data>
+  <data name="lbl_Month10"><value>十月</value></data>
+  <data name="lbl_Month12"><value>十二月</value></data>
+  <data name="lbl_NumberGame"><value>百练赛</value></data>
+  <data name="lbl_Fishing"><value>捕鱼</value></data>
+  <data name="lbl_TpWallet_1"><value>体育钱包</value></data>
+  <data name="lbl_DepositStatus8"><value>处理中</value></data>
+  <data name="lbl_DepositStatus4"><value>已拒绝</value></data>
+  <data name="lbl_DepositStatus5"><value>已取消</value></data>
+  <data name="lbl_DepositStatus6"><value>逾期</value></data>
+  <data name="lbl_DepositStatus7"><value>搁置</value></data>
+  <data name="lbl_DepositStatus0"><value>草稿</value></data>
+  <data name="lbl_DepositStatus1"><value>待定</value></data>
+  <data name="lbl_DepositStatus2"><value>已付款</value></data>
+  <data name="lbl_DepositStatus3"><value>已核准</value></data>
+  <data name="lbl_Statement"><value>账变记录</value></data>
+  <data name="lbl_AllTranscations"><value>所有交易</value></data>
+  <data name="lbl_WithdrawalAmount"><value>提现金额</value></data>
+  <data name="lbl_CasinoLobby"><value>电子游戏大厅</value></data>
+  <data name="lbl_RefTransId"><value>注单编号</value></data>
+  <data name="lbl_PrivacyPolicy"><value>隐私权政策</value></data>
+  <data name="lbl_eSportsBetting"><value>电子竞技投注</value></data>
+  <data name="lbl_WalletDescription_Mega"><value>Mega钱包</value></data>
+  <data name="lbl_WalletDescription_Saba"><value>包含 OneRNG, PP 和 至尊厅 (AB)</value></data>
+  <data name="lbl_ShowBalance"><value>显示余额</value></data>
+  <data name="lbl_Feature"><value>特色游戏</value></data>
+  <data name="lbl_LiveChat"><value>线上客服</value></data>
+  <data name="Currency_41"><value>CHF</value></data>
+  <data name="Currency_45"><value>WON</value></data>
+  <data name="Currency_51"><value>VND</value></data>
+  <data name="Currency_74"><value>BDT</value></data>
+  <data name="Currency_15"><value>IDR</value></data>
+  <data name="Currency_12"><value>GBP</value></data>
+  <data name="Currency_13"><value>CNY</value></data>
+  <data name="Currency_20"><value>UUS</value></data>
+  <data name="Currency_32"><value>JPY</value></data>
+  <data name="lbl_BasketballBetting"><value>篮球投注</value></data>
+  <data name="lbl_TpWallet_27"><value>PT钱包</value></data>
+  <data name="lbl_Applicationname"><value>欧亚体育</value></data>
+  <data name="FTDPDescription13"><value>在欧亚88完成第一笔存款以享受高达人民币588的优惠回馈！立即加入！</value></data>
+  <data name="lbl_Wallet_PT"><value>PT钱包</value></data>
+  <data name="lbl_RegisterTime"><value>注册时间</value></data>
+  <data name="lbl_YourEmail"><value>您的邮箱地址</value></data>
+  <data name="lbl_WithdrawalOver"><value>您的提现申请超过您可提现金额</value></data>
+  <data name="lbl_Clickhereforjoin"><value>点击这里加入</value></data>
+  <data name="lbl_LiveCasinoSlogon"><value>真实赌场体验</value></data>
+  <data name="lbl_CompleteRegistration"><value>完成注册</value></data>
+  <data name="lbl_RefnoToolTip"><value>请提交您的银行收据编号。</value></data>
+  <data name="FTDP3Title"><value>100% 欢迎红利，高达 MYR 388</value></data>
+  <data name="lbl_eSports"><value>电子竞技</value></data>
+  <data name="lbl_EmailToolTip"><value>提交后无法变更电子邮件地址。</value></data>
+  <data name="lbl_HockeyBetting"><value>曲棍球投注</value></data>
+  <data name="lbl_WalletDescription_PT"><value>PT钱包</value></data>
+  <data name="lbl_RollOver"><value>最低投注倍数</value></data>
+  <data name="lbl_Cashback_Lottery"><value>彩票</value></data>
+  <data name="lbl_NoMatching"><value>搜索相符产品结果不符</value></data>
+  <data name="lbl_WeChatPay"><value>微信支付</value></data>
+  <data name="lbl_AboutUs"><value>关于我们</value></data>
+  <data name="lbl_RolloverOver"><value>您的红利回馈流水未达最低金额</value></data>
+  <data name="lbl_AddNewAccount"><value>新增账户</value></data>
+  <data name="PromotionCategory1"><value>首次充值</value></data>
+  <data name="lbl_PromoRemind"><value>存款立即享有丰厚优惠</value></data>
+  <data name="lbl_TransferTo"><value>转账至</value></data>
+  <data name="lbl_TransferIn"><value>资金转入</value></data>
+  <data name="lbl_TwitterSite"><value>@Nova88official</value></data>
+  <data name="lbl_PPCasino"><value>西式厅</value></data>
+  <data name="lbl_PrefferedCurrency"><value>首选货币</value></data>
+  <data name="lbl_Reminder"><value>提醒</value></data>
+  <data name="lbl_DepositTimeToolTip"><value>請提交您的充值存入時間。</value></data>
+  <data name="lbl_Error_Title"><value>噢！</value></data>
+  <data name="lbl_Postscript"><value>验证码</value></data>
+  <data name="lbl_Register"><value>注册</value></data>
+  <data name="lbl_Provider"><value>供应商</value></data>
+  <data name="lbl_CompletedRegistration"><value>已完成注册</value></data>
+  <data name="lbl_PersonalMsg"><value>站内信</value></data>
+  <data name="lbl_ImportantNote"><value>温馨提醒</value></data>
+  <data name="lbl_MaxBonusAmount"><value>最高红利</value></data>
+  <data name="lbl_WalletDescription_NineW"><value>9W钱包</value></data>
+  <data name="lbl_ExpiryTime"><value>到期时间</value></data>
+  <data name="lbl_Unionpay"><value>云闪付</value></data>
+  <data name="lbl_CheckConfirm"><value>确定要删除么？删除后将无法还原！</value></data>
+  <data name="lbl_VIPLevel"><value>贵宾等级</value></data>
+  <data name="lbl_RemainingTime"><value>剩余时间</value></data>
+  <data name="lbl_PhotoID"><value>附有照片的身份证</value></data>
+  <data name="lbl_FacebookAccount"><value>nova88official</value></data>
+  <data name="lbl_Birthday"><value>生日</value></data>
+  <data name="lbl_BankNumber"><value>银行账户号码</value></data>
+  <data name="lbl_SexyCasino"><value>维纳斯厅</value></data>
+  <data name="lbl_DepositStatus99"><value>错误</value></data>
+  <data name="lbl_TitleDesc"><value>欧亚体育提供线上体育博彩和现场博彩的最佳赔率</value></data>
+  <data name="lbl_Wallet_Mega"><value>Mega钱包</value></data>
+  <data name="lbl_Wallet_Saba"><value>体育钱包</value></data>
+  <data name="lbl_Deposit"><value>充值</value></data>
+  <data name="lbl_Details"><value>详情</value></data>
+  <data name="lbl_PlayNow"><value>立即游戏</value></data>
+  <data name="lbl_CustBank"><value>银行</value></data>
+  <data name="lbl_RealName"><value>真实姓名</value></data>
+  <data name="lbl_WalletType"><value>钱包种类</value></data>
+  <data name="lbl_TransactionHistory"><value>交易历史记录</value></data>
+  <data name="lbl_AllGames"><value>所有游戏</value></data>
+  <data name="FTDPTitle13"><value>100％欢迎红利，最高人民币588</value></data>
+  <data name="lbl_Check18TCTooltip"><value>请点选上方格子以确认符合账号注册条件</value></data>
+  <data name="lbl_Payment"><value>支付方式</value></data>
+  <data name="lbl_UpdateBankInfo"><value>请在提现前完成更新银行资讯</value></data>
+  <data name="lbl_TransferAll"><value>输入中心钱包</value></data>
+  <data name="lbl_TransferOut"><value>转出</value></data>
+  <data name="lbl_GameList"><value>游戏列表</value></data>
+  <data name="lbl_OWCasino"><value>OW 娱乐城</value></data>
+  <data name="lbl_UpdatePersonalDetail"><value>更新个人资料</value></data>
+  <data name="lbl_BirthCertificate"><value>出生证明</value></data>
+  <data name="lbl_Transaction"><value>交易</value></data>
+  <data name="lbl_CookiePolicy"><value>Cookie政策</value></data>
+  <data name="lbl_CustBankInfo"><value>更新银行资讯</value></data>
+  <data name="lbl_Pending"><value>待定</value></data>
+  <data name="lbl_NewPassword"><value>新密码</value></data>
+  <data name="lbl_TransferFunds"><value>资金转移</value></data>
+  <data name="lbl_PhoneTooltip"><value>请输入您的手机号码，输入后将无法更改！</value></data>
+  <data name="lbl_Wallet_Kiss918"><value>918Kiss</value></data>
+  <data name="lbl_EligibleWithdrawalAmount"><value>您可提现的金额为</value></data>
+  <data name="lbl_Req"><value>条件</value></data>
+  <data name="lbl_URL"><value>https://www.nova88.net</value></data>
+  <data name="lbl_All"><value>全部</value></data>
+  <data name="lbl_GPI"><value>优品</value></data>
+  <data name="lbl_FAQ"><value>常见疑问</value></data>
+  <data name="lbl_Description"><value>欧亚体育是世界领先的体育博彩，提供最佳的博彩体验，涵盖所有体育，娱乐城，老虎机，快乐彩，电子竞技，rng娱乐城，梦幻对垒，虚拟体育，彩票，真人娱乐场，真人荷官，宾果游戏和赛车。</value></data>
+  <data name="lbl_BankAccountName"><value>账户名称</value></data>
+  <data name="lbl_SubmitPhotoIdList"><value>下列中，请上传其一证件：
+ 1. 国民身份证
+ 2. 护照副本
+ 3. 驾驶执照
+ 4. 出生证明</value></data>
+  <data name="lbl_SubmitPhotoIdHint"><value>请上传国家政府发行证件以完成提款验证流程：</value></data>
+  <data name="lbl_PreferredCurrencyToolTip"><value>一旦完成注册，即无法修改选定币别。</value></data>
+  <data name="lbl_Optional"><value>选填</value></data>
+  <data name="lbl_LiveCasino"><value>真人娱乐</value></data>
+  <data name="lbl_SoccerBetting"><value>足球投注</value></data>
+  <data name="lbl_AccountTerms"><value>账户条款</value></data>
+  <data name="lbl_TransferHistory"><value>转账历史记录</value></data>
+  <data name="lbl_TwitterCreator"><value>@Nova88official</value></data>
+  <data name="lbl_ThisWeek"><value>本周</value></data>
+  <data name="lbl_Copyright"><value>{0}版权所有</value></data>
+  <data name="lbl_ResposibleGaming"><value>博彩责任</value></data>
+  <data name="lbl_Required"><value>必填栏位</value></data>
+  <data name="lbl_UpdateBankDetail"><value>更新银行资讯</value></data>
+  <data name="lbl_UploadSuccess"><value>档案上传成功</value></data>
+  <data name="lbl_Product"><value>产品</value></data>
+  <data name="lbl_Profile"><value>个人资料</value></data>
+  <data name="lbl_Themes"><value>主题</value></data>
+  <data name="lbl_Tennis"><value>网球</value></data>
+  <data name="lbl_DrivingLicense"><value>驾驶执照</value></data>
+  <data name="lbl_TurnoverAccmulateHint"><value>欲转移余额需先达标流水要求。</value></data>
+  <data name="lbl_ChargeFee"><value>手续费</value></data>
+  <data name="lbl_SubmitProof"><value>提交银行收据</value></data>
+  <data name="lbl_WithdrawalTo"><value>提现至</value></data>
+  <data name="lbl_UploadFile"><value>上传档案</value></data>
+  <data name="lbl_TryNow"><value>马上试用</value></data>
+  <data name="lbl_Soccer"><value>足球</value></data>
+  <data name="lbl_BeforeAmount"><value>账变前余额</value></data>
+  <data name="lbl_ReModify"><value>重新更改</value></data>
+  <data name="lbl_BaseballBetting"><value>棒球投注</value></data>
+  <data name="lbl_Submit"><value>提交</value></data>
+  <data name="lbl_Sports"><value>体育博彩</value></data>
+  <data name="lbl_Status"><value>状态</value></data>
+  <data name="lbl_Unlimited"><value>无上限</value></data>
+  <data name="lbl_Refund"><value>退款</value></data>
+  <data name="lbl_DGCasino"><value>水晶厅</value></data>
+  <data name="lbl_KenoAndLottery"><value>快乐彩与彩票</value></data>
+  <data name="lbl_UpdateSuccess"><value>更新成功。我们会尽快处理您的要求！</value></data>
+  <data name="lbl_Affiliates"><value>合作伙伴</value></data>
+  <data name="lbl_ResetPassword"><value>重设密码</value></data>
+  <data name="lbl_Keywords"><value>欧亚体育是世界领先的体育博彩，提供最佳的博彩体验，涵盖所有体育，娱乐城，老虎机，快乐彩，电子竞技，rng娱乐城，梦幻对垒，虚拟体育，彩票，真人娱乐场，真人荷官，宾果游戏和 赛车。</value></data>
+  <data name="lbl_Clickhereforpromotion"><value>点击这里查看您现有的优惠活动</value></data>
+  <data name="lbl_5mins"><value>5分鐘</value></data>
+  <data name="lbl_LoginMsg"><value>请注意，一个会员仅能注册一个账号。</value></data>
+  <data name="lbl_TermsConditions"><value>条款及规则</value></data>
+  <data name="lbl_RecentTransactions"><value>最近交易</value></data>
+  <data name="lbl_ConfirmDeposit"><value>请确认充值资讯。</value></data>
+  <data name="lbl_WithdrawalStatus3"><value>审核</value></data>
+  <data name="lbl_WithdrawalStatus2"><value>搁置</value></data>
+  <data name="lbl_WithdrawalStatus1"><value>待定</value></data>
+  <data name="lbl_WithdrawalStatus0"><value>草稿</value></data>
+  <data name="lbl_WithdrawalStatus7"><value>已拒绝</value></data>
+  <data name="lbl_WithdrawalStatus6"><value>已核准</value></data>
+  <data name="lbl_WithdrawalStatus5"><value>已取消</value></data>
+  <data name="lbl_WithdrawalStatus4"><value>处理中</value></data>
+  <data name="lbl_Facebook"><value>脸书</value></data>
+  <data name="lbl_ThisMonth"><value>本月</value></data>
+  <data name="lbl_Cashback_Virtual_Sports"><value>虚拟运动</value></data>
+  <data name="lbl_VirtualSports"><value>虚拟运动</value></data>
+  <data name="lbl_LiveSupport"><value>24/7 在线客服</value></data>
+  <data name="lbl_AllbetCasino"><value>至尊厅</value></data>
+  <data name="lbl_Phone"><value>手机号码</value></data>
+  <data name="lbl_Promo"><value>优惠</value></data>
+  <data name="lbl_Today"><value>今日</value></data>
+  <data name="lbl_Title"><value>欧亚体育</value></data>
+  <data name="lbl_Terms"><value>使用条款</value></data>
+  <data name="lbl_Table"><value>牌桌</value></data>
+  <data name="lbl_Slots"><value>老虎机</value></data>
+  <data name="lbl_Stake"><value>本金</value></data>
+  <data name="lbl_Refno"><value>参考编号</value></data>
+  <data name="lbl_QQpay"><value>QQ钱包</value></data>
+  <data name="lbl_Hours"><value>小时</value></data>
+  <data name="lbl_Later"><value>稍后</value></data>
+  <data name="lbl_Login"><value>登入</value></data>
+  <data name="lbl_Limit"><value>限制</value></data>
+  <data name="lbl_FishingSG1"><value>捕鱼天王</value></data>
+  <data name="lbl_FishingSG2"><value>捕鱼大战</value></data>
+  <data name="lbl_JDpay"><value>京东钱包</value></data>
+  <data name="lbl_Image"><value>https://www.nova88.net/SiteSkin/Nova88/common/images/logo.png</value></data>
+  <data name="lbl_Other"><value>其它</value></data>
+  <data name="lbl_Close"><value>关闭</value></data>
+  <data name="lbl_Bonus"><value>优惠</value></data>
+  <data name="lbl_Agent"><value>代理</value></data>
+  <data name="lbl_Guest"><value>访客</value></data>
+  <data name="lbl_Email"><value>邮箱地址</value></data>
+  <data name="lbl_Enter"><value>直接进入</value></data>
+  <data name="lbl_Update"><value>更新</value></data>
+  <data name="lbl_Country"><value>国家</value></data>
+  <data name="lbl_Logout"><value>登出</value></data>
+  <data name="lbl_EbetCasino"><value>皇家厅</value></data>
+  <data name="lbl_DepositWithdrawals"><value>充值與提现</value></data>
+  <data name="lbl_Confirm"><value>确认</value></data>
+  <data name="lbl_badminton"><value>羽毛球</value></data>
+  <data name="lbl_JoinNow"><value>立即加入</value></data>
+  <data name="lbl_Languages"><value>语系</value></data>
+  <data name="lbl_Announcement"><value>公告</value></data>
+  <data name="lbl_PostscriptHint"><value>输入验证码立即充值</value></data>
+  <data name="lbl_Cashier"><value>收银</value></data>
+  <data name="lbl_HelpSupport"><value>帮助及支持</value></data>
+  <data name="lbl_DepositAmount"><value>充值金额</value></data>
+  <data name="lbl_Indo4d"><value>Indo 4D</value></data>
+  <data name="lbl_Deduction"><value>相抵流水缺欠金额</value></data>
+  <data name="lbl_TurnoverAccumulated"><value>累计流水</value></data>
+  <data name="lbl_TennisBetting"><value>网球投注</value></data>
+  <data name="lbl_SelfCasino"><value>欧亚娱乐城</value></data>
+  <data name="lbl_OtherWallet"><value>其它钱包</value></data>
+  <data name="lbl_PromotionsList"><value>红利活动清单</value></data>
+  <data name="lbl_Notice"><value>通知</value></data>
+  <data name="lbl_Method"><value>方式</value></data>
+  <data name="FTDPDescription"><value>在歐亞88完成第一筆充值以享受高達 馬幣888 的優惠回饋！立即加入！</value></data>
+  <data name="lbl_ForgetPassword"><value>忘记您的密码</value></data>
+  <data name="lbl_Month8"><value>八月</value></data>
+  <data name="lbl_Month9"><value>九月</value></data>
+  <data name="lbl_Month1"><value>一月</value></data>
+  <data name="lbl_Month2"><value>二月</value></data>
+  <data name="lbl_Month3"><value>三月</value></data>
+  <data name="lbl_Month4"><value>四月</value></data>
+  <data name="lbl_Month5"><value>五月</value></data>
+  <data name="lbl_Month6"><value>六月</value></data>
+  <data name="lbl_Month7"><value>七月</value></data>
+  <data name="lbl_RolloverProgress"><value>流水金额进度</value></data>
+  <data name="lbl_BankAccountNameHint"><value>账号名称请填写真实姓名，完成后将无法修改！</value></data>
+  <data name="lbl_ForgetNote"><value>如果您忘记了您的密码，请提供您的电子邮箱地址，安全问题及答案，我们将会发送新的密码到您登记的电子邮箱地址。</value></data>
+  <data name="lbl_WireTransfers"><value>银行卡转帐</value></data>
+  <data name="lbl_Twitter"><value>推特</value></data>
+  <data name="lbl_CancelConfirm"><value>确定取消？取消后将无法还原！</value></data>
+  <data name="lbl_KYCSubmitHint"><value>下列中，请上传其一证件：</value></data>
+  <data name="lbl_TwitterAccount"><value>nova88official</value></data>
+  <data name="lbl_Favourite"><value>我的最爱</value></data>
+  <data name="lbl_Casino"><value>电子游戏</value></data>
+  <data name="lbl_Cancel"><value>取消</value></data>
+  <data name="lbl_WithdrawalType2"><value>银行卡</value></data>
+  <data name="lbl_WithdrawalType1"><value>网上支付</value></data>
+  <data name="lbl_WithdrawalType0"><value>无法定义</value></data>
+  <data name="lbl_ResetPasswordSubmit"><value>密码重置请求</value></data>
+  <data name="lbl_PaymentOptions"><value>支付方式</value></data>
+  <data name="lbl_Author"><value>欧亚体育</value></data>
+  <data name="lbl_Arcade"><value>街机</value></data>
+  <data name="lbl_WithdrawalLimit"><value>提款禁止，距离流水门槛尚差</value></data>
+  <data name="lbl_Amount"><value>金额</value></data>
+  <data name="lbl_Alipay"><value>支付宝</value></data>
+  <data name="lbl_DepositOptionHint"><value>从下方选出最符合您需求的充值方式：</value></data>
+  <data name="lbl_WaitKYCHint"><value>感谢您上传所需文件，审查流程正进行中，恳请稍后</value></data>
+  <data name="lbl_LoginHere"><value>此处登入</value></data>
+  <data name="lbl_Forget"><value>忘记您的用户名或者密码?</value></data>
+  <data name="lbl_CreditTime"><value>所需时间</value></data>
+  <data name="lbl_SACasino"><value>雅典娜厅</value></data>
+  <data name="lbl_MomoHint"><value>如欲快速充值，请在此处留下您的银行账户姓名及银行账户号码。</value></data>
+  <data name="lbl_FootballBetting"><value>美式足球投注</value></data>
+  <data name="lbl_CountryTooltip"><value>请选择您的居住国家</value></data>
+  <data name="lbl_UsernameTooltip"><value>基于安全考量，我们建议用户名不要使用或包含您的真实姓名。</value></data>
+  <data name="lbl_AttachFile"><value>请附上您银行收据(非必要)</value></data>
+  <data name="lbl_Baseball"><value>棒球</value></data>
+  <data name="lbl_AmountTooltip"><value>金额不得小于0</value></data>
+  <data name="lbl_TypeName"><value>账变类型</value></data>
+  <data name="lbl_Wallet_NineW"><value>9W钱包</value></data>
+  <data name="lbl_AfterAmount"><value>账变后余额</value></data>
+  <data name="lbl_UpdatePersonalInfo"><value>请在充值前更新您的个人资料。</value></data>
+  <data name="lbl_DepositOver"><value>您的提现申请超过您的馀额</value></data>
+  <data name="lbl_DepositTime"><value>充值时间</value></data>
+  <data name="lbl_Promotion"><value>优惠活动</value></data>
+  <data name="lbl_Withdrawal"><value>提现</value></data>
+  <data name="lbl_UploadPhotoId"><value>上传</value></data>
+  <data name="lbl_DontHaveAccount"><value>没有账户吗?</value></data>
+  <data name="lbl_LastTransaction"><value>最后交易</value></data>
+  <data name="lbl_ChangeAmount"><value>账变金额</value></data>
+  <data name="lbl_WithdrawalHistory"><value>提现历史记录</value></data>
+  <data name="lbl_OnlineBanking"><value>网络银行</value></data>
+  <data name="lbl_Instagram"><value>IG</value></data>
+  <data name="lbl_LastWeek"><value>上周</value></data>
+  <data name="lbl_Cashback_Sports"><value>体育博彩</value></data>
+  <data name="lbl_RotationHint_1"><value>尊敬的客户</value></data>
+  <data name="lbl_RotationHint_2"><value>为了给您带来更好的游戏体验和产品</value></data>
+  <data name="lbl_RotationHint_3"><value>请将手机竖屏体验本产品</value></data>
+  <data name="lbl_RotationHint_4"><value>给您带来不便，敬请您谅解，谢谢！</value></data>
+  <data name="lbl_Currency_20"><value>虚拟币(测试用)</value></data>
+  <data name="lbl_Currency_13"><value>人民币</value></data>
+  <data name="lbl_Currency_12"><value>英镑</value></data>
+  <data name="lbl_Currency_15"><value>印度卢比</value></data>
+  <data name="lbl_Currency_45"><value>南韩圜</value></data>
+  <data name="lbl_Currency_41"><value>瑞士法郎</value></data>
+  <data name="lbl_Currency_32"><value>日元</value></data>
+  <data name="lbl_Currency_51"><value>越南盾</value></data>
+  <data name="lbl_DepositType1"><value>网络银行</value></data>
+  <data name="lbl_DepositType2"><value>手机支付</value></data>
+  <data name="lbl_DepositType3"><value>银行卡</value></data>
+  <data name="lbl_TitleKeywords"><value>欧亚体育是世界领先的体育博彩，提供最佳的博彩体验，涵盖所有体育，娱乐城，老虎机，快乐彩，电子竞技，rng娱乐城，梦幻对垒，虚拟体育，彩票，真人娱乐场，真人荷官，宾果游戏和赛车。</value></data>
+  <data name="lbl_Promotions"><value>优惠活动</value></data>
+  <data name="lbl_Cashback_RNG"><value>RNG</value></data>
+  <data name="lbl_RemindForName"><value>*请填写与您银行账户一致的完整姓名，以加速充值和提现操作。</value></data>
+  <data name="Currency_9"><value>AUD</value></data>
+  <data name="Currency_4"><value>THB</value></data>
+  <data name="Currency_6"><value>EURO</value></data>
+  <data name="Currency_1"><value>SGD</value></data>
+  <data name="Currency_3"><value>USD</value></data>
+  <data name="Currency_2"><value>MYR</value></data>
+  <data name="lbl_Clickhereforsupport"><value>点击这裡获得支援</value></data>
+  <data name="lbl_To"><value>至</value></data>
+  <data name="lbl_TC"><value>优惠活动专用条款和条件</value></data>
+  <data name="lbl_ID"><value>ID</value></data>
+  <data name="lbl_Of"><value>之</value></data>
+  <data name="lbl_Me"><value>我</value></data>
+  <data name="lbl_RebatebonusonMobile"><value>手机返水红利</value></data>
+  <data name="lbl_BankName"><value>银行名称</value></data>
+  <data name="lbl_BankInfo"><value>银行资讯</value></data>
+  <data name="lbl_Scratch"><value>刮刮卡</value></data>
+  <data name="lbl_Clickhereforbonus"><value>点击此处取得红利</value></data>
+  <data name="lbl_ConfirmWithdrawal"><value>请确认提现资讯。</value></data>
+  <data name="lbl_Direction"><value>方向</value></data>
+  <data name="lbl_Settled"><value>已派彩</value></data>
+  <data name="lbl_Setting"><value>设定</value></data>
+  <data name="lbl_History"><value>历史记录</value></data>
+  <data name="lbl_NationalIdentityCard"><value>国民身份证</value></data>
+  <data name="lbl_Downloads"><value>下载</value></data>
+  <data name="lbl_Check18TC1"><value>我同意</value></data>
+  <data name="lbl_Check18TC2"><value>和</value></data>
+  <data name="lbl_Check18TC3"><value>在</value></data>
+  <data name="lbl_Check18TC4"><value>我确认我至少21岁</value></data>
+  <data name="lbl_BonusAmount"><value>红利金额</value></data>
+  <data name="lbl_AffiliateSlog"><value>您的成功伴侣</value></data>
+  <data name="lbl_FishingGG"><value>捕鱼天下</value></data>
+  <data name="lbl_BonusConfirm"><value>您点选了加入优惠活动，请问是否确定要参加？</value></data>
+  <data name="lbl_CountrySC"><value>塞舌尔</value></data>
+  <data name="lbl_CountrySB"><value>所罗门群岛</value></data>
+  <data name="lbl_CountrySA"><value>沙特阿拉伯</value></data>
+  <data name="lbl_CountrySD"><value>苏丹</value></data>
+  <data name="lbl_CountrySO"><value>索马里</value></data>
+  <data name="lbl_CountrySN"><value>塞内加尔</value></data>
+  <data name="lbl_CountrySL"><value>塞拉利昂</value></data>
+  <data name="lbl_CountrySR"><value>苏里南</value></data>
+  <data name="lbl_CountrySV"><value>萨尔瓦多</value></data>
+  <data name="lbl_CountryST"><value>圣多美和普林西比</value></data>
+  <data name="lbl_CountrySZ"><value>斯威士兰</value></data>
+  <data name="lbl_CountrySY"><value>阿拉伯叙利亚共和国</value></data>
+  <data name="lbl_CountryPA"><value>巴拿马</value></data>
+  <data name="lbl_CountryPE"><value>秘鲁</value></data>
+  <data name="lbl_CountryPG"><value>巴布新几内亚</value></data>
+  <data name="lbl_CountryPK"><value>巴基斯坦</value></data>
+  <data name="lbl_CountryPN"><value>皮特克恩岛</value></data>
+  <data name="lbl_CountryPY"><value>巴拉圭</value></data>
+  <data name="lbl_CountryQA"><value>卡塔尔</value></data>
+  <data name="lbl_CountryVE"><value>委内瑞拉</value></data>
+  <data name="lbl_CountryVC"><value>圣文森特和格林纳丁斯</value></data>
+  <data name="lbl_CountryVN"><value>越南</value></data>
+  <data name="lbl_CountryVU"><value>瓦努阿图</value></data>
+  <data name="lbl_CountryWF"><value>瓦利斯群岛和富图纳群岛</value></data>
+  <data name="lbl_CountryWS"><value>西撒哈拉</value></data>
+  <data name="lbl_CountryTD"><value>乍得</value></data>
+  <data name="lbl_CountryTG"><value>汤加</value></data>
+  <data name="lbl_CountryTN"><value>突尼斯</value></data>
+  <data name="lbl_CountryTH"><value>泰国</value></data>
+  <data name="lbl_CountryTJ"><value>塔吉克斯坦</value></data>
+  <data name="lbl_CountryTT"><value>特立尼达和多巴哥</value></data>
+  <data name="lbl_CountryTZ"><value>坦桑尼亚联合共和国</value></data>
+  <data name="lbl_CountryUG"><value>乌干达</value></data>
+  <data name="lbl_CountryUY"><value>乌拉圭</value></data>
+  <data name="lbl_CountryUZ"><value>乌兹别克斯坦</value></data>
+  <data name="lbl_CountryZM"><value>赞比亚</value></data>
+  <data name="lbl_CountryZA"><value>南非</value></data>
+  <data name="lbl_CountryZW"><value>津巴布韦</value></data>
+  <data name="lbl_CountryYE"><value>也门</value></data>
+  <data name="lbl_CountryBR"><value>巴西</value></data>
+  <data name="lbl_CountryBS"><value>巴哈马</value></data>
+  <data name="lbl_CountryBW"><value>博茨瓦纳</value></data>
+  <data name="lbl_CountryBT"><value>不丹</value></data>
+  <data name="lbl_CountryBZ"><value>伯利兹</value></data>
+  <data name="lbl_CountryBB"><value>巴巴多斯</value></data>
+  <data name="lbl_CountryBF"><value>布吉纳法索</value></data>
+  <data name="lbl_CountryBD"><value>孟加拉国</value></data>
+  <data name="lbl_CountryBJ"><value>贝宁</value></data>
+  <data name="lbl_CountryBH"><value>巴林</value></data>
+  <data name="lbl_CountryBI"><value>布隆迪</value></data>
+  <data name="lbl_CountryBN"><value>文莱达鲁萨兰国</value></data>
+  <data name="lbl_CountryBO"><value>玻利维亚</value></data>
+  <data name="lbl_CountryBM"><value>百慕大</value></data>
+  <data name="lbl_CountryCS"><value>中国</value></data>
+  <data name="lbl_CountryCR"><value>哥斯达黎加</value></data>
+  <data name="lbl_CountryCV"><value>佛得角</value></data>
+  <data name="lbl_CountryCA"><value>加拿大</value></data>
+  <data name="lbl_CountryCG"><value>刚果</value></data>
+  <data name="lbl_CountryCF"><value>中非共和国</value></data>
+  <data name="lbl_CountryCD"><value>多米尼加共和国</value></data>
+  <data name="lbl_CountryCK"><value>库克群岛</value></data>
+  <data name="lbl_CountryCI"><value>科特迪瓦</value></data>
+  <data name="lbl_CountryCO"><value>哥伦比亚</value></data>
+  <data name="lbl_CountryCM"><value>喀麦隆</value></data>
+  <data name="lbl_CountryCL"><value>智利</value></data>
+  <data name="lbl_CountryAR"><value>阿根廷</value></data>
+  <data name="lbl_CountryAW"><value>阿鲁巴岛</value></data>
+  <data name="lbl_CountryAF"><value>阿富汗</value></data>
+  <data name="lbl_CountryAI"><value>安圭拉岛</value></data>
+  <data name="lbl_CountryAO"><value>安哥拉</value></data>
+  <data name="lbl_CountryFO"><value>福克兰群岛(马尔维纳斯)</value></data>
+  <data name="lbl_CountryFJ"><value>斐济</value></data>
+  <data name="lbl_CountryGT"><value>危地马拉</value></data>
+  <data name="lbl_CountryGY"><value>圭亚那</value></data>
+  <data name="lbl_CountryGD"><value>格林纳达</value></data>
+  <data name="lbl_CountryGA"><value>加蓬</value></data>
+  <data name="lbl_CountryGN"><value>几内亚</value></data>
+  <data name="lbl_CountryGI"><value>直布罗陀</value></data>
+  <data name="lbl_CountryGH"><value>加纳</value></data>
+  <data name="lbl_CountryDZ"><value>阿尔及利亚</value></data>
+  <data name="lbl_CountryET"><value>埃塞俄比亚</value></data>
+  <data name="lbl_CountryER"><value>厄立特里亚</value></data>
+  <data name="lbl_CountryEG"><value>埃及</value></data>
+  <data name="lbl_CountryEC"><value>厄瓜多尔</value></data>
+  <data name="lbl_CountryJP"><value>日本</value></data>
+  <data name="lbl_CountryJO"><value>约旦</value></data>
+  <data name="lbl_CountryJM"><value>牙买加</value></data>
+  <data name="lbl_CountryKZ"><value>哈萨克斯坦</value></data>
+  <data name="lbl_CountryKY"><value>开曼群岛</value></data>
+  <data name="lbl_CountryKR"><value>韩国</value></data>
+  <data name="lbl_CountryKW"><value>科威特</value></data>
+  <data name="lbl_CountryKH"><value>柬埔寨</value></data>
+  <data name="lbl_CountryKE"><value>肯尼亚</value></data>
+  <data name="lbl_CountryHT"><value>海地</value></data>
+  <data name="lbl_CountryHN"><value>洪都拉斯</value></data>
+  <data name="lbl_CountryIN"><value>印度</value></data>
+  <data name="lbl_CountryID"><value>印尼</value></data>
+  <data name="lbl_CountryNZ"><value>新西兰</value></data>
+  <data name="lbl_CountryNR"><value>瑙鲁</value></data>
+  <data name="lbl_CountryNP"><value>尼泊尔</value></data>
+  <data name="lbl_CountryNG"><value>尼日利亚</value></data>
+  <data name="lbl_CountryNE"><value>尼日尔</value></data>
+  <data name="lbl_CountryNC"><value>新喀里多尼亚</value></data>
+  <data name="lbl_CountryNA"><value>纳米比亚</value></data>
+  <data name="lbl_CountryOM"><value>阿曼</value></data>
+  <data name="lbl_CountryLS"><value>莱索托</value></data>
+  <data name="lbl_CountryLK"><value>斯里兰卡</value></data>
+  <data name="lbl_CountryLA"><value>老挝</value></data>
+  <data name="lbl_CountryLB"><value>黎巴嫩</value></data>
+  <data name="lbl_CountryLC"><value>圣卢西亚岛</value></data>
+  <data name="lbl_CountryMY"><value>马来西亚</value></data>
+  <data name="lbl_CountryMX"><value>墨西哥</value></data>
+  <data name="lbl_CountryMU"><value>毛里求斯</value></data>
+  <data name="lbl_CountryMW"><value>马拉维</value></data>
+  <data name="lbl_CountryMV"><value>马尔代夫</value></data>
+  <data name="lbl_CountryMR"><value>毛利塔尼亚</value></data>
+  <data name="lbl_CountryMM"><value>缅甸</value></data>
+  <data name="lbl_CountryML"><value>马里</value></data>
+  <data name="lbl_CountryMN"><value>蒙古</value></data>
+  <data name="lbl_CountryMG"><value>马达加斯加</value></data>
+  <data name="lbl_CountryMA"><value>摩洛哥</value></data>
+  <data name="lbl_TransactionHint"><value>请转账到该账户</value></data>
+  <data name="lbl_ConfirmAndUpdate"><value>确认更新</value></data>
+  <data name="lbl_VirtualSportsSlogon"><value>除了流行的运动项目，我们还提供开创新的虚拟游戏。</value></data>
+  <data name="lbl_OurPolicies"><value>我们的政策</value></data>
+  <data name="lbl_BankAccount"><value>银行账户</value></data>
+  <data name="lbl_Platform"><value>游戏平台</value></data>
+  <data name="lbl_Instant"><value>即时</value></data>
+  <data name="lbl_WithdrawalStatus99"><value>错误</value></data>
+  <data name="lbl_KenoSlogon"><value>玩法精采多元，更多获胜机会！</value></data>
+  <data name="lbl_CasinoSlogon"><value>亚洲市场的多种主题</value></data>
+  <data name="lbl_Message"><value>信息</value></data>
+  <data name="lbl_Username"><value>用戶名</value></data>
+  <data name="lbl_DreamGaming"><value>水晶厅</value></data>
+  <data name="lbl_Currency_1"><value>新加坡元</value></data>
+  <data name="lbl_Currency_2"><value>马币</value></data>
+  <data name="lbl_Currency_3"><value>美元</value></data>
+  <data name="lbl_Currency_4"><value>泰铢</value></data>
+  <data name="lbl_Currency_5"><value>港元</value></data>
+  <data name="lbl_Currency_6"><value>欧元</value></data>
+  <data name="lbl_Currency_9"><value>澳元</value></data>
+  <data name="lbl_RuleRegulations"><value>投注规则与规定</value></data>
+  <data name="lbl_Balance"><value>余额</value></data>
+  <data name="lbl_Error_Message"><value>好吧，这是无法预期的....</value></data>
+  <data name="lbl_SocialMedia"><value>社交媒体</value></data>
+  <data name="lbl_ContactUs"><value>联络我们</value></data>
+  <data name="lbl_Basketball"><value>篮球</value></data>
+  <data name="lbl_ChangePassword"><value>更改密码</value></data>
+  <data name="lbl_DepositHistory"><value>充值历史记录</value></data>
+  <data name="lbl_Welcome"><value>欢迎</value></data>
+  <data name="lbl_SubmitPhotoId"><value>提交附有照片的身份证</value></data>
+  <data name="lbl_DepositNow"><value>马上充值</value></data>
+  <data name="lbl_MaxAmount"><value>总金额</value></data>
+  <data name="lbl_Passport"><value>护照副本</value></data>
+  <data name="lbl_Password"><value>密码</value></data>
+  </root>

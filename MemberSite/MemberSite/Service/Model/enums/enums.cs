@@ -47,6 +47,7 @@ namespace MemberSite.Service.Model.enums
         LoadCardPayment = 5,
         QRPayPayment = 6,
         BankAutoChannel = 7,
+        CryptoWallet = 8
     }
 
     /// <summary>
@@ -141,7 +142,8 @@ namespace MemberSite.Service.Model.enums
         SlotsGame = 1,
         LiveCasino = 2,
         SabaSports = 4,
-        Lottery = 5
+        Lottery = 5,
+        ESports = 11
     }
 
     public enum TpCategoryId
@@ -153,7 +155,8 @@ namespace MemberSite.Service.Model.enums
         Cockfighting = 5,
         Lottery = 6,
         VirtualSports = 7,
-        Poker = 8
+        P2P = 8,
+        ESports = 11
     }
 
     public enum PromotionType
@@ -226,7 +229,8 @@ namespace MemberSite.Service.Model.enums
         JILI = 32,
         TCG = 33,
         MG = 34,
-        MP = 35
+        MP = 35,
+        SBSW = 41
     }
     public enum GameType
     {
@@ -342,6 +346,7 @@ namespace MemberSite.Service.Model.enums
         IDR = 15,
         VND = 51,
         INR = 61,
+        KHUSD = 72,
         BDT = 74,
         USDT = 96
     }
@@ -547,13 +552,8 @@ namespace MemberSite.Service.Model.enums
     public enum OfflineBankAccountSupportChannelEnum
     {
         LocalBank = 0,
-        EWallet = 1
-    }
-
-    public enum FakePayGroupEnum
-    {
-        [Description("DuitNowQR")]
-        DuitNowQR = 53,
+        EWallet = 1,
+        BankQR = 2
     }
 
     public enum PayModeEnum

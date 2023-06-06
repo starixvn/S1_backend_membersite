@@ -9,13 +9,11 @@ namespace MemberSite.Service.DAL.Interface
         bool CheckEventCondition(string conditionSP, int eventId, int custId, int currencyId);
         int DrawPrize(ref int eventId, int custId, int currencyId, string userName, int siteId, out int result, out Prize drawPrize);
         IEnumerable<CustGiftList> GetCustDrawPrizeList(int eventId, int siteId, int custId);
-        Task<IEnumerable<CustGiftList>> GetTodayCustDrawPrizeList(int eventId, int custId, int currencyId);
-        void GetCustRank(int lBCategoryId, string eventCode, int siteId, int currencyId ,int custId, DateTime startTime , DateTime endTime, out int custRank, out decimal point);
+        Task<IEnumerable<CustGiftList>> GetTodayCustDrawPrizeList(int eventId, int custId, int currencyId);        
         IEnumerable<PrizeDisPlayList> GetDrawPrizeDisPlaySetting(int eventId);
         IEnumerable<PrizeList> GetDrawPrizeList(int eventId, int currencyId);
         int GetDrawPrizeMessage(int eventId, string langId, out string tital, out string message);
-        EventDrawInfo GetEventDrawInfo(int eventId);
-        IEnumerable<Leaderboard> GetLeaderboardList(int lBCategoryId, string eventCode, int siteId, int currencyId, int topNum, DateTime startTime , DateTime endTime);
+        EventDrawInfo GetEventDrawInfo(int eventId);        
         Task<IEnumerable<Prize>> GetPrizes(int eventId, int currencyId);
         Task ResetPrize(int eventId, int currencyId);
         Task<IEnumerable<AngPowTicket>> GetTickets(int custId, int currencyId);
