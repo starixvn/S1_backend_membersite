@@ -96,6 +96,11 @@ namespace MemberSite.Controllers.Api
             public int? DeviceType { set; get; }
         }
 
+        public class GetRebateExcludeGameListReq
+        {
+            public int CurrencyId { set; get; }
+        }
+
         [Authorize]
         [HttpPost]
         public async Task<ApiResult> SetClaimPromotionAsync(PromotionReq promotionReq)
@@ -425,7 +430,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public async Task<ApiResult<IEnumerable<RebateExcludeGameDetail>>> GetRebateExcludeGameListAsync([FromRoute] string langId = "en")
+        public async Task<ApiResult<IEnumerable<RebateExcludeGameDetail>>> GetRebateExcludeGameListAsync(GetRebateExcludeGameListReq request, [FromRoute] string langId = "en")
         {
             var result = new ApiResult<IEnumerable<RebateExcludeGameDetail>>();
             try
@@ -433,7 +438,7 @@ namespace MemberSite.Controllers.Api
                 var serverInfo = _serverInfoBll.GetServerInfo();
                 var authData = _authorizeBll.GetAuthData();
                 var isLogin = authData is { CustId: > 0 };
-                int currencyId = serverInfo.DefCurrency;
+                int currencyId = request.CurrencyId;
                 int userLevel = 1;
                 if (isLogin)
                 {
@@ -441,9 +446,6 @@ namespace MemberSite.Controllers.Api
                     currencyId = custInfo.CurrencyId;
                     userLevel = custInfo.UserLevel;
                 }
-                else
-                    currencyId = _selLangBll.GetPreferCurrencyId();
-
 
                 var apiUrl = $"{_bonusServiceUrl}GetRebateExcludeGameList";
                 var req = new GetRebateExcludeGameListRequest
