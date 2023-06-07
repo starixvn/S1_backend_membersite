@@ -438,7 +438,11 @@ namespace MemberSite.Controllers.Api
                 var serverInfo = _serverInfoBll.GetServerInfo();
 
                 if (!serverInfo.ICurrencyList.Contains(request.CurrencyId))
-                    return result;
+                    return new ApiResult<IEnumerable<RebateExcludeGameDetail>>()
+                    {
+                        Data = new List<RebateExcludeGameDetail>(),
+                        ErrorCode = 0
+                    };
 
                 var authData = _authorizeBll.GetAuthData();
                 var isLogin = authData is { CustId: > 0 };
@@ -465,6 +469,7 @@ namespace MemberSite.Controllers.Api
             catch (Exception e)
             {
                 _logger.LogError(e, GetCurrentMethod());
+                result.RawMessage = e.Message;
             }
             return result;
 
