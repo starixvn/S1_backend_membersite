@@ -436,6 +436,10 @@ namespace MemberSite.Controllers.Api
             try
             {
                 var serverInfo = _serverInfoBll.GetServerInfo();
+
+                if (!serverInfo.ICurrencyList.Contains(request.CurrencyId))
+                    return result;
+
                 var authData = _authorizeBll.GetAuthData();
                 var isLogin = authData is { CustId: > 0 };
                 int currencyId = request.CurrencyId;
