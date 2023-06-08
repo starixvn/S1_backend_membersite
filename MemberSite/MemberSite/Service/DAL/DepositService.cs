@@ -122,19 +122,18 @@ namespace MemberSite.Service.DAL
             return _mainDbClient.Execute("DepositReceipt_Set", new { CustId = custId, DepositId = depositId, RefNo = refNo, DepositTime = depositTime });
         }
 
-        public async Task<int> SetDepositReceiptPic(int custId, int depositId, int receiptNo, string picFileName, byte[] depositPic ,string userName)
+        public async Task<int> SetDepositReceiptPic(int custId, int depositId, int receiptNo, string picFileName, string userName)
         {
             var p = new DynamicParameters(new
             {   
                 CustId = custId,
                 DepositId = depositId, 
                 PicFileName = picFileName,
-                DepositPic = depositPic,
                 ReceiptNo = receiptNo,
                 Creator = userName,
                 CreateFrom = 1
             });
-            return await _mainDbClient.ExecuteAsync("DepositReceiptPic_Set_V2", p);
+            return await _mainDbClient.ExecuteAsync("DepositReceiptPic_Set_V3", p);
         }
         
         public int SetDepositCancel(int custId, int depositId, int siteId)
@@ -151,7 +150,7 @@ namespace MemberSite.Service.DAL
         
         public IEnumerable<DepositReceipt> GetDepositReceipt(int depositId, int siteId)
         {
-            return _reportDbClient.Query<DepositReceipt>("DepositReceipt_Get", new { DepositId = depositId, SiteId = siteId });
+            return _reportDbClient.Query<DepositReceipt>("DepositReceipt_Get_V2", new { DepositId = depositId, SiteId = siteId });
         }
         
         public IEnumerable<DepositLimitInfo> GetDepositLimitInfoList()

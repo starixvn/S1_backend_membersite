@@ -40,7 +40,7 @@ namespace MemberSite.Service.BLL
             var siteId = custInfo.SiteId;
             var currencyId = custInfo.CurrencyId;
 
-            var key = $"PaySetting:LocalBank:FakeMobilePay:{siteId}:{currencyId}:{pointLevel}:{custInfo.UserLevel}";
+            var key = $"PaySetting:LocalBank:LocalPayment:{siteId}:{currencyId}:{pointLevel}:{custInfo.UserLevel}";
             var offBankList = _redisHelper.TryGetOrCreate(key, TimeSpan.FromMinutes(5),
                 () => GetOfflineBankAccountList(siteId, currencyId, pointLevel, custInfo.UserLevel));
 
@@ -49,6 +49,11 @@ namespace MemberSite.Service.BLL
                 .Where(x => !custDepositSysIds.Contains(x.SysId));
 
             return result;
+        }
+        
+        public IEnumerable<int> GetCustOffDepositSysId(int custId)
+        {
+            return _bankInfoService.GetCustOffDepositSysId(custId);
         }
         
         public IEnumerable<OfflineBankInfoFront> GetBankInfoOffListWithCache(int custId, string lang)
@@ -64,6 +69,8 @@ namespace MemberSite.Service.BLL
 
             var custDepositSysIds = _bankInfoService.GetCustOffDepositSysId(custId);
             var result = offBankList
+                .Where(x => !x.SupportChannel.Any() 
+                            || x.SupportChannel.Contains(OfflineBankAccountSupportChannelEnum.LocalBank))
                 .Select(x => new OfflineBankInfoFront(x, !custDepositSysIds.Contains(x.SysId)));
             return result;
         }
@@ -109,6 +116,8 @@ namespace MemberSite.Service.BLL
             }
 
             var info = localBankList
+                .Where(x => !x.SupportChannel.Any() 
+                    || x.SupportChannel.Contains(OfflineBankAccountSupportChannelEnum.LocalBank))
                 .OrderBy(x => x.BSort)
                 .Select(x => new
                 {
@@ -240,6 +249,7 @@ namespace MemberSite.Service.BLL
             }
 
             var infos = localBankList
+                .OrderBy(x => x.Sort)
                 .GroupBy(x => new {x.SysId, x.BankCode})
                 .Select(x =>
                 {
@@ -247,6 +257,7 @@ namespace MemberSite.Service.BLL
 
                     return new SysBankInfoFront
                     {
+                        BankId = d.BankId,
                         SysId = d.SysId,
                         BankCode = d.BankCode,
                         BankLogo = d.BankLogo,
@@ -255,7 +266,7 @@ namespace MemberSite.Service.BLL
                         BankSite = d.BankSite,
                         Status = d.Status,
                         QRCodeUrl = d.QRCodeUrl,
-                        SupportQR = d.SupportChannel.Any(y => y == OfflineBankAccountSupportChannelEnum.EWallet),
+                        SupportChannel = d.SupportChannel,
                         MinAmount = x.Min(y => y.MinAmount),
                         MaxAmount = x.Max(y => y.MaxAmount)
                     };
@@ -296,6 +307,7 @@ namespace MemberSite.Service.BLL
                 .OrderBy(x => x.BSort)
                 .Select( x => new SysBankInfoFront
                 {
+                    BankId = x.BankId,
                     SysId = x.SysId,
                     BankCode = x.BankCode,
                     BankLogo = x.BankLogo,
@@ -304,9 +316,10 @@ namespace MemberSite.Service.BLL
                     BankSite = x.BankSite,
                     Status = x.Status,
                     QRCodeUrl = x.QRCodeUrl,
-                    SupportQR = x.SupportChannel.Any(y => y == OfflineBankAccountSupportChannelEnum.EWallet),
+                    SupportChannel = x.SupportChannel,
                     MinAmount = x.MinAmount,
-                    MaxAmount = x.MaxAmount
+                    MaxAmount = x.MaxAmount,
+                    GroupIds = x.GroupIds
                 })
                 .ToList();
 
@@ -332,6 +345,42 @@ namespace MemberSite.Service.BLL
             
             return _redisHelper.TryGetOrCreate(key, TimeSpan.FromMinutes(5),
                 () => _bankInfoService.GetOfflineBankAccountDailyDeposit(siteId, currencyId, strBankIds));
+        }
+
+        public IEnumerable<LocalPaySetting> GetLocalPaymentSettingWithCache()
+        {
+            return _redisHelper.TryGetOrCreate("PaySetting:LocalPaymentSetting", TimeSpan.FromMinutes(5),
+                () => _bankInfoService.GetLocalPaySetting());
+        }
+        
+        public IEnumerable<OfflineCryptoPayInfo> GetFilteredOfflineCryptoPayInfo(int custId)
+        {
+            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
+            var pointLevel = _custInfoBll.GetPointLevelWithCache(custId);
+            var vipLevel = custInfo.UserLevel;
+
+            var cryptoList = GetOfflineCryptoPayInfoWithCache(custInfo.SiteId)
+                .Where(x => x.CurrencyId == custInfo.CurrencyId
+                            && x.Purposes.Contains(OfflineBankAccountPurposeEnum.Deposit)
+                            && (vipLevel > pointLevel || pointLevel == 8 || x.PointLevels.Contains(pointLevel)) // vipLevel > pointLevle 就先不檢查此條件，之後會改
+                            && x.VipLevels.Contains(vipLevel));
+            
+            // 排除超過每日存款限額的帳號
+            if (cryptoList.Any(x => x.DailyLimitAmount > 0))
+            {
+                var bankIds = cryptoList.Where(x => x.DailyLimitAmount > 0).Select(x => x.BankId);
+                var d = GetOfflineBankAccountDailyDepositWithCache(custInfo.SiteId, custInfo.CurrencyId, bankIds);
+                cryptoList = cryptoList.Where(x =>
+                        !d.Any(y => y.BankId == x.BankId && y.DailyDeposit >= x.DailyLimitAmount));
+            }
+            
+            return cryptoList;
+        }
+        
+        private IEnumerable<OfflineCryptoPayInfo> GetOfflineCryptoPayInfoWithCache(int siteId)
+        {
+            return _redisHelper.TryGetOrCreate($"PaySetting:OfflineCryptoPayInfo:{siteId}", TimeSpan.FromMinutes(5),
+                () => _bankInfoService.GetOfflineCryptoPayInfo(siteId));
         }
     }
 }

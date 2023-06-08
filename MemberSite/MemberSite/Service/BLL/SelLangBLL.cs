@@ -13,7 +13,7 @@ namespace MemberSite.Service.BLL
         new(StringComparer.OrdinalIgnoreCase)
         {
             {"th", 4}, {"th_en", 4 }, {"cs", 13}, {"ch", 2}, {"id", 15}, {"id_en", 15},{"jp", 32},
-            {"ko", 45}, {"vn", 51},{"hi", 61}, {"hi_en", 61}
+            {"ko", 45}, {"vn", 51},{"hi", 61}, {"hi_en", 61}, {"kh", 72}
         };
 
         private readonly ServerInfoBll _serverInfoBll;
@@ -107,6 +107,10 @@ namespace MemberSite.Service.BLL
                 else if (firstLang.StartsWith("en", StringComparison.OrdinalIgnoreCase))
                 {
                     langId = "en";
+                }
+                else if (firstLang.StartsWith("kh", StringComparison.OrdinalIgnoreCase))
+                {
+                    langId = "kh";
                 }
                 else
                 {
