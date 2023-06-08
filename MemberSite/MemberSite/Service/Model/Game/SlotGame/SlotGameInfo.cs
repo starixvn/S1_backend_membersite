@@ -21,7 +21,7 @@ namespace MemberSite.Service.Model.Game
                 {
                     return string.IsNullOrEmpty(Name) ? default : JsonConvert.DeserializeObject<Dictionary<string, string>>(Name);
                 }
-                return _gameName;  
+                return _gameName;
             }
             set
             {
@@ -55,9 +55,9 @@ namespace MemberSite.Service.Model.Game
         [System.Text.Json.Serialization.JsonIgnore]
         public string SlotGameCategory { get; set; }
 
-        public Dictionary<string, string> ImgName 
+        public Dictionary<string, string> ImgName
         {
-            get 
+            get
             {
                 if (GameName != null)
                 {
@@ -65,7 +65,7 @@ namespace MemberSite.Service.Model.Game
                     return GameName.ToDictionary(x => x.Key, x => $"{OrgFileNameFilter($"{imgName}-{x.Key}")}.jpg");
                 }
                 return default;
-            }    
+            }
         }
         private static string OrgFileNameFilter(string fileName)
         {
@@ -84,5 +84,23 @@ namespace MemberSite.Service.Model.Game
                                        .Replace("!", "")
                                        .ToLower();
         }
+        // 指定TpId排序
+        public int Sort { get; set; } = 99999;
+        // 最外層不分TpId排序
+        public int Top { get; set; } = 99999;
+    }
+
+    public class SlotGameTopRankingInfo
+    {
+        public string SlotGameId { get; set; }
+        public string GameId { get; set; }
+        public string AppId { get; set; }
+        // 指定TpId
+        public int TpId { get; set; }
+        // 最外層不分TpId
+        public int NoneTpId { get; set; }
+        public int SiteId { get; set; }
+        public int CurrencyId { get; set; }
+        public int Sort { get; set; }
     }
 }
