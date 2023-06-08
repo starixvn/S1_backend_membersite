@@ -393,7 +393,18 @@ namespace MemberSite.Controllers.Api
             if (custBankInfo != null)
             {
                 custBankInfo.bankInfoDetail ??= Enumerable.Empty<BankInfoDetailRep>();
-                custBankInfo.uSDTDetail ??= Enumerable.Empty<CryptoWalletDetail>();
+                custBankInfo.uSDTDetail ??= Array.Empty<CryptoWalletDetail>();
+
+                if (custBankInfo.uSDTDetail != null && custBankInfo.uSDTDetail.Any())
+                {
+                    var supportCryptoInfo = _paymentBll.GetSupportCryptoInfoWithCache(custInfo.SiteId);
+                    foreach (var crypto in custBankInfo.uSDTDetail)
+                    {
+                        if (!supportCryptoInfo.CryptoNetwork.Any(x => x.CurrencyId == crypto.CurrencyId
+                            && x.Network == crypto.Network))
+                            crypto.Disabled = true;
+                    }
+                }
             }
 
             apiResult.Data = custBankInfo;

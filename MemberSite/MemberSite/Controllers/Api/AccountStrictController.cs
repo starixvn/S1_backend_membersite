@@ -885,7 +885,8 @@ namespace MemberSite.Controllers.Api
             var authData = _authorizeBLL.GetAuthData();
             if (authData is { CustId: > 0 })
             {
-                apiResult = await _commonBLL.SendOTPSMSAsync(authData.CustId);
+                var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                apiResult = await _commonBLL.SendOTPSMSAsync(authData.CustId, custInfo.CurrencyId);
             }
 
             return apiResult;

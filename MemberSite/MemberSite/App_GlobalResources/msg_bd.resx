@@ -135,4 +135,5 @@
   <data name="msg_OTPHint1"><value>আপনি কি আমাদের সম্পূর্ণ পণ্য ও সেবা উপভোগ করতে চান?</value></data>
   <data name="msg_DepositRefunded"><value>আমানত ফেরত</value></data>
   <data name="msg_DecimalOutOfRange"><value>2টি সংখ্যার চেয়ে বেশি দশমিকের কারণে স্থানান্তর ব্যর্থ হয়েছে৷</value></data>
+  <data name="msg_OTPDailyLimit"><value>ওটিপি সীমায় পৌঁছেছে, অনুগ্রহ করে লাইভ চ্যাট সহায়তার সাথে যোগাযোগ করুন</value></data>
   </root>
