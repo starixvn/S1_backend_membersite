@@ -150,4 +150,5 @@
   <data name="msg_CompletePhoneNumber"><value>Please complete your Mobile Phone (OTP) verification.</value></data>
   <data name="msg_LineAccountAlreadyBind"><value>This LINE account has been used, please use another account.</value></data>
   <data name="msg_RealNameWrongFormat"><value>RealName can't allow number or special charactors.</value></data>
+  <data name="msg_OTPDailyLimit"><value>OTP has reached the limit,please contact Live Chat Support</value></data>
   </root>

@@ -144,4 +144,5 @@
   <data name="msg_keep_up"><value>ขอให้โชคดีในการเขย่าครั้งต่อไป</value></data>
   <data name="msg_LineAccountAlreadyBind"><value>บัญชีไลน์นี้ถูกใช้งานแล้ว โปรดใช้บัญชีไลน์อื่น</value></data>
   <data name="msg_HasExist1"><value>มีอยู่ในระบบแล้ว</value></data>
+  <data name="msg_OTPDailyLimit"><value>OTP ถึงขีดจํากัดแล้วกรุณาติดต่อแชทสด</value></data>
   </root>

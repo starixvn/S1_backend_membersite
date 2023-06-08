@@ -145,4 +145,5 @@
   <data name="msg_limit_has_been_reached"><value>Had hari ini telah dicapai</value></data>
   <data name="msg_InsufficientPoint"><value>Maaf! Anda tidak mempunyai mata 88 Ganjaran yang mencukupi.</value></data>
   <data name="msg_keep_up"><value>Semoga berjaya pada goncangan lagi</value></data>
+  <data name="msg_OTPDailyLimit"><value>OTP telah mencapai had, sila hubungi Live Chat</value></data>
   </root>
