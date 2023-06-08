@@ -96,6 +96,7 @@ namespace MemberSite
             services.AddSingleton<PayService>();
             services.AddSingleton<PromotionService>();
             services.AddSingleton<CasinoService>();
+            services.AddSingleton<LobbyCategoryService>();
             services.AddSingleton<StatementService>();
             services.AddSingleton<AuthService>();
             services.AddSingleton<IBannerService, BannerService>();
@@ -147,6 +148,7 @@ namespace MemberSite
             services.AddSingleton<StoreBLL>();
             services.AddSingleton<GamingBLL>();
             services.AddSingleton<CasinoBll>();
+            services.AddSingleton<LobbyCategoryBLL>();
             services.AddSingleton<CommonBLL>();
             services.AddSingleton<TemplateBLL>();
             services.AddSingleton<AuthBLL>();

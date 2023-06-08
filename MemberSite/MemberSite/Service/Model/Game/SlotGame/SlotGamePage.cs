@@ -65,7 +65,7 @@ namespace MemberSite.Service.Model.Game
 
             var checkTime = DateTime.UtcNow.AddMonths(-1);
             foreach (var game in slotGameList)
-            {  
+            {
                 if (game.LaunchDate > checkTime)
                 {
                     New.Add(game);
