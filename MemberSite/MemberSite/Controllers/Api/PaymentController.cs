@@ -704,7 +704,8 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
             
-            if (dailyCustomerWithdrawalInfo.Count >= withdrawalLimitInfo.Times)
+            if (withdrawalLimitInfo.Times != 0 
+                && dailyCustomerWithdrawalInfo.Count >= withdrawalLimitInfo.Times)
             {
                 apiResult.Message = selLangBLL.GetMsg("msg_GreaterThanWithdrawalMax");
                 apiResult.ErrorCode = -7;

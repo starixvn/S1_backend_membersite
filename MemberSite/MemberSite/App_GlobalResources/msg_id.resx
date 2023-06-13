@@ -136,4 +136,5 @@
   <data name="msg_EWalletIsMaintenance"><value>E-Wallet adalah pemeliharaan, silakan gunakan metode penarikan lainnya</value></data>
   <data name="msg_InsufficientPoint"><value>Maaf! 88 Poin Rewards yang Anda miliki tidak cukup.</value></data>
   <data name="msg_EWalletDuplicate"><value>Duplikat Nomor Akun E-wallet tidak diperbolehkan. Silakan coba Nomor Akun E-wallet lain.</value></data>
+  <data name="msg_OTPDailyLimit"><value>OTP telah mencapai batas, silakan hubungi Layanan Pelanggan</value></data>
   </root>
