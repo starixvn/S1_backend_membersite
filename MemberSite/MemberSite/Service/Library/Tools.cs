@@ -176,7 +176,7 @@ namespace MemberSite.Service.Library
             }
             else
             {
-                fromUrl = httpContextAccessor.HttpContext.Request.Host.ToString(); ;
+                fromUrl = httpContextAccessor.HttpContext.Request.Host.Host.ToString();
             }
 
             return fromUrl;
@@ -184,7 +184,7 @@ namespace MemberSite.Service.Library
 
         public string GetDomainUrl()
         {
-            return  httpContextAccessor.HttpContext.Request.Host.ToString();
+            return  httpContextAccessor.HttpContext.Request.Host.Host.ToString();
         }
 
 
