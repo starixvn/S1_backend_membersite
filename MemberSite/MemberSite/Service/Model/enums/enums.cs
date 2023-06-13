@@ -655,4 +655,9 @@ namespace MemberSite.Service.Model.enums
         BankCard = 2,
         Crypto = 3
     }
+    
+    public enum PayEnum
+    {
+        Coin2Pay = 44
+    }
 }
