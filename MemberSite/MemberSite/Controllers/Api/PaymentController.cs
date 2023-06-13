@@ -310,7 +310,7 @@ namespace MemberSite.Controllers.Api
             public decimal Amount { set; get; }
             public string BonusCode { set; get; }
         }
-        
+
         [HttpPost]
         public ApiResult<LocalPayResp> DepositReqLocalPayAsync(DepositReqLocalPayReq req)
         {
@@ -704,7 +704,8 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
             
-            if (dailyCustomerWithdrawalInfo.Count >= withdrawalLimitInfo.Times)
+            if (withdrawalLimitInfo.Times != 0 
+                && dailyCustomerWithdrawalInfo.Count >= withdrawalLimitInfo.Times)
             {
                 apiResult.Message = selLangBLL.GetMsg("msg_GreaterThanWithdrawalMax");
                 apiResult.ErrorCode = -7;
@@ -1447,7 +1448,7 @@ namespace MemberSite.Controllers.Api
             }
             
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-            var result = paymentBLL.GetSupportCryptoInfo(custInfo.SiteId);
+            var result = paymentBLL.GetSupportCryptoInfoWithCache(custInfo.SiteId);
  
             return new ApiResult<CryptoInfoData>
             {
