@@ -670,4 +670,9 @@
         LobbyName = 1, // saba sport
         GameName = 2, // Golden Grimoire
     }
+    
+    public enum PayEnum
+    {
+        Coin2Pay = 44
+    }
 }
