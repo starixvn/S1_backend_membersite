@@ -95,7 +95,7 @@ namespace MemberSite.Controllers.Api
             {
                 _logger.LogError(e, GetCurrentAsyncMethod());
             }
-            
+
             return apiResult;
         }
 
