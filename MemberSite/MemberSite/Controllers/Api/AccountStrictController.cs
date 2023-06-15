@@ -800,7 +800,8 @@ namespace MemberSite.Controllers.Api
                         custInfo.AddressCity,
                         custInfo.AddressLineFirst,
                         custInfo.AddressLineSecond,
-                        custInfo.IsResetPwd
+                        custInfo.IsResetPwd,
+                        custInfo.MemberType
                     };
                     
                     
