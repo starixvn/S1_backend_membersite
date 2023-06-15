@@ -61,6 +61,7 @@ namespace MemberSite.Service.Model
         public string Network { set; get; }
         public int CurrencyId { set; get; }
         public string CurrencyName { set; get; }
+        public bool Disabled { set; get; }
     }
 
     public class CryptoWalletDetailLog : CryptoWalletDetail

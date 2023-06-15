@@ -1,37 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="metadata">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
-              </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="assembly">
-            <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
-            </xsd:complexType>
-          </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
                 <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
                 <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
               <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
               <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
@@ -46,1642 +27,547 @@
       </xsd:complexType>
     </xsd:element>
   </xsd:schema>
-  <resheader name="resmimetype">
-    <value>text/microsoft-resx</value>
-  </resheader>
-  <resheader name="version">
-    <value>2.0</value>
-  </resheader>
-  <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <data name="Currency_1" xml:space="preserve">
-    <value>SGD</value>
-  </data>
-  <data name="Currency_12" xml:space="preserve">
-    <value>GBP</value>
-  </data>
-  <data name="Currency_13" xml:space="preserve">
-    <value>CNY</value>
-  </data>
-  <data name="Currency_15" xml:space="preserve">
-    <value>IDR</value>
-  </data>
-  <data name="Currency_2" xml:space="preserve">
-    <value>MYR</value>
-  </data>
-  <data name="Currency_20" xml:space="preserve">
-    <value>UUS</value>
-  </data>
-  <data name="Currency_3" xml:space="preserve">
-    <value>USD</value>
-  </data>
-  <data name="Currency_32" xml:space="preserve">
-    <value>JPY</value>
-  </data>
-  <data name="Currency_4" xml:space="preserve">
-    <value>THB</value>
-  </data>
-  <data name="Currency_41" xml:space="preserve">
-    <value>CHF</value>
-  </data>
-  <data name="Currency_45" xml:space="preserve">
-    <value>WON</value>
-  </data>
-  <data name="Currency_51" xml:space="preserve">
-    <value>VND</value>
-  </data>
-  <data name="Currency_6" xml:space="preserve">
-    <value>EURO</value>
-  </data>
-  <data name="Currency_9" xml:space="preserve">
-    <value>AUD</value>
-  </data>
-  <data name="lbl_5mins" xml:space="preserve">
-    <value>5 นาที</value>
-  </data>
-  <data name="lbl_AboutUs" xml:space="preserve">
-    <value>เกี่ยวกับเรา</value>
-  </data>
-  <data name="lbl_AccountTerms" xml:space="preserve">
-    <value>ข้อกำหนดบัญชี</value>
-  </data>
-  <data name="lbl_AddNewAccount" xml:space="preserve">
-    <value>เพิ่มบัญชีใหม่</value>
-  </data>
-  <data name="lbl_Affiliates" xml:space="preserve">
-    <value>ตัวแทน</value>
-  </data>
-  <data name="lbl_Agent" xml:space="preserve">
-    <value>เอเจนต์</value>
-  </data>
-  <data name="lbl_AllTranscations" xml:space="preserve">
-    <value>ธุรกรรมทั้งหมด</value>
-  </data>
-  <data name="lbl_Amount" xml:space="preserve">
-    <value>จำนวน</value>
-  </data>
-  <data name="lbl_AmountTooltip" xml:space="preserve">
-    <value>จำนวนเงินต้องไม่น้อยกว่า 0</value>
-  </data>
-  <data name="lbl_Applicationname" xml:space="preserve">
-    <value>Nova88</value>
-  </data>
-  <data name="lbl_AttachFile" xml:space="preserve">
-    <value>โปรดแนบสลิปธนาคารของคุณที่นี่ (ทางเลือก)</value>
-  </data>
-  <data name="lbl_Author" xml:space="preserve">
-    <value>Nova88</value>
-  </data>
-  <data name="lbl_Back" xml:space="preserve">
-    <value>กลับ</value>
-  </data>
-  <data name="lbl_BankAccount" xml:space="preserve">
-    <value>บัญชีธนาคาร</value>
-  </data>
-  <data name="lbl_BankAccountName" xml:space="preserve">
-    <value>ชื่อบัญชี</value>
-  </data>
-  <data name="lbl_BankAccountNameHint" xml:space="preserve">
-    <value>กรุณาใช้ชื่อจริงของคุณเป็นชื่อบัญชี เพราะตรงส่วนนี้จะไม่สามารถเปลี่ยนแปลงทีหลังได้ หลังจากกดยืนยัน</value>
-  </data>
-  <data name="lbl_BankInfo" xml:space="preserve">
-    <value>ข้อมูลธนาคาร</value>
-  </data>
-  <data name="lbl_BankName" xml:space="preserve">
-    <value>ชื่อธนาคาร</value>
-  </data>
-  <data name="lbl_BankNumber" xml:space="preserve">
-    <value>เลขที่บัญชีธนาคาร</value>
-  </data>
-  <data name="lbl_Baseball" xml:space="preserve">
-    <value>เบสบอล</value>
-  </data>
-  <data name="lbl_BaseballBetting" xml:space="preserve">
-    <value>เดิมพันเบสบอล</value>
-  </data>
-  <data name="lbl_Basketball" xml:space="preserve">
-    <value>บาสเกตบอล</value>
-  </data>
-  <data name="lbl_BasketballBetting" xml:space="preserve">
-    <value>เดิมพันบาสเก็ตบอล</value>
-  </data>
-  <data name="lbl_Cancel" xml:space="preserve">
-    <value>ยกเลิก</value>
-  </data>
-  <data name="lbl_CancelConfirm" xml:space="preserve">
-    <value>คุณแน่ใจว่าต้องการยกเลิก? เพราะระบบจะไม่สามารถแก้คืนได้หลังจากยกเลิก!</value>
-  </data>
-  <data name="lbl_Cashier" xml:space="preserve">
-    <value>แคชเชียร์</value>
-  </data>
-  <data name="lbl_Casino" xml:space="preserve">
-    <value>คาสิโน</value>
-  </data>
-  <data name="lbl_CasinoSlogon" xml:space="preserve">
-    <value>มีธีมหลากหลายแบบสำหรับตลาดเอเชีย</value>
-  </data>
-  <data name="lbl_ChangePassword" xml:space="preserve">
-    <value>เปลี่ยนรหัส</value>
-  </data>
-  <data name="lbl_ChargeFee" xml:space="preserve">
-    <value>ค่าธรรมเนียม</value>
-  </data>
-  <data name="lbl_Check18TC1" xml:space="preserve">
-    <value>ฉันตกลง</value>
-  </data>
-  <data name="lbl_Check18TC2" xml:space="preserve">
-    <value>และ</value>
-  </data>
-  <data name="lbl_Check18TC3" xml:space="preserve">
-    <value>ของ</value>
-  </data>
-  <data name="lbl_Check18TC4" xml:space="preserve">
-    <value>ฉันรับทราบว่าฉันมีอายุอย่างน้อย 21 ปีบริบรูณ์</value>
-  </data>
-  <data name="lbl_Check18TCTooltip" xml:space="preserve">
-    <value>โปรดคลิก เครื่องหมายด้านบนเพื่อยืนยันคำขอลงทะเบียนบัญชี</value>
-  </data>
-  <data name="lbl_CheckConfirm" xml:space="preserve">
-    <value>คุณแน่ใจว่าต้องการยกเลิก? เพราะระบบจะไม่สามารถแก้คืนได้หลังจากยกเลิก!</value>
-  </data>
-  <data name="lbl_Clickhereforbonus" xml:space="preserve">
-    <value>กดรับโบนัสได้ที่นี่</value>
-  </data>
-  <data name="lbl_Clickhereforjoin" xml:space="preserve">
-    <value>คลิกที่นี่เพื่อเข้าร่วม</value>
-  </data>
-  <data name="lbl_Clickhereforsupport" xml:space="preserve">
-    <value>คลิกที่นี่เพื่อรับการช่วยเหลือ</value>
-  </data>
-  <data name="lbl_Close" xml:space="preserve">
-    <value>ปิด</value>
-  </data>
-  <data name="lbl_CompletedRegistration" xml:space="preserve">
-    <value>ลงทะเบียนเรียบร้อย</value>
-  </data>
-  <data name="lbl_CompleteRegistration" xml:space="preserve">
-    <value>ลงทะเบียนเรียบร้อย</value>
-  </data>
-  <data name="lbl_Confirm" xml:space="preserve">
-    <value>ยืนยัน</value>
-  </data>
-  <data name="lbl_ConfirmDeposit" xml:space="preserve">
-    <value>กรุณายืนยันข้อมูลการฝากเงิน</value>
-  </data>
-  <data name="lbl_ConfirmWithdrawal" xml:space="preserve">
-    <value>กรุณายืนยันข้อมูลการถอน</value>
-  </data>
-  <data name="lbl_ContactCSD" xml:space="preserve">
-    <value>หากมีคำขอเปลี่ยนแปลงโปรดติดต่อ CSD</value>
-  </data>
-  <data name="lbl_ContactUs" xml:space="preserve">
-    <value>ติดต่อเรา</value>
-  </data>
-  <data name="lbl_CookiePolicy" xml:space="preserve">
-    <value>นโยบาย Cookie</value>
-  </data>
-  <data name="lbl_Copyright" xml:space="preserve">
-    <value>ลิขสิทธิ์ {0}</value>
-  </data>
-  <data name="lbl_Country" xml:space="preserve">
-    <value>ประเทศ</value>
-  </data>
-  <data name="lbl_CountryAF" xml:space="preserve">
-    <value>อัฟกานิสถาน</value>
-  </data>
-  <data name="lbl_CountryAI" xml:space="preserve">
-    <value>แองกวิลลา</value>
-  </data>
-  <data name="lbl_CountryAO" xml:space="preserve">
-    <value>แองโกลา</value>
-  </data>
-  <data name="lbl_CountryAR" xml:space="preserve">
-    <value>อาร์เจนตินา</value>
-  </data>
-  <data name="lbl_CountryAW" xml:space="preserve">
-    <value>อารูบ้า</value>
-  </data>
-  <data name="lbl_CountryBB" xml:space="preserve">
-    <value>บาร์เบโดส</value>
-  </data>
-  <data name="lbl_CountryBD" xml:space="preserve">
-    <value>บังกลาเทศ</value>
-  </data>
-  <data name="lbl_CountryBF" xml:space="preserve">
-    <value>บูกินา ฟาโซ</value>
-  </data>
-  <data name="lbl_CountryBH" xml:space="preserve">
-    <value>บาห์เรน</value>
-  </data>
-  <data name="lbl_CountryBI" xml:space="preserve">
-    <value>บุรุนดี</value>
-  </data>
-  <data name="lbl_CountryBJ" xml:space="preserve">
-    <value>เบนิน</value>
-  </data>
-  <data name="lbl_CountryBM" xml:space="preserve">
-    <value>เบอร์มิวด้า</value>
-  </data>
-  <data name="lbl_CountryBN" xml:space="preserve">
-    <value>บรูไน</value>
-  </data>
-  <data name="lbl_CountryBO" xml:space="preserve">
-    <value>โบลิเวีย</value>
-  </data>
-  <data name="lbl_CountryBR" xml:space="preserve">
-    <value>บราซิล</value>
-  </data>
-  <data name="lbl_CountryBS" xml:space="preserve">
-    <value>บาฮามาส</value>
-  </data>
-  <data name="lbl_CountryBT" xml:space="preserve">
-    <value>ภูฏาน</value>
-  </data>
-  <data name="lbl_CountryBW" xml:space="preserve">
-    <value>บอทสวานา</value>
-  </data>
-  <data name="lbl_CountryBZ" xml:space="preserve">
-    <value>เบลีซ</value>
-  </data>
-  <data name="lbl_CountryCA" xml:space="preserve">
-    <value>แคนาดา</value>
-  </data>
-  <data name="lbl_CountryCD" xml:space="preserve">
-    <value>สาธรณรัฐโดมินิกัน</value>
-  </data>
-  <data name="lbl_CountryCF" xml:space="preserve">
-    <value>สาธารณรัฐแอฟริกากลาง</value>
-  </data>
-  <data name="lbl_CountryCG" xml:space="preserve">
-    <value>คองโก</value>
-  </data>
-  <data name="lbl_CountryCI" xml:space="preserve">
-    <value>ไอเวอร์รี่โคท</value>
-  </data>
-  <data name="lbl_CountryCK" xml:space="preserve">
-    <value>หมู่เกาะคุ๊ก</value>
-  </data>
-  <data name="lbl_CountryCL" xml:space="preserve">
-    <value>ชิลี</value>
-  </data>
-  <data name="lbl_CountryCM" xml:space="preserve">
-    <value>แคเมอรูน</value>
-  </data>
-  <data name="lbl_CountryCO" xml:space="preserve">
-    <value>โคลอมเบีย</value>
-  </data>
-  <data name="lbl_CountryCR" xml:space="preserve">
-    <value>คอสตาริก้า</value>
-  </data>
-  <data name="lbl_CountryCS" xml:space="preserve">
-    <value>จีน</value>
-  </data>
-  <data name="lbl_CountryCV" xml:space="preserve">
-    <value>เคป เวิร์ด</value>
-  </data>
-  <data name="lbl_CountryDZ" xml:space="preserve">
-    <value>อัลจีเรีย</value>
-  </data>
-  <data name="lbl_CountryEC" xml:space="preserve">
-    <value>เอกวาดอร์</value>
-  </data>
-  <data name="lbl_CountryEG" xml:space="preserve">
-    <value>อียิปส์</value>
-  </data>
-  <data name="lbl_CountryER" xml:space="preserve">
-    <value>เอริเธีย</value>
-  </data>
-  <data name="lbl_CountryET" xml:space="preserve">
-    <value>เอธิโอเปีย</value>
-  </data>
-  <data name="lbl_CountryFJ" xml:space="preserve">
-    <value>ฟิจิ</value>
-  </data>
-  <data name="lbl_CountryFO" xml:space="preserve">
-    <value>หมูเกาะฟอล์คแลนด์</value>
-  </data>
-  <data name="lbl_CountryGA" xml:space="preserve">
-    <value>กาบอง</value>
-  </data>
-  <data name="lbl_CountryGD" xml:space="preserve">
-    <value>เกรนาดา</value>
-  </data>
-  <data name="lbl_CountryGH" xml:space="preserve">
-    <value>กาน่า</value>
-  </data>
-  <data name="lbl_CountryGI" xml:space="preserve">
-    <value>ยิบรอลตา</value>
-  </data>
-  <data name="lbl_CountryGN" xml:space="preserve">
-    <value>กินี</value>
-  </data>
-  <data name="lbl_CountryGT" xml:space="preserve">
-    <value>กัวเลมาลา</value>
-  </data>
-  <data name="lbl_CountryGY" xml:space="preserve">
-    <value>กายอานา</value>
-  </data>
-  <data name="lbl_CountryHN" xml:space="preserve">
-    <value>ฮอนดูรัส</value>
-  </data>
-  <data name="lbl_CountryHT" xml:space="preserve">
-    <value>ไฮติ</value>
-  </data>
-  <data name="lbl_CountryID" xml:space="preserve">
-    <value>อินโดนีเซีย</value>
-  </data>
-  <data name="lbl_CountryIN" xml:space="preserve">
-    <value>อินเดีย</value>
-  </data>
-  <data name="lbl_CountryJM" xml:space="preserve">
-    <value>จาไมก้า</value>
-  </data>
-  <data name="lbl_CountryJO" xml:space="preserve">
-    <value>จอร์แดน</value>
-  </data>
-  <data name="lbl_CountryJP" xml:space="preserve">
-    <value>ญี่ปุ่น</value>
-  </data>
-  <data name="lbl_CountryKE" xml:space="preserve">
-    <value>เคนยา</value>
-  </data>
-  <data name="lbl_CountryKH" xml:space="preserve">
-    <value>กัมพูชา</value>
-  </data>
-  <data name="lbl_CountryKR" xml:space="preserve">
-    <value>เกาหลีใต้</value>
-  </data>
-  <data name="lbl_CountryKW" xml:space="preserve">
-    <value>คูเวต</value>
-  </data>
-  <data name="lbl_CountryKY" xml:space="preserve">
-    <value>หมู่เกาะเคย์แมน</value>
-  </data>
-  <data name="lbl_CountryKZ" xml:space="preserve">
-    <value>คาซัคสถาน</value>
-  </data>
-  <data name="lbl_CountryLA" xml:space="preserve">
-    <value>ลาว</value>
-  </data>
-  <data name="lbl_CountryLB" xml:space="preserve">
-    <value>เลบานอน</value>
-  </data>
-  <data name="lbl_CountryLC" xml:space="preserve">
-    <value>เซนต์ ลูเซีย</value>
-  </data>
-  <data name="lbl_CountryLK" xml:space="preserve">
-    <value>ศรีลังกา</value>
-  </data>
-  <data name="lbl_CountryLS" xml:space="preserve">
-    <value>เลโซโธ</value>
-  </data>
-  <data name="lbl_CountryMA" xml:space="preserve">
-    <value>โมร็อคโก</value>
-  </data>
-  <data name="lbl_CountryMG" xml:space="preserve">
-    <value>มาดากัสการ์</value>
-  </data>
-  <data name="lbl_CountryML" xml:space="preserve">
-    <value>มาลี</value>
-  </data>
-  <data name="lbl_CountryMM" xml:space="preserve">
-    <value>เมียนมาร์</value>
-  </data>
-  <data name="lbl_CountryMN" xml:space="preserve">
-    <value>มองโกเลีย</value>
-  </data>
-  <data name="lbl_CountryMR" xml:space="preserve">
-    <value>มอริเทเนีย</value>
-  </data>
-  <data name="lbl_CountryMU" xml:space="preserve">
-    <value>มอริเชียส</value>
-  </data>
-  <data name="lbl_CountryMV" xml:space="preserve">
-    <value>มัลดีฟส์</value>
-  </data>
-  <data name="lbl_CountryMW" xml:space="preserve">
-    <value>มาลาวี</value>
-  </data>
-  <data name="lbl_CountryMX" xml:space="preserve">
-    <value>เม็กซิโก</value>
-  </data>
-  <data name="lbl_CountryMY" xml:space="preserve">
-    <value>มาเลเซีย</value>
-  </data>
-  <data name="lbl_CountryNA" xml:space="preserve">
-    <value>นามิเบีย</value>
-  </data>
-  <data name="lbl_CountryNC" xml:space="preserve">
-    <value>นิคาเลโดเนีย</value>
-  </data>
-  <data name="lbl_CountryNE" xml:space="preserve">
-    <value>ไนเจอร์</value>
-  </data>
-  <data name="lbl_CountryNG" xml:space="preserve">
-    <value>ไนจีเรีย</value>
-  </data>
-  <data name="lbl_CountryNP" xml:space="preserve">
-    <value>เนปาล</value>
-  </data>
-  <data name="lbl_CountryNR" xml:space="preserve">
-    <value>นาอูรู</value>
-  </data>
-  <data name="lbl_CountryNZ" xml:space="preserve">
-    <value>นิวซีแลนด์</value>
-  </data>
-  <data name="lbl_CountryOM" xml:space="preserve">
-    <value>โอมาน</value>
-  </data>
-  <data name="lbl_CountryPA" xml:space="preserve">
-    <value>ปานามา</value>
-  </data>
-  <data name="lbl_CountryPE" xml:space="preserve">
-    <value>เปรู</value>
-  </data>
-  <data name="lbl_CountryPG" xml:space="preserve">
-    <value>ปาปัวนิวกินี</value>
-  </data>
-  <data name="lbl_CountryPK" xml:space="preserve">
-    <value>ปากีสถาน</value>
-  </data>
-  <data name="lbl_CountryPN" xml:space="preserve">
-    <value>หมู่เกาะพิตแคร์น</value>
-  </data>
-  <data name="lbl_CountryPY" xml:space="preserve">
-    <value>ปารากวัย</value>
-  </data>
-  <data name="lbl_CountryQA" xml:space="preserve">
-    <value>การ์ตา</value>
-  </data>
-  <data name="lbl_CountrySA" xml:space="preserve">
-    <value>ซาอุดิอาระเบีย</value>
-  </data>
-  <data name="lbl_CountrySB" xml:space="preserve">
-    <value>หมู่เกาะโซโลมอน</value>
-  </data>
-  <data name="lbl_CountrySC" xml:space="preserve">
-    <value>ซีเชลล์</value>
-  </data>
-  <data name="lbl_CountrySD" xml:space="preserve">
-    <value>ซูดาน</value>
-  </data>
-  <data name="lbl_CountrySL" xml:space="preserve">
-    <value>เซียร์รา เลโอน</value>
-  </data>
-  <data name="lbl_CountrySN" xml:space="preserve">
-    <value>เซเนกัล</value>
-  </data>
-  <data name="lbl_CountrySO" xml:space="preserve">
-    <value>โซมาเลีย</value>
-  </data>
-  <data name="lbl_CountrySR" xml:space="preserve">
-    <value>ซูรินาเม</value>
-  </data>
-  <data name="lbl_CountryST" xml:space="preserve">
-    <value>เซา โตเม แอนด์ ปรินซิเป</value>
-  </data>
-  <data name="lbl_CountrySV" xml:space="preserve">
-    <value>เอล ซัลวาดอร์</value>
-  </data>
-  <data name="lbl_CountrySY" xml:space="preserve">
-    <value>ซีเรีย</value>
-  </data>
-  <data name="lbl_CountrySZ" xml:space="preserve">
-    <value>สวาซิแลนด์</value>
-  </data>
-  <data name="lbl_CountryTD" xml:space="preserve">
-    <value>ชาด</value>
-  </data>
-  <data name="lbl_CountryTG" xml:space="preserve">
-    <value>ตองก้า</value>
-  </data>
-  <data name="lbl_CountryTH" xml:space="preserve">
-    <value>ไทย</value>
-  </data>
-  <data name="lbl_CountryTJ" xml:space="preserve">
-    <value>ทาจิกิสถาน</value>
-  </data>
-  <data name="lbl_CountryTN" xml:space="preserve">
-    <value>ตูนิเซีย</value>
-  </data>
-  <data name="lbl_CountryTooltip" xml:space="preserve">
-    <value>โปรดเลือกประเทศที่คุณอยู่</value>
-  </data>
-  <data name="lbl_CountryTT" xml:space="preserve">
-    <value>ตรินิแดด แอนด์ โตเบโก้</value>
-  </data>
-  <data name="lbl_CountryTZ" xml:space="preserve">
-    <value>แทนซาเนีย</value>
-  </data>
-  <data name="lbl_CountryUG" xml:space="preserve">
-    <value>อูกันด้า</value>
-  </data>
-  <data name="lbl_CountryUY" xml:space="preserve">
-    <value>อุรุกวัย</value>
-  </data>
-  <data name="lbl_CountryUZ" xml:space="preserve">
-    <value>อุซเบกิสถาน</value>
-  </data>
-  <data name="lbl_CountryVC" xml:space="preserve">
-    <value>เซนต์ วินเซนต์ แอนด์ เดอะ เกรนาดีน</value>
-  </data>
-  <data name="lbl_CountryVE" xml:space="preserve">
-    <value>เวเนซูเอลา</value>
-  </data>
-  <data name="lbl_CountryVN" xml:space="preserve">
-    <value>เวียตนาม</value>
-  </data>
-  <data name="lbl_CountryVU" xml:space="preserve">
-    <value>วานูอาตู</value>
-  </data>
-  <data name="lbl_CountryWF" xml:space="preserve">
-    <value>วาลิสและฟูตูนา</value>
-  </data>
-  <data name="lbl_CountryWS" xml:space="preserve">
-    <value>ซาฮาราตะวันตก</value>
-  </data>
-  <data name="lbl_CountryYE" xml:space="preserve">
-    <value>เยเมน</value>
-  </data>
-  <data name="lbl_CountryZA" xml:space="preserve">
-    <value>แอฟริกาใต้</value>
-  </data>
-  <data name="lbl_CountryZM" xml:space="preserve">
-    <value>แซมเบีย</value>
-  </data>
-  <data name="lbl_CountryZW" xml:space="preserve">
-    <value>ซิมบับเว</value>
-  </data>
-  <data name="lbl_CreditTime" xml:space="preserve">
-    <value>เวลาที่ต้องใช้</value>
-  </data>
-  <data name="lbl_Currency_1" xml:space="preserve">
-    <value>ดอลลาร์สิงคโปร์</value>
-  </data>
-  <data name="lbl_Currency_12" xml:space="preserve">
-    <value>ปอนด์</value>
-  </data>
-  <data name="lbl_Currency_13" xml:space="preserve">
-    <value>หยวน</value>
-  </data>
-  <data name="lbl_Currency_15" xml:space="preserve">
-    <value>รูปี</value>
-  </data>
-  <data name="lbl_Currency_2" xml:space="preserve">
-    <value>ริงกิต(มาเลเซีย)</value>
-  </data>
-  <data name="lbl_Currency_20" xml:space="preserve">
-    <value>Virtual Dollar (for testing propose)</value>
-  </data>
-  <data name="lbl_Currency_3" xml:space="preserve">
-    <value>ดอลลาร์สหรัฐ</value>
-  </data>
-  <data name="lbl_Currency_32" xml:space="preserve">
-    <value>เยน</value>
-  </data>
-  <data name="lbl_Currency_4" xml:space="preserve">
-    <value>บาท</value>
-  </data>
-  <data name="lbl_Currency_41" xml:space="preserve">
-    <value>ฟรังก์สวิส</value>
-  </data>
-  <data name="lbl_Currency_45" xml:space="preserve">
-    <value>วอนเกาหลีใต้</value>
-  </data>
-  <data name="lbl_Currency_5" xml:space="preserve">
-    <value>ดอลลาร์ฮ่องกง</value>
-  </data>
-  <data name="lbl_Currency_51" xml:space="preserve">
-    <value>ดอง</value>
-  </data>
-  <data name="lbl_Currency_6" xml:space="preserve">
-    <value>ยูโร</value>
-  </data>
-  <data name="lbl_Currency_9" xml:space="preserve">
-    <value>ดอลลาร์ออสเตรเลีย</value>
-  </data>
-  <data name="lbl_CustBank" xml:space="preserve">
-    <value>ธนาคาร</value>
-  </data>
-  <data name="lbl_CustBankInfo" xml:space="preserve">
-    <value>อัปเดตข้อมูลธนาคาร</value>
-  </data>
-  <data name="lbl_Date" xml:space="preserve">
-    <value>วันที่</value>
-  </data>
-  <data name="lbl_DateMissing" xml:space="preserve">
-    <value>โปรดป้อนวันที่ ที่สอบถาม</value>
-  </data>
-  <data name="lbl_Deposit" xml:space="preserve">
-    <value>ฝากเงิน</value>
-  </data>
-  <data name="lbl_DepositAmount" xml:space="preserve">
-    <value>จำนวนเงินที่ฝาก</value>
-  </data>
-  <data name="lbl_DepositNow" xml:space="preserve">
-    <value>ฝากเงินเดี๋ยวนี้</value>
-  </data>
-  <data name="lbl_DepositOptionHint" xml:space="preserve">
-    <value>คุณสามารถเลือกตัวเลือกการฝากที่ดีที่สุดสำหรับคุณจากรายการด้านล่าง:</value>
-  </data>
-  <data name="lbl_DepositStatus0" xml:space="preserve">
-    <value>ร่าง</value>
-  </data>
-  <data name="lbl_DepositStatus1" xml:space="preserve">
-    <value>รอดำเนินการ</value>
-  </data>
-  <data name="lbl_DepositStatus2" xml:space="preserve">
-    <value>จ่ายแล้ว</value>
-  </data>
-  <data name="lbl_DepositStatus3" xml:space="preserve">
-    <value>ยืนยัน</value>
-  </data>
-  <data name="lbl_DepositStatus4" xml:space="preserve">
-    <value>ปฏิเสธ</value>
-  </data>
-  <data name="lbl_DepositStatus5" xml:space="preserve">
-    <value>ยกเลิก</value>
-  </data>
-  <data name="lbl_DepositStatus6" xml:space="preserve">
-    <value>หมดเวลา</value>
-  </data>
-  <data name="lbl_DepositStatus7" xml:space="preserve">
-    <value>รอยืนยันการชำระเงิน</value>
-  </data>
-  <data name="lbl_DepositStatus8" xml:space="preserve">
-    <value>กำลังดำเนินการ</value>
-  </data>
-  <data name="lbl_DepositStatus99" xml:space="preserve">
-    <value>Error</value>
-  </data>
-  <data name="lbl_DepositTime" xml:space="preserve">
-    <value>เวลาที่ทำการฝากเงิน</value>
-  </data>
-  <data name="lbl_DepositTimeToolTip" xml:space="preserve">
-    <value>โปรดใส่เวลาที่ทำการฝากเงิน</value>
-  </data>
-  <data name="lbl_DepositType1" xml:space="preserve">
-    <value>ธนาคารออนไลน์</value>
-  </data>
-  <data name="lbl_DepositType2" xml:space="preserve">
-    <value>จ่ายผ่านมือถือ</value>
-  </data>
-  <data name="lbl_DepositType3" xml:space="preserve">
-    <value>ธนาคารในประเทศ</value>
-  </data>
-  <data name="lbl_DepositWithdrawals" xml:space="preserve">
-    <value>ฝากเงิน &amp; ถอนเงิน</value>
-  </data>
-  <data name="lbl_Description" xml:space="preserve">
-    <value>Nova88 เว็บพนันออนไลน์ชั้นนำของโลกที่ให้ประสบการณ์ในการเดิมพันแบบ Live สดที่ครอบคลุมกีฬาทั้งหมด, คาสิโน, สล็อต, คีโน, E-sports, RNG คาสิโน, Fantasy sports, กีฬาเสมือนจริง Virtual Sports, ล็อตเตอรี่, คาสิโนสด, คาสิโนออนไลน์เกมส์สด, บิงโก และการแข่งรถ</value>
-  </data>
-  <data name="lbl_DontHaveAccount" xml:space="preserve">
-    <value>ยังไม่มีบัญชีใช่ไหม</value>
-  </data>
-  <data name="lbl_DownloadApp" xml:space="preserve">
-    <value>ดาวน์โหลดAPP</value>
-  </data>
-  <data name="lbl_Downloads" xml:space="preserve">
-    <value>ดาวน์โหลด</value>
-  </data>
-  <data name="lbl_Email" xml:space="preserve">
-    <value>อีเมล์</value>
-  </data>
-  <data name="lbl_EmailToolTip" xml:space="preserve">
-    <value>ไม่สามารถเปลี่ยนชื่ออีเมล์ได้หลังจากกดยืนยัน</value>
-  </data>
-  <data name="lbl_eSports" xml:space="preserve">
-    <value>อีสปอร์ต</value>
-  </data>
-  <data name="lbl_eSportsBetting" xml:space="preserve">
-    <value>เดิมพัน E-Sports</value>
-  </data>
-  <data name="lbl_Facebook" xml:space="preserve">
-    <value>Facebook</value>
-  </data>
-  <data name="lbl_FAQ" xml:space="preserve">
-    <value>คำถามที่พบบ่อย</value>
-  </data>
-  <data name="lbl_FootballBetting" xml:space="preserve">
-    <value>เดิมพันฟุตบอล</value>
-  </data>
-  <data name="lbl_ForgetPassword" xml:space="preserve">
-    <value>ลืมชื่อที่ใช้ในการเข้าระบบหรือรหัส</value>
-    <comment>00338. Deposit</comment>
-  </data>
-  <data name="lbl_ForgetPwdHint" xml:space="preserve">
-    <value>โปรดใส่อีเมลที่ลงทะเบียนของคุณเพื่อรีเซ็ตรหัสผ่านของคุณ</value>
-  </data>
-  <data name="lbl_From" xml:space="preserve">
-    <value>จาก</value>
-  </data>
-  <data name="lbl_Help" xml:space="preserve">
-    <value>ช่วยเหลือ</value>
-  </data>
-  <data name="lbl_HelpSupport" xml:space="preserve">
-    <value>ช่วยเหลือและสนับสนุน</value>
-  </data>
-  <data name="lbl_History" xml:space="preserve">
-    <value>ประวัติ</value>
-  </data>
-  <data name="lbl_HockeyBetting" xml:space="preserve">
-    <value>เดิมพันฮอคกี้</value>
-  </data>
-  <data name="lbl_Home" xml:space="preserve">
-    <value>หน้าแรก</value>
-  </data>
-  <data name="lbl_ID" xml:space="preserve">
-    <value>ID</value>
-  </data>
-  <data name="lbl_Image" xml:space="preserve">
-    <value>https://www.nova88.net/SiteSkin/Nova88/common/images/logo.png</value>
-  </data>
-  <data name="lbl_ImportantNote" xml:space="preserve">
-    <value>โน๊ตสำคัญ</value>
-  </data>
-  <data name="lbl_Instant" xml:space="preserve">
-    <value>ทันทีทันใด</value>
-  </data>
-  <data name="lbl_JoinNow" xml:space="preserve">
-    <value>สมัครเลย</value>
-  </data>
-  <data name="lbl_Keno" xml:space="preserve">
-    <value>คีโน</value>
-  </data>
-  <data name="lbl_KenoSlogon" xml:space="preserve">
-    <value>วิธีเล่นหลากหลาย มีโอกาสชนะมากขึ้น!</value>
-  </data>
-  <data name="lbl_Keywords" xml:space="preserve">
-    <value>Nova88 เว็บพนันออนไลน์ชั้นนำของโลกที่ให้ประสบการณ์ในการเดิมพันแบบ Live สดที่ครอบคลุมกีฬาทั้งหมด, คาสิโน, สล็อต, คีโน, E-sports, RNG คาสิโน, Fantasy sports, กีฬาเสมือนจริง Virtual Sports, ล็อตเตอรี่, คาสิโนสด, คาสิโนออนไลน์เกมส์สด, บิงโก และการแข่งรถ</value>
-  </data>
-  <data name="lbl_LastLogin" xml:space="preserve">
-    <value>การเข้าระบบครั้งสุดท้าย</value>
-  </data>
-  <data name="lbl_LastTransaction" xml:space="preserve">
-    <value>รายการเล่นสุดท้าย</value>
-  </data>
-  <data name="lbl_Limit" xml:space="preserve">
-    <value>จำกัด</value>
-  </data>
-  <data name="lbl_LiveCasino" xml:space="preserve">
-    <value>Live Casino</value>
-  </data>
-  <data name="lbl_LiveCasinoSlogon" xml:space="preserve">
-    <value>ประสบการณ์คาสิโนแบบสมจริง</value>
-  </data>
-  <data name="lbl_LiveSupport" xml:space="preserve">
-    <value>ติดต่อลูกค้าสัมพันธ์ 24/7</value>
-  </data>
-  <data name="lbl_Login" xml:space="preserve">
-    <value>เข้าสู่ระบบ</value>
-  </data>
-  <data name="lbl_LoginHere" xml:space="preserve">
-    <value>เข้าสู่ระบบที่นี่</value>
-  </data>
-  <data name="lbl_LoginMsg" xml:space="preserve">
-    <value>โปรดทราบว่าเราไม่อนุญาตให้มีบัญชีเกินกว่า  (1)  บัญชี</value>
-  </data>
-  <data name="lbl_Logout" xml:space="preserve">
-    <value>ออกจากระบบ</value>
-  </data>
-  <data name="lbl_Memo" xml:space="preserve">
-    <value>Memo</value>
-  </data>
-  <data name="lbl_Message" xml:space="preserve">
-    <value>ข้อความ</value>
-  </data>
-  <data name="lbl_Method" xml:space="preserve">
-    <value>วิธี</value>
-  </data>
-  <data name="lbl_MobileDeposit" xml:space="preserve">
-    <value>วิธีการชำระเงินผ่านมือถือ</value>
-  </data>
-  <data name="lbl_MomoHint" xml:space="preserve">
-    <value>หากต้องการรับเงินฝากเร็ว ๆ โปรดฝากชื่อบัญชีธนาคารของคุณและหมายเลขบัญชีธนาคารไว้ที่นี่</value>
-  </data>
-  <data name="lbl_MyAccount" xml:space="preserve">
-    <value>บัญชีของฉัน</value>
-  </data>
-  <data name="lbl_NewPassword" xml:space="preserve">
-    <value>รหัสผ่านใหม่</value>
-  </data>
-  <data name="lbl_NotinLimit" xml:space="preserve">
-    <value>จำนวนเงินมากกว่าหรือน้อยกว่าที่กำหนดไว้</value>
-  </data>
-  <data name="lbl_NumberGame" xml:space="preserve">
-    <value>เกมหมายเลข</value>
-  </data>
-  <data name="lbl_Of" xml:space="preserve">
-    <value>ของ</value>
-  </data>
-  <data name="lbl_OldPassword" xml:space="preserve">
-    <value>กรุณายืนยันรหัสที่ใช้ปัจจุบัน</value>
-  </data>
-  <data name="lbl_OnlineBanking" xml:space="preserve">
-    <value>ธนาคารออนไลน์</value>
-  </data>
-  <data name="lbl_Optional" xml:space="preserve">
-    <value>ตัวเลือกอื่น</value>
-  </data>
-  <data name="lbl_OurPolicies" xml:space="preserve">
-    <value>นโยบายของเรา</value>
-  </data>
-  <data name="lbl_Page" xml:space="preserve">
-    <value>หน้า</value>
-  </data>
-  <data name="lbl_Password" xml:space="preserve">
-    <value>รหัส</value>
-  </data>
-  <data name="lbl_PasswordTooltip" xml:space="preserve">
-    <value>รหัสผ่านต้องมีความยาว 6-15 ตัว ประกอบด้วยตัวอักษรและตัวเลขและอักขระพิเศษ (!@#$%^&amp;*)</value>
-  </data>
-  <data name="lbl_PaymentOptions" xml:space="preserve">
-    <value>ตัวเลือกการชำระเงิน</value>
-  </data>
-  <data name="lbl_Phone" xml:space="preserve">
-    <value>หมายเลขโทรศัพท์</value>
-  </data>
-  <data name="lbl_PhoneTooltip" xml:space="preserve">
-    <value>กรุณากรอกหมายเลขโทรศัพท์ของคุณ และไม่สามารถเปลี่ยนแปลงได้ภายหลัง</value>
-  </data>
-  <data name="lbl_PhotoID" xml:space="preserve">
-    <value>สำเนารูปถ่ายบัตรประชาชน</value>
-  </data>
-  <data name="lbl_Postscript" xml:space="preserve">
-    <value>หมายเลขอ้างอิง</value>
-  </data>
-  <data name="lbl_PostscriptHint" xml:space="preserve">
-    <value>กรอกหมายเลขอ้างอิงเพื่อรับเงินฝากทันที</value>
-  </data>
-  <data name="lbl_PreferredCurrencyToolTip" xml:space="preserve">
-    <value>หลังจากลงทะเบียนจะไม่สามารถเปลี่ยนสกุลเงินที่เลือกไว้ได้</value>
-  </data>
-  <data name="lbl_PrefferedCurrency" xml:space="preserve">
-    <value>สกุลเงินที่เลือก</value>
-  </data>
-  <data name="lbl_PrivacyPolicy" xml:space="preserve">
-    <value>นโยบาย</value>
-  </data>
-  <data name="lbl_Profile" xml:space="preserve">
-    <value>ข้อมูลส่วนตัว</value>
-  </data>
-  <data name="lbl_Promotion" xml:space="preserve">
-    <value>โปรโมชั่น</value>
-  </data>
-  <data name="lbl_RebatebonusonMobile" xml:space="preserve">
-    <value>ส่วนลดโบนัสบนมือถือ</value>
-  </data>
-  <data name="lbl_RecentTransactions" xml:space="preserve">
-    <value>ธุรกรรมล่าสุด</value>
-  </data>
-  <data name="lbl_Refno" xml:space="preserve">
-    <value>หมายเลขอ้างอิง</value>
-  </data>
-  <data name="lbl_RefnoToolTip" xml:space="preserve">
-    <value>โปรดใส่หมายเลขอ้างอิงสลิปธนาคารของคุณ</value>
-  </data>
-  <data name="lbl_Register" xml:space="preserve">
-    <value>สมัครสมาชิก</value>
-  </data>
-  <data name="lbl_RegisterTime" xml:space="preserve">
-    <value>เวลาลงทะเบียน</value>
-  </data>
-  <data name="lbl_Required" xml:space="preserve">
-    <value>ต้องระบุข้อมูลในช่องนี้</value>
-  </data>
-  <data name="lbl_ResposibleGaming" xml:space="preserve">
-    <value>การรับผิดชอบของการเล่นพนัน</value>
-  </data>
-  <data name="lbl_RuleRegulations" xml:space="preserve">
-    <value>กฎกติกาและระเบียบข้อบังคับการเดิมพัน</value>
-  </data>
-  <data name="lbl_SelectAll" xml:space="preserve">
-    <value>เลือกทั้งหมด</value>
-  </data>
-  <data name="lbl_ShowBalance" xml:space="preserve">
-    <value>แสดงยอดคงเหลือ</value>
-  </data>
-  <data name="lbl_Soccer" xml:space="preserve">
-    <value>ฟุตบอล</value>
-  </data>
-  <data name="lbl_SoccerBetting" xml:space="preserve">
-    <value>เดิมพันฟุตบอล</value>
-  </data>
-  <data name="lbl_SocialMedia" xml:space="preserve">
-    <value>สื่อสังคมออนไลน์</value>
-  </data>
-  <data name="lbl_Sports" xml:space="preserve">
-    <value>กีฬา</value>
-  </data>
-  <data name="lbl_SportsBetting" xml:space="preserve">
-    <value>เดิมพันกีฬา</value>
-  </data>
-  <data name="lbl_Status" xml:space="preserve">
-    <value>สถานะ</value>
-  </data>
-  <data name="lbl_Submit" xml:space="preserve">
-    <value>ตกลง</value>
-  </data>
-  <data name="lbl_SubmitPhotoId" xml:space="preserve">
-    <value>ส่ง รูปถ่ายบัตรประชาชน</value>
-  </data>
-  <data name="lbl_SubmitPhotoIdHint" xml:space="preserve">
-    <value>สำหรับการถอนเงิน โปรดเตรียมเอกสารที่ออกโดยรัฐบาลดังต่อไปนี้</value>
-  </data>
-  <data name="lbl_SubmitProof" xml:space="preserve">
-    <value>ส่งสลิปธนาคาร</value>
-  </data>
-  <data name="lbl_Tennis" xml:space="preserve">
-    <value>เทนนิส</value>
-  </data>
-  <data name="lbl_TennisBetting" xml:space="preserve">
-    <value>เดิมพันเทนนิส</value>
-  </data>
-  <data name="lbl_Terms" xml:space="preserve">
-    <value>เกี่ยวกับเรา</value>
-  </data>
-  <data name="lbl_TermsConditions" xml:space="preserve">
-    <value>เงี่อนไขและกติกา</value>
-  </data>
-  <data name="lbl_Time" xml:space="preserve">
-    <value>เวลา</value>
-  </data>
-  <data name="lbl_Title" xml:space="preserve">
-    <value>Nova88</value>
-  </data>
-  <data name="lbl_TitleDesc" xml:space="preserve">
-    <value>Nova88 เว็บพนันออนไลน์และเดิมพันในกีฬาสดที่ให้ราคาดีที่สุดในตอนนี้</value>
-  </data>
-  <data name="lbl_TitleKeywords" xml:space="preserve">
-    <value>Nova88 เว็บพนันออนไลน์ชั้นนำของโลกที่ให้ประสบการณ์ในการเดิมพันแบบ Live สดที่ครอบคลุมกีฬาทั้งหมด, คาสิโน, สล็อต, คีโน, E-sports, RNG คาสิโน, Fantasy sports, กีฬาเสมือนจริง Virtual Sports, ล็อตเตอรี่, คาสิโนสด, คาสิโนออนไลน์เกมส์สด, บิงโก และการแข่งรถ</value>
-  </data>
-  <data name="lbl_To" xml:space="preserve">
-    <value>ถึง</value>
-  </data>
-  <data name="lbl_Transaction" xml:space="preserve">
-    <value>รายการเล่นสุดท้าย</value>
-  </data>
-  <data name="lbl_TransactionHint" xml:space="preserve">
-    <value>กรุณาโอนเงินไปยังบัญชี</value>
-  </data>
-  <data name="lbl_TransactionHistory" xml:space="preserve">
-    <value>ประวัติการทำรายการ</value>
-  </data>
-  <data name="lbl_TransferFunds" xml:space="preserve">
-    <value>โอนเงินทุน</value>
-  </data>
-  <data name="lbl_TransferTo" xml:space="preserve">
-    <value>โอนไปที่</value>
-  </data>
-  <data name="lbl_TryMobile" xml:space="preserve">
-    <value>ลองเว็บไซต์ของเราด้วยเบราว์เซอร์ในมือถือ</value>
-  </data>
-  <data name="lbl_TryNow" xml:space="preserve">
-    <value>ลองเลยตอนนี้</value>
-  </data>
-  <data name="lbl_Twitter" xml:space="preserve">
-    <value>Twitter</value>
-  </data>
-  <data name="lbl_TwitterCreator" xml:space="preserve">
-    <value>@Nova88official</value>
-  </data>
-  <data name="lbl_TwitterSite" xml:space="preserve">
-    <value>@Nova88official</value>
-  </data>
-  <data name="lbl_Unlimited" xml:space="preserve">
-    <value>ไม่จำกัด</value>
-  </data>
-  <data name="lbl_Update" xml:space="preserve">
-    <value>ิอัพเดท</value>
-  </data>
-  <data name="lbl_UpdateBankDetail" xml:space="preserve">
-    <value>การแจ้งสถานะบัญชีธนาคารปัจจุบัน</value>
-  </data>
-  <data name="lbl_UpdateBankInfo" xml:space="preserve">
-    <value>โปรดอัปเดตรายละเอียดบัญชีธนาคารของคุณก่อนทำการถอนเงิน</value>
-  </data>
-  <data name="lbl_UpdatePersonalDetail" xml:space="preserve">
-    <value>อัปเดตข้อมูลส่วนบุคคล</value>
-  </data>
-  <data name="lbl_UpdatePersonalInfo" xml:space="preserve">
-    <value>กรุณากรอกข้อมูลส่วนบุคคลของคุณ ก่อนทำการฝากเงิน</value>
-  </data>
-  <data name="lbl_UpdateSuccess" xml:space="preserve">
-    <value>การอัปเดตสำเร็จ เราจะดำเนินการตามคำขอของคุณอย่างเร็วที่สุด!</value>
-  </data>
-  <data name="lbl_UploadFile" xml:space="preserve">
-    <value>กำลังดำเนินการอัพโหลดไฟล์</value>
-  </data>
-  <data name="lbl_UploadSuccess" xml:space="preserve">
-    <value>อัพโหลดไฟล์ของคุณสำเร็จแล้ว</value>
-  </data>
-  <data name="lbl_URL" xml:space="preserve">
-    <value>https://www.nova88.net</value>
-  </data>
-  <data name="lbl_Username" xml:space="preserve">
-    <value>ชื่อผู้ใช้</value>
-  </data>
-  <data name="lbl_UsernameTooltip" xml:space="preserve">
-    <value>เพื่อความปลอดภัยเราแนะนำให้คุณใช้ชื่อผู้ใช้ที่ไม่มีชื่อจริงของคุณ</value>
-  </data>
-  <data name="lbl_VariousBankingOptions" xml:space="preserve">
-    <value>ตัวเลือกธนาคารต่างๆ</value>
-  </data>
-  <data name="lbl_VIPLevel" xml:space="preserve">
-    <value>ระดับวีไอพี</value>
-  </data>
-  <data name="lbl_VirtualSports" xml:space="preserve">
-    <value>กีฬาจำลอง</value>
-  </data>
-  <data name="lbl_VirtualSportsSlogon" xml:space="preserve">
-    <value>นอกเหนือจากกีฬายอดนิยมแล้ว เรายังมีเกมนวัตกรรมใหม่ In-Play ให้คุณ</value>
-  </data>
-  <data name="lbl_Welcome" xml:space="preserve">
-    <value>ยินดีต้อนรับ</value>
-  </data>
-  <data name="lbl_WireTransfers" xml:space="preserve">
-    <value>โอนเงินผ่านธนาคารในประเทศ</value>
-  </data>
-  <data name="lbl_Withdrawal" xml:space="preserve">
-    <value>ถอนเงิน</value>
-  </data>
-  <data name="lbl_WithdrawalAmount" xml:space="preserve">
-    <value>จำนวนเงินที่ถอน</value>
-  </data>
-  <data name="lbl_WithdrawalStatus0" xml:space="preserve">
-    <value>ร่าง</value>
-  </data>
-  <data name="lbl_WithdrawalStatus1" xml:space="preserve">
-    <value>รอดำเนินการ</value>
-  </data>
-  <data name="lbl_WithdrawalStatus2" xml:space="preserve">
-    <value>รอตรวจสอบการถอนเงิน</value>
-  </data>
-  <data name="lbl_WithdrawalStatus3" xml:space="preserve">
-    <value>ตรวจสอบ</value>
-  </data>
-  <data name="lbl_WithdrawalStatus4" xml:space="preserve">
-    <value>กำลังดำเนินการ</value>
-  </data>
-  <data name="lbl_WithdrawalStatus5" xml:space="preserve">
-    <value>ยกเลิก</value>
-  </data>
-  <data name="lbl_WithdrawalStatus6" xml:space="preserve">
-    <value>ยืนยัน</value>
-  </data>
-  <data name="lbl_WithdrawalStatus7" xml:space="preserve">
-    <value>ปฎิเสธ</value>
-  </data>
-  <data name="lbl_WithdrawalStatus99" xml:space="preserve">
-    <value>Error</value>
-  </data>
-  <data name="lbl_WithdrawalTo" xml:space="preserve">
-    <value>ถอนออกเป็น</value>
-  </data>
-  <data name="lbl_WithdrawalType0" xml:space="preserve">
-    <value>ไม่ได้กำหนด</value>
-  </data>
-  <data name="lbl_WithdrawalType1" xml:space="preserve">
-    <value>ถอนเงินออนไลน์</value>
-  </data>
-  <data name="lbl_WithdrawalType2" xml:space="preserve">
-    <value>ธนาคารในประเทศ</value>
-  </data>
-  <data name="lbl_YourEmail" xml:space="preserve">
-    <value>อีเมลของคุณ</value>
-  </data>
-  <data name="lbl_Forget" xml:space="preserve">
-    <value>หากคุณลืมชื่อผู้ใช้หรือรหัสผ่านโปรดระบุอีเมลของคุณและเราจะส่งรหัสผ่านใหม่ไปยังอีเมลที่คุณลงทะเบียนไว้</value>
-    <comment>00338.</comment>
-  </data>
-  <data name="lbl_ForgetNote" xml:space="preserve">
-    <value>ถ้าคุณได้ลืมรหัส กรุณาแจ้งอีเมลล์ของคุณ คำถามคำตอบเพื่อความปลอดภัย เราจะส่งรหัสใหม่ไปให้คุณที่อีเมลล์ที่คุณสมัครไว้กับเรา</value>
-    <comment>00337. Deposit</comment>
-  </data>
-  <data name="lbl_RealName" xml:space="preserve">
-    <value>ชื่อจริง</value>
-  </data>
-  <data name="lbl_UploadPhotoId" xml:space="preserve">
-    <value>อัปโหลด</value>
-  </data>
-  <data name="lbl_RemindForName" xml:space="preserve">
-    <value>*ชื่อและนามสกุลต้องตรงกันกับชื่อในบัญชีธนาคาร เพื่อนำฝากและถอนที่รวดเร็วยิ่งขึ้น</value>
-  </data>
-  <data name="lbl_badminton" xml:space="preserve">
-    <value> แบดมินตัน</value>
-    <comment>00131. </comment>
-  </data>
-  <data name="lbl_Promotions" xml:space="preserve">
-    <value>Promotions</value>
-  </data>
-  <data name="FTDPDescription" xml:space="preserve">
-    <value>รับโบนัสสูงสุดถึง THB8888 เมื่อคุณทำการฝากเงินครั้งแรกกับ Nova88! สมัครเลย</value>
-  </data>
-  <data name="FTDPTitle" xml:space="preserve">
-    <value>โบนัส 150% สำหรับการฝากเงินครั้งแรก ยอดเงินโบนัสสูงสุดไม่เกิน 8888 บาท</value>
-  </data>
-  <data name="lbl_TC" xml:space="preserve">
-    <value>ข้อกำหนดและเงื่อนไขเฉพาะของข้อเสนอ</value>
-  </data>
-  <data name="lbl_Bonus" xml:space="preserve">
-    <value>โบนัส</value>
-  </data>
-  <data name="lbl_BonusAmount" xml:space="preserve">
-    <value>จำนวนโบนัส</value>
-  </data>
-  <data name="lbl_ExpiryTime" xml:space="preserve">
-    <value>เวลาหมดอายุ</value>
-  </data>
-  <data name="lbl_MaxBonusAmount" xml:space="preserve">
-    <value>จำนวนโบนัสสูงสุด</value>
-  </data>
-  <data name="lbl_Product" xml:space="preserve">
-    <value>ผลิตภัณฑ์</value>
-  </data>
-  <data name="lbl_PromotionsList" xml:space="preserve">
-    <value>รายการโปรโมชั่น</value>
-  </data>
-  <data name="lbl_RemainingTime" xml:space="preserve">
-    <value>เวลาคงเหลือ</value>
-  </data>
-  <data name="lbl_RollOver" xml:space="preserve">
-    <value>ยอดหมุนเวียน</value>
-  </data>
-  <data name="PromotionCategory1" xml:space="preserve">
-    <value>ฝากครั้งแรก</value>
-  </data>
-  <data name="lbl_Notice" xml:space="preserve">
-    <value>หมายเหตุ</value>
-  </data>
-  <data name="lbl_Later" xml:space="preserve">
-    <value>ภายหลัง</value>
-  </data>
-  <data name="lbl_DepositOver" xml:space="preserve">
-    <value>จำนวนเงินที่คุณต้องการถอนมากกว่ายอดเงินคงหลือในบัญชีของคุณ</value>
-  </data>
-  <data name="lbl_EligibleWithdrawal" xml:space="preserve">
-    <value>วงเงินถอน</value>
-  </data>
-  <data name="lbl_RolloverProgress" xml:space="preserve">
-    <value>ความคืบหน้าโรลโอเวอร์</value>
-  </data>
-  <data name="lbl_BonusConfirm" xml:space="preserve">
-    <value>คุณเลือกโบนัสโปรโมชั่นของเรา คุณต้องการดำเนินการต่อหรือไม่?</value>
-  </data>
-  <data name="lbl_EligibleWithdrawalAmount" xml:space="preserve">
-    <value>ยอดเงินที่คุณมีสิทธิ์ถอนคือ</value>
-  </data>
-  <data name="lbl_Req" xml:space="preserve">
-    <value>ข้อกำหนด</value>
-  </data>
-  <data name="lbl_RolloverOver" xml:space="preserve">
-    <value>ยอดโรลโอเวอร์ของคุณไม่เพียงพอ</value>
-  </data>
-  <data name="lbl_WithdrawalOver" xml:space="preserve">
-    <value>จำนวนเงินที่คุณต้องการถอนมากกว่าจำนวนเงินที่คุณมีสิทธิ์ถอน</value>
-  </data>
-  <data name="lbl_AllbetCasino" xml:space="preserve">
-    <value>ห้องแพลทตินั่ม</value>
-  </data>
-  <data name="lbl_Clickhereforpromotion" xml:space="preserve">
-    <value>คลิกที่นี่ เพื่อตรวจสอบโปรโมชั่นของคุณ</value>
-  </data>
-  <data name="lbl_SACasino" xml:space="preserve">
-    <value>ห้องอะธีนา</value>
-  </data>
-  <data name="lbl_Days" xml:space="preserve">
-    <value>วันที่</value>
-  </data>
-  <data name="lbl_Hours" xml:space="preserve">
-    <value>เวลา</value>
-  </data>
-  <data name="lbl_FacebookAccount" xml:space="preserve">
-    <value>nova88official</value>
-  </data>
-  <data name="lbl_TwitterAccount" xml:space="preserve">
-    <value>nova88official</value>
-  </data>
-  <data name="lbl_Balance" xml:space="preserve">
-    <value>ยอดเงิน</value>
-  </data>
-  <data name="lbl_DepositHistory" xml:space="preserve">
-    <value>ประวัติการฝากเงิน</value>
-  </data>
-  <data name="lbl_DreamGaming" xml:space="preserve">
-    <value>ห้องคริสตัล</value>
-  </data>
-  <data name="lbl_MainWallet" xml:space="preserve">
-    <value>วอลเล็ทหลัก</value>
-  </data>
-  <data name="lbl_MaxAmount" xml:space="preserve">
-    <value>จำนวนเงินสูงสุด</value>
-  </data>
-  <data name="lbl_OtherWallet" xml:space="preserve">
-    <value>วอลเล็ทอื่น</value>
-  </data>
-  <data name="lbl_RetriveAllIn" xml:space="preserve">
-    <value>ถอนเงินทั้งหมด</value>
-  </data>
-  <data name="lbl_TransferAll" xml:space="preserve">
-    <value>โอนเงินทั้งหมดเข้า </value>
-  </data>
-  <data name="lbl_TransferFrom" xml:space="preserve">
-    <value>โอนเงินจาก</value>
-  </data>
-  <data name="lbl_TransferHistory" xml:space="preserve">
-    <value>ประวัติการโอนเงิน</value>
-  </data>
-  <data name="lbl_TransferIn" xml:space="preserve">
-    <value>ฝากเงิน</value>
-  </data>
-  <data name="lbl_TransferOut" xml:space="preserve">
-    <value>โอนเงินออก</value>
-  </data>
-  <data name="lbl_Wallet_Saba" xml:space="preserve">
-    <value>กระเป๋าเงินกีฬา</value>
-  </data>
-  <data name="lbl_WithdrawalHistory" xml:space="preserve">
-    <value>ประวัติการถอนเงิน
-</value>
-  </data>
-  <data name="lbl_AGCasino" xml:space="preserve">
-    <value>ห้องฟีนิกซ์</value>
-  </data>
-  <data name="lbl_ComingSoon" xml:space="preserve">
-    <value>เร็วๆนี้</value>
-  </data>
-  <data name="lbl_Enter" xml:space="preserve">
-    <value>เข้าสู่ไลฟ์คาสิโน</value>
-  </data>
-  <data name="lbl_Reminder" xml:space="preserve">
-    <value>แจ้งเตือน</value>
-  </data>
-  <data name="lbl_Transfer" xml:space="preserve">
-    <value>โอน</value>
-  </data>
-  <data name="lbl_Direction" xml:space="preserve">
-    <value>ทิศทาง</value>
-  </data>
-  <data name="lbl_Fail" xml:space="preserve">
-    <value>ล้มเหลว</value>
-  </data>
-  <data name="lbl_Pending" xml:space="preserve">
-    <value>รอดำเนินการ</value>
-  </data>
-  <data name="lbl_Success" xml:space="preserve">
-    <value>ความสำเร็จ</value>
-  </data>
-  <data name="lbl_WalletType" xml:space="preserve">
-    <value>ประเภทกระเป๋าเงิน</value>
-  </data>
-  <data name="lbl_DGCasino" xml:space="preserve">
-    <value>ห้องคริสตัล</value>
-  </data>
-  <data name="lbl_Birthday" xml:space="preserve">
-    <value>วันเกิด</value>
-  </data>
-  <data name="lbl_ConfirmAndUpdate" xml:space="preserve">
-    <value>ยืนยันการอัพเดท</value>
-  </data>
-  <data name="lbl_Month1" xml:space="preserve">
-    <value>มกราคม</value>
-  </data>
-  <data name="lbl_Month10" xml:space="preserve">
-    <value>ตุลาคม</value>
-  </data>
-  <data name="lbl_Month11" xml:space="preserve">
-    <value>พฤศจิกายน</value>
-  </data>
-  <data name="lbl_Month12" xml:space="preserve">
-    <value>ธันวาคม</value>
-  </data>
-  <data name="lbl_Month2" xml:space="preserve">
-    <value>กุมภาพันธ์</value>
-  </data>
-  <data name="lbl_Month3" xml:space="preserve">
-    <value>มีนาคม</value>
-  </data>
-  <data name="lbl_Month4" xml:space="preserve">
-    <value>เมษายน</value>
-  </data>
-  <data name="lbl_Month5" xml:space="preserve">
-    <value>พฤษภาคม</value>
-  </data>
-  <data name="lbl_Month6" xml:space="preserve">
-    <value>มิถุนายน</value>
-  </data>
-  <data name="lbl_Month7" xml:space="preserve">
-    <value>กรกฎาคม</value>
-  </data>
-  <data name="lbl_Month8" xml:space="preserve">
-    <value>สิงหาคม</value>
-  </data>
-  <data name="lbl_Month9" xml:space="preserve">
-    <value>กันยายน</value>
-  </data>
-  <data name="lbl_ReModify" xml:space="preserve">
-    <value>แก้ไขอีกครั้ง</value>
-  </data>
-  <data name="lbl_All" xml:space="preserve">
-    <value>ทั้งหมด</value>
-  </data>
-  <data name="lbl_AllGames" xml:space="preserve">
-    <value>เกมทั้งหมด</value>
-  </data>
-  <data name="lbl_CasinoLobby" xml:space="preserve">
-    <value>คาสิโนล็อบบี้</value>
-  </data>
-  <data name="lbl_Favourite" xml:space="preserve">
-    <value>เกมโปรด</value>
-  </data>
-  <data name="lbl_Feature" xml:space="preserve">
-    <value>ลักษณะพิเศษ</value>
-  </data>
-  <data name="lbl_Free" xml:space="preserve">
-    <value>เล่นฟรี</value>
-  </data>
-  <data name="lbl_GPI" xml:space="preserve">
-    <value>GPI</value>
-  </data>
-  <data name="lbl_NoMatching" xml:space="preserve">
-    <value>ไม่พบเกมที่ตรงกัน</value>
-  </data>
-  <data name="lbl_OWCasino" xml:space="preserve">
-    <value>OW คาสิโน</value>
-  </data>
-  <data name="lbl_PlayNow" xml:space="preserve">
-    <value>เล่นเดี๋ยวนี้</value>
-  </data>
-  <data name="lbl_Provider" xml:space="preserve">
-    <value>ผู้ให้บริการ</value>
-  </data>
-  <data name="lbl_SelfCasino" xml:space="preserve">
-    <value>Nova คาสิโน</value>
-  </data>
-  <data name="lbl_Slots" xml:space="preserve">
-    <value>สล็อต</value>
-  </data>
-  <data name="lbl_Fishing" xml:space="preserve">
-    <value>ยิงปลา</value>
-  </data>
-  <data name="lbl_AfterAmount" xml:space="preserve">
-    <value>จำนวนเงินที่เหลือ</value>
-  </data>
-  <data name="lbl_BeforeAmount" xml:space="preserve">
-    <value>จำนวนเงินก่อนหน้า</value>
-  </data>
-  <data name="lbl_ChangeAmount" xml:space="preserve">
-    <value>เปลี่ยนจำนวนเงิน</value>
-  </data>
-  <data name="lbl_RefTransId" xml:space="preserve">
-    <value>รหัส ID อ้างอิง</value>
-  </data>
-  <data name="lbl_Refund" xml:space="preserve">
-    <value>คืนเงิน</value>
-  </data>
-  <data name="lbl_Settled" xml:space="preserve">
-    <value>ตัดสินแล้ว</value>
-  </data>
-  <data name="lbl_Stake" xml:space="preserve">
-    <value>ยอดเดิมพัน</value>
-  </data>
-  <data name="lbl_Statement" xml:space="preserve">
-    <value>รายการฝากถอน</value>
-  </data>
-  <data name="lbl_TypeName" xml:space="preserve">
-    <value>ประเภท</value>
-  </data>
-  <data name="lbl_LastMonth" xml:space="preserve">
-    <value>เดือนที่แล้ว</value>
-  </data>
-  <data name="lbl_LastWeek" xml:space="preserve">
-    <value>อาทิตย์ที่แล้ว</value>
-  </data>
-  <data name="lbl_QuickPick" xml:space="preserve">
-    <value>เลือก</value>
-  </data>
-  <data name="lbl_ThisMonth" xml:space="preserve">
-    <value>เดือนนี้</value>
-  </data>
-  <data name="lbl_ThisWeek" xml:space="preserve">
-    <value>อาทิตย์นี้</value>
-  </data>
-  <data name="lbl_Today" xml:space="preserve">
-    <value>วันนี้</value>
-  </data>
-  <data name="lbl_YesterDay" xml:space="preserve">
-    <value>เมื่อวานนี้</value>
-  </data>
-  <data name="lbl_Table" xml:space="preserve">
-    <value>เทเบิลเกมส์</value>
-  </data>
-  <data name="lbl_WithdrawalLimit" xml:space="preserve">
-    <value>ไม่สามารถถอนเงินได้ เพราะยอดเงินคงเหลือไม่ถึงจำนวนที่กำหนดไว้</value>
-  </data>
-  <data name="lbl_Announcement" xml:space="preserve">
-    <value>ประกาศ</value>
-  </data>
-  <data name="lbl_Payment" xml:space="preserve">
-    <value>การชำระเงิน</value>
-  </data>
-  <data name="lbl_PersonalMsg" xml:space="preserve">
-    <value>ข้อความส่วนตัว</value>
-  </data>
-  <data name="lbl_Platform" xml:space="preserve">
-    <value>ผู้ให้บริการ</value>
-  </data>
-  <data name="lbl_Instagram" xml:space="preserve">
-    <value>อินสตาแกรม</value>
-  </data>
-  <data name="lbl_License" xml:space="preserve">
-    <value>ใบอนุญาต</value>
-  </data>
-  <data name="lbl_More" xml:space="preserve">
-    <value>ข้อมูลเพิ่มเติม</value>
-  </data>
-  <data name="lbl_Deduction" xml:space="preserve">
-    <value>หักยอดเดิมพันหมุนเวียน</value>
-  </data>
-  <data name="lbl_Arcade" xml:space="preserve">
-    <value>เกมอาเขต</value>
-  </data>
-  <data name="lbl_PPCasino" xml:space="preserve">
-    <value>เวสเทิร์น สวีท </value>
-  </data>
-  <data name="lbl_Scratch" xml:space="preserve">
-    <value>เกมขูดบัตร</value>
-  </data>
-  <data name="lbl_Promo" xml:space="preserve">
-    <value>โปรโม</value>
-  </data>
-  <data name="lbl_Lottery" xml:space="preserve">
-    <value>ลอตเตอรี่</value>
-  </data>
-  <data name="FTDP3Description" xml:space="preserve">
-    <value>เข้าร่วมตอนนี้ ! รับโบนัสมากถึง 2,888 บาทด้วยการฝากครั้งแรกที่ Nova88!</value>
-  </data>
-  <data name="FTDP3Title" xml:space="preserve">
-    <value>โบนัสแรกเข้า 100% สูงสุดถึง 2,888 บาท</value>
-  </data>
-  <data name="lbl_ResetPassword" xml:space="preserve">
-    <value>รีเซ็ตรหัสผ่าน</value>
-  </data>
-  <data name="lbl_ResetPasswordSubmit" xml:space="preserve">
-    <value>ขอรีเซ็ตรหัสผ่าน</value>
-  </data>
-  <data name="lbl_SubmitPhotoIdList" xml:space="preserve">
-    <value>โปรดส่งเอกสารอย่างใดอย่างหนึ่งดังต่อไปนี้: 
-1. บัตรประชาชน
-2. พาสปอร์ต
-3. ใบขับขี่
-4. สูติบัตร (ใบแจ้งเกิด) </value>
-  </data>
-  <data name="lbl_WaitKYC" xml:space="preserve">
-    <value>กำลังดำเนินการยืนยัน</value>
-  </data>
-  <data name="lbl_WaitKYCHint" xml:space="preserve">
-    <value>ขอบคุณสำหรับการส่งเอกสารที่จำเป็น โปรดรอสักครู่ในการดำเนินการตรวจสอบเอกสารที่ท่านส่งมา</value>
-  </data>
-  <data name="lbl_BirthCertificate" xml:space="preserve">
-    <value>สูติบัตร (ใบแจ้งเกิด)</value>
-  </data>
-  <data name="lbl_Details" xml:space="preserve">
-    <value>รายละเอียด</value>
-  </data>
-  <data name="lbl_DrivingLicense" xml:space="preserve">
-    <value>ใบขับขี่</value>
-  </data>
-  <data name="lbl_Guest" xml:space="preserve">
-    <value>ลูกค้า</value>
-  </data>
-  <data name="lbl_KYCSubmitHint" xml:space="preserve">
-    <value>โปรดส่งเอกสารอย่างใดอย่างหนึ่งดังต่อไปนี้:</value>
-  </data>
-  <data name="lbl_Languages" xml:space="preserve">
-    <value>ภาษา</value>
-  </data>
-  <data name="lbl_LiveChat" xml:space="preserve">
-    <value>สนทนาสด</value>
-  </data>
-  <data name="lbl_Loading" xml:space="preserve">
-    <value>กำลังโหลด</value>
-  </data>
-  <data name="lbl_Me" xml:space="preserve">
-    <value>ฉัน</value>
-  </data>
-  <data name="lbl_NationalIdentityCard" xml:space="preserve">
-    <value>บัตรประชาชน</value>
-  </data>
-  <data name="lbl_Other" xml:space="preserve">
-    <value>อื่นๆ</value>
-  </data>
-  <data name="lbl_Passport" xml:space="preserve">
-    <value>พาสปอร์ต</value>
-  </data>
-  <data name="lbl_Setting" xml:space="preserve">
-    <value>การตั้งค่า</value>
-  </data>
-  <data name="lbl_Themes" xml:space="preserve">
-    <value>ธีมส์</value>
-  </data>
-  <data name="lbl_KenoAndLottery" xml:space="preserve">
-    <value>คีโนและล็อตเตอรี่</value>
-  </data>
-  <data name="lbl_RotationHint_1" xml:space="preserve">
-    <value>เรียนลูกค้าผู้มีอุปการคุณทุกท่าน</value>
-  </data>
-  <data name="lbl_RotationHint_2" xml:space="preserve">
-    <value>เนื่องจากเว็บไซด์ของเราได้มีการปรับเปลี่ยนให้เล่นง่ายขึ้น โปรด</value>
-  </data>
-  <data name="lbl_RotationHint_3" xml:space="preserve">
-    <value>หมุนโทรศัพท์ของท่านในแนวตั้ง เพื่อประสบการณ์การเล่นเกมที่ดีมากขึ้นกว่าเดิม</value>
-  </data>
-  <data name="lbl_RotationHint_4" xml:space="preserve">
-    <value>และเราต้องขออภัยในความไม่สะดวกที่อาจเกิดขึ้นและหวังว่าท่านจะเข้าใจ ขอขอบคุณ!</value>
-  </data>
-  <data name="lbl_SexyCasino" xml:space="preserve">
-    <value>ห้องวีนัส</value>
-  </data>
-  <data name="lbl_GameList" xml:space="preserve">
-    <value>รายชื่อเกม</value>
-  </data>
-  <data name="lbl_TpWallet_1" xml:space="preserve">
-    <value>กระเป๋าเงินกีฬา</value>
-  </data>
-  <data name="lbl_TurnoverAccmulateHint" xml:space="preserve">
-    <value>สมาชิกต้องทำตามกติตาการทำเทิร์นโอเวอร์ก่อนทำรายการโอนเงินได้ค่ะ</value>
-  </data>
-  <data name="lbl_TurnoverAccumulated" xml:space="preserve">
-    <value>การหมุนเวียนสะสม</value>
-  </data>
-  <data name="lbl_EbetCasino" xml:space="preserve">
-    <value>ห้องรอยัลสูท</value>
-  </data>
-  <data name="lbl_AffiliateSlog" xml:space="preserve">
-    <value>ข้อเสนอคอมมิชชั่นสุดพิเศษ!</value>
-  </data>
-  <data name="lbl_PromoRemind" xml:space="preserve">
-    <value>ฝากตอนนี้เพื่อรับโปรโมชั่นพิเศษ</value>
-  </data>
-  <data name="lbl_FishingGG" xml:space="preserve">
-    <value>โลกแห่งการตกปลา</value>
-  </data>
-  <data name="lbl_FishingSG1" xml:space="preserve">
-    <value>พระเจ้าตกปลา</value>
-  </data>
-  <data name="lbl_FishingSG2" xml:space="preserve">
-    <value>สงครามตกปลา</value>
-  </data>
-  <data name="lbl_WalletDescription_Kiss918" xml:space="preserve">
-    <value>918Kiss</value>
-  </data>
-  <data name="lbl_Wallet_Kiss918" xml:space="preserve">
-    <value>918Kiss</value>
-  </data>
-  <data name="lbl_Error_Message" xml:space="preserve">
-    <value>มันเป็นเรื่องที่คาดไม่ถึง ....</value>
-  </data>
-  <data name="lbl_Error_Title" xml:space="preserve">
-    <value>อุ๊ปส์!</value>
-  </data>
-  <data name="lbl_TpWallet_27" xml:space="preserve">
-    <value>กระเป๋าเงิน PT</value>
-  </data>
-  <data name="lbl_Cashback_Sports" xml:space="preserve">
-    <value>กีฬา</value>
-  </data>
-  <data name="lbl_Cashback_RNG" xml:space="preserve">
-    <value>RNG</value>
-  </data>
-  <data name="lbl_Cashback_Lottery" xml:space="preserve">
-    <value>ลอตเตอรี่</value>
-  </data>
-  <data name="lbl_Cashback_Virtual_Sports" xml:space="preserve">
-    <value>กีฬาจำลอง</value>
-  </data>
-  <data name="lbl_Wallet_PT" xml:space="preserve">
-    <value>กระเป๋าเงิน PT</value>
-  </data>
-  <data name="lbl_WalletDescription_PT" xml:space="preserve">
-    <value>กระเป๋าเงิน PT</value>
-  </data>
-  <data name="lbl_WalletDescription_NineW" xml:space="preserve">
-    <value>กระเป๋าสตางค์ 9W</value>
-  </data>
-  <data name="lbl_Wallet_NineW" xml:space="preserve">
-    <value>กระเป๋าสตางค์ 9W</value>
-  </data>
-  <data name="lbl_WalletDescription_Mega" xml:space="preserve">
-    <value>กระเป๋าเงิน Mega</value>
-  </data>
-  <data name="lbl_Wallet_Mega" xml:space="preserve">
-    <value>กระเป๋าเงิน Mega</value>
-  </data>
-  <data name="Currency_74" xml:space="preserve">
-    <value>BDT</value>
-  </data>
-</root>
+<resheader name="resmimetype"><value>text/microsoft-resx</value></resheader><resheader name="version"><value>1.3</value></resheader><resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader><resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader><data name="lbl_Success"><value>ความสำเร็จ</value></data>
+  <data name="lbl_Lottery"><value>ลอตเตอรี่</value></data>
+  <data name="lbl_MobileDeposit"><value>วิธีการชำระเงินผ่านมือถือ</value></data>
+  <data name="lbl_WalletDescription_Kiss918"><value>918Kiss</value></data>
+  <data name="lbl_Loading"><value>กำลังโหลด</value></data>
+  <data name="lbl_Page"><value>หน้า</value></data>
+  <data name="lbl_Time"><value>เวลา</value></data>
+  <data name="lbl_Help"><value>ช่วยเหลือ</value></data>
+  <data name="lbl_Home"><value>หน้าแรก</value></data>
+  <data name="lbl_Keno"><value>คีโน</value></data>
+  <data name="lbl_Memo"><value>Memo</value></data>
+  <data name="lbl_More"><value>ข้อมูลเพิ่มเติม</value></data>
+  <data name="lbl_Days"><value>วันที่</value></data>
+  <data name="lbl_Date"><value>วันที่</value></data>
+  <data name="lbl_Back"><value>กลับ</value></data>
+  <data name="lbl_From"><value>จาก</value></data>
+  <data name="lbl_Free"><value>เล่นฟรี</value></data>
+  <data name="lbl_Fail"><value>ล้มเหลว</value></data>
+  <data name="lbl_WaitKYC"><value>กำลังดำเนินการยืนยัน</value></data>
+  <data name="lbl_LastMonth"><value>เดือนที่แล้ว</value></data>
+  <data name="lbl_LastLogin"><value>การเข้าระบบครั้งสุดท้าย</value></data>
+  <data name="lbl_SelectAll"><value>เลือกทั้งหมด</value></data>
+  <data name="lbl_NotinLimit"><value>จำนวนเงินมากกว่าหรือน้อยกว่าที่กำหนดไว้</value></data>
+  <data name="FTDP3Description"><value>เข้าร่วมตอนนี้ ! รับโบนัสมากถึง 2,888 บาทด้วยการฝากครั้งแรกที่ Nova88!</value></data>
+  <data name="lbl_ComingSoon"><value>เร็วๆนี้</value></data>
+  <data name="lbl_OldPassword"><value>กรุณายืนยันรหัสที่ใช้ปัจจุบัน</value></data>
+  <data name="lbl_DateMissing"><value>โปรดป้อนวันที่ ที่สอบถาม</value></data>
+  <data name="lbl_SportsBetting"><value>เดิมพันกีฬา</value></data>
+  <data name="lbl_EligibleWithdrawal"><value>วงเงินถอน</value></data>
+  <data name="lbl_ForgetPwdHint"><value>โปรดใส่อีเมลที่ลงทะเบียนของคุณเพื่อรีเซ็ตรหัสผ่านของคุณ</value></data>
+  <data name="lbl_RetriveAllIn"><value>ถอนเงินทั้งหมด</value></data>
+  <data name="lbl_VariousBankingOptions"><value>ตัวเลือกธนาคารต่างๆ</value></data>
+  <data name="lbl_DownloadApp"><value>ดาวน์โหลดAPP</value></data>
+  <data name="lbl_TryMobile"><value>ลองเว็บไซต์ของเราด้วยเบราว์เซอร์ในมือถือ</value></data>
+  <data name="lbl_PasswordTooltip"><value>รหัสผ่านต้องมีความยาว 6-15 ตัว ประกอบด้วยตัวอักษรและตัวเลขและอักขระพิเศษ (!@#$%^&amp;*)</value></data>
+  <data name="lbl_YesterDay"><value>เมื่อวานนี้</value></data>
+  <data name="lbl_QuickPick"><value>เลือก</value></data>
+  <data name="FTDPTitle"><value>โบนัส 150% สำหรับการฝากเงินครั้งแรก ยอดเงินโบนัสสูงสุดไม่เกิน 8888 บาท</value></data>
+  <data name="lbl_MainWallet"><value>วอลเล็ทหลัก</value></data>
+  <data name="lbl_License"><value>ใบอนุญาต</value></data>
+  <data name="lbl_MyAccount"><value>บัญชีของฉัน</value></data>
+  <data name="lbl_Transfer"><value>โอน</value></data>
+  <data name="lbl_TransferFrom"><value>โอนเงินจาก</value></data>
+  <data name="lbl_ContactCSD"><value>หากมีคำขอเปลี่ยนแปลงโปรดติดต่อ CSD</value></data>
+  <data name="lbl_AGCasino"><value>ห้องฟีนิกซ์</value></data>
+  <data name="lbl_Month11"><value>พฤศจิกายน</value></data>
+  <data name="lbl_Month10"><value>ตุลาคม</value></data>
+  <data name="lbl_Month12"><value>ธันวาคม</value></data>
+  <data name="lbl_NumberGame"><value>เกมหมายเลข</value></data>
+  <data name="lbl_Fishing"><value>ยิงปลา</value></data>
+  <data name="lbl_TpWallet_1"><value>กระเป๋าเงินกีฬา</value></data>
+  <data name="lbl_DepositStatus8"><value>กำลังดำเนินการ</value></data>
+  <data name="lbl_DepositStatus4"><value>ปฏิเสธ</value></data>
+  <data name="lbl_DepositStatus5"><value>ยกเลิก</value></data>
+  <data name="lbl_DepositStatus6"><value>หมดเวลา</value></data>
+  <data name="lbl_DepositStatus7"><value>รอยืนยันการชำระเงิน</value></data>
+  <data name="lbl_DepositStatus0"><value>ร่าง</value></data>
+  <data name="lbl_DepositStatus1"><value>รอดำเนินการ</value></data>
+  <data name="lbl_DepositStatus2"><value>จ่ายแล้ว</value></data>
+  <data name="lbl_DepositStatus3"><value>ยืนยัน</value></data>
+  <data name="lbl_Statement"><value>รายการฝากถอน</value></data>
+  <data name="lbl_AllTranscations"><value>ธุรกรรมทั้งหมด</value></data>
+  <data name="lbl_WithdrawalAmount"><value>จำนวนเงินที่ถอน</value></data>
+  <data name="lbl_CasinoLobby"><value>คาสิโนล็อบบี้</value></data>
+  <data name="lbl_RefTransId"><value>รหัส ID อ้างอิง</value></data>
+  <data name="lbl_PrivacyPolicy"><value>นโยบาย</value></data>
+  <data name="lbl_eSportsBetting"><value>เดิมพัน E-Sports</value></data>
+  <data name="lbl_WalletDescription_Mega"><value>กระเป๋าเงิน Mega</value></data>
+  <data name="lbl_ShowBalance"><value>แสดงยอดคงเหลือ</value></data>
+  <data name="lbl_Feature"><value>ลักษณะพิเศษ</value></data>
+  <data name="lbl_LiveChat"><value>สนทนาสด</value></data>
+  <data name="Currency_41"><value>CHF</value></data>
+  <data name="Currency_45"><value>WON</value></data>
+  <data name="Currency_51"><value>VND</value></data>
+  <data name="Currency_74"><value>BDT</value></data>
+  <data name="Currency_15"><value>IDR</value></data>
+  <data name="Currency_12"><value>GBP</value></data>
+  <data name="Currency_13"><value>CNY</value></data>
+  <data name="Currency_20"><value>UUS</value></data>
+  <data name="Currency_32"><value>JPY</value></data>
+  <data name="lbl_BasketballBetting"><value>เดิมพันบาสเก็ตบอล</value></data>
+  <data name="lbl_TpWallet_27"><value>กระเป๋าเงิน PT</value></data>
+  <data name="lbl_Applicationname"><value>Nova88</value></data>
+  <data name="lbl_Wallet_PT"><value>กระเป๋าเงิน PT</value></data>
+  <data name="lbl_RegisterTime"><value>เวลาลงทะเบียน</value></data>
+  <data name="lbl_YourEmail"><value>อีเมลของคุณ</value></data>
+  <data name="lbl_WithdrawalOver"><value>จำนวนเงินที่คุณต้องการถอนมากกว่าจำนวนเงินที่คุณมีสิทธิ์ถอน</value></data>
+  <data name="lbl_Clickhereforjoin"><value>คลิกที่นี่เพื่อเข้าร่วม</value></data>
+  <data name="lbl_LiveCasinoSlogon"><value>ประสบการณ์คาสิโนแบบสมจริง</value></data>
+  <data name="lbl_CompleteRegistration"><value>ลงทะเบียนเรียบร้อย</value></data>
+  <data name="lbl_RefnoToolTip"><value>โปรดใส่หมายเลขอ้างอิงสลิปธนาคารของคุณ</value></data>
+  <data name="FTDP3Title"><value>โบนัสแรกเข้า 100% สูงสุดถึง 2,888 บาท</value></data>
+  <data name="lbl_eSports"><value>อีสปอร์ต</value></data>
+  <data name="lbl_EmailToolTip"><value>ไม่สามารถเปลี่ยนชื่ออีเมล์ได้หลังจากกดยืนยัน</value></data>
+  <data name="lbl_HockeyBetting"><value>เดิมพันฮอคกี้</value></data>
+  <data name="lbl_WalletDescription_PT"><value>กระเป๋าเงิน PT</value></data>
+  <data name="lbl_RollOver"><value>ยอดหมุนเวียน</value></data>
+  <data name="lbl_Cashback_Lottery"><value>ลอตเตอรี่</value></data>
+  <data name="lbl_NoMatching"><value>ไม่พบเกมที่ตรงกัน</value></data>
+  <data name="lbl_AboutUs"><value>เกี่ยวกับเรา</value></data>
+  <data name="lbl_RolloverOver"><value>ยอดโรลโอเวอร์ของคุณไม่เพียงพอ</value></data>
+  <data name="lbl_AddNewAccount"><value>เพิ่มบัญชีใหม่</value></data>
+  <data name="PromotionCategory1"><value>ฝากครั้งแรก</value></data>
+  <data name="lbl_PromoRemind"><value>ฝากตอนนี้เพื่อรับโปรโมชั่นพิเศษ</value></data>
+  <data name="lbl_TransferTo"><value>โอนไปที่</value></data>
+  <data name="lbl_TransferIn"><value>ฝากเงิน</value></data>
+  <data name="lbl_TwitterSite"><value>@Nova88official</value></data>
+  <data name="lbl_PPCasino"><value>เวสเทิร์น สวีท</value></data>
+  <data name="lbl_PrefferedCurrency"><value>สกุลเงินที่เลือก</value></data>
+  <data name="lbl_Reminder"><value>แจ้งเตือน</value></data>
+  <data name="lbl_DepositTimeToolTip"><value>โปรดใส่เวลาที่ทำการฝากเงิน</value></data>
+  <data name="lbl_Error_Title"><value>อุ๊ปส์!</value></data>
+  <data name="lbl_Postscript"><value>หมายเลขอ้างอิง</value></data>
+  <data name="lbl_Register"><value>สมัครสมาชิก</value></data>
+  <data name="lbl_Provider"><value>ผู้ให้บริการ</value></data>
+  <data name="lbl_CompletedRegistration"><value>ลงทะเบียนเรียบร้อย</value></data>
+  <data name="lbl_PersonalMsg"><value>ข้อความส่วนตัว</value></data>
+  <data name="lbl_ImportantNote"><value>โน๊ตสำคัญ</value></data>
+  <data name="lbl_MaxBonusAmount"><value>จำนวนโบนัสสูงสุด</value></data>
+  <data name="lbl_WalletDescription_NineW"><value>กระเป๋าสตางค์ 9W</value></data>
+  <data name="lbl_ExpiryTime"><value>เวลาหมดอายุ</value></data>
+  <data name="lbl_CheckConfirm"><value>คุณแน่ใจว่าต้องการยกเลิก? เพราะระบบจะไม่สามารถแก้คืนได้หลังจากยกเลิก!</value></data>
+  <data name="lbl_VIPLevel"><value>ระดับวีไอพี</value></data>
+  <data name="lbl_RemainingTime"><value>เวลาคงเหลือ</value></data>
+  <data name="lbl_PhotoID"><value>สำเนารูปถ่ายบัตรประชาชน</value></data>
+  <data name="lbl_FacebookAccount"><value>nova88official</value></data>
+  <data name="lbl_Birthday"><value>วันเกิด</value></data>
+  <data name="lbl_BankNumber"><value>เลขที่บัญชีธนาคาร</value></data>
+  <data name="lbl_SexyCasino"><value>ห้องวีนัส</value></data>
+  <data name="lbl_DepositStatus99"><value>Error</value></data>
+  <data name="lbl_TitleDesc"><value>Nova88 เว็บพนันออนไลน์และเดิมพันในกีฬาสดที่ให้ราคาดีที่สุดในตอนนี้</value></data>
+  <data name="lbl_Wallet_Mega"><value>กระเป๋าเงิน Mega</value></data>
+  <data name="lbl_Wallet_Saba"><value>กระเป๋าเงินกีฬา</value></data>
+  <data name="lbl_Deposit"><value>ฝากเงิน</value></data>
+  <data name="lbl_Details"><value>รายละเอียด</value></data>
+  <data name="lbl_PlayNow"><value>เล่นเดี๋ยวนี้</value></data>
+  <data name="lbl_CustBank"><value>ธนาคาร</value></data>
+  <data name="lbl_RealName"><value>ชื่อจริง</value></data>
+  <data name="lbl_WalletType"><value>ประเภทกระเป๋าเงิน</value></data>
+  <data name="lbl_TransactionHistory"><value>ประวัติการทำรายการ</value></data>
+  <data name="lbl_AllGames"><value>เกมทั้งหมด</value></data>
+  <data name="lbl_Check18TCTooltip"><value>โปรดคลิก เครื่องหมายด้านบนเพื่อยืนยันคำขอลงทะเบียนบัญชี</value></data>
+  <data name="lbl_Payment"><value>การชำระเงิน</value></data>
+  <data name="lbl_UpdateBankInfo"><value>โปรดอัปเดตรายละเอียดบัญชีธนาคารของคุณก่อนทำการถอนเงิน</value></data>
+  <data name="lbl_TransferAll"><value>โอนเงินทั้งหมดเข้า</value></data>
+  <data name="lbl_TransferOut"><value>โอนเงินออก</value></data>
+  <data name="lbl_GameList"><value>รายชื่อเกม</value></data>
+  <data name="lbl_OWCasino"><value>OW คาสิโน</value></data>
+  <data name="lbl_UpdatePersonalDetail"><value>อัปเดตข้อมูลส่วนบุคคล</value></data>
+  <data name="lbl_BirthCertificate"><value>สูติบัตร (ใบแจ้งเกิด)</value></data>
+  <data name="lbl_Transaction"><value>รายการเล่นสุดท้าย</value></data>
+  <data name="lbl_CookiePolicy"><value>นโยบาย Cookie</value></data>
+  <data name="lbl_CustBankInfo"><value>อัปเดตข้อมูลธนาคาร</value></data>
+  <data name="lbl_Pending"><value>รอดำเนินการ</value></data>
+  <data name="lbl_NewPassword"><value>รหัสผ่านใหม่</value></data>
+  <data name="lbl_TransferFunds"><value>โอนเงินทุน</value></data>
+  <data name="lbl_PhoneTooltip"><value>กรุณากรอกหมายเลขโทรศัพท์ของคุณ และไม่สามารถเปลี่ยนแปลงได้ภายหลัง</value></data>
+  <data name="lbl_Wallet_Kiss918"><value>918Kiss</value></data>
+  <data name="lbl_EligibleWithdrawalAmount"><value>ยอดเงินที่คุณมีสิทธิ์ถอนคือ</value></data>
+  <data name="lbl_Req"><value>ข้อกำหนด</value></data>
+  <data name="lbl_URL"><value>https://www.nova88.net</value></data>
+  <data name="lbl_All"><value>ทั้งหมด</value></data>
+  <data name="lbl_GPI"><value>GPI</value></data>
+  <data name="lbl_FAQ"><value>คำถามที่พบบ่อย</value></data>
+  <data name="lbl_Description"><value>Nova88 เว็บพนันออนไลน์ชั้นนำของโลกที่ให้ประสบการณ์ในการเดิมพันแบบ Live สดที่ครอบคลุมกีฬาทั้งหมด, คาสิโน, สล็อต, คีโน, E-sports, RNG คาสิโน, Fantasy sports, กีฬาเสมือนจริง Virtual Sports, ล็อตเตอรี่, คาสิโนสด, คาสิโนออนไลน์เกมส์สด, บิงโก และการแข่งรถ</value></data>
+  <data name="lbl_BankAccountName"><value>ชื่อบัญชี</value></data>
+  <data name="lbl_SubmitPhotoIdList"><value>โปรดส่งเอกสารอย่างใดอย่างหนึ่งดังต่อไปนี้: 
+ 1. บัตรประชาชน
+ 2. พาสปอร์ต
+ 3. ใบขับขี่
+ 4. สูติบัตร (ใบแจ้งเกิด)</value></data>
+  <data name="lbl_SubmitPhotoIdHint"><value>สำหรับการถอนเงิน โปรดเตรียมเอกสารที่ออกโดยรัฐบาลดังต่อไปนี้</value></data>
+  <data name="lbl_PreferredCurrencyToolTip"><value>หลังจากลงทะเบียนจะไม่สามารถเปลี่ยนสกุลเงินที่เลือกไว้ได้</value></data>
+  <data name="lbl_Optional"><value>ตัวเลือกอื่น</value></data>
+  <data name="lbl_LiveCasino"><value>Live Casino</value></data>
+  <data name="lbl_SoccerBetting"><value>เดิมพันฟุตบอล</value></data>
+  <data name="lbl_AccountTerms"><value>ข้อกำหนดบัญชี</value></data>
+  <data name="lbl_TransferHistory"><value>ประวัติการโอนเงิน</value></data>
+  <data name="lbl_TwitterCreator"><value>@Nova88official</value></data>
+  <data name="lbl_ThisWeek"><value>อาทิตย์นี้</value></data>
+  <data name="lbl_Copyright"><value>ลิขสิทธิ์ {0}</value></data>
+  <data name="lbl_ResposibleGaming"><value>การรับผิดชอบของการเล่นพนัน</value></data>
+  <data name="lbl_Required"><value>ต้องระบุข้อมูลในช่องนี้</value></data>
+  <data name="lbl_UpdateBankDetail"><value>การแจ้งสถานะบัญชีธนาคารปัจจุบัน</value></data>
+  <data name="lbl_UploadSuccess"><value>อัพโหลดไฟล์ของคุณสำเร็จแล้ว</value></data>
+  <data name="lbl_Product"><value>ผลิตภัณฑ์</value></data>
+  <data name="lbl_Profile"><value>ข้อมูลส่วนตัว</value></data>
+  <data name="lbl_Themes"><value>ธีมส์</value></data>
+  <data name="lbl_Tennis"><value>เทนนิส</value></data>
+  <data name="lbl_DrivingLicense"><value>ใบขับขี่</value></data>
+  <data name="lbl_TurnoverAccmulateHint"><value>สมาชิกต้องทำตามกติตาการทำเทิร์นโอเวอร์ก่อนทำรายการโอนเงินได้ค่ะ</value></data>
+  <data name="lbl_ChargeFee"><value>ค่าธรรมเนียม</value></data>
+  <data name="lbl_SubmitProof"><value>ส่งสลิปธนาคาร</value></data>
+  <data name="lbl_WithdrawalTo"><value>ถอนออกเป็น</value></data>
+  <data name="lbl_UploadFile"><value>กำลังดำเนินการอัพโหลดไฟล์</value></data>
+  <data name="lbl_TryNow"><value>ลองเลยตอนนี้</value></data>
+  <data name="lbl_Soccer"><value>ฟุตบอล</value></data>
+  <data name="lbl_BeforeAmount"><value>จำนวนเงินก่อนหน้า</value></data>
+  <data name="lbl_ReModify"><value>แก้ไขอีกครั้ง</value></data>
+  <data name="lbl_BaseballBetting"><value>เดิมพันเบสบอล</value></data>
+  <data name="lbl_Submit"><value>ตกลง</value></data>
+  <data name="lbl_Sports"><value>กีฬา</value></data>
+  <data name="lbl_Status"><value>สถานะ</value></data>
+  <data name="lbl_Unlimited"><value>ไม่จำกัด</value></data>
+  <data name="lbl_Refund"><value>คืนเงิน</value></data>
+  <data name="lbl_DGCasino"><value>ห้องคริสตัล</value></data>
+  <data name="lbl_KenoAndLottery"><value>คีโนและล็อตเตอรี่</value></data>
+  <data name="lbl_UpdateSuccess"><value>การอัปเดตสำเร็จ เราจะดำเนินการตามคำขอของคุณอย่างเร็วที่สุด!</value></data>
+  <data name="lbl_Affiliates"><value>ตัวแทน</value></data>
+  <data name="lbl_ResetPassword"><value>รีเซ็ตรหัสผ่าน</value></data>
+  <data name="lbl_Keywords"><value>Nova88 เว็บพนันออนไลน์ชั้นนำของโลกที่ให้ประสบการณ์ในการเดิมพันแบบ Live สดที่ครอบคลุมกีฬาทั้งหมด, คาสิโน, สล็อต, คีโน, E-sports, RNG คาสิโน, Fantasy sports, กีฬาเสมือนจริง Virtual Sports, ล็อตเตอรี่, คาสิโนสด, คาสิโนออนไลน์เกมส์สด, บิงโก และการแข่งรถ</value></data>
+  <data name="lbl_Clickhereforpromotion"><value>คลิกที่นี่ เพื่อตรวจสอบโปรโมชั่นของคุณ</value></data>
+  <data name="lbl_5mins"><value>5 นาที</value></data>
+  <data name="lbl_LoginMsg"><value>โปรดทราบว่าเราไม่อนุญาตให้มีบัญชีเกินกว่า (1) บัญชี</value></data>
+  <data name="lbl_TermsConditions"><value>เงี่อนไขและกติกา</value></data>
+  <data name="lbl_RecentTransactions"><value>ธุรกรรมล่าสุด</value></data>
+  <data name="lbl_ConfirmDeposit"><value>กรุณายืนยันข้อมูลการฝากเงิน</value></data>
+  <data name="lbl_WithdrawalStatus3"><value>ตรวจสอบ</value></data>
+  <data name="lbl_WithdrawalStatus2"><value>รอตรวจสอบการถอนเงิน</value></data>
+  <data name="lbl_WithdrawalStatus1"><value>รอดำเนินการ</value></data>
+  <data name="lbl_WithdrawalStatus0"><value>ร่าง</value></data>
+  <data name="lbl_WithdrawalStatus7"><value>ปฎิเสธ</value></data>
+  <data name="lbl_WithdrawalStatus6"><value>ยืนยัน</value></data>
+  <data name="lbl_WithdrawalStatus5"><value>ยกเลิก</value></data>
+  <data name="lbl_WithdrawalStatus4"><value>กำลังดำเนินการ</value></data>
+  <data name="lbl_Facebook"><value>Facebook</value></data>
+  <data name="lbl_ThisMonth"><value>เดือนนี้</value></data>
+  <data name="lbl_Cashback_Virtual_Sports"><value>กีฬาจำลอง</value></data>
+  <data name="lbl_VirtualSports"><value>กีฬาจำลอง</value></data>
+  <data name="lbl_LiveSupport"><value>ติดต่อลูกค้าสัมพันธ์ 24/7</value></data>
+  <data name="lbl_AllbetCasino"><value>ห้องแพลทตินั่ม</value></data>
+  <data name="lbl_Phone"><value>หมายเลขโทรศัพท์</value></data>
+  <data name="lbl_Promo"><value>โปรโม</value></data>
+  <data name="lbl_Today"><value>วันนี้</value></data>
+  <data name="lbl_Title"><value>Nova88</value></data>
+  <data name="lbl_Terms"><value>เกี่ยวกับเรา</value></data>
+  <data name="lbl_Table"><value>เทเบิลเกมส์</value></data>
+  <data name="lbl_Slots"><value>สล็อต</value></data>
+  <data name="lbl_Stake"><value>ยอดเดิมพัน</value></data>
+  <data name="lbl_Refno"><value>หมายเลขอ้างอิง</value></data>
+  <data name="lbl_Hours"><value>เวลา</value></data>
+  <data name="lbl_Later"><value>ภายหลัง</value></data>
+  <data name="lbl_Login"><value>เข้าสู่ระบบ</value></data>
+  <data name="lbl_Limit"><value>จำกัด</value></data>
+  <data name="lbl_FishingSG1"><value>พระเจ้าตกปลา</value></data>
+  <data name="lbl_FishingSG2"><value>สงครามตกปลา</value></data>
+  <data name="lbl_Image"><value>https://www.nova88.net/SiteSkin/Nova88/common/images/logo.png</value></data>
+  <data name="lbl_Other"><value>อื่นๆ</value></data>
+  <data name="lbl_Close"><value>ปิด</value></data>
+  <data name="lbl_Bonus"><value>โบนัส</value></data>
+  <data name="lbl_Agent"><value>เอเจนต์</value></data>
+  <data name="lbl_Guest"><value>ลูกค้า</value></data>
+  <data name="lbl_Email"><value>อีเมล์</value></data>
+  <data name="lbl_Enter"><value>เข้าสู่ไลฟ์คาสิโน</value></data>
+  <data name="lbl_Update"><value>ิอัพเดท</value></data>
+  <data name="lbl_Country"><value>ประเทศ</value></data>
+  <data name="lbl_Logout"><value>ออกจากระบบ</value></data>
+  <data name="lbl_EbetCasino"><value>ห้องรอยัลสูท</value></data>
+  <data name="lbl_DepositWithdrawals"><value>ฝากเงิน &amp; ถอนเงิน</value></data>
+  <data name="lbl_Confirm"><value>ยืนยัน</value></data>
+  <data name="lbl_badminton"><value>แบดมินตัน</value></data>
+  <data name="lbl_JoinNow"><value>สมัครเลย</value></data>
+  <data name="lbl_Languages"><value>ภาษา</value></data>
+  <data name="lbl_Announcement"><value>ประกาศ</value></data>
+  <data name="lbl_PostscriptHint"><value>กรอกหมายเลขอ้างอิงเพื่อรับเงินฝากทันที</value></data>
+  <data name="lbl_Cashier"><value>แคชเชียร์</value></data>
+  <data name="lbl_HelpSupport"><value>ช่วยเหลือและสนับสนุน</value></data>
+  <data name="lbl_DepositAmount"><value>จำนวนเงินที่ฝาก</value></data>
+  <data name="lbl_Deduction"><value>หักยอดเดิมพันหมุนเวียน</value></data>
+  <data name="lbl_TurnoverAccumulated"><value>การหมุนเวียนสะสม</value></data>
+  <data name="lbl_TennisBetting"><value>เดิมพันเทนนิส</value></data>
+  <data name="lbl_SelfCasino"><value>Nova คาสิโน</value></data>
+  <data name="lbl_OtherWallet"><value>วอลเล็ทอื่น</value></data>
+  <data name="lbl_PromotionsList"><value>รายการโปรโมชั่น</value></data>
+  <data name="lbl_Notice"><value>หมายเหตุ</value></data>
+  <data name="lbl_Method"><value>วิธี</value></data>
+  <data name="FTDPDescription"><value>รับโบนัสสูงสุดถึง THB8888 เมื่อคุณทำการฝากเงินครั้งแรกกับ Nova88! สมัครเลย</value></data>
+  <data name="lbl_ForgetPassword"><value>ลืมชื่อที่ใช้ในการเข้าระบบหรือรหัส</value></data>
+  <data name="lbl_Month8"><value>สิงหาคม</value></data>
+  <data name="lbl_Month9"><value>กันยายน</value></data>
+  <data name="lbl_Month1"><value>มกราคม</value></data>
+  <data name="lbl_Month2"><value>กุมภาพันธ์</value></data>
+  <data name="lbl_Month3"><value>มีนาคม</value></data>
+  <data name="lbl_Month4"><value>เมษายน</value></data>
+  <data name="lbl_Month5"><value>พฤษภาคม</value></data>
+  <data name="lbl_Month6"><value>มิถุนายน</value></data>
+  <data name="lbl_Month7"><value>กรกฎาคม</value></data>
+  <data name="lbl_RolloverProgress"><value>ความคืบหน้าโรลโอเวอร์</value></data>
+  <data name="lbl_BankAccountNameHint"><value>กรุณาใช้ชื่อจริงของคุณเป็นชื่อบัญชี เพราะตรงส่วนนี้จะไม่สามารถเปลี่ยนแปลงทีหลังได้ หลังจากกดยืนยัน</value></data>
+  <data name="lbl_ForgetNote"><value>ถ้าคุณได้ลืมรหัส กรุณาแจ้งอีเมลล์ของคุณ คำถามคำตอบเพื่อความปลอดภัย เราจะส่งรหัสใหม่ไปให้คุณที่อีเมลล์ที่คุณสมัครไว้กับเรา</value></data>
+  <data name="lbl_WireTransfers"><value>โอนเงินผ่านธนาคารในประเทศ</value></data>
+  <data name="lbl_Twitter"><value>Twitter</value></data>
+  <data name="lbl_CancelConfirm"><value>คุณแน่ใจว่าต้องการยกเลิก? เพราะระบบจะไม่สามารถแก้คืนได้หลังจากยกเลิก!</value></data>
+  <data name="lbl_KYCSubmitHint"><value>โปรดส่งเอกสารอย่างใดอย่างหนึ่งดังต่อไปนี้:</value></data>
+  <data name="lbl_TwitterAccount"><value>nova88official</value></data>
+  <data name="lbl_Favourite"><value>เกมโปรด</value></data>
+  <data name="lbl_Casino"><value>คาสิโน</value></data>
+  <data name="lbl_Cancel"><value>ยกเลิก</value></data>
+  <data name="lbl_WithdrawalType2"><value>ธนาคารในประเทศ</value></data>
+  <data name="lbl_WithdrawalType1"><value>ถอนเงินออนไลน์</value></data>
+  <data name="lbl_WithdrawalType0"><value>ไม่ได้กำหนด</value></data>
+  <data name="lbl_ResetPasswordSubmit"><value>ขอรีเซ็ตรหัสผ่าน</value></data>
+  <data name="lbl_PaymentOptions"><value>ตัวเลือกการชำระเงิน</value></data>
+  <data name="lbl_Author"><value>Nova88</value></data>
+  <data name="lbl_Arcade"><value>เกมอาเขต</value></data>
+  <data name="lbl_WithdrawalLimit"><value>ไม่สามารถถอนเงินได้ เพราะยอดเงินคงเหลือไม่ถึงจำนวนที่กำหนดไว้</value></data>
+  <data name="lbl_Amount"><value>จำนวน</value></data>
+  <data name="lbl_DepositOptionHint"><value>คุณสามารถเลือกตัวเลือกการฝากที่ดีที่สุดสำหรับคุณจากรายการด้านล่าง:</value></data>
+  <data name="lbl_WaitKYCHint"><value>ขอบคุณสำหรับการส่งเอกสารที่จำเป็น โปรดรอสักครู่ในการดำเนินการตรวจสอบเอกสารที่ท่านส่งมา</value></data>
+  <data name="lbl_LoginHere"><value>เข้าสู่ระบบที่นี่</value></data>
+  <data name="lbl_Forget"><value>หากคุณลืมชื่อผู้ใช้หรือรหัสผ่านโปรดระบุอีเมลของคุณและเราจะส่งรหัสผ่านใหม่ไปยังอีเมลที่คุณลงทะเบียนไว้</value></data>
+  <data name="lbl_CreditTime"><value>เวลาที่ต้องใช้</value></data>
+  <data name="lbl_SACasino"><value>ห้องอะธีนา</value></data>
+  <data name="lbl_MomoHint"><value>หากต้องการรับเงินฝากเร็ว ๆ โปรดฝากชื่อบัญชีธนาคารของคุณและหมายเลขบัญชีธนาคารไว้ที่นี่</value></data>
+  <data name="lbl_FootballBetting"><value>เดิมพันฟุตบอล</value></data>
+  <data name="lbl_CountryTooltip"><value>โปรดเลือกประเทศที่คุณอยู่</value></data>
+  <data name="lbl_UsernameTooltip"><value>เพื่อความปลอดภัยเราแนะนำให้คุณใช้ชื่อผู้ใช้ที่ไม่มีชื่อจริงของคุณ</value></data>
+  <data name="lbl_AttachFile"><value>โปรดแนบสลิปธนาคารของคุณที่นี่ (ทางเลือก)</value></data>
+  <data name="lbl_Baseball"><value>เบสบอล</value></data>
+  <data name="lbl_AmountTooltip"><value>จำนวนเงินต้องไม่น้อยกว่า 0</value></data>
+  <data name="lbl_TypeName"><value>ประเภท</value></data>
+  <data name="lbl_Wallet_NineW"><value>กระเป๋าสตางค์ 9W</value></data>
+  <data name="lbl_AfterAmount"><value>จำนวนเงินที่เหลือ</value></data>
+  <data name="lbl_UpdatePersonalInfo"><value>กรุณากรอกข้อมูลส่วนบุคคลของคุณ ก่อนทำการฝากเงิน</value></data>
+  <data name="lbl_DepositOver"><value>จำนวนเงินที่คุณต้องการถอนมากกว่ายอดเงินคงหลือในบัญชีของคุณ</value></data>
+  <data name="lbl_DepositTime"><value>เวลาที่ทำการฝากเงิน</value></data>
+  <data name="lbl_Promotion"><value>โปรโมชั่น</value></data>
+  <data name="lbl_Withdrawal"><value>ถอนเงิน</value></data>
+  <data name="lbl_UploadPhotoId"><value>อัปโหลด</value></data>
+  <data name="lbl_DontHaveAccount"><value>ยังไม่มีบัญชีใช่ไหม</value></data>
+  <data name="lbl_LastTransaction"><value>รายการเล่นสุดท้าย</value></data>
+  <data name="lbl_ChangeAmount"><value>เปลี่ยนจำนวนเงิน</value></data>
+  <data name="lbl_WithdrawalHistory"><value>ประวัติการถอนเงิน</value></data>
+  <data name="lbl_OnlineBanking"><value>ธนาคารออนไลน์</value></data>
+  <data name="lbl_Instagram"><value>อินสตาแกรม</value></data>
+  <data name="lbl_LastWeek"><value>อาทิตย์ที่แล้ว</value></data>
+  <data name="lbl_Cashback_Sports"><value>กีฬา</value></data>
+  <data name="lbl_RotationHint_1"><value>เรียนลูกค้าผู้มีอุปการคุณทุกท่าน</value></data>
+  <data name="lbl_RotationHint_2"><value>เนื่องจากเว็บไซด์ของเราได้มีการปรับเปลี่ยนให้เล่นง่ายขึ้น โปรด</value></data>
+  <data name="lbl_RotationHint_3"><value>หมุนโทรศัพท์ของท่านในแนวตั้ง เพื่อประสบการณ์การเล่นเกมที่ดีมากขึ้นกว่าเดิม</value></data>
+  <data name="lbl_RotationHint_4"><value>และเราต้องขออภัยในความไม่สะดวกที่อาจเกิดขึ้นและหวังว่าท่านจะเข้าใจ ขอขอบคุณ!</value></data>
+  <data name="lbl_Currency_20"><value>Virtual Dollar (for testing propose)</value></data>
+  <data name="lbl_Currency_13"><value>หยวน</value></data>
+  <data name="lbl_Currency_12"><value>ปอนด์</value></data>
+  <data name="lbl_Currency_15"><value>รูปี</value></data>
+  <data name="lbl_Currency_45"><value>วอนเกาหลีใต้</value></data>
+  <data name="lbl_Currency_41"><value>ฟรังก์สวิส</value></data>
+  <data name="lbl_Currency_32"><value>เยน</value></data>
+  <data name="lbl_Currency_51"><value>ดอง</value></data>
+  <data name="lbl_DepositType1"><value>ธนาคารออนไลน์</value></data>
+  <data name="lbl_DepositType2"><value>จ่ายผ่านมือถือ</value></data>
+  <data name="lbl_DepositType3"><value>ธนาคารในประเทศ</value></data>
+  <data name="lbl_TitleKeywords"><value>Nova88 เว็บพนันออนไลน์ชั้นนำของโลกที่ให้ประสบการณ์ในการเดิมพันแบบ Live สดที่ครอบคลุมกีฬาทั้งหมด, คาสิโน, สล็อต, คีโน, E-sports, RNG คาสิโน, Fantasy sports, กีฬาเสมือนจริง Virtual Sports, ล็อตเตอรี่, คาสิโนสด, คาสิโนออนไลน์เกมส์สด, บิงโก และการแข่งรถ</value></data>
+  <data name="lbl_Promotions"><value>Promotions</value></data>
+  <data name="lbl_Cashback_RNG"><value>RNG</value></data>
+  <data name="lbl_RemindForName"><value>*ชื่อและนามสกุลต้องตรงกันกับชื่อในบัญชีธนาคาร เพื่อนำฝากและถอนที่รวดเร็วยิ่งขึ้น</value></data>
+  <data name="Currency_9"><value>AUD</value></data>
+  <data name="Currency_4"><value>THB</value></data>
+  <data name="Currency_6"><value>EURO</value></data>
+  <data name="Currency_1"><value>SGD</value></data>
+  <data name="Currency_3"><value>USD</value></data>
+  <data name="Currency_2"><value>MYR</value></data>
+  <data name="lbl_Clickhereforsupport"><value>คลิกที่นี่เพื่อรับการช่วยเหลือ</value></data>
+  <data name="lbl_To"><value>ถึง</value></data>
+  <data name="lbl_TC"><value>ข้อกำหนดและเงื่อนไขเฉพาะของข้อเสนอ</value></data>
+  <data name="lbl_ID"><value>ID</value></data>
+  <data name="lbl_Of"><value>ของ</value></data>
+  <data name="lbl_Me"><value>ฉัน</value></data>
+  <data name="lbl_RebatebonusonMobile"><value>ส่วนลดโบนัสบนมือถือ</value></data>
+  <data name="lbl_BankName"><value>ชื่อธนาคาร</value></data>
+  <data name="lbl_BankInfo"><value>ข้อมูลธนาคาร</value></data>
+  <data name="lbl_Scratch"><value>เกมขูดบัตร</value></data>
+  <data name="lbl_Clickhereforbonus"><value>กดรับโบนัสได้ที่นี่</value></data>
+  <data name="lbl_ConfirmWithdrawal"><value>กรุณายืนยันข้อมูลการถอน</value></data>
+  <data name="lbl_Direction"><value>ทิศทาง</value></data>
+  <data name="lbl_Settled"><value>ตัดสินแล้ว</value></data>
+  <data name="lbl_Setting"><value>การตั้งค่า</value></data>
+  <data name="lbl_History"><value>ประวัติ</value></data>
+  <data name="lbl_NationalIdentityCard"><value>บัตรประชาชน</value></data>
+  <data name="lbl_Downloads"><value>ดาวน์โหลด</value></data>
+  <data name="lbl_Check18TC1"><value>ฉันตกลง</value></data>
+  <data name="lbl_Check18TC2"><value>และ</value></data>
+  <data name="lbl_Check18TC3"><value>ของ</value></data>
+  <data name="lbl_Check18TC4"><value>ฉันรับทราบว่าฉันมีอายุอย่างน้อย 21 ปีบริบรูณ์</value></data>
+  <data name="lbl_BonusAmount"><value>จำนวนโบนัส</value></data>
+  <data name="lbl_AffiliateSlog"><value>ข้อเสนอคอมมิชชั่นสุดพิเศษ!</value></data>
+  <data name="lbl_FishingGG"><value>โลกแห่งการตกปลา</value></data>
+  <data name="lbl_BonusConfirm"><value>คุณเลือกโบนัสโปรโมชั่นของเรา คุณต้องการดำเนินการต่อหรือไม่?</value></data>
+  <data name="lbl_CountrySC"><value>ซีเชลล์</value></data>
+  <data name="lbl_CountrySB"><value>หมู่เกาะโซโลมอน</value></data>
+  <data name="lbl_CountrySA"><value>ซาอุดิอาระเบีย</value></data>
+  <data name="lbl_CountrySD"><value>ซูดาน</value></data>
+  <data name="lbl_CountrySO"><value>โซมาเลีย</value></data>
+  <data name="lbl_CountrySN"><value>เซเนกัล</value></data>
+  <data name="lbl_CountrySL"><value>เซียร์รา เลโอน</value></data>
+  <data name="lbl_CountrySR"><value>ซูรินาเม</value></data>
+  <data name="lbl_CountrySV"><value>เอล ซัลวาดอร์</value></data>
+  <data name="lbl_CountryST"><value>เซา โตเม แอนด์ ปรินซิเป</value></data>
+  <data name="lbl_CountrySZ"><value>สวาซิแลนด์</value></data>
+  <data name="lbl_CountrySY"><value>ซีเรีย</value></data>
+  <data name="lbl_CountryPA"><value>ปานามา</value></data>
+  <data name="lbl_CountryPE"><value>เปรู</value></data>
+  <data name="lbl_CountryPG"><value>ปาปัวนิวกินี</value></data>
+  <data name="lbl_CountryPK"><value>ปากีสถาน</value></data>
+  <data name="lbl_CountryPN"><value>หมู่เกาะพิตแคร์น</value></data>
+  <data name="lbl_CountryPY"><value>ปารากวัย</value></data>
+  <data name="lbl_CountryQA"><value>การ์ตา</value></data>
+  <data name="lbl_CountryVE"><value>เวเนซูเอลา</value></data>
+  <data name="lbl_CountryVC"><value>เซนต์ วินเซนต์ แอนด์ เดอะ เกรนาดีน</value></data>
+  <data name="lbl_CountryVN"><value>เวียตนาม</value></data>
+  <data name="lbl_CountryVU"><value>วานูอาตู</value></data>
+  <data name="lbl_CountryWF"><value>วาลิสและฟูตูนา</value></data>
+  <data name="lbl_CountryWS"><value>ซาฮาราตะวันตก</value></data>
+  <data name="lbl_CountryTD"><value>ชาด</value></data>
+  <data name="lbl_CountryTG"><value>ตองก้า</value></data>
+  <data name="lbl_CountryTN"><value>ตูนิเซีย</value></data>
+  <data name="lbl_CountryTH"><value>ไทย</value></data>
+  <data name="lbl_CountryTJ"><value>ทาจิกิสถาน</value></data>
+  <data name="lbl_CountryTT"><value>ตรินิแดด แอนด์ โตเบโก้</value></data>
+  <data name="lbl_CountryTZ"><value>แทนซาเนีย</value></data>
+  <data name="lbl_CountryUG"><value>อูกันด้า</value></data>
+  <data name="lbl_CountryUY"><value>อุรุกวัย</value></data>
+  <data name="lbl_CountryUZ"><value>อุซเบกิสถาน</value></data>
+  <data name="lbl_CountryZM"><value>แซมเบีย</value></data>
+  <data name="lbl_CountryZA"><value>แอฟริกาใต้</value></data>
+  <data name="lbl_CountryZW"><value>ซิมบับเว</value></data>
+  <data name="lbl_CountryYE"><value>เยเมน</value></data>
+  <data name="lbl_CountryBR"><value>บราซิล</value></data>
+  <data name="lbl_CountryBS"><value>บาฮามาส</value></data>
+  <data name="lbl_CountryBW"><value>บอทสวานา</value></data>
+  <data name="lbl_CountryBT"><value>ภูฏาน</value></data>
+  <data name="lbl_CountryBZ"><value>เบลีซ</value></data>
+  <data name="lbl_CountryBB"><value>บาร์เบโดส</value></data>
+  <data name="lbl_CountryBF"><value>บูกินา ฟาโซ</value></data>
+  <data name="lbl_CountryBD"><value>บังกลาเทศ</value></data>
+  <data name="lbl_CountryBJ"><value>เบนิน</value></data>
+  <data name="lbl_CountryBH"><value>บาห์เรน</value></data>
+  <data name="lbl_CountryBI"><value>บุรุนดี</value></data>
+  <data name="lbl_CountryBN"><value>บรูไน</value></data>
+  <data name="lbl_CountryBO"><value>โบลิเวีย</value></data>
+  <data name="lbl_CountryBM"><value>เบอร์มิวด้า</value></data>
+  <data name="lbl_CountryCS"><value>จีน</value></data>
+  <data name="lbl_CountryCR"><value>คอสตาริก้า</value></data>
+  <data name="lbl_CountryCV"><value>เคป เวิร์ด</value></data>
+  <data name="lbl_CountryCA"><value>แคนาดา</value></data>
+  <data name="lbl_CountryCG"><value>คองโก</value></data>
+  <data name="lbl_CountryCF"><value>สาธารณรัฐแอฟริกากลาง</value></data>
+  <data name="lbl_CountryCD"><value>สาธรณรัฐโดมินิกัน</value></data>
+  <data name="lbl_CountryCK"><value>หมู่เกาะคุ๊ก</value></data>
+  <data name="lbl_CountryCI"><value>ไอเวอร์รี่โคท</value></data>
+  <data name="lbl_CountryCO"><value>โคลอมเบีย</value></data>
+  <data name="lbl_CountryCM"><value>แคเมอรูน</value></data>
+  <data name="lbl_CountryCL"><value>ชิลี</value></data>
+  <data name="lbl_CountryAR"><value>อาร์เจนตินา</value></data>
+  <data name="lbl_CountryAW"><value>อารูบ้า</value></data>
+  <data name="lbl_CountryAF"><value>อัฟกานิสถาน</value></data>
+  <data name="lbl_CountryAI"><value>แองกวิลลา</value></data>
+  <data name="lbl_CountryAO"><value>แองโกลา</value></data>
+  <data name="lbl_CountryFO"><value>หมูเกาะฟอล์คแลนด์</value></data>
+  <data name="lbl_CountryFJ"><value>ฟิจิ</value></data>
+  <data name="lbl_CountryGT"><value>กัวเลมาลา</value></data>
+  <data name="lbl_CountryGY"><value>กายอานา</value></data>
+  <data name="lbl_CountryGD"><value>เกรนาดา</value></data>
+  <data name="lbl_CountryGA"><value>กาบอง</value></data>
+  <data name="lbl_CountryGN"><value>กินี</value></data>
+  <data name="lbl_CountryGI"><value>ยิบรอลตา</value></data>
+  <data name="lbl_CountryGH"><value>กาน่า</value></data>
+  <data name="lbl_CountryDZ"><value>อัลจีเรีย</value></data>
+  <data name="lbl_CountryET"><value>เอธิโอเปีย</value></data>
+  <data name="lbl_CountryER"><value>เอริเธีย</value></data>
+  <data name="lbl_CountryEG"><value>อียิปส์</value></data>
+  <data name="lbl_CountryEC"><value>เอกวาดอร์</value></data>
+  <data name="lbl_CountryJP"><value>ญี่ปุ่น</value></data>
+  <data name="lbl_CountryJO"><value>จอร์แดน</value></data>
+  <data name="lbl_CountryJM"><value>จาไมก้า</value></data>
+  <data name="lbl_CountryKZ"><value>คาซัคสถาน</value></data>
+  <data name="lbl_CountryKY"><value>หมู่เกาะเคย์แมน</value></data>
+  <data name="lbl_CountryKR"><value>เกาหลีใต้</value></data>
+  <data name="lbl_CountryKW"><value>คูเวต</value></data>
+  <data name="lbl_CountryKH"><value>กัมพูชา</value></data>
+  <data name="lbl_CountryKE"><value>เคนยา</value></data>
+  <data name="lbl_CountryHT"><value>ไฮติ</value></data>
+  <data name="lbl_CountryHN"><value>ฮอนดูรัส</value></data>
+  <data name="lbl_CountryIN"><value>อินเดีย</value></data>
+  <data name="lbl_CountryID"><value>อินโดนีเซีย</value></data>
+  <data name="lbl_CountryNZ"><value>นิวซีแลนด์</value></data>
+  <data name="lbl_CountryNR"><value>นาอูรู</value></data>
+  <data name="lbl_CountryNP"><value>เนปาล</value></data>
+  <data name="lbl_CountryNG"><value>ไนจีเรีย</value></data>
+  <data name="lbl_CountryNE"><value>ไนเจอร์</value></data>
+  <data name="lbl_CountryNC"><value>นิคาเลโดเนีย</value></data>
+  <data name="lbl_CountryNA"><value>นามิเบีย</value></data>
+  <data name="lbl_CountryOM"><value>โอมาน</value></data>
+  <data name="lbl_CountryLS"><value>เลโซโธ</value></data>
+  <data name="lbl_CountryLK"><value>ศรีลังกา</value></data>
+  <data name="lbl_CountryLA"><value>ลาว</value></data>
+  <data name="lbl_CountryLB"><value>เลบานอน</value></data>
+  <data name="lbl_CountryLC"><value>เซนต์ ลูเซีย</value></data>
+  <data name="lbl_CountryMY"><value>มาเลเซีย</value></data>
+  <data name="lbl_CountryMX"><value>เม็กซิโก</value></data>
+  <data name="lbl_CountryMU"><value>มอริเชียส</value></data>
+  <data name="lbl_CountryMW"><value>มาลาวี</value></data>
+  <data name="lbl_CountryMV"><value>มัลดีฟส์</value></data>
+  <data name="lbl_CountryMR"><value>มอริเทเนีย</value></data>
+  <data name="lbl_CountryMM"><value>เมียนมาร์</value></data>
+  <data name="lbl_CountryML"><value>มาลี</value></data>
+  <data name="lbl_CountryMN"><value>มองโกเลีย</value></data>
+  <data name="lbl_CountryMG"><value>มาดากัสการ์</value></data>
+  <data name="lbl_CountryMA"><value>โมร็อคโก</value></data>
+  <data name="lbl_TransactionHint"><value>กรุณาโอนเงินไปยังบัญชี</value></data>
+  <data name="lbl_ConfirmAndUpdate"><value>ยืนยันการอัพเดท</value></data>
+  <data name="lbl_VirtualSportsSlogon"><value>นอกเหนือจากกีฬายอดนิยมแล้ว เรายังมีเกมนวัตกรรมใหม่ In-Play ให้คุณ</value></data>
+  <data name="lbl_OurPolicies"><value>นโยบายของเรา</value></data>
+  <data name="lbl_BankAccount"><value>บัญชีธนาคาร</value></data>
+  <data name="lbl_Platform"><value>ผู้ให้บริการ</value></data>
+  <data name="lbl_Instant"><value>ทันทีทันใด</value></data>
+  <data name="lbl_WithdrawalStatus99"><value>Error</value></data>
+  <data name="lbl_KenoSlogon"><value>วิธีเล่นหลากหลาย มีโอกาสชนะมากขึ้น!</value></data>
+  <data name="lbl_CasinoSlogon"><value>มีธีมหลากหลายแบบสำหรับตลาดเอเชีย</value></data>
+  <data name="lbl_Message"><value>ข้อความ</value></data>
+  <data name="lbl_Username"><value>ชื่อผู้ใช้</value></data>
+  <data name="lbl_DreamGaming"><value>ห้องคริสตัล</value></data>
+  <data name="lbl_Currency_1"><value>ดอลลาร์สิงคโปร์</value></data>
+  <data name="lbl_Currency_2"><value>ริงกิต(มาเลเซีย)</value></data>
+  <data name="lbl_Currency_3"><value>ดอลลาร์สหรัฐ</value></data>
+  <data name="lbl_Currency_4"><value>บาท</value></data>
+  <data name="lbl_Currency_5"><value>ดอลลาร์ฮ่องกง</value></data>
+  <data name="lbl_Currency_6"><value>ยูโร</value></data>
+  <data name="lbl_Currency_9"><value>ดอลลาร์ออสเตรเลีย</value></data>
+  <data name="lbl_RuleRegulations"><value>กฎกติกาและระเบียบข้อบังคับการเดิมพัน</value></data>
+  <data name="lbl_Balance"><value>ยอดเงิน</value></data>
+  <data name="lbl_Error_Message"><value>มันเป็นเรื่องที่คาดไม่ถึง ....</value></data>
+  <data name="lbl_SocialMedia"><value>สื่อสังคมออนไลน์</value></data>
+  <data name="lbl_ContactUs"><value>ติดต่อเรา</value></data>
+  <data name="lbl_Basketball"><value>บาสเกตบอล</value></data>
+  <data name="lbl_ChangePassword"><value>เปลี่ยนรหัส</value></data>
+  <data name="lbl_DepositHistory"><value>ประวัติการฝากเงิน</value></data>
+  <data name="lbl_Welcome"><value>ยินดีต้อนรับ</value></data>
+  <data name="lbl_SubmitPhotoId"><value>ส่ง รูปถ่ายบัตรประชาชน</value></data>
+  <data name="lbl_DepositNow"><value>ฝากเงินเดี๋ยวนี้</value></data>
+  <data name="lbl_MaxAmount"><value>จำนวนเงินสูงสุด</value></data>
+  <data name="lbl_Passport"><value>พาสปอร์ต</value></data>
+  <data name="lbl_Password"><value>รหัส</value></data>
+  </root>

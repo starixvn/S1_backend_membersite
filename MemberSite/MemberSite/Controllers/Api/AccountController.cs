@@ -81,11 +81,12 @@ namespace MemberSite.Controllers.Api
                     apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
                     if (authData is { CustId: > 0 })
                     {
-                        _ = Task.Run(async () => { _ = await LogoutAsync(1, authData.CustId); });
+                        _ = Task.Run(async () => { _ = await LogoutAsync(41, authData.CustId); });
                     }
                 }
                 else
                 {
+                    apiResult.ErrorCode = 0;
                     await _cacheHelper.StringFireAndForgetSetAsync(authData.CustId.ToString(), authData.Token,
                         TimeSpan.FromMinutes(30), RedisDataBase.Token);
                 }
@@ -95,7 +96,6 @@ namespace MemberSite.Controllers.Api
                 _logger.LogError(e, GetCurrentAsyncMethod());
             }
 
-            apiResult.ErrorCode = 0;
             return apiResult;
         }
 
@@ -113,7 +113,7 @@ namespace MemberSite.Controllers.Api
                 apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
                 if (authData is { CustId: > 0 })
                 {
-                    _ = Task.Run(async () => { _ = await LogoutAsync(1, authData.CustId); });
+                    _ = Task.Run(async () => { _ = await LogoutAsync(41, authData.CustId); });
                 }
             }
             else
@@ -142,7 +142,7 @@ namespace MemberSite.Controllers.Api
             {
                 _ = Task.Run(async () =>
                 {
-                    _ = await LogoutAsync(1, authData.CustId);
+                    _ = await LogoutAsync(41, authData.CustId);
                 });
             }
 
@@ -220,7 +220,7 @@ namespace MemberSite.Controllers.Api
             {
                 _ = Task.Run(async () =>
                 {
-                    _ = await LogoutAsync(1, authData.CustId);
+                    _ = await LogoutAsync(41, authData.CustId);
                 });
             }
 
@@ -393,7 +393,18 @@ namespace MemberSite.Controllers.Api
             if (custBankInfo != null)
             {
                 custBankInfo.bankInfoDetail ??= Enumerable.Empty<BankInfoDetailRep>();
-                custBankInfo.uSDTDetail ??= Enumerable.Empty<CryptoWalletDetail>();
+                custBankInfo.uSDTDetail ??= Array.Empty<CryptoWalletDetail>();
+
+                if (custBankInfo.uSDTDetail != null && custBankInfo.uSDTDetail.Any())
+                {
+                    var supportCryptoInfo = _paymentBll.GetSupportCryptoInfoWithCache(custInfo.SiteId);
+                    foreach (var crypto in custBankInfo.uSDTDetail)
+                    {
+                        if (!supportCryptoInfo.CryptoNetwork.Any(x => x.CurrencyId == crypto.CurrencyId
+                            && x.Network == crypto.Network))
+                            crypto.Disabled = true;
+                    }
+                }
             }
 
             apiResult.Data = custBankInfo;

@@ -45,25 +45,6 @@ namespace MemberSite.Service.Model
         public int SSort { get; set; }
     }
 
-    public class FakeMobilePay
-    {
-        public static Dictionary<FakePayGroupEnum, PayInfo> FakeMobilePayInfoMap =>
-            new ()
-            {
-                { FakePayGroupEnum.DuitNowQR,
-                    new PayInfo
-                    {
-                        ChannelId = -1,
-                        ChannelName = FakePayGroupEnum.DuitNowQR.GetDescription(),
-                        CurrencyId = (int) CurrencyId.MYR,
-                        GSort = 99,
-                        GroupId = (int) FakePayGroupEnum.DuitNowQR,
-                        Mode = (int) PayModeEnum.QrCode
-                    }
-                },
-            };
-    }
-    
     public class MobilePayGroup
     {
         public int GroupId { get; set; }
@@ -98,6 +79,7 @@ namespace MemberSite.Service.Model
         public int GSort { get; set; }
         public int SSort { get; set; }
     }
+    
     public class CryptoPayGroup
     {
         public int GroupId { get; set; }
@@ -179,6 +161,14 @@ namespace MemberSite.Service.Model
         public string ChannelName { get; set; }
         public decimal MinAmount { get; set; }
         public decimal MaxAmount { get; set; }
+    }
+    
+    public class PayGroupInfo
+    {
+        public int GroupId { get; set; }
+        public string GroupName { get; set; }
+        public DepositType Type { get; set; }
+        public int Sort { get; set; }
     }
 
     public class LineChannel

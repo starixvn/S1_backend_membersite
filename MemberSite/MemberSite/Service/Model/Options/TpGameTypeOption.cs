@@ -1,4 +1,4 @@
-﻿namespace MemberSite.Service.Model
+﻿namespace MemberSite.Service.Model.Options
 {
     public class TpGameTypeOption
     {

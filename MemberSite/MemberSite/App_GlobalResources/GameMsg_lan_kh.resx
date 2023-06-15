@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+<resheader name="resmimetype"><value>text/microsoft-resx</value></resheader><resheader name="version"><value>1.3</value></resheader><resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader><resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader><data name="Code_10"><value>[10] ហ្គេមនេះកំពុងស្ថិតក្រោមការថែទាំ សូមព្យាយាមម្តងទៀតនៅពេលក្រោយ</value></data>
+  <data name="Code_2000"><value>[2000] កំហុសប្រព័ន្ធ សូមទាក់ទង CSD</value></data>
+  <data name="Code_2002"><value>[2002] កំហុសប្រព័ន្ធ សូមទាក់ទង CSD</value></data>
+  <data name="Code_1204"><value>[1204] កំហុសប្រព័ន្ធ សូមទាក់ទង CSD</value></data>
+  <data name="Code_1205"><value>[1205] កំហុសប្រព័ន្ធ សូមទាក់ទង CSD</value></data>
+  <data name="Code_1200"><value>[1200] ការផ្ទេរបរាជ័យ សូមព្យាយាមម្តងទៀត</value></data>
+  <data name="Code_1201"><value>[1201] ការផ្ទេរបរាជ័យ សូមពិនិត្យមើលចំនួនទឹកប្រាក់ផ្ទេរ</value></data>
+  <data name="Code_1202"><value>[1202] ស្ទួនអត្តលេខ TransID សូមទាក់ទង CSD</value></data>
+  <data name="Code_1203"><value>[1203] លើសពីចំនួនផ្ទេរ សូមពិនិត្យមើល</value></data>
+  <data name="Code_1105"><value>[1105] កំហុសប្រព័ន្ធ សូមទាក់ទង CSD</value></data>
+  <data name="Code_1104"><value>[1104] ការតភ្ជាប់ត្រូវបានបិទ ដោយសារការចូលស្ទួន</value></data>
+  <data name="Code_1103"><value>[1103] អ្នកប្រើប្រាស់មិនទាន់ចូលទេ សូមចូលជាមុនសិន</value></data>
+  <data name="Code_1102"><value>[1102] អ្នកប្រើប្រាស់ត្រូវបានចាក់សោ សូមទាក់ទង CSD</value></data>
+  <data name="Code_1101"><value>[1101] មិនមានអត្តលេខអ្នកប្រើប្រាស់ទេ សូមទាក់ទង CSD</value></data>
+  <data name="Code_1999"><value>[1999] កំហុសប្រព័ន្ធ សូមទាក់ទង CSD</value></data>
+  <data name="Code_9000"><value>[9000] កំហុសប្រព័ន្ធ សូមទាក់ទង CSD</value></data>
+  </root>

@@ -1,4 +1,6 @@
-﻿namespace MemberSite.Service.Model
+﻿using MemberSite.Service.Model.enums;
+
+namespace MemberSite.Service.Model
 {
     public class BankInfoSys
     {
@@ -23,6 +25,7 @@
 
     public class SysBankInfoFront : IPaymentLimit
     {
+        public int BankId { get; set; }
         public int SysId { get; set; }
         public string BankCode { get; set; }
         public string BankName { get; set; }
@@ -35,7 +38,8 @@
 
         public string QRCodeUrl { get; set; }
 
-        public bool SupportQR { get; set; }
+        public IEnumerable<OfflineBankAccountSupportChannelEnum> SupportChannel { get; set; }
+        public IEnumerable<int> GroupIds { get; set; }
     }
     public class OfflineBankInfoFront : SysBankInfoFront
     {
@@ -43,6 +47,7 @@
 
         public OfflineBankInfoFront(SysBankInfoFront bankInfo, bool canSubmit)
         {
+            base.BankId = bankInfo.BankId;
             base.SysId = bankInfo.SysId;
             base.BankCode = bankInfo.BankCode;
             base.BankName = bankInfo.BankName;
@@ -53,7 +58,7 @@
             base.MaxAmount = bankInfo.MaxAmount;
             base.Status = bankInfo.Status;
             base.QRCodeUrl = bankInfo.QRCodeUrl;
-            base.SupportQR = bankInfo.SupportQR;
+            base.SupportChannel = bankInfo.SupportChannel;
             this.CanSubmit = canSubmit;
         }
         public bool CanSubmit { get; set; }
