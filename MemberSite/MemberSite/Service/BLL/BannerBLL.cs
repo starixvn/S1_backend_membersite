@@ -183,7 +183,7 @@ namespace MemberSite.Service.BLL
             {
                 vip.RebateCategory = rebateCategory.FindAll(x => x.Level == vip.Level);
                 vip.RankingValidityMembershipRenewal = selLangBLL.GetResourceValue(membershipRenewal[vip.Level]);
-                vip.DepositPriority = depositPriority.ContainsKey(vip.Level) ? selLangBLL.GetResourceValue(membershipRenewal[vip.Level]) : null;
+                vip.DepositPriority = depositPriority.ContainsKey(vip.Level) ? selLangBLL.GetResourceValue(depositPriority[vip.Level]) : null;
                 vip.WithdrawalPriority = withdrawalPriority.ContainsKey(vip.Level) ? selLangBLL.GetResourceValue(withdrawalPriority[vip.Level]) : null;
                 vip.ServiceSupport = serviceSupport.ContainsKey(vip.Level) ? selLangBLL.GetResourceValue(serviceSupport[vip.Level]) : null;
                 vip.DesignatedAccountManager = designatedAccountManager.ContainsKey(vip.Level);
