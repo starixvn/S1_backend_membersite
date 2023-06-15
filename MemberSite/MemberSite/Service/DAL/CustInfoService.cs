@@ -851,7 +851,7 @@ namespace MemberSite.Service.DAL
         }
 
         public async Task<IEnumerable<CustTpGameTypeSettingDto>> GetCustTpGameTypeSetting(int custId, IEnumerable<int> types)
-            => await _mainDbClient.QueryAsync<CustTpGameTypeSettingDto>("Service_CustTpGameTypeSetting_Get",
+            => await _mainDbClient.QueryAsync<CustTpGameTypeSettingDto>("Member_CustTpGameTypeSetting_Get",
                 new { _CustId = custId, _Types = JsonConvert.SerializeObject(types) });
     }
 }
