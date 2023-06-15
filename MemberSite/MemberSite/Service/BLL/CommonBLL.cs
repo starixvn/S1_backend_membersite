@@ -10,6 +10,7 @@ namespace MemberSite.Service.BLL
         private readonly string _commonServiceUrl;
         private readonly ICacheHelper _redisHelper;
         private readonly DateTimeHelper _dateTimeHelper;
+        private readonly SelLangBLL _selLangBLL;
 
         public CommonBLL(IServiceProvider provider)
         {
@@ -18,6 +19,7 @@ namespace MemberSite.Service.BLL
             _courierAdapter = provider.GetRequiredService<CourierAdapter>();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
             _dateTimeHelper = provider.GetRequiredService<DateTimeHelper>();
+            _selLangBLL = provider.GetRequiredService<SelLangBLL>();
         }
 
         public void SendWelcomeMail(int custId)
@@ -67,7 +69,7 @@ namespace MemberSite.Service.BLL
 
             if (cnt >= 5)
             {
-                return new ApiResult<SendOTPSMSResult>(-1,"Exceeded the daily sending limit.", null);
+                return new ApiResult<SendOTPSMSResult>(-1, _selLangBLL.GetMsg("msg_OTPDailyLimit"), null);
             }
             
             var apiUrl = $"{_commonServiceUrl}OTPSMS/SendOTPSMS";

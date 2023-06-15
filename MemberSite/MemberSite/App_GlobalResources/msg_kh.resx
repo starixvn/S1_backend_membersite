@@ -148,4 +148,5 @@
   <data name="msg_LineAccountAlreadyBind"><value>គណនី LINE នេះត្រូវបានប្រើប្រាស់ សូមប្រើគណនីមួយផ្សេងទៀត។</value></data>
   <data name="msg_RealNameWrongFormat"><value>ឈ្មោះពិតប្រាកដមិនអនុញ្ញាតអោយមានលេខឬតួអក្សរពិសេសបានទេ។</value></data>
   <data name="msg_PasswordVaildate"><value>ពាក្យសម្ងាត់ត្រូវមានចន្លោះពី ៦-១៥ តួអក្សរ មានទាំងអក្សរក្រមលេខ និង តួអក្សរពិសេស (!@#$%^&amp;*)។</value></data>
+  <data name="msg_OTPDailyLimit"><value>OTP បានឈានដល់ដែនកំណត់ សូមទាក់ទងមកជាមួយខ្ Live Chat គាំទ្រសន្</value></data>
   </root>
