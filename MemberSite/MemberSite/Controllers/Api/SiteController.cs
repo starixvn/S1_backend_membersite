@@ -1328,7 +1328,7 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiResult<VipBanner> GetVipBanner(VipBannerReq vipBannerReq)
         {
-            var apiResult = new ApiResult<VipBanner>();
+            var apiResult = new ApiResult<VipBanner>() { ErrorCode = 0};
             int siteId;
             try
             {
