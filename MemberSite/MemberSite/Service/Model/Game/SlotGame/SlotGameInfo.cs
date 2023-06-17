@@ -81,6 +81,7 @@ namespace MemberSite.Service.Model.Game
                                        .Replace("\u200B", "")
                                        .Replace(",", "")
                                        .Replace("?", "")
+                                       .Replace("!", "")
                                        .ToLower();
         }
     }
