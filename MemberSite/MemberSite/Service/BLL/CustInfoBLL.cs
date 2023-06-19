@@ -682,8 +682,9 @@ namespace MemberSite.Service.BLL
             foreach (var gameType in gameTypeList)
             {
                 result.Add(new CustTpGameTypeSetting(
+                    typeResult.First(x => x.GameType == gameType).CategoryId,
                     typeResult.First(x => x.GameType == gameType).TpId,
-                gameType,
+                    gameType,
                     typeResult.Where(x => x.GameType == gameType && x.Type == CustTpGameTypeSettingType.NoShow).Any(),
                     typeResult.Where(x => x.GameType == gameType && x.Type == CustTpGameTypeSettingType.NoPlay).Any()));
             }

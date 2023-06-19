@@ -314,6 +314,7 @@ namespace MemberSite.Service.Model
 
     public class CustTpGameTypeSettingDto
     {
+        public int CategoryId { set; get; }
         public int TpId { set; get; }
         public int GameType { set; get; }
         public CustTpGameTypeSettingType Type { set; get; }
@@ -321,13 +322,15 @@ namespace MemberSite.Service.Model
 
     public class CustTpGameTypeSetting
     {
+        public int CategoryId { get; set; }
         public int TpId { set; get; }
         public int GameType { set; get; }
         public bool NoShow { set; get; }
         public bool NoPlay { set; get; }
 
-        public CustTpGameTypeSetting(int tpId, int gameType, bool noShow, bool noPlay)
+        public CustTpGameTypeSetting(int categoryId, int tpId, int gameType, bool noShow, bool noPlay)
         {
+            CategoryId = categoryId;
             TpId = tpId;
             GameType = gameType;
             NoShow = noShow;
