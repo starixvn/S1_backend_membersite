@@ -12,6 +12,7 @@ namespace MemberSite.Service.BLL
     {
         private readonly Tools _tools;
         private readonly VerificationRewardBLL _verificationRewardBll;
+        private readonly IRabbitMQProducer _producer;
         private readonly CustInfoService _custInfoService;
         private readonly AuthenticateService _authenticateService;
         private readonly ServerInfoBll _serverInfoBll;
@@ -42,6 +43,7 @@ namespace MemberSite.Service.BLL
             _areaCodeMap = provider.GetRequiredService<IEnumerable<AreaCodeMap>>();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
             _shieldBll = provider.GetRequiredService<ShieldBLL>();
+            _producer = provider.GetRequiredService<IRabbitMQProducer>();
         }
         public string GetCountryNameByAreaCode(string areaCode)
         {
@@ -463,7 +465,7 @@ namespace MemberSite.Service.BLL
             if (apiResult.ErrorCode == 0 && !await _custInfoService.GetPhoneVerified(custId))
             {
                 _custInfoService.SetPhoneVerified(custId);
-                _verificationRewardBll.PhoneReward(custId);
+                _producer.Publish("MemberExchange", "verify.phone", new { CustId = custId, OTPType = (int)OTPType.SMS });
             }
             return apiResult;
         }
@@ -475,7 +477,7 @@ namespace MemberSite.Service.BLL
             if (apiResult.ErrorCode == 0 && !await _custInfoService.GetEmailVerified(custId))
             {
                 _custInfoService.SetEmailVerified(custId);
-                _verificationRewardBll.EmailReward(custId);
+                _producer.Publish("MemberExchange", "verify.email", new { CustId = custId, OTPType = (int)OTPType.Email });
             }
             return apiResult;
         }
