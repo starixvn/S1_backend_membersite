@@ -123,8 +123,9 @@ namespace MemberSite
 
             services.AddTransient<IHotGameService, HotGameService>();
             services.AddTransient<IAnnouncementService, AnnouncementService>();
-            
+
             /*BLL*/
+            services.AddSingleton<IRabbitMQProducer, RabbitMQProducer>();
             services.AddSingleton<ServerInfoBll>();
             services.AddSingleton<CustInfoBll>();
             services.AddSingleton<WalletBLL>();
