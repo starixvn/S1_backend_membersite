@@ -41,6 +41,7 @@ namespace MemberSite.Service.BLL
                 catch (BrokerUnreachableException ex)
                 {
                     _logger.LogError(ex, $"publish fail {exchange}, {routingKey}, {message}");
+                    Thread.Sleep(1000);
                 }
             }
         }
