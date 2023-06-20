@@ -465,7 +465,7 @@ namespace MemberSite.Service.BLL
             if (apiResult.ErrorCode == 0 && !await _custInfoService.GetPhoneVerified(custId))
             {
                 _custInfoService.SetPhoneVerified(custId);
-                _producer.Publish("MemberExchange", "verify.phone", new { CustId = custId, OTPType = (int)OTPType.SMS });
+                await _verificationRewardBll.PhoneReward(custId);
             }
             return apiResult;
         }
@@ -477,7 +477,7 @@ namespace MemberSite.Service.BLL
             if (apiResult.ErrorCode == 0 && !await _custInfoService.GetEmailVerified(custId))
             {
                 _custInfoService.SetEmailVerified(custId);
-                _producer.Publish("MemberExchange", "verify.email", new { CustId = custId, OTPType = (int)OTPType.Email });
+                await _verificationRewardBll.EmailReward(custId);
             }
             return apiResult;
         }
