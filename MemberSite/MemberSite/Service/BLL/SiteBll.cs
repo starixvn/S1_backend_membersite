@@ -16,8 +16,8 @@ public class SiteBll
     private readonly CommonBLL _commonBll;
     private readonly Tools _tools;
     private readonly ShieldBLL _ShieldBll;
+    private readonly AffCodeValidate _affCodeValidate;
     private readonly Regex _regexUserName = new(@"^[a-zA-Z0-9]{6,18}$");
-    private readonly Regex _regexAffCode = new(@"^[0-9]{5,20}$");
     private readonly Regex _regexPhoneNumber = new(@"^\+60[0-9]{9,10}$|\+62[0-9]{10,13}$|\+86[0-9]{10,11}$|\+91[0-9]{10}$|\+66[0-9]{9}$|\+880[0-9]{10}$|\+855[0-9]{8,10}$");
     private readonly Regex _regexEmail = new(@"^\w+((-\w+)|(\.\w+))*@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$");
     private readonly RecaptchaBLL _recaptcha;
@@ -35,6 +35,7 @@ public class SiteBll
         _recaptcha = provider.GetRequiredService<RecaptchaBLL>();
         _geoIpApi = provider.GetRequiredService<IGeoIpApi>();
         _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
+        _affCodeValidate = provider.GetRequiredService<AffCodeValidate>();
     }
 
     public Customer Signup(SiteController.SignupModel signupModel, ApiResult apiResult, bool isAuthenticated,
@@ -133,13 +134,14 @@ public class SiteBll
             return customer;
         }
 
-        if (!string.IsNullOrEmpty(signupModel.AffCode?.Trim()))
+        if (!string.IsNullOrWhiteSpace(signupModel.AffCode))
         {
             signupModel.AffCode = signupModel.AffCode.Trim();
-            if (!_regexAffCode.IsMatch(signupModel.AffCode))
+            var (errorCode, message) = _affCodeValidate.Validate(signupModel.AffCode);
+            if (errorCode != 0)
             {
-                apiResult.ErrorCode = -9;
-                apiResult.Message = _selLangBll.GetMsg("msg_AffCodeValidate");
+                apiResult.ErrorCode = errorCode;
+                apiResult.Message = message;
                 return customer;
             }
         }

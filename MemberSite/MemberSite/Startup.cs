@@ -179,6 +179,7 @@ namespace MemberSite
             services.AddTransient<RecaptchaBLL>();
             services.AddTransient<CheckAttackBLL>();
             services.AddTransient<DateTimeHelper>();
+            services.AddTransient<AffCodeValidate>();
             services.AddTransient<IAnnouncementBLL, AnnouncementBLL>();
             
             services.AddTransient<IHotGameBLL, HotGameBLL>();
