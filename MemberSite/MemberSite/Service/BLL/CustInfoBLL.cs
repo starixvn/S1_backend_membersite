@@ -137,7 +137,7 @@ namespace MemberSite.Service.BLL
                 UserLevel = 1,
                 UserLang = UserLang,
                 Aff = aff,
-                AffCode = affCode == null ? string.Empty : affCode.Value
+                AffCode = affCode?.Value
             };
 
             if (string.IsNullOrEmpty(signupUrl))
