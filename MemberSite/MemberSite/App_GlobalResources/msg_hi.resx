@@ -137,5 +137,5 @@
   <data name="msg_EWalletIsMaintenance"><value>ई-वॉलेट रखरखाव है, कृपया अन्य निकासी विधियों का उपयोग करें</value></data>
   <data name="msg_CompletePhoneNumber"><value>कृपया अपना मोबाइल फ़ोन (OTP) सत्यापन पूरा करें।</value></data>
   <data name="msg_OTPDailyLimit"><value>OTP सीमा तक पहुंच गया है, कृपया लाइव चैट सहायता से संपर्क करें</value></data>
-  <data name="msg_WrongAffCode"><value>एफिलिएट आईडी नहीं मिला पा रहा है</value></data>
+  <data name="msg_AffCodeNotFound"><value>एफिलिएट आईडी नहीं मिला पा रहा है</value></data>
   </root>

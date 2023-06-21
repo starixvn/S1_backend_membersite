@@ -116,6 +116,7 @@ namespace MemberSite
             services.AddTransient<RecaptchaService>();
             services.AddSingleton<PartitionService>();
             services.AddTransient<CurrencyService>();
+            services.AddTransient<IAffiliateService, AffiliateService>();
 
             services.AddSingleton<IPService>();
             services.AddSingleton<ShieldService>();
@@ -179,7 +180,6 @@ namespace MemberSite
             services.AddTransient<RecaptchaBLL>();
             services.AddTransient<CheckAttackBLL>();
             services.AddTransient<DateTimeHelper>();
-            services.AddTransient<AffCodeValidate>();
             services.AddTransient<IAnnouncementBLL, AnnouncementBLL>();
             
             services.AddTransient<IHotGameBLL, HotGameBLL>();

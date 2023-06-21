@@ -1,4 +1,5 @@
 ﻿using MemberSite.Service.DAL;
+using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
@@ -15,6 +16,7 @@ namespace MemberSite.Service.BLL
         private readonly IRabbitMQProducer _producer;
         private readonly CustInfoService _custInfoService;
         private readonly AuthenticateService _authenticateService;
+        private readonly IAffiliateService _affiliateService;
         private readonly ServerInfoBll _serverInfoBll;
         private readonly AgentInfoService _agentInfoService;
         private readonly BankInfoService _bankInfoService;
@@ -44,6 +46,7 @@ namespace MemberSite.Service.BLL
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
             _shieldBll = provider.GetRequiredService<ShieldBLL>();
             _producer = provider.GetRequiredService<IRabbitMQProducer>();
+            _affiliateService = provider.GetRequiredService<IAffiliateService>();
         }
         public string GetCountryNameByAreaCode(string areaCode)
         {
@@ -63,7 +66,7 @@ namespace MemberSite.Service.BLL
         }
 
         public int AddCustInfo(string UserName, string Userpwd, string Email, int CurrencyId, string UserLang,
-            string refId, string affId, string aff, string affCode, string lineUserId, out int custId, string signupUrl = null,
+            string refId, string affId, string aff, AffCodeObject affCode, string lineUserId, out int custId, string signupUrl = null,
             string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null,
             int Birth_d = 0, int Birth_m = 0, int Birth_y = 0)
         {
@@ -90,6 +93,11 @@ namespace MemberSite.Service.BLL
             {
                 custId = 0;
                 return -4;
+            }
+            if (affCode != null && !affCode.IsExists(serverInfo.SiteId, _affiliateService.ExistsAffiliateCode)) 
+            {
+                custId = 0;
+                return -10;
             }
 
             Customer agent = null;
@@ -129,7 +137,7 @@ namespace MemberSite.Service.BLL
                 UserLevel = 1,
                 UserLang = UserLang,
                 Aff = aff,
-                AffCode = affCode
+                AffCode = affCode == null ? string.Empty : affCode.Value
             };
 
             if (string.IsNullOrEmpty(signupUrl))
