@@ -117,6 +117,7 @@ namespace MemberSite
             services.AddSingleton<PartitionService>();
             services.AddTransient<CurrencyService>();
             services.AddTransient<GameService>();
+            services.AddTransient<IAffiliateService, AffiliateService>();
 
             services.AddSingleton<IPService>();
             services.AddSingleton<ShieldService>();
