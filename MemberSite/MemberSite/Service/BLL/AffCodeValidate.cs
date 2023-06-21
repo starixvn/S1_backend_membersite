@@ -1,13 +1,14 @@
-﻿using System.Text.RegularExpressions;
+﻿using MemberSite.Service.Model;
+using System.Text.RegularExpressions;
 
 namespace MemberSite.Service.BLL
 {
     public class AffCodeValidate
     {
         private readonly Regex _regexAffCode = new(@"^[0-9]{5,20}$");
-        private readonly SelLangBLL _selLangBll;
+        private readonly ISelLang _selLangBll;
 
-        public AffCodeValidate(SelLangBLL selLangBll)
+        public AffCodeValidate(ISelLang selLangBll)
         {
             _selLangBll = selLangBll;
         }
