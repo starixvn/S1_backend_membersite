@@ -9,5 +9,6 @@
         public string ImgName { get; set; }
         public string OpenPath { get; set; }
         public string GameImgDisplayText { get; set; }
+        public int Sort { get; set; } = 99999;
     }
 }
