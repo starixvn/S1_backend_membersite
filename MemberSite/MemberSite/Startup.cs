@@ -117,6 +117,7 @@ namespace MemberSite
             services.AddSingleton<PartitionService>();
             services.AddTransient<CurrencyService>();
             services.AddTransient<GameService>();
+            services.AddTransient<IAffiliateService, AffiliateService>();
 
             services.AddSingleton<IPService>();
             services.AddSingleton<ShieldService>();
@@ -124,8 +125,9 @@ namespace MemberSite
 
             services.AddTransient<IHotGameService, HotGameService>();
             services.AddTransient<IAnnouncementService, AnnouncementService>();
-            
+
             /*BLL*/
+            services.AddSingleton<IRabbitMQProducer, RabbitMQProducer>();
             services.AddSingleton<ServerInfoBll>();
             services.AddSingleton<CustInfoBll>();
             services.AddSingleton<WalletBLL>();

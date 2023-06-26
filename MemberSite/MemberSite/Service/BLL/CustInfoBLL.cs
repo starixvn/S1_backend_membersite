@@ -1,4 +1,5 @@
 ﻿using MemberSite.Service.DAL;
+using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
@@ -12,8 +13,10 @@ namespace MemberSite.Service.BLL
     {
         private readonly Tools _tools;
         private readonly VerificationRewardBLL _verificationRewardBll;
+        private readonly IRabbitMQProducer _producer;
         private readonly CustInfoService _custInfoService;
         private readonly AuthenticateService _authenticateService;
+        private readonly IAffiliateService _affiliateService;
         private readonly ServerInfoBll _serverInfoBll;
         private readonly AgentInfoService _agentInfoService;
         private readonly BankInfoService _bankInfoService;
@@ -42,6 +45,8 @@ namespace MemberSite.Service.BLL
             _areaCodeMap = provider.GetRequiredService<IEnumerable<AreaCodeMap>>();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
             _shieldBll = provider.GetRequiredService<ShieldBLL>();
+            _producer = provider.GetRequiredService<IRabbitMQProducer>();
+            _affiliateService = provider.GetRequiredService<IAffiliateService>();
         }
         public string GetCountryNameByAreaCode(string areaCode)
         {
@@ -61,7 +66,7 @@ namespace MemberSite.Service.BLL
         }
 
         public int AddCustInfo(string UserName, string Userpwd, string Email, int CurrencyId, string UserLang,
-            string refId, string affId, string aff, string affCode, string lineUserId,int deviceType, out int custId, string signupUrl = null,
+            string refId, string affId, string aff, AffCodeObject affCode, string lineUserId,int deviceType, out int custId, string signupUrl = null,
             string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null,
             int Birth_d = 0, int Birth_m = 0, int Birth_y = 0)
         {
@@ -88,6 +93,11 @@ namespace MemberSite.Service.BLL
             {
                 custId = 0;
                 return -4;
+            }
+            if (affCode != null && !affCode.IsExists(serverInfo.SiteId, _affiliateService.ExistsAffiliateCode)) 
+            {
+                custId = 0;
+                return -10;
             }
 
             Customer agent = null;
@@ -127,7 +137,7 @@ namespace MemberSite.Service.BLL
                 UserLevel = 1,
                 UserLang = UserLang,
                 Aff = aff,
-                AffCode = affCode
+                AffCode = affCode?.Value
             };
 
             if (string.IsNullOrEmpty(signupUrl))
@@ -463,7 +473,7 @@ namespace MemberSite.Service.BLL
             if (apiResult.ErrorCode == 0 && !await _custInfoService.GetPhoneVerified(custId))
             {
                 _custInfoService.SetPhoneVerified(custId);
-                _verificationRewardBll.PhoneReward(custId);
+                await _verificationRewardBll.PhoneReward(custId);
             }
             return apiResult;
         }
@@ -475,7 +485,7 @@ namespace MemberSite.Service.BLL
             if (apiResult.ErrorCode == 0 && !await _custInfoService.GetEmailVerified(custId))
             {
                 _custInfoService.SetEmailVerified(custId);
-                _verificationRewardBll.EmailReward(custId);
+                await _verificationRewardBll.EmailReward(custId);
             }
             return apiResult;
         }
@@ -682,8 +692,9 @@ namespace MemberSite.Service.BLL
             foreach (var gameType in gameTypeList)
             {
                 result.Add(new CustTpGameTypeSetting(
+                    typeResult.First(x => x.GameType == gameType).CategoryId,
                     typeResult.First(x => x.GameType == gameType).TpId,
-                gameType,
+                    gameType,
                     typeResult.Where(x => x.GameType == gameType && x.Type == CustTpGameTypeSettingType.NoShow).Any(),
                     typeResult.Where(x => x.GameType == gameType && x.Type == CustTpGameTypeSettingType.NoPlay).Any()));
             }

@@ -26,6 +26,7 @@ namespace MemberSite.Service.BLL
         private readonly CasinoService _casinoService;
         private readonly IConfiguration _configuration;
 
+        private readonly Dictionary<int, int> _specialVenderLogoTp;
         private readonly List<int> _excludeTp;
         private readonly Dictionary<string, string> _changeGameImgName;
 
@@ -43,6 +44,10 @@ namespace MemberSite.Service.BLL
             _casinoBll = provider.GetRequiredService<CasinoBll>();
             _casinoService = provider.GetRequiredService<CasinoService>();
             _configuration = provider.GetRequiredService<IConfiguration>();
+            _specialVenderLogoTp = new Dictionary<int, int>()
+            {
+                { 30, 67 },
+            };
             _excludeTp = new List<int>
             {
                 1, //SABA
@@ -274,6 +279,8 @@ namespace MemberSite.Service.BLL
                     tpGameIdNo = tpGameIdListDetail.TpGameIdNo;
                 }
 
+                string venderLogoTpId = _specialVenderLogoTp.ContainsKey(tpId) && _specialVenderLogoTp.ContainsValue(tpGameIdNo) ? $"{tpId}-{tpGameIdNo}" : tpId.ToString();
+
                 recentlyViewedInfo.Add(new RecentlyViewedInfo()
                 {
                     TpId = tpId,
@@ -284,7 +291,7 @@ namespace MemberSite.Service.BLL
                     TpName = imgTpName,
                     GameName = gameName,
                     GameLogo = gameLogo,
-                    TpLogo = $"{bannerUrl}/{devicePath}/img/venderlogo/{tpId}.png",
+                    TpLogo = $"{bannerUrl}/{devicePath}/img/venderlogo/{venderLogoTpId}.png",
                     TpGameIdNo = tpGameIdNo,
                     IsMaintain = isMaintain,
                 });
