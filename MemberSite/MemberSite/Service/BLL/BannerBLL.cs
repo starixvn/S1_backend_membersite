@@ -202,7 +202,7 @@ namespace MemberSite.Service.BLL
                 }
                 if(vip.Level == 6)
                 {
-                    vip.WithdrawalMax = selLangBLL.GetResourceValue("lbl_Vip_ByInvitation");
+                    vip.WithdrawalMax = selLangBLL.GetResourceValue("lbl_VIP_unlimited");
                     vip.Times = selLangBLL.GetResourceValue("lbl_VIP_unlimited");
                     vip.UpBonus = selLangBLL.GetResourceValue("lbl_Vip_ByInvitation");
                     vip.UpDeposit = selLangBLL.GetResourceValue("lbl_Vip_ByInvitation");
