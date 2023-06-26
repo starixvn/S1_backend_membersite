@@ -3,6 +3,7 @@ using MemberSite.Service.Model;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using MemberSite.Service.DAL.Interface;
+using MySqlX.XDevAPI.Common;
 
 namespace MemberSite.Service.BLL
 {
@@ -187,6 +188,18 @@ namespace MemberSite.Service.BLL
                 vip.WithdrawalPriority = withdrawalPriority.ContainsKey(vip.Level) ? selLangBLL.GetResourceValue(withdrawalPriority[vip.Level]) : null;
                 vip.ServiceSupport = serviceSupport.ContainsKey(vip.Level) ? selLangBLL.GetResourceValue(serviceSupport[vip.Level]) : null;
                 vip.DesignatedAccountManager = designatedAccountManager.ContainsKey(vip.Level);
+                decimal tempWithdrawalMax;
+                decimal.TryParse(vip.WithdrawalMax, out tempWithdrawalMax);
+                int tempTimes;
+                int.TryParse(vip.Times, out tempTimes);
+                if (tempWithdrawalMax == 0 && vip.Level != 6)
+                {
+                    vip.WithdrawalMax = selLangBLL.GetResourceValue("lbl_VIP_unlimited");
+                }
+                if(tempTimes == 0 && vip.Level != 6)
+                {
+                    vip.Times = selLangBLL.GetResourceValue("lbl_VIP_unlimited");
+                }
                 if(vip.Level == 6)
                 {
                     vip.WithdrawalMax = selLangBLL.GetResourceValue("lbl_Vip_ByInvitation");
