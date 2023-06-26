@@ -89,4 +89,44 @@ namespace MemberSite.Service.Model
         
         public DepositType Type { get; set; }
     }
+    
+    public class OfflineCryptoPayInfo : IPaymentLimit
+    {
+        public int BankId { get; set; }
+        public string AccountName { get; set; }
+        public string AccountNo { get; set; }
+        public string FrontendDisplayName { get; set; }
+        public CryptoCurrencyId CryptoCurrencyId { get; set; }
+        public string Network { get; set; }
+        public string ChannelName {
+            get {
+                var cryptoCurrency = CryptoCurrencyId.ToString();
+                return cryptoCurrency.Equals(Network)
+                    ? cryptoCurrency
+                    : $"{cryptoCurrency}-{Network}";
+            }
+        }
+        
+        public decimal DailyLimitAmount { get; set; }
+        public string StrPointLevels { get; set; }
+        public IEnumerable<int> PointLevels =>
+            JsonConvert.DeserializeObject<IEnumerable<int>>(StrPointLevels);
+        
+        public string StrVipLevels { get; set; }
+        public IEnumerable<int> VipLevels =>
+            JsonConvert.DeserializeObject<IEnumerable<int>>(StrVipLevels);
+        public int CurrencyId { get; set; }
+        public string Memo { get; set; }
+        public decimal MinAmount { get; set; }
+        public decimal MaxAmount { get; set; }
+        
+        public string StrPurpose { get; set; }
+
+        public IEnumerable<OfflineBankAccountPurposeEnum> Purposes =>
+            JsonConvert.DeserializeObject<IEnumerable<OfflineBankAccountPurposeEnum>>(StrPurpose);
+        
+        public int Ver { get; set; }
+        public int Status { get; set; }
+        public int BSort { get; set; }
+    }
 }

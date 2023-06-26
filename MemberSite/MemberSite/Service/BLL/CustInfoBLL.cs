@@ -12,6 +12,7 @@ namespace MemberSite.Service.BLL
     {
         private readonly Tools _tools;
         private readonly VerificationRewardBLL _verificationRewardBll;
+        private readonly IRabbitMQProducer _producer;
         private readonly CustInfoService _custInfoService;
         private readonly AuthenticateService _authenticateService;
         private readonly ServerInfoBll _serverInfoBll;
@@ -42,6 +43,7 @@ namespace MemberSite.Service.BLL
             _areaCodeMap = provider.GetRequiredService<IEnumerable<AreaCodeMap>>();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
             _shieldBll = provider.GetRequiredService<ShieldBLL>();
+            _producer = provider.GetRequiredService<IRabbitMQProducer>();
         }
         public string GetCountryNameByAreaCode(string areaCode)
         {
@@ -463,7 +465,7 @@ namespace MemberSite.Service.BLL
             if (apiResult.ErrorCode == 0 && !await _custInfoService.GetPhoneVerified(custId))
             {
                 _custInfoService.SetPhoneVerified(custId);
-                _verificationRewardBll.PhoneReward(custId);
+                await _verificationRewardBll.PhoneReward(custId);
             }
             return apiResult;
         }
@@ -475,7 +477,7 @@ namespace MemberSite.Service.BLL
             if (apiResult.ErrorCode == 0 && !await _custInfoService.GetEmailVerified(custId))
             {
                 _custInfoService.SetEmailVerified(custId);
-                _verificationRewardBll.EmailReward(custId);
+                await _verificationRewardBll.EmailReward(custId);
             }
             return apiResult;
         }
