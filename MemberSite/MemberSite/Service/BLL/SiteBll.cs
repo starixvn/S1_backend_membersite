@@ -2,6 +2,7 @@
 using MemberSite.Controllers.Api;
 using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.DAL;
+using MemberSite.Service.Domain;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
