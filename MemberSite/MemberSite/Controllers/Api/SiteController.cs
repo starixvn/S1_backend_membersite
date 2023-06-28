@@ -1127,6 +1127,11 @@ namespace MemberSite.Controllers.Api
         {
             public string AffId { get; set; }
         }
+        /// <summary>
+        /// 取得Referral 所屬幣別
+        /// </summary>
+        /// <param name="affiliateAgentReq"></param>
+        /// <returns></returns>
         [HttpPost]
         public ApiResult<AffiliateAgent> GetAffiliateAgent(AffiliateAgentReq affiliateAgentReq)
         {
@@ -1158,6 +1163,31 @@ namespace MemberSite.Controllers.Api
                     break;
             }
 
+            return apiResult;
+        }
+
+
+        public class AffiliateExitsReq 
+        {
+            public string AffCode { get; set; }
+        }
+        /// <summary>
+        /// 檢查代理是否存在
+        /// </summary>
+        /// <param name="req"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ApiResult AffiliateCheck(AffiliateExitsReq req) 
+        {
+            var apiResult = new ApiResult();
+            var errorCode = _custInfoBll.AffiliateCheck(req.AffCode);
+            apiResult.ErrorCode = 0;
+            apiResult.Message = errorCode switch
+            {
+                -9 =>  _selLangBll.GetMsg("msg_AffCodeValidate"),
+                -10 => _selLangBll.GetMsg("msg_AffCodeNotFound"),
+                _ => "",
+            };
             return apiResult;
         }
 

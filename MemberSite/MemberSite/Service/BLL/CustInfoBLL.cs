@@ -1,5 +1,6 @@
 ﻿using MemberSite.Service.DAL;
 using MemberSite.Service.DAL.Interface;
+using MemberSite.Service.Domain;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
@@ -578,6 +579,20 @@ namespace MemberSite.Service.BLL
 
             return -1;
 
+        }
+        public int AffiliateCheck(string affCode) 
+        {
+            var serverInfo = _serverInfoBll.GetServerInfo();
+            var affCodeObj = new AffCodeObject(affCode);
+            if (!affCodeObj.IsValid())
+            {
+                return -9;
+            }
+            if (!affCodeObj.IsExists(serverInfo.SiteId, _affiliateService.ExistsAffiliateCode))
+            {
+                return -10;
+            }
+            return 0;
         }
         public void GetReferralSummary(int custId, out int referralCount, out int conditionCount, out int amountCount, out int amountSum)
         {

@@ -2,7 +2,7 @@
 using MemberSite.Service.Model;
 using System.Text.RegularExpressions;
 
-namespace MemberSite.Service.BLL
+namespace MemberSite.Service.Domain
 {
     public class AffCodeObject
     {
@@ -13,13 +13,13 @@ namespace MemberSite.Service.BLL
             Value = affCode.Trim();
         }
 
-        public bool IsValid() 
+        public bool IsValid()
         {
             var _regexAffCode = new Regex(@"^[0-9]{5,20}$");
             return _regexAffCode.IsMatch(Value);
         }
 
-        public bool IsExists(int siteId, Func<int, string, bool> IsExists) 
+        public bool IsExists(int siteId, Func<int, string, bool> IsExists)
         {
             return IsExists(siteId, Value);
         }
