@@ -1182,7 +1182,7 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult();
             var errorCode = _custInfoBll.AffiliateCheck(req.AffCode);
-            apiResult.ErrorCode = 0;
+            apiResult.ErrorCode = errorCode;
             apiResult.Message = errorCode switch
             {
                 -9 =>  _selLangBll.GetMsg("msg_AffCodeValidate"),
