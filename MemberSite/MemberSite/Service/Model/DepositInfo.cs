@@ -59,9 +59,9 @@ namespace MemberSite.Service.Model
 
     public class LocalPayResp
     {
-
         public string TransId { get; set; }
         public decimal Amount { get; set; }
+        public bool GenerateQr { set; get; }
         public string ReturnUrl { set; get; }
         public string Code { set; get; }
         public string BankLogo { set; get; }

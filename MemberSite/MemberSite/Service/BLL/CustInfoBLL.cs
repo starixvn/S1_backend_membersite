@@ -12,6 +12,7 @@ namespace MemberSite.Service.BLL
     {
         private readonly Tools _tools;
         private readonly VerificationRewardBLL _verificationRewardBll;
+        private readonly IRabbitMQProducer _producer;
         private readonly CustInfoService _custInfoService;
         private readonly AuthenticateService _authenticateService;
         private readonly ServerInfoBll _serverInfoBll;
@@ -42,6 +43,7 @@ namespace MemberSite.Service.BLL
             _areaCodeMap = provider.GetRequiredService<IEnumerable<AreaCodeMap>>();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
             _shieldBll = provider.GetRequiredService<ShieldBLL>();
+            _producer = provider.GetRequiredService<IRabbitMQProducer>();
         }
         public string GetCountryNameByAreaCode(string areaCode)
         {
@@ -213,7 +215,7 @@ namespace MemberSite.Service.BLL
                     // send custId to tp.Shield
                     var request = new SendShieldAttributesRequest()
                     {
-                        SiteId = info.SiteId ,
+                        SiteId = info.SiteId,
                         UserId = info.CustId.ToString()
                     };
                     var result = await _shieldBll.SendShieldAttributes(request);
@@ -463,7 +465,7 @@ namespace MemberSite.Service.BLL
             if (apiResult.ErrorCode == 0 && !await _custInfoService.GetPhoneVerified(custId))
             {
                 _custInfoService.SetPhoneVerified(custId);
-                _verificationRewardBll.PhoneReward(custId);
+                await _verificationRewardBll.PhoneReward(custId);
             }
             return apiResult;
         }
@@ -475,7 +477,7 @@ namespace MemberSite.Service.BLL
             if (apiResult.ErrorCode == 0 && !await _custInfoService.GetEmailVerified(custId))
             {
                 _custInfoService.SetEmailVerified(custId);
-                _verificationRewardBll.EmailReward(custId);
+                await _verificationRewardBll.EmailReward(custId);
             }
             return apiResult;
         }
@@ -665,6 +667,31 @@ namespace MemberSite.Service.BLL
         public IEnumerable<CryptoWalletDetail> GetCustCryptoWalletDetail(int custId)
         {
             return _custInfoService.GetCustCryptoWalletDetail(custId);
+        }
+        public async Task<IEnumerable<CustTpGameTypeSetting>> GetCustTpGameTypeSetting(int custId)
+        {
+            var result = new List<CustTpGameTypeSetting>();
+            var types = (CustTpGameTypeSettingType[])Enum.GetValues(typeof(CustTpGameTypeSettingType));
+            var key = $"GetCustTpGameTypeSetting:{custId}";
+            var typeResult = await _redisHelper.TryGetOrCreateAsync(key,
+                TimeSpan.FromMinutes(10),
+                async () =>
+                {
+                    return await _custInfoService.GetCustTpGameTypeSetting(custId, types.Select(x => (int)x));
+                });
+
+            var gameTypeList = typeResult.Select(x => x.GameType).Distinct();
+            foreach (var gameType in gameTypeList)
+            {
+                result.Add(new CustTpGameTypeSetting(
+                    typeResult.First(x => x.GameType == gameType).CategoryId,
+                    typeResult.First(x => x.GameType == gameType).TpId,
+                    gameType,
+                    typeResult.Where(x => x.GameType == gameType && x.Type == CustTpGameTypeSettingType.NoShow).Any(),
+                    typeResult.Where(x => x.GameType == gameType && x.Type == CustTpGameTypeSettingType.NoPlay).Any()));
+            }
+
+            return result;
         }
     }
 }

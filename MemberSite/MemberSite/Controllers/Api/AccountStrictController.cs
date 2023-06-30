@@ -797,7 +797,8 @@ namespace MemberSite.Controllers.Api
                         custInfo.AddressCity,
                         custInfo.AddressLineFirst,
                         custInfo.AddressLineSecond,
-                        custInfo.IsResetPwd
+                        custInfo.IsResetPwd,
+                        custInfo.MemberType
                     };
 
                     apiResult.ErrorCode = 0;
@@ -885,7 +886,8 @@ namespace MemberSite.Controllers.Api
             var authData = _authorizeBLL.GetAuthData();
             if (authData is { CustId: > 0 })
             {
-                apiResult = await _commonBLL.SendOTPSMSAsync(authData.CustId);
+                var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
+                apiResult = await _commonBLL.SendOTPSMSAsync(authData.CustId, custInfo.CurrencyId);
             }
 
             return apiResult;

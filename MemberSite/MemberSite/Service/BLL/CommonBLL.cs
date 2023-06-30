@@ -1,36 +1,42 @@
 ﻿using MemberSite.Service.Library;
 using MemberSite.Service.Model;
+using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.BLL
 {
     public class CommonBLL
     {
-        private readonly CourierAdapter courierAdapter;
-        private readonly string commonServiceUrl;
-        private readonly Tools tools;
+        private readonly CourierAdapter _courierAdapter;
+        private readonly string _commonServiceUrl;
+        private readonly ICacheHelper _redisHelper;
+        private readonly DateTimeHelper _dateTimeHelper;
+        private readonly SelLangBLL _selLangBLL;
 
-        public CommonBLL(IConfiguration configuration, CourierAdapter courierAdapter, Tools tools)
+        public CommonBLL(IServiceProvider provider)
         {
-            this.courierAdapter = courierAdapter;
-            commonServiceUrl = configuration.GetValue<string>("CommonService");
-            this.tools = tools;
+            var configuration = provider.GetRequiredService<IConfiguration>();
+            _commonServiceUrl = configuration.GetValue<string>("CommonService");
+            _courierAdapter = provider.GetRequiredService<CourierAdapter>();
+            _redisHelper = provider.GetRequiredService<ICacheHelper>();
+            _dateTimeHelper = provider.GetRequiredService<DateTimeHelper>();
+            _selLangBLL = provider.GetRequiredService<SelLangBLL>();
         }
 
         public void SendWelcomeMail(int custId)
         {
-            var apiUrl = $"{commonServiceUrl}Mail/SendWelcomeMail";
+            var apiUrl = $"{_commonServiceUrl}Mail/SendWelcomeMail";
 
             dynamic req = new
             {
                 CustId = custId,
             };
 
-            courierAdapter.MyPostAsync<bool, dynamic>(apiUrl, req);
+            _courierAdapter.MyPostAsync<bool, dynamic>(apiUrl, req);
         }
 
         public void SendResetPwdMail(int custId, string resetPasswordUrl)
         {
-            var apiUrl = $"{commonServiceUrl}Mail/RestPassword";
+            var apiUrl = $"{_commonServiceUrl}Mail/RestPassword";
 
             dynamic req = new
             {
@@ -38,11 +44,11 @@ namespace MemberSite.Service.BLL
                 resetPasswordUrl
             };
 
-            courierAdapter.MyPostAsync<bool, dynamic>(apiUrl, req);
+            _courierAdapter.MyPostAsync<bool, dynamic>(apiUrl, req);
         }
         public async Task<ApiResult> SendResetPwdMailAsync(int custId, string resetPasswordUrl)
         {
-            var apiUrl = $"{commonServiceUrl}Mail/RestPassword";
+            var apiUrl = $"{_commonServiceUrl}Mail/RestPassword";
 
             dynamic req = new
             {
@@ -50,27 +56,40 @@ namespace MemberSite.Service.BLL
                 resetPasswordUrl
             };
 
-            ApiResult result = await courierAdapter.MyPostAsync<bool, dynamic>(apiUrl, req);
+            ApiResult result = await _courierAdapter.MyPostAsync<bool, dynamic>(apiUrl, req);
 
             return result;
         }
         
-        public async Task<ApiResult<SendOTPSMSResult>> SendOTPSMSAsync(int custId)
+        public async Task<ApiResult<SendOTPSMSResult>> SendOTPSMSAsync(int custId, int currencyId)
         {
-            var apiUrl = $"{commonServiceUrl}OTPSMS/SendOTPSMS";
+            var time = await _dateTimeHelper.ToCurrencyZone(DateTime.UtcNow, currencyId);
+            var key = $"SendOTPSMS:{time:yyyyMMdd}:{custId}";
+            var cnt = _redisHelper.TryGetOrCreate(key, TimeSpan.FromDays(1), () => 0, RedisDataBase.Shared);
 
-            dynamic req = new
+            if (cnt >= 5)
+            {
+                return new ApiResult<SendOTPSMSResult>(-1, _selLangBLL.GetMsg("msg_OTPDailyLimit"), null);
+            }
+            
+            var apiUrl = $"{_commonServiceUrl}OTPSMS/SendOTPSMS";
+
+            var req = new
             {
                 custId
             };
 
-            var apiResult = await courierAdapter.MyPostAsync<SendOTPSMSResult, dynamic>(apiUrl, req);
+            var apiResult = await _courierAdapter.MyPostAsync<SendOTPSMSResult, object>(apiUrl, req);
+            if (apiResult.ErrorCode == (int) ErrorCode.Success)
+            {
+                _redisHelper.StringSet(key, cnt + 1, TimeSpan.FromDays(1), RedisDataBase.Shared);
+            }
 
             return apiResult;
         }
         public async Task<ApiResult> VerifyOTPAsync(int custId, string inputOTP)
         {
-            var apiUrl = $"{commonServiceUrl}OTPSMS/VerifyOTP";
+            var apiUrl = $"{_commonServiceUrl}OTPSMS/VerifyOTP";
 
             dynamic req = new
             {
@@ -78,25 +97,25 @@ namespace MemberSite.Service.BLL
                 InputOTP = inputOTP
             };
 
-            ApiResult apiResult = await courierAdapter.MyPostAsync<bool, dynamic>(apiUrl, req);
+            ApiResult apiResult = await _courierAdapter.MyPostAsync<bool, dynamic>(apiUrl, req);
             return apiResult;
         }
         public async Task<ApiResult<SendOTPSMSResult>> GetOTPVerifyInfo(int custId)
         {
-            var apiUrl = $"{commonServiceUrl}OTPSMS/GetOTPVerifyInfo";
+            var apiUrl = $"{_commonServiceUrl}OTPSMS/GetOTPVerifyInfo";
 
             dynamic req = new
             {
                 custId
             };
 
-            var apiResult = await courierAdapter.MyPostAsync<SendOTPSMSResult, dynamic>(apiUrl, req);
+            var apiResult = await _courierAdapter.MyPostAsync<SendOTPSMSResult, dynamic>(apiUrl, req);
 
             return apiResult;
         }
         public async Task<ApiResult<SendOTPEmailResult>> SendOTPEmailAsync(int custId, string OTPEmailUrl)
         {
-            var apiUrl = $"{commonServiceUrl}Mail/OTPEmail";
+            var apiUrl = $"{_commonServiceUrl}Mail/OTPEmail";
 
             dynamic req = new
             {
@@ -104,13 +123,13 @@ namespace MemberSite.Service.BLL
                 OTPEmailUrl
             };
 
-            var apiResult = await courierAdapter.MyPostAsync<SendOTPEmailResult, dynamic>(apiUrl, req);
+            var apiResult = await _courierAdapter.MyPostAsync<SendOTPEmailResult, dynamic>(apiUrl, req);
 
             return apiResult;
         }
         public async Task<ApiResult> VerifyEmailAsync(int custId, string inputOTP)
         {
-            var apiUrl = $"{commonServiceUrl}Mail/VerifyOTP";
+            var apiUrl = $"{_commonServiceUrl}Mail/VerifyOTP";
 
             dynamic req = new
             {
@@ -118,7 +137,7 @@ namespace MemberSite.Service.BLL
                 InputOTP = inputOTP
             };
 
-            ApiResult apiResult = await courierAdapter.MyPostAsync<bool, dynamic>(apiUrl, req);
+            ApiResult apiResult = await _courierAdapter.MyPostAsync<bool, dynamic>(apiUrl, req);
             return apiResult;
         }
     }
