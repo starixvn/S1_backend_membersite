@@ -44,6 +44,7 @@ namespace MemberSite.Controllers.Api
         private readonly RecaptchaBLL _recaptchaBll;
         private readonly ILogger<SiteController> _logger;
         private readonly CheckAttackBLL _checkAttackBll;
+        private readonly StringVaildHelper _stringVaildHelper;
 
         public SiteController(IServiceProvider provider)
         {
@@ -66,6 +67,7 @@ namespace MemberSite.Controllers.Api
             _logger = provider.GetRequiredService<ILogger<SiteController>>();
             var env = provider.GetRequiredService<IWebHostEnvironment>();
             _checkAttackBll = provider.GetRequiredService<CheckAttackBLL>();
+            _stringVaildHelper = provider.GetRequiredService<StringVaildHelper>();
         }
 
         public class LoginModel
@@ -301,6 +303,15 @@ namespace MemberSite.Controllers.Api
 
             var apiResult = new ApiResult(_selLangBll);
             var isAuthenticated = User.Identity is { IsAuthenticated: true };
+
+            if (string.IsNullOrWhiteSpace(signupModel.RealName)
+                || !_stringVaildHelper.VaildAccountNameForSetProfile(signupModel.RealName))
+            {
+                apiResult.ErrorCode = 21;
+                apiResult.Message = $"{_selLangBll.GetMsg("msg_RealNameWrongFormat")}";
+                return apiResult;
+            }
+
             var customer = _siteBll.Signup(signupModel, apiResult, isAuthenticated, Request.Host.Host,
                 Request.Headers["User-Agent"], true);
             if (apiResult.ErrorCode == (int)ErrorCode.Attack)
@@ -331,6 +342,15 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<JwtAuthData>(_selLangBll);
             var isAuthenticated = User.Identity is { IsAuthenticated: true };
+
+            if (string.IsNullOrWhiteSpace(signupModel.RealName)
+                || !_stringVaildHelper.VaildAccountNameForSetProfile(signupModel.RealName))
+            {
+                apiResult.ErrorCode = 21;
+                apiResult.Message = $"{_selLangBll.GetMsg("msg_RealNameWrongFormat")}";
+                return apiResult;
+            }
+
             var customer = _siteBll.Signup(signupModel, apiResult, isAuthenticated, Request.Host.Host,
                 Request.Headers["User-Agent"], false);
 
@@ -743,14 +763,14 @@ namespace MemberSite.Controllers.Api
                     langId = _selLangBll.CheckLangId(langId) ? langId : _selLangBll.GetLangId();
                 }
                 apiResult.Data = _bannerBll.GetBannerV3(siteId, bannerReq.BannerType, ShowStatus, perferCurr, langId, serverInfo);
-                
+
                 var domain = _serverInfoBll.GetHttpDomain();
-	            foreach (var data in apiResult.Data)
-	            {
-	                if (!string.IsNullOrEmpty(data.UrlRouter) && data.ActionMode == 6)
-	                {
+                foreach (var data in apiResult.Data)
+                {
+                    if (!string.IsNullOrEmpty(data.UrlRouter) && data.ActionMode == 6)
+                    {
                         data.BannerLink = $"{domain}/{data.UrlRouter}";
-	                }
+                    }
                 }
                 apiResult.ErrorCode = 0;
             }
