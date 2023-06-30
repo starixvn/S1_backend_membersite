@@ -1,6 +1,3 @@
-﻿using MemberSite.Service.Model;
-using System.ComponentModel;
-
 namespace MemberSite.Service.Model.enums
 {
     public enum WalletStatus
@@ -338,11 +335,13 @@ namespace MemberSite.Service.Model.enums
         Promotion = 0,
         Deposit = 1
     }
+
     public enum OTPType
     {
         SMS = 0,
         Email = 1
     }
+    
     public enum CurrencyId
     {
         MYR = 2,
@@ -642,7 +641,6 @@ namespace MemberSite.Service.Model.enums
         DrawPrize = 7
     }
 
-
     public enum MemberTypeEnum
     {
         Normal = 1,
@@ -668,6 +666,11 @@ namespace MemberSite.Service.Model.enums
         EWallet = 1,
         BankCard = 2,
         Crypto = 3
+    }
+    public enum RecentlyViewedTypeEnum
+    {
+        LobbyName = 1, // saba sport
+        GameName = 2, // Golden Grimoire
     }
 }
 

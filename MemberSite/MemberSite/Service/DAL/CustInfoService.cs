@@ -853,5 +853,10 @@ namespace MemberSite.Service.DAL
         public async Task<IEnumerable<CustTpGameTypeSettingDto>> GetCustTpGameTypeSetting(int custId, IEnumerable<int> types)
             => await _mainDbClient.QueryAsync<CustTpGameTypeSettingDto>("Member_CustTpGameTypeSetting_Get",
                 new { _CustId = custId, _Types = JsonConvert.SerializeObject(types) });
+        
+        public async Task<IEnumerable<CustRecentlyViewedInfo>> GetCustRecentlyViewed(int custId)
+        {
+            return await _reportDbClient.QueryAsync<CustRecentlyViewedInfo>("Member_CustRecentlyViewed_Get", new { _CustId = custId });
+        }
     }
 }

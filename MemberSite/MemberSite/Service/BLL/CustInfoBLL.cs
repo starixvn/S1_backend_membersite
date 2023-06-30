@@ -668,6 +668,7 @@ namespace MemberSite.Service.BLL
         {
             return _custInfoService.GetCustCryptoWalletDetail(custId);
         }
+
         public async Task<IEnumerable<CustTpGameTypeSetting>> GetCustTpGameTypeSetting(int custId)
         {
             var result = new List<CustTpGameTypeSetting>();
@@ -690,7 +691,18 @@ namespace MemberSite.Service.BLL
                     typeResult.Where(x => x.GameType == gameType && x.Type == CustTpGameTypeSettingType.NoShow).Any(),
                     typeResult.Where(x => x.GameType == gameType && x.Type == CustTpGameTypeSettingType.NoPlay).Any()));
             }
+            return result;
+        }
 
+        public async Task<IEnumerable<CustRecentlyViewedInfo>> GetCustRecentlyViewed(int custId)
+        {
+            var key = $"GetCustRecentlyViewed:{custId}";
+            var result = await _redisHelper.TryGetOrCreateAsync(key,
+                TimeSpan.FromMinutes(3),
+                async () =>
+                {
+                    return await _custInfoService.GetCustRecentlyViewed(custId);
+                });
             return result;
         }
     }
