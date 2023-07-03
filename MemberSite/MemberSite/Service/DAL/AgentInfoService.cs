@@ -38,14 +38,14 @@ namespace MemberSite.Service.DAL
         }
         public IEnumerable<ReferralSetting> GetReferralSetting(int siteId, int currencyId)
         {
-            return _reportDb.Query<ReferralSetting>("Member_ReferralSetting_Get", new { SiteId = siteId, CurrencyId = currencyId });
+            return _reportDb.Query<ReferralSetting>("Member_ReferralSetting_Get_V3", new { SiteId = siteId, CurrencyId = currencyId });
         }
         public async Task<ReferralSettingDetailData> GetReferralSettingDetailAsync(int siteId, int currencyId)
         {
             var p = new DynamicParameters();
             p.Add("_SiteId", siteId);
             p.Add("_CurrencyId", currencyId);
-            return await _reportDb.QueryFirstAsync<ReferralSettingDetailData>("Member_ReferralSetting_Get_V2", p);
+            return await _reportDb.QueryFirstAsync<ReferralSettingDetailData>("Member_ReferralSetting_Get_V3", p);
         }
         public void GetReferralSummary(int custId, out int referralCount, out int conditionCount, out int amountCount, out int amountSum)
         {

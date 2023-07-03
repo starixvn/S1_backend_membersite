@@ -216,6 +216,7 @@ namespace MemberSite.Service.Model
         public decimal Deposit { get; set; }
         public int PeriodDays { get; set; }
         public string Details { get; set; }
+        public ReferralStatusEnum Status { get; set; }
     }
 
     public class ReferralSettingDetail
@@ -238,6 +239,8 @@ namespace MemberSite.Service.Model
         public string Title { get; set; }
         public string Description { get; set; }
         public string Detail { get; set; }
+
+        public ReferralTypeEnum Type { get; private set; }
     }
 
     public class ReferralSummary

@@ -665,6 +665,7 @@
         BankCard = 2,
         Crypto = 3
     }
+
     public enum RecentlyViewedTypeEnum
     {
         LobbyName = 1, // saba sport
@@ -674,5 +675,22 @@
     public enum PayEnum
     {
         Coin2Pay = 44
+    }
+
+    public enum ReferralStatusEnum
+    {
+        Disable = 0,
+        ReferralEnable = 1,
+        DepositReferralEnable = 2
+    }
+
+    /// <summary>
+    /// Referral for 文案語系區分使用
+    /// </summary>
+    public enum ReferralTypeEnum
+    {
+        None = 0,
+        Referral = 1,         //舊制
+        DepositReferral = 2   //新制 
     }
 }
