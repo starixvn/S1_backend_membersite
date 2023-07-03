@@ -603,6 +603,16 @@ namespace MemberSite.Service.BLL
             return _agentInfoService.GetRefFriendList(custId, StartDate, EndDate, PageSize, ref PageNumber, ref TotalPages, ref RowCount);
         }
 
+        public IEnumerable<DepositReferralDao> GetDepositReferralList(int custId, long? startDate, long? endDate, int pageSize, int pageNumber, ref int totalPages, ref int rowCount)
+        {
+            return _agentInfoService.GetDepositReferralList(custId, startDate, endDate, Math.Abs(pageSize), (Math.Abs(pageNumber) - 1) * Math.Abs(pageSize), ref totalPages, ref rowCount);
+        }
+
+        public IEnumerable<DepositReferralDao> GetDepositReferralDetail(int custId, long? startDate, long? endDate, int pageSize, int pageNumber, ref int totalPages, ref int rowCount)
+        {
+            return _agentInfoService.GetDepositReferralDetail(custId, startDate, endDate, Math.Abs(pageSize), (Math.Abs(pageNumber) - 1) * Math.Abs(pageSize), ref totalPages, ref rowCount);
+        }
+
         public bool VerifyCustomerStatus(int status)
         {
             if (status == (int)CustStatus.Suspend || status == (int)CustStatus.Closed ||
