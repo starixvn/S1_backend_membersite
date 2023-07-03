@@ -580,4 +580,10 @@
   <data name="lbl_MaxAmount"><value>总金额</value></data>
   <data name="lbl_Passport"><value>护照副本</value></data>
   <data name="lbl_Password"><value>密码</value></data>
+  <data name="lbl_Vip_High"><value>高</value></data>
+  <data name="lbl_Vip_3Months"><value>三个月</value></data>
+  <data name="lbl_Vip_Lifetime"><value>终身</value></data>
+  <data name="lbl_Vip_Normal"><value>普通会员</value></data>
+  <data name="lbl_Vip_ByInvitation"><value>邀请</value></data>
+  <data name="lbl_VIP_unlimited"><value>无上限</value></data>
   </root>

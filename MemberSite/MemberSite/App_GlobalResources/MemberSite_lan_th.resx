@@ -570,4 +570,10 @@
   <data name="lbl_MaxAmount"><value>จำนวนเงินสูงสุด</value></data>
   <data name="lbl_Passport"><value>พาสปอร์ต</value></data>
   <data name="lbl_Password"><value>รหัส</value></data>
+  <data name="lbl_Vip_High"><value>สูง</value></data>
+  <data name="lbl_Vip_3Months"><value>สามเดือน</value></data>
+  <data name="lbl_Vip_Lifetime"><value>อายุการใช้งาน</value></data>
+  <data name="lbl_Vip_Normal"><value>ปกติ</value></data>
+  <data name="lbl_Vip_ByInvitation"><value>ตามคำเชิญ</value></data>
+  <data name="lbl_VIP_unlimited"><value>ไม่จำกัด</value></data>
   </root>
