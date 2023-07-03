@@ -5,6 +5,7 @@ using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Mapping;
 using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
+using System.Drawing.Printing;
 
 namespace MemberSite.Service.BLL
 {
@@ -578,6 +579,16 @@ namespace MemberSite.Service.BLL
         public IEnumerable<ReferralFriend> GetRefFriendList(int custId, long? StartDate, long? EndDate, int PageSize, ref int PageNumber, ref int TotalPages, ref int RowCount)
         {
             return _agentInfoService.GetRefFriendList(custId, StartDate, EndDate, PageSize, ref PageNumber, ref TotalPages, ref RowCount);
+        }
+
+        public IEnumerable<DepositReferralDao> GetDepositReferralList(int custId, long? startDate, long? endDate, int pageSize, int pageNumber, ref int totalPages, ref int rowCount)
+        {
+            return _agentInfoService.GetDepositReferralList(custId, startDate, endDate, Math.Abs(pageSize), (Math.Abs(pageNumber) - 1) * Math.Abs(pageSize), ref totalPages, ref rowCount);
+        }
+
+        public IEnumerable<DepositReferralDao> GetDepositReferralDetail(int custId, long? startDate, long? endDate, int pageSize, int pageNumber, ref int totalPages, ref int rowCount)
+        {
+            return _agentInfoService.GetDepositReferralDetail(custId, startDate, endDate, Math.Abs(pageSize), (Math.Abs(pageNumber) - 1) * Math.Abs(pageSize), ref totalPages, ref rowCount);
         }
 
         public bool VerifyCustomerStatus(int status)
