@@ -277,6 +277,16 @@ namespace MemberSite.Service.Model
         public string CustTimeZone { get; set; }
 
     }
+    public class DepositReferralDao
+    {
+        public DateTime SettledDate { get; set; }
+        public string UserName { get; set; }
+        public string CurrencyName { get; set; }
+        public decimal TotalDeposit { get; set; }
+        public decimal RewardAmount { get; set; }
+
+    }
+
     public class CustTransSummary
     {
         public decimal DepositSum { get; set; }

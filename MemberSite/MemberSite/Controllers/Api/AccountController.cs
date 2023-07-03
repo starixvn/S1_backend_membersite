@@ -806,6 +806,80 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
+        public ApiListResult<DepositReferralDao> GetRefFriendListV2(RefFriendListReq refFriendListReq)
+        {
+            var PageSize = 10;
+            if (refFriendListReq.PageSize > 0)
+                PageSize = refFriendListReq.PageSize;
+            var pageNumber = refFriendListReq.PageNumber;
+            var totalPages = 0;
+            var rowCount = 0;
+            var apiResult = new ApiListResult<DepositReferralDao>();
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
+                return apiResult;
+            }
+
+            try
+            {
+                apiResult.Data = _custInfoBll.GetDepositReferralList(authData.CustId, refFriendListReq.StartDate, refFriendListReq.EndDate, PageSize, pageNumber, ref totalPages, ref rowCount);
+                foreach (var L in apiResult.Data)
+                {
+                    L.UserName = _eventsBll.MaskName(L.UserName);
+                }
+                apiResult.PageNumber = pageNumber;
+                apiResult.TotalPages = totalPages;
+                apiResult.RowCount = rowCount;
+                apiResult.ErrorCode = 0;
+                apiResult.Message = "";
+            }
+            catch (Exception ex)
+            {
+                apiResult.Message = ex.ToString();
+            }
+            return apiResult;
+        }
+
+        [HttpPost]
+        public ApiListResult<DepositReferralDao> GetRefFriendDetail(RefFriendListReq refFriendListReq)
+        {
+            var PageSize = 10;
+            if (refFriendListReq.PageSize > 0)
+                PageSize = refFriendListReq.PageSize;
+            var pageNumber = refFriendListReq.PageNumber;
+            var totalPages = 0;
+            var rowCount = 0;
+            var apiResult = new ApiListResult<DepositReferralDao>();
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
+                return apiResult;
+            }
+
+            try
+            {
+                apiResult.Data = _custInfoBll.GetDepositReferralDetail(authData.CustId, refFriendListReq.StartDate, refFriendListReq.EndDate, PageSize, pageNumber, ref totalPages, ref rowCount);
+                foreach (var L in apiResult.Data)
+                {
+                    L.UserName = _eventsBll.MaskName(L.UserName);
+                }
+                apiResult.PageNumber = pageNumber;
+                apiResult.TotalPages = totalPages;
+                apiResult.RowCount = rowCount;
+                apiResult.ErrorCode = 0;
+                apiResult.Message = "";
+            }
+            catch (Exception ex)
+            {
+                apiResult.Message = ex.ToString();
+            }
+            return apiResult;
+        }
+
+        [HttpPost]
         public ApiResult<bool> ExistsPhoneNo(RrofileReq rrofileReq)
         {
             var apiResult = new ApiResult<bool>(_selLangBll);
