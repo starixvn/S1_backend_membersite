@@ -530,6 +530,8 @@ namespace MemberSite.Service.BLL
         public async Task<ReferralSettingDetail> GetReferralSettingDetailAsync(int siteId, int currencyId, string langId)
         {
             var referralData = await _agentInfoService.GetReferralSettingDetailAsync(siteId, currencyId);
+            if (referralData.Status == ReferralStatusEnum.Disable) { return null; }
+
             var referralSettingDetail = new ReferralSettingDetail()
             {
                 ReferralReward = referralData.BonusAmount,
@@ -540,17 +542,17 @@ namespace MemberSite.Service.BLL
                 Deposit = referralData.Deposit,
                 VaildBet = referralData.VaildBet,
                 PeriodDays = referralData.PeriodDays,
-                ReferralContent = DeserializeReferralContent(referralData.Details, langId)
+                ReferralContent = DeserializeReferralContent(referralData.Status, referralData.Details, langId)
             };
             return referralSettingDetail;
         }
 
-        private ReferralContent DeserializeReferralContent(string details, string langId)
+        private ReferralContent DeserializeReferralContent(ReferralStatusEnum status, string details, string langId)
         {
             var oldLang = langId.Split('_');
             var lang = oldLang.Length == 2 ? oldLang[1] : oldLang[0];
             var referralContents = JsonConvert.DeserializeObject<IEnumerable<ReferralContent>>(details);
-            return referralContents?.FirstOrDefault(a => a.LangId == lang);
+            return referralContents?.FirstOrDefault(a => a.LangId == lang && (int)a.Type == (int)status);
         }
 
         public int GetAffiliateAgentBll(string affId)
