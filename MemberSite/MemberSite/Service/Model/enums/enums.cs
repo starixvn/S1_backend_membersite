@@ -1,4 +1,4 @@
-﻿namespace MemberSite.Service.Model.enums
+namespace MemberSite.Service.Model.enums
 {
     public enum WalletStatus
     {
@@ -593,7 +593,9 @@
         DepositRefunded = 3,
         WrongAmountSubmitted = 4,
         WrongBankSubmitted = 5,
-        InactiveBankAccountSubmission = 6
+        InactiveBankAccountSubmission = 6,
+        SystemUnstable = 7,
+        BankUnderMaintenance = 8
     }
 
     public enum CustTagEnum
