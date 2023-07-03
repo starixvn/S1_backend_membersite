@@ -144,4 +144,8 @@
   <data name="msg_InsufficientPoint"><value>抱歉，您的 88奖励兑换金币不足</value></data>
   <data name="msg_keep_up"><value>再接再厲!</value></data>
   <data name="msg_OTPDailyLimit"><value>OTP次数已达上限，请联系客服</value></data>
+  <data name="msg_SystemUnstable"><value>银行系统无法查询明细</value></data>
+  <data name="msg_SystemUnstable_Detail"><value>银行系统暂时无法查询明细信息，目前无法处理您的存款。</value></data>
+  <data name="msg_BankUnderMaintenance"><value>银行维护</value></data>
+  <data name="msg_BankUnderMaintenance_Detail"><value>银行系统正在维护中，目前无法处理您的存款申请。</value></data>
   </root>
