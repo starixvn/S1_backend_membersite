@@ -38,7 +38,7 @@ namespace MemberSite.Service.DAL
         }
         public IEnumerable<ReferralSetting> GetReferralSetting(int siteId, int currencyId)
         {
-            return _reportDb.Query<ReferralSetting>("Member_ReferralSetting_Get_V3", new { SiteId = siteId, CurrencyId = currencyId });
+            return _reportDb.Query<ReferralSetting>("Member_ReferralSetting_Get_V3", new { _SiteId = siteId, _CurrencyId = currencyId });
         }
         public async Task<ReferralSettingDetailData> GetReferralSettingDetailAsync(int siteId, int currencyId)
         {
