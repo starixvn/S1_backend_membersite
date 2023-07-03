@@ -7,7 +7,6 @@ using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Mapping;
 using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
-using System.Drawing.Printing;
 
 namespace MemberSite.Service.BLL
 {
