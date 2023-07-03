@@ -16,6 +16,9 @@ using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Cors;
 using static MemberSite.Extensions.MethodExtension;
 using MemberSite.Attributes;
+using Microsoft.AspNetCore.Http;
+using static MemberSite.Controllers.Api.SiteController;
+using System.Security.Policy;
 
 namespace MemberSite.Controllers.Api
 {
@@ -40,10 +43,12 @@ namespace MemberSite.Controllers.Api
         private readonly Regex _regexUserName = new(@"^[a-zA-Z0-9]{6,18}$");
         private readonly ThirdPartyBll _thirdPartyBll;
         private readonly SiteBll _siteBll;
-        private readonly ICacheHelper _cacheHelper;
         private readonly RecaptchaBLL _recaptchaBll;
         private readonly ILogger<SiteController> _logger;
+        private readonly ICacheHelper _cacheHelper;
         private readonly CheckAttackBLL _checkAttackBll;
+        private readonly StringVaildHelper _stringVaildHelper;
+
 
         public SiteController(IServiceProvider provider)
         {
@@ -61,11 +66,11 @@ namespace MemberSite.Controllers.Api
             _siteConfig = provider.GetRequiredService<IOptions<Dictionary<string, SiteConfig>>>();
             _thirdPartyBll = provider.GetRequiredService<ThirdPartyBll>();
             _siteBll = provider.GetRequiredService<SiteBll>();
-            _cacheHelper = provider.GetRequiredService<ICacheHelper>();
             _recaptchaBll = provider.GetRequiredService<RecaptchaBLL>();
             _logger = provider.GetRequiredService<ILogger<SiteController>>();
-            var env = provider.GetRequiredService<IWebHostEnvironment>();
+            _cacheHelper = provider.GetRequiredService<ICacheHelper>();
             _checkAttackBll = provider.GetRequiredService<CheckAttackBLL>();
+            _stringVaildHelper = provider.GetRequiredService<StringVaildHelper>();
         }
 
         public class LoginModel
@@ -168,7 +173,6 @@ namespace MemberSite.Controllers.Api
             // }
 
             await _cacheHelper.StringFireAndForgetSetAsync(customer.CustId.ToString(), token, TimeSpan.FromMinutes(30), RedisDataBase.Token);
-
             Response.Cookies.Delete($"Initialization{User.Identity?.Name}");
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
@@ -301,6 +305,15 @@ namespace MemberSite.Controllers.Api
 
             var apiResult = new ApiResult(_selLangBll);
             var isAuthenticated = User.Identity is { IsAuthenticated: true };
+
+            if (string.IsNullOrWhiteSpace(signupModel.RealName)
+                || !_stringVaildHelper.VaildAccountNameForSetProfile(signupModel.RealName))
+            {
+                apiResult.ErrorCode = 21;
+                apiResult.Message = $"{_selLangBll.GetMsg("msg_RealNameWrongFormat")}";
+                return apiResult;
+            }
+
             var customer = _siteBll.Signup(signupModel, apiResult, isAuthenticated, Request.Host.Host,
                 Request.Headers["User-Agent"], true);
             if (apiResult.ErrorCode == (int)ErrorCode.Attack)
@@ -331,6 +344,15 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<JwtAuthData>(_selLangBll);
             var isAuthenticated = User.Identity is { IsAuthenticated: true };
+
+            if (string.IsNullOrWhiteSpace(signupModel.RealName)
+                || !_stringVaildHelper.VaildAccountNameForSetProfile(signupModel.RealName))
+            {
+                apiResult.ErrorCode = 21;
+                apiResult.Message = $"{_selLangBll.GetMsg("msg_RealNameWrongFormat")}";
+                return apiResult;
+            }
+
             var customer = _siteBll.Signup(signupModel, apiResult, isAuthenticated, Request.Host.Host,
                 Request.Headers["User-Agent"], false);
 
@@ -721,36 +743,37 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<IEnumerable<BannerV3>>();
 
-            int siteId;
             try
             {
                 var serverInfo = _serverInfoBll.GetServerInfo();
-                int perferCurr;
-                var ShowStatus = 1;
+                int preferCurr;
+            	int siteId;
+                var showStatus = 1;
                 var authData = _authorizeBll.GetAuthData();
                 if (authData is { CustId: > 0 })
                 {
                     var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                     siteId = custInfo.SiteId;
-                    perferCurr = custInfo.CurrencyId;
-                    ShowStatus = 2;
+                    preferCurr = custInfo.CurrencyId;
+                    showStatus = 2;
                     langId = _selLangBll.GetLangId();
                 }
                 else
                 {
-                    perferCurr = bannerReq.CurrencyId ?? _selLangBll.GetPreferCurrencyId();
+                    preferCurr = bannerReq.CurrencyId ?? _selLangBll.GetPreferCurrencyId();
                     siteId = serverInfo.SiteId;
                     langId = _selLangBll.CheckLangId(langId) ? langId : _selLangBll.GetLangId();
                 }
-                apiResult.Data = _bannerBll.GetBannerV3(siteId, bannerReq.BannerType, ShowStatus, perferCurr, langId, serverInfo);
-                
+
+                apiResult.Data = _bannerBll.GetBannerV3(siteId, bannerReq.BannerType, showStatus, preferCurr, langId, serverInfo);
+
                 var domain = _serverInfoBll.GetHttpDomain();
-	            foreach (var data in apiResult.Data)
-	            {
-	                if (!string.IsNullOrEmpty(data.UrlRouter) && data.ActionMode == 6)
-	                {
+                foreach (var data in apiResult.Data)
+                {
+                    if (!string.IsNullOrEmpty(data.UrlRouter) && data.ActionMode == 6)
+                    {
                         data.BannerLink = $"{domain}/{data.UrlRouter}";
-	                }
+                    }
                 }
                 apiResult.ErrorCode = 0;
             }
@@ -1127,6 +1150,11 @@ namespace MemberSite.Controllers.Api
         {
             public string AffId { get; set; }
         }
+        /// <summary>
+        /// 取得Referral 所屬幣別
+        /// </summary>
+        /// <param name="affiliateAgentReq"></param>
+        /// <returns></returns>
         [HttpPost]
         public ApiResult<AffiliateAgent> GetAffiliateAgent(AffiliateAgentReq affiliateAgentReq)
         {
@@ -1158,6 +1186,31 @@ namespace MemberSite.Controllers.Api
                     break;
             }
 
+            return apiResult;
+        }
+
+
+        public class AffiliateExitsReq 
+        {
+            public string AffCode { get; set; }
+        }
+        /// <summary>
+        /// 檢查代理是否存在
+        /// </summary>
+        /// <param name="req"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ApiResult AffiliateCheck(AffiliateExitsReq req) 
+        {
+            var apiResult = new ApiResult();
+            var errorCode = _custInfoBll.AffiliateCheck(req.AffCode);
+            apiResult.ErrorCode = errorCode;
+            apiResult.Message = errorCode switch
+            {
+                -9 =>  _selLangBll.GetMsg("msg_AffCodeValidate"),
+                -10 => _selLangBll.GetMsg("msg_AffCodeNotFound"),
+                _ => "",
+            };
             return apiResult;
         }
 
@@ -1314,6 +1367,42 @@ namespace MemberSite.Controllers.Api
                 ErrorCode = 0,
                 Data = siteInfo
             };
+            return apiResult;
+        }
+
+        public class VipBannerReq 
+        {
+            public int CurrencyId { get; set; }
+        }
+
+        [HttpPost]
+        public ApiResult<VipBanner> GetVipBanner(VipBannerReq vipBannerReq)
+        {
+            var apiResult = new ApiResult<VipBanner>() { ErrorCode = 0};
+            int siteId;
+            try
+            {
+                var serverInfo = _serverInfoBll.GetServerInfo();
+                int perferCurr;
+                var authData = _authorizeBll.GetAuthData();
+
+                if (authData is { CustId: > 0 })
+                {
+                    var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                    siteId = custInfo.SiteId;
+                    perferCurr = custInfo.CurrencyId;
+                }
+                else
+                {
+                    perferCurr = vipBannerReq.CurrencyId;
+                    siteId = serverInfo.SiteId;
+                }
+                apiResult.Data = _bannerBll.GetVipBanner(siteId, perferCurr);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, GetCurrentMethod());
+            }
             return apiResult;
         }
     }

@@ -1,6 +1,7 @@
-using MemberSite.Service.BLL;
-using MemberSite.Service.Library;
+
+﻿using MemberSite.Service.BLL;
 using MemberSite.Service.BLL.Interface;
+using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Mapping;
@@ -438,7 +439,7 @@ namespace MemberSite.Controllers.Api
 
                     if (long.TryParse(PhoneNo, out var phoneNo))
                     {
-                        PhoneNo = phoneNo.ToString();
+                        custProfile["PhoneNo"] = phoneNo.ToString();
                     }
                     else
                     {
@@ -561,7 +562,7 @@ namespace MemberSite.Controllers.Api
 
                         if (long.TryParse(PhoneNo, out var phoneNo))
                         {
-                            PhoneNo = phoneNo.ToString();
+                            custProfile["PhoneNo"] = phoneNo.ToString();
                         }
                         else
                         {
@@ -570,7 +571,7 @@ namespace MemberSite.Controllers.Api
                             return apiResult;
                         }
 
-                        if (_custInfoBLL.ExistsPhoneNo(authData.CustId, AreaCode, PhoneNo))
+                        if (_custInfoBLL.ExistsPhoneNo(authData.CustId, AreaCode, custProfile["PhoneNo"]))
                         {
                             apiResult.ErrorCode = 21;
                             apiResult.Message = $"({AreaCode}){PhoneNo} {_selLangBLL.GetMsg("msg_HasExist")}";
@@ -609,6 +610,7 @@ namespace MemberSite.Controllers.Api
                         custProfile["Email"] = beforeCustInfo.Email;
                     }
 
+                    _logger.LogInformation(JsonConvert.SerializeObject(custProfile));
                     custProfile = SetCountryCodeAndAreaCode(custProfile, beforeCustInfo, custInfo.SiteId);
 
                     apiResult.ErrorCode = _custInfoBLL.SetProfileV2(authData.CustId, custProfile);
@@ -617,6 +619,7 @@ namespace MemberSite.Controllers.Api
                         apiResult.Message = _selLangBLL.GetMsg("msg_Updatesuccessful");
 
                         var custInfoProfile = _custInfoBLL.GetCustInfoProfile(authData.CustId);
+                        _logger.LogInformation(JsonConvert.SerializeObject(custInfoProfile));
                         apiResult.Data = new
                         {
                             LangCode = _selLangBLL.GetLangId(),

@@ -144,7 +144,7 @@ namespace MemberSite.Service.BLL
                     SiteId = custInfo.SiteId,
                     UserName = custInfo.UserName,
                     CurrencyId = custInfo.CurrencyId,
-                    DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(cryptoPayInfo)
+                    DepositInfo = JsonConvert.SerializeObject(cryptoPayInfo)
                 };
 
                 _depositService.DepositReq(depositDetailInfo, out transId, out _);

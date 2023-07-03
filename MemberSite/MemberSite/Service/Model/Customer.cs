@@ -216,6 +216,7 @@ namespace MemberSite.Service.Model
         public decimal Deposit { get; set; }
         public int PeriodDays { get; set; }
         public string Details { get; set; }
+        public ReferralStatusEnum Status { get; set; }
     }
 
     public class ReferralSettingDetail
@@ -238,6 +239,7 @@ namespace MemberSite.Service.Model
         public string Title { get; set; }
         public string Description { get; set; }
         public string Detail { get; set; }
+        public ReferralTypeEnum Type { get; set; }
     }
 
     public class ReferralSummary
@@ -277,6 +279,16 @@ namespace MemberSite.Service.Model
         public string CustTimeZone { get; set; }
 
     }
+    public class DepositReferralDao
+    {
+        public DateTime SettledDate { get; set; }
+        public string UserName { get; set; }
+        public string CurrencyName { get; set; }
+        public decimal TotalDeposit { get; set; }
+        public decimal RewardAmount { get; set; }
+
+    }
+
     public class CustTransSummary
     {
         public decimal DepositSum { get; set; }
@@ -337,6 +349,7 @@ namespace MemberSite.Service.Model
             NoPlay = noPlay;
         }
     }
+
     public class CustRecentlyViewedInfo
     {
         public int CustId { set; get; }
