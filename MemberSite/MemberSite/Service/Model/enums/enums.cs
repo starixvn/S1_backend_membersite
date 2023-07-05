@@ -1,3 +1,4 @@
+
 ﻿namespace MemberSite.Service.Model.enums
 {
     public enum WalletStatus
@@ -694,3 +695,4 @@
         DepositReferral = 2   //新制 
     }
 }
+
