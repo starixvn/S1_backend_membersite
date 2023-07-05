@@ -12,16 +12,19 @@ namespace MemberSite.Service.Library
 {
     public class Tools
     {
+        private readonly string _backEndKey;
         private readonly IOptions<JwtConfig> jwtConfig;
         private readonly IOptions<Dictionary<string, string>> _loginDeviceConfig;
         private readonly Regex _regexPassword = new(@"^(?=.{6,15}$)[a-zA-Z0-9!@#$%^&*]*$", RegexOptions.Singleline);
         public IHttpContextAccessor httpContextAccessor { get; }
 
-        public Tools(IHttpContextAccessor httpContextAccessor, IOptions<JwtConfig> jwtConfig ,IOptions<Dictionary<string, string>> loginDeviceConfig)
+        public Tools(IServiceProvider provider )
         {
-            this.httpContextAccessor = httpContextAccessor;
-            this._loginDeviceConfig = loginDeviceConfig;
-            this.jwtConfig = jwtConfig;
+            httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
+            _loginDeviceConfig = provider.GetRequiredService<IOptions<Dictionary<string, string>>>();
+            jwtConfig = provider.GetRequiredService<IOptions<JwtConfig>>();
+            var configuration = provider.GetRequiredService<IConfiguration>();
+            _backEndKey = configuration.GetValue<string>("ApiPaymentGateWayKey");
         }
         
         /// <summary>
@@ -268,6 +271,14 @@ namespace MemberSite.Service.Library
 
             return deviceType;
         }
-        
+
+        /// <summary>
+        /// CreateBackendToken
+        /// </summary>
+        /// <returns>後台API Token生成</returns>
+        public string CreateBackendToken(object para)
+        {
+            return MD5Encrypt($"{para}{_backEndKey}");
+        }
     }
 }
