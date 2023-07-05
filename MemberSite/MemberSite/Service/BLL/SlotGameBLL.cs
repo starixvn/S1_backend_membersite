@@ -21,10 +21,12 @@ namespace MemberSite.Service.BLL
         private readonly CustInfoBll _custInfoBll;
         private readonly GameBLL _gameBll;
         private readonly SelLangBLL _selLangBll;
-       
+        private readonly CasinoBll _casinoBll;
+
         private readonly CasinoService _casinoService;
         private readonly IConfiguration _configuration;
 
+        private readonly Dictionary<int, int> _specialVenderLogoTp;
         private readonly List<int> _excludeTp;
         private readonly Dictionary<string, string> _changeGameImgName;
 
@@ -39,8 +41,13 @@ namespace MemberSite.Service.BLL
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _gameBll = provider.GetRequiredService<GameBLL>();
             _selLangBll = provider.GetRequiredService<SelLangBLL>();
+            _casinoBll = provider.GetRequiredService<CasinoBll>();
             _casinoService = provider.GetRequiredService<CasinoService>();
             _configuration = provider.GetRequiredService<IConfiguration>();
+            _specialVenderLogoTp = new Dictionary<int, int>()
+            {
+                { 30, 67 },
+            };
             _excludeTp = new List<int>
             {
                 1, //SABA
@@ -178,6 +185,119 @@ namespace MemberSite.Service.BLL
                     .Select(gameInfo => new UserGameInfo(gameInfo)).ToList();
             }
             return result;
-        }      
+        }
+
+        public async Task<RecentlyViewedResponse> GetRecentlyViewed(RecentlyViewedRequest request, ClaimsPrincipal user)
+        {
+            var recentlyViewedInfo = new List<RecentlyViewedInfo>();
+
+            var serverInfo = _serverInfoBll.GetServerInfo();
+            var (siteId, currencyId, custId) = GetUserInfo(request.CurrencyId, user, serverInfo);
+            var imgUrl = _siteConfig.Value[serverInfo.SiteName].OldImageUrl;
+            var bannerUrl = _siteConfig.Value[serverInfo.SiteName].BannerImageUrl;
+            var deviceType = request.DeviceType;
+            var devicePath = deviceType == (int)HotGameDeviceType.Pc ? "desktop" : "h5";
+
+            // 未登入狀態直接回傳
+            if (custId == 0)
+            {
+                return new RecentlyViewedResponse(imgUrl, bannerUrl, recentlyViewedInfo);
+            }
+
+            var data = await _custInfoBll.GetCustRecentlyViewed(custId);
+            if (data == null || !data.Any())
+            {
+                return new RecentlyViewedResponse(imgUrl, bannerUrl, recentlyViewedInfo);
+            }
+
+            // 取出有byCurrency跟Site設定的遊戲資訊
+            var tpIds = _casinoBll.GetProviderIdByCurrency(currencyId, serverInfo.SiteId);
+            // 取出Slot的遊戲資訊
+            var slotGameList = await GetSlotGameList(siteId, currencyId, request.DeviceType);
+            // 取出其他大廳的遊戲資訊
+            var tpGameIdList = await _gameBll.GetTpGameIdList();
+
+            foreach (var item in data)
+            {
+                var isMaintain = false;
+                var gameName = new Dictionary<string, string>();
+                var gameLogo = new Dictionary<string, string>();
+                string[] parts = item.RecentlyViewed.Split(':');
+                var type = int.Parse(parts[0]);
+                var tpId = int.Parse(parts[1]);
+                var tpGameType = int.Parse(parts[2]);
+                var categoryId = int.Parse(parts[3]);
+                var gameId = parts[4];
+                var betType = (parts[5] == "0") ? "" : parts[5];
+                var imgTpName = tpGameIdList.FirstOrDefault(r => r.TpId == tpId)?.ImgTpName;
+                var tpGameIdNo = 0;
+
+                // TP 關閉資料
+                if (!tpIds.Contains(tpId))
+                {
+                    _logger.LogWarning($"GetRecentlyViewed tpIds disable : {tpId}");
+                    continue;
+                }
+
+                // 檢查維護
+                if (_gameBll.IsMaintain(siteId, tpId, tpGameType.ToString(), out var tpMaintain))
+                {
+                    isMaintain = true;
+                }
+
+                if (categoryId == (int)TpCategory.Casino && type == (int)RecentlyViewedTypeEnum.GameName)
+                {
+                    var gameSlotDetail = slotGameList.FirstOrDefault(i => i.TpId == tpId && (i.GameId == gameId || i.AppId == gameId));
+                    if (gameSlotDetail == null)
+                    {
+                        _logger.LogWarning($"GetRecentlyViewed gameSlotDetail null : {tpId} - {gameId}");
+                        continue;
+                    }
+
+                    var tpGameIdListDetail = tpGameIdList.FirstOrDefault(i => i.TpId == tpId && i.TpGameType == tpGameType);
+                    gameName = gameSlotDetail.GameName;
+                    gameLogo = gameSlotDetail.ImgName.ToDictionary(item => item.Key, item => $"{imgUrl}/{imgTpName}/{item.Value}");
+                    tpGameIdNo = (int)(tpGameIdListDetail?.TpGameIdNo);
+                }
+                else
+                {
+                    var tpGameIdListDetail = tpGameIdList.FirstOrDefault(i => i.TpId == tpId && i.TpGameType == tpGameType && i.GameId == gameId && i.BetType == betType);
+                    if (tpGameIdListDetail == null)
+                    {
+                        _logger.LogWarning($"GetRecentlyViewed tpGameIdListDetail null : {tpId} - {tpGameType} - {gameId} - {betType}");
+                        continue;
+                    }
+
+                    if (tpGameIdListDetail.TpGameIdStatus != 1)
+                    {
+                        _logger.LogWarning($"GetRecentlyViewed TpGameIdStatus disable : {tpId} - {tpGameType} - {gameId} - {betType}");
+                        continue;
+                    }
+
+                    gameName = tpGameIdListDetail.GameName;
+                    gameLogo.Add("en", $"{bannerUrl}/{devicePath}/img/productimg/{tpGameIdListDetail.ImgTpName}/{tpGameIdListDetail.LobbyCategoryName}/{tpGameIdListDetail.ImgName}");
+                    tpGameIdNo = tpGameIdListDetail.TpGameIdNo;
+                }
+
+                string venderLogoTpId = _specialVenderLogoTp.ContainsKey(tpId) && _specialVenderLogoTp.ContainsValue(tpGameIdNo) ? $"{tpId}-{tpGameIdNo}" : tpId.ToString();
+
+                recentlyViewedInfo.Add(new RecentlyViewedInfo()
+                {
+                    TpId = tpId,
+                    TpGameType = tpGameType,
+                    CategoryId = categoryId,
+                    GameId = gameId,
+                    BetType = betType,
+                    TpName = imgTpName,
+                    GameName = gameName,
+                    GameLogo = gameLogo,
+                    TpLogo = $"{bannerUrl}/{devicePath}/img/venderlogo/{venderLogoTpId}.png",
+                    TpGameIdNo = tpGameIdNo,
+                    IsMaintain = isMaintain,
+                });
+            }
+
+            return new RecentlyViewedResponse(imgUrl, bannerUrl, recentlyViewedInfo);
+        }
     }
 }

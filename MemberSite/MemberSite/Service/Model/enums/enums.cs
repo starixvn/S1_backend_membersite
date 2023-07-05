@@ -1,6 +1,3 @@
-﻿using MemberSite.Service.Model;
-using System.ComponentModel;
-
 namespace MemberSite.Service.Model.enums
 {
     public enum WalletStatus
@@ -21,6 +18,12 @@ namespace MemberSite.Service.Model.enums
         Suspend = 2,
         Closed = 3,
         Lock = 4
+    }
+
+    public enum CustTpGameTypeSettingType
+    {
+        NoShow = 1,  //有資料表示不顯示
+        NoPlay = 2   //有資料表示不可玩
     }
 
     public enum PaymentView
@@ -617,7 +620,7 @@ namespace MemberSite.Service.Model.enums
         Lock = 3,
         Unlock = 4
     }
-    
+
     public enum ExchangeTypeEnum
     {
         /// <summary>
@@ -629,11 +632,19 @@ namespace MemberSite.Service.Model.enums
         /// </summary>
         Buy = 1
     }
-    
-    public enum WithdrawalLimitLogCreateFromEnum 
+
+    public enum WithdrawalLimitLogCreateFromEnum
     {
         Default = 0,
         DrawPrize = 7
+    }
+
+
+    public enum MemberTypeEnum
+    {
+        Normal = 1,
+        Affiliate = 2,
+        LiveStreaming = 3
     }
 
     public enum WithdrawalInfoProcessWayEnum
@@ -654,5 +665,11 @@ namespace MemberSite.Service.Model.enums
         EWallet = 1,
         BankCard = 2,
         Crypto = 3
+    }
+
+    public enum RecentlyViewedTypeEnum
+    {
+        LobbyName = 1, // saba sport
+        GameName = 2, // Golden Grimoire
     }
 }
