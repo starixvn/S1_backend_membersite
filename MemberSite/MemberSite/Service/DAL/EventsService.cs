@@ -13,15 +13,15 @@ namespace MemberSite.Service.DAL
         private readonly WithdrawalLimitService _withdrawalLimitService;
         private readonly MySqlClient _mainDbClient;
         private readonly MySqlClient _reportDbClient;
-        
+
         public EventsService(IServiceProvider provider)
         {
             _walletService = provider.GetRequiredService<WalletService>();
             _withdrawalLimitService = provider.GetRequiredService<WithdrawalLimitService>();
             _mainDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Main);
             _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
-        }       
-        
+        }
+
         public IEnumerable<Prize> CheckDrawPrize(ref int eventId, int custId, int currencyId, out int prizeId, out int result)
         {
             using var conn = _mainDbClient.GetMySqlConnection();
@@ -33,7 +33,7 @@ namespace MemberSite.Service.DAL
             conn.Dispose();
             return check;
         }
-        
+
         public IEnumerable<Prize> CheckDrawPrize(ref int eventId, int custId, int currencyId, out int prizeId,
             out int quota, out DateTime checkDate, out int result, IDbTransaction trans)
         {
@@ -58,7 +58,7 @@ namespace MemberSite.Service.DAL
             return await _reportDbClient.QueryAsync<Prize>("Member_DrawPrize_Get", new { _EventId = eventId, _CurrencyId = currencyId });
         }
 
-        public async Task ResetPrize(int eventId, int currencyId) 
+        public async Task ResetPrize(int eventId, int currencyId)
         {
             await _mainDbClient.ExecuteAsync("Member_DrawPrize_Reset", new { _EventId = eventId, _CurrencyId = currencyId });
         }
@@ -70,7 +70,7 @@ namespace MemberSite.Service.DAL
             using var conn = _mainDbClient.GetMySqlConnection();
             conn.Open();
             using var trans = conn.BeginTransaction();
-            
+
             drawPrize = null;
             decimal prizeAmount = 0;
 
@@ -133,8 +133,9 @@ namespace MemberSite.Service.DAL
                 _mainDbClient.Execute("Member_DrawPrize_Set", trans, new { EventId = eventId, PrizeId = prizeId, CustId = custId, DrawDate = checkDate });
                 if (drawPrize.PrizeType == 1) //money
                 {
-                    _walletService.SetBalance(custId, siteId, userName, prizeAmount, 8, $"Prize: {prizeAmount.ToString("#,##0.##")}", eventId.ToString(), out _, out _, trans);
-                    _withdrawalLimitService.SetWithdrawalLimit(custId, userName, siteId, prizeAmount, 1  ,null, eventId.ToString(), (int)WithdrawalLimitLogCreateFromEnum.DrawPrize , "System", out var afterWithdrawalLimit, trans);
+                    var memo = $"Prize: {prizeAmount.ToString("#,##0.##")}";
+                    _walletService.SetBalance(custId, siteId, userName, prizeAmount, 8, memo, eventId.ToString(), out _, out _, trans);
+                    _withdrawalLimitService.SetWithdrawalLimit(custId, userName, siteId, prizeAmount, 1, memo, eventId.ToString(), (int)WithdrawalLimitLogCreateFromEnum.DrawPrize, "System", out var afterWithdrawalLimit, trans);
                 }
                 trans.Commit();
                 conn.Close();
@@ -150,14 +151,14 @@ namespace MemberSite.Service.DAL
             await conn.OpenAsync();
             await using var trans = await conn.BeginTransactionAsync();
 
-            var res = await _mainDbClient.ExecuteAsync("Member_DrawPrize_Set_V2", trans, new { _EventId = eventId, _PrizeId = prizeId, _PrizeName = prizeName, _Amount = prizeAmount, _CustId = custId,  _CurrencyId = currencyId, _TicketNo = ticketNo, _IsUsed = isUsed });
+            var res = await _mainDbClient.ExecuteAsync("Member_DrawPrize_Set_V2", trans, new { _EventId = eventId, _PrizeId = prizeId, _PrizeName = prizeName, _Amount = prizeAmount, _CustId = custId, _CurrencyId = currencyId, _TicketNo = ticketNo, _IsUsed = isUsed });
             if (prizeType == 1 && prizeAmount > 0)
             {
                 var memo = $"Prize: {prizeAmount.ToString("#,##0.##")}";
                 res = _walletService.SetBalance(custId, siteId, userName, prizeAmount, 8, memo, eventId.ToString(), out _, out _, trans);
-                res = _withdrawalLimitService.SetWithdrawalLimit(custId, userName, siteId, prizeAmount, 1 , memo, eventId.ToString(), (int)WithdrawalLimitLogCreateFromEnum.DrawPrize , "System", out var afterWithdrawalLimit, trans);
+                res = _withdrawalLimitService.SetWithdrawalLimit(custId, userName, siteId, prizeAmount, 1, memo, eventId.ToString(), (int)WithdrawalLimitLogCreateFromEnum.DrawPrize, "System", out var afterWithdrawalLimit, trans);
             }
-            if (res > 0) 
+            if (res > 0)
             {
                 trans.Commit();
             }
@@ -179,12 +180,12 @@ namespace MemberSite.Service.DAL
         {
             return _reportDbClient.Query<PrizeList>("Member_DrawPrizeList_Get", new { EventId = eventId, CurrencyId = currencyId }, commandType: CommandType.StoredProcedure);
         }
-        
+
         public IEnumerable<PrizeDisPlayList> GetDrawPrizeDisPlaySetting(int eventId)
         {
             return _reportDbClient.Query<PrizeDisPlayList>("Member_DrawPrizeDisPlaySetting_Get", new { EventId = eventId }, commandType: CommandType.StoredProcedure);
         }
-        
+
         public EventDrawInfo GetEventDrawInfo(int eventId)
         {
             var p = new DynamicParameters(new { EventId = eventId });
@@ -223,6 +224,7 @@ namespace MemberSite.Service.DAL
             p.Add("Tital", dbType: DbType.String, direction: ParameterDirection.Output);
             p.Add("Message", dbType: DbType.String, direction: ParameterDirection.Output);
             var rtn = _reportDbClient.Execute("Member_DrawPrizeMessage_Get", p);
+
             tital = p.Get<string>("Tital");
             message = p.Get<string>("Message");
             return rtn;

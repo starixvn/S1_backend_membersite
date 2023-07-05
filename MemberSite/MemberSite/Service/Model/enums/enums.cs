@@ -1,4 +1,5 @@
-namespace MemberSite.Service.Model.enums
+
+﻿namespace MemberSite.Service.Model.enums
 {
     public enum WalletStatus
     {
