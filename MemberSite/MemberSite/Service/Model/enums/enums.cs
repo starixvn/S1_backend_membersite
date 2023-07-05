@@ -673,4 +673,3 @@ namespace MemberSite.Service.Model.enums
         GameName = 2, // Golden Grimoire
     }
 }
-

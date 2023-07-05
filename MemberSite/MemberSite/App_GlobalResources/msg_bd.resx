@@ -136,4 +136,5 @@
   <data name="msg_DepositRefunded"><value>আমানত ফেরত</value></data>
   <data name="msg_DecimalOutOfRange"><value>2টি সংখ্যার চেয়ে বেশি দশমিকের কারণে স্থানান্তর ব্যর্থ হয়েছে৷</value></data>
   <data name="msg_OTPDailyLimit"><value>ওটিপি সীমায় পৌঁছেছে, অনুগ্রহ করে লাইভ চ্যাট সহায়তার সাথে যোগাযোগ করুন</value></data>
+  <data name="msg_AffCodeNotFound"><value>এফিলিয়েট আইডি পাওয়া যাচ্ছে না</value></data>
   </root>
