@@ -32,7 +32,6 @@ namespace MemberSite.Service.BLL
         private readonly string _backendUrl;
         private readonly CourierAdapter _courierAdapter;
         private readonly Tools _tools;
-        private readonly string _backEndKey;
 
         public PaymentBLL(IServiceProvider provider)
         {
@@ -61,10 +60,9 @@ namespace MemberSite.Service.BLL
             _httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
             _logger = provider.GetRequiredService<ILogger<PaymentBLL>>();
             _iovationService = provider.GetRequiredService<IovationService>();
-            _backendUrl = configuration.GetValue<string>("BackendPayment");
+            _backendUrl = configuration.GetValue<string>("BackendService");
             _courierAdapter = provider.GetRequiredService<CourierAdapter>();
             _tools = provider.GetRequiredService<Tools>();
-            _backEndKey = configuration.GetValue<string>("ApiPaymentGateWayKey");
         }
 
         public static string GenerateVietQr(OfflineBankAccountInfo card, string transId, decimal amount)
@@ -473,12 +471,8 @@ namespace MemberSite.Service.BLL
             var withdrawalProcessWay = GetWithdrawalProcessWay(custInfo, accountNo, amount, WithdrawalAccountTypeEnum.BankCard);
             
             var result = withdrawalService.WithdrawalReq(custId, custInfo.UserName, custInfo.CurrencyId, custInfo.SiteId, amount, memo, JsonConvert.SerializeObject(withdrawalInfo), withdrawalProcessWay, out afterAmount, out transId);
-           
-            var withdrawalVerifyWay = GetWithdrawalVerifyWay(custInfo, accountNo, amount);
-            if (withdrawalVerifyWay == WithdrawalInfoVerifyWayEnum.Auto)
-            {
-                var _ = AutoVerify(transId);
-            }
+
+            SetAutoVerifyWay(transId, custInfo, accountNo, amount);
             
             return result;
         }
@@ -516,11 +510,7 @@ namespace MemberSite.Service.BLL
 
             var result = withdrawalService.WithdrawalReq(custId, custInfo.UserName, custInfo.CurrencyId, custInfo.SiteId, amount, memo, JsonConvert.SerializeObject(withdrawalCryptoInfo), withdrawalProcessWay, out afterAmount, out transId);
             
-            var withdrawalVerifyWay = GetWithdrawalVerifyWay(custInfo, accountNo, amount);
-            if (withdrawalVerifyWay == WithdrawalInfoVerifyWayEnum.Auto)
-            {
-                var _ = AutoVerify(transId);
-            }
+            SetAutoVerifyWay(transId, custInfo, accountNo, amount);
 
             return result;
         }
@@ -557,11 +547,7 @@ namespace MemberSite.Service.BLL
 
             var result = withdrawalService.WithdrawalReq(custId, custInfo.UserName, custInfo.CurrencyId, custInfo.SiteId, amount, memo, JsonConvert.SerializeObject(withdrawalEWalletInfo), withdrawalProcessWay, out afterAmount, out transId);
             
-            var withdrawalVerifyWay = GetWithdrawalVerifyWay(custInfo, accountNo, amount);
-            if (withdrawalVerifyWay == WithdrawalInfoVerifyWayEnum.Auto)
-            {
-                var _ = AutoVerify(transId);
-            }
+            SetAutoVerifyWay(transId, custInfo, accountNo, amount);
 
             return result;
         }
@@ -1019,6 +1005,22 @@ namespace MemberSite.Service.BLL
             return WithdrawalInfoProcessWayEnum.Auto;
         }
 
+        private void SetAutoVerifyWay(string transId, Customer custInfo, string accountNo, decimal withdrawalAmount)
+        {
+            try
+            {
+                var withdrawalVerifyWay = GetWithdrawalVerifyWay(custInfo, accountNo, withdrawalAmount);
+                if (withdrawalVerifyWay == WithdrawalInfoVerifyWayEnum.Auto)
+                {
+                    var _ = AutoVerify(transId);
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message, $"SetAutoVerifyWay Exception Failed ,TransId:{transId}");
+            }
+        }
+
         private WithdrawalInfoVerifyWayEnum GetWithdrawalVerifyWay(Customer custInfo, string accountNo, decimal withdrawalAmount)
         {
             var setting = withdrawalService.GetAutoPaymentRuleSetting(custInfo.SiteId, custInfo.CurrencyId,AutoType.AutoVerify);
@@ -1075,19 +1077,19 @@ namespace MemberSite.Service.BLL
             return WithdrawalInfoVerifyWayEnum.Auto;
         }
 
-        private int AutoVerify(string transId)
+        private ApiResult AutoVerify(string transId)
         {
-            var apiUrl = $"{_backendUrl}AutoPayment";
+            var apiUrl = $"{_backendUrl}ApiPaymentGateWay/AutoPayment";
             var req = new AutoPaymentRequest
             {
                 TransId = transId,
-                Token = _tools.MD5Encrypt($"{transId}{_backEndKey}"),
+                Token = _tools.CreateBackendToken(transId),
                 Comment = "Auto Payment Verify"
             };
             
             var result = _courierAdapter.MyPostAsync<ApiResult, AutoPaymentRequest>(apiUrl, req).Result;
             
-            return result.ErrorCode ;
+            return result ;
         }
     }
 }
