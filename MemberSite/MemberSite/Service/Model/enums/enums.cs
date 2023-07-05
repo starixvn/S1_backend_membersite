@@ -594,7 +594,9 @@
         DepositRefunded = 3,
         WrongAmountSubmitted = 4,
         WrongBankSubmitted = 5,
-        InactiveBankAccountSubmission = 6
+        InactiveBankAccountSubmission = 6,
+        SystemUnstable = 7,
+        BankUnderMaintenance = 8
     }
 
     public enum CustTagEnum
@@ -660,6 +662,25 @@
         Auto = 1,
     }
 
+    public enum WithdrawalInfoVerifyWayEnum
+    {
+        /// <summary>
+        /// 手動驗證
+        /// </summary>
+        Manual = 0,
+
+        /// <summary>
+        /// 自動驗證
+        /// </summary>
+        Auto = 1,
+    }
+    
+    public enum AutoType
+    {
+        AutoVerify = 1,
+        AutoApproved = 2
+    }
+    
     public enum WithdrawalAccountTypeEnum
     {
         EWallet = 1,
@@ -695,4 +716,3 @@
         DepositReferral = 2   //新制 
     }
 }
-
