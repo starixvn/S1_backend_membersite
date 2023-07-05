@@ -1,6 +1,3 @@
-﻿using MemberSite.Service.Model;
-using System.ComponentModel;
-
 namespace MemberSite.Service.Model.enums
 {
     public enum WalletStatus
@@ -669,5 +666,10 @@ namespace MemberSite.Service.Model.enums
         BankCard = 2,
         Crypto = 3
     }
-}
 
+    public enum RecentlyViewedTypeEnum
+    {
+        LobbyName = 1, // saba sport
+        GameName = 2, // Golden Grimoire
+    }
+}
