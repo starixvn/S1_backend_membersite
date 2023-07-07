@@ -67,7 +67,7 @@ namespace MemberSite.Service.BLL
         }
 
         public int AddCustInfo(string UserName, string Userpwd, string Email, int CurrencyId, string UserLang,
-            string refId, string affId, string aff, AffCodeObject affCode, string lineUserId,int deviceType, out int custId, string signupUrl = null,
+            string refId, string affId, string aff, AffCodeObject affCode, string lineUserId, int deviceType, out int custId, string signupUrl = null,
             string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null,
             int Birth_d = 0, int Birth_m = 0, int Birth_y = 0)
         {
@@ -95,7 +95,7 @@ namespace MemberSite.Service.BLL
                 custId = 0;
                 return -4;
             }
-            if (affCode != null && !affCode.IsExists(serverInfo.SiteId, _affiliateService.ExistsAffiliateCode)) 
+            if (affCode != null && !affCode.IsExists(serverInfo.SiteId, _affiliateService.ExistsAffiliateCode))
             {
                 custId = 0;
                 return -10;
@@ -582,7 +582,8 @@ namespace MemberSite.Service.BLL
             return -1;
 
         }
-        public int AffiliateCheck(string affCode) 
+
+        public int AffiliateCheck(string affCode)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
             var affCodeObj = new AffCodeObject(affCode);
@@ -596,9 +597,9 @@ namespace MemberSite.Service.BLL
             }
             return 0;
         }
-        public void GetReferralSummary(int custId, out int referralCount, out int conditionCount, out int amountCount, out int amountSum)
+        public void GetReferralSummary(int custId, ReferralTypeEnum type, out int referralCount, out int conditionCount, out int amountCount, out int amountSum)
         {
-            _agentInfoService.GetReferralSummary(custId, out referralCount, out conditionCount, out amountCount, out amountSum);
+            _agentInfoService.GetReferralSummary(custId, type, out referralCount, out conditionCount, out amountCount, out amountSum);
         }
         public IEnumerable<ReferralFriend> GetRefFriendList(int custId, long? StartDate, long? EndDate, int PageSize, ref int PageNumber, ref int TotalPages, ref int RowCount)
         {
