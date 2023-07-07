@@ -745,7 +745,7 @@ namespace MemberSite.Controllers.Api
             apiResult.Data = new ReferralSummary();
             try
             {
-                _custInfoBll.GetReferralSummary(authData.CustId, out var ReferralCount, out var conditionCount, out var AmountCount, out var AmountSum);
+                _custInfoBll.GetReferralSummary(authData.CustId, ReferralTypeEnum.Referral, out var ReferralCount, out var conditionCount, out var AmountCount, out var AmountSum);
 
                 apiResult.Data.ReferralCount = ReferralCount;
                 apiResult.Data.ConditionCount = conditionCount;
@@ -760,6 +760,36 @@ namespace MemberSite.Controllers.Api
             }
             return apiResult;
         }
+
+        [HttpPost]
+        public ApiResult<ReferralSummary> GetReferralSummaryV2()
+        {
+            var apiResult = new ApiResult<ReferralSummary>();
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
+                return apiResult;
+            }
+            apiResult.Data = new ReferralSummary();
+            try
+            {
+                _custInfoBll.GetReferralSummary(authData.CustId, ReferralTypeEnum.DepositReferral, out var ReferralCount, out var conditionCount, out var AmountCount, out var AmountSum);
+
+                apiResult.Data.ReferralCount = ReferralCount;
+                apiResult.Data.ConditionCount = conditionCount;
+                apiResult.Data.AmountCount = AmountCount;
+                apiResult.Data.AmountSum = AmountSum;
+                apiResult.ErrorCode = 0;
+                apiResult.Message = "";
+            }
+            catch (Exception ex)
+            {
+                apiResult.Message = ex.ToString();
+            }
+            return apiResult;
+        }
+
         public class RefFriendListReq
         {
             public long? StartDate { get; set; }
