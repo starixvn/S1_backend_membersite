@@ -22,6 +22,7 @@ namespace MemberSite.Service.BLL
         private readonly GameBLL _gameBll;
         private readonly SelLangBLL _selLangBll;
         private readonly CasinoBll _casinoBll;
+        private readonly LobbyCategoryBLL _lobbyCategoryBLL;
 
         private readonly CasinoService _casinoService;
         private readonly IConfiguration _configuration;
@@ -42,6 +43,7 @@ namespace MemberSite.Service.BLL
             _gameBll = provider.GetRequiredService<GameBLL>();
             _selLangBll = provider.GetRequiredService<SelLangBLL>();
             _casinoBll = provider.GetRequiredService<CasinoBll>();
+            _lobbyCategoryBLL = provider.GetRequiredService<LobbyCategoryBLL>();
             _casinoService = provider.GetRequiredService<CasinoService>();
             _configuration = provider.GetRequiredService<IConfiguration>();
             _specialVenderLogoTp = new Dictionary<int, int>()
@@ -69,14 +71,35 @@ namespace MemberSite.Service.BLL
 
             var providerList = await GetSlotGameProviderList(siteId, currencyId, TpCategory.Casino);
             var slotGameList = await GetSlotGameList(siteId, currencyId, request.DeviceType);
+            // 取出有byCurrency跟Site設定的大廳Slot選單排序資訊
+            var lobbyCategorySequence = await _lobbyCategoryBLL.GetLobbyCategorySequenceByLobbyCategoryId(siteId, currencyId, LobbyCategory.Slots);
+            // 取出有byCurrency跟Site設定的Slot遊戲優先排序資訊
+            var slotGameTopRanking = await _casinoBll.GetLobbyCategorySequenceByLobbyCategoryId(siteId, currencyId);
 
             //排除不在SlotGameList的provider
-            var slotGameProviderList = slotGameList.GroupBy(i => i.TpId).ToDictionary(i => i.Key,i => i.Key);
+            var slotGameProviderList = slotGameList.GroupBy(i => i.TpId).ToDictionary(i => i.Key, i => i.Key);
             providerList = providerList.Where(
                 i => slotGameProviderList.ContainsKey(i.TpId) ||
                 i.TpId == 22 // 針對mega888特別顯示
             ).ToList();
-            
+
+            // Tp組入排序欄位
+            foreach (var pld in providerList)
+            {
+                pld.Sort = lobbyCategorySequence.FirstOrDefault(x => x.TpId == pld.TpId)?.Sort ?? 99999;
+            }
+            providerList = providerList.OrderBy(x => x.Sort).ToList();
+
+            // 遊戲組入排序欄位
+            foreach (var sgl in slotGameList)
+            {
+                // 不分TpId排序參數 (TpId = 0的設定資料)
+                sgl.Top = slotGameTopRanking.FirstOrDefault(x => x.NoneTpId == 0 && x.SlotGameId == sgl.SlotGameId)?.Sort ?? 99999;
+                // 指定TpId排序參數 (TpId > 0的設定資料)
+                sgl.Sort = slotGameTopRanking.FirstOrDefault(x => x.NoneTpId != 0 && x.SlotGameId == sgl.SlotGameId)?.Sort ?? 99999;
+            }
+            slotGameList = slotGameList.OrderBy(x => x.Top).ThenBy(x => x.Sort).ToList();
+
             // 未登入狀態直接回傳
             if (custId == 0)
             {
@@ -88,7 +111,7 @@ namespace MemberSite.Service.BLL
             var favoriteAndRecentlyPlayed = await GetFavoriteAndRecentlyPlayed(custId);
 
             return new GetSlotGamePageResponse(
-                imgUrl: imgUrl, 
+                imgUrl: imgUrl,
                 providerList: providerList,
                 slotGameList: slotGameList,
                 favorite: favoriteAndRecentlyPlayed.FavoriteList,
@@ -108,8 +131,8 @@ namespace MemberSite.Service.BLL
             var key = $"GetSlotGameList:{IsStage}:{currencyId}:{siteId}:{deviceType}";
             var result = await _cacheHelper.TryGetOrCreateAsync(key,
                 TimeSpan.FromMinutes(10),
-                async () => 
-                {                
+                async () =>
+                {
                     var result = await _reportDbClient.QueryAsync<SlotGameInfo>("Service_SlotGame_Get", new
                     {
                         CurrencyId = currencyId,
@@ -168,11 +191,11 @@ namespace MemberSite.Service.BLL
             var result = new FavoriteAndRecentlyPlayed();
             var data = await _casinoService.GetFavoriteGamesAsync(custId);
 
-            if (data == null )
+            if (data == null)
             {
                 return result;
             }
-           
+
             if (!string.IsNullOrEmpty(data.Favorite))
             {
                 result.FavoriteList = JsonConvert.DeserializeObject<IEnumerable<string>>(data.Favorite)

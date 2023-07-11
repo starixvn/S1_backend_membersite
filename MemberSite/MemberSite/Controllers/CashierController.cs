@@ -100,7 +100,7 @@ namespace MemberSite.Controllers
                     ReturnUrl = Url.RouteUrl("desktop",
                         new {action = "Deposit", controller = "Cashier", custInfo.UserLang},
                         protocol: Request.Scheme,
-                        host: Request.Host.Port == 80
+                        host: Request.Host.Port is 80 or null
                             ? Request.Host.Host
                             : $"{Request.Host.Host}:{Request.Host.Port}")
                 };
