@@ -232,7 +232,18 @@ namespace MemberSite.Service.DAL
                 }).FirstOrDefault();
         }
 
+        public AutoPaymentRuleSettingDto GetAutoPaymentRuleSetting(int siteId,int currencyId,AutoType autoType)
+        {
+            return _reportDbClient.Query<AutoPaymentRuleSettingDto>("Member_AutoPaymentRuleSetting_Get",
+                new
+                {
+                    _SiteId = siteId,
+                    _CurrencyId = currencyId,
+                    _AutoType = (int)autoType
+                }).FirstOrDefault();
+        }
         
+            
         public WithdrawalAccountCounterDto GetWithdrawalSuccessCounter(int custId, string accountNo)
         {
             return _reportDbClient.Query<WithdrawalAccountCounterDto>("Member_WithdrawalSuccessCounter_Get",
