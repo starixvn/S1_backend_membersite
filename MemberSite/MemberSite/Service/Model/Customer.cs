@@ -215,6 +215,9 @@ namespace MemberSite.Service.Model
         public decimal VaildBet { get; set; }
         public decimal Deposit { get; set; }
         public int PeriodDays { get; set; }
+        public decimal DepositRewardPercentage { get; set; }
+        public decimal MinPayout { get; set; }
+        public decimal MaxPayout { get; set; }
         public string Details { get; set; }
         public ReferralStatusEnum Status { get; set; }
     }
@@ -229,6 +232,9 @@ namespace MemberSite.Service.Model
         public decimal VaildBet { get; set; }
         public decimal Deposit { get; set; }
         public int PeriodDays { get; set; }
+        public decimal DepositRewardPercentage { get; set; }
+        public decimal MinPayout { get; set; }
+        public decimal MaxPayout { get; set; }
         public ReferralContent ReferralContent { get; set; }
     }
 
@@ -248,6 +254,7 @@ namespace MemberSite.Service.Model
         public int ConditionCount { get; set; }
         public int AmountCount { get; set; }
         public int AmountSum { get; set; }
+        public bool HasReferral { get; set; }
 
     }
     public class ReferralFriend

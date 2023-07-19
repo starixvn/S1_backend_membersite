@@ -745,12 +745,13 @@ namespace MemberSite.Controllers.Api
             apiResult.Data = new ReferralSummary();
             try
             {
-                _custInfoBll.GetReferralSummary(authData.CustId, ReferralTypeEnum.Referral, out var ReferralCount, out var conditionCount, out var AmountCount, out var AmountSum);
+                _custInfoBll.GetReferralSummary(authData.CustId, ReferralTypeEnum.Referral, out var ReferralCount, out var conditionCount, out var AmountCount, out var AmountSum, out var hasReferral);
 
                 apiResult.Data.ReferralCount = ReferralCount;
                 apiResult.Data.ConditionCount = conditionCount;
                 apiResult.Data.AmountCount = AmountCount;
                 apiResult.Data.AmountSum = AmountSum;
+                apiResult.Data.HasReferral = hasReferral > 0;
                 apiResult.ErrorCode = 0;
                 apiResult.Message = "";
             }
@@ -774,12 +775,13 @@ namespace MemberSite.Controllers.Api
             apiResult.Data = new ReferralSummary();
             try
             {
-                _custInfoBll.GetReferralSummary(authData.CustId, ReferralTypeEnum.DepositReferral, out var ReferralCount, out var conditionCount, out var AmountCount, out var AmountSum);
+                _custInfoBll.GetReferralSummary(authData.CustId, ReferralTypeEnum.DepositReferral, out var ReferralCount, out var conditionCount, out var AmountCount, out var AmountSum, out var hasReferral);
 
                 apiResult.Data.ReferralCount = ReferralCount;
                 apiResult.Data.ConditionCount = conditionCount;
                 apiResult.Data.AmountCount = AmountCount;
                 apiResult.Data.AmountSum = AmountSum;
+                apiResult.Data.HasReferral = hasReferral > 0;
                 apiResult.ErrorCode = 0;
                 apiResult.Message = "";
             }
