@@ -542,6 +542,9 @@ namespace MemberSite.Service.BLL
                 Deposit = referralData.Deposit,
                 VaildBet = referralData.VaildBet,
                 PeriodDays = referralData.PeriodDays,
+                DepositRewardPercentage = referralData.DepositRewardPercentage,
+                MinPayout = referralData.MinPayout,
+                MaxPayout = referralData.MaxPayout,
                 ReferralContent = DeserializeReferralContent(referralData.Status, referralData.Details, langId)
             };
             return referralSettingDetail;
@@ -573,9 +576,9 @@ namespace MemberSite.Service.BLL
             return -1;
 
         }
-        public void GetReferralSummary(int custId, ReferralTypeEnum type, out int referralCount, out int conditionCount, out int amountCount, out int amountSum)
+        public void GetReferralSummary(int custId, ReferralTypeEnum type, out int referralCount, out int conditionCount, out int amountCount, out int amountSum, out int hasReferral)
         {
-            _agentInfoService.GetReferralSummary(custId, type, out referralCount, out conditionCount, out amountCount, out amountSum);
+            _agentInfoService.GetReferralSummary(custId, type, out referralCount, out conditionCount, out amountCount, out amountSum, out hasReferral);
         }
         public IEnumerable<ReferralFriend> GetRefFriendList(int custId, long? StartDate, long? EndDate, int PageSize, ref int PageNumber, ref int TotalPages, ref int RowCount)
         {
