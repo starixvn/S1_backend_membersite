@@ -150,6 +150,7 @@ namespace MemberSite.Service.DAL
             await using var conn = _mainDbClient.GetMySqlConnection();
             await conn.OpenAsync();
             await using var trans = await conn.BeginTransactionAsync();
+
             var res = await _mainDbClient.ExecuteAsync("Member_DrawPrize_Set_V2", trans, new { _EventId = eventId, _PrizeId = prizeId, _PrizeName = prizeName, _Amount = prizeAmount, _CustId = custId, _CurrencyId = currencyId, _TicketNo = ticketNo, _IsUsed = isUsed });
             if (prizeType == 1 && prizeAmount > 0)
             {
@@ -161,6 +162,8 @@ namespace MemberSite.Service.DAL
             {
                 trans.Commit();
             }
+            await conn.CloseAsync();
+            await conn.DisposeAsync();
 
             return res;
         }
@@ -195,18 +198,22 @@ namespace MemberSite.Service.DAL
                 ConditionSp = p.Get<string>("ConditionSP")
             };
         }
+
         public bool CheckEventCondition(string conditionSp, int eventId, int custId, int currencyId)
         {
             var p = new DynamicParameters(new { EventId = eventId, CustId = custId, CurrencyId = currencyId });
             p.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
             _reportDbClient.Execute(conditionSp, p);
+
             var Result = p.Get<int?>("Result") ?? 0;
             return Result > 0;
         }
+        
         public async Task<IEnumerable<AngPowTicket>> GetTickets(int custId, int currencyId)
         {
             return await _reportDbClient.QueryAsync<AngPowTicket>("Member_DrawTicket_Get", new { _CustId = custId, _CurrencyId = currencyId });
         }
+        
         public async Task<Prize> GetCustPrizeOnToday(int eventId, int custId, int currencyId)
         {
             return await _reportDbClient.QueryFirstAsync<Prize>("Member_DailyDrawPrize_Get", new { _EventId = eventId, _CustId = custId, _CurrencyId = currencyId });
@@ -220,7 +227,6 @@ namespace MemberSite.Service.DAL
 
             tital = p.Get<string>("Tital");
             message = p.Get<string>("Message");
-
             return rtn;
         }
     }

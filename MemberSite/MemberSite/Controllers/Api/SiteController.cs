@@ -43,11 +43,12 @@ namespace MemberSite.Controllers.Api
         private readonly Regex _regexUserName = new(@"^[a-zA-Z0-9]{6,18}$");
         private readonly ThirdPartyBll _thirdPartyBll;
         private readonly SiteBll _siteBll;
-        private readonly ICacheHelper _cacheHelper;
         private readonly RecaptchaBLL _recaptchaBll;
         private readonly ILogger<SiteController> _logger;
+        private readonly ICacheHelper _cacheHelper;
         private readonly CheckAttackBLL _checkAttackBll;
         private readonly StringVaildHelper _stringVaildHelper;
+
 
         public SiteController(IServiceProvider provider)
         {
@@ -65,10 +66,9 @@ namespace MemberSite.Controllers.Api
             _siteConfig = provider.GetRequiredService<IOptions<Dictionary<string, SiteConfig>>>();
             _thirdPartyBll = provider.GetRequiredService<ThirdPartyBll>();
             _siteBll = provider.GetRequiredService<SiteBll>();
-            _cacheHelper = provider.GetRequiredService<ICacheHelper>();
             _recaptchaBll = provider.GetRequiredService<RecaptchaBLL>();
             _logger = provider.GetRequiredService<ILogger<SiteController>>();
-            var env = provider.GetRequiredService<IWebHostEnvironment>();
+            _cacheHelper = provider.GetRequiredService<ICacheHelper>();
             _checkAttackBll = provider.GetRequiredService<CheckAttackBLL>();
             _stringVaildHelper = provider.GetRequiredService<StringVaildHelper>();
         }
@@ -173,7 +173,6 @@ namespace MemberSite.Controllers.Api
             // }
 
             await _cacheHelper.StringFireAndForgetSetAsync(customer.CustId.ToString(), token, TimeSpan.FromMinutes(30), RedisDataBase.Token);
-
             Response.Cookies.Delete($"Initialization{User.Identity?.Name}");
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
@@ -744,28 +743,29 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<IEnumerable<BannerV3>>();
 
-            int siteId;
             try
             {
                 var serverInfo = _serverInfoBll.GetServerInfo();
-                int perferCurr;
-                var ShowStatus = 1;
+                int preferCurr;
+            	int siteId;
+                var showStatus = 1;
                 var authData = _authorizeBll.GetAuthData();
                 if (authData is { CustId: > 0 })
                 {
                     var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                     siteId = custInfo.SiteId;
-                    perferCurr = custInfo.CurrencyId;
-                    ShowStatus = 2;
+                    preferCurr = custInfo.CurrencyId;
+                    showStatus = 2;
                     langId = _selLangBll.GetLangId();
                 }
                 else
                 {
-                    perferCurr = bannerReq.CurrencyId ?? _selLangBll.GetPreferCurrencyId();
+                    preferCurr = bannerReq.CurrencyId ?? _selLangBll.GetPreferCurrencyId();
                     siteId = serverInfo.SiteId;
                     langId = _selLangBll.CheckLangId(langId) ? langId : _selLangBll.GetLangId();
                 }
-                apiResult.Data = _bannerBll.GetBannerV3(siteId, bannerReq.BannerType, ShowStatus, perferCurr, langId, serverInfo);
+
+                apiResult.Data = _bannerBll.GetBannerV3(siteId, bannerReq.BannerType, showStatus, preferCurr, langId, serverInfo);
 
                 var domain = _serverInfoBll.GetHttpDomain();
                 foreach (var data in apiResult.Data)
@@ -1150,6 +1150,11 @@ namespace MemberSite.Controllers.Api
         {
             public string AffId { get; set; }
         }
+        /// <summary>
+        /// 取得Referral 所屬幣別
+        /// </summary>
+        /// <param name="affiliateAgentReq"></param>
+        /// <returns></returns>
         [HttpPost]
         public ApiResult<AffiliateAgent> GetAffiliateAgent(AffiliateAgentReq affiliateAgentReq)
         {
@@ -1181,6 +1186,31 @@ namespace MemberSite.Controllers.Api
                     break;
             }
 
+            return apiResult;
+        }
+
+
+        public class AffiliateExitsReq 
+        {
+            public string AffCode { get; set; }
+        }
+        /// <summary>
+        /// 檢查代理是否存在
+        /// </summary>
+        /// <param name="req"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ApiResult AffiliateCheck(AffiliateExitsReq req) 
+        {
+            var apiResult = new ApiResult();
+            var errorCode = _custInfoBll.AffiliateCheck(req.AffCode);
+            apiResult.ErrorCode = errorCode;
+            apiResult.Message = errorCode switch
+            {
+                -9 =>  _selLangBll.GetMsg("msg_AffCodeValidate"),
+                -10 => _selLangBll.GetMsg("msg_AffCodeNotFound"),
+                _ => "",
+            };
             return apiResult;
         }
 

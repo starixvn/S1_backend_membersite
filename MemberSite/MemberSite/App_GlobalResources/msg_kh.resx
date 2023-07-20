@@ -149,6 +149,7 @@
   <data name="msg_RealNameWrongFormat"><value>ឈ្មោះពិតប្រាកដមិនអនុញ្ញាតអោយមានលេខឬតួអក្សរពិសេសបានទេ។</value></data>
   <data name="msg_PasswordVaildate"><value>ពាក្យសម្ងាត់ត្រូវមានចន្លោះពី ៦-១៥ តួអក្សរ មានទាំងអក្សរក្រមលេខ និង តួអក្សរពិសេស (!@#$%^&amp;*)។</value></data>
   <data name="msg_OTPDailyLimit"><value>OTP បានឈានដល់ដែនកំណត់ សូមទាក់ទងមកជាមួយខ្ Live Chat គាំទ្រសន្</value></data>
+  <data name="msg_AffCodeNotFound"><value>រកមិនឃើញលេខសម្គាល់សាខាទេ។</value></data>
   <data name="msg_SystemUnstable"><value>ប្រព័ន្ធធនាគារមិនអាចរកទិន្នន័យលើកម្មវិធីបានទេ។</value></data>
   <data name="msg_SystemUnstable_Detail"><value>ប្រព័ន្ធ​ធនាគារ​មិន​អាច​ទំនិញ​ពិនិត្យ​ទំនិញ​បាន​នោះ​ទេ​ និង​មិន​អាច​ដំណើរការ​ការ​បញ្ជូន​ប្រាក់​ដែល​អ្នក​កំពុង​កក់​បាន​នៅ​ពេល​នេះ​ទេ។</value></data>
   <data name="msg_BankUnderMaintenance"><value>ការថែទាំថ្លៃរបស់ធនាគារ</value></data>

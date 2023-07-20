@@ -1,4 +1,6 @@
 ﻿using MemberSite.Service.DAL;
+using MemberSite.Service.DAL.Interface;
+using MemberSite.Service.Domain;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
@@ -15,6 +17,7 @@ namespace MemberSite.Service.BLL
         private readonly IRabbitMQProducer _producer;
         private readonly CustInfoService _custInfoService;
         private readonly AuthenticateService _authenticateService;
+        private readonly IAffiliateService _affiliateService;
         private readonly ServerInfoBll _serverInfoBll;
         private readonly AgentInfoService _agentInfoService;
         private readonly BankInfoService _bankInfoService;
@@ -44,6 +47,7 @@ namespace MemberSite.Service.BLL
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
             _shieldBll = provider.GetRequiredService<ShieldBLL>();
             _producer = provider.GetRequiredService<IRabbitMQProducer>();
+            _affiliateService = provider.GetRequiredService<IAffiliateService>();
         }
         public string GetCountryNameByAreaCode(string areaCode)
         {
@@ -63,7 +67,7 @@ namespace MemberSite.Service.BLL
         }
 
         public int AddCustInfo(string UserName, string Userpwd, string Email, int CurrencyId, string UserLang,
-            string refId, string affId, string aff, string affCode, string lineUserId, out int custId, string signupUrl = null,
+            string refId, string affId, string aff, AffCodeObject affCode, string lineUserId, int deviceType, out int custId, string signupUrl = null,
             string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null,
             int Birth_d = 0, int Birth_m = 0, int Birth_y = 0)
         {
@@ -90,6 +94,11 @@ namespace MemberSite.Service.BLL
             {
                 custId = 0;
                 return -4;
+            }
+            if (affCode != null && !affCode.IsExists(serverInfo.SiteId, _affiliateService.ExistsAffiliateCode))
+            {
+                custId = 0;
+                return -10;
             }
 
             Customer agent = null;
@@ -129,7 +138,7 @@ namespace MemberSite.Service.BLL
                 UserLevel = 1,
                 UserLang = UserLang,
                 Aff = aff,
-                AffCode = affCode
+                AffCode = affCode?.Value
             };
 
             if (string.IsNullOrEmpty(signupUrl))
@@ -137,7 +146,7 @@ namespace MemberSite.Service.BLL
                 signupUrl = _tools.GetFromUrl();
             }
 
-            var result = _custInfoService.AddCustInfo(regCustInfo, Email, lineUserId, out custId, signupUrl, referralUrl, PhoneNo, AreaCode,
+            var result = _custInfoService.AddCustInfo(regCustInfo, Email, lineUserId, deviceType, out custId, signupUrl, referralUrl, PhoneNo, AreaCode,
                 RealName, promoCode, Birth_d, Birth_m, Birth_y);
 
             if (result == 0 && regCustInfo.SiteId != (int)SiteId.Nova88)
@@ -530,6 +539,8 @@ namespace MemberSite.Service.BLL
         public async Task<ReferralSettingDetail> GetReferralSettingDetailAsync(int siteId, int currencyId, string langId)
         {
             var referralData = await _agentInfoService.GetReferralSettingDetailAsync(siteId, currencyId);
+            if (referralData.Status == ReferralStatusEnum.Disable) { return null; }
+
             var referralSettingDetail = new ReferralSettingDetail()
             {
                 ReferralReward = referralData.BonusAmount,
@@ -540,17 +551,20 @@ namespace MemberSite.Service.BLL
                 Deposit = referralData.Deposit,
                 VaildBet = referralData.VaildBet,
                 PeriodDays = referralData.PeriodDays,
-                ReferralContent = DeserializeReferralContent(referralData.Details, langId)
+                DepositRewardPercentage = referralData.DepositRewardPercentage,
+                MinPayout = referralData.MinPayout,
+                MaxPayout = referralData.MaxPayout,
+                ReferralContent = DeserializeReferralContent(referralData.Status, referralData.Details, langId)
             };
             return referralSettingDetail;
         }
 
-        private ReferralContent DeserializeReferralContent(string details, string langId)
+        private ReferralContent DeserializeReferralContent(ReferralStatusEnum status, string details, string langId)
         {
             var oldLang = langId.Split('_');
             var lang = oldLang.Length == 2 ? oldLang[1] : oldLang[0];
             var referralContents = JsonConvert.DeserializeObject<IEnumerable<ReferralContent>>(details);
-            return referralContents?.FirstOrDefault(a => a.LangId == lang);
+            return referralContents?.FirstOrDefault(a => a.LangId == lang && (int)a.Type == (int)status);
         }
 
         public int GetAffiliateAgentBll(string affId)
@@ -571,13 +585,38 @@ namespace MemberSite.Service.BLL
             return -1;
 
         }
-        public void GetReferralSummary(int custId, out int referralCount, out int conditionCount, out int amountCount, out int amountSum)
+
+        public int AffiliateCheck(string affCode)
         {
-            _agentInfoService.GetReferralSummary(custId, out referralCount, out conditionCount, out amountCount, out amountSum);
+            var serverInfo = _serverInfoBll.GetServerInfo();
+            var affCodeObj = new AffCodeObject(affCode);
+            if (!affCodeObj.IsValid())
+            {
+                return -9;
+            }
+            if (!affCodeObj.IsExists(serverInfo.SiteId, _affiliateService.ExistsAffiliateCode))
+            {
+                return -10;
+            }
+            return 0;
+        }
+        public void GetReferralSummary(int custId, ReferralTypeEnum type, out int referralCount, out int conditionCount, out int amountCount, out int amountSum, out int hasReferral)
+        {
+            _agentInfoService.GetReferralSummary(custId, type, out referralCount, out conditionCount, out amountCount, out amountSum, out hasReferral);
         }
         public IEnumerable<ReferralFriend> GetRefFriendList(int custId, long? StartDate, long? EndDate, int PageSize, ref int PageNumber, ref int TotalPages, ref int RowCount)
         {
             return _agentInfoService.GetRefFriendList(custId, StartDate, EndDate, PageSize, ref PageNumber, ref TotalPages, ref RowCount);
+        }
+
+        public IEnumerable<DepositReferralDao> GetDepositReferralList(int custId, long? startDate, long? endDate, int pageSize, int pageNumber, ref int totalPages, ref int rowCount)
+        {
+            return _agentInfoService.GetDepositReferralList(custId, startDate, endDate, Math.Abs(pageSize), (Math.Abs(pageNumber) - 1) * Math.Abs(pageSize), ref totalPages, ref rowCount);
+        }
+
+        public IEnumerable<DepositReferralDao> GetDepositReferralDetail(int custId, long? startDate, long? endDate, int pageSize, int pageNumber, ref int totalPages, ref int rowCount)
+        {
+            return _agentInfoService.GetDepositReferralDetail(custId, startDate, endDate, Math.Abs(pageSize), (Math.Abs(pageNumber) - 1) * Math.Abs(pageSize), ref totalPages, ref rowCount);
         }
 
         public bool VerifyCustomerStatus(int status)
@@ -593,9 +632,21 @@ namespace MemberSite.Service.BLL
             return true;
         }
 
+        public IEnumerable<BankInfoDetailData> GetCustBankDetail(int sysId, string accountNo, int siteId)
+        {
+            return _custInfoService.GetCustBankDetail(sysId, accountNo, siteId);
+        }
+
+        public int DeleteCustBankInfo(int custId, int sysId, string accountNum, string iFSCCode, CustBankDetailStatus status)
+        {
+            var custInfo = GetCustInfoWithCache(custId);
+            return _custInfoService.DeleteCustBankInfo(custId, custInfo.SiteId, sysId, accountNum, iFSCCode, status) ? 0 : -1;
+        }
+
         private static List<string> AddressKeys = new List<string>() { "Country", "State", "PostCode", "City", "LineFirst", "LineSecond" };
         private Dictionary<string, string> ConvertAddress(Dictionary<string, string> addressProfile)
         {
+
             var result = new Dictionary<string, string>();
             foreach (var key in AddressKeys)
             {
@@ -611,18 +662,6 @@ namespace MemberSite.Service.BLL
             }
 
             return result;
-            ;
-        }
-
-        public IEnumerable<BankInfoDetailData> GetCustBankDetail(int sysId, string accountNo, int siteId)
-        {
-            return _custInfoService.GetCustBankDetail(sysId, accountNo, siteId);
-        }
-
-        public int DeleteCustBankInfo(int custId, int sysId, string accountNum, string iFSCCode, CustBankDetailStatus status)
-        {
-            var custInfo = GetCustInfoWithCache(custId);
-            return _custInfoService.DeleteCustBankInfo(custId, custInfo.SiteId, sysId, accountNum, iFSCCode, status) ? 0 : -1;
         }
 
         public IEnumerable<EWalletInfoDetail> GetCustEWalletInfo(int custId)
@@ -693,6 +732,7 @@ namespace MemberSite.Service.BLL
 
             return result;
         }
+
         public async Task<IEnumerable<CustRecentlyViewedInfo>> GetCustRecentlyViewed(int custId)
         {
             var key = $"GetCustRecentlyViewed:{custId}";

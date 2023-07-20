@@ -2,6 +2,7 @@
 using MemberSite.Controllers.Api;
 using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.DAL;
+using MemberSite.Service.Domain;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
@@ -135,10 +136,11 @@ public class SiteBll
             return customer;
         }
 
-        if (!string.IsNullOrEmpty(signupModel.AffCode?.Trim()))
+        AffCodeObject affCodeObj = null;
+        if (!string.IsNullOrWhiteSpace(signupModel.AffCode))
         {
-            signupModel.AffCode = signupModel.AffCode.Trim();
-            if (!_regexAffCode.IsMatch(signupModel.AffCode))
+            affCodeObj = new AffCodeObject(signupModel.AffCode);
+            if (!affCodeObj.IsValid())
             {
                 apiResult.ErrorCode = -9;
                 apiResult.Message = _selLangBll.GetMsg("msg_AffCodeValidate");
@@ -157,9 +159,12 @@ public class SiteBll
             signupModel.AffCode = "nova88tvads";
         }
 
+        var fromUrl = _tools.GetFromUrl();
+        var deviceType = (int)_tools.GetDeviceId(fromUrl);
+        
         var result = _custInfoBLL.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email,
             signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff,
-            signupModel.AffCode, signupModel.LineUserId, out var custId, signupModel.SignupUrl, signupModel.ReferralUrl, signupModel.PhoneNo,
+            affCodeObj, signupModel.LineUserId, deviceType , out var custId, signupModel.SignupUrl, signupModel.ReferralUrl, signupModel.PhoneNo,
             signupModel.AreaCode, signupModel.RealName, signupModel.PromoCode, signupModel.Birth_d,
             signupModel.Birth_m,
             signupModel.Birth_y);
@@ -189,6 +194,10 @@ public class SiteBll
             case -7:
                 apiResult.ErrorCode = result;
                 apiResult.Message = _selLangBll.GetMsg("msg_PromoCodeIncorrect");
+                break;
+            case -10:
+                apiResult.ErrorCode = result;
+                apiResult.Message = _selLangBll.GetMsg("msg_AffCodeNotFound");
                 break;
             case -19:
                 apiResult.ErrorCode = result;
@@ -221,11 +230,9 @@ public class SiteBll
                             //        _iovationBll.SetIovation(custId, IovationType.registration, apiResultIovation.Data);
                             //}
                         });
-
-                        var fromUrl = _tools.GetFromUrl();
-                        var deviceType = (int)_tools.GetDeviceId(fromUrl);
-                        var userLoginResult = _custInfoBLL.UserLogin(false, 0, signupModel.UserName, signupModel.Userpwd,
-                            _tools.GetClientIP(), fromUrl, userAgent, deviceType, ref customer, out var token);
+                    
+                    var userLoginResult = _custInfoBLL.UserLogin(false, 0, signupModel.UserName, signupModel.Userpwd,
+                        _tools.GetClientIP(), fromUrl, userAgent, deviceType, ref customer, out var token);
 
                         switch (userLoginResult)
                         {

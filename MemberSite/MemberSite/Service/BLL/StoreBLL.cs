@@ -29,19 +29,10 @@ public class StoreBLL
     public async Task<object> GetMyCoinAsync(StoreGetMyCoinRequest request)
     {
         var url = _storeSiteUrl + "Frontend/GetMyCoin";
-        var result = await _courierAdapter.PostAsync(url, request);
 
+        var result = await _courierAdapter.PostAsync(url, request);
         return result;
     }
-
-    public async Task<object> GetMyPurchesAsync(StoreGetMyPurchesRequest request)
-    {
-        var url = _storeSiteUrl + "Frontend/GetMyPurches";
-        var result = await _courierAdapter.PostAsync(url, request);
-
-        return result;
-    }
-    
     public async Task<object> SetFavoriteAsync(StoreSetFavoriteRequest request)
     {
         var url = _storeSiteUrl + "Frontend/SetFavorite";
@@ -61,6 +52,14 @@ public class StoreBLL
     public async Task<object> GetGiftTagsAsync(StoreGetTagsRequest request)
     {
         var url = _storeSiteUrl + "Frontend/GetTags";
+        var result = await _courierAdapter.PostAsync(url, request);
+
+        return result;
+    }
+
+    public async Task<object> GetMyPurchesAsync(StoreGetMyPurchesRequest request)
+    {
+        var url = _storeSiteUrl + "Frontend/GetMyPurches";
         var result = await _courierAdapter.PostAsync(url, request);
 
         return result;
