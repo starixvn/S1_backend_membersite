@@ -1027,7 +1027,8 @@ namespace MemberSite.Service.BLL
             if (setting is null)
                 return WithdrawalInfoVerifyWayEnum.Manual; //沒有該幣別的設定就是手動
 
-            var withdrawalSuccessCounter = withdrawalService.GetWithdrawalSuccessCounter(custInfo.CustId, accountNo);
+            // 不看卡號 只看提款成功次數
+            var withdrawalSuccessCounter = withdrawalService.GetWithdrawalSuccessCounter(custInfo.CustId, null);
  
             var customerVip = custInfo.UserLevel;
             var customerTags = string.IsNullOrEmpty(custInfo.TagList)
