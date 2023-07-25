@@ -129,7 +129,7 @@ namespace MemberSite.Service.DAL
 
                 if (result > 0 && (!string.IsNullOrEmpty(signupUrl) || !string.IsNullOrEmpty(referralUrl)))
                 {
-                    result = _mainDbClient.Execute("Member_CustRegInfo_Ins_V2", trans,
+                    result = _mainDbClient.Execute("Member_CustRegInfo_Ins_V3", trans,
                         new DynamicParameters(new
                         { CustId = custId, customer.SiteId, SignupUrl = signupUrl, ReferralUrl = referralUrl }));
                 }
