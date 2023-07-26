@@ -19,6 +19,7 @@ using MemberSite.Service.Model.Options;
 using Elastic.Apm.AspNetCore;
 using Elastic.Apm.SqlClient;
 using Elastic.Apm.StackExchange.Redis;
+using Elastic.Apm.DiagnosticSource;
 
 namespace MemberSite
 {
@@ -303,7 +304,9 @@ namespace MemberSite
             app.UseHttpsRedirection();
             if (!env.IsEnvironment("Local"))
             {
-                app.UseElasticApm(_configuration, new SqlClientDiagnosticSubscriber());
+                app.UseElasticApm(_configuration,
+                    new HttpDiagnosticsSubscriber(),
+                    new SqlClientDiagnosticSubscriber());
             }
             app.UseStaticFiles();
 
