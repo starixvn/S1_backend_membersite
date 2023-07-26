@@ -2,6 +2,7 @@
 using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.DAL;
 using MemberSite.Service.DAL.Interface;
+using MemberSite.Service.Domain;
 using MemberSite.Service.Model;
 using NSubstitute;
 using NUnit.Framework;

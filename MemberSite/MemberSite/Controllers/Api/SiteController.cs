@@ -16,6 +16,9 @@ using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Cors;
 using static MemberSite.Extensions.MethodExtension;
 using MemberSite.Attributes;
+using Microsoft.AspNetCore.Http;
+using static MemberSite.Controllers.Api.SiteController;
+using System.Security.Policy;
 
 namespace MemberSite.Controllers.Api
 {
@@ -1364,6 +1367,42 @@ namespace MemberSite.Controllers.Api
                 ErrorCode = 0,
                 Data = siteInfo
             };
+            return apiResult;
+        }
+
+        public class VipBannerReq 
+        {
+            public int CurrencyId { get; set; }
+        }
+
+        [HttpPost]
+        public ApiResult<VipBanner> GetVipBanner(VipBannerReq vipBannerReq)
+        {
+            var apiResult = new ApiResult<VipBanner>() { ErrorCode = 0};
+            int siteId;
+            try
+            {
+                var serverInfo = _serverInfoBll.GetServerInfo();
+                int perferCurr;
+                var authData = _authorizeBll.GetAuthData();
+
+                if (authData is { CustId: > 0 })
+                {
+                    var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                    siteId = custInfo.SiteId;
+                    perferCurr = custInfo.CurrencyId;
+                }
+                else
+                {
+                    perferCurr = vipBannerReq.CurrencyId;
+                    siteId = serverInfo.SiteId;
+                }
+                apiResult.Data = _bannerBll.GetVipBanner(siteId, perferCurr);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, GetCurrentMethod());
+            }
             return apiResult;
         }
     }

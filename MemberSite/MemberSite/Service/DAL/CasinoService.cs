@@ -3,6 +3,7 @@ using MemberSite.Service.Model;
 using MemberSite.Service.Library;
 using Newtonsoft.Json;
 using MemberSite.Service.Model.enums;
+using MemberSite.Service.Model.Game;
 
 namespace MemberSite.Service.DAL
 {
@@ -23,12 +24,12 @@ namespace MemberSite.Service.DAL
 
         public void SetFavoriteGames(int CustId, string GameInfo, bool IsRemove)
         {
-            _mainDbClient.Execute("Member_Favorite_Set",  new DynamicParameters(new { CustId, GameInfo, IsRemove}));
+            _mainDbClient.Execute("Member_Favorite_Set", new DynamicParameters(new { CustId, GameInfo, IsRemove }));
         }
 
         public IEnumerable<int> GetProviderIdByCurrency(int CurrencyId, int SiteId)
         {
-            return _reportDb.Query<int>("Member_TpList_GetByCurrency", new { CurrencyId, SiteId});
+            return _reportDb.Query<int>("Member_TpList_GetByCurrency", new { CurrencyId, SiteId });
         }
         public IEnumerable<GameCasionByCurrencyAndSite> GetGameCasinoByCurrencyAndSite(int CurrencyId, int SiteId)
         {
@@ -54,6 +55,11 @@ namespace MemberSite.Service.DAL
             p.Add("_CustId", custId);
             var result = await _reportDb.QueryFirstAsync<string>("Member_TpDisableUserByCustId_Get", p);
             return (!string.IsNullOrEmpty(result) && result != "null") ? JsonConvert.DeserializeObject<IEnumerable<DisableTpGame>>(result) : new List<DisableTpGame>();
+        }
+
+        public async Task<IEnumerable<SlotGameTopRankingInfo>> GetSlotGameTopRankingList()
+        {
+            return await _reportDb.QueryAsync<SlotGameTopRankingInfo>("Member_SlotGameTopRanking_Get", null);
         }
     }
 }

@@ -79,4 +79,41 @@
         public string BackgroundPic { get; set; }
         public int tpGameType { get; set; }
     }
+    public class RebateCategory
+    {
+        public int CategoryId { get; set; }
+        public string CategoryName { get; set; }
+        public int Level { get; set; }
+        public decimal Percentage { get; set; }
+    }
+    public class VipBannerData
+    {
+        public IEnumerable<RebateCategory> RebateCategory { get; set; }
+        public int Level { get; set; }
+        public string LevelName { get; set; }
+        public string WithdrawalMin { get; set; }
+        public string WithdrawalMax { get; set; }
+        public string Times { get; set; }
+        public string UpDeposit { get; set; }
+        public string UpBonus { get; set; }
+        public string DownDeposit { get; set; }
+        public string DownTurnover { get; set; }
+        public string RankingValidityMembershipRenewal { get; set; }
+        public string DepositPriority { get; set; }
+        public string ServiceSupport { get; set; }
+        public string WithdrawalPriority { get; set; }
+        public bool DesignatedAccountManager { get; set; }
+        public bool ReferralBonus { get; set; } = true;
+    }
+    public class LastUpdateTime
+    {
+        public DateTime RebateCategoryLastUpdateTime { get; set; }
+        public DateTime WithdrawalLimitInfoLastUpdateTime { get; set; }
+        public DateTime VipSystemLastUpdateTime { get; set; }
+    }
+    public class VipBanner
+    {
+        public DateTime LastUpdateTime { get; set; }
+        public IEnumerable<VipBannerData> VipBannerData { get; set; }
+    }
 }

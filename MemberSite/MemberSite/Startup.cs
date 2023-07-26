@@ -16,6 +16,10 @@ using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Model.Mapping;
 using StackExchange.Redis;
 using MemberSite.Service.Model.Options;
+using Elastic.Apm.AspNetCore;
+using Elastic.Apm.SqlClient;
+using Elastic.Apm.StackExchange.Redis;
+using Elastic.Apm.DiagnosticSource;
 
 namespace MemberSite
 {
@@ -63,7 +67,9 @@ namespace MemberSite
             services.AddMemoryCache();
             services.AddDatabaseConnection(_configuration);
             services.AddMessageQueueConnection(_configuration);
-            services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(_configuration.GetValue<string>("RedisConnection")));
+            var redisConnection = ConnectionMultiplexer.Connect(_configuration.GetValue<string>("RedisConnection"));
+            redisConnection.UseElasticApm();
+            services.AddSingleton<IConnectionMultiplexer>(redisConnection);          
             services.AddSingleton<ICacheHelper, RedisCacheHelper>();
             
             /*Library*/
@@ -96,6 +102,7 @@ namespace MemberSite
             services.AddSingleton<PayService>();
             services.AddSingleton<PromotionService>();
             services.AddSingleton<CasinoService>();
+            services.AddSingleton<LobbyCategoryService>();
             services.AddSingleton<StatementService>();
             services.AddSingleton<AuthService>();
             services.AddSingleton<IBannerService, BannerService>();
@@ -147,6 +154,7 @@ namespace MemberSite
             services.AddSingleton<StoreBLL>();
             services.AddSingleton<GamingBLL>();
             services.AddSingleton<CasinoBll>();
+            services.AddSingleton<LobbyCategoryBLL>();
             services.AddSingleton<CommonBLL>();
             services.AddSingleton<TemplateBLL>();
             services.AddSingleton<AuthBLL>();
@@ -295,7 +303,12 @@ namespace MemberSite
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseHttpsRedirection();
-
+            if (!env.IsEnvironment("Local"))
+            {
+                app.UseElasticApm(_configuration,
+                    new HttpDiagnosticsSubscriber(),
+                    new SqlClientDiagnosticSubscriber());
+            }
             app.UseStaticFiles();
 
             app.UseRouting();
