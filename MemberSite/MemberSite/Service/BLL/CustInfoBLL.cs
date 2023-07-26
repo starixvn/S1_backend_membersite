@@ -63,7 +63,7 @@ namespace MemberSite.Service.BLL
         }
 
         public int AddCustInfo(string UserName, string Userpwd, string Email, int CurrencyId, string UserLang,
-            string refId, string affId, string aff, string affCode, string lineUserId, out int custId, string signupUrl = null,
+            string refId, string affId, string aff, string affCode, string lineUserId, int deviceType, out int custId, string signupUrl = null,
             string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null,
             int Birth_d = 0, int Birth_m = 0, int Birth_y = 0)
         {
@@ -137,7 +137,7 @@ namespace MemberSite.Service.BLL
                 signupUrl = _tools.GetFromUrl();
             }
 
-            var result = _custInfoService.AddCustInfo(regCustInfo, Email, lineUserId, out custId, signupUrl, referralUrl, PhoneNo, AreaCode,
+            var result = _custInfoService.AddCustInfo(regCustInfo, Email, lineUserId, deviceType, out custId, signupUrl, referralUrl, PhoneNo, AreaCode,
                 RealName, promoCode, Birth_d, Birth_m, Birth_y);
 
             if (result == 0 && regCustInfo.SiteId != (int)SiteId.Nova88)
