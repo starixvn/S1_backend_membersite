@@ -234,6 +234,7 @@ public class SiteBll
                     var userLoginResult = _custInfoBLL.UserLogin(false, 0, signupModel.UserName, signupModel.Userpwd,
                         _tools.GetClientIP(), fromUrl, userAgent, deviceType, ref customer, out var token);
 
+
                         switch (userLoginResult)
                         {
                             case -1:
