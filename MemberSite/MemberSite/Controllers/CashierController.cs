@@ -100,7 +100,7 @@ namespace MemberSite.Controllers
                     ReturnUrl = Url.RouteUrl("desktop",
                         new {action = "Deposit", controller = "Cashier", custInfo.UserLang},
                         protocol: Request.Scheme,
-                        host: Request.Host.Port == 80
+                        host: Request.Host.Port is 80 or null
                             ? Request.Host.Host
                             : $"{Request.Host.Host}:{Request.Host.Port}")
                 };
@@ -133,7 +133,7 @@ namespace MemberSite.Controllers
                     ChannelId = payInfo.ChannelId,
                     PayId = payInfo.PayId,
                     ClientIP = _tools.GetClientIP(),
-                    ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", custInfo.UserLang }, protocol: Request.Scheme, host: Request.Host.Port == 80 ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}"),
+                    ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", custInfo.UserLang }, protocol: Request.Scheme, host: Request.Host.Port is 80 or null ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}"),
                     PayAccount = PayAccount
                 };
 
@@ -171,7 +171,7 @@ namespace MemberSite.Controllers
                     PayId = cryptoPayInfo.PayId,
                     ClientIP = _tools.GetClientIP(),
                     DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(cryptoPayInfo),
-                    ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", custInfo.UserLang }, protocol: Request.Scheme, host: Request.Host.Port == 80 ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}")
+                    ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", custInfo.UserLang }, protocol: Request.Scheme, host: Request.Host.Port is 80 or null ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}")
                 };
 
                 var myUrl = $"{_payApiUrl}ReqDepositCrpyto";
@@ -254,7 +254,7 @@ namespace MemberSite.Controllers
                     loadCardPayInfo.ChannelId,
                     loadCardPayInfo.PayId,
                     ClientIP = _tools.GetClientIP(),
-                    ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", custInfo.UserLang }, protocol: Request.Scheme, host: Request.Host.Port == 80 ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}")
+                    ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", custInfo.UserLang }, protocol: Request.Scheme, host: Request.Host.Port is 80 or null ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}")
                 };
 
                 var myUrl = $"{_payApiUrl}ReqDepositLoadCard";
@@ -378,7 +378,7 @@ namespace MemberSite.Controllers
                 payInfo.ChannelId,
                 payInfo.PayId,
                 ClientIP = _tools.GetClientIP(),
-                ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", custInfo.UserLang }, protocol: Request.Scheme, host: Request.Host.Port == 80 ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}")
+                ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", custInfo.UserLang }, protocol: Request.Scheme, host: Request.Host.Port is 80 or null ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}")
             });
 
             return ActionResult(apiResult, transId, model, PaymentView.DepositReqMobilePay, out var actionResult)
@@ -425,7 +425,7 @@ namespace MemberSite.Controllers
                     PayId = onlineBank.PayId,
                     SysId = onlineBank.SysId,
                     ClientIP = _tools.GetClientIP(),
-                    ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", custInfo.UserLang }, protocol: Request.Scheme, host: Request.Host.Port == 80 ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}")
+                    ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", custInfo.UserLang }, protocol: Request.Scheme, host: Request.Host.Port is 80 or null ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}")
                 });
                 
                 if (ActionResult(apiResult, transId, new ErrorData(), PaymentView.DepositReqOnlineBanking, out var actionResult)) 
