@@ -170,7 +170,7 @@ public class SiteBll
         {
             case -1:
                 apiResult.ErrorCode = result;
-                apiResult.Message = _selLangBll.GetMsg("err_ThisCurrencyNotSupport");
+                apiResult.Message = _selLangBll.GetMsg("msg_ThisCurrencyNotSupport");
                 break;
             case -2:
                 apiResult.ErrorCode = result;
