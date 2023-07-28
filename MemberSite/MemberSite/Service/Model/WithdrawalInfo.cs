@@ -167,4 +167,11 @@ namespace MemberSite.Service.Model
             set => _createTime = new DateTimeOffset(value.DateTime, TimeSpan.Zero);
         }
     }
+    
+    public class AutoPaymentRequest 
+    {
+        public string TransId { get; set; }
+        public string Token { get; set; }
+        public string Comment { get; set; }
+    }
 }

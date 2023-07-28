@@ -123,6 +123,7 @@ namespace MemberSite
             services.AddTransient<RecaptchaService>();
             services.AddSingleton<PartitionService>();
             services.AddTransient<CurrencyService>();
+            services.AddTransient<IAffiliateService, AffiliateService>();
             services.AddTransient<GameService>();
 
             services.AddSingleton<IPService>();

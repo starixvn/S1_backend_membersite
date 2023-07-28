@@ -2,6 +2,7 @@
 using MemberSite.Controllers.Api;
 using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.DAL;
+using MemberSite.Service.Domain;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
@@ -17,7 +18,6 @@ public class SiteBll
     private readonly Tools _tools;
     private readonly ShieldBLL _ShieldBll;
     private readonly Regex _regexUserName = new(@"^[a-zA-Z0-9]{6,18}$");
-    private readonly Regex _regexAffCode = new(@"^[0-9]{5,20}$");
     private readonly Regex _regexPhoneNumber = new(@"^\+60[0-9]{9,10}$|\+62[0-9]{10,13}$|\+86[0-9]{10,11}$|\+91[0-9]{10}$|\+66[0-9]{9}$|\+880[0-9]{10}$|\+855[0-9]{8,10}$");
     private readonly Regex _regexEmail = new(@"^\w+((-\w+)|(\.\w+))*@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$");
     private readonly RecaptchaBLL _recaptcha;
@@ -133,10 +133,11 @@ public class SiteBll
             return customer;
         }
 
-        if (!string.IsNullOrEmpty(signupModel.AffCode?.Trim()))
+        AffCodeObject affCodeObj = null;
+        if (!string.IsNullOrWhiteSpace(signupModel.AffCode))
         {
-            signupModel.AffCode = signupModel.AffCode.Trim();
-            if (!_regexAffCode.IsMatch(signupModel.AffCode))
+            affCodeObj = new AffCodeObject(signupModel.AffCode);
+            if (!affCodeObj.IsValid())
             {
                 apiResult.ErrorCode = -9;
                 apiResult.Message = _selLangBll.GetMsg("msg_AffCodeValidate");
@@ -160,7 +161,7 @@ public class SiteBll
 
         var result = _custInfoBLL.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email,
             signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff,
-            signupModel.AffCode, signupModel.LineUserId, deviceType, out var custId, signupModel.SignupUrl, signupModel.ReferralUrl, signupModel.PhoneNo,
+            affCodeObj, signupModel.LineUserId, deviceType, out var custId, signupModel.SignupUrl, signupModel.ReferralUrl, signupModel.PhoneNo,
             signupModel.AreaCode, signupModel.RealName, signupModel.PromoCode, signupModel.Birth_d,
             signupModel.Birth_m,
             signupModel.Birth_y);
@@ -169,7 +170,7 @@ public class SiteBll
         {
             case -1:
                 apiResult.ErrorCode = result;
-                apiResult.Message = _selLangBll.GetMsg("err_ThisCurrencyNotSupport");
+                apiResult.Message = _selLangBll.GetMsg("msg_ThisCurrencyNotSupport");
                 break;
             case -2:
                 apiResult.ErrorCode = result;
@@ -190,6 +191,10 @@ public class SiteBll
             case -7:
                 apiResult.ErrorCode = result;
                 apiResult.Message = _selLangBll.GetMsg("msg_PromoCodeIncorrect");
+                break;
+            case -10:
+                apiResult.ErrorCode = result;
+                apiResult.Message = _selLangBll.GetMsg("msg_AffCodeNotFound");
                 break;
             case -19:
                 apiResult.ErrorCode = result;
