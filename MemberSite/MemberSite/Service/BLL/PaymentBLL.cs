@@ -1009,7 +1009,7 @@ namespace MemberSite.Service.BLL
         {
             try
             {
-                var withdrawalVerifyWay = GetWithdrawalVerifyWay(custInfo, accountNo, withdrawalAmount);
+                var withdrawalVerifyWay = GetWithdrawalVerifyWay(transId, custInfo, accountNo, withdrawalAmount);
                 if (withdrawalVerifyWay == WithdrawalInfoVerifyWayEnum.Auto)
                 {
                     var _ = AutoVerify(transId);
@@ -1021,7 +1021,7 @@ namespace MemberSite.Service.BLL
             }
         }
 
-        private WithdrawalInfoVerifyWayEnum GetWithdrawalVerifyWay(Customer custInfo, string accountNo, decimal withdrawalAmount)
+        private WithdrawalInfoVerifyWayEnum GetWithdrawalVerifyWay(string transId, Customer custInfo, string accountNo, decimal withdrawalAmount)
         {
             var setting = withdrawalService.GetAutoPaymentRuleSetting(custInfo.SiteId, custInfo.CurrencyId,AutoType.AutoVerify);
             if (setting is null)
@@ -1040,7 +1040,11 @@ namespace MemberSite.Service.BLL
                 // Iovation
                 var custIovation = _iovationService.GetCustIovation(custInfo.CustId);
                 if (!setting.DeviceLevel.Contains(custIovation.Iovation))
-                    return WithdrawalInfoVerifyWayEnum.Manual;
+                {
+                    _logger.LogInformation($"{transId} WithdrawalVerifyWay Manual, custIovation : {custIovation} , Setting :{JsonConvert.SerializeObject(setting.DeviceLevel)} " );
+                    return WithdrawalInfoVerifyWayEnum.Manual;;
+                }
+                   
             }
             else
             {
@@ -1048,32 +1052,47 @@ namespace MemberSite.Service.BLL
                 var context = _httpContextAccessor.HttpContext;
                 var strDeviceScore = context.Request.Cookies["device_score"];
                 var deviceScore = strDeviceScore != null ? Convert.ToInt32(strDeviceScore) : -1;
-                
-                if ( deviceScore < setting.DeviceScores)
+
+                if (deviceScore < setting.DeviceScores)
+                {
+                    _logger.LogInformation($"{transId} WithdrawalVerifyWay Manual, deviceScore : {deviceScore} , Setting :{setting.DeviceScores} " );
                     return WithdrawalInfoVerifyWayEnum.Manual;
+                }
             }
             
             // 玩家身上有Tag，設定也有tag 才檢查
             if (customerTags.Any() && setting.Tags.Any())
             {
                 if (!customerTags.Intersect(setting.Tags).Any())
+                {
+                    _logger.LogInformation($"{transId} WithdrawalVerifyWay Manual, customerTags : {JsonConvert.SerializeObject(customerTags)} , Setting :{JsonConvert.SerializeObject(setting.Tags)} " );
                     return WithdrawalInfoVerifyWayEnum.Manual;
+                }
             }
 
             // vipLevelCheck
             if (setting.VipLevels.Any())
             {
                 if (setting.VipLevels.All(x => x != customerVip))
+                {
+                    _logger.LogInformation($"{transId} WithdrawalVerifyWay Manual, customerVip : {customerVip} , Setting :{JsonConvert.SerializeObject(setting.VipLevels)} " );
                     return WithdrawalInfoVerifyWayEnum.Manual;
+                }
             }
             
             // withdrawal Amount check
             if (withdrawalAmount > setting.WithdrawalAmount)
+            {
+                _logger.LogInformation($"{transId} WithdrawalVerifyWay Manual, withdrawalAmount : {withdrawalAmount} , Setting :{setting.WithdrawalAmount} " );
                 return WithdrawalInfoVerifyWayEnum.Manual;
+            }
 
             // withdrawal SuccessCounter check
             if (withdrawalSuccessCounter.SuccessWithdrawalCount < setting.AccountWithdrawalCount)
+            {
+                _logger.LogInformation($"{transId} WithdrawalVerifyWay Manual, SuccessWithdrawalCount : {withdrawalSuccessCounter.SuccessWithdrawalCount} , Setting :{setting.AccountWithdrawalCount} " );
                 return WithdrawalInfoVerifyWayEnum.Manual;
+            }
 
             return WithdrawalInfoVerifyWayEnum.Auto;
         }
