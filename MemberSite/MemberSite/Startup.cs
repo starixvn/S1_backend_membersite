@@ -16,6 +16,10 @@ using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Model.Mapping;
 using StackExchange.Redis;
 using MemberSite.Service.Model.Options;
+using Elastic.Apm.AspNetCore;
+using Elastic.Apm.SqlClient;
+using Elastic.Apm.StackExchange.Redis;
+using Elastic.Apm.DiagnosticSource;
 
 namespace MemberSite
 {
@@ -63,7 +67,9 @@ namespace MemberSite
             services.AddMemoryCache();
             services.AddDatabaseConnection(_configuration);
             services.AddMessageQueueConnection(_configuration);
-            services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(_configuration.GetValue<string>("RedisConnection")));
+            var redisConnection = ConnectionMultiplexer.Connect(_configuration.GetValue<string>("RedisConnection"));
+            redisConnection.UseElasticApm();
+            services.AddSingleton<IConnectionMultiplexer>(redisConnection);          
             services.AddSingleton<ICacheHelper, RedisCacheHelper>();
             
             /*Library*/
@@ -117,6 +123,7 @@ namespace MemberSite
             services.AddTransient<RecaptchaService>();
             services.AddSingleton<PartitionService>();
             services.AddTransient<CurrencyService>();
+            services.AddTransient<IAffiliateService, AffiliateService>();
             services.AddTransient<GameService>();
 
             services.AddSingleton<IPService>();
@@ -296,7 +303,12 @@ namespace MemberSite
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseHttpsRedirection();
-
+            if (!env.IsEnvironment("Local"))
+            {
+                app.UseElasticApm(_configuration,
+                    new HttpDiagnosticsSubscriber(),
+                    new SqlClientDiagnosticSubscriber());
+            }
             app.UseStaticFiles();
 
             app.UseRouting();

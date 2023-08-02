@@ -40,7 +40,7 @@ namespace MemberSite.Service.DAL
             return _reportDbClient.ExecuteScalar<int>("Member_ExistsEmail_Get", new { CustId = custId, Email = email, SiteId = siteId }) != 0;
         }
 
-        public int AddCustInfo(Customer customer, string Email, string lineUserId, out int custId, string signupUrl = null, string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null, int Birth_d = 0, int Birth_m = 0, int Birth_y = 0)
+        public int AddCustInfo(Customer customer, string Email, string lineUserId,int deviceType, out int custId, string signupUrl = null, string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null, int Birth_d = 0, int Birth_m = 0, int Birth_y = 0)
         {
             using var conn = _mainDbClient.GetMySqlConnection();
             conn.Open();
@@ -129,9 +129,9 @@ namespace MemberSite.Service.DAL
 
                 if (result > 0 && (!string.IsNullOrEmpty(signupUrl) || !string.IsNullOrEmpty(referralUrl)))
                 {
-                    result = _mainDbClient.Execute("Member_CustRegInfo_Ins_V2", trans,
-                        new DynamicParameters(new
-                        { CustId = custId, customer.SiteId, SignupUrl = signupUrl, ReferralUrl = referralUrl }));
+                    result = _mainDbClient.Execute("Member_CustRegInfo_Ins_V3", trans,
+                        new DynamicParameters(
+                         new { CustId = custId, customer.SiteId, SignupUrl = signupUrl, ReferralUrl = referralUrl, DeviceType = deviceType }));
                 }
 
                 if (result > 0 && !string.IsNullOrEmpty(promoCode) && _promotionService.CheckSpecialCode(promoCode))

@@ -36,14 +36,14 @@ namespace MemberSite.Controllers.Api
             _logger = provider.GetRequiredService<ILogger<PromotionController>>();
             _tools = provider.GetRequiredService<Tools>();
         }
-        
+
         public class PromotionReq
         {
             public string BonusCode { set; get; }
             public decimal? LockedAmount { set; get; }
             public int? DeviceType { set; get; }
         }
-        
+
         public class PromotionRequest
         {
             public string BonusCode { set; get; }
@@ -52,7 +52,7 @@ namespace MemberSite.Controllers.Api
             public decimal? LockedAmount { set; get; }
             public int DeviceType { set; get; }
         }
-        
+
         public class CustPromotionRequest
         {
             public int SiteId { set; get; }
@@ -62,14 +62,14 @@ namespace MemberSite.Controllers.Api
             public bool IsLogin { set; get; }
             public string LangId { set; get; }
             public string DefLang { set; get; }
-            public int PromotionType { set; get; } 
+            public int PromotionType { set; get; }
         }
-        
+
         public class PromotionDetailRequest : CustPromotionRequest
         {
             public string BonusCode { set; get; }
         }
-        
+
         public class PromotionDeviceReq
         {
             public int DeviceType { set; get; }
@@ -81,19 +81,24 @@ namespace MemberSite.Controllers.Api
             public string BonusCode { set; get; }
             public int? CurrencyId { set; get; }
         }
-        
+
         public class SetSpecialCodeReq
         {
             public string SpecialCode { set; get; }
             public int? DeviceType { set; get; }
         }
-        
+
         public class SetDepositPromotionQueueReq
         {
             public string TransId { set; get; }
             public string BonusCode { set; get; }
             public decimal? LockedAmount { set; get; }
             public int? DeviceType { set; get; }
+        }
+
+        public class GetRebateExcludeGameListReq
+        {
+            public int CurrencyId { set; get; }
         }
 
         [Authorize]
@@ -104,7 +109,7 @@ namespace MemberSite.Controllers.Api
             try
             {
                 var authData = _authorizeBll.GetAuthData();
-                if (authData is {CustId: > 0})
+                if (authData is { CustId: > 0 })
                 {
                     var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                     var deviceType = (int)PromotionDeviceType.All;
@@ -112,9 +117,9 @@ namespace MemberSite.Controllers.Api
                     {
                         deviceType = Convert.ToInt32(promotionReq.DeviceType);
                     }
-                
+
                     var apiUrl = $"{_bonusServiceUrl}SetClaimPromotion";
-                
+
                     var req = new PromotionRequest
                     {
                         BonusCode = promotionReq.BonusCode,
@@ -123,9 +128,9 @@ namespace MemberSite.Controllers.Api
                         LockedAmount = promotionReq.LockedAmount,
                         DeviceType = deviceType
                     };
-                
+
                     apiResult = await _courierAdapter.MyPostAsync<ApiResult, PromotionRequest>(apiUrl, req);
-                
+
                     if (custInfo.SiteId != (int)SiteId.Nova88)
                     {
                         _ = Task.Run(async () =>
@@ -147,7 +152,7 @@ namespace MemberSite.Controllers.Api
 
             return apiResult;
         }
-        
+
         [HttpPost]
         public ApiResult<List<CustPromotion>> GetPromotionListV3(PromotionDeviceReq promotionDeviceReq)
         {
@@ -168,13 +173,13 @@ namespace MemberSite.Controllers.Api
                 else
                 {
                     currencyId = _selLangBll.GetPreferCurrencyId();
-                    
+
                     if (promotionDeviceReq.CurrencyId.HasValue)
                     {
                         currencyId = promotionDeviceReq.CurrencyId.Value;
                     }
                 }
-            
+
                 var apiUrl = $"{_bonusServiceUrl}GetPromotionListV3";
                 var req = new CustPromotionRequest
                 {
@@ -193,7 +198,7 @@ namespace MemberSite.Controllers.Api
             {
                 _logger.LogError(e, GetCurrentMethod());
             }
-            
+
             return result;
         }
 
@@ -255,7 +260,7 @@ namespace MemberSite.Controllers.Api
             {
                 var serverInfo = _serverInfoBll.GetServerInfo();
                 var authData = _authorizeBll.GetAuthData();
-                if (authData is {CustId: > 0})
+                if (authData is { CustId: > 0 })
                 {
                     var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
 
@@ -291,7 +296,7 @@ namespace MemberSite.Controllers.Api
             {
                 var authData = _authorizeBll.GetAuthData();
 
-                if (authData is {CustId: > 0})
+                if (authData is { CustId: > 0 })
                 {
                     var apiUrl = $"{_bonusServiceUrl}SetSpecialCode";
                     var req = new SpecialCodeRequest
@@ -303,7 +308,7 @@ namespace MemberSite.Controllers.Api
 
                     result = _courierAdapter.MyPostAsync<ApiResult, SpecialCodeRequest>(apiUrl, req).Result;
                 }
-                
+
                 result.Message = result.ErrorCode switch
                 {
                     (int)SpecialCode.SpecialCodeError => _selLangBll.GetMsg("msg_SpecialCodeErr"),
@@ -319,7 +324,7 @@ namespace MemberSite.Controllers.Api
                 result.Message = _selLangBll.GetMsg("msg_Ineligible");
                 _logger.LogError(e, GetCurrentMethod());
             }
-            
+
             return result;
         }
 
@@ -332,8 +337,8 @@ namespace MemberSite.Controllers.Api
             {
                 var serverInfo = _serverInfoBll.GetServerInfo();
                 var authData = _authorizeBll.GetAuthData();
-                
-                if (authData is {CustId: > 0})
+
+                if (authData is { CustId: > 0 })
                 {
                     var apiUrl = $"{_bonusServiceUrl}GetDepositPromotionList";
                     var req = new CustPromotionRequest
@@ -354,7 +359,7 @@ namespace MemberSite.Controllers.Api
 
             return result;
         }
-        
+
         [Authorize]
         [HttpPost]
         public ApiResult SetDepositPromotionQueue(SetDepositPromotionQueueReq request)
@@ -371,9 +376,9 @@ namespace MemberSite.Controllers.Api
                     result.Message = _selLangBll.GetMsg("msg_Ineligible");
                     return result;
                 }
-                
+
                 var authData = _authorizeBll.GetAuthData();
-                if (authData is {CustId: > 0})
+                if (authData is { CustId: > 0 })
                 {
                     var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                     var req = new DepositPromotionQueue
@@ -422,6 +427,52 @@ namespace MemberSite.Controllers.Api
             }
 
             return result;
+        }
+
+        [HttpPost]
+        public async Task<ApiResult<IEnumerable<RebateExcludeGameDetail>>> GetRebateExcludeGameListAsync(GetRebateExcludeGameListReq request, [FromRoute] string langId = "en")
+        {
+            var result = new ApiResult<IEnumerable<RebateExcludeGameDetail>>();
+            try
+            {
+                var serverInfo = _serverInfoBll.GetServerInfo();
+
+                if (!serverInfo.ICurrencyList.Contains(request.CurrencyId))
+                    return new ApiResult<IEnumerable<RebateExcludeGameDetail>>()
+                    {
+                        Data = new List<RebateExcludeGameDetail>(),
+                        ErrorCode = 0
+                    };
+
+                var authData = _authorizeBll.GetAuthData();
+                var isLogin = authData is { CustId: > 0 };
+                int currencyId = request.CurrencyId;
+                int userLevel = 1;
+                if (isLogin)
+                {
+                    var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                    currencyId = custInfo.CurrencyId;
+                    userLevel = custInfo.UserLevel;
+                }
+
+                var apiUrl = $"{_bonusServiceUrl}GetRebateExcludeGameList";
+                var req = new GetRebateExcludeGameListRequest
+                {
+                    SiteId = serverInfo.SiteId,
+                    CurrencyId = currencyId,
+                    VipLevel = userLevel,
+                    LangId = langId
+                };
+
+                result = await _courierAdapter.MyPostAsync<IEnumerable<RebateExcludeGameDetail>, GetRebateExcludeGameListRequest>(apiUrl, req);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, GetCurrentMethod());
+                result.RawMessage = e.Message;
+            }
+            return result;
+
         }
     }
 }

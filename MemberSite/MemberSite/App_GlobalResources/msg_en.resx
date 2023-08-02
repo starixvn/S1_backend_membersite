@@ -151,6 +151,7 @@
   <data name="msg_LineAccountAlreadyBind"><value>This LINE account has been used, please use another account.</value></data>
   <data name="msg_RealNameWrongFormat"><value>RealName can't allow number or special charactors.</value></data>
   <data name="msg_OTPDailyLimit"><value>OTP has reached the limit,please contact Live Chat Support</value></data>
+  <data name="msg_AffCodeNotFound"><value>Affiliate ID cant be found</value></data>
   <data name="msg_SystemUnstable"><value>System is unable to retrieve details.</value></data>
   <data name="msg_SystemUnstable_Detail"><value>Bank's system is currently unable to retrieve the transaction details, and unable to process your deposit at the moment.</value></data>
   <data name="msg_BankUnderMaintenance"><value>Bank Maintenance</value></data>
