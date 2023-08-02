@@ -73,7 +73,6 @@ namespace MemberSite.Controllers.Api
         public ApiResult<IEnumerable<OfflineBankInfoFront>> GetBankInfoOffList()
         {
             var authData = authorizeBLL.GetAuthData();
-            
             if (authData is not { CustId: > 0 })
             {
                 return new ApiResult<IEnumerable<OfflineBankInfoFront>>
@@ -1681,7 +1680,6 @@ namespace MemberSite.Controllers.Api
                 { SiteId = custInfo.SiteId, CurrencyId = custInfo.CurrencyId, VipLevel = custInfo.UserLevel });
             var eWalletWithdrawalLimitInfo = paymentBLL.GetEWalletWithdrawalLimitInfo(new WithdrawalLimitInfoInput { SiteId = custInfo.SiteId, CurrencyId = custInfo.CurrencyId });
             var dailyCustomerWithdrawalInfo = paymentBLL.GetDailyCustomerWithdrawalInfo(new DailyCustomerWithdrawalInfoInput { CustId = custInfo.CustId });
-
             var withdrawLimit = WithdrawLimitFactory.Create(WithdrawalTypeStatus.EWallet);
             var errorCode = withdrawLimit.CheckWithdrawLimit(eWalletWithdrawalLimitInfo, withdrawalLimitInfo, dailyCustomerWithdrawalInfo, withdrawalReqModel.amount);
 
