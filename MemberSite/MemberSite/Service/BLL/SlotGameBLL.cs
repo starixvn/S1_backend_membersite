@@ -49,6 +49,8 @@ namespace MemberSite.Service.BLL
             _specialVenderLogoTp = new Dictionary<int, int>()
             {
                 { 30, 67 },
+                { 52, 109 },
+                { 52, 110 },
             };
             _excludeTp = new List<int>
             {
