@@ -120,5 +120,9 @@ namespace MemberSite.Service.DAL
 
             return result;
         }
+
+        public bool ExistsReferralCode(int siteId, string refCode) =>
+            _reportDb.ExecuteScalar<int>("Member_ExistsReferralCode_Get",
+                new { _SiteId = siteId, _ReferralCode = refCode }) == 1;
     }
 }
