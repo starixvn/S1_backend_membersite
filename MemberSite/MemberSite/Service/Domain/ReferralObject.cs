@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using MemberSite.Service.Model.enums;
+using System.Text.RegularExpressions;
 
 namespace MemberSite.Service.Domain
 {
@@ -18,11 +19,10 @@ namespace MemberSite.Service.Domain
             return _regexAffCode.IsMatch(Value);
         }
 
-        public bool IsExists(int siteId, Func<int, string, (bool IsExist, int CurrencyId)> IsExists)
+        public int IsExists(Func<string, int> IsExists)
         {
-            var result = IsExists(siteId, Value);
-            CurrencyId = result.CurrencyId;
-            return result.IsExist;
+            CurrencyId = IsExists(Value);
+            return CurrencyId;
         }
     }
 }

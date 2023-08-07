@@ -158,7 +158,7 @@ public class SiteBll
                     apiResult.Message = _selLangBll.GetMsg("msg_AffCodeValidate");
                     return customer;
                 }
-                if (!rffCodeObj.IsExists(serverInfo.SiteId, _custInfoBLL.ExistsReferralCode))
+                if (rffCodeObj.IsExists(_custInfoBLL.GetAffiliateAgentBll) < 0)
                 {
                     apiResult.ErrorCode = -10;
                     apiResult.Message = _selLangBll.GetMsg("msg_AffCodeNotFound");
