@@ -5,6 +5,7 @@ namespace MemberSite.Service.Domain
     public class ReferralObject
     {
         public string Value { get; private set; }
+        public int CurrencyId { get; private set; }
 
         public ReferralObject(string affCode)
         {
@@ -17,9 +18,11 @@ namespace MemberSite.Service.Domain
             return _regexAffCode.IsMatch(Value);
         }
 
-        public bool IsExists(int siteId, Func<int, string, bool> IsExists)
+        public bool IsExists(int siteId, Func<int, string, (bool IsExist, int CurrencyId)> IsExists)
         {
-            return IsExists(siteId, Value);
+            var result = IsExists(siteId, Value);
+            CurrencyId = result.CurrencyId;
+            return result.IsExist;
         }
     }
 }
