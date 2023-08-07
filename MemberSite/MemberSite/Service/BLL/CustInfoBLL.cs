@@ -609,7 +609,7 @@ namespace MemberSite.Service.BLL
                 {
                     return -9;
                 }
-                if (!rffCodeObj.IsExists(serverInfo.SiteId, ExistsReferralCode))
+                if (rffCodeObj.IsExists(GetAffiliateAgentBll) < 0)
                 {
                     return -10;
                 }
@@ -619,9 +619,6 @@ namespace MemberSite.Service.BLL
 
             return -10;
         }
-
-        public (bool IsExist, int CurrencyId) ExistsReferralCode(int siteId, string refCode)
-            => _agentInfoService.ExistsReferralCode(siteId, refCode);
 
         public void GetReferralSummary(int custId, ReferralTypeEnum type, out int referralCount, out int conditionCount, out int amountCount, out int amountSum, out int hasReferral)
         {

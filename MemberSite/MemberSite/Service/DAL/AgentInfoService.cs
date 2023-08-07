@@ -122,12 +122,5 @@ namespace MemberSite.Service.DAL
 
             return result;
         }
-
-        public (bool IsExist, int CurrencyId) ExistsReferralCode(int siteId, string refCode)
-        {
-            var props = new DynamicParameters(new { _SiteId = siteId, _ReferralCode = refCode });
-            var result = _reportDb.QueryFirst<(string AffiliateId, int CurrencyId)>("Member_ExistsReferralCode_Get", props);
-            return (string.IsNullOrWhiteSpace(result.AffiliateId), result.CurrencyId);
-        }
     }
 }
