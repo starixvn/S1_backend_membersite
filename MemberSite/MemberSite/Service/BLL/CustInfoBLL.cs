@@ -585,8 +585,9 @@ namespace MemberSite.Service.BLL
             return -1;
 
         }
-        public int AffiliateAndReferralCheck(string affCode)
+        public int AffiliateAndReferralCheck(string affCode, out int currencyId)
         {
+            currencyId = 0;
             var serverInfo = _serverInfoBll.GetServerInfo();
             if (affCode.Length == 5)
             {
@@ -608,15 +609,17 @@ namespace MemberSite.Service.BLL
                 {
                     return -9;
                 }
-                if (!rffCodeObj.IsExists(serverInfo.SiteId, _agentInfoService.ExistsReferralCode))
+                if (rffCodeObj.IsExists(GetAffiliateAgentBll) < 0)
                 {
                     return -10;
                 }
+                currencyId = rffCodeObj.CurrencyId;
                 return 0;
             }
 
             return -10;
         }
+
         public void GetReferralSummary(int custId, ReferralTypeEnum type, out int referralCount, out int conditionCount, out int amountCount, out int amountSum, out int hasReferral)
         {
             _agentInfoService.GetReferralSummary(custId, type, out referralCount, out conditionCount, out amountCount, out amountSum, out hasReferral);

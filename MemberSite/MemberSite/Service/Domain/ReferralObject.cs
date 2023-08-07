@@ -1,10 +1,12 @@
-﻿using System.Text.RegularExpressions;
+﻿using MemberSite.Service.Model.enums;
+using System.Text.RegularExpressions;
 
 namespace MemberSite.Service.Domain
 {
     public class ReferralObject
     {
         public string Value { get; private set; }
+        public int CurrencyId { get; private set; }
 
         public ReferralObject(string affCode)
         {
@@ -17,9 +19,10 @@ namespace MemberSite.Service.Domain
             return _regexAffCode.IsMatch(Value);
         }
 
-        public bool IsExists(int siteId, Func<int, string, bool> IsExists)
+        public int IsExists(Func<string, int> IsExists)
         {
-            return IsExists(siteId, Value);
+            CurrencyId = IsExists(Value);
+            return CurrencyId;
         }
     }
 }
