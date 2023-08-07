@@ -95,7 +95,7 @@ namespace MemberSite.Service.BLL
                 custId = 0;
                 return -4;
             }
-            if (affCode != null && !affCode.IsExists(serverInfo.SiteId, _affiliateService.ExistsAffiliateCode)) 
+            if (affCode != null && !affCode.IsExists(serverInfo.SiteId, _affiliateService.ExistsAffiliateCode))
             {
                 custId = 0;
                 return -10;
@@ -585,19 +585,37 @@ namespace MemberSite.Service.BLL
             return -1;
 
         }
-        public int AffiliateCheck(string affCode) 
+        public int AffiliateAndReferralCheck(string affCode)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
-            var affCodeObj = new AffCodeObject(affCode);
-            if (!affCodeObj.IsValid())
+            if (affCode.Length == 5)
             {
-                return -9;
+                var affCodeObj = new AffCodeObject(affCode);
+                if (!affCodeObj.IsValid())
+                {
+                    return -9;
+                }
+                if (!affCodeObj.IsExists(serverInfo.SiteId, _affiliateService.ExistsAffiliateCode))
+                {
+                    return -10;
+                }
+                return 0;
             }
-            if (!affCodeObj.IsExists(serverInfo.SiteId, _affiliateService.ExistsAffiliateCode))
+            else if (affCode.Length == 8)
             {
-                return -10;
+                var rffCodeObj = new ReferralObject(affCode);
+                if (!rffCodeObj.IsValid())
+                {
+                    return -9;
+                }
+                if (!rffCodeObj.IsExists(serverInfo.SiteId, _agentInfoService.ExistsReferralCode))
+                {
+                    return -10;
+                }
+                return 0;
             }
-            return 0;
+
+            return -10;
         }
         public void GetReferralSummary(int custId, ReferralTypeEnum type, out int referralCount, out int conditionCount, out int amountCount, out int amountSum, out int hasReferral)
         {

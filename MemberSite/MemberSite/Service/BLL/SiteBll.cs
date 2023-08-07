@@ -136,13 +136,32 @@ public class SiteBll
         AffCodeObject affCodeObj = null;
         if (!string.IsNullOrWhiteSpace(signupModel.AffCode))
         {
-            affCodeObj = new AffCodeObject(signupModel.AffCode);
-            if (!affCodeObj.IsValid())
+            if (signupModel.AffCode.Trim().Length == 5)
             {
-                apiResult.ErrorCode = -9;
-                apiResult.Message = _selLangBll.GetMsg("msg_AffCodeValidate");
-                return customer;
+                affCodeObj = new AffCodeObject(signupModel.AffCode);
+                if (!affCodeObj.IsValid())
+                {
+                    apiResult.ErrorCode = -9;
+                    apiResult.Message = _selLangBll.GetMsg("msg_AffCodeValidate");
+                    return customer;
+                }
             }
+            else if (signupModel.AffCode.Trim().Length == 8)
+            {
+                var rffCodeObj = new ReferralObject(signupModel.AffCode);
+                if (!rffCodeObj.IsValid())
+                {
+                    apiResult.ErrorCode = -9;
+                    apiResult.Message = _selLangBll.GetMsg("msg_AffCodeValidate");
+                    return customer;
+                }
+            }
+            else
+            {
+                apiResult.ErrorCode = -10;
+                apiResult.Message = _selLangBll.GetMsg("msg_AffCodeNotFound");
+                return customer;
+            }    
         }
 
         if (string.IsNullOrEmpty(signupModel.SignupUrl))
