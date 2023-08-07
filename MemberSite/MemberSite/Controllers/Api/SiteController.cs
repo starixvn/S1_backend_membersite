@@ -1190,7 +1190,7 @@ namespace MemberSite.Controllers.Api
         }
 
 
-        public class AffiliateExitsReq 
+        public class AffiliateExitsReq
         {
             public string AffCode { get; set; }
         }
@@ -1200,14 +1200,14 @@ namespace MemberSite.Controllers.Api
         /// <param name="req"></param>
         /// <returns></returns>
         [HttpPost]
-        public ApiResult AffiliateCheck(AffiliateExitsReq req) 
+        public ApiResult AffiliateCheck(AffiliateExitsReq req)
         {
             var apiResult = new ApiResult();
-            var errorCode = _custInfoBll.AffiliateCheck(req.AffCode);
+            var errorCode = _custInfoBll.AffiliateAndReferralCheck(req.AffCode.Trim());
             apiResult.ErrorCode = errorCode;
             apiResult.Message = errorCode switch
             {
-                -9 =>  _selLangBll.GetMsg("msg_AffCodeValidate"),
+                -9 => _selLangBll.GetMsg("msg_AffCodeValidate"),
                 -10 => _selLangBll.GetMsg("msg_AffCodeNotFound"),
                 _ => "",
             };
@@ -1370,7 +1370,7 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
 
-        public class VipBannerReq 
+        public class VipBannerReq
         {
             public int CurrencyId { get; set; }
         }
@@ -1378,7 +1378,7 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiResult<VipBanner> GetVipBanner(VipBannerReq vipBannerReq)
         {
-            var apiResult = new ApiResult<VipBanner>() { ErrorCode = 0};
+            var apiResult = new ApiResult<VipBanner>() { ErrorCode = 0 };
             int siteId;
             try
             {

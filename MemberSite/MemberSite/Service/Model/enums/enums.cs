@@ -674,13 +674,13 @@
         /// </summary>
         Auto = 1,
     }
-    
+
     public enum AutoType
     {
         AutoVerify = 1,
         AutoApproved = 2
     }
-    
+
     public enum WithdrawalAccountTypeEnum
     {
         EWallet = 1,
@@ -715,4 +715,6 @@
         Referral = 1,         //舊制
         DepositReferral = 2   //新制 
     }
+
 }
+
