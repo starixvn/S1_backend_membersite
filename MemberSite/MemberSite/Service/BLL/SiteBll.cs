@@ -125,7 +125,7 @@ public class SiteBll
                 return customer;
             }
         }
-        
+
         if (!_regexUserName.IsMatch(signupModel.UserName))
         {
             apiResult.ErrorCode = -8;
@@ -155,13 +155,27 @@ public class SiteBll
                     apiResult.Message = _selLangBll.GetMsg("msg_AffCodeValidate");
                     return customer;
                 }
+                if (!rffCodeObj.IsExists(serverInfo.SiteId, _custInfoBLL.ExistsReferralCode))
+                {
+                    apiResult.ErrorCode = -10;
+                    apiResult.Message = _selLangBll.GetMsg("msg_AffCodeNotFound");
+                    return customer;
+                }
+                if (rffCodeObj.CurrencyId != signupModel.CurrencyId)
+                {
+                    apiResult.ErrorCode = -10;
+                    apiResult.Message = _selLangBll.GetMsg("msg_AffCodeNotFound");
+                    return customer;
+                }
+                signupModel.AffId = signupModel.AffCode;
+                signupModel.AffCode = null;
             }
             else
             {
                 apiResult.ErrorCode = -10;
                 apiResult.Message = _selLangBll.GetMsg("msg_AffCodeNotFound");
                 return customer;
-            }    
+            }
         }
 
         if (string.IsNullOrEmpty(signupModel.SignupUrl))

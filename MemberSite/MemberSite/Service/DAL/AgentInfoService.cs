@@ -3,6 +3,8 @@ using Dapper;
 using System.Data;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model.enums;
+using static MongoDB.Driver.WriteConcern;
+using System.Drawing.Printing;
 
 namespace MemberSite.Service.DAL
 {
@@ -47,7 +49,7 @@ namespace MemberSite.Service.DAL
             p.Add("_CurrencyId", currencyId);
             return await _reportDb.QueryFirstAsync<ReferralSettingDetailData>("Member_ReferralSetting_Get_V3", p);
         }
-        public void GetReferralSummary(int custId, ReferralTypeEnum type, out int referralCount, out int conditionCount, out int amountCount, out int amountSum,out int hasReferral)
+        public void GetReferralSummary(int custId, ReferralTypeEnum type, out int referralCount, out int conditionCount, out int amountCount, out int amountSum, out int hasReferral)
         {
             var p = new DynamicParameters(new { CustId = custId });
             p.Add("ReferralCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
@@ -121,8 +123,11 @@ namespace MemberSite.Service.DAL
             return result;
         }
 
-        public bool ExistsReferralCode(int siteId, string refCode) =>
-            _reportDb.ExecuteScalar<int>("Member_ExistsReferralCode_Get",
-                new { _SiteId = siteId, _ReferralCode = refCode }) == 1;
+        public (bool IsExist, int CurrencyId) ExistsReferralCode(int siteId, string refCode)
+        {
+            var props = new DynamicParameters(new { _SiteId = siteId, _ReferralCode = refCode });
+            var result = _reportDb.QueryFirst<(string AffiliateId, int CurrencyId)>("Member_ExistsReferralCode_Get", props);
+            return (string.IsNullOrWhiteSpace(result.AffiliateId), result.CurrencyId);
+        }
     }
 }
