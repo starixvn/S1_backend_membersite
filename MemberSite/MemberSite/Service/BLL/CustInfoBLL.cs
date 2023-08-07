@@ -1,4 +1,6 @@
 ﻿using MemberSite.Service.DAL;
+using MemberSite.Service.DAL.Interface;
+using MemberSite.Service.Domain;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
@@ -15,6 +17,7 @@ namespace MemberSite.Service.BLL
         private readonly IRabbitMQProducer _producer;
         private readonly CustInfoService _custInfoService;
         private readonly AuthenticateService _authenticateService;
+        private readonly IAffiliateService _affiliateService;
         private readonly ServerInfoBll _serverInfoBll;
         private readonly AgentInfoService _agentInfoService;
         private readonly BankInfoService _bankInfoService;
@@ -44,6 +47,7 @@ namespace MemberSite.Service.BLL
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
             _shieldBll = provider.GetRequiredService<ShieldBLL>();
             _producer = provider.GetRequiredService<IRabbitMQProducer>();
+            _affiliateService = provider.GetRequiredService<IAffiliateService>();
         }
         public string GetCountryNameByAreaCode(string areaCode)
         {
@@ -63,7 +67,7 @@ namespace MemberSite.Service.BLL
         }
 
         public int AddCustInfo(string UserName, string Userpwd, string Email, int CurrencyId, string UserLang,
-            string refId, string affId, string aff, string affCode, string lineUserId, out int custId, string signupUrl = null,
+            string refId, string affId, string aff, AffCodeObject affCode, string lineUserId, int deviceType, out int custId, string signupUrl = null,
             string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null,
             int Birth_d = 0, int Birth_m = 0, int Birth_y = 0)
         {
@@ -90,6 +94,11 @@ namespace MemberSite.Service.BLL
             {
                 custId = 0;
                 return -4;
+            }
+            if (affCode != null && !affCode.IsExists(serverInfo.SiteId, _affiliateService.ExistsAffiliateCode)) 
+            {
+                custId = 0;
+                return -10;
             }
 
             Customer agent = null;
@@ -129,7 +138,7 @@ namespace MemberSite.Service.BLL
                 UserLevel = 1,
                 UserLang = UserLang,
                 Aff = aff,
-                AffCode = affCode
+                AffCode = affCode?.Value
             };
 
             if (string.IsNullOrEmpty(signupUrl))
@@ -137,7 +146,7 @@ namespace MemberSite.Service.BLL
                 signupUrl = _tools.GetFromUrl();
             }
 
-            var result = _custInfoService.AddCustInfo(regCustInfo, Email, lineUserId, out custId, signupUrl, referralUrl, PhoneNo, AreaCode,
+            var result = _custInfoService.AddCustInfo(regCustInfo, Email, lineUserId, deviceType, out custId, signupUrl, referralUrl, PhoneNo, AreaCode,
                 RealName, promoCode, Birth_d, Birth_m, Birth_y);
 
             if (result == 0 && regCustInfo.SiteId != (int)SiteId.Nova88)
@@ -576,6 +585,20 @@ namespace MemberSite.Service.BLL
             return -1;
 
         }
+        public int AffiliateCheck(string affCode) 
+        {
+            var serverInfo = _serverInfoBll.GetServerInfo();
+            var affCodeObj = new AffCodeObject(affCode);
+            if (!affCodeObj.IsValid())
+            {
+                return -9;
+            }
+            if (!affCodeObj.IsExists(serverInfo.SiteId, _affiliateService.ExistsAffiliateCode))
+            {
+                return -10;
+            }
+            return 0;
+        }
         public void GetReferralSummary(int custId, ReferralTypeEnum type, out int referralCount, out int conditionCount, out int amountCount, out int amountSum, out int hasReferral)
         {
             _agentInfoService.GetReferralSummary(custId, type, out referralCount, out conditionCount, out amountCount, out amountSum, out hasReferral);
@@ -706,6 +729,17 @@ namespace MemberSite.Service.BLL
                     typeResult.Where(x => x.GameType == gameType && x.Type == CustTpGameTypeSettingType.NoPlay).Any()));
             }
 
+            return result;
+        }
+        public async Task<IEnumerable<CustRecentlyViewedInfo>> GetCustRecentlyViewed(int custId)
+        {
+            var key = $"GetCustRecentlyViewed:{custId}";
+            var result = await _redisHelper.TryGetOrCreateAsync(key,
+                TimeSpan.FromMinutes(3),
+                async () =>
+                {
+                    return await _custInfoService.GetCustRecentlyViewed(custId);
+                });
             return result;
         }
     }

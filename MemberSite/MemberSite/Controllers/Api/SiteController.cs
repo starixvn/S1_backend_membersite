@@ -16,6 +16,9 @@ using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Cors;
 using static MemberSite.Extensions.MethodExtension;
 using MemberSite.Attributes;
+using Microsoft.AspNetCore.Http;
+using static MemberSite.Controllers.Api.SiteController;
+using System.Security.Policy;
 
 namespace MemberSite.Controllers.Api
 {
@@ -44,6 +47,7 @@ namespace MemberSite.Controllers.Api
         private readonly RecaptchaBLL _recaptchaBll;
         private readonly ILogger<SiteController> _logger;
         private readonly CheckAttackBLL _checkAttackBll;
+        private readonly StringVaildHelper _stringVaildHelper;
 
         public SiteController(IServiceProvider provider)
         {
@@ -66,6 +70,7 @@ namespace MemberSite.Controllers.Api
             _logger = provider.GetRequiredService<ILogger<SiteController>>();
             var env = provider.GetRequiredService<IWebHostEnvironment>();
             _checkAttackBll = provider.GetRequiredService<CheckAttackBLL>();
+            _stringVaildHelper = provider.GetRequiredService<StringVaildHelper>();
         }
 
         public class LoginModel
@@ -301,6 +306,15 @@ namespace MemberSite.Controllers.Api
 
             var apiResult = new ApiResult(_selLangBll);
             var isAuthenticated = User.Identity is { IsAuthenticated: true };
+
+            if (string.IsNullOrWhiteSpace(signupModel.RealName)
+                || !_stringVaildHelper.VaildAccountNameForSetProfile(signupModel.RealName))
+            {
+                apiResult.ErrorCode = 21;
+                apiResult.Message = $"{_selLangBll.GetMsg("msg_RealNameWrongFormat")}";
+                return apiResult;
+            }
+
             var customer = _siteBll.Signup(signupModel, apiResult, isAuthenticated, Request.Host.Host,
                 Request.Headers["User-Agent"], true);
             if (apiResult.ErrorCode == (int)ErrorCode.Attack)
@@ -331,6 +345,15 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<JwtAuthData>(_selLangBll);
             var isAuthenticated = User.Identity is { IsAuthenticated: true };
+
+            if (string.IsNullOrWhiteSpace(signupModel.RealName)
+                || !_stringVaildHelper.VaildAccountNameForSetProfile(signupModel.RealName))
+            {
+                apiResult.ErrorCode = 21;
+                apiResult.Message = $"{_selLangBll.GetMsg("msg_RealNameWrongFormat")}";
+                return apiResult;
+            }
+
             var customer = _siteBll.Signup(signupModel, apiResult, isAuthenticated, Request.Host.Host,
                 Request.Headers["User-Agent"], false);
 
@@ -743,14 +766,14 @@ namespace MemberSite.Controllers.Api
                     langId = _selLangBll.CheckLangId(langId) ? langId : _selLangBll.GetLangId();
                 }
                 apiResult.Data = _bannerBll.GetBannerV3(siteId, bannerReq.BannerType, ShowStatus, perferCurr, langId, serverInfo);
-                
+
                 var domain = _serverInfoBll.GetHttpDomain();
-	            foreach (var data in apiResult.Data)
-	            {
-	                if (!string.IsNullOrEmpty(data.UrlRouter) && data.ActionMode == 6)
-	                {
+                foreach (var data in apiResult.Data)
+                {
+                    if (!string.IsNullOrEmpty(data.UrlRouter) && data.ActionMode == 6)
+                    {
                         data.BannerLink = $"{domain}/{data.UrlRouter}";
-	                }
+                    }
                 }
                 apiResult.ErrorCode = 0;
             }
@@ -1127,6 +1150,11 @@ namespace MemberSite.Controllers.Api
         {
             public string AffId { get; set; }
         }
+        /// <summary>
+        /// 取得Referral 所屬幣別
+        /// </summary>
+        /// <param name="affiliateAgentReq"></param>
+        /// <returns></returns>
         [HttpPost]
         public ApiResult<AffiliateAgent> GetAffiliateAgent(AffiliateAgentReq affiliateAgentReq)
         {
@@ -1158,6 +1186,31 @@ namespace MemberSite.Controllers.Api
                     break;
             }
 
+            return apiResult;
+        }
+
+
+        public class AffiliateExitsReq 
+        {
+            public string AffCode { get; set; }
+        }
+        /// <summary>
+        /// 檢查代理是否存在
+        /// </summary>
+        /// <param name="req"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ApiResult AffiliateCheck(AffiliateExitsReq req) 
+        {
+            var apiResult = new ApiResult();
+            var errorCode = _custInfoBll.AffiliateCheck(req.AffCode);
+            apiResult.ErrorCode = errorCode;
+            apiResult.Message = errorCode switch
+            {
+                -9 =>  _selLangBll.GetMsg("msg_AffCodeValidate"),
+                -10 => _selLangBll.GetMsg("msg_AffCodeNotFound"),
+                _ => "",
+            };
             return apiResult;
         }
 
@@ -1314,6 +1367,42 @@ namespace MemberSite.Controllers.Api
                 ErrorCode = 0,
                 Data = siteInfo
             };
+            return apiResult;
+        }
+
+        public class VipBannerReq 
+        {
+            public int CurrencyId { get; set; }
+        }
+
+        [HttpPost]
+        public ApiResult<VipBanner> GetVipBanner(VipBannerReq vipBannerReq)
+        {
+            var apiResult = new ApiResult<VipBanner>() { ErrorCode = 0};
+            int siteId;
+            try
+            {
+                var serverInfo = _serverInfoBll.GetServerInfo();
+                int perferCurr;
+                var authData = _authorizeBll.GetAuthData();
+
+                if (authData is { CustId: > 0 })
+                {
+                    var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                    siteId = custInfo.SiteId;
+                    perferCurr = custInfo.CurrencyId;
+                }
+                else
+                {
+                    perferCurr = vipBannerReq.CurrencyId;
+                    siteId = serverInfo.SiteId;
+                }
+                apiResult.Data = _bannerBll.GetVipBanner(siteId, perferCurr);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, GetCurrentMethod());
+            }
             return apiResult;
         }
     }

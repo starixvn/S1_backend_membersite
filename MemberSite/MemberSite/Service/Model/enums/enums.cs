@@ -1,6 +1,3 @@
-﻿using MemberSite.Service.Model;
-using System.ComponentModel;
-
 namespace MemberSite.Service.Model.enums
 {
     public enum WalletStatus
@@ -595,7 +592,9 @@ namespace MemberSite.Service.Model.enums
         DepositRefunded = 3,
         WrongAmountSubmitted = 4,
         WrongBankSubmitted = 5,
-        InactiveBankAccountSubmission = 6
+        InactiveBankAccountSubmission = 6,
+        SystemUnstable = 7,
+        BankUnderMaintenance = 8
     }
     public enum WithdrawalMessageStatus
     {
@@ -663,6 +662,25 @@ namespace MemberSite.Service.Model.enums
         Auto = 1,
     }
 
+    public enum WithdrawalInfoVerifyWayEnum
+    {
+        /// <summary>
+        /// 手動驗證
+        /// </summary>
+        Manual = 0,
+
+        /// <summary>
+        /// 自動驗證
+        /// </summary>
+        Auto = 1,
+    }
+
+    public enum AutoType
+    {
+        AutoVerify = 1,
+        AutoApproved = 2
+    }
+
     public enum WithdrawalAccountTypeEnum
     {
         EWallet = 1,
@@ -686,5 +704,10 @@ namespace MemberSite.Service.Model.enums
         Referral = 1,         //舊制
         DepositReferral = 2   //新制 
     }
-}
 
+    public enum RecentlyViewedTypeEnum
+    {
+        LobbyName = 1, // saba sport
+        GameName = 2, // Golden Grimoire
+    }
+}

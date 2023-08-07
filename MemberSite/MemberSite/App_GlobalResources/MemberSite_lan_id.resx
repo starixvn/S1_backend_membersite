@@ -577,4 +577,10 @@
   <data name="lbl_VIETTELPAY"><value>Pembayaran Viettel Pay</value></data>
   <data name="lbl_ThaiQR"><value>Pembayaran Thai QR</value></data>
   <data name="lbl_JDPay"><value>Pembayaran JDpay</value></data>
+  <data name="lbl_Vip_High"><value>Tinggi</value></data>
+  <data name="lbl_Vip_3Months"><value>Tiga Bulan</value></data>
+  <data name="lbl_Vip_Lifetime"><value>Seumur Hidup</value></data>
+  <data name="lbl_Vip_Normal"><value>Normal</value></data>
+  <data name="lbl_Vip_ByInvitation"><value>Undangan Saja</value></data>
+  <data name="lbl_VIP_unlimited"><value>Tidak terbatas</value></data>
   </root>

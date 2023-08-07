@@ -135,4 +135,9 @@
   <data name="msg_limit_has_been_reached"><value>Đã đạt đến giới hạn của ngày hôm nay</value></data>
   <data name="msg_keep_up"><value>Chúc may mắn trong lần rút tiếp theo của bạn</value></data>
   <data name="msg_OTPDailyLimit"><value>Bạn đã gửi nhiều yêu cầu OTP trước đó, vui lòng liên hệ bộ phận Live Chat để được hỗ trợ</value></data>
+  <data name="msg_AffCodeNotFound"><value>Tìm không thấy ID Đại lý</value></data>
+  <data name="msg_SystemUnstable"><value>Hệ thống hiện không thể hiện chi tiết.</value></data>
+  <data name="msg_SystemUnstable_Detail"><value>Hệ thống ngân hàng hiện không thể hiện chi tiết giao dịch và xử lý giao dịch nạp tiền. Vui lòng quay lại sau.</value></data>
+  <data name="msg_BankUnderMaintenance"><value>Bảo trì ngân hàng</value></data>
+  <data name="msg_BankUnderMaintenance_Detail"><value>Hệ thống ngân hàng hiện đang được bảo trì và tạm thời không thể xử lý khoản tiền gửi của bạn.</value></data>
   </root>
