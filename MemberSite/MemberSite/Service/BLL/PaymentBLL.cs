@@ -965,8 +965,7 @@ namespace MemberSite.Service.BLL
             if (setting is null)
                 return WithdrawalInfoProcessWayEnum.Manual; //沒有該幣別的設定就是手動
 
-            var withdrawalSuccessCounter =
-                withdrawalService.GetWithdrawalSuccessCounter(custInfo.CustId, accountNo);
+            var withdrawalSuccessCounter = withdrawalService.GetWithdrawalSuccessCounter(custInfo.CustId, accountNo);
             var customerAccountType = (int)accountType;
             var customerVip = custInfo.UserLevel;
             var customerTags = string.IsNullOrEmpty(custInfo.TagList)
@@ -1001,6 +1000,9 @@ namespace MemberSite.Service.BLL
             // withdrawal SuccessCounter check
             if (withdrawalSuccessCounter.SuccessWithdrawalCount < setting.AccountWithdrawalCount)
                 return WithdrawalInfoProcessWayEnum.Manual;
+
+            _logger.LogInformation($"GetWithdrawalProcessWay GetAutoWithdrawalRuleSetting：{JsonConvert.SerializeObject(setting)}，withdrawalSuccessCounter：{JsonConvert.SerializeObject(withdrawalSuccessCounter)},SiteId：{custInfo.SiteId},CurrencyId:{custInfo.CurrencyId},accountNo:{accountNo}");
+
 
             return WithdrawalInfoProcessWayEnum.Auto;
         }
