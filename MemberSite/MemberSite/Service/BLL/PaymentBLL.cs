@@ -1001,7 +1001,7 @@ namespace MemberSite.Service.BLL
             if (withdrawalSuccessCounter.SuccessWithdrawalCount < setting.AccountWithdrawalCount)
                 return WithdrawalInfoProcessWayEnum.Manual;
 
-            _logger.LogInformation($"GetWithdrawalProcessWay GetAutoWithdrawalRuleSetting：{JsonConvert.SerializeObject(setting)}，withdrawalSuccessCounter：{JsonConvert.SerializeObject(withdrawalSuccessCounter)},SiteId：{custInfo.SiteId},CurrencyId:{custInfo.CurrencyId},accountNo:{accountNo}");
+            _logger.LogInformation($"GetWithdrawalProcessWay GetAutoWithdrawalRuleSetting：{JsonConvert.SerializeObject(setting)}，withdrawalSuccessCounter：{JsonConvert.SerializeObject(withdrawalSuccessCounter)},CustId:{custInfo.CustId},SiteId：{custInfo.SiteId},CurrencyId:{custInfo.CurrencyId},accountNo:{accountNo}");
 
 
             return WithdrawalInfoProcessWayEnum.Auto;
