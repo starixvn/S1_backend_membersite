@@ -1001,7 +1001,7 @@ namespace MemberSite.Service.BLL
             if (withdrawalSuccessCounter.SuccessWithdrawalCount < setting.AccountWithdrawalCount)
                 return WithdrawalInfoProcessWayEnum.Manual;
 
-            _logger.LogInformation($"GetWithdrawalProcessWay GetAutoWithdrawalRuleSetting：{JsonConvert.SerializeObject(setting)}，withdrawalSuccessCounter：{JsonConvert.SerializeObject(withdrawalSuccessCounter)},SiteId：{custInfo.SiteId},CurrencyId:{custInfo.CurrencyId},accountNo:{accountNo}");
+            _logger.LogInformation($"GetWithdrawalProcessWay GetAutoWithdrawalRuleSetting：{JsonConvert.SerializeObject(setting)}，withdrawalSuccessCounter：{JsonConvert.SerializeObject(withdrawalSuccessCounter)},CustId:{custInfo.CustId},SiteId：{custInfo.SiteId},CurrencyId:{custInfo.CurrencyId},accountNo:{accountNo}");
 
 
             return WithdrawalInfoProcessWayEnum.Auto;
@@ -1030,7 +1030,7 @@ namespace MemberSite.Service.BLL
                 return WithdrawalInfoVerifyWayEnum.Manual; //沒有該幣別的設定就是手動
 
             // 不看卡號 只看提款成功次數
-            var withdrawalSuccessCounter = withdrawalService.GetWithdrawalSuccessCounter(custInfo.CustId, null);
+            var withdrawalSuccessCounter = withdrawalService.GetAllAccountWithdrawalSuccessCounterByCustId(custInfo.CustId);
  
             var customerVip = custInfo.UserLevel;
             var customerTags = string.IsNullOrEmpty(custInfo.TagList)
