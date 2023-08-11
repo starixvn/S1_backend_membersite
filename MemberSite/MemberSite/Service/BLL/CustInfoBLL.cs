@@ -102,17 +102,8 @@ namespace MemberSite.Service.BLL
             }
 
             Customer agent = null;
-            if (!string.IsNullOrEmpty(affId))
-            {
-                agent = _agentInfoService.GetAffiliateAgent(affId, serverInfo.SiteId);
-
-                if (agent == null)
-                {
-                    custId = 0;
-                    return -19;
-                }
-            }
-            else if (!string.IsNullOrEmpty(refId))
+            //如果從CreditSite註冊，且有輸入邀請碼(Referral)，則該用戶屬於邀請碼下線
+            if (!string.IsNullOrEmpty(refId))
             {
                 agent = _agentInfoService.GetAffiliateAgent($"{refId}_{CurrencyId}", serverInfo.SiteId);
 
@@ -120,6 +111,16 @@ namespace MemberSite.Service.BLL
                 {
                     custId = 0;
                     return -19; /*agent Currency != CurrencyId*/
+                }
+            }
+            else if (!string.IsNullOrEmpty(affId))
+            {
+                agent = _agentInfoService.GetAffiliateAgent(affId, serverInfo.SiteId);
+
+                if (agent == null)
+                {
+                    custId = 0;
+                    return -19;
                 }
             }
 
