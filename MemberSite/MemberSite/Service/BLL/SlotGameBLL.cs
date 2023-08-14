@@ -48,9 +48,9 @@ namespace MemberSite.Service.BLL
             _configuration = provider.GetRequiredService<IConfiguration>();
             _specialVenderLogoTp = new Dictionary<int, int>()
             {
-                { 30, 67 },
-                //{ 52, 109 },
-                { 52, 110 },
+                { 67, 30 },
+                { 109, 52},
+                { 110, 52},
             };
             _excludeTp = new List<int>
             {
