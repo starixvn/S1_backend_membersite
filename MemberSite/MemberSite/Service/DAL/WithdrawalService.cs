@@ -246,7 +246,7 @@ namespace MemberSite.Service.DAL
             
         public int GetWithdrawalSuccessCount(int custId, string accountNo)
         {
-            return _reportDbClient.ExecuteScalar<int>("Member_WithdrawalSuccessCounter_Get_V2",
+            return _reportDbClient.ExecuteScalar<int>("Member_WithdrawalSuccessCounter_Get_V3",
                 new
                 {
                     _CustId = custId,
@@ -255,13 +255,13 @@ namespace MemberSite.Service.DAL
         }
 
 
-        public WithdrawalAccountCounterDto GetAllAccountWithdrawalSuccessCounterByCustId(int custId)
+        public int GetAllAccountWithdrawalSuccessCounterByCustId(int custId)
         {
-            return _reportDbClient.Query<WithdrawalAccountCounterDto>("Member_WithdrawalSuccessCounterByCustId_Get",
+            return _reportDbClient.ExecuteScalar<int>("Member_WithdrawalSuccessCounterByCustId_Get",
                 new
                 {
                     _CustId = custId,
-                }).First();
+                });
         }
     }
 }
