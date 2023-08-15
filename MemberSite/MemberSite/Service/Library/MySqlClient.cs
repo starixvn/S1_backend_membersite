@@ -359,7 +359,30 @@ namespace MemberSite.Service.Library
             _logger.LogDebug($"{name} {sw.Elapsed:c}");
             return result;
         }
-        
+
+        public T ExecuteScalar<T>(string name, object parameters, CommandFlags commandFlags)
+        {
+            T result;
+            var sw = Stopwatch.StartNew();
+            try
+            {
+                using var connection = new MySqlConnection(_connectionString);
+                var command = new CommandDefinition(name, parameters, null, null, CommandType.StoredProcedure, commandFlags);
+                result = connection.ExecuteScalar<T>(command);
+                connection.Close();
+                connection.Dispose();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, name);
+                throw;
+            }
+
+            LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
+            _logger.LogDebug($"{name} {sw.Elapsed:c}");
+            return result;
+        }
+
         public T ExecuteScalar<T>(string name, IDbTransaction transaction, object parameters)
         {
             T result;
