@@ -1030,7 +1030,7 @@ namespace MemberSite.Service.BLL
                 return WithdrawalInfoVerifyWayEnum.Manual; //沒有該幣別的設定就是手動
 
             // 不看卡號 只看提款成功次數
-            var withdrawalSuccessCounter = withdrawalService.GetAllAccountWithdrawalSuccessCounterByCustId(custInfo.CustId);
+            var withdrawalSuccessCount = withdrawalService.GetAllAccountWithdrawalSuccessCounterByCustId(custInfo.CustId);
  
             var customerVip = custInfo.UserLevel;
             var customerTags = string.IsNullOrEmpty(custInfo.TagList)
@@ -1090,9 +1090,9 @@ namespace MemberSite.Service.BLL
             }
 
             // withdrawal SuccessCounter check
-            if (withdrawalSuccessCounter.SuccessWithdrawalCount < setting.AccountWithdrawalCount)
+            if (withdrawalSuccessCount < setting.AccountWithdrawalCount)
             {
-                _logger.LogInformation($"{transId} WithdrawalVerifyWay Manual, SuccessWithdrawalCount : {withdrawalSuccessCounter.SuccessWithdrawalCount} , Setting :{setting.AccountWithdrawalCount} " );
+                _logger.LogInformation($"{transId} WithdrawalVerifyWay Manual, SuccessWithdrawalCount : {withdrawalSuccessCount} , Setting :{setting.AccountWithdrawalCount} " );
                 return WithdrawalInfoVerifyWayEnum.Manual;
             }
 
