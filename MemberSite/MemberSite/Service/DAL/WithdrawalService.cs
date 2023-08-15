@@ -244,13 +244,23 @@ namespace MemberSite.Service.DAL
         }
         
             
-        public WithdrawalAccountCounterDto GetWithdrawalSuccessCounter(int custId, string accountNo)
+        public int GetWithdrawalSuccessCount(int custId, string accountNo)
         {
-            return _reportDbClient.Query<WithdrawalAccountCounterDto>("Member_WithdrawalSuccessCounter_Get",
+            return _reportDbClient.ExecuteScalar<int>("Member_WithdrawalSuccessCounter_Get_V2",
                 new
                 {
                     _CustId = custId,
                     _AccountNo = accountNo
+                });
+        }
+
+
+        public WithdrawalAccountCounterDto GetAllAccountWithdrawalSuccessCounterByCustId(int custId)
+        {
+            return _reportDbClient.Query<WithdrawalAccountCounterDto>("Member_WithdrawalSuccessCounterByCustId_Get",
+                new
+                {
+                    _CustId = custId,
                 }).First();
         }
     }
