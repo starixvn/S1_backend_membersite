@@ -251,19 +251,17 @@ namespace MemberSite.Service.DAL
                 {
                     _CustId = custId,
                     _AccountNo = accountNo
-                }, 
-                CommandFlags.NoCache);
+                });
         }
 
 
-        public int GetAllAccountWithdrawalSuccessCounterByCustId(int custId)
+        public WithdrawalAccountCounterDto GetAllAccountWithdrawalSuccessCounterByCustId(int custId)
         {
-            return _reportDbClient.ExecuteScalar<int>("Member_WithdrawalSuccessCounterByCustId_Get",
+            return _reportDbClient.Query<WithdrawalAccountCounterDto>("Member_WithdrawalSuccessCounterByCustId_Get",
                 new
                 {
                     _CustId = custId,
-                }, 
-                CommandFlags.NoCache);
+                }).First();
         }
     }
 }
