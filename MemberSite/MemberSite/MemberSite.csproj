@@ -21,45 +21,21 @@
 
   <ItemGroup>
     <Compile Remove="Views\Promotion\Promo5PBonus\**" />
-    <Compile Remove="wwwroot\SiteSkin\Nova88\**" />
+    <Compile Remove="wwwroot\CMS\**" />
+    <Compile Remove="wwwroot\js\**" />
+    <Compile Remove="wwwroot\SiteSkin\**" />
     <Content Remove="Views\Promotion\Promo5PBonus\**" />
-    <Content Remove="wwwroot\SiteSkin\Nova88\**" />
+    <Content Remove="wwwroot\CMS\**" />
+    <Content Remove="wwwroot\js\**" />
+    <Content Remove="wwwroot\SiteSkin\**" />
     <EmbeddedResource Remove="Views\Promotion\Promo5PBonus\**" />
-    <EmbeddedResource Remove="wwwroot\SiteSkin\Nova88\**" />
+    <EmbeddedResource Remove="wwwroot\CMS\**" />
+    <EmbeddedResource Remove="wwwroot\js\**" />
+    <EmbeddedResource Remove="wwwroot\SiteSkin\**" />
     <None Remove="Views\Promotion\Promo5PBonus\**" />
-    <None Remove="wwwroot\SiteSkin\Nova88\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="wwwroot\CMS\Nova88\Promotion\ch\banner-promo5p.jpg" />
-    <Content Remove="wwwroot\CMS\Nova88\Promotion\cs\banner-promo5p.jpg" />
-    <Content Remove="wwwroot\CMS\Nova88\Promotion\en\banner-promo5p.jpg" />
-    <Content Remove="wwwroot\CMS\Nova88\Promotion\id\banner-promo5p.jpg" />
-    <Content Remove="wwwroot\CMS\Nova88\Promotion\th\banner-promo5p.jpg" />
-    <Content Remove="wwwroot\js\commJS\onlineCheck.js" />
-    <Content Remove="wwwroot\js\component\account\BalancePanel.jsx" />
-    <Content Remove="wwwroot\js\component\account\ChangePwd.jsx" />
-    <Content Remove="wwwroot\js\component\account\CustBankInfo.jsx" />
-    <Content Remove="wwwroot\js\component\account\Messages.jsx" />
-    <Content Remove="wwwroot\js\component\account\Profile.jsx" />
-    <Content Remove="wwwroot\js\component\app\WalletInfo.jsx" />
-    <Content Remove="wwwroot\js\component\cashier\DepositPanel.jsx" />
-    <Content Remove="wwwroot\js\component\cashier\TransferPanel.jsx" />
-    <Content Remove="wwwroot\js\component\cashier\WithdrawalPanel.jsx" />
-    <Content Remove="wwwroot\js\component\commJS\common.js" />
-    <Content Remove="wwwroot\js\component\commJS\DepositHistory.jsx" />
-    <Content Remove="wwwroot\js\component\commJS\InputBox.jsx" />
-    <Content Remove="wwwroot\js\component\commJS\Loading.jsx" />
-    <Content Remove="wwwroot\js\component\commJS\Pagination.jsx" />
-    <Content Remove="wwwroot\js\component\commJS\ScottClipboard.js" />
-    <Content Remove="wwwroot\js\component\commJS\WithdrawalHistory.jsx" />
-    <Content Remove="wwwroot\js\component\history\Deposit.jsx" />
-    <Content Remove="wwwroot\js\component\history\Transfer.jsx" />
-    <Content Remove="wwwroot\js\component\history\Withdrawal.jsx" />
-    <Content Remove="wwwroot\js\component\home\LoginForm.jsx" />
-    <Content Remove="wwwroot\js\component\home\Register.jsx" />
-    <Content Remove="wwwroot\js\component\home\Registered_1.js" />
-    <Content Remove="wwwroot\js\component\home\RegisterForm.jsx" />
+    <None Remove="wwwroot\CMS\**" />
+    <None Remove="wwwroot\js\**" />
+    <None Remove="wwwroot\SiteSkin\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -72,44 +48,6 @@
     <Content Include="CookieKeys\key-719265ab-c466-43e8-a692-d9f4cd25edd1.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="wwwroot\js\component\account\ChangePwd.jsx" />
-    <None Include="wwwroot\js\component\account\CustBankInfo.jsx" />
-    <None Include="wwwroot\js\component\app\WalletInfo.jsx" />
-    <None Include="wwwroot\js\component\cashier\DepositPanel.jsx" />
-    <None Include="wwwroot\js\component\cashier\TransferPanel.jsx" />
-    <None Include="wwwroot\js\component\cashier\WithdrawalPanel.jsx" />
-    <None Include="wwwroot\js\component\commJS\DepositHistory.jsx" />
-    <None Include="wwwroot\js\component\commJS\Loading.jsx" />
-    <None Include="wwwroot\js\component\commJS\Pagination.jsx" />
-    <None Include="wwwroot\js\component\commJS\ScottClipboard.js" />
-    <None Include="wwwroot\js\component\commJS\WithdrawalHistory.jsx" />
-    <None Include="wwwroot\js\component\history\Deposit.jsx" />
-    <None Include="wwwroot\js\component\history\Transfer.jsx" />
-    <None Include="wwwroot\js\component\history\Withdrawal.jsx" />
-    <None Include="wwwroot\js\component\home\RegisterForm.jsx" />
-    <None Include="wwwroot\js\component\account\Profile.jsx" />
-    <None Include="wwwroot\js\component\commJS\common.js" />
-    <None Include="wwwroot\js\component\commJS\InputBox.jsx" />
-    <None Include="wwwroot\SiteSkin\Bwing\Desktop\images\rectangle.svg" />
-    <None Include="wwwroot\SiteSkin\Bwing\Desktop\js\lib\daterangepicker.min.js" />
-    <None Include="wwwroot\SiteSkin\Bwing\Desktop\js\lib\jquery-3.5.1.min.js" />
-    <None Include="wwwroot\SiteSkin\Bwing\Desktop\js\lib\moment.min.js" />
-    <None Include="wwwroot\SiteSkin\Bwing\Desktop\js\lib\remodal.min.js" />
-    <None Include="wwwroot\SiteSkin\Bwing\Desktop\js\lib\slick.js" />
-    <None Include="wwwroot\SiteSkin\Bwing\Desktop\js\page.js" />
-    <None Include="wwwroot\SiteSkin\Bwing\Mobile\assets\css\lib\slick\fonts\slick.svg" />
-    <None Include="wwwroot\SiteSkin\Bwing\Mobile\assets\fonts\icon\demo-files\demo.js" />
-    <None Include="wwwroot\SiteSkin\Bwing\Mobile\assets\fonts\icon\fonts\icomoon.svg" />
-    <None Include="wwwroot\SiteSkin\Bwing\Mobile\js\lib\daterangepicker.min.js" />
-    <None Include="wwwroot\SiteSkin\Bwing\Mobile\js\lib\jquery-3.5.1.min.js" />
-    <None Include="wwwroot\SiteSkin\Bwing\Mobile\js\lib\moment.min.js" />
-    <None Include="wwwroot\SiteSkin\Bwing\Mobile\js\lib\remodal.min.js" />
-    <None Include="wwwroot\SiteSkin\Bwing\Mobile\js\lib\slick.js" />
-    <None Include="wwwroot\SiteSkin\Bwing\Mobile\js\page.js" />
-    <None Include="wwwroot\SiteSkin\Bwing\Mobile\js\system.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -137,41 +75,7 @@
 
   <ItemGroup>
     <Folder Include="Properties\PublishProfiles\" />
-    <Folder Include="wwwroot\CMS\Goal123\Keno\en\" />
-    <Folder Include="wwwroot\CMS\Goal123\Keno\vn\" />
-    <Folder Include="wwwroot\CMS\Goal123\LiveCasino\en\" />
-    <Folder Include="wwwroot\CMS\Goal123\LiveCasino\vn\" />
     <Folder Include="wwwroot\common\images\LoadCardPay\" />
-    <Folder Include="wwwroot\js\Bwing\component\Desktop\" />
-    <Folder Include="wwwroot\SiteSkin\Goal123\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Update="wwwroot\CMS\Nova88\Promotion\cs\banner-bonus.jpg">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Update="wwwroot\CMS\Nova88\Promotion\en\banner-cashbackrebet.jpg">
-      <CopyToOutputDirectory>banner-cashbackrebet</CopyToOutputDirectory>
-    </Content>
-    <Content Update="wwwroot\js\component\account\ChangePwd.min.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Update="wwwroot\js\component\account\CustBankInfo.min.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Update="wwwroot\js\component\account\Messages.min.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Update="wwwroot\js\component\account\Profile.min.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Update="wwwroot\js\component\cashier\TransferPanel.min.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Update="wwwroot\js\component\history\Transfer.min.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
 
 </Project>
