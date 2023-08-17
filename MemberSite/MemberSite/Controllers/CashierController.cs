@@ -71,12 +71,7 @@ namespace MemberSite.Controllers
                     PayId = onlineBank.PayId,
                     SysId = onlineBank.SysId,
                     ClientIP = _tools.GetClientIP(),
-                    ReturnUrl = Url.RouteUrl("desktop",
-                        new {action = "Deposit", controller = "Cashier", custInfo.UserLang},
-                        protocol: Request.Scheme,
-                        host: Request.Host.Port is 80 or null
-                            ? Request.Host.Host
-                            : $"{Request.Host.Host}:{Request.Host.Port}")
+                    ReturnUrl = $"{Request.Scheme}://{Request.Host.Host}/{custInfo.UserLang}/deposit"
                 };
                 
                 var myUrl = $"{_payApiUrl}ReqDepositBank";
@@ -107,7 +102,7 @@ namespace MemberSite.Controllers
                     ChannelId = payInfo.ChannelId,
                     PayId = payInfo.PayId,
                     ClientIP = _tools.GetClientIP(),
-                    ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", custInfo.UserLang }, protocol: Request.Scheme, host: Request.Host.Port is 80 or null ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}"),
+                    ReturnUrl = $"{Request.Scheme}://{Request.Host.Host}/{custInfo.UserLang}/deposit",
                     PayAccount = PayAccount
                 };
 
@@ -145,7 +140,7 @@ namespace MemberSite.Controllers
                     PayId = cryptoPayInfo.PayId,
                     ClientIP = _tools.GetClientIP(),
                     DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(cryptoPayInfo),
-                    ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", custInfo.UserLang }, protocol: Request.Scheme, host: Request.Host.Port is 80 or null ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}")
+                    ReturnUrl = $"{Request.Scheme}://{Request.Host.Host}/{custInfo.UserLang}/deposit",
                 };
 
                 var myUrl = $"{_payApiUrl}ReqDepositCrpyto";
@@ -228,7 +223,7 @@ namespace MemberSite.Controllers
                     loadCardPayInfo.ChannelId,
                     loadCardPayInfo.PayId,
                     ClientIP = _tools.GetClientIP(),
-                    ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", custInfo.UserLang }, protocol: Request.Scheme, host: Request.Host.Port is 80 or null ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}")
+                    ReturnUrl = $"{Request.Scheme}://{Request.Host.Host}/{custInfo.UserLang}/deposit"
                 };
 
                 var myUrl = $"{_payApiUrl}ReqDepositLoadCard";
@@ -352,7 +347,7 @@ namespace MemberSite.Controllers
                 payInfo.ChannelId,
                 payInfo.PayId,
                 ClientIP = _tools.GetClientIP(),
-                ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", custInfo.UserLang }, protocol: Request.Scheme, host: Request.Host.Port is 80 or null ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}")
+                ReturnUrl = $"{Request.Scheme}://{Request.Host.Host}/{custInfo.UserLang}/deposit"
             });
 
             return ActionResult(apiResult, transId, model, PaymentView.DepositReqMobilePay, out var actionResult)
@@ -399,7 +394,7 @@ namespace MemberSite.Controllers
                     PayId = onlineBank.PayId,
                     SysId = onlineBank.SysId,
                     ClientIP = _tools.GetClientIP(),
-                    ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", custInfo.UserLang }, protocol: Request.Scheme, host: Request.Host.Port is 80 or null ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}")
+                    ReturnUrl = $"{Request.Scheme}://{Request.Host.Host}/{custInfo.UserLang}/deposit"
                 });
                 
                 if (ActionResult(apiResult, transId, new ErrorData(), PaymentView.DepositReqOnlineBanking, out var actionResult)) 

@@ -177,7 +177,7 @@ namespace MemberSite.Controllers.Api
             Response.Cookies.Delete($"Initialization{User.Identity?.Name}");
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
-            apiResult.Message = Url.RouteUrl("desktop", new { action = "Index", controller = "Home", LangId = _selLangBll.GetLangId() });
+            apiResult.Message = Url.RouteUrl("desktop", new { action = Request.RouteValues["action"], controller = Request.RouteValues["controller"], LangId = _selLangBll.GetLangId() });
             apiResult.ErrorCode = 0;
             return apiResult;
         }
@@ -410,56 +410,6 @@ namespace MemberSite.Controllers.Api
         {
             public string Email { get; set; }
             public string Username { get; set; }
-        }
-        [HttpPost]
-        public ApiResult ForgetPwd(ForgetPwdReq forgetPwdReq)
-        {
-            var apiResult = new ApiResult<bool>(_selLangBll);
-            try
-            {
-                Customer custInfo;
-                var host = Request.Host.ToString();
-                var deviceType = (int)_tools.GetDeviceId(host);
-                var resetPasswordUrl = Url.RouteUrl("desktop", new { action = "ResetPassword", controller = "Home", LangId = _selLangBll.GetLangId() }, protocol: Url.ActionContext.HttpContext.Request.Scheme, host: Url.ActionContext.HttpContext.Request.Host.Host);
-                if (!string.IsNullOrEmpty(forgetPwdReq.Username))
-                {
-                    custInfo = _custInfoBll.GetCustInfoByUserName(forgetPwdReq.Username.Trim());
-                }
-                else
-                {
-                    custInfo = _custInfoBll.GetCustInfoByMail(forgetPwdReq.Email.Trim());
-                }
-
-                if (custInfo == null)
-                {
-                    apiResult.Message = _selLangBll.GetMsg("ForgetPwdFail");
-                }
-                else
-                {
-                    var custInfoProfile = _custInfoBll.GetCustInfoProfile(custInfo.CustId);
-
-                    var pattern = @"(?<=[\w]{1})[\w-\._\+%]*(?=[\w]{1}@)";
-                    var result = Regex.Replace(custInfoProfile.Email, pattern, m => new string('*', m.Length));
-
-                    _custInfoBll.ForgetPwd1(custInfo.CustId, resetPasswordUrl);
-                    if (!string.IsNullOrEmpty(forgetPwdReq.Username))
-                    {
-                        apiResult.Message = $"Has send to {result}.";//selLangBLL.GetMsg("ForgetPwdSuccess");
-                    }
-                    else
-                    {
-                        apiResult.Message = _selLangBll.GetMsg("ForgetPwdSuccess");
-                    }
-
-                    apiResult.ErrorCode = 0;
-                }
-            }
-            catch (Exception ex)
-            {
-                apiResult.RawMessage = ex.Message;
-            }
-
-            return apiResult;
         }
         public class ForgetPwdReqV2 : ForgetPwdReq
         {
