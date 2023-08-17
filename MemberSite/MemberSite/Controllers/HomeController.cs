@@ -10,14 +10,12 @@ namespace MemberSite.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly TemplateBLL templateBLL;
         private readonly AuthBLL authBLL;
         private readonly CustInfoBll custInfoBLL;
         private readonly Tools tools;
 
-        public HomeController(TemplateBLL templateBLL, AuthBLL authBLL, CustInfoBll custInfoBLL, Tools tools)
+        public HomeController(AuthBLL authBLL, CustInfoBll custInfoBLL, Tools tools)
         {
-            this.templateBLL = templateBLL;
             this.authBLL = authBLL;
             this.custInfoBLL = custInfoBLL;
             this.tools = tools;
@@ -84,14 +82,14 @@ namespace MemberSite.Controllers
                 }
             }
 
-            return View(templateBLL.GetTemplatePath(Url));
+            return Ok();
         }
 
         public IActionResult Register(string refId, string affId, string aff)
         {
             if (User.Identity?.IsAuthenticated == true)
             {
-                return RedirectToRoute(new { action = "Index", controller = "Home" });
+                return Ok();
             }
 
             // VN Affiliate
@@ -151,17 +149,7 @@ namespace MemberSite.Controllers
                 }
             }
 
-            return View(templateBLL.GetTemplatePath(Url));
-        }
-
-        public IActionResult ForgetPassowrd()
-        {
-            if (User.Identity?.IsAuthenticated == true)
-            {
-                return RedirectToRoute(new { action = "Index", controller = "Home" });
-            }
-
-            return View(templateBLL.GetTemplatePath(Url));
+            return Ok();
         }
 
         public async Task<IActionResult> ResetPasswordAsync(string key)
@@ -196,11 +184,6 @@ namespace MemberSite.Controllers
             }
 
             return StatusCode(403);
-        }
-
-        public IActionResult Static()
-        {
-            return View();
         }
    }
 }
