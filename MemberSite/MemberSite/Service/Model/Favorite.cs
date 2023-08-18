@@ -40,9 +40,9 @@
                 {
                     TpId = int.Parse(gameInfo.Substring(0, underlineIndex));
                     GameId = gameInfo.Substring(underlineIndex + 1);
-                }          
+                }
             }
-            catch 
+            catch
             {
                 TpId = 0;
                 GameId = string.Empty;

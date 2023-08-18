@@ -49,7 +49,7 @@ namespace MemberSite.Service.BLL
             var ticket = tickets.FirstOrDefault(a => a.IsUsed == false);
             if (ticket == null) return (103, null);
 
-            
+
             var todayPrize = await _eventsService.GetCustPrizeOnToday(eventId, customer.CustId, customer.CurrencyId);
             var isUsed = true;
             // 如果今日已中獎後面給空紅包

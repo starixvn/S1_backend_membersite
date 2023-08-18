@@ -3,7 +3,7 @@
     public class FileNameBLL
     {
         public string FileName { get; private set; }
-        
+
         public FileNameBLL SetFileName(string fileName)
         {
             FileName = fileName;

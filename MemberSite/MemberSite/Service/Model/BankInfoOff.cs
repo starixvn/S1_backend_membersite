@@ -1,4 +1,5 @@
 ﻿using MemberSite.Service.Model.enums;
+
 using Newtonsoft.Json;
 
 namespace MemberSite.Service.Model
@@ -25,7 +26,7 @@ namespace MemberSite.Service.Model
         public int Ver { get; set; }
         public int Status { get; set; }
     }
-    
+
     public class OfflineBankAccountInfo : IPaymentLimit
     {
         public int BankId { get; set; }
@@ -39,11 +40,11 @@ namespace MemberSite.Service.Model
         public string StrPointLevels { get; set; }
         public IEnumerable<int> PointLevels =>
             JsonConvert.DeserializeObject<IEnumerable<int>>(StrPointLevels);
-        
+
         public string StrVipLevels { get; set; }
         public IEnumerable<int> VipLevels =>
             JsonConvert.DeserializeObject<IEnumerable<int>>(StrVipLevels);
-        
+
         public string Memo { get; set; }
         public int BSort { get; set; }
         public string BIN { get; set; }
@@ -57,7 +58,7 @@ namespace MemberSite.Service.Model
 
         public IEnumerable<OfflineBankAccountPurposeEnum> Purposes =>
             JsonConvert.DeserializeObject<IEnumerable<OfflineBankAccountPurposeEnum>>(Purpose ?? "[]");
-        
+
         public int Ver { get; set; }
         public int Status { get; set; }
 
@@ -67,7 +68,7 @@ namespace MemberSite.Service.Model
 
         public string QRCodeUrl { get; set; }
         public string StrGroupIds { get; set; }
-        
+
         public IEnumerable<int> GroupIds =>
             JsonConvert.DeserializeObject<IEnumerable<int>>(StrGroupIds ?? "[]");
     }
@@ -75,21 +76,21 @@ namespace MemberSite.Service.Model
     public class OfflineBankAccountDailyDeposit
     {
         public int BankId { get; set; }
-        
+
         public decimal DailyDeposit { get; set; }
     }
-    
+
     public class LocalPaySetting
     {
         public int CurrencyId { get; set; }
-        
+
         public int GroupId { get; set; }
-        
+
         public string GroupName { get; set; }
-        
+
         public DepositType Type { get; set; }
     }
-    
+
     public class OfflineCryptoPayInfo : IPaymentLimit
     {
         public int BankId { get; set; }
@@ -98,20 +99,22 @@ namespace MemberSite.Service.Model
         public string FrontendDisplayName { get; set; }
         public CryptoCurrencyId CryptoCurrencyId { get; set; }
         public string Network { get; set; }
-        public string ChannelName {
-            get {
+        public string ChannelName
+        {
+            get
+            {
                 var cryptoCurrency = CryptoCurrencyId.ToString();
                 return cryptoCurrency.Equals(Network)
                     ? cryptoCurrency
                     : $"{cryptoCurrency}-{Network}";
             }
         }
-        
+
         public decimal DailyLimitAmount { get; set; }
         public string StrPointLevels { get; set; }
         public IEnumerable<int> PointLevels =>
             JsonConvert.DeserializeObject<IEnumerable<int>>(StrPointLevels);
-        
+
         public string StrVipLevels { get; set; }
         public IEnumerable<int> VipLevels =>
             JsonConvert.DeserializeObject<IEnumerable<int>>(StrVipLevels);
@@ -119,12 +122,12 @@ namespace MemberSite.Service.Model
         public string Memo { get; set; }
         public decimal MinAmount { get; set; }
         public decimal MaxAmount { get; set; }
-        
+
         public string StrPurpose { get; set; }
 
         public IEnumerable<OfflineBankAccountPurposeEnum> Purposes =>
             JsonConvert.DeserializeObject<IEnumerable<OfflineBankAccountPurposeEnum>>(StrPurpose);
-        
+
         public int Ver { get; set; }
         public int Status { get; set; }
         public int BSort { get; set; }

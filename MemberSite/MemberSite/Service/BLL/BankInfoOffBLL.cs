@@ -1,7 +1,8 @@
 ﻿using MemberSite.Service.DAL;
+using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
-using MemberSite.Service.Library;
+
 using Newtonsoft.Json;
 
 namespace MemberSite.Service.BLL
@@ -32,7 +33,7 @@ namespace MemberSite.Service.BLL
             return _bankInfoService.GetOfflineBankAccount(siteId)
                 .Where(x => x.Purposes.Contains(OfflineBankAccountPurposeEnum.Deposit));
         }
-        
+
         public IEnumerable<SysBankInfoFront> GetOfflineBankCardListWithCache(int custId)
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
@@ -50,12 +51,12 @@ namespace MemberSite.Service.BLL
 
             return result;
         }
-        
+
         public IEnumerable<int> GetCustOffDepositSysId(int custId)
         {
             return _bankInfoService.GetCustOffDepositSysId(custId);
         }
-        
+
         public IEnumerable<OfflineBankInfoFront> GetBankInfoOffListWithCache(int custId, string lang)
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
@@ -69,12 +70,12 @@ namespace MemberSite.Service.BLL
 
             var custDepositSysIds = _bankInfoService.GetCustOffDepositSysId(custId);
             var result = offBankList
-                .Where(x => !x.SupportChannel.Any() 
+                .Where(x => !x.SupportChannel.Any()
                             || x.SupportChannel.Contains(OfflineBankAccountSupportChannelEnum.LocalBank))
                 .Select(x => new OfflineBankInfoFront(x, !custDepositSysIds.Contains(x.SysId)));
             return result;
         }
-        
+
         public int LocalBankinfo(int custId, int sysId, string memo, out DepositRep3 depositRep3)
         {
             depositRep3 = new DepositRep3();
@@ -104,7 +105,7 @@ namespace MemberSite.Service.BLL
                     _depositBll.FixDepositLimit(localBack, depositLimitInfo);
                 }
             }
-            
+
             // 排除超過每日存款限額的卡
             var bankIds = localBankList.Where(x => x.DailyLimitAmount > 0).Select(x => x.BankId);
             if (bankIds.Any())
@@ -116,7 +117,7 @@ namespace MemberSite.Service.BLL
             }
 
             var info = localBankList
-                .Where(x => !x.SupportChannel.Any() 
+                .Where(x => !x.SupportChannel.Any()
                     || x.SupportChannel.Contains(OfflineBankAccountSupportChannelEnum.LocalBank))
                 .OrderBy(x => x.BSort)
                 .Select(x => new
@@ -187,7 +188,7 @@ namespace MemberSite.Service.BLL
                 .ThenBy(x => x.MinAmount)
                 .ThenBy(x => x.BSort)
                 .FirstOrDefault();
-            
+
             if (info == null && tmpInfo == null)
             {
                 return -2;
@@ -207,24 +208,24 @@ namespace MemberSite.Service.BLL
         private IEnumerable<SysBankInfoFront> GetBankAccountOffList(int siteId, int currencyId, int pointLevel, int vipLevel, string lang)
         {
             var localBankList = GetOfflineBankAccount(siteId)
-                .Where(x => x.CurrencyId == currencyId 
+                .Where(x => x.CurrencyId == currencyId
                             && (vipLevel > pointLevel || pointLevel == 8 || x.PointLevels.Contains(pointLevel))
                             && x.VipLevels.Contains(vipLevel)
                             && x.SupportChannel.Contains(OfflineBankAccountSupportChannelEnum.LocalBank))
                 .ToList();
 
-            if (siteId == (int) SiteId.Nova88
-                && currencyId == (int) CurrencyId.THB) // Nova88 泰國銀行名稱支援多語系
+            if (siteId == (int)SiteId.Nova88
+                && currencyId == (int)CurrencyId.THB) // Nova88 泰國銀行名稱支援多語系
             {
                 BankNameLocalization(localBankList, lang);
             }
-            
+
             var depositLimitInfo = _depositService.GetDepositLimitInfoList()
                 .FirstOrDefault(x => x.SiteId == siteId
                     && x.VipLevel == pointLevel // DepositLimit 裡的 VipLevel 是 PointLevel
                     && x.DepositType == (int)DepositType.LocalBank
                     && x.CurrencyId == currencyId);
-            
+
             if (depositLimitInfo?.DepositStatus == 0)
             {
                 return Array.Empty<SysBankInfoFront>();
@@ -250,7 +251,7 @@ namespace MemberSite.Service.BLL
 
             var infos = localBankList
                 .OrderBy(x => x.Sort)
-                .GroupBy(x => new {x.SysId, x.BankCode})
+                .GroupBy(x => new { x.SysId, x.BankCode })
                 .Select(x =>
                 {
                     var d = x.OrderBy(y => y.BSort).First();
@@ -272,14 +273,14 @@ namespace MemberSite.Service.BLL
                     };
                 });
 
-            
+
             return infos;
         }
-        
+
         private IEnumerable<SysBankInfoFront> GetOfflineBankAccountList(int siteId, int currencyId, int pointLevel, int vipLevel)
         {
             var localBankList = GetOfflineBankAccount(siteId)
-                .Where(x => x.CurrencyId == currencyId 
+                .Where(x => x.CurrencyId == currencyId
                             && (vipLevel > pointLevel || pointLevel == 8 || x.PointLevels.Contains(pointLevel)) // vipLevel > pointLevle 就先不檢查此條件，之後會改
                             && x.VipLevels.Contains(vipLevel))
                 .ToList();
@@ -305,7 +306,7 @@ namespace MemberSite.Service.BLL
 
             var infos = localBankList
                 .OrderBy(x => x.BSort)
-                .Select( x => new SysBankInfoFront
+                .Select(x => new SysBankInfoFront
                 {
                     BankId = x.BankId,
                     SysId = x.SysId,
@@ -329,20 +330,20 @@ namespace MemberSite.Service.BLL
         private void BankNameLocalization(in List<OfflineBankAccountInfo> list, string lang)
         {
             var bankNameList = _bankInfoBll.GetBankInfoName(lang);
-            
+
             if (bankNameList.Any())
             {
                 list.ForEach(x => x.BankName =
                     bankNameList.FirstOrDefault(y => y.SysId == x.SysId)?.BankName ?? x.BankName);
             }
         }
-        
+
         public IEnumerable<OfflineBankAccountDailyDeposit> GetOfflineBankAccountDailyDepositWithCache(
             int siteId, int currencyId, IEnumerable<int> bankIds)
         {
             var strBankIds = JsonConvert.SerializeObject(bankIds);
             var key = $"PaySetting:LocalBank:DailyDeposit:{siteId}:{currencyId}:{strBankIds}";
-            
+
             return _redisHelper.TryGetOrCreate(key, TimeSpan.FromMinutes(5),
                 () => _bankInfoService.GetOfflineBankAccountDailyDeposit(siteId, currencyId, strBankIds));
         }
@@ -352,7 +353,7 @@ namespace MemberSite.Service.BLL
             return _redisHelper.TryGetOrCreate("PaySetting:LocalPaymentSetting", TimeSpan.FromMinutes(5),
                 () => _bankInfoService.GetLocalPaySetting());
         }
-        
+
         public IEnumerable<OfflineCryptoPayInfo> GetFilteredOfflineCryptoPayInfo(int custId)
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
@@ -364,7 +365,7 @@ namespace MemberSite.Service.BLL
                             && x.Purposes.Contains(OfflineBankAccountPurposeEnum.Deposit)
                             && (vipLevel > pointLevel || pointLevel == 8 || x.PointLevels.Contains(pointLevel)) // vipLevel > pointLevle 就先不檢查此條件，之後會改
                             && x.VipLevels.Contains(vipLevel));
-            
+
             // 排除超過每日存款限額的帳號
             if (cryptoList.Any(x => x.DailyLimitAmount > 0))
             {
@@ -373,10 +374,10 @@ namespace MemberSite.Service.BLL
                 cryptoList = cryptoList.Where(x =>
                         !d.Any(y => y.BankId == x.BankId && y.DailyDeposit >= x.DailyLimitAmount));
             }
-            
+
             return cryptoList;
         }
-        
+
         private IEnumerable<OfflineCryptoPayInfo> GetOfflineCryptoPayInfoWithCache(int siteId)
         {
             return _redisHelper.TryGetOrCreate($"PaySetting:OfflineCryptoPayInfo:{siteId}", TimeSpan.FromMinutes(5),

@@ -36,7 +36,7 @@ namespace MemberSite.Service.BLL
         {
             return _promotionService.SetDepositPromotionQueue(request);
         }
-        
+
         public bool VerifyBonusCode(string bonusCode)
         {
             return !string.IsNullOrWhiteSpace(bonusCode) && string.Compare(bonusCode, "undefined", StringComparison.OrdinalIgnoreCase) != 0;

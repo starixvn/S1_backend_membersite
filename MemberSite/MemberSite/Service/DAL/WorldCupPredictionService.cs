@@ -1,5 +1,7 @@
 ﻿using System.Data;
+
 using Dapper;
+
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;

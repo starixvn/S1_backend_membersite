@@ -1,24 +1,25 @@
-﻿using MemberSite.Service.BLL;
-using MemberSite.Service.Library;
-using MemberSite.Service.Model;
-using MemberSite.Service.Model.enums;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Net.Sockets;
 using System.Security.Claims;
 using System.Text.RegularExpressions;
-using Microsoft.AspNetCore.Cors;
-using static MemberSite.Extensions.MethodExtension;
+
 using MemberSite.Attributes;
-using Microsoft.AspNetCore.Http;
-using static MemberSite.Controllers.Api.SiteController;
-using System.Security.Policy;
+using MemberSite.Service.BLL;
+using MemberSite.Service.Library;
+using MemberSite.Service.Model;
+using MemberSite.Service.Model.enums;
+
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+
+using Newtonsoft.Json;
+
+using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
 {
@@ -1140,7 +1141,7 @@ namespace MemberSite.Controllers.Api
         }
 
 
-        public class AffiliateExitsReq 
+        public class AffiliateExitsReq
         {
             public string AffCode { get; set; }
         }
@@ -1150,14 +1151,14 @@ namespace MemberSite.Controllers.Api
         /// <param name="req"></param>
         /// <returns></returns>
         [HttpPost]
-        public ApiResult AffiliateCheck(AffiliateExitsReq req) 
+        public ApiResult AffiliateCheck(AffiliateExitsReq req)
         {
             var apiResult = new ApiResult();
             var errorCode = _custInfoBll.AffiliateCheck(req.AffCode);
             apiResult.ErrorCode = errorCode;
             apiResult.Message = errorCode switch
             {
-                -9 =>  _selLangBll.GetMsg("msg_AffCodeValidate"),
+                -9 => _selLangBll.GetMsg("msg_AffCodeValidate"),
                 -10 => _selLangBll.GetMsg("msg_AffCodeNotFound"),
                 _ => "",
             };
@@ -1320,7 +1321,7 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
 
-        public class VipBannerReq 
+        public class VipBannerReq
         {
             public int CurrencyId { get; set; }
         }
@@ -1328,7 +1329,7 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiResult<VipBanner> GetVipBanner(VipBannerReq vipBannerReq)
         {
-            var apiResult = new ApiResult<VipBanner>() { ErrorCode = 0};
+            var apiResult = new ApiResult<VipBanner>() { ErrorCode = 0 };
             int siteId;
             try
             {

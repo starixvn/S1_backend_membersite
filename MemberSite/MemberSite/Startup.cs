@@ -1,25 +1,29 @@
+using System.Text;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
+
+using Elastic.Apm.AspNetCore;
+using Elastic.Apm.DiagnosticSource;
+using Elastic.Apm.SqlClient;
+using Elastic.Apm.StackExchange.Redis;
+
+using MemberSite.Extensions;
 using MemberSite.Service.BLL;
+using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.DAL;
+using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
+using MemberSite.Service.Model.Mapping;
+using MemberSite.Service.Model.Options;
+
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.WebEncoders;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Text.Unicode;
-using MemberSite.Extensions;
-using MemberSite.Service.BLL.Interface;
-using MemberSite.Service.DAL.Interface;
-using MemberSite.Service.Model.Mapping;
+
 using StackExchange.Redis;
-using MemberSite.Service.Model.Options;
-using Elastic.Apm.AspNetCore;
-using Elastic.Apm.SqlClient;
-using Elastic.Apm.StackExchange.Redis;
-using Elastic.Apm.DiagnosticSource;
 
 namespace MemberSite
 {
@@ -154,7 +158,7 @@ namespace MemberSite
             services.AddSingleton<StoreBLL>();
             services.AddSingleton<CasinoBll>();
             services.AddSingleton<LobbyCategoryBLL>();
-            services.AddSingleton<CommonBLL>();            
+            services.AddSingleton<CommonBLL>();
             services.AddSingleton<AuthBLL>();
             services.AddSingleton<BannerBLL>();
             services.AddSingleton<BonusWalletBLL>();
@@ -325,7 +329,7 @@ namespace MemberSite
                 endpoints.MapGet("/health", async context =>
                 {
                     await context.Response.WriteAsync($"{env.EnvironmentName}-{DateTime.Now:yyyy/MM/dd HH:mm:ss}");
-                });                
+                });
                 endpoints.MapControllerRoute(name: "desktop", pattern: "{LangId?}/{controller=Home}/{action=Index}");
             });
         }

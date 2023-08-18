@@ -1,8 +1,10 @@
-﻿using Dapper;
+﻿using System.Data;
+
+using Dapper;
+
 using MemberSite.Service.DAL.Interface;
-using MemberSite.Service.Model;
-using System.Data;
 using MemberSite.Service.Library;
+using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.DAL

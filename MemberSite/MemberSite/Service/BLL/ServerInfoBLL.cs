@@ -1,9 +1,12 @@
 ﻿using System.Collections.Concurrent;
+
 using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
+
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.Extensions.Caching.Memory;
+
 using Newtonsoft.Json;
 
 namespace MemberSite.Service.BLL
@@ -18,8 +21,8 @@ namespace MemberSite.Service.BLL
         private readonly ConcurrentDictionary<int, ServerInfo> _serverInfoDic;
         private readonly int _fixSiteId;
         private readonly CacheHelper _cacheHelper;
-        private readonly List<string> _seoDomain = new List<string>(){};
-        private readonly string[] _appHost = {"app.n17881788.com", "app.bwing.com", "app.goal123.com"};
+        private readonly List<string> _seoDomain = new List<string>() { };
+        private readonly string[] _appHost = { "app.n17881788.com", "app.bwing.com", "app.goal123.com" };
 
         public ServerInfoBll(IServiceProvider provider)
         {
@@ -100,7 +103,7 @@ namespace MemberSite.Service.BLL
         {
             return _httpContextAccessor.HttpContext?.Request.GetDisplayUrl();
         }
-        
+
         public string GetMainDomain()
         {
             var host = GetDomain();
@@ -109,7 +112,7 @@ namespace MemberSite.Service.BLL
             {
                 host = host.Substring(dotIndex + 1);
             }
-            
+
             return host;
         }
 
@@ -130,7 +133,7 @@ namespace MemberSite.Service.BLL
             var http = _httpContextAccessor.HttpContext.Request.Scheme;
             var host = _httpContextAccessor.HttpContext.Request.Host.Host;
 
-            if(_appHost.Any(a=> a == host)) 
+            if (_appHost.Any(a => a == host))
                 host = $"m{host[host.IndexOf('.')..]}";
 
             return $"{http}://{host}";
@@ -162,7 +165,7 @@ namespace MemberSite.Service.BLL
             var menuOfGamesData = await _serverInfoService.GetMenuOfGames(siteId, langId);
             var menuOfGames = menuOfGamesData
                 .GroupBy(a => a.MenuId)
-                .Select(b => new MenuOfGame() 
+                .Select(b => new MenuOfGame()
                 {
                     MenuId = b.Key,
                     MenuItems = b.Select(c => new MenuItem()
@@ -180,7 +183,7 @@ namespace MemberSite.Service.BLL
         {
             return _seoDomain.Exists(seoDomain => seoDomain == domain);
         }
-        
+
         public async Task<IEnumerable<SocialChannelResponse>> GetSocialChannel(SocialChannelRequest request)
         {
             var result = await _serverInfoService.GetSocialChannel(request);

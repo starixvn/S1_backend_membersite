@@ -1,8 +1,10 @@
 ﻿using System.Security.Claims;
 using System.Web;
+
 using MemberSite.Controllers.Api;
 using MemberSite.Service.BLL;
 using MemberSite.Service.Model;
+
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Cors;

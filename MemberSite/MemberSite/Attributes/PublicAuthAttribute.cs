@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using System.Text;
+﻿using System.Text;
+
 using MemberSite.Service.BLL;
+
 using Microsoft.AspNetCore.Http.Extensions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+
+using Newtonsoft.Json;
 
 namespace MemberSite.Attributes;
 

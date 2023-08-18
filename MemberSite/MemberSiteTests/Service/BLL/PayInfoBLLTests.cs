@@ -1,16 +1,18 @@
-﻿using NUnit.Framework;
-using Microsoft.Extensions.Configuration;
-using NSubstitute;
-using MemberSite.Service.Library;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.DependencyInjection;
-using System.Linq;
-using MemberSite.Service.Model.enums;
-using Microsoft.AspNetCore.Hosting;
-using FluentAssertions;
-using Newtonsoft.Json;
-using Microsoft.AspNetCore.Builder;
+﻿using System.Linq;
+
 using MemberSite.Extensions;
+using MemberSite.Service.Library;
+using MemberSite.Service.Model.enums;
+
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+
+using NSubstitute;
+
+using NUnit.Framework;
 
 namespace MemberSite.Service.BLL.Tests
 {

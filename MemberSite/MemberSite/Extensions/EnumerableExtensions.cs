@@ -1,5 +1,5 @@
 ﻿namespace MemberSite.Extensions
-{ 
+{
     public static class EnumerableExtensions
     {
         public static IEnumerable<TSource> Distinct<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)

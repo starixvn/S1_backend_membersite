@@ -1,7 +1,9 @@
-﻿using Dapper;
-using MemberSite.Service.Model;
-using System.Data;
+﻿using System.Data;
+
+using Dapper;
+
 using MemberSite.Service.Library;
+using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.DAL
@@ -29,7 +31,7 @@ namespace MemberSite.Service.DAL
             p.Add("StartIndex", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
             var news = await _reportDbClient.QueryAsync<News>("Member_News_Get", p);
-            return new PageData<News>() 
+            return new PageData<News>()
             {
                 Data = news,
                 TotalPages = p.Get<int?>("TotalPages") ?? 0,

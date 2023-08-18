@@ -2,12 +2,15 @@
 using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model.enums;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+
 using NSubstitute;
+
 using NUnit.Framework;
 
 namespace MemberSite.Service.BLL.Tests
@@ -16,7 +19,7 @@ namespace MemberSite.Service.BLL.Tests
     public class CasinoBLLTests
     {
         private IConfiguration _configuration;
-        
+
         [SetUp]
         public void SetUp()
         {
@@ -38,7 +41,7 @@ namespace MemberSite.Service.BLL.Tests
         {
             var services = new ServiceCollection();
             services.AddSingleton(_configuration);
-            services.AddTransient(p => new MySqlClient("", Substitute.For<ILogger<MySqlClient>>()){DataBase = DataBase.Report});
+            services.AddTransient(p => new MySqlClient("", Substitute.For<ILogger<MySqlClient>>()) { DataBase = DataBase.Report });
             services.AddTransient(p => Substitute.For<IMemoryCache>());
             services.AddTransient(p => Substitute.For<ILogger<MySqlClient>>());
             services.AddTransient<CacheHelper>();
@@ -47,9 +50,9 @@ namespace MemberSite.Service.BLL.Tests
 
             var serviceProvider = services.BuildServiceProvider();
             var casinoBll = new CasinoBll(serviceProvider);
-            
-            var (actualProviderId,actualGameId )= casinoBll.SplitGameInfo(gameInfo);
-            
+
+            var (actualProviderId, actualGameId) = casinoBll.SplitGameInfo(gameInfo);
+
             Assert.AreEqual(providerId, actualProviderId);
             Assert.AreEqual(gameId, actualGameId);
         }

@@ -1,6 +1,8 @@
 ﻿using System.Drawing;
 using System.IO;
+
 using FluentAssertions;
+
 using NUnit.Framework;
 
 namespace MemberSite.Service.BLL.Tests
@@ -20,7 +22,7 @@ namespace MemberSite.Service.BLL.Tests
             img.Width.Should().Be(500);
             img.Height.Should().Be(375);
         }
-        
+
         [Test]
         public void Resize_Jeg()
         {
@@ -33,7 +35,7 @@ namespace MemberSite.Service.BLL.Tests
             img.Width.Should().Be(500);
             img.Height.Should().Be(375);
         }
-        
+
         [Test]
         public void Resize_4K_Jpg()
         {
@@ -46,7 +48,7 @@ namespace MemberSite.Service.BLL.Tests
             img.Width.Should().Be(500);
             img.Height.Should().Be(333);
         }
-        
+
         [Test]
         public void Resize_Normal_Size_Png()
         {

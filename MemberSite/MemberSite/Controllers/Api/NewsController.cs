@@ -1,6 +1,7 @@
 ﻿using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace MemberSite.Controllers.Api
@@ -37,7 +38,7 @@ namespace MemberSite.Controllers.Api
             var result = new ApiListResult<News>();
 
             try
-            { 
+            {
                 var authData = _authorizeBll.GetAuthData();
                 if (authData is { CustId: > 0 })
                 {

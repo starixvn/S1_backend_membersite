@@ -1,10 +1,13 @@
-﻿using MemberSite.Service.DAL;
+﻿using System.Net.Http.Headers;
+
+using MemberSite.Service.DAL;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Line;
+
 using Microsoft.Extensions.Options;
+
 using Newtonsoft.Json;
-using System.Net.Http.Headers;
 
 namespace MemberSite.Service.BLL
 {
@@ -253,7 +256,7 @@ namespace MemberSite.Service.BLL
             if (data.CreateTime <= DateTime.UtcNow.AddSeconds(0 - config.ExpiredSeconds))
             {
                 resultCode = LineLoginErrorCode.TokenExpired;
-                _logger.LogInformation($"CheckToken Fail：LineIssueToken Expired. have to in { data.CreateTime.AddSeconds(config.ExpiredSeconds)}.\r\n" +
+                _logger.LogInformation($"CheckToken Fail：LineIssueToken Expired. have to in {data.CreateTime.AddSeconds(config.ExpiredSeconds)}.\r\n" +
                                        $"Token Generate Time ={data.CreateTime}，ExpiredSeconds = {config.ExpiredSeconds}.");
                 return false;
             }

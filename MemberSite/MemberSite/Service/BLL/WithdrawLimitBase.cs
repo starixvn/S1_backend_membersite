@@ -14,7 +14,7 @@ namespace MemberSite.Service.BLL
             };
         }
     }
-    
+
     public abstract class WithdrawLimitBase
     {
         public decimal MinAmount { get; set; }
@@ -24,7 +24,7 @@ namespace MemberSite.Service.BLL
 
         public abstract int CheckWithdrawLimit(EWalletWithdrawalLimitInfoOutput eWalletWithdrawalLimitInfo, WithdrawalLimitInfoOutput withdrawalLimitInfo, DailyCustomerWithdrawalInfoOutput dailyCustomerWithdrawalInfo, decimal amount);
     }
-    
+
     public class EWalletWithdrawLimit : WithdrawLimitBase
     {
         public override int CheckWithdrawLimit(EWalletWithdrawalLimitInfoOutput eWalletWithdrawalLimitInfo, WithdrawalLimitInfoOutput withdrawalLimitInfo, DailyCustomerWithdrawalInfoOutput dailyCustomerWithdrawalInfo, decimal amount)
@@ -32,7 +32,7 @@ namespace MemberSite.Service.BLL
             if (eWalletWithdrawalLimitInfo == null || withdrawalLimitInfo == null)
                 return -8;
 
-            if(eWalletWithdrawalLimitInfo.Status == (int)EWalletStatus.Disable)
+            if (eWalletWithdrawalLimitInfo.Status == (int)EWalletStatus.Disable)
                 return -8;
 
             MinAmount = Math.Max(eWalletWithdrawalLimitInfo.WithdrawalMin, withdrawalLimitInfo.WithdrawalMin);
