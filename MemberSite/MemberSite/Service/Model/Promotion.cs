@@ -75,7 +75,7 @@ namespace MemberSite.Service.Model
     {
         public string BonusCode { get; set; }
     }
-    
+
     public class SpecialCodeRequest
     {
         public int CustId { set; get; }
@@ -83,7 +83,7 @@ namespace MemberSite.Service.Model
         public int DeviceType { set; get; }
         public int SiteId { set; get; }
     }
-    
+
     public class DepositPromotionQueue
     {
         public string TransId { set; get; }
@@ -112,5 +112,10 @@ namespace MemberSite.Service.Model
         public decimal Bonus { get; set; }
         public decimal BonusAmount { get; set; }
         public decimal LockedAmount { get; set; }
+    }
+
+    public class PopUpPromotion
+    {
+        public string BonusCode { get; set; }
     }
 }
