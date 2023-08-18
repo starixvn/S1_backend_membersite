@@ -498,6 +498,7 @@ namespace MemberSite.Controllers.Api
                         CustId = custId,
                         CurrencyId = currencyId,
                         DeviceType = data.DeviceType,
+                        LangId = _selLangBll.GetLangId(),
                         IsLogin = true
                     };
 
