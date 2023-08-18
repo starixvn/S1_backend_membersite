@@ -69,9 +69,9 @@ namespace MemberSite
             services.AddMessageQueueConnection(_configuration);
             var redisConnection = ConnectionMultiplexer.Connect(_configuration.GetValue<string>("RedisConnection"));
             redisConnection.UseElasticApm();
-            services.AddSingleton<IConnectionMultiplexer>(redisConnection);          
+            services.AddSingleton<IConnectionMultiplexer>(redisConnection);
             services.AddSingleton<ICacheHelper, RedisCacheHelper>();
-            
+
             /*Library*/
             services.AddSingleton<Tools>();
             services.AddSingleton<Common>();
@@ -123,8 +123,8 @@ namespace MemberSite
             services.AddTransient<RecaptchaService>();
             services.AddSingleton<PartitionService>();
             services.AddTransient<CurrencyService>();
-            services.AddTransient<IAffiliateService, AffiliateService>();
             services.AddTransient<GameService>();
+            services.AddTransient<IAffiliateService, AffiliateService>();
 
             services.AddSingleton<IPService>();
             services.AddSingleton<ShieldService>();
@@ -152,11 +152,9 @@ namespace MemberSite
             services.AddSingleton<PromotionBll>();
             services.AddSingleton<RedemptionBLL>();
             services.AddSingleton<StoreBLL>();
-            services.AddSingleton<GamingBLL>();
             services.AddSingleton<CasinoBll>();
             services.AddSingleton<LobbyCategoryBLL>();
-            services.AddSingleton<CommonBLL>();
-            services.AddSingleton<TemplateBLL>();
+            services.AddSingleton<CommonBLL>();            
             services.AddSingleton<AuthBLL>();
             services.AddSingleton<BannerBLL>();
             services.AddSingleton<BonusWalletBLL>();
@@ -182,15 +180,17 @@ namespace MemberSite
             services.AddSingleton<PayInfoBLL>();
             services.AddSingleton<LineLoginBLL>();
             services.AddSingleton<SiteBll>();
+            services.AddTransient<WorldCupPredictionBLL>();
             services.AddSingleton<IPBLL>();
             services.AddSingleton<ShieldBLL>();
             services.AddTransient<WorldCupPredictionBLL>();
             services.AddSingleton<SlotGameBLL>();
+            services.AddTransient<IHotGameBLL, HotGameBLL>();
             services.AddTransient<RecaptchaBLL>();
             services.AddTransient<CheckAttackBLL>();
             services.AddTransient<DateTimeHelper>();
             services.AddTransient<IAnnouncementBLL, AnnouncementBLL>();
-            
+
             services.AddTransient<IHotGameBLL, HotGameBLL>();
 
             services.AddSingleton<CustomCookieAuthenticationEvents>();
@@ -271,8 +271,8 @@ namespace MemberSite
                             .AllowAnyMethod()
                             .SetIsOriginAllowedToAllowWildcardSubdomains();
                     });
-                
-                options.AddPolicy("SocialChannel", 
+
+                options.AddPolicy("SocialChannel",
                     builder =>
                     {
                         builder.AllowAnyOrigin()
@@ -295,6 +295,9 @@ namespace MemberSite
             services.AddControllers();
 
             services.AddOptionListByDB<TpGameTypeOption>("Admin_TpGameType_Get");
+
+            services.AddOptionListByDB<BlockIP>("Member_BlockIP_Get");
+
             services.AddOptionListByDB<AreaCodeMap>("Common_CountryList_Get");
             services.AddOptionListByDB<SabaSportTypeOption>("Service_SabaSportType_Get");
         }
@@ -326,12 +329,9 @@ namespace MemberSite
             {
                 endpoints.MapGet("/health", async context =>
                 {
-                    await context.Response.WriteAsync($"{env.EnvironmentName}-{DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")}");
-                });
-                endpoints.MapAreaControllerRoute(name: "areaRoute", "{area:exists}", "{LangId?}/{area:exists}/{controller=Home}/{action=Index}");
-                endpoints.MapControllerRoute(
-                    name: "desktop",
-                pattern: "{LangId?}/{controller=Home}/{action=Index}");
+                    await context.Response.WriteAsync($"{env.EnvironmentName}-{DateTime.Now:yyyy/MM/dd HH:mm:ss}");
+                });                
+                endpoints.MapControllerRoute(name: "desktop", pattern: "{LangId?}/{controller=Home}/{action=Index}");
             });
         }
     }

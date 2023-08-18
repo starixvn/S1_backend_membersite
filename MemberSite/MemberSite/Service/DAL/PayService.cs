@@ -16,10 +16,12 @@ namespace MemberSite.Service.DAL
         {
             return _reportDbClient.Query<MobilePayInfo>("Member_MobilePay_Get_V3", new { _SiteId = siteId });
         }
+        
         public IEnumerable<CryptoPayInfo> GetCryptoPayInfo(int siteId)
         {
             return _reportDbClient.Query<CryptoPayInfo>("Service_PayInfo_Get_V2", new { _SiteId = siteId, _DepositType = DepositType.CryptoPayment });
         }
+        
         public IEnumerable<LoadCardPayInfo> GetLoadCardPayInfo(int siteId)
         {
             return _reportDbClient.Query<LoadCardPayInfo>("Service_PayInfo_Get_V2", new { _SiteId = siteId, _DepositType = DepositType.LoadCardPayment });

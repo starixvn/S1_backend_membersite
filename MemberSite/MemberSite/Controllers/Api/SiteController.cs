@@ -43,11 +43,12 @@ namespace MemberSite.Controllers.Api
         private readonly Regex _regexUserName = new(@"^[a-zA-Z0-9]{6,18}$");
         private readonly ThirdPartyBll _thirdPartyBll;
         private readonly SiteBll _siteBll;
-        private readonly ICacheHelper _cacheHelper;
         private readonly RecaptchaBLL _recaptchaBll;
         private readonly ILogger<SiteController> _logger;
+        private readonly ICacheHelper _cacheHelper;
         private readonly CheckAttackBLL _checkAttackBll;
         private readonly StringVaildHelper _stringVaildHelper;
+
 
         public SiteController(IServiceProvider provider)
         {
@@ -65,10 +66,9 @@ namespace MemberSite.Controllers.Api
             _siteConfig = provider.GetRequiredService<IOptions<Dictionary<string, SiteConfig>>>();
             _thirdPartyBll = provider.GetRequiredService<ThirdPartyBll>();
             _siteBll = provider.GetRequiredService<SiteBll>();
-            _cacheHelper = provider.GetRequiredService<ICacheHelper>();
             _recaptchaBll = provider.GetRequiredService<RecaptchaBLL>();
             _logger = provider.GetRequiredService<ILogger<SiteController>>();
-            var env = provider.GetRequiredService<IWebHostEnvironment>();
+            _cacheHelper = provider.GetRequiredService<ICacheHelper>();
             _checkAttackBll = provider.GetRequiredService<CheckAttackBLL>();
             _stringVaildHelper = provider.GetRequiredService<StringVaildHelper>();
         }
@@ -173,11 +173,10 @@ namespace MemberSite.Controllers.Api
             // }
 
             await _cacheHelper.StringFireAndForgetSetAsync(customer.CustId.ToString(), token, TimeSpan.FromMinutes(30), RedisDataBase.Token);
-
             Response.Cookies.Delete($"Initialization{User.Identity?.Name}");
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
-            apiResult.Message = Url.RouteUrl("desktop", new { action = "Index", controller = "Home", LangId = _selLangBll.GetLangId() });
+            apiResult.Message = Url.RouteUrl("desktop", new { action = Request.RouteValues["action"], controller = Request.RouteValues["controller"], LangId = _selLangBll.GetLangId() });
             apiResult.ErrorCode = 0;
             return apiResult;
         }
@@ -410,56 +409,6 @@ namespace MemberSite.Controllers.Api
         {
             public string Email { get; set; }
             public string Username { get; set; }
-        }
-        [HttpPost]
-        public ApiResult ForgetPwd(ForgetPwdReq forgetPwdReq)
-        {
-            var apiResult = new ApiResult<bool>(_selLangBll);
-            try
-            {
-                Customer custInfo;
-                var host = Request.Host.ToString();
-                var deviceType = (int)_tools.GetDeviceId(host);
-                var resetPasswordUrl = Url.RouteUrl("desktop", new { action = "ResetPassword", controller = "Home", LangId = _selLangBll.GetLangId() }, protocol: Url.ActionContext.HttpContext.Request.Scheme, host: Url.ActionContext.HttpContext.Request.Host.Host);
-                if (!string.IsNullOrEmpty(forgetPwdReq.Username))
-                {
-                    custInfo = _custInfoBll.GetCustInfoByUserName(forgetPwdReq.Username.Trim());
-                }
-                else
-                {
-                    custInfo = _custInfoBll.GetCustInfoByMail(forgetPwdReq.Email.Trim());
-                }
-
-                if (custInfo == null)
-                {
-                    apiResult.Message = _selLangBll.GetMsg("ForgetPwdFail");
-                }
-                else
-                {
-                    var custInfoProfile = _custInfoBll.GetCustInfoProfile(custInfo.CustId);
-
-                    var pattern = @"(?<=[\w]{1})[\w-\._\+%]*(?=[\w]{1}@)";
-                    var result = Regex.Replace(custInfoProfile.Email, pattern, m => new string('*', m.Length));
-
-                    _custInfoBll.ForgetPwd1(custInfo.CustId, resetPasswordUrl);
-                    if (!string.IsNullOrEmpty(forgetPwdReq.Username))
-                    {
-                        apiResult.Message = $"Has send to {result}.";//selLangBLL.GetMsg("ForgetPwdSuccess");
-                    }
-                    else
-                    {
-                        apiResult.Message = _selLangBll.GetMsg("ForgetPwdSuccess");
-                    }
-
-                    apiResult.ErrorCode = 0;
-                }
-            }
-            catch (Exception ex)
-            {
-                apiResult.RawMessage = ex.Message;
-            }
-
-            return apiResult;
         }
         public class ForgetPwdReqV2 : ForgetPwdReq
         {
@@ -744,28 +693,29 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<IEnumerable<BannerV3>>();
 
-            int siteId;
             try
             {
                 var serverInfo = _serverInfoBll.GetServerInfo();
-                int perferCurr;
-                var ShowStatus = 1;
+                int preferCurr;
+            	int siteId;
+                var showStatus = 1;
                 var authData = _authorizeBll.GetAuthData();
                 if (authData is { CustId: > 0 })
                 {
                     var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                     siteId = custInfo.SiteId;
-                    perferCurr = custInfo.CurrencyId;
-                    ShowStatus = 2;
+                    preferCurr = custInfo.CurrencyId;
+                    showStatus = 2;
                     langId = _selLangBll.GetLangId();
                 }
                 else
                 {
-                    perferCurr = bannerReq.CurrencyId ?? _selLangBll.GetPreferCurrencyId();
+                    preferCurr = bannerReq.CurrencyId ?? _selLangBll.GetPreferCurrencyId();
                     siteId = serverInfo.SiteId;
                     langId = _selLangBll.CheckLangId(langId) ? langId : _selLangBll.GetLangId();
                 }
-                apiResult.Data = _bannerBll.GetBannerV3(siteId, bannerReq.BannerType, ShowStatus, perferCurr, langId, serverInfo);
+
+                apiResult.Data = _bannerBll.GetBannerV3(siteId, bannerReq.BannerType, showStatus, preferCurr, langId, serverInfo);
 
                 var domain = _serverInfoBll.GetHttpDomain();
                 foreach (var data in apiResult.Data)
@@ -1190,7 +1140,7 @@ namespace MemberSite.Controllers.Api
         }
 
 
-        public class AffiliateExitsReq 
+        public class AffiliateExitsReq
         {
             public string AffCode { get; set; }
         }
@@ -1200,14 +1150,15 @@ namespace MemberSite.Controllers.Api
         /// <param name="req"></param>
         /// <returns></returns>
         [HttpPost]
-        public ApiResult AffiliateCheck(AffiliateExitsReq req) 
+        public ApiResult<int> AffiliateCheck(AffiliateExitsReq req)
         {
-            var apiResult = new ApiResult();
-            var errorCode = _custInfoBll.AffiliateCheck(req.AffCode);
+            var apiResult = new ApiResult<int>();
+            var errorCode = _custInfoBll.AffiliateAndReferralCheck(req.AffCode.Trim(), out int currencyId);
             apiResult.ErrorCode = errorCode;
+            apiResult.Data = currencyId;
             apiResult.Message = errorCode switch
             {
-                -9 =>  _selLangBll.GetMsg("msg_AffCodeValidate"),
+                -9 => _selLangBll.GetMsg("msg_AffCodeValidate"),
                 -10 => _selLangBll.GetMsg("msg_AffCodeNotFound"),
                 _ => "",
             };
@@ -1370,7 +1321,7 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
 
-        public class VipBannerReq 
+        public class VipBannerReq
         {
             public int CurrencyId { get; set; }
         }
@@ -1378,7 +1329,7 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiResult<VipBanner> GetVipBanner(VipBannerReq vipBannerReq)
         {
-            var apiResult = new ApiResult<VipBanner>() { ErrorCode = 0};
+            var apiResult = new ApiResult<VipBanner>() { ErrorCode = 0 };
             int siteId;
             try
             {

@@ -20,22 +20,27 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Properties\PublishProfiles\**" />
     <Compile Remove="Views\Promotion\Promo5PBonus\**" />
     <Compile Remove="wwwroot\CMS\**" />
     <Compile Remove="wwwroot\js\**" />
     <Compile Remove="wwwroot\SiteSkin\**" />
+    <Content Remove="Properties\PublishProfiles\**" />
     <Content Remove="Views\Promotion\Promo5PBonus\**" />
     <Content Remove="wwwroot\CMS\**" />
     <Content Remove="wwwroot\js\**" />
     <Content Remove="wwwroot\SiteSkin\**" />
+    <EmbeddedResource Remove="Properties\PublishProfiles\**" />
     <EmbeddedResource Remove="Views\Promotion\Promo5PBonus\**" />
     <EmbeddedResource Remove="wwwroot\CMS\**" />
     <EmbeddedResource Remove="wwwroot\js\**" />
     <EmbeddedResource Remove="wwwroot\SiteSkin\**" />
+    <None Remove="Properties\PublishProfiles\**" />
     <None Remove="Views\Promotion\Promo5PBonus\**" />
     <None Remove="wwwroot\CMS\**" />
     <None Remove="wwwroot\js\**" />
     <None Remove="wwwroot\SiteSkin\**" />
+    <_WebToolingArtifacts Remove="Properties\PublishProfiles\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -74,7 +79,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="wwwroot\common\images\LoadCardPay\" />
   </ItemGroup>
 

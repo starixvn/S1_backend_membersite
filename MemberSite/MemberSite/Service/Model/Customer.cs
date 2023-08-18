@@ -215,7 +215,11 @@ namespace MemberSite.Service.Model
         public decimal VaildBet { get; set; }
         public decimal Deposit { get; set; }
         public int PeriodDays { get; set; }
+        public decimal DepositRewardPercentage { get; set; }
+        public decimal MinPayout { get; set; }
+        public decimal MaxPayout { get; set; }
         public string Details { get; set; }
+        public ReferralStatusEnum Status { get; set; }
     }
 
     public class ReferralSettingDetail
@@ -228,6 +232,9 @@ namespace MemberSite.Service.Model
         public decimal VaildBet { get; set; }
         public decimal Deposit { get; set; }
         public int PeriodDays { get; set; }
+        public decimal DepositRewardPercentage { get; set; }
+        public decimal MinPayout { get; set; }
+        public decimal MaxPayout { get; set; }
         public ReferralContent ReferralContent { get; set; }
     }
 
@@ -238,6 +245,7 @@ namespace MemberSite.Service.Model
         public string Title { get; set; }
         public string Description { get; set; }
         public string Detail { get; set; }
+        public ReferralTypeEnum Type { get; set; }
     }
 
     public class ReferralSummary
@@ -246,6 +254,7 @@ namespace MemberSite.Service.Model
         public int ConditionCount { get; set; }
         public int AmountCount { get; set; }
         public int AmountSum { get; set; }
+        public bool HasReferral { get; set; }
 
     }
     public class ReferralFriend
@@ -277,6 +286,16 @@ namespace MemberSite.Service.Model
         public string CustTimeZone { get; set; }
 
     }
+    public class DepositReferralDao
+    {
+        public DateTime SettledDate { get; set; }
+        public string UserName { get; set; }
+        public string CurrencyName { get; set; }
+        public decimal TotalDeposit { get; set; }
+        public decimal RewardAmount { get; set; }
+
+    }
+
     public class CustTransSummary
     {
         public decimal DepositSum { get; set; }
@@ -337,6 +356,7 @@ namespace MemberSite.Service.Model
             NoPlay = noPlay;
         }
     }
+
     public class CustRecentlyViewedInfo
     {
         public int CustId { set; get; }

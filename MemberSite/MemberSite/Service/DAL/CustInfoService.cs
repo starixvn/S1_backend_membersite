@@ -40,7 +40,7 @@ namespace MemberSite.Service.DAL
             return _reportDbClient.ExecuteScalar<int>("Member_ExistsEmail_Get", new { CustId = custId, Email = email, SiteId = siteId }) != 0;
         }
 
-        public int AddCustInfo(Customer customer, string Email, string lineUserId,int deviceType, out int custId, string signupUrl = null, string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null, int Birth_d = 0, int Birth_m = 0, int Birth_y = 0)
+        public int AddCustInfo(Customer customer, string Email, string lineUserId, int deviceType ,out int custId, string signupUrl = null, string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null, int Birth_d = 0, int Birth_m = 0, int Birth_y = 0)
         {
             using var conn = _mainDbClient.GetMySqlConnection();
             conn.Open();
@@ -431,13 +431,7 @@ namespace MemberSite.Service.DAL
                 }
             }
         }
-
-        public bool SetCustUSDTInfo(int custId, int siteId, string accountName, IEnumerable<CryptoWalletDetail> uSDTInfo)
-        {
-            var result = _mainDbClient.Execute("Service_CustUSDTInfo_Set", new { CustId = custId, SiteId = siteId, AccountName = accountName, USDTInfo = Newtonsoft.Json.JsonConvert.SerializeObject(uSDTInfo) });
-            return result > 0;
-        }
-
+        
         public bool InsertCustBankInfo(int custId, int siteId, string accountName, int sysId, string accountNum, string iFSCCode, CustBankInfoLogStatus status)
         {
             using var conn = _mainDbClient.GetMySqlConnection();
@@ -757,7 +751,6 @@ namespace MemberSite.Service.DAL
 
         public bool SetCustInfoTagList(IEnumerable<CustTagList> tagList, IDbTransaction trans)
         {
-            var result = 0;
             var parameter = new DynamicParameters(new
             {
                 _Infos = JsonSerializer.Serialize(tagList)
@@ -853,6 +846,7 @@ namespace MemberSite.Service.DAL
         public async Task<IEnumerable<CustTpGameTypeSettingDto>> GetCustTpGameTypeSetting(int custId, IEnumerable<int> types)
             => await _mainDbClient.QueryAsync<CustTpGameTypeSettingDto>("Member_CustTpGameTypeSetting_Get",
                 new { _CustId = custId, _Types = JsonConvert.SerializeObject(types) });
+
         public async Task<IEnumerable<CustRecentlyViewedInfo>> GetCustRecentlyViewed(int custId)
         {
             return await _reportDbClient.QueryAsync<CustRecentlyViewedInfo>("Member_CustRecentlyViewed_Get", new { _CustId = custId });

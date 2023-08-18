@@ -18,7 +18,8 @@ public class SiteBll
     private readonly Tools _tools;
     private readonly ShieldBLL _ShieldBll;
     private readonly Regex _regexUserName = new(@"^[a-zA-Z0-9]{6,18}$");
-    private readonly Regex _regexPhoneNumber = new(@"^\+60[0-9]{9,10}$|\+62[0-9]{10,13}$|\+86[0-9]{10,11}$|\+91[0-9]{10}$|\+66[0-9]{9}$|\+880[0-9]{10}$|\+855[0-9]{8,10}$");
+    private readonly Regex _regexAffCode = new(@"^[0-9]{5,20}$");
+    private readonly Regex _regexPhoneNumber = new(@"^\+60[0-9]{9,10}$|\+62[0-9]{10,13}$|\+86[0-9]{10,11}$|\+91[0-9]{10}$|\+66[0-9]{9}$|\+880[0-9]{10}$|\+855[0-9]{8,10}$|\+84[0-9]{9}$");
     private readonly Regex _regexEmail = new(@"^\w+((-\w+)|(\.\w+))*@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$");
     private readonly RecaptchaBLL _recaptcha;
     private readonly IGeoIpApi _geoIpApi;
@@ -60,6 +61,7 @@ public class SiteBll
                 case "+66":
                 case "+880":
                 case "+855":
+                case "+84":
                     if (!_regexPhoneNumber.IsMatch(signupModel.AreaCode + signupModel.PhoneNo))
                     {
                         var message = signupModel.AreaCode switch
@@ -71,6 +73,7 @@ public class SiteBll
                             "+66" => "9",
                             "+880" => "10",
                             "+855" => "8-10",
+                            "+84" => "9",
                             _ => ""
                         };
                         apiResult.ErrorCode = -20;
@@ -125,7 +128,7 @@ public class SiteBll
                 return customer;
             }
         }
-        
+
         if (!_regexUserName.IsMatch(signupModel.UserName))
         {
             apiResult.ErrorCode = -8;
@@ -136,11 +139,44 @@ public class SiteBll
         AffCodeObject affCodeObj = null;
         if (!string.IsNullOrWhiteSpace(signupModel.AffCode))
         {
-            affCodeObj = new AffCodeObject(signupModel.AffCode);
-            if (!affCodeObj.IsValid())
+            if (signupModel.AffCode.Trim().Length == 5)
             {
-                apiResult.ErrorCode = -9;
-                apiResult.Message = _selLangBll.GetMsg("msg_AffCodeValidate");
+                affCodeObj = new AffCodeObject(signupModel.AffCode);
+                if (!affCodeObj.IsValid())
+                {
+                    apiResult.ErrorCode = -9;
+                    apiResult.Message = _selLangBll.GetMsg("msg_AffCodeValidate");
+                    return customer;
+                }
+            }
+            else if (signupModel.AffCode.Trim().Length == 8)
+            {
+                var rffCodeObj = new ReferralObject(signupModel.AffCode);
+                if (!rffCodeObj.IsValid())
+                {
+                    apiResult.ErrorCode = -9;
+                    apiResult.Message = _selLangBll.GetMsg("msg_AffCodeValidate");
+                    return customer;
+                }
+                if (rffCodeObj.IsExists(_custInfoBLL.GetAffiliateAgentBll) < 0)
+                {
+                    apiResult.ErrorCode = -10;
+                    apiResult.Message = _selLangBll.GetMsg("msg_AffCodeNotFound");
+                    return customer;
+                }
+                if (rffCodeObj.CurrencyId != signupModel.CurrencyId)
+                {
+                    apiResult.ErrorCode = -10;
+                    apiResult.Message = _selLangBll.GetMsg("msg_AffCodeNotFound");
+                    return customer;
+                }
+                signupModel.AffId = signupModel.AffCode;
+                signupModel.AffCode = null;
+            }
+            else
+            {
+                apiResult.ErrorCode = -10;
+                apiResult.Message = _selLangBll.GetMsg("msg_AffCodeNotFound");
                 return customer;
             }
         }
@@ -158,10 +194,10 @@ public class SiteBll
 
         var fromUrl = _tools.GetFromUrl();
         var deviceType = (int)_tools.GetDeviceId(fromUrl);
-
+        
         var result = _custInfoBLL.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email,
             signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff,
-            affCodeObj, signupModel.LineUserId, deviceType, out var custId, signupModel.SignupUrl, signupModel.ReferralUrl, signupModel.PhoneNo,
+            affCodeObj, signupModel.LineUserId, deviceType , out var custId, signupModel.SignupUrl, signupModel.ReferralUrl, signupModel.PhoneNo,
             signupModel.AreaCode, signupModel.RealName, signupModel.PromoCode, signupModel.Birth_d,
             signupModel.Birth_m,
             signupModel.Birth_y);
@@ -227,9 +263,10 @@ public class SiteBll
                             //        _iovationBll.SetIovation(custId, IovationType.registration, apiResultIovation.Data);
                             //}
                         });
+                    
+                    var userLoginResult = _custInfoBLL.UserLogin(false, 0, signupModel.UserName, signupModel.Userpwd,
+                        _tools.GetClientIP(), fromUrl, userAgent, deviceType, ref customer, out var token);
 
-                        var userLoginResult = _custInfoBLL.UserLogin(false, 0, signupModel.UserName, signupModel.Userpwd,
-                            _tools.GetClientIP(), fromUrl, userAgent, deviceType, ref customer, out var token);
 
                         switch (userLoginResult)
                         {

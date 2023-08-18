@@ -1,10 +1,12 @@
-﻿using MemberSite.Service.BLL;
+﻿using MemberSite.Extensions;
+using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using static MemberSite.Controllers.entPageController;
 
 namespace MemberSite.Controllers
@@ -19,7 +21,6 @@ namespace MemberSite.Controllers
         private readonly ServerInfoBll _serverInfoBll;
         private readonly PaymentBLL _paymentBll;
         private readonly CustInfoBll _custInfoBll;
-        private readonly TemplateBLL _templateBll;
         private readonly CryptoPayInfoBll _cryptoPayInfoBll;
         private readonly LoadCardPayInfoBLL _loadCardPayInfoBll;
         private readonly PromotionBll _promotionBll;
@@ -35,8 +36,7 @@ namespace MemberSite.Controllers
             _authorizeBll = provider.GetRequiredService<AuthorizeBLL>();
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
             _paymentBll = provider.GetRequiredService<PaymentBLL>();
-            _custInfoBll = provider.GetRequiredService<CustInfoBll>();
-            _templateBll = provider.GetRequiredService<TemplateBLL>();
+            _custInfoBll = provider.GetRequiredService<CustInfoBll>();            
             _cryptoPayInfoBll = provider.GetRequiredService<CryptoPayInfoBll>();
             _loadCardPayInfoBll = provider.GetRequiredService<LoadCardPayInfoBLL>();
             _promotionBll = provider.GetRequiredService<PromotionBll>();
@@ -44,34 +44,10 @@ namespace MemberSite.Controllers
             _bankInfoBll = provider.GetRequiredService<BankInfoBLL>();
             _bankInfoOffBll = provider.GetRequiredService<BankInfoOffBLL>();
             _logger = provider.GetRequiredService<ILogger<CashierController>>();
-
             var configuration = provider.GetRequiredService<IConfiguration>();
             _payApiUrl = configuration.GetValue<string>("PayService");
         }
-        public IActionResult Deposit()
-        {
-            var authData = _authorizeBll.GetAuthData();
-            var custInfo = _custInfoBll.GetCustInfo(authData.CustId);
 
-            if (!custInfo.IsTest)
-                return View(_templateBll.GetTemplatePath(Url));
-            else
-                return BadRequest("This account does not allow deposit. Please contact CSD for more information!");
-        }
-        public IActionResult Withdrawal()
-        {
-            var authData = _authorizeBll.GetAuthData();
-            var custInfo = _custInfoBll.GetCustInfo(authData.CustId);
-
-            if (!custInfo.IsTest)
-                return View(_templateBll.GetTemplatePath(Url));
-            else
-                return BadRequest("This account does not allow withdrawal. Please contact CSD for more information!");
-        }
-        public IActionResult Transfer()
-        {
-            return View(_templateBll.GetTemplatePath(Url));
-        }
 
         [HttpGet]
         public async Task<IActionResult> DepositReqOnlineBankingAsync(int sysId, int payId, int ChannelId, decimal Amount, string BonusCode)
@@ -97,12 +73,7 @@ namespace MemberSite.Controllers
                     PayId = onlineBank.PayId,
                     SysId = onlineBank.SysId,
                     ClientIP = _tools.GetClientIP(),
-                    ReturnUrl = Url.RouteUrl("desktop",
-                        new {action = "Deposit", controller = "Cashier", custInfo.UserLang},
-                        protocol: Request.Scheme,
-                        host: Request.Host.Port is 80 or null
-                            ? Request.Host.Host
-                            : $"{Request.Host.Host}:{Request.Host.Port}")
+                    ReturnUrl = $"{Request.Scheme}://{Request.Host.Host}/{custInfo.UserLang}/deposit"
                 };
                 
                 var myUrl = $"{_payApiUrl}ReqDepositBank";
@@ -133,7 +104,7 @@ namespace MemberSite.Controllers
                     ChannelId = payInfo.ChannelId,
                     PayId = payInfo.PayId,
                     ClientIP = _tools.GetClientIP(),
-                    ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", custInfo.UserLang }, protocol: Request.Scheme, host: Request.Host.Port is 80 or null ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}"),
+                    ReturnUrl = $"{Request.Scheme}://{Request.Host.Host}/{custInfo.UserLang}/deposit",
                     PayAccount = PayAccount
                 };
 
@@ -151,6 +122,10 @@ namespace MemberSite.Controllers
             public string DepositInfo { get; set; }
             public int ChannelId { get; set; }
         }
+
+        private static readonly IEnumerable<int> NoExchangeInfoPay
+            = new List<int> {(int)PayEnum.Coin2Pay};
+
         public async Task<IActionResult> DepositReqCryptoPayAsync(int ChannelId, decimal Amount, string BonusCode)
         {
             var model = new ErrorData();
@@ -160,6 +135,25 @@ namespace MemberSite.Controllers
             var result = _cryptoPayInfoBll.DepositReqCryptoPay(authData.CustId, ChannelId, Amount, out var transId, out var cryptoPayInfo);
             if (result == (int)ErrorCode.Success)
             {
+                var depositInfo = JsonConvert.SerializeObject(cryptoPayInfo);
+                // 三方存款不含金額、匯率等必須資訊，需先取別家的匯率
+                if (NoExchangeInfoPay.Contains(cryptoPayInfo.PayId))
+                {
+                    var exchangeInfo =
+                        await _cryptoPayInfoBll.GetExchangeInfoAsync(custInfo.SiteId, custInfo.CurrencyId, Amount, cryptoPayInfo.ChannelName, ExchangeTypeEnum.Buy);
+                    
+                    if (exchangeInfo.ErrorCode != (int)ErrorCode.Success)
+                    {
+                        _logger.LogError($"{transId}, {cryptoPayInfo.PayName} get exchange info failed.");
+                        return RedirectErrorPage(model);
+                    }
+                    
+                    var obj = JObject.Parse(depositInfo);
+                    obj.AddOrSet("ExchangeRate", exchangeInfo.Data.Rate);
+                    obj.AddOrSet("ExchangeAmount", exchangeInfo.Data.ExchangeAmount);
+                    depositInfo = JsonConvert.SerializeObject(obj);
+                }
+                
                 if (_promotionBll.VerifyBonusCode(BonusCode))
                     _promotionBll.SetDepositPromotionQueue(transId, BonusCode, authData.CustId, custInfo.SiteId, custInfo.UserName, custInfo.CurrencyId, 1, 0);
                 var reqDepositCrypto = new ReqDepositCrypto
@@ -170,8 +164,8 @@ namespace MemberSite.Controllers
                     ChannelId = cryptoPayInfo.ChannelId,
                     PayId = cryptoPayInfo.PayId,
                     ClientIP = _tools.GetClientIP(),
-                    DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(cryptoPayInfo),
-                    ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", custInfo.UserLang }, protocol: Request.Scheme, host: Request.Host.Port is 80 or null ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}")
+                    DepositInfo = depositInfo,
+                    ReturnUrl = $"{Request.Scheme}://{Request.Host.Host}/{custInfo.UserLang}/deposit",
                 };
 
                 var myUrl = $"{_payApiUrl}ReqDepositCrpyto";
@@ -254,7 +248,7 @@ namespace MemberSite.Controllers
                     loadCardPayInfo.ChannelId,
                     loadCardPayInfo.PayId,
                     ClientIP = _tools.GetClientIP(),
-                    ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", custInfo.UserLang }, protocol: Request.Scheme, host: Request.Host.Port is 80 or null ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}")
+                    ReturnUrl = $"{Request.Scheme}://{Request.Host.Host}/{custInfo.UserLang}/deposit"
                 };
 
                 var myUrl = $"{_payApiUrl}ReqDepositLoadCard";
@@ -378,7 +372,7 @@ namespace MemberSite.Controllers
                 payInfo.ChannelId,
                 payInfo.PayId,
                 ClientIP = _tools.GetClientIP(),
-                ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", custInfo.UserLang }, protocol: Request.Scheme, host: Request.Host.Port is 80 or null ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}")
+                ReturnUrl = $"{Request.Scheme}://{Request.Host.Host}/{custInfo.UserLang}/deposit"
             });
 
             return ActionResult(apiResult, transId, model, PaymentView.DepositReqMobilePay, out var actionResult)
@@ -403,7 +397,7 @@ namespace MemberSite.Controllers
             //取得可用銀行列表
             var bankList = _bankInfoBll.GetAutoChannelBankList(custInfo, vipLevel)
                 .Where(i => i.SysId == sysId && Amount <= i.MaxAmount && Amount >= i.MinAmount);
-          
+
             foreach (var bank in bankList.OrderBy(i => i.SSort))
             {
                 var result = _paymentBll.DepositReqOnlineBanking(authData.CustId, sysId, bank.PayId, bank.ChannelId, Amount, out transId, out var onlineBank, depositType);
@@ -425,7 +419,7 @@ namespace MemberSite.Controllers
                     PayId = onlineBank.PayId,
                     SysId = onlineBank.SysId,
                     ClientIP = _tools.GetClientIP(),
-                    ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", custInfo.UserLang }, protocol: Request.Scheme, host: Request.Host.Port is 80 or null ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}")
+                    ReturnUrl = $"{Request.Scheme}://{Request.Host.Host}/{custInfo.UserLang}/deposit"
                 });
                 
                 if (ActionResult(apiResult, transId, new ErrorData(), PaymentView.DepositReqOnlineBanking, out var actionResult)) 
