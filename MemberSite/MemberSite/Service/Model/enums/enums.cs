@@ -12,6 +12,7 @@ namespace MemberSite.Service.Model.enums
         NonDepoist = 1,
         Depoisted = 2,
     }
+
     public enum CustStatus
     {
         Running = 1,
@@ -56,20 +57,6 @@ namespace MemberSite.Service.Model.enums
     /// <summary>
     /// 
     /// </summary>
-    public enum DepositStatus
-    {
-        Pending = 1,
-        Paid = 2,/**/
-        Approved = 3,
-        Rejected = 4,
-        Cancelled = 5,
-        Expired = 6,
-        OnHold = 7
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
     public enum WithdrawalStatus
     {
         Pending = 1,
@@ -82,120 +69,13 @@ namespace MemberSite.Service.Model.enums
         ToKyc = 8,
         Error = 99
     }
-    public enum WithdrawalType
-    {
-        Undefine = 0,
-        OnlinePayment = 1,
-        LocalBank = 2,
-    }
-    /// <summary>
-    ///  1=已入账  2=支付中  3=等待出款  4=已出款
-    /// </summary>
-    public enum DepositState
-    {
 
-        /// <summary>
-        /// 已入账
-        /// </summary>
-        AddedMoney = 1,
-
-        /// <summary>
-        /// 支付中
-        /// </summary>
-        Paying = 2,
-
-        /// <summary>
-        /// 等待审核
-        /// </summary>
-        WaitingOut = 3,
-
-        /// <summary>
-        /// 已出款
-        /// </summary>
-        PayedMoney = 4,
-
-        /// <summary>
-        /// 提现撤单
-        /// </summary>
-        DrawBack = 5,
-
-        /// <summary>
-        /// 支付订单已过期
-        /// </summary>
-        PayTimeOut = 6,
-
-        /// <summary>
-        /// 等待出款【审核通过】
-        /// </summary>
-        WaitingTransferMoney = 7,
-
-        /// <summary>
-        /// 支付中
-        /// </summary>
-        CasherPaying = 8,
-
-        /// <summary>
-        /// 第三方自动支付失败
-        /// </summary>
-        AutoPayError = 9,
-    }
-
-    public enum PromotionCategoryId
-    {
-        SlotsGame = 1,
-        LiveCasino = 2,
-        SabaSports = 4,
-        Lottery = 5,
-        ESports = 11
-    }
-
-    public enum TpCategoryId
-    {
-        Sports = 1,
-        Casino = 2,
-        LiveCasino = 3,
-        Fishing = 4,
-        Cockfighting = 5,
-        Lottery = 6,
-        VirtualSports = 7,
-        P2P = 8,
-        ESports = 11
-    }
-
-    public enum PromotionType
-    {
-        FstDeposit = 1,
-        ReDeposit = 2,
-        FreeBet = 3,
-        WalletBonus = 5,
-        Rebate = 6,
-        Cashback = 7,
-        StaticPage = 8
-    }
-
-    public enum BonusType
-    {
-        Percentage = 1,
-        Amount = 2
-    }
     public enum LockedType
     {
         FromBonus = 1,
         FromRequireAmount = 2
     }
-    public enum BonusStatus
-    {
-        Running = 1,
-        Canceled = 2,
-        Expiry = 3,
-        Fulfill = 4,
-        transferOut = 5
-    }
-    public enum RollOverStatus
-    {
-        Running = 1,
-        Fulfill = 2
-    }
+
     public enum Tp
     {
         None = 0,
@@ -235,19 +115,13 @@ namespace MemberSite.Service.Model.enums
         MP = 35,
         SBSW = 41
     }
-    public enum GameType
-    {
-        SlotsLobby = 1,
-        LiveCasinoLobby = 2,
-        LiveCasino = 3,
-        Slots = 4,
-        Fishing = 5
-    }
+
     public enum IovationType
     {
         registration = 1,
         withdrawal = 2,
     }
+
     public enum IovationErrorcode : int
     {
         Success = 0,
@@ -260,6 +134,7 @@ namespace MemberSite.Service.Model.enums
         InvalidRequest = -1,
         Failed = 99,
     }
+
     public enum SpecialCode
     {
         Success = 0,
@@ -308,11 +183,13 @@ namespace MemberSite.Service.Model.enums
         Andriod = 1,
         IOS = 2
     }
+
     public enum AppLinkProtocolType
     {
         http = 1,
         https = 2
     }
+
     public enum NetworkType
     {
         ERC20,
@@ -330,16 +207,13 @@ namespace MemberSite.Service.Model.enums
         NonDeposit = 1,
         HasDeposit = 2
     }
-    public enum BonusInfoAtPage
-    {
-        Promotion = 0,
-        Deposit = 1
-    }
+
     public enum OTPType
     {
         SMS = 0,
         Email = 1
     }
+
     public enum CurrencyId
     {
         MYR = 2,
@@ -353,6 +227,7 @@ namespace MemberSite.Service.Model.enums
         BDT = 74,
         USDT = 96
     }
+
     public enum DeviceId
     {
         Old = 0,
@@ -376,12 +251,14 @@ namespace MemberSite.Service.Model.enums
         SHIB = 106,
         ADA = 107
     }
+
     public enum DeepLinkType
     {
         Android = 1,
         IOS = 2,
         Desktop = 3
     }
+
     public enum DeepLinkProtocolType
     {
         http = 1,
@@ -394,6 +271,7 @@ namespace MemberSite.Service.Model.enums
         Manual = 1,
         RestoreAll = 2
     }
+
     public enum WalletMode
     {
         Seamless = 0,
@@ -443,6 +321,7 @@ namespace MemberSite.Service.Model.enums
         IssueLineTokenException = 9001,
         CallBackException = 9002
     }
+
     public enum CustBankInfoLogStatus
     {
         Create = 1,
@@ -450,6 +329,7 @@ namespace MemberSite.Service.Model.enums
         Lock = 3,
         Unlock = 4
     }
+
     public enum CustBankDetailStatus
     {
         Disable = 0,
@@ -490,13 +370,13 @@ namespace MemberSite.Service.Model.enums
         HighRisk = 1
     }
 
-
     public enum WorldCupUserTicketStatus
     {
         Active = 1,
         Finished = 2,
         UnStarted = 3
     }
+
     public enum CustEWalletDetailLogStatus
     {
         Create = 1,
@@ -504,6 +384,7 @@ namespace MemberSite.Service.Model.enums
         Lock = 3,
         Unlock = 4
     }
+    
     public enum CustEWalletDetailStatus
     {
         Disable = 0,
@@ -527,22 +408,6 @@ namespace MemberSite.Service.Model.enums
     {
         InsufficientPoint = -1001,
         RedemptionLimitOverLimit = -1002
-    }
-
-
-    public enum PointTypeEnum
-    {
-        Deposit = 1,
-        Turnover = 2,
-        /// <summary>
-        /// 兌換物品
-        /// </summary>
-        Redemption = 3,
-        /// <summary>
-        /// 手動
-        /// </summary>
-        Manual = 4,
-        System = 5
     }
 
     public enum OfflineBankAccountPurposeEnum
@@ -596,6 +461,7 @@ namespace MemberSite.Service.Model.enums
         SystemUnstable = 7,
         BankUnderMaintenance = 8
     }
+
     public enum WithdrawalMessageStatus
     {
         WithdrawalAccountsNameUnmatch = 0,
@@ -641,7 +507,6 @@ namespace MemberSite.Service.Model.enums
         DrawPrize = 7
     }
 
-
     public enum MemberTypeEnum
     {
         Normal = 1,
@@ -674,13 +539,13 @@ namespace MemberSite.Service.Model.enums
         /// </summary>
         Auto = 1,
     }
-    
+
     public enum AutoType
     {
         AutoVerify = 1,
         AutoApproved = 2
     }
-    
+
     public enum WithdrawalAccountTypeEnum
     {
         EWallet = 1,

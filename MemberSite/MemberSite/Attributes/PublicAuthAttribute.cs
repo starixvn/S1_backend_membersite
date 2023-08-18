@@ -1,15 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System.Net.Http;
-using Newtonsoft.Json.Linq;
 using System.Text;
-using System.Security.Cryptography;
-using MemberSite.Service.Library;
 using MemberSite.Service.BLL;
-using MemberSite.Service.Model.enums;
-using Serilog.Context;
-using System.IO;
 using Microsoft.AspNetCore.Http.Extensions;
 
 namespace MemberSite.Attributes;
@@ -18,14 +11,11 @@ namespace MemberSite.Attributes;
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
 public class PublicAuthAttribute : Attribute, IAuthorizationFilter
 {
-    private readonly Tools _tools;
     private readonly AuthBLL _authBll;
-    private readonly IHostEnvironment _environment;
-    public PublicAuthAttribute(Tools tools, AuthBLL authBll, IHostEnvironment environment)
+
+    public PublicAuthAttribute(AuthBLL authBll)
     {
-        _tools = tools;
         _authBll = authBll;
-        _environment = environment;
     }
 
     public void OnAuthorization(AuthorizationFilterContext context)
