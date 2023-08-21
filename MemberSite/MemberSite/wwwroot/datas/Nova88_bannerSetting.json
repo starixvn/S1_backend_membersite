@@ -1,0 +1,148 @@
+{
+  "Promotion": [
+    {
+      "img": "Banner-2021cny.jpg",
+      "lang": [ "th", "id", "en", "cs" ]
+    },
+    //{
+    //  "actionLink": "918kiss",
+    //  "img": "banner-918kiss.jpg",
+    //  "lang": [ "th", "id", "en", "cs" ]
+    //},
+    //{
+    //  "actionLink": "mega888",
+    //  "img": "banner-mega888.jpg",
+    //  "lang": [ "th", "id", "en", "cs" ]
+    //},
+    {
+      "actionLink": "en/promotion/promotionInfo?BonusCode=Nova88SBRebate",
+      "img": "Banner-Sports06.jpg",
+      "currencyId": [ 2, 4, 15 ],
+      "lang": [ "th", "id", "en", "cs" ]
+    },
+    {
+      "img": "Banner-2021cnyleader.jpg",
+      "actionLink": "leaderBoard",
+      "lang": [ "th", "id", "en", "cs" ]
+    },
+    //{
+    //  "actionLink": "en/casino?tpId=24",
+    //  "img": "banner-icg.jpg",
+    //  "lang": [ "th", "id", "en", "cs" ]
+    //},
+    {
+      "img": "Banner-friendref.jpg",
+      "actionLink": "referral",
+      "lang": [ "th", "id", "en", "cs" ]
+    },
+    {
+      "actionLink": "https://aff.nova88asia.com/Signup/Index",
+      "outerLink": true,
+      "img": "banner-affiliates.jpg",
+      "currencyId": [ 2, 4, 15 ],
+      "lang": [ "th", "id", "en", "cs" ]
+    }
+  ],
+  "Casino": [
+    {
+      "actionLink": "en/casino?tpId=9",
+      "img": "banner-joker.jpg",
+      "currencyId": [ 2, 4, 15 ],
+      "lang": [ "th", "id", "en", "cs" ]
+    },
+
+    //{
+    //  "actionLink": "https://pp88.asia/tournament/raining-cashndrops2/",
+    //  "outerLink": true,
+    //  //"actionLinkByLang": [
+    //  //  {
+    //  //    "lang": "cs",
+    //  //    "link": "https://pp88.asia/zh/tournament/slots-championship-zh/",
+    //  //    "outerLink": true
+    //  //  }
+    //  //],
+    //  "img": "event-pp-20201013.jpg",
+    //  "currencyId": [ 4 ],
+    //  "lang": [ "th", "id", "en", "cs" ]
+    //},
+    //{
+    //  "actionLink": "http://event-tw.248ka.com/GodsE/index.html",
+    //  "outerLink": true,
+    //  "actionLinkByLang": [
+    //    {
+    //      "lang": "cs",
+    //      "link": "http://event-tw.248ka.com/GodsC/index.html",
+    //      "outerLink": true
+    //    }
+    //  ],
+    //  "img": "event-pp-20201026.jpg",
+    //  "lang": [ "th", "id", "en", "cs" ]
+    //},
+    {
+      "actionLink": "https://pp88.asia/tournament/daily-wins-cash-drop-2020-2021/",
+      "outerLink": true,
+      "actionLinkByLang": [
+        {
+          "lang": "th",
+          "link": "https://pp88.asia/th/%E0%B8%97%E0%B8%B1%E0%B8%A7%E0%B8%A3%E0%B9%8C%E0%B8%99%E0%B8%B2%E0%B9%80%E0%B8%A1%E0%B8%99%E0%B8%97%E0%B9%8C/daily-wins-cash-drop-2020-2021/",
+          "outerLink": true
+        },
+        {
+          "lang": "id",
+          "link": "https://pp88.asia/id/TURNAMEN/daily-wins-cash-drop-2020-2021/",
+          "outerLink": true
+        },
+        {
+          "lang": "cs",
+          "link": "https://pp88.asia/zh/tournament/daily-wins-cash-drop-2020-2021/",
+          "outerLink": true
+        }
+      ],
+      "img": "event-PP-20210118.jpg",
+      "lang": [ "th", "id", "en", "cs" ]
+    },
+    {
+      "img": "Casino.jpg",
+      "lang": [ "th", "id", "en", "cs" ]
+    }
+  ],
+  "Sports": [
+    {
+      "tpId": "1",
+      "gameId": "1",
+      "matchid": "41273100",
+      "actionLink": "Sports/Index",
+      "outerLink": true,
+      "img": "games-41273100.png",
+      "lang": [ "th", "id", "en", "cs" ]
+    },
+    {
+      "tpId": "1",
+      "gameId": "1",
+      "matchid": "41255296",
+      "actionLink": "Sports/Index",
+      "outerLink": true,
+      "img": "games-41255296.png",
+      "lang": [ "th", "id", "en", "cs" ]
+    },
+    {
+      "tpId": "1",
+      "gameId": "1",
+      "matchid": "41256060",
+      "actionLink": "Sports/Index",
+      "outerLink": true,
+      "img": "games-41256060.png",
+      "lang": [ "th", "id", "en", "cs" ]
+    },
+    {
+      "tpId": "1",
+      "gameId": "1",
+      "matchid": "41239265",
+      "actionLink": "Sports/Index",
+      "outerLink": true,
+      "img": "games-41239265.png",
+      "lang": [ "th", "id", "en", "cs" ]
+    }
+  ]
+}
+

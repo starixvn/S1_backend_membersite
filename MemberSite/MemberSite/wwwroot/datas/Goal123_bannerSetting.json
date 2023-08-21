@@ -1,0 +1,90 @@
+{
+  "Promotion": [
+    {
+      "img": "Banner-2021CNY.jpg",
+      "lang": [ "vn", "en" ]
+    },
+    {
+      "img": "Banner-NewYearLeaderBoard.jpg",
+      "actionLink": "leaderBoard",
+      "lang": [ "vn", "en" ]
+    },
+    {
+      "actionLink": "SiteSkin/Goal123/appDownload/vn.html",
+      "img": "Banner-APP.jpg",
+      "currencyId": [ 51 ],
+      "lang": [ "vn", "en" ]
+    },
+    {
+      "actionLink": "vn/promotion/promotionInfo?BonusCode=Goal123Nov20",
+      "img": "2021-150.jpg",
+      "currencyId": [ 51 ],
+      "lang": [ "vn", "en" ]
+    },
+    {
+      "actionLink": "vn/promotion/promotionInfo?BonusCode=Goal123SBReDepo10",
+      "img": "2021-10.jpg",
+      "currencyId": [ 51 ],
+      "lang": [ "vn", "en" ]
+    },
+    {
+      "actionLink": "vn/promotion/promotionInfo?BonusCode=Goal123RebateNov20",
+      "img": "2021-1.7.jpg",
+      "currencyId": [ 51 ],
+      "lang": [ "vn", "en" ]
+    }
+    //{
+    //  "tpid": "1",
+    //  "gameid": "1",
+    //  "urlWithLang": true,
+    //  "actionLink": "Sports/Index",
+    //  "img": "Banner-Opening.jpg",
+    //  "currencyId": [ 51 ],
+    //  "lang": [ "vn", "en" ]
+    //}
+  ],
+  "Casino": [
+    {
+      "img": "Casino.jpg",
+      "lang": [ "vn", "en" ]
+    }
+  ],
+  "Sports": [
+    {
+      "tpId": "1",
+      "gameId": "1",
+      "matchid": "41273100",
+      "actionLink": "Sports/Index",
+      "outerLink": true,
+      "img": "games-41273100.jpg",
+      "lang": [ "en", "vn" ]
+    },
+    {
+      "tpId": "1",
+      "gameId": "1",
+      "matchid": "41255296",
+      "actionLink": "Sports/Index",
+      "outerLink": true,
+      "img": "games-41255296.jpg",
+      "lang": [ "en", "vn" ]
+    },
+    {
+      "tpId": "1",
+      "gameId": "1",
+      "matchid": "41256060",
+      "actionLink": "Sports/Index",
+      "outerLink": true,
+      "img": "games-41256060.jpg",
+      "lang": [ "en", "vn" ]
+    },
+    {
+      "tpId": "1",
+      "gameId": "1",
+      "matchid": "41239265",
+      "actionLink": "Sports/Index",
+      "outerLink": true,
+      "img": "games-41239265.jpg",
+      "lang": [ "en", "vn" ]
+    }
+  ]
+}
