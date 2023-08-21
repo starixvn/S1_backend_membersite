@@ -26,7 +26,7 @@ namespace MemberSite.Service.DAL
 
         public IEnumerable<BankInfoPay> GetBankInfoPayList(int siteId, DepositType depositType)
         {
-            return _reportDb.Query<BankInfoPay>("Common_BankInfoPay_Get_V2", new { _SiteId = siteId, _DepositType = (int)depositType });
+            return _reportDb.Query<BankInfoPay>("Common_BankInfoPay_Get_V3", new { _SiteId = siteId, _DepositType = (int)depositType });
         }
 
         public IEnumerable<BankInfoName> GetBankInfoNameList(string lang)
