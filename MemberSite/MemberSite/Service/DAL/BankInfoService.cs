@@ -14,8 +14,7 @@ namespace MemberSite.Service.DAL
         }
         public IEnumerable<BankInfoSys> GetBankInfoSysList(int siteId)
         {
-            //siteId Still Useless
-            return _reportDb.Query<BankInfoSys>("BankInfoSysList_Get", new { SiteId = siteId });
+            return _reportDb.Query<BankInfoSys>("Member_BankInfoSysList_Get", new { SiteId = siteId });
         }
 
         public IEnumerable<BankInfoSys> GetBankInfoSysListForCtrl(int siteId)/*Filter Out BankInfoSys.Status != 0*/

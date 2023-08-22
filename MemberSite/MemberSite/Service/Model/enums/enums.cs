@@ -693,4 +693,10 @@ namespace MemberSite.Service.Model.enums
         LobbyName = 1, // saba sport
         GameName = 2, // Golden Grimoire
     }
+    
+    public enum GeneralStatusEnum
+    {
+        Disable = 0,
+        Enable = 1
+    }
 }
