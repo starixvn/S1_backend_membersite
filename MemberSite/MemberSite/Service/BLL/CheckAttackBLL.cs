@@ -1,9 +1,9 @@
 ﻿using Amazon.S3.Model;
-using MemberSite.Service.Library;
-using MemberSite.Service.Model.enums;
-using MemberSite.Service.Model.Mapping;
-using MemberSite.Service.Model;
+
 using MemberSite.Controllers.Api;
+using MemberSite.Service.Library;
+using MemberSite.Service.Model;
+using MemberSite.Service.Model.Mapping;
 
 namespace MemberSite.Service.BLL
 {
@@ -185,7 +185,7 @@ namespace MemberSite.Service.BLL
                                                        "{ \r\n" +
                                                        "default -1;\r\n");
                 await File.AppendAllLinesAsync(filePath, ipList);
-                await File.AppendAllTextAsync(filePath, "}\r\n" + 
+                await File.AppendAllTextAsync(filePath, "}\r\n" +
                                                         "\r\n" +
                                                         "map $ip_geoblock:$ipcheck $geoblock {\r\n" +
                                                         "default $default_geoblock;\r\n" +

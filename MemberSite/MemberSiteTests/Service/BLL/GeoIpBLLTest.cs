@@ -1,8 +1,12 @@
 ﻿using System.Threading.Tasks;
+
 using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.Model;
+
 using Microsoft.Extensions.DependencyInjection;
+
 using NSubstitute;
+
 using NUnit.Framework;
 
 namespace MemberSite.Service.BLL.Tests
@@ -15,8 +19,8 @@ namespace MemberSite.Service.BLL.Tests
         {
             var serviceCollection = new ServiceCollection();
             var geoIpApi = Substitute.For<IGeoIpApi>();
-            geoIpApi.CheckIp(Arg.Any<string>()).Returns(a => 
-                new IpCountry() { Code = "TW", Forbidden = false, Message = "Succeed"});
+            geoIpApi.CheckIp(Arg.Any<string>()).Returns(a =>
+                new IpCountry() { Code = "TW", Forbidden = false, Message = "Succeed" });
             serviceCollection.AddTransient(p => geoIpApi);
             var serviceProvider = serviceCollection.BuildServiceProvider();
             var geoIpBll = new GeoIpBLL(serviceProvider);
@@ -31,8 +35,8 @@ namespace MemberSite.Service.BLL.Tests
         {
             var serviceCollection = new ServiceCollection();
             var geoIpApi = Substitute.For<IGeoIpApi>();
-            geoIpApi.CheckIp(Arg.Any<string>()).Returns(a => 
-                new IpCountry() { Message = "IP format error"});
+            geoIpApi.CheckIp(Arg.Any<string>()).Returns(a =>
+                new IpCountry() { Message = "IP format error" });
             serviceCollection.AddTransient(p => geoIpApi);
             var serviceProvider = serviceCollection.BuildServiceProvider();
             var geoIpBll = new GeoIpBLL(serviceProvider);

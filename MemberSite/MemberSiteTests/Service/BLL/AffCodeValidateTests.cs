@@ -4,6 +4,7 @@ using MemberSite.Service.DAL;
 using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Model;
 using NSubstitute;
+
 using NUnit.Framework;
 
 namespace MemberSiteTests.Service.BLL

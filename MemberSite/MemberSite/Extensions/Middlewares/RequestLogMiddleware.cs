@@ -1,7 +1,10 @@
 ﻿using System.Text;
+
 using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
+
 using Microsoft.AspNetCore.Http.Extensions;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -76,7 +79,7 @@ namespace MemberSite.Extensions.Middlewares
                             path.Contains("/api/Site/Signup", StringComparison.OrdinalIgnoreCase) ||
                             path.Contains("/api/Site/SignupApp", StringComparison.OrdinalIgnoreCase) ||
                             path.Contains("/api/Extra/Signup", StringComparison.OrdinalIgnoreCase) ||
-                            path.Contains("/api/Account/ChangePassword", StringComparison.OrdinalIgnoreCase)) 
+                            path.Contains("/api/Account/ChangePassword", StringComparison.OrdinalIgnoreCase))
                         {
                             var jbody = JObject.Parse(content);
                             if (jbody.TryGetValue("Userpwd", StringComparison.OrdinalIgnoreCase, out var pwd)
@@ -92,7 +95,7 @@ namespace MemberSite.Extensions.Middlewares
                             if (jbody.TryGetValue("NewPassword", StringComparison.OrdinalIgnoreCase, out var npwd)
                                && !string.IsNullOrEmpty(npwd.ToString()))
                             {
-                                jbody["NewPassword"] = "********";        
+                                jbody["NewPassword"] = "********";
                             }
                             content = jbody.ToString();
                         }

@@ -1,17 +1,20 @@
-﻿using NUnit.Framework;
-using System;
-using MemberSiteTests.Stubs;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Hosting.Internal;
-using NSubstitute;
-using MemberSite.Service.Library;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.DependencyInjection;
-using System.Security.Claims;
+﻿using System;
 using System.IdentityModel.Tokens.Jwt;
-using Microsoft.AspNetCore.Builder;
+using System.Security.Claims;
+
 using MemberSite.Extensions;
+using MemberSite.Service.Library;
+
+using MemberSiteTests.Stubs;
+
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+
+using NSubstitute;
+
+using NUnit.Framework;
 
 namespace MemberSite.Service.BLL.Tests
 {
@@ -49,7 +52,7 @@ namespace MemberSite.Service.BLL.Tests
         [TestCase(null, ExpectedResult = false)]
         [TestCase("eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoicWF0ZXN0MDEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjciLCJUb2tlbiI6IjJZYmllZW16bWtlRTJLMnMzeld3UEEiLCJMYW5nSWQiOiJlbiIsImp0aSI6Ijc2ZTBmNDg3LTMzMmMtNGQzZi1hNWFiLTA1YjRiODE3MTlhNiIsImV4cCI6MTk0NzI5MTY3MCwiaXNzIjoiTW9iaWxlQXBpU2VydmVyIn0.afQqwG839fKzy21vFjwrGUZ8Hp_iEKUH7YmXfDXLmNcTy1FKHxMZg_0ZHMnV2itwMp8xPJCWjDadH0yNtgLpIw", ExpectedResult = true)]
         [TestCase("aeyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoicWF0ZXN0MDEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjciLCJUb2tlbiI6IjJZYmllZW16bWtlRTJLMnMzeld3UEEiLCJMYW5nSWQiOiJlbiIsImp0aSI6Ijc2ZTBmNDg3LTMzMmMtNGQzZi1hNWFiLTA1YjRiODE3MTlhNiIsImV4cCI6MTk0NzI5MTY3MCwiaXNzIjoiTW9iaWxlQXBpU2VydmVyIn0.afQqwG839fKzy21vFjwrGUZ8Hp_iEKUH7YmXfDXLmNcTy1FKHxMZg_0ZHMnV2itwMp8xPJCWjDadH0yNtgLpIw", ExpectedResult = false)]
-        public bool TryValidateJwtTokenTest(string jwtToken) => _authorizeBll.TryValidateJwtToken(jwtToken,out var _);
+        public bool TryValidateJwtTokenTest(string jwtToken) => _authorizeBll.TryValidateJwtToken(jwtToken, out var _);
 
         [Test]
         public void JwtTokenGetAuthDataTest()

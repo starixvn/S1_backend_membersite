@@ -1,10 +1,12 @@
-﻿using MemberSite.Service.BLL;
+﻿using System.Security.Claims;
+
+using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
+
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace MemberSite.Controllers
 {
@@ -162,8 +164,8 @@ namespace MemberSite.Controllers
             {
                 Customer customer = null;
                 var fromUrl = tools.GetFromUrl();
-                var deviceType = (int) tools.GetDeviceId(fromUrl);
-                var userLoginResult = custInfoBLL.UserLoginForResetPwd(custInfoProfile.UserName, tools.GetClientIP(), fromUrl, Request.Headers["User-Agent"],deviceType, ref customer, out var token);
+                var deviceType = (int)tools.GetDeviceId(fromUrl);
+                var userLoginResult = custInfoBLL.UserLoginForResetPwd(custInfoProfile.UserName, tools.GetClientIP(), fromUrl, Request.Headers["User-Agent"], deviceType, ref customer, out var token);
                 if (userLoginResult == 0)
                 {
                     var claims = new List<Claim>
@@ -185,5 +187,5 @@ namespace MemberSite.Controllers
 
             return StatusCode(403);
         }
-   }
+    }
 }

@@ -1,5 +1,6 @@
 ﻿using MemberSite.Service.BLL;
 using MemberSite.Service.Model;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace MemberSite.Controllers.Api
@@ -46,5 +47,5 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
     }
-  
+
 }

@@ -1,15 +1,16 @@
-
-﻿using MemberSite.Service.BLL;
+using MemberSite.Service.BLL;
 using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Mapping;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 using Newtonsoft.Json;
+
 using static MemberSite.Extensions.MethodExtension;
-using static MemberSite.Controllers.Api.AccountStrictController;
 
 namespace MemberSite.Controllers.Api
 {
@@ -407,7 +408,7 @@ namespace MemberSite.Controllers.Api
                         apiResult.Message = $"{_selLangBLL.GetMsg("msg_RealNameWrongFormat")}";
                         return apiResult;
                     }
-                
+
                 var accountName = custProfile["AccountName"].Trim();
                 if (string.IsNullOrEmpty(beforeCustInfo.AccountName) && !string.IsNullOrEmpty(beforeCustInfo.PhoneNo))
                 {
@@ -417,14 +418,14 @@ namespace MemberSite.Controllers.Api
                         custProfile["AreaCode"] = beforeCustInfo.AreaCode;
                     if (!string.IsNullOrEmpty(beforeCustInfo.PhoneNo))
                         custProfile["PhoneNo"] = beforeCustInfo.PhoneNo;
-                        
+
                     if (!DateTime.TryParse($"{custProfile["Birth_y"]}-{custProfile["Birth_m"]}-{custProfile["Birth_d"]}", out _))
                     {
                         apiResult.ErrorCode = 21;
                         apiResult.Message = $"{_selLangBLL.GetMsg("msg_BirthdayIsRequired")}";
                         return apiResult;
                     }
-                    
+
                     var result = _custInfoBLL.SetCustBankInfo(authData.CustId, accountName);
 
                     if (result != 0)
@@ -535,16 +536,16 @@ namespace MemberSite.Controllers.Api
                 {
                     var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
                     var beforeCustInfo = _custInfoBLL.GetCustInfoProfile(authData.CustId);
-                    
+
                     if (string.IsNullOrEmpty(beforeCustInfo.AccountName) && !string.IsNullOrEmpty(beforeCustInfo.PhoneNo))
                     {
-                        if(string.IsNullOrWhiteSpace(custProfile["AccountName"]))
+                        if (string.IsNullOrWhiteSpace(custProfile["AccountName"]))
                         {
                             apiResult.ErrorCode = 21;
                             apiResult.Message = $"{_selLangBLL.GetMsg("msg_RealNameWrongFormat")}";
                             return apiResult;
                         }
-                        
+
                         var result = _custInfoBLL.SetCustBankInfo(authData.CustId, custProfile["AccountName"].Trim());
                         if (!string.IsNullOrEmpty(beforeCustInfo.CountryCode))
                             custProfile["CountryCode"] = beforeCustInfo.CountryCode;

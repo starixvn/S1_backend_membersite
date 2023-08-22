@@ -2,6 +2,7 @@
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace MemberSite.Controllers
@@ -17,10 +18,10 @@ namespace MemberSite.Controllers
 
         public liveStreamingEntPageController(IServiceProvider provider)
         {
-            _courierAdapter = provider.GetRequiredService<CourierAdapter>();;
+            _courierAdapter = provider.GetRequiredService<CourierAdapter>(); ;
             _tools = provider.GetRequiredService<Tools>();
-            _authorizeBll = provider.GetRequiredService<AuthorizeBLL>();;
-            _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();;
+            _authorizeBll = provider.GetRequiredService<AuthorizeBLL>(); ;
+            _serverInfoBll = provider.GetRequiredService<ServerInfoBll>(); ;
             _configuration = provider.GetRequiredService<IConfiguration>();
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
         }
@@ -44,19 +45,19 @@ namespace MemberSite.Controllers
             {
                 case false:
                     return Content("Please Log In");
-                
-                case true:
-                {
-                    var uid = $"{serverInfo.SiteName}_{authData.CustId}";
-                    liveStreamingLinkReq.Uid = uid;
-                    var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-                    if (custInfo.ActStatus == (int)ActStatus.NonDeposit)
-                    {
-                        return Content("Please Deposit");
-                    }
 
-                    break;
-                }
+                case true:
+                    {
+                        var uid = $"{serverInfo.SiteName}_{authData.CustId}";
+                        liveStreamingLinkReq.Uid = uid;
+                        var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                        if (custInfo.ActStatus == (int)ActStatus.NonDeposit)
+                        {
+                            return Content("Please Deposit");
+                        }
+
+                        break;
+                    }
             }
 
             try

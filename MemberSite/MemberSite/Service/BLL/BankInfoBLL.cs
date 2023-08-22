@@ -1,7 +1,7 @@
 ﻿using MemberSite.Service.DAL;
+using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
-using MemberSite.Service.Library;
 
 namespace MemberSite.Service.BLL
 {
@@ -143,7 +143,7 @@ namespace MemberSite.Service.BLL
                         MaxAmount = d.MaxAmount,
                         MinAmount = d.MinAmount
                     };
-                    
+
                     if (depositLimitInfo != null)
                     {
                         _depositBll.FixDepositLimit(p, depositLimitInfo);

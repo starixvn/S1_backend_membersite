@@ -1,9 +1,5 @@
 ﻿using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Model.enums;
-using Newtonsoft.Json;
-using RabbitMQ.Client;
-using RabbitMQ.Client.Exceptions;
-using System.Text;
 
 namespace MemberSite.Service.BLL
 {

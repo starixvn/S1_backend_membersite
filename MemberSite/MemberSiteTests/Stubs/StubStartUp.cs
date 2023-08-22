@@ -1,4 +1,5 @@
 ﻿using MemberSite;
+
 using Microsoft.Extensions.Configuration;
 
 namespace MemberSiteTests.Stubs

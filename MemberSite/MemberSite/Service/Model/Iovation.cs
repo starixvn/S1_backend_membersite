@@ -8,7 +8,7 @@ namespace MemberSite.Service.Model
         public string DeviceType { get; set; }
         public int Score { get; set; }
     }
-    
+
     public class CustIovation
     {
         public int CustId { get; set; }

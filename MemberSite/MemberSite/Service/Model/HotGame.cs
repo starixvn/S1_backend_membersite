@@ -1,5 +1,4 @@
 ﻿using MemberSite.Service.Model.enums;
-using Newtonsoft.Json;
 
 namespace MemberSite.Service.Model
 {
@@ -14,7 +13,7 @@ namespace MemberSite.Service.Model
         public string TpName { get; set; }
         public string TpLogo { get; set; }
     }
-    
+
     public class HotGameData
     {
         public int TpId { get; set; }

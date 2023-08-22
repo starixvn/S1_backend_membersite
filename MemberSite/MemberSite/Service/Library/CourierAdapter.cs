@@ -1,7 +1,10 @@
-﻿using MemberSite.Service.Model;
-using Newtonsoft.Json;
-using System.Net.Http.Headers;
+﻿using System.Net.Http.Headers;
 using System.Text;
+
+using MemberSite.Service.Model;
+
+using Newtonsoft.Json;
+
 using Serilog.Context;
 
 namespace MemberSite.Service.Library
@@ -61,7 +64,7 @@ namespace MemberSite.Service.Library
             }
             return oApiResult;
         }
-        
+
         public async Task<T> ShieldGetAsync<T>(string url, ICollection<KeyValuePair<string, string>> header) where T : new()
         {
             T oApiResult = default;
@@ -69,12 +72,12 @@ namespace MemberSite.Service.Library
             LogContext.PushProperty("Shield.Request.URL", url);
 
             using var httpClient = new HttpClient();
-            
+
             foreach (var (key, value) in header)
             {
                 httpClient.DefaultRequestHeaders.Add(key, value);
             }
-            
+
             try
             {
                 using var response = await httpClient.GetAsync(url);
@@ -93,22 +96,23 @@ namespace MemberSite.Service.Library
 
             return oApiResult;
         }
-        
-        public async Task<T> ShieldPostAsync<T, U>(string url, U request , ICollection<KeyValuePair<string, string>> header) where T : new()
+
+        public async Task<T> ShieldPostAsync<T, U>(string url, U request, ICollection<KeyValuePair<string, string>> header) where T : new()
         {
             T oApiResult = default;
             var reqJson = JsonConvert.SerializeObject(request);
             var reqContent = new StringContent(reqJson, Encoding.UTF8, "application/json");
-            
+
             LogContext.PushProperty("Shield.Header", JsonConvert.SerializeObject(header));
             LogContext.PushProperty("Shield.Request.URL", url);
             _logger.LogInformation($"Shield.Request:{reqJson}");
-            
+
             using var httpClient = new HttpClient();
             foreach (var (key, value) in header)
             {
                 httpClient.DefaultRequestHeaders.Add(key, value);
             }
+
             try
             {
                 using var response = await httpClient.PostAsync(url, reqContent);
@@ -119,15 +123,15 @@ namespace MemberSite.Service.Library
                 {
                     oApiResult = JsonConvert.DeserializeObject<T>(result);
                 }
-                
+
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
             }
             return oApiResult;
-		}
-		
+        }
+
         public async Task<object> PostAsync<TRequest>(string url, TRequest request, int timeout = 0)
         {
             try

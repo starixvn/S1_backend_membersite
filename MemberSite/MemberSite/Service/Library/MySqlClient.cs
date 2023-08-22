@@ -1,13 +1,17 @@
 ﻿using System.Data;
 using System.Diagnostics;
+
 using Dapper;
+
 using MemberSite.Service.Model.enums;
+
 using MySql.Data.MySqlClient;
+
 using Serilog.Context;
 
 namespace MemberSite.Service.Library
 {
-     public sealed class MySqlClient
+    public sealed class MySqlClient
     {
         public DataBase DataBase { get; set; }
         private readonly string _connectionString;
@@ -26,7 +30,7 @@ namespace MemberSite.Service.Library
         }
 
         #region Query
-        
+
         public async Task<T> QueryFirstAsync<T>(string name, object parameters)
         {
             T result;
@@ -38,7 +42,7 @@ namespace MemberSite.Service.Library
                 var command = new CommandDefinition(name, parameters, // 使用 CommandDefinition 不讓 Dapper 用預設值建立
                     commandType: CommandType.StoredProcedure,
                     flags: CommandFlags.NoCache);
-                
+
                 result = await connection.QueryFirstOrDefaultAsync<T>(command);
                 await connection.CloseAsync();
                 await connection.DisposeAsync();
@@ -64,7 +68,7 @@ namespace MemberSite.Service.Library
                 var command = new CommandDefinition(name, parameters, // 使用 CommandDefinition 不讓 Dapper 用預設值建立
                     commandType: CommandType.StoredProcedure,
                     flags: CommandFlags.NoCache);
-                
+
                 result = connection.QueryFirstOrDefault<T>(command);
                 connection.Close();
                 connection.Dispose();
@@ -79,12 +83,12 @@ namespace MemberSite.Service.Library
             _logger.LogDebug($"{name} {sw.Elapsed:c}");
             return result;
         }
-        
-         public IEnumerable<T> Query<T>(string name)
+
+        public IEnumerable<T> Query<T>(string name)
         {
             IEnumerable<T> result;
             var sw = Stopwatch.StartNew();
-            
+
             try
             {
                 using var connection = new MySqlConnection(_connectionString);
@@ -105,7 +109,7 @@ namespace MemberSite.Service.Library
             _logger.LogDebug(name);
             return result.ToList();
         }
-        
+
         public IEnumerable<T> Query<T>(string sql, object parameters, CommandType commandType = CommandType.StoredProcedure)
         {
             IEnumerable<T> result;
@@ -143,7 +147,7 @@ namespace MemberSite.Service.Library
                 var command = new CommandDefinition(name, parameters, // 使用 CommandDefinition 不讓 Dapper 用預設值建立
                     commandType: CommandType.StoredProcedure,
                     flags: CommandFlags.NoCache);
-                
+
                 var multiple = connection.QueryMultiple(command);
                 result = func.Invoke(multiple);
                 connection.Close();
@@ -174,7 +178,7 @@ namespace MemberSite.Service.Library
                 _logger.LogError(e, sql);
                 throw;
             }
-            
+
             LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
             _logger.LogDebug($"{sql} {sw.Elapsed:c}");
             return result;
@@ -184,7 +188,7 @@ namespace MemberSite.Service.Library
         {
             IEnumerable<T> result;
             var sw = Stopwatch.StartNew();
-            
+
             try
             {
                 await using var connection = new MySqlConnection(_connectionString);
@@ -213,7 +217,7 @@ namespace MemberSite.Service.Library
                 var command = new CommandDefinition(name, parameters, // 使用 CommandDefinition 不讓 Dapper 用預設值建立
                     commandType: CommandType.StoredProcedure,
                     flags: CommandFlags.NoCache);
-                
+
                 var multiple = connection.QueryMultipleAsync(command);
                 result = func.Invoke(await multiple);
                 await connection.CloseAsync();
@@ -229,11 +233,11 @@ namespace MemberSite.Service.Library
             _logger.LogDebug($"{name} {sw.Elapsed:c}");
             return result;
         }
-        
+
         #endregion
-        
+
         #region Execute
-        
+
         public int Execute(string name, object parameters)
         {
             var result = 0;
@@ -337,7 +341,7 @@ namespace MemberSite.Service.Library
             _logger.LogDebug($"{name} {sw.Elapsed:c}");
             return result;
         }
-        
+
         public T ExecuteScalar<T>(string name, object parameters)
         {
             T result;
@@ -359,7 +363,7 @@ namespace MemberSite.Service.Library
             _logger.LogDebug($"{name} {sw.Elapsed:c}");
             return result;
         }
-        
+
         public T ExecuteScalar<T>(string name, IDbTransaction transaction, object parameters)
         {
             T result;
@@ -378,7 +382,7 @@ namespace MemberSite.Service.Library
             _logger.LogDebug($"{name} {sw.Elapsed:c}");
             return result;
         }
-        
+
         public async Task<T> ExecuteScalarAsync<T>(string name, object parameters)
         {
             T result;
@@ -400,9 +404,9 @@ namespace MemberSite.Service.Library
             _logger.LogDebug($"{name} {sw.Elapsed:c}");
             return result;
         }
-        
+
         #endregion
-        
+
         public static void CommitAndDisposeConnection(MySqlConnection conn, IDbTransaction trans)
         {
             trans.Commit();
@@ -410,7 +414,7 @@ namespace MemberSite.Service.Library
             conn.Close();
             conn.Dispose();
         }
-        
+
         public static void RollbackAndDisposeConnection(MySqlConnection conn, IDbTransaction trans)
         {
             trans.Rollback();

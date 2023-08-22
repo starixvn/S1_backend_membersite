@@ -1,11 +1,14 @@
-﻿using Dapper;
+﻿using System.Data;
+
+using Dapper;
+
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Line;
-using System.Data;
-using MySql.Data.MySqlClient;
+
 using Newtonsoft.Json;
+
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace MemberSite.Service.DAL

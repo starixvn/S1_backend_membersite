@@ -1,11 +1,14 @@
-﻿using MemberSite.Service.DAL;
+﻿using System.Security.Claims;
+
+using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Game;
+
 using Microsoft.Extensions.Options;
+
 using Newtonsoft.Json;
-using System.Security.Claims;
 
 namespace MemberSite.Service.BLL
 {

@@ -1,9 +1,7 @@
-﻿using MemberSite.Controllers;
-using MemberSite.Service.DAL;
+﻿using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
-using MemberSite.Service.Model;
+
 using Newtonsoft.Json.Linq;
-using System.Text;
 
 namespace MemberSite.Service.BLL
 {

@@ -1,9 +1,11 @@
 ﻿using MemberSite.Service.Model;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 using Newtonsoft.Json;
+
 using Serilog.Context;
-using System.Drawing.Drawing2D;
 
 namespace MemberSite.Controllers.Api
 {

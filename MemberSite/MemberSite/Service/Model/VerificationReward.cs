@@ -8,7 +8,7 @@
         public decimal PhoneReward { get; set; }
         public decimal EmailReward { get; set; }
     }
-    
+
     public class CustVerificationRewardData
     {
         public int CustId { get; set; }

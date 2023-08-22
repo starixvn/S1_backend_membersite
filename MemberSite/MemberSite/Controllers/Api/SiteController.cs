@@ -1,24 +1,25 @@
-﻿using MemberSite.Service.BLL;
-using MemberSite.Service.Library;
-using MemberSite.Service.Model;
-using MemberSite.Service.Model.enums;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Net.Sockets;
 using System.Security.Claims;
 using System.Text.RegularExpressions;
-using Microsoft.AspNetCore.Cors;
-using static MemberSite.Extensions.MethodExtension;
+
 using MemberSite.Attributes;
-using Microsoft.AspNetCore.Http;
-using static MemberSite.Controllers.Api.SiteController;
-using System.Security.Policy;
+using MemberSite.Service.BLL;
+using MemberSite.Service.Library;
+using MemberSite.Service.Model;
+using MemberSite.Service.Model.enums;
+
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+
+using Newtonsoft.Json;
+
+using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
 {

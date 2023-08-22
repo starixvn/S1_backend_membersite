@@ -60,7 +60,7 @@ namespace MemberSite.Service.BLL
 
             return result;
         }
-        
+
         public async Task<ApiResult<SendOTPSMSResult>> SendOTPSMSAsync(int custId, int currencyId)
         {
             var time = await _dateTimeHelper.ToCurrencyZone(DateTime.UtcNow, currencyId);
@@ -71,7 +71,7 @@ namespace MemberSite.Service.BLL
             {
                 return new ApiResult<SendOTPSMSResult>(-1, _selLangBLL.GetMsg("msg_OTPDailyLimit"), null);
             }
-            
+
             var apiUrl = $"{_commonServiceUrl}OTPSMS/SendOTPSMS";
 
             var req = new
@@ -80,7 +80,7 @@ namespace MemberSite.Service.BLL
             };
 
             var apiResult = await _courierAdapter.MyPostAsync<SendOTPSMSResult, object>(apiUrl, req);
-            if (apiResult.ErrorCode == (int) ErrorCode.Success)
+            if (apiResult.ErrorCode == (int)ErrorCode.Success)
             {
                 _redisHelper.StringSet(key, cnt + 1, TimeSpan.FromDays(1), RedisDataBase.Shared);
             }

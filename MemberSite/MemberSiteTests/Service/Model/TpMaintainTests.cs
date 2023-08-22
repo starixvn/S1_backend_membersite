@@ -1,6 +1,8 @@
-﻿using NUnit.Framework;
-using System;
+﻿using System;
+
 using MemberSite.Service.Model.enums;
+
+using NUnit.Framework;
 
 namespace MemberSite.Service.Model.Tests
 {

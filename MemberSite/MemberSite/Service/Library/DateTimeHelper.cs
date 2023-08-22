@@ -15,7 +15,7 @@ namespace MemberSite.Service.BLL
             _redisHelper = redisHelper;
         }
 
-        public async Task<DateTimeOffset> ToCurrencyZone(DateTime time, int currencyId) 
+        public async Task<DateTimeOffset> ToCurrencyZone(DateTime time, int currencyId)
         {
             var timezone = await _redisHelper.TryGetOrCreateAsync($"TimeZone:{currencyId}", null,
                 async () => await _currencyService.GetTimeZone(currencyId), RedisDataBase.Shared);
