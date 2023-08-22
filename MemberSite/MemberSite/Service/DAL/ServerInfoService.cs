@@ -1,7 +1,8 @@
-﻿using MemberSite.Service.Model;
-using Dapper;
+﻿using Dapper;
+
 using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Library;
+using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.DAL
@@ -28,12 +29,12 @@ namespace MemberSite.Service.DAL
         {
             return string.IsNullOrEmpty(domain) ? 0 : _reportDbClient.QueryFirst<int>("Member_SiteId_Get", new { Domain = domain });
         }
-        
+
         public SeoModel GetSeo(string domain)
         {
             return string.IsNullOrEmpty(domain) ? null : _reportDbClient.QueryFirst<SeoModel>("Service_Site_Get", new { Domain = domain });
         }
-        
+
         public IEnumerable<Domainlist> GetSupportDomainList(int siteId, int currencyId)
         {
             return _reportDbClient.Query<Domainlist>("Member_DomainTable_Get", new { SiteId = siteId, CurrencyId = currencyId });
@@ -59,5 +60,5 @@ namespace MemberSite.Service.DAL
         }
     }
 
-    
+
 }

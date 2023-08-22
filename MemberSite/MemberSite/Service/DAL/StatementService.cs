@@ -1,10 +1,12 @@
-﻿using Dapper;
-using MemberSite.Service.Model;
-using Microsoft.Extensions.Caching.Memory;
-using MySql.Data.MySqlClient;
-using System.Data;
+﻿using System.Data;
+
+using Dapper;
+
 using MemberSite.Service.Library;
+using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
+
+using Microsoft.Extensions.Caching.Memory;
 
 namespace MemberSite.Service.DAL
 {
@@ -13,7 +15,7 @@ namespace MemberSite.Service.DAL
     {
         private readonly CacheHelper _cacheHelper;
         private readonly MySqlClient _reportDb;
-        
+
         public StatementService(IServiceProvider provider)
         {
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
@@ -27,12 +29,12 @@ namespace MemberSite.Service.DAL
                 new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromMinutes(1)),
                 i => GetTpList());
         }
-        
+
         public IEnumerable<TpList> GetTpList()
         {
             return _reportDb.Query<TpList>("Member_TpList_Get");
         }
-        
+
         public IEnumerable<GameTypeList> GetGameTypeListWithCache()
         {
             var key = $"CustInfo_GameType";
@@ -40,7 +42,7 @@ namespace MemberSite.Service.DAL
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(60)),
                 i => GetGameTypeList());
         }
-        
+
         public IEnumerable<GameTypeList> GetGameTypeList()
         {
             return _reportDb.Query<GameTypeList>("Common_TpGameType_Get");
@@ -60,10 +62,10 @@ namespace MemberSite.Service.DAL
             PageNumber = props.Get<int?>("@PageNumber") ?? 0;
             TotalPages = props.Get<int?>("@TotalPages") ?? 0;
             RowCount = props.Get<int?>("@RowCount") ?? 0;
-            
+
             return result;
         }
-        
+
         public IEnumerable<TpBetRecordbyCategoryId> GetCustTpBetRecordListbyCategoryId(int custId, string selDate, int categoryId, int PageSize, ref int PageNumber, ref int TotalPages, ref int RowCount)
         {
             var SpName = "Member_TpBetRecord_byCategoryId_Get_V2";
@@ -78,10 +80,10 @@ namespace MemberSite.Service.DAL
             PageNumber = props.Get<int?>("@PageNumber") ?? 0;
             TotalPages = props.Get<int?>("@TotalPages") ?? 0;
             RowCount = props.Get<int?>("@RowCount") ?? 0;
-            
+
             return result;
         }
-        
+
         public IEnumerable<TpBetRecordDetailbyGameType> GetCustTpBetRecordDetailListbyGameType(int custId, string selDate, int gameTypeId, int PageSize, ref int PageNumber, ref int TotalPages, ref int RowCount)
         {
             var SpName = "Member_TpBetRecord_byGameTypeList_Get_V2";
@@ -96,10 +98,10 @@ namespace MemberSite.Service.DAL
             PageNumber = props.Get<int?>("@PageNumber") ?? 0;
             TotalPages = props.Get<int?>("@TotalPages") ?? 0;
             RowCount = props.Get<int?>("@RowCount") ?? 0;
-            
+
             return result;
         }
-        
+
         public IEnumerable<TpBetRecordListDateRange> GetCustTpBetRecordDateRange(int custId, string startDate, string endDate, int PageSize, ref int PageNumber, ref int TotalPages, ref int RowCount)
         {
             var SpName = "Member_TpBetRecord_byDateRange_Get_V2";
@@ -114,14 +116,14 @@ namespace MemberSite.Service.DAL
             PageNumber = props.Get<int?>("@PageNumber") ?? 0;
             TotalPages = props.Get<int?>("@TotalPages") ?? 0;
             RowCount = props.Get<int?>("@RowCount") ?? 0;
-            
+
             return result;
         }
 
         public IEnumerable<CryptoInfo> GetSupportCryptoInfo(int siteId)
         {
             var result = _reportDb.Query<CryptoInfo>("Member_SupportCryptoInfo_Get_V2", new { _SiteId = siteId });
-            
+
             return result;
         }
     }

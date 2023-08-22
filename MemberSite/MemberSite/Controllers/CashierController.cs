@@ -2,9 +2,10 @@
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
+
 using static MemberSite.Controllers.entPageController;
 
 namespace MemberSite.Controllers
@@ -19,7 +20,6 @@ namespace MemberSite.Controllers
         private readonly ServerInfoBll _serverInfoBll;
         private readonly PaymentBLL _paymentBll;
         private readonly CustInfoBll _custInfoBll;
-        private readonly TemplateBLL _templateBll;
         private readonly CryptoPayInfoBll _cryptoPayInfoBll;
         private readonly LoadCardPayInfoBLL _loadCardPayInfoBll;
         private readonly PromotionBll _promotionBll;
@@ -36,7 +36,6 @@ namespace MemberSite.Controllers
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
             _paymentBll = provider.GetRequiredService<PaymentBLL>();
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
-            _templateBll = provider.GetRequiredService<TemplateBLL>();
             _cryptoPayInfoBll = provider.GetRequiredService<CryptoPayInfoBll>();
             _loadCardPayInfoBll = provider.GetRequiredService<LoadCardPayInfoBLL>();
             _promotionBll = provider.GetRequiredService<PromotionBll>();
@@ -44,46 +43,22 @@ namespace MemberSite.Controllers
             _bankInfoBll = provider.GetRequiredService<BankInfoBLL>();
             _bankInfoOffBll = provider.GetRequiredService<BankInfoOffBLL>();
             _logger = provider.GetRequiredService<ILogger<CashierController>>();
-
             var configuration = provider.GetRequiredService<IConfiguration>();
             _payApiUrl = configuration.GetValue<string>("PayService");
         }
-        public IActionResult Deposit()
-        {
-            var authData = _authorizeBll.GetAuthData();
-            var custInfo = _custInfoBll.GetCustInfo(authData.CustId);
 
-            if (!custInfo.IsTest)
-                return View(_templateBll.GetTemplatePath(Url));
-            else
-                return BadRequest("This account does not allow deposit. Please contact CSD for more information!");
-        }
-        public IActionResult Withdrawal()
-        {
-            var authData = _authorizeBll.GetAuthData();
-            var custInfo = _custInfoBll.GetCustInfo(authData.CustId);
-
-            if (!custInfo.IsTest)
-                return View(_templateBll.GetTemplatePath(Url));
-            else
-                return BadRequest("This account does not allow withdrawal. Please contact CSD for more information!");
-        }
-        public IActionResult Transfer()
-        {
-            return View(_templateBll.GetTemplatePath(Url));
-        }
 
         [HttpGet]
         public async Task<IActionResult> DepositReqOnlineBankingAsync(int sysId, int payId, int ChannelId, decimal Amount, string BonusCode)
         {
             var model = new ErrorData();
             var authData = _authorizeBll.GetAuthData();
-            if (authData is not {CustId: > 0}) return RedirectErrorPage(model);
+            if (authData is not { CustId: > 0 }) return RedirectErrorPage(model);
             var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
             var result = _paymentBll.DepositReqOnlineBanking(authData.CustId, sysId, payId, ChannelId, Amount,
                 out var transId, out var onlineBank);
 
-            if (result == (int) ErrorCode.Success)
+            if (result == (int)ErrorCode.Success)
             {
                 if (_promotionBll.VerifyBonusCode(BonusCode))
                     _promotionBll.SetDepositPromotionQueue(transId, BonusCode, authData.CustId, custInfo.SiteId,
@@ -97,14 +72,9 @@ namespace MemberSite.Controllers
                     PayId = onlineBank.PayId,
                     SysId = onlineBank.SysId,
                     ClientIP = _tools.GetClientIP(),
-                    ReturnUrl = Url.RouteUrl("desktop",
-                        new {action = "Deposit", controller = "Cashier", custInfo.UserLang},
-                        protocol: Request.Scheme,
-                        host: Request.Host.Port is 80 or null
-                            ? Request.Host.Host
-                            : $"{Request.Host.Host}:{Request.Host.Port}")
+                    ReturnUrl = $"{Request.Scheme}://{Request.Host.Host}/{custInfo.UserLang}/deposit"
                 };
-                
+
                 var myUrl = $"{_payApiUrl}ReqDepositBank";
                 var apiResult = await _courierAdapter.MyPostAsync<PayResult, ReqDepositBank>(myUrl, reqDepositBank);
                 if (ActionResult(apiResult, transId, model, PaymentView.DepositReqOnlineBanking,
@@ -133,7 +103,7 @@ namespace MemberSite.Controllers
                     ChannelId = payInfo.ChannelId,
                     PayId = payInfo.PayId,
                     ClientIP = _tools.GetClientIP(),
-                    ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", custInfo.UserLang }, protocol: Request.Scheme, host: Request.Host.Port is 80 or null ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}"),
+                    ReturnUrl = $"{Request.Scheme}://{Request.Host.Host}/{custInfo.UserLang}/deposit",
                     PayAccount = PayAccount
                 };
 
@@ -171,7 +141,7 @@ namespace MemberSite.Controllers
                     PayId = cryptoPayInfo.PayId,
                     ClientIP = _tools.GetClientIP(),
                     DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(cryptoPayInfo),
-                    ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", custInfo.UserLang }, protocol: Request.Scheme, host: Request.Host.Port is 80 or null ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}")
+                    ReturnUrl = $"{Request.Scheme}://{Request.Host.Host}/{custInfo.UserLang}/deposit",
                 };
 
                 var myUrl = $"{_payApiUrl}ReqDepositCrpyto";
@@ -182,19 +152,19 @@ namespace MemberSite.Controllers
 
             return RedirectErrorPage(model);
         }
-        
-        
+
+
         public async Task<IActionResult> DepositReqCryptoLocalPayAsync(int ChannelId, decimal Amount, string BonusCode)
         {
             var model = new ErrorData();
             var authData = _authorizeBll.GetAuthData();
-            
+
             if (authData is not { CustId: > 0 })
                 return RedirectErrorPage(new ErrorData());
-            
+
             var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
             var cryptoInfos = _bankInfoOffBll.GetFilteredOfflineCryptoPayInfo(custInfo.CustId)
-                .Where(x => (int)x.CryptoCurrencyId * -1 == ChannelId 
+                .Where(x => (int)x.CryptoCurrencyId * -1 == ChannelId
                             && (x.MinAmount == 0 || Amount >= x.MinAmount)
                             && (x.MaxAmount == 0 || Amount <= x.MaxAmount))
                 .ToList();
@@ -204,14 +174,14 @@ namespace MemberSite.Controllers
                 _logger.LogError("no channels available");
                 return RedirectErrorPage(model);
             }
-            
+
             // 隨機配卡
             var random = new Random();
             var cryptoInfo = cryptoInfos[random.Next(cryptoInfos.Count - 1)];
-            
+
             var (errorCode, message, payResult) = await _cryptoPayInfoBll.DepositReqCryptoLocalPayAsync(
                 custInfo, Amount, cryptoInfo);
-            
+
             if (errorCode != (int)ErrorCode.Success)
             {
                 _logger.LogError($"({errorCode}) {message}");
@@ -227,7 +197,7 @@ namespace MemberSite.Controllers
                 Data = payResult,
                 ErrorCode = errorCode
             };
-            
+
             return ActionResult(apiResult, transId, model, PaymentView.DepositReqCryptoPay, out var actionResult)
                 ? actionResult : RedirectErrorPage(model);
         }
@@ -254,12 +224,12 @@ namespace MemberSite.Controllers
                     loadCardPayInfo.ChannelId,
                     loadCardPayInfo.PayId,
                     ClientIP = _tools.GetClientIP(),
-                    ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", custInfo.UserLang }, protocol: Request.Scheme, host: Request.Host.Port is 80 or null ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}")
+                    ReturnUrl = $"{Request.Scheme}://{Request.Host.Host}/{custInfo.UserLang}/deposit"
                 };
 
                 var myUrl = $"{_payApiUrl}ReqDepositLoadCard";
                 var apiResult = await _courierAdapter.MyPostAsync<PayResult, dynamic>(myUrl, reqDeposit);
-                if (ActionResult(apiResult, transId, model, PaymentView.DepositReqLoadCardPay, out var actionResult)) 
+                if (ActionResult(apiResult, transId, model, PaymentView.DepositReqLoadCardPay, out var actionResult))
                     return actionResult;
             }
 
@@ -280,7 +250,7 @@ namespace MemberSite.Controllers
             {
                 return null;
             }
-            
+
             var result = new List<DepositReceiptModel>();
             foreach (var receipt in depositReceipt)
             {
@@ -324,14 +294,14 @@ namespace MemberSite.Controllers
             {
                 return null;
             }
-            
+
             var result = new List<DepositReceiptModel>();
             var depositReceipt = _paymentBll.GetDepositReceipt(transId, authData.CustId);
             if (depositReceipt == null)
             {
                 return null;
             }
-            
+
             foreach (var receipt in depositReceipt)
             {
                 var model = new DepositReceiptModel
@@ -378,7 +348,7 @@ namespace MemberSite.Controllers
                 payInfo.ChannelId,
                 payInfo.PayId,
                 ClientIP = _tools.GetClientIP(),
-                ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", custInfo.UserLang }, protocol: Request.Scheme, host: Request.Host.Port is 80 or null ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}")
+                ReturnUrl = $"{Request.Scheme}://{Request.Host.Host}/{custInfo.UserLang}/deposit"
             });
 
             return ActionResult(apiResult, transId, model, PaymentView.DepositReqMobilePay, out var actionResult)
@@ -399,7 +369,7 @@ namespace MemberSite.Controllers
             var depositType = _bankInfoBll.GetAutoChannelDepositType(custInfo.SiteId);
             var url = depositType == DepositType.BankAutoChannel ? $"{_payApiUrl}BankAutoChannel" : $"{_payApiUrl}ReqDepositBank";
             var transId = "";
-            
+
             //取得可用銀行列表
             var bankList = _bankInfoBll.GetAutoChannelBankList(custInfo, vipLevel)
                 .Where(i => i.SysId == sysId && Amount <= i.MaxAmount && Amount >= i.MinAmount);
@@ -425,52 +395,52 @@ namespace MemberSite.Controllers
                     PayId = onlineBank.PayId,
                     SysId = onlineBank.SysId,
                     ClientIP = _tools.GetClientIP(),
-                    ReturnUrl = Url.RouteUrl("desktop", new { action = "Deposit", controller = "Cashier", custInfo.UserLang }, protocol: Request.Scheme, host: Request.Host.Port is 80 or null ? Request.Host.Host : $"{Request.Host.Host}:{Request.Host.Port}")
+                    ReturnUrl = $"{Request.Scheme}://{Request.Host.Host}/{custInfo.UserLang}/deposit"
                 });
-                
-                if (ActionResult(apiResult, transId, new ErrorData(), PaymentView.DepositReqOnlineBanking, out var actionResult)) 
+
+                if (ActionResult(apiResult, transId, new ErrorData(), PaymentView.DepositReqOnlineBanking, out var actionResult))
                     return actionResult;
             }
 
             return RedirectErrorPage(new ErrorData { Message = $"{transId} All channel unavailable." });
         }
-        
+
         private bool ActionResult(ApiResult<PayResult> apiResult, string transId, ErrorData model, PaymentView paymentView, out IActionResult actionResult)
         {
             switch (apiResult.ErrorCode)
             {
                 case (int)ErrorCode.Success when apiResult.Data.Mode == (int)PayChannelMode.OpenView:
-                {
-
-                    if (paymentView == PaymentView.DepositReqOnlineBanking &&
-                        !string.IsNullOrEmpty(apiResult.Data.Message))
                     {
-                        actionResult = Content(apiResult.Data.Message, "text/html");
-                    }
-                    else
-                    {
-                        actionResult = View(paymentView.ToString(), apiResult);
-                    }
 
-                    return true;
-                }
+                        if (paymentView == PaymentView.DepositReqOnlineBanking &&
+                            !string.IsNullOrEmpty(apiResult.Data.Message))
+                        {
+                            actionResult = Content(apiResult.Data.Message, "text/html");
+                        }
+                        else
+                        {
+                            actionResult = View(paymentView.ToString(), apiResult);
+                        }
+
+                        return true;
+                    }
                 case (int)ErrorCode.Success when apiResult.Data.Mode == (int)PayChannelMode.Redirect:
-                {
-                    actionResult = Redirect(apiResult.Data.Url);
-                    return true;
-                }
+                    {
+                        actionResult = Redirect(apiResult.Data.Url);
+                        return true;
+                    }
                 case (int)ErrorCode.Success when apiResult.Data.Mode == (int)PayChannelMode.ShowQrCode:
-                {
-                    actionResult = Json(apiResult);
-                    return true;
-                }
+                    {
+                        actionResult = Json(apiResult);
+                        return true;
+                    }
                 default:
                     model.Message = $"{transId} {apiResult.RawMessage}";
                     actionResult = null;
                     return false;
             }
         }
-        
+
         private ViewResult RedirectErrorPage(ErrorData model)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();

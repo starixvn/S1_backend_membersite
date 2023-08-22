@@ -5,7 +5,9 @@ using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Mapping;
+
 using Microsoft.Extensions.Caching.Memory;
+
 using Newtonsoft.Json;
 
 namespace MemberSite.Service.BLL
@@ -95,7 +97,7 @@ namespace MemberSite.Service.BLL
                 custId = 0;
                 return -4;
             }
-            if (affCode != null && !affCode.IsExists(serverInfo.SiteId, _affiliateService.ExistsAffiliateCode)) 
+            if (affCode != null && !affCode.IsExists(serverInfo.SiteId, _affiliateService.ExistsAffiliateCode))
             {
                 custId = 0;
                 return -10;
@@ -580,7 +582,7 @@ namespace MemberSite.Service.BLL
             return -1;
 
         }
-        public int AffiliateCheck(string affCode) 
+        public int AffiliateCheck(string affCode)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
             var affCodeObj = new AffCodeObject(affCode);

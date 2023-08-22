@@ -1,6 +1,8 @@
 using MemberSite.Service.Model.enums;
-using StackExchange.Redis;
+
 using Newtonsoft.Json;
+
+using StackExchange.Redis;
 
 namespace MemberSite.Service.Library
 {
@@ -74,7 +76,7 @@ namespace MemberSite.Service.Library
             }
         }
 
-        public async Task<bool> StringFireAndForgetSetAsync(string key, RedisValue value, TimeSpan? timeSpan, 
+        public async Task<bool> StringFireAndForgetSetAsync(string key, RedisValue value, TimeSpan? timeSpan,
             RedisDataBase redisDataBase = RedisDataBase.Member)
         {
             key = $"{redisDataBase}:{RemoveSpecialChars(key)}";
@@ -321,7 +323,7 @@ namespace MemberSite.Service.Library
             }
         }
 
-        public async Task<bool> SetNxAsync(string key, string value, TimeSpan timeSpan, RedisDataBase redisDataBase = RedisDataBase.Member) 
+        public async Task<bool> SetNxAsync(string key, string value, TimeSpan timeSpan, RedisDataBase redisDataBase = RedisDataBase.Member)
         {
             try
             {

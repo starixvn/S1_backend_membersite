@@ -1,5 +1,6 @@
-﻿using MemberSite.Extensions;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
+
+using MemberSite.Extensions;
 
 namespace MemberSite.Service.Model
 {
@@ -22,7 +23,7 @@ namespace MemberSite.Service.Model
                 //先用目前時間組合取得時區來進行時間位移
                 var offset = DateTime.Now.ToDateTimeOffset(CustTimeZone).Offset;
                 CreateTimeOffset = new DateTimeOffset(_createTime).ToOffset(offset);
-                return CreateTimeOffset.Value;    
+                return CreateTimeOffset.Value;
             }
             set
             {

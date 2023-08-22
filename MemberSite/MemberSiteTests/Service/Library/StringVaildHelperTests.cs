@@ -1,15 +1,14 @@
-﻿using MemberSite.Service.Library;
-using MemberSite.Service.Model.enums;
+﻿using MemberSite.Extensions;
+
 using MemberSiteTests.Stubs;
+
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting.Internal;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using NSubstitute;
-using MemberSite.Extensions;
 using Microsoft.Extensions.Configuration;
-using MemberSite.Service.Model;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+
+using NSubstitute;
+
 using NUnit.Framework;
 
 namespace MemberSite.Service.Library.Tests;
@@ -59,7 +58,7 @@ internal class StringVaildHelperTests
     [TestCase("Halimah @ husan", ExpectedResult = false)]       //from marketing test case
     [TestCase("～ ĎĔĂŘ ～", ExpectedResult = false)]       //from marketing test case
     [TestCase("😂", ExpectedResult = false)]       //from marketing test case
-    public bool VaildAccountNameForSetProfile(string accountName) 
+    public bool VaildAccountNameForSetProfile(string accountName)
         => _stringVaildHelper.VaildAccountNameForSetProfile(accountName);
 
 }

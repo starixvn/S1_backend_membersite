@@ -15,7 +15,7 @@ namespace MemberSite.Service.BLL
         {
             return _iPService.GetBlockIp<T>(forceUseMainDb);
         }
-        
+
         public int SetBlockIp(BlockIpRequest request)
         {
             return _iPService.SetBlockIp(request);

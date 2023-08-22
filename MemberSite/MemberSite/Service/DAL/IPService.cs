@@ -1,5 +1,5 @@
-﻿using MemberSite.Service.Model;
-using MemberSite.Service.Library;
+﻿using MemberSite.Service.Library;
+using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.DAL
@@ -21,7 +21,7 @@ namespace MemberSite.Service.DAL
                 ? _mainDbClient.Query<T>(spName)
                 : _reportDb.Query<T>(spName);
         }
-        
+
         public int SetBlockIp(BlockIpRequest request)
         {
             return _mainDbClient.Execute("Admin_BlockIP_Set", new { request.IP, request.Operator, request.Memo });

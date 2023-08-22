@@ -13,7 +13,7 @@ namespace MemberSite.Service.BLL.Tests
             var expected = @"hulk-avengers-5.jpeg";
 
             var actual = fileNameBll.SetFileName(fileName).ExcludePath().FileName;
-            
+
             Assert.AreEqual(expected, actual);
         }
 
@@ -25,7 +25,7 @@ namespace MemberSite.Service.BLL.Tests
             var expected = @"hulk-avengers-5.jpg";
 
             var actual = fileNameBll.SetFileName(fileName).SetFilenameExtension("jpg").FileName;
-            
+
             Assert.AreEqual(expected, actual);
         }
 
@@ -37,7 +37,7 @@ namespace MemberSite.Service.BLL.Tests
             var expected = @"hulk-avengers-5.jpg";
 
             var actual = fileNameBll.SetFileName(fileName).ExcludePath().SetFilenameExtension("jpg").FileName;
-            
+
             Assert.AreEqual(expected, actual);
         }
     }

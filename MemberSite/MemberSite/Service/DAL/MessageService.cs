@@ -1,5 +1,7 @@
 ﻿using System.Data;
+
 using Dapper;
+
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
@@ -38,7 +40,7 @@ namespace MemberSite.Service.DAL
 
             var msgList = await _reportClient.QueryAsync<Msg>("MsgList_Get_V3", p);
 
-            return new PageData<Msg>() 
+            return new PageData<Msg>()
             {
                 Data = msgList,
                 PageNumber = p.Get<int?>("PageNumber") ?? 0,
@@ -46,10 +48,10 @@ namespace MemberSite.Service.DAL
                 RowCount = p.Get<int?>("RowCount") ?? 0
             };
         }
-        
+
         public async Task<MsgContent> GetMsgContent(int custId, int msgId, int isBatch)
         {
-            var msgContent = await  _mainDbClient.QueryFirstAsync<MsgContent>(
+            var msgContent = await _mainDbClient.QueryFirstAsync<MsgContent>(
                 "MsgContent_Get_V3",
                 new { MsgId = msgId, CustId = custId, IsBatch = isBatch });
             return msgContent;
@@ -71,7 +73,7 @@ namespace MemberSite.Service.DAL
         {
             return await _mainDbClient.ExecuteAsync("Msg_Del_V3", new { msg.MsgId, CustId = custId }) > 0;
         }
-        
+
         public async Task<int> GetMsgCount(int custId)
         {
             return await _reportClient.ExecuteScalarAsync<int>("MsgCount_Get_V3", new { CustId = custId });

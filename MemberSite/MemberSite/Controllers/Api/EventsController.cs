@@ -3,9 +3,9 @@ using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Text.Json;
 
 namespace MemberSite.Controllers.Api
 {
@@ -44,7 +44,7 @@ namespace MemberSite.Controllers.Api
               {2,"MYR" },{4,"THB" },{13,"CNY" },{15,"IDR" },{51,"VND" },{61,"INR" },{96,"USDT" }
             };
         }
-        
+
         public class GetLeaderboardListReq
         {
             public int LBCategoryId { get; set; }
@@ -52,26 +52,26 @@ namespace MemberSite.Controllers.Api
             public int TopNum { get; set; }
             public int BeforeDays { get; set; }
         }
-        
+
         public class GetCustRankReq
         {
             public int LBCategoryId { get; set; }
             public string EventCode { get; set; }
             public int BeforeDays { get; set; }
         }
-        
+
         public class GetCustRankMonthReq
         {
             public int LBCategoryId { get; set; }
             public string EventCode { get; set; }
             public DateTime SelectDays { get; set; }
         }
-        
+
         public class DrawPrizeReq
         {
             public int eventId { get; set; }
         }
-        
+
         public class GetLeaderboardListMonthReq
         {
             public int LBCategoryId { get; set; }
@@ -79,7 +79,7 @@ namespace MemberSite.Controllers.Api
             public int TopNum { get; set; }
             public DateTime SelectDays { get; set; }
         }
-        
+
         //[Authorize]
         [HttpPost]
         public ApiResult<IEnumerable<Leaderboard>> GetLeaderboardList(GetLeaderboardListReq getLeaderboardListV2Req)
@@ -87,7 +87,7 @@ namespace MemberSite.Controllers.Api
             var apiResult = new ApiResult<IEnumerable<Leaderboard>>();
             int siteId;
             int currencyId;
-            
+
             var authData = _authorizeBll.GetAuthData();
             if (authData is { CustId: > 0 })
             {
@@ -104,13 +104,13 @@ namespace MemberSite.Controllers.Api
 
             apiResult.Data = _eventsBll.GetLeaderboardList(
                 getLeaderboardListV2Req.EventCode,
-                getLeaderboardListV2Req.LBCategoryId, 
-                siteId, 
+                getLeaderboardListV2Req.LBCategoryId,
+                siteId,
                 currencyId,
-                getLeaderboardListV2Req.TopNum, 
+                getLeaderboardListV2Req.TopNum,
                 getLeaderboardListV2Req.BeforeDays);
 
-            if (authData is {CustId: > 0})
+            if (authData is { CustId: > 0 })
             {
                 foreach (var L in apiResult.Data)
                 {
@@ -129,7 +129,7 @@ namespace MemberSite.Controllers.Api
             apiResult.ErrorCode = 0;
             return apiResult;
         }
-        
+
         [HttpPost]
         public ApiResult<IEnumerable<Leaderboard>> GetLeaderboardListMonth(GetLeaderboardListMonthReq getLeaderboardListMonthReq)
         {
@@ -141,7 +141,7 @@ namespace MemberSite.Controllers.Api
             {
                 return apiResult;
             }
-            
+
             var authData = _authorizeBll.GetAuthData();
             if (authData is { CustId: > 0 })
             {
@@ -158,13 +158,13 @@ namespace MemberSite.Controllers.Api
 
             apiResult.Data = _eventsBll.GetLeaderboardListMonth(
                 getLeaderboardListMonthReq.EventCode,
-                getLeaderboardListMonthReq.LBCategoryId, 
-                siteId, 
+                getLeaderboardListMonthReq.LBCategoryId,
+                siteId,
                 currencyId,
-                getLeaderboardListMonthReq.TopNum, 
+                getLeaderboardListMonthReq.TopNum,
                 getLeaderboardListMonthReq.SelectDays);
 
-            if (authData is {CustId: > 0})
+            if (authData is { CustId: > 0 })
             {
                 foreach (var L in apiResult.Data)
                 {
@@ -179,11 +179,11 @@ namespace MemberSite.Controllers.Api
                     L.UserName = _eventsBll.MaskName(L.UserName);
                 }
             }
-            
+
             apiResult.ErrorCode = 0;
             return apiResult;
         }
-        
+
         [Authorize]
         [HttpPost]
         public ApiResult<LeaderboardCustRank> GetCustRank(GetCustRankReq input)
@@ -193,16 +193,16 @@ namespace MemberSite.Controllers.Api
                 Data = new LeaderboardCustRank()
             };
             var authData = _authorizeBll.GetAuthData();
-            if (authData is {CustId: > 0})
+            if (authData is { CustId: > 0 })
             {
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-                apiResult.Data = _eventsBll.GetCustRank(input.LBCategoryId, input.EventCode, custInfo.SiteId, custInfo.CurrencyId, authData.CustId, input.BeforeDays); ;                
+                apiResult.Data = _eventsBll.GetCustRank(input.LBCategoryId, input.EventCode, custInfo.SiteId, custInfo.CurrencyId, authData.CustId, input.BeforeDays); ;
                 apiResult.ErrorCode = 0;
             }
-            
+
             return apiResult;
         }
-        
+
         [Authorize]
         [HttpPost]
         public ApiResult<LeaderboardCustRank> GetCustRankMonth(GetCustRankMonthReq getCustRankMonthReq)
@@ -212,20 +212,20 @@ namespace MemberSite.Controllers.Api
                 Data = new LeaderboardCustRank()
             };
             var authData = _authorizeBll.GetAuthData();
-            if (authData is {CustId: > 0})
+            if (authData is { CustId: > 0 })
             {
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-            
-                var (custRank, point) = _eventsBll.GetCustRankWithCacheMonth(getCustRankMonthReq.LBCategoryId, getCustRankMonthReq.EventCode, custInfo.SiteId , custInfo.CurrencyId ,authData.CustId, getCustRankMonthReq.SelectDays);
+
+                var (custRank, point) = _eventsBll.GetCustRankWithCacheMonth(getCustRankMonthReq.LBCategoryId, getCustRankMonthReq.EventCode, custInfo.SiteId, custInfo.CurrencyId, authData.CustId, getCustRankMonthReq.SelectDays);
 
                 apiResult.Data.CustRank = custRank;
                 apiResult.Data.point = point;
                 apiResult.ErrorCode = 0;
             }
-            
+
             return apiResult;
         }
-        
+
         [Authorize]
         [HttpPost]
         public async Task<ApiResult<CustGift>> CheckDrawPrize(DrawPrizeReq drawPrizeReq)
@@ -236,8 +236,8 @@ namespace MemberSite.Controllers.Api
             };
             var authData = _authorizeBll.GetAuthData();
             var eventId = drawPrizeReq.eventId;
-            
-            if (authData is {CustId: > 0})
+
+            if (authData is { CustId: > 0 })
             {
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                 if (eventId is 12 or 13 or 14)
@@ -253,7 +253,7 @@ namespace MemberSite.Controllers.Api
                         _ => _selLangBll.GetMsg("msg_Ineligible"),
                     };
                 }
-                else 
+                else
                 {
                     //檢查活動,獎品狀態,使用者是否抽過
                     var prizes = _eventsBll.CheckDrawPrize(ref eventId, custInfo.CustId, custInfo.CurrencyId, out var prizeId, out var result);
@@ -279,7 +279,7 @@ namespace MemberSite.Controllers.Api
                     apiResult.ErrorCode = result;
                 }
             }
-            
+
             return apiResult;
         }
 
@@ -292,7 +292,7 @@ namespace MemberSite.Controllers.Api
                 Data = new CustGift()
             };
             var authData = _authorizeBll.GetAuthData();
-            if (authData is {CustId: > 0})
+            if (authData is { CustId: > 0 })
             {
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                 var serverInfo = _serverInfoBll.GetServerInfo();
@@ -302,11 +302,11 @@ namespace MemberSite.Controllers.Api
                 {
                     var errorCode = -1;
                     var key = $"AgPao:{custInfo.CustId}";
-                    try 
+                    try
                     {
                         var dAmount = "";
                         var time = await _dateTimeHelper.ToCurrencyZone(DateTime.UtcNow, custInfo.CurrencyId);
-                        if (await _cacheHelper.SetNxAsync(key, "", TimeSpan.FromSeconds(5))) 
+                        if (await _cacheHelper.SetNxAsync(key, "", TimeSpan.FromSeconds(5)))
                         {
                             var (error, prize) = await _angPaoBLL.DrawPrize(eventId, custInfo, time.DateTime);
                             if (error is > 0 and < 100)
@@ -355,12 +355,12 @@ namespace MemberSite.Controllers.Api
                     {
                         _logger.LogError(ex, "drop prize failed");
                     }
-                    finally 
+                    finally
                     {
                         await _cacheHelper.KeyDeleteAsync(key);
                     }
                 }
-                else 
+                else
                 {
                     var eventDrawInfo = _eventsBll.GetEventDrawInfoWithCache(eventId);
 
@@ -401,7 +401,7 @@ namespace MemberSite.Controllers.Api
                             var Tital = string.Format(_selLangBll.GetMsg("msg_DrawPrizeTital1"), serverInfo.SiteName);
 
                             var msg = string.Format(_selLangBll.GetMsg("msg_DrawPrize1"), Tital, currencyName, dAmount);
-                            
+
                             if (eventId > 8)//得獎訊息抽出到db設定
                             {
                                 var Message = _eventsBll.GetDrawPrizeMessageWithCache(eventId, _selLangBll.GetLangId());
@@ -422,19 +422,19 @@ namespace MemberSite.Controllers.Api
                         }
                         apiResult.ErrorCode = result;
                     }
-                } 
+                }
             }
-            
+
             return apiResult;
         }
-        
+
         [Authorize]
         [HttpPost]
         public async Task<ApiResult<IEnumerable<CustGiftList>>> GetCustDrawPrizeList(DrawPrizeReq drawPrizeReq)
         {
             var apiResult = new ApiResult<IEnumerable<CustGiftList>>();
             var authData = _authorizeBll.GetAuthData();
-            if (authData is {CustId: > 0})
+            if (authData is { CustId: > 0 })
             {
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                 var eventId = drawPrizeReq.eventId;
@@ -442,16 +442,16 @@ namespace MemberSite.Controllers.Api
                 {
                     apiResult.Data = await _angPaoBLL.GetTodayCustDrawPrizeList(eventId, custInfo.CustId, custInfo.CurrencyId);
                 }
-                else 
+                else
                 {
                     apiResult.Data = _eventsBll.GetCustDrawPrizeList(eventId, custInfo.SiteId, authData.CustId);
                 }
                 apiResult.ErrorCode = 0;
             }
-            
+
             return apiResult;
         }
-        
+
         [HttpPost]
         public ApiResult<IEnumerable<PrizeDisPlayList>> GetDisplayDrawPrizeList(DrawPrizeReq drawPrizeReq)
         {
@@ -485,8 +485,8 @@ namespace MemberSite.Controllers.Api
                     ErrorCode = 9000
                 };
             }
-         
+
         }
-        
+
     }
 }

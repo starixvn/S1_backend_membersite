@@ -1,6 +1,7 @@
-﻿using Dapper;
-using MySql.Data.MySqlClient;
-using System.Data;
+﻿using System.Data;
+
+using Dapper;
+
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
@@ -20,7 +21,7 @@ namespace MemberSite.Service.DAL
         }
         public void SetIovation(int custId, string iovation, string actionType, string deviceId, string reason, string deviceType, int score)
         {
-            var p = new DynamicParameters(new { CustId = custId, DeviceId = deviceId, Iovation = iovation, Reason = reason, DeviceType = deviceType,  Score = score });
+            var p = new DynamicParameters(new { CustId = custId, DeviceId = deviceId, Iovation = iovation, Reason = reason, DeviceType = deviceType, Score = score });
             p.Add("IovationOLD", dbType: DbType.String, direction: ParameterDirection.Output);
             var result = _mainDbClient.Execute("Service_CustIovation_Set_V2", p);
             var iovationOLD = p.Get<string>("IovationOLD");
@@ -35,8 +36,8 @@ namespace MemberSite.Service.DAL
         {
             var p = new DynamicParameters(new { _CustId = custId });
             var result = _reportDbClient.QueryFirst<CustIovation>("Member_CustIovation_Get", p);
-            
+
             return result;
-        } 
+        }
     }
 }

@@ -1,8 +1,10 @@
-﻿using MemberSite.Service.Model;
-using MemberSite.Service.Library;
-using System.Data;
+﻿using System.Data;
+
 using Dapper;
+
 using MemberSite.Service.BLL;
+using MemberSite.Service.Library;
+using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.DAL
@@ -21,23 +23,23 @@ namespace MemberSite.Service.DAL
             _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
             _shieldBll = provider.GetRequiredService<ShieldBLL>();
         }
-        
+
         public int DepositReq(DepositDetailInfo depositDetailInfo, out string transId, out string postScript)
         {
             transId = null;
             postScript = null;
-            
+
             using var conn = _mainDbClient.GetMySqlConnection();
             conn.Open();
             using var trans = conn.BeginTransaction();
-            
+
             var p = new DynamicParameters(new { depositDetailInfo.DepositType, depositDetailInfo.CustId, depositDetailInfo.UserName, depositDetailInfo.CurrencyId, depositDetailInfo.SiteId, depositDetailInfo.DepositInfo, depositDetailInfo.Amount, depositDetailInfo.Memo, Prefix = $"D{_common.GetEnv()}" });
             p.Add("vPostScript", dbType: DbType.String, direction: ParameterDirection.Output);
             p.Add("vTransId", dbType: DbType.String, direction: ParameterDirection.Output);
 
             var result = _mainDbClient.Execute("DepositInfo_Ins", trans, p);
             trans.Commit();
-            
+
             if (depositDetailInfo.SiteId != (int)SiteId.Nova88)
             {
                 _ = Task.Run(async () =>
@@ -59,23 +61,23 @@ namespace MemberSite.Service.DAL
 
             return result;
         }
-        
+
         public int DepositReqwithFrom(DepositDetailInfo depositDetailInfo, string depositFrom, out string transId, out string postScript)
         {
             transId = null;
             postScript = null;
-            
+
             using var conn = _mainDbClient.GetMySqlConnection();
             conn.Open();
             using var trans = conn.BeginTransaction();
-            
+
             var p = new DynamicParameters(new { depositDetailInfo.DepositType, depositDetailInfo.CustId, depositDetailInfo.UserName, depositDetailInfo.CurrencyId, depositDetailInfo.SiteId, depositFrom, depositDetailInfo.DepositInfo, depositDetailInfo.Amount, depositDetailInfo.Memo, Prefix = $"D{_common.GetEnv()}" });
             p.Add("vPostScript", dbType: DbType.String, direction: ParameterDirection.Output);
             p.Add("vTransId", dbType: DbType.String, direction: ParameterDirection.Output);
 
-            var result = _mainDbClient.Execute("DepositInfoWithFrom_Ins", trans ,p);
+            var result = _mainDbClient.Execute("DepositInfoWithFrom_Ins", trans, p);
             trans.Commit();
-            
+
             if (depositDetailInfo.SiteId != (int)SiteId.Nova88)
             {
                 _ = Task.Run(async () =>
@@ -116,7 +118,7 @@ namespace MemberSite.Service.DAL
             rowCount = p.Get<int?>("RowCount") ?? 0;
             return depositInfoHistoryResult;
         }
-       
+
         public int SetDepositReceipt(int custId, int depositId, string refNo, long depositTime)
         {
             return _mainDbClient.Execute("DepositReceipt_Set", new { CustId = custId, DepositId = depositId, RefNo = refNo, DepositTime = depositTime });
@@ -125,9 +127,9 @@ namespace MemberSite.Service.DAL
         public async Task<int> SetDepositReceiptPic(int custId, int depositId, int receiptNo, string picFileName, string userName)
         {
             var p = new DynamicParameters(new
-            {   
+            {
                 CustId = custId,
-                DepositId = depositId, 
+                DepositId = depositId,
                 PicFileName = picFileName,
                 ReceiptNo = receiptNo,
                 Creator = userName,
@@ -135,7 +137,7 @@ namespace MemberSite.Service.DAL
             });
             return await _mainDbClient.ExecuteAsync("DepositReceiptPic_Set_V3", p);
         }
-        
+
         public int SetDepositCancel(int custId, int depositId, int siteId)
         {
             using var conn = _mainDbClient.GetMySqlConnection();
@@ -147,12 +149,12 @@ namespace MemberSite.Service.DAL
 
             return result;
         }
-        
+
         public IEnumerable<DepositReceipt> GetDepositReceipt(int depositId, int siteId)
         {
             return _reportDbClient.Query<DepositReceipt>("DepositReceipt_Get_V2", new { DepositId = depositId, SiteId = siteId });
         }
-        
+
         public IEnumerable<DepositLimitInfo> GetDepositLimitInfoList()
         {
             return _reportDbClient.Query<DepositLimitInfo>("Member_DepositLimitInfo_Get");

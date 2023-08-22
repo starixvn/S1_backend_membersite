@@ -1,16 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+
 using FluentAssertions;
+
 using MemberSite.Extensions;
 using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+
 using NSubstitute;
+
 using NUnit.Framework;
 
 namespace MemberSite.Service.BLL.Tests
@@ -49,7 +54,7 @@ namespace MemberSite.Service.BLL.Tests
             var serviceProvider = services.BuildServiceProvider();
             var serverInfoBll = new ServerInfoBll(serviceProvider);
 
-            var actual = await serverInfoBll.GetMenuOfGames(1,"th");
+            var actual = await serverInfoBll.GetMenuOfGames(1, "th");
 
             var expect = new List<MenuOfGame>()
             {
@@ -74,7 +79,7 @@ namespace MemberSite.Service.BLL.Tests
             };
             actual.Should().BeEquivalentTo(expect);
         }
-        
+
         private ServiceCollection LoadConfig(ServiceCollection services)
         {
             var builder = WebApplication.CreateBuilder(new WebApplicationOptions()

@@ -1,11 +1,13 @@
-﻿using MemberSite.Service.DAL;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+
+using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
-using System.Security.Claims;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.IdentityModel.Tokens;
+
 using Microsoft.Extensions.Options;
-using System.Text;
+using Microsoft.IdentityModel.Tokens;
 
 namespace MemberSite.Service.BLL
 {
@@ -71,7 +73,7 @@ namespace MemberSite.Service.BLL
             }
             catch (Exception e)
             {
-               _logger.LogError(e, "GetAuthData");
+                _logger.LogError(e, "GetAuthData");
             }
 
             return authData;
@@ -81,7 +83,7 @@ namespace MemberSite.Service.BLL
             var authData = GetAuthData();
 
             var ip = tools.GetClientIP();
-            var result = authenticateService.UpdateOnline(authData.CustId, false, authData.Token, ip ,null);
+            var result = authenticateService.UpdateOnline(authData.CustId, false, authData.Token, ip, null);
 
             return result;
         }
@@ -97,7 +99,7 @@ namespace MemberSite.Service.BLL
             if (string.IsNullOrEmpty(jwtToken))
             {
                 return false;
-            }         
+            }
 
             try
             {
@@ -110,7 +112,7 @@ namespace MemberSite.Service.BLL
                     ValidateAudience = false,
                     ClockSkew = TimeSpan.Zero
                 }, out var validatedToken);
-                
+
                 var jwtSecurityToken = (JwtSecurityToken)validatedToken;
                 appAuthData = new AuthData()
                 {

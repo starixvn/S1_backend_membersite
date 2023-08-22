@@ -1,8 +1,10 @@
 ﻿using MemberSite.Service.BLL;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api;
@@ -27,7 +29,7 @@ public class ShieldController : ControllerBase
         _selLangBll = provider.GetRequiredService<SelLangBLL>();
         _logger = provider.GetRequiredService<ILogger<ShieldController>>();
     }
-    
+
     [HttpPost]
     public ApiResult ShieldRiskCheck(ShieldRiskRequest input)
     {
@@ -41,10 +43,10 @@ public class ShieldController : ControllerBase
                 return apiResult;
             }
             var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-            
+
             if (input.DeviceIntelligence == null || string.IsNullOrEmpty(input.DeviceIntelligence.ShieldId))
             {
-                apiResult.ErrorCode = (int) ShieldErrorCode.InvalidRequest;
+                apiResult.ErrorCode = (int)ShieldErrorCode.InvalidRequest;
                 apiResult.Message = "ShieldId is invalid";
                 return apiResult;
             }
@@ -53,21 +55,21 @@ public class ShieldController : ControllerBase
 
             if (result > 0)
             {
-                apiResult.ErrorCode = (int) ShieldErrorCode.Success;
+                apiResult.ErrorCode = (int)ShieldErrorCode.Success;
             }
             else
             {
-                apiResult.ErrorCode = (int) ShieldErrorCode.Failed;
+                apiResult.ErrorCode = (int)ShieldErrorCode.Failed;
             }
 
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             apiResult.RawMessage = ex.Message;
             apiResult.Message = ex.Message;
             _logger.LogError(ex, GetCurrentMethod());
         }
-        
+
         return apiResult;
     }
 
@@ -82,11 +84,11 @@ public class ShieldController : ControllerBase
             if (!string.IsNullOrEmpty(result.Endpoint))
             {
                 apiResult.Data = result;
-                apiResult.ErrorCode = (int) ShieldErrorCode.Success;
+                apiResult.ErrorCode = (int)ShieldErrorCode.Success;
             }
             else
             {
-                apiResult.ErrorCode = (int) ShieldErrorCode.Failed;
+                apiResult.ErrorCode = (int)ShieldErrorCode.Failed;
             }
         }
         catch (Exception ex)
@@ -95,7 +97,7 @@ public class ShieldController : ControllerBase
             apiResult.Message = ex.Message;
             _logger.LogError(ex, GetCurrentMethod());
         }
-        
+
         return apiResult;
     }
 }

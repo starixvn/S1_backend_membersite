@@ -1,7 +1,9 @@
 ﻿using MemberSite.Service.BLL;
 using MemberSite.Service.Model;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
@@ -57,7 +59,7 @@ namespace MemberSite.Controllers.Api
             catch (Exception ex)
             {
                 apiResult.Message = ex.Message;
-                _logger.LogError(ex, GetCurrentAsyncMethod()); 
+                _logger.LogError(ex, GetCurrentAsyncMethod());
             }
 
             return apiResult;

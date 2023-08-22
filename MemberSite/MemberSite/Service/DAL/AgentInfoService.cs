@@ -1,7 +1,9 @@
-﻿using MemberSite.Service.Model;
+﻿using System.Data;
+
 using Dapper;
-using System.Data;
+
 using MemberSite.Service.Library;
+using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.DAL
@@ -35,7 +37,7 @@ namespace MemberSite.Service.DAL
                 DataBase.Main => _mainDbClient.QueryFirst<string>("Member_AffiliateId_Get", new { CustId = custId, SiteId = siteId }),
                 _ => _reportDb.QueryFirst<string>("Member_AffiliateId_Get", new { CustId = custId, SiteId = siteId }),
             };
-        }   
+        }
         public IEnumerable<ReferralSetting> GetReferralSetting(int siteId, int currencyId)
         {
             return _reportDb.Query<ReferralSetting>("Member_ReferralSetting_Get", new { SiteId = siteId, CurrencyId = currencyId });
@@ -49,7 +51,7 @@ namespace MemberSite.Service.DAL
         }
         public void GetReferralSummary(int custId, out int referralCount, out int conditionCount, out int amountCount, out int amountSum)
         {
-            var p = new DynamicParameters(new { CustId = custId});
+            var p = new DynamicParameters(new { CustId = custId });
             p.Add("ReferralCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
             p.Add("ConditionCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
             p.Add("AmountCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
@@ -77,7 +79,7 @@ namespace MemberSite.Service.DAL
             PageNumber = props.Get<int?>("PageNumber") ?? 0;
             TotalPages = props.Get<int?>("TotalPages") ?? 0;
             RowCount = props.Get<int?>("RowCount") ?? 0;
-            
+
             return result;
         }
     }

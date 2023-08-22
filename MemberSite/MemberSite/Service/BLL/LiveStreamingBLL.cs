@@ -1,7 +1,9 @@
 ﻿using System.Collections;
+
 using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
+
 using Microsoft.Extensions.Caching.Memory;
 
 namespace MemberSite.Service.BLL
