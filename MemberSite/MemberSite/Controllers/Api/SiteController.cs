@@ -1211,6 +1211,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
+        [HttpGet]
         public async Task<ApiResult<IpCountry>> GetIpCountry()
         {
             return new ApiResult<IpCountry>()
