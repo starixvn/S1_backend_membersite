@@ -133,7 +133,10 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiResult<IEnumerable<Leaderboard>> GetLeaderboardListMonth(GetLeaderboardListMonthReq getLeaderboardListMonthReq)
         {
-            var apiResult = new ApiResult<IEnumerable<Leaderboard>>();
+            var apiResult = new ApiResult<IEnumerable<Leaderboard>>()
+            {
+                Data = new List<Leaderboard>()
+            };
             int siteId;
             int currencyId;
 
