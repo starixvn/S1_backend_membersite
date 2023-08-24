@@ -168,7 +168,6 @@ namespace MemberSite
             services.AddSingleton<EventsBLL>();
             services.AddTransient<AngPaoProcessor>();
             services.AddTransient<IAngPaoBLL, AngPaoBLL>();
-            services.AddSingleton<GameCasinoBll>();
             services.AddSingleton<LiveStreamingBll>();
             services.AddSingleton<VideoDataBll>();
             services.AddSingleton<GameBLL>();
