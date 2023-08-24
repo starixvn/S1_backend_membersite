@@ -115,3 +115,10 @@ public class SendAttributesResult
     public string Code { get; set; }
     public string Message { get; set; }
 }
+
+public class CustShieldRiskInfoData
+{
+    public string DeviceId { get; set; }
+    public int DeviceScore { get; set; }
+    public DateTime LastUpdateTime { get; set; }
+}
