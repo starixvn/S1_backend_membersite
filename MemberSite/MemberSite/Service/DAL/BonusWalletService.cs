@@ -15,8 +15,8 @@ namespace MemberSite.Service.DAL
 
         public IEnumerable<BonusWallet> GetCustBonusWallet(int CustId)
         {
-            var datas = _reportDbClient.Query<BonusWallet>("Member_CustBonus_Get_V2", new {CustId});
-            
+            var datas = _reportDbClient.Query<BonusWallet>("Member_CustBonus_Get_V2", new { CustId });
+
             foreach (var data in datas)
             {
                 data.Turnover = data.Turnover < 0 ? 0 : data.Turnover;

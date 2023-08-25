@@ -1,10 +1,14 @@
-﻿using MemberSite.Service.BLL;
+﻿using System.Text;
+
+using MemberSite.Service.BLL;
 using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
+
 using Microsoft.AspNetCore.Mvc;
+
 using Newtonsoft.Json;
-using System.Text;
+
 using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
@@ -18,7 +22,7 @@ namespace MemberSite.Controllers.Api
         private readonly AuthorizeBLL _authorizeBll;
         private readonly CustInfoBll _customerInfoBll;
         private readonly IAnnouncementBLL _announcementBLL;
-        
+
         private readonly ILogger<MessageController> _logger;
 
         public MessageController(SelLangBLL selLangBll, ServerInfoBll serverInfoBll, AuthorizeBLL authorizeBll, CustInfoBll customerInfoBll, IAnnouncementBLL announcementBLL, ILogger<MessageController> logger)
@@ -31,7 +35,7 @@ namespace MemberSite.Controllers.Api
             _logger = logger;
         }
 
-        public class GetAnnouncementRequest 
+        public class GetAnnouncementRequest
         {
             public int? CurrencyId { get; set; }
         }
@@ -48,21 +52,21 @@ namespace MemberSite.Controllers.Api
                 int? currency = request?.CurrencyId;
 
                 var authData = _authorizeBll.GetAuthData();
-                if (authData is { CustId: > 0 }) 
+                if (authData is { CustId: > 0 })
                 {
                     var customerInfo = _customerInfoBll.GetCustInfoWithCache(authData.CustId);
                     currency = customerInfo.CurrencyId;
                 }
                 var serverInfo = _serverInfoBll.GetServerInfo();
                 var language = LanguageObject.Create(currency, _selLangBll.GetLangId(), serverInfo.DefLang);
-                
+
                 result.Data = await _announcementBLL.GetAnnouncements(serverInfo.SiteId, language);
             }
             catch (Exception e)
             {
                 _logger.LogError(e, GetCurrentMethod());
             }
-            
+
             result.ErrorCode = 0;
             return result;
         }

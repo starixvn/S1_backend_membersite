@@ -1,6 +1,6 @@
-﻿using MemberSite.Service.Model;
+﻿using MemberSite.Service.Library;
+using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
-using MemberSite.Service.Library;
 
 namespace MemberSite.Service.DAL
 {
@@ -26,7 +26,7 @@ namespace MemberSite.Service.DAL
 
         public IEnumerable<BankInfoPay> GetBankInfoPayList(int siteId, DepositType depositType)
         {
-            return _reportDb.Query<BankInfoPay>("Common_BankInfoPay_Get_V2", new { _SiteId = siteId, _DepositType = (int)depositType });
+            return _reportDb.Query<BankInfoPay>("Common_BankInfoPay_Get_V3", new { _SiteId = siteId, _DepositType = (int)depositType });
         }
 
         public IEnumerable<BankInfoName> GetBankInfoNameList(string lang)
@@ -52,7 +52,7 @@ namespace MemberSite.Service.DAL
 
         public IEnumerable<BlockCryptoWallet> GetBlockCryptoWallet(string address)
         {
-            return _reportDb.Query<BlockCryptoWallet>("Member_BlockCryptoWallet_Get", new { Address = address});
+            return _reportDb.Query<BlockCryptoWallet>("Member_BlockCryptoWallet_Get", new { Address = address });
         }
     }
 }

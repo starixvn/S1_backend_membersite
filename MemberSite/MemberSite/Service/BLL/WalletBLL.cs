@@ -34,7 +34,7 @@ namespace MemberSite.Service.BLL
         {
             return walletService.GetWalletTransferStatus(custId, out autoTransfer);
         }
-        
+
         public int SetWalletTransferStatus(int custId, int autoTransfer)
         {
             var serverInfo = serverInfoBLL.GetServerInfo();

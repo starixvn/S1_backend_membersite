@@ -8,15 +8,15 @@ namespace MemberSite.Service.BLL
         private readonly CourierAdapter courierAdapter;
         private readonly IConfiguration configuration;
 
-        public FPSBLL(IConfiguration configuration,CourierAdapter courierAdapter)
+        public FPSBLL(IConfiguration configuration, CourierAdapter courierAdapter)
         {
             this.courierAdapter = courierAdapter;
             this.configuration = configuration;
         }
-        public async Task<ApiResult> FPSChecksAsync(int custId, string action, string actionResult, string url, string platform, string userAgent, string screen,string di,string ip)
+        public async Task<ApiResult> FPSChecksAsync(int custId, string action, string actionResult, string url, string platform, string userAgent, string screen, string di, string ip)
         {
             var apiResult = new ApiResult();
-           
+
 
             var commonServiceUrl = configuration.GetValue<string>("CommonService");
             var apiUrl = $"{commonServiceUrl}FPS/FPSChecks";

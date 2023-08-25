@@ -1,6 +1,7 @@
-﻿using MemberSite.Extensions;
+﻿using System.Text.Json.Serialization;
+
+using MemberSite.Extensions;
 using MemberSite.Service.Model.enums;
-using System.Text.Json.Serialization;
 
 namespace MemberSite.Service.Model
 {

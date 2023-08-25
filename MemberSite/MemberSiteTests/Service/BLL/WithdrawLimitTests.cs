@@ -1,6 +1,8 @@
 using FluentAssertions;
+
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
+
 using NUnit.Framework;
 
 namespace MemberSite.Service.BLL.Tests
@@ -20,13 +22,13 @@ namespace MemberSite.Service.BLL.Tests
             var withdrawalLimitInfo = new WithdrawalLimitInfoOutput() { };
             var dailyCustomerWithdrawalInfo = new DailyCustomerWithdrawalInfoOutput() { };
             var amount = 150m;
-            
+
             var withdrawLimit = WithdrawLimitFactory.Create(WithdrawalTypeStatus.EWallet);
             var errorCode = withdrawLimit.CheckWithdrawLimit(ewalletInfo, withdrawalLimitInfo, dailyCustomerWithdrawalInfo, amount);
 
             errorCode.Should().Be(-8);
         }
-        
+
         [Test]
         public void EWallet_withdraw_amount_less_than_withdraw_limit_min()
         {
@@ -44,13 +46,13 @@ namespace MemberSite.Service.BLL.Tests
             };
             var dailyCustomerWithdrawalInfo = new DailyCustomerWithdrawalInfoOutput() { };
             var amount = 15m;
-            
+
             var withdrawLimit = WithdrawLimitFactory.Create(WithdrawalTypeStatus.EWallet);
             var errorCode = withdrawLimit.CheckWithdrawLimit(ewalletInfo, withdrawalLimitInfo, dailyCustomerWithdrawalInfo, amount);
 
             errorCode.Should().Be(-5);
         }
-        
+
         [Test]
         public void EWallet_withdraw_less_than_ewallet_setting_min()
         {
@@ -68,13 +70,13 @@ namespace MemberSite.Service.BLL.Tests
             };
             var dailyCustomerWithdrawalInfo = new DailyCustomerWithdrawalInfoOutput() { };
             var amount = 25m;
-            
+
             var withdrawLimit = WithdrawLimitFactory.Create(WithdrawalTypeStatus.EWallet);
             var errorCode = withdrawLimit.CheckWithdrawLimit(ewalletInfo, withdrawalLimitInfo, dailyCustomerWithdrawalInfo, amount);
 
             errorCode.Should().Be(-5);
         }
-        
+
         [Test]
         public void EWallet_withdraw_greater_than_ewallet_setting_max()
         {
@@ -92,13 +94,13 @@ namespace MemberSite.Service.BLL.Tests
             };
             var dailyCustomerWithdrawalInfo = new DailyCustomerWithdrawalInfoOutput() { };
             var amount = 301m;
-            
+
             var withdrawLimit = WithdrawLimitFactory.Create(WithdrawalTypeStatus.EWallet);
             var errorCode = withdrawLimit.CheckWithdrawLimit(ewalletInfo, withdrawalLimitInfo, dailyCustomerWithdrawalInfo, amount);
 
             errorCode.Should().Be(-9);
         }
-        
+
         [Test]
         public void EWallet_withdraw_greater_than_withdraw_limit_daily_total_max()
         {
@@ -120,13 +122,13 @@ namespace MemberSite.Service.BLL.Tests
                 Count = 3
             };
             var amount = 100m;
-            
+
             var withdrawLimit = WithdrawLimitFactory.Create(WithdrawalTypeStatus.EWallet);
             var errorCode = withdrawLimit.CheckWithdrawLimit(ewalletInfo, withdrawalLimitInfo, dailyCustomerWithdrawalInfo, amount);
 
             errorCode.Should().Be(-6);
         }
-        
+
         [Test]
         public void EWallet_withdraw_greater_than_withdraw_limit_daily_total_count()
         {
@@ -148,13 +150,13 @@ namespace MemberSite.Service.BLL.Tests
                 Count = 5
             };
             var amount = 100m;
-            
+
             var withdrawLimit = WithdrawLimitFactory.Create(WithdrawalTypeStatus.EWallet);
             var errorCode = withdrawLimit.CheckWithdrawLimit(ewalletInfo, withdrawalLimitInfo, dailyCustomerWithdrawalInfo, amount);
 
             errorCode.Should().Be(-7);
         }
-        
+
         [Test]
         public void EWallet_withdraw_and_in_limit()
         {
@@ -176,7 +178,7 @@ namespace MemberSite.Service.BLL.Tests
                 Count = 1
             };
             var amount = 100m;
-            
+
             var withdrawLimit = WithdrawLimitFactory.Create(WithdrawalTypeStatus.EWallet);
             var errorCode = withdrawLimit.CheckWithdrawLimit(ewalletInfo, withdrawalLimitInfo, dailyCustomerWithdrawalInfo, amount);
 

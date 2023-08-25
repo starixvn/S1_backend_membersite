@@ -1,7 +1,6 @@
 ﻿using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
-using Newtonsoft.Json;
 
 namespace MemberSite.Service.BLL
 {
@@ -17,7 +16,7 @@ namespace MemberSite.Service.BLL
         public async Task<News> GetNewsById(int siteId, int newsId, LanguageObject language)
         {
             var data = await newsService.GetNewsById(siteId, newsId);
-            if(data != null)
+            if (data != null)
             {
                 data.Title = JsonContentParser.Parse(data.Title, language.LanguageCode, language.DefaultLanguage);
                 data.Content = JsonContentParser.Parse(data.Content, language.LanguageCode, language.DefaultLanguage);

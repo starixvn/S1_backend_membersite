@@ -1,8 +1,11 @@
-﻿using MemberSite.Service.DAL;
-using MemberSite.Service.Model;
-using Microsoft.Extensions.Caching.Memory;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
+
+using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
+using MemberSite.Service.Model;
+
+using Microsoft.Extensions.Caching.Memory;
+
 using Newtonsoft.Json;
 
 namespace MemberSite.Service.BLL
@@ -12,7 +15,7 @@ namespace MemberSite.Service.BLL
         private readonly EventsService _eventsService;
         private readonly CacheHelper _cacheHelper;
         private readonly ICacheHelper _redisHelper;
-        
+
         public string MaskName(string input)
         {
             if (string.IsNullOrEmpty(input))
@@ -29,8 +32,8 @@ namespace MemberSite.Service.BLL
             _eventsService = provider.GetRequiredService<EventsService>();
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
-        }              
-        
+        }
+
         public IEnumerable<Leaderboard> GetLeaderboardList(string eventCode, int lBCategoryId, int siteId, int currencyId, int topNum, int beforeDays)
         {
             var list = GetLeaderboardListWithCache(eventCode, lBCategoryId, siteId, currencyId, beforeDays);
@@ -45,7 +48,7 @@ namespace MemberSite.Service.BLL
         }
 
         public IEnumerable<Leaderboard> GetLeaderboardListMonth(string eventCode, int lBCategoryId, int siteId, int currencyId, int topNum, DateTime selectDays)
-        {           
+        {
             var list = GetLeaderboardListMonthWithCache(eventCode, lBCategoryId, siteId, currencyId, selectDays.Date.ToString("yyyyMM"));
             return list.OrderByDescending(x => x.WTurnover).Take(topNum);
         }
@@ -57,7 +60,7 @@ namespace MemberSite.Service.BLL
             return JsonConvert.DeserializeObject<IEnumerable<Leaderboard>>(json);
         }
 
-        public LeaderboardCustRank GetCustRank(int lBCategoryId, string eventCode, int siteId, int currencyId ,int custId, int beforeDays)
+        public LeaderboardCustRank GetCustRank(int lBCategoryId, string eventCode, int siteId, int currencyId, int custId, int beforeDays)
         {
             var list = GetLeaderboardListWithCache(eventCode, lBCategoryId, siteId, currencyId, beforeDays);
             var rank = 0;
@@ -81,8 +84,8 @@ namespace MemberSite.Service.BLL
                 point = 0
             };
         }
-        
-        public (int custRank , decimal point) GetCustRankWithCacheMonth(int lBCategoryId, string eventCode,  int siteId, int currencyId ,int custId, DateTime selectDays)
+
+        public (int custRank, decimal point) GetCustRankWithCacheMonth(int lBCategoryId, string eventCode, int siteId, int currencyId, int custId, DateTime selectDays)
         {
             var list = GetLeaderboardListMonthWithCache(eventCode, lBCategoryId, siteId, currencyId, selectDays.Date.ToString("yyyyMM"));
             var rank = 0;
@@ -91,10 +94,10 @@ namespace MemberSite.Service.BLL
                 rank++;
                 if (data.CustId == custId)
                 {
-                    return (rank,data.WTurnover);
+                    return (rank, data.WTurnover);
                 }
             }
-            
+
             return (0, 0);
         }
 
@@ -102,13 +105,13 @@ namespace MemberSite.Service.BLL
         {
             return _eventsService.CheckDrawPrize(ref eventId, custId, currencyId, out prizeId, out result);
         }
-        
+
         public int DrawPrize(ref int eventId, int custId, int currencyId, string userName, int siteId, out int result, out Prize drawPrize)
         {
 
             return _eventsService.DrawPrize(ref eventId, custId, currencyId, userName, siteId, out result, out drawPrize);
         }
-        
+
         public IEnumerable<CustGiftList> GetCustDrawPrizeList(int eventId, int siteId, int custId)
         {
             return _eventsService.GetCustDrawPrizeList(eventId, siteId, custId);
@@ -133,7 +136,7 @@ namespace MemberSite.Service.BLL
 
             return disPlaySetting;
         }
-        
+
         public IEnumerable<PrizeDisPlayList> GetDrawPrizeDisPlayListWithCache(int eventId, int currencyId)
         {
             var key = $"DrawPrizeDisPlaySetting_{eventId}_{currencyId}";
@@ -152,7 +155,7 @@ namespace MemberSite.Service.BLL
             var key = $"EventDrawInfo_{eventId}";
             return _cacheHelper.TryGetOrCreate(key, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)), i => GetEventDrawInfo(eventId));
         }
-        
+
         public bool CheckEventCondition(string conditionSp, int eventId, int custId, int currencyId)
         {
             return _eventsService.CheckEventCondition(conditionSp, eventId, custId, currencyId);
@@ -166,7 +169,7 @@ namespace MemberSite.Service.BLL
                 drawPrizeMessage.Tital = titalLan;
                 drawPrizeMessage.Message = messageLan;
             }
-            else 
+            else
             {
                 _eventsService.GetDrawPrizeMessage(eventId, "en", out var tital, out var message); //預設用英文
                 drawPrizeMessage.Tital = tital;
@@ -174,7 +177,7 @@ namespace MemberSite.Service.BLL
             }
             return drawPrizeMessage;
         }
-        
+
         public DrawPrizeMessage GetDrawPrizeMessageWithCache(int eventId, string langId)
         {
             var key = $"GetDrawPrizeMessageWithCache_{eventId}_{langId}";

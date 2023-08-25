@@ -1,6 +1,7 @@
 ﻿using MemberSite.Service.BLL;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace MemberSite.Controllers.Api
@@ -58,7 +59,7 @@ namespace MemberSite.Controllers.Api
             int siteId;
             var currencyId = (int)CurrencyId.MYR;
             var landId = "en";
-            
+
             var authData = authorizeBLL.GetAuthData();
             if (authData is { CustId: > 0 })
             {
@@ -73,7 +74,7 @@ namespace MemberSite.Controllers.Api
             }
 
             apiResult.ErrorCode = 0;
-            apiResult.Data = videoDataBLL.GetVideoData(siteId,currencyId,landId);
+            apiResult.Data = videoDataBLL.GetVideoData(siteId, currencyId, landId);
 
             return apiResult;
         }

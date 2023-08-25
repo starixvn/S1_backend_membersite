@@ -1,5 +1,4 @@
 ﻿using MemberSite.Service.Model.enums;
-using Newtonsoft.Json;
 
 namespace MemberSite.Service.Model
 {

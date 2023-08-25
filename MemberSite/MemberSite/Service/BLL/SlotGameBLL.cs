@@ -1,11 +1,14 @@
-﻿using MemberSite.Service.DAL;
+﻿using System.Security.Claims;
+
+using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Game;
+
 using Microsoft.Extensions.Options;
+
 using Newtonsoft.Json;
-using System.Security.Claims;
 
 namespace MemberSite.Service.BLL
 {
@@ -48,9 +51,9 @@ namespace MemberSite.Service.BLL
             _configuration = provider.GetRequiredService<IConfiguration>();
             _specialVenderLogoTp = new Dictionary<int, int>()
             {
-                { 30, 67 },
-                //{ 52, 109 },
-                { 52, 110 },
+                { 67, 30 },
+                { 109, 52},
+                { 110, 52},
             };
             _excludeTp = new List<int>
             {
@@ -304,7 +307,7 @@ namespace MemberSite.Service.BLL
                     tpGameIdNo = tpGameIdListDetail.TpGameIdNo;
                 }
 
-                string venderLogoTpId = _specialVenderLogoTp.ContainsKey(tpId) && _specialVenderLogoTp.ContainsValue(tpGameIdNo) ? $"{tpId}-{tpGameIdNo}" : tpId.ToString();
+                string venderLogoTpId = _specialVenderLogoTp.ContainsKey(tpGameIdNo) && _specialVenderLogoTp.ContainsValue(tpId) ? $"{tpId}-{tpGameIdNo}" : tpId.ToString();
 
                 recentlyViewedInfo.Add(new RecentlyViewedInfo()
                 {

@@ -1,9 +1,11 @@
 ﻿using Dapper;
-using MemberSite.Service.Model;
+
 using MemberSite.Service.Library;
-using Newtonsoft.Json;
+using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Game;
+
+using Newtonsoft.Json;
 
 namespace MemberSite.Service.DAL
 {

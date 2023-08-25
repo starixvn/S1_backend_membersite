@@ -1,17 +1,22 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+
 using FluentAssertions;
+
 using MemberSite.Extensions;
 using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+
 using NSubstitute;
+
 using NUnit.Framework;
 
 namespace MemberSite.Service.BLL.Tests
@@ -30,11 +35,11 @@ namespace MemberSite.Service.BLL.Tests
             services = LoadConfig(services);
             services = MocServerInfoBll(services);
             services = MocPromotionBll(services);
-            
+
             _hotGames = new List<HotGameData>()
             {
-                new HotGameData() { TpId = 10, GameId = "S-FD01", TpGameType = 15, GameName = "5 Fortune Dragons", 
-                    GameLogo = "{\"HotGamePcUrl\": \"https://banner.0814media.net/img/hotgame/brothers_kingdom.jpg\", \"HotGameMobileUrl\": \"https://banner.0814media.net/img/hotgame/brothers_kingdom.jpg\"}", 
+                new HotGameData() { TpId = 10, GameId = "S-FD01", TpGameType = 15, GameName = "5 Fortune Dragons",
+                    GameLogo = "{\"HotGamePcUrl\": \"https://banner.0814media.net/img/hotgame/brothers_kingdom.jpg\", \"HotGameMobileUrl\": \"https://banner.0814media.net/img/hotgame/brothers_kingdom.jpg\"}",
                     TpName = "SG", TpLogo = "https://image.0814media.net/SiteSkin/img/logo/sg.png"}
             };
         }
@@ -50,13 +55,13 @@ namespace MemberSite.Service.BLL.Tests
             var serviceProvider = services.BuildServiceProvider();
             var bannerBll = new BannerBLL(serviceProvider);
 
-            var actual = await bannerBll.GetHotGames(1,2,1);
+            var actual = await bannerBll.GetHotGames(1, 2, 1);
 
             var expected = new List<HotGame>();
-            
+
             actual.Should().BeEquivalentTo(expected);
         }
-        
+
         private ServiceCollection LoadConfig(ServiceCollection services)
         {
             var builder = WebApplication.CreateBuilder(new WebApplicationOptions()
@@ -65,7 +70,7 @@ namespace MemberSite.Service.BLL.Tests
             });
             builder.Configuration.AddRemoteJsonConfig(builder.Configuration.GetSection("ConfigService").Get<string[]>());
             var app = builder.Build();
-            _configuration = app.Configuration; 
+            _configuration = app.Configuration;
             services.AddSingleton(_configuration);
             return services;
         }
