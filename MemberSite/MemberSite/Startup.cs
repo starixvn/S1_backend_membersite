@@ -136,6 +136,7 @@ namespace MemberSite
 
             services.AddTransient<IHotGameService, HotGameService>();
             services.AddTransient<IAnnouncementService, AnnouncementService>();
+            services.AddSingleton<VIPService>();
 
             /*BLL*/
             services.AddSingleton<IRabbitMQProducer, RabbitMQProducer>();
