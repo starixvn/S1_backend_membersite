@@ -476,5 +476,42 @@ namespace MemberSite.Controllers.Api
             return result;
 
         }
+
+        [Authorize]
+        [HttpPost]
+        public ApiResult<PopUpPromotion> GetPopUpPromotion(PromotionDeviceReq data)
+        {
+            var result = new ApiResult<PopUpPromotion>();
+            try
+            {
+                
+                var authData = _authorizeBll.GetAuthData();
+                if (authData is { CustId: > 0 })
+                {
+                    var serverInfo = _serverInfoBll.GetServerInfo();
+                    var custId = authData.CustId;
+                    var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                    var currencyId = custInfo.CurrencyId;
+
+                    var apiUrl = $"{_bonusServiceUrl}GetPopUpPromotion";
+                    var req = new CustPromotionRequest
+                    {
+                        SiteId = serverInfo.SiteId,
+                        CustId = custId,
+                        CurrencyId = currencyId,
+                        DeviceType = data.DeviceType,
+                        LangId = _selLangBll.GetLangId(),
+                        IsLogin = true
+                    };
+
+                    result = _courierAdapter.MyPostAsync<PopUpPromotion, CustPromotionRequest>(apiUrl, req).Result;
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, GetCurrentMethod());
+            }
+            return result;
+        }
     }
 }
