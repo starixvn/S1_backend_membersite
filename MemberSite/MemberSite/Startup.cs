@@ -114,8 +114,7 @@ namespace MemberSite
             services.AddSingleton<NewsService>();
             services.AddSingleton<IovationService>();
             services.AddSingleton<EventsService>();
-            services.AddTransient<IEventsService, EventsService>();
-            services.AddSingleton<GameCasinoService>();
+            services.AddTransient<IEventsService, EventsService>();            
             services.AddSingleton<LiveStreamingService>();
             services.AddSingleton<VideoDataService>();
             services.AddSingleton<ConfigService>();
@@ -169,7 +168,6 @@ namespace MemberSite
             services.AddSingleton<EventsBLL>();
             services.AddTransient<AngPaoProcessor>();
             services.AddTransient<IAngPaoBLL, AngPaoBLL>();
-            services.AddSingleton<GameCasinoBll>();
             services.AddSingleton<LiveStreamingBll>();
             services.AddSingleton<VideoDataBll>();
             services.AddSingleton<GameBLL>();
