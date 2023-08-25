@@ -33,6 +33,8 @@ namespace MemberSite.Service.BLL
         };
         private readonly IEnumerable<AreaCodeMap> _areaCodeMap;
         private readonly ShieldBLL _shieldBll;
+        private readonly VIPService _vIPService;
+        private readonly DepositService _depositService;
 
         public CustInfoBll(IServiceProvider provider)
         {
@@ -50,6 +52,8 @@ namespace MemberSite.Service.BLL
             _shieldBll = provider.GetRequiredService<ShieldBLL>();
             _producer = provider.GetRequiredService<IRabbitMQProducer>();
             _affiliateService = provider.GetRequiredService<IAffiliateService>();
+            _vIPService = provider.GetRequiredService<VIPService>();
+            _depositService = provider.GetRequiredService<DepositService>();
         }
         public string GetCountryNameByAreaCode(string areaCode)
         {
@@ -766,6 +770,42 @@ namespace MemberSite.Service.BLL
                     return await _custInfoService.GetCustRecentlyViewed(custId);
                 });
             return result;
+        }
+
+        public CustVIPProgress GetCustVIPProgress(int custId)
+        {
+            CustVIPProgress result = new CustVIPProgress();
+            var customer = _custInfoService.GetCustInfo(custId);
+            result.CurrentVipLevel = customer.UserLevel;
+            var vipSystem = _vIPService.GetVipSystem(customer.SiteId).Where(x=> x.CurrencyId == customer.CurrencyId).ToList();
+
+            if (vipSystem != null)
+            {
+                var upGradeData = vipSystem.Find(x => x.Level == customer.UserLevel + 1);
+                var downGradeData = vipSystem.Find(x => x.Level == customer.UserLevel);
+
+                if (upGradeData != null)
+                    result.UpDeposit = upGradeData.UpDeposit;
+                if (downGradeData != null)
+                {
+                    result.DownDeposit = downGradeData.DownDeposit;
+                    result.DownTurnover = downGradeData.DownTurnover;
+                }
+
+                result.ActualDeposit = GetActualDeposit(customer.SiteId, custId);
+            }
+            return result;
+        }
+        private decimal GetActualDeposit(int siteId, int custId)
+        {
+            var currentTime = DateTime.UtcNow.AddHours(8);
+            DateTime startTime = new DateTime(currentTime.Year, currentTime.Month, 1)
+                .Date;
+            DateTime endTime = startTime.AddMonths(1).AddTicks(-1);
+
+            var actualDepositData = _depositService.GetActualDepositData(siteId, custId, startTime, endTime);
+
+            return actualDepositData == null ? 0 : actualDepositData.ActualDeposit;
         }
     }
 }

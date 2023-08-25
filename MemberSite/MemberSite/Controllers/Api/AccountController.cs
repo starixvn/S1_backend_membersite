@@ -1239,5 +1239,21 @@ namespace MemberSite.Controllers.Api
 
             return apiResult;
         }
+
+        [HttpPost]
+        public ApiResult<CustVIPProgress> GetCustVIPProgress()
+        {
+            var apiResult = new ApiResult<CustVIPProgress>();
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
+                return apiResult;
+            }
+            apiResult.Data = _custInfoBll.GetCustVIPProgress(authData.CustId);
+            apiResult.ErrorCode = 0;
+
+            return apiResult;
+        }
     }
 }
