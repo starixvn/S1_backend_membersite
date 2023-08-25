@@ -126,8 +126,8 @@ namespace MemberSite
             services.AddTransient<RecaptchaService>();
             services.AddSingleton<PartitionService>();
             services.AddTransient<CurrencyService>();
-            services.AddTransient<IAffiliateService, AffiliateService>();
             services.AddTransient<GameService>();
+            services.AddTransient<IAffiliateService, AffiliateService>();
 
             services.AddSingleton<IPService>();
             services.AddSingleton<ShieldService>();
@@ -183,10 +183,12 @@ namespace MemberSite
             services.AddSingleton<PayInfoBLL>();
             services.AddSingleton<LineLoginBLL>();
             services.AddSingleton<SiteBll>();
+            services.AddTransient<WorldCupPredictionBLL>();
             services.AddSingleton<IPBLL>();
             services.AddSingleton<ShieldBLL>();
             services.AddTransient<WorldCupPredictionBLL>();
             services.AddSingleton<SlotGameBLL>();
+            services.AddTransient<IHotGameBLL, HotGameBLL>();
             services.AddTransient<RecaptchaBLL>();
             services.AddTransient<CheckAttackBLL>();
             services.AddTransient<DateTimeHelper>();
@@ -296,6 +298,9 @@ namespace MemberSite
             services.AddControllers();
 
             services.AddOptionListByDB<TpGameTypeOption>("Admin_TpGameType_Get");
+
+            services.AddOptionListByDB<BlockIP>("Member_BlockIP_Get");
+
             services.AddOptionListByDB<AreaCodeMap>("Common_CountryList_Get");
             services.AddOptionListByDB<SabaSportTypeOption>("Service_SabaSportType_Get");
         }

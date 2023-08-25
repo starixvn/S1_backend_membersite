@@ -10,6 +10,7 @@ namespace MemberSite.Service.Model
         public string BankName { set; get; }
         public string BankLogo { set; get; }
         public string BankSite { set; get; }
+        public GeneralStatusEnum Status { set; get; }
     }
 
     public class PaymentFront : IPaymentLimit

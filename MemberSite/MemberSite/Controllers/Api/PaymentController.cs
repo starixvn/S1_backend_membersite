@@ -209,6 +209,13 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<DepositRep3>();
             var authData = authorizeBLL.GetAuthData();
+            
+            if (bankInfoOffBLL.GetCustOffDepositSysId(authData.CustId).Contains(depositReqWireTransferReq.sysId))
+            {
+                apiResult.ErrorCode = -3;
+                apiResult.Message = "A deposit with the same bank already exists. Please complete it before trying again.";
+                return apiResult;
+            }
 
             var checkResult = CheckDeposit(authData, depositReqWireTransferReq.amount,
                 depositReqWireTransferReq.hasPromotion);

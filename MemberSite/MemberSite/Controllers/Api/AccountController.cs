@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
+using Newtonsoft.Json;
 using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
@@ -37,9 +37,9 @@ namespace MemberSite.Controllers.Api
         private readonly CasinoBll _casinoBll;
         private readonly BonusWalletBLL _bonusWalletBll;
         private readonly EventsBLL _eventsBll;
-        private readonly ICacheHelper _cacheHelper;
         private readonly ILogger<AccountController> _logger;
         private readonly CheckAttackBLL _checkAttackBll;
+        private readonly ICacheHelper _cacheHelper;
         private readonly ServerInfoBll _serverInfoBll;
 
         public AccountController(IServiceProvider provider)
@@ -60,8 +60,8 @@ namespace MemberSite.Controllers.Api
             _casinoBll = provider.GetRequiredService<CasinoBll>();
             _bonusWalletBll = provider.GetRequiredService<BonusWalletBLL>();
             _eventsBll = provider.GetRequiredService<EventsBLL>();
-            _cacheHelper = provider.GetRequiredService<ICacheHelper>();
             _logger = provider.GetRequiredService<ILogger<AccountController>>();
+            _cacheHelper = provider.GetRequiredService<ICacheHelper>();
             _checkAttackBll = provider.GetRequiredService<CheckAttackBLL>();
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
         }
@@ -363,7 +363,7 @@ namespace MemberSite.Controllers.Api
                 _bankInfoBll.BankNameLocalization(bankInfoSysList, authData.LangId);
             }
 
-            var custBankInfo = Newtonsoft.Json.JsonConvert.DeserializeObject<CustBankInfoRep>(Newtonsoft.Json.JsonConvert.SerializeObject(_custInfoBll.GetCustBankInfo(authData.CustId)));
+            var custBankInfo = JsonConvert.DeserializeObject<CustBankInfoRep>(JsonConvert.SerializeObject(_custInfoBll.GetCustBankInfo(authData.CustId)));
 
             if (custBankInfo is { bankInfoDetail: { } } && custBankInfo.bankInfoDetail.Any())
             {
@@ -375,6 +375,7 @@ namespace MemberSite.Controllers.Api
                         bankInfo.BankName = refBankInfo.BankName;
                         bankInfo.BankLogo = refBankInfo.BankLogo;
                         bankInfo.BankSite = refBankInfo.BankSite;
+                        bankInfo.Disabled = refBankInfo.Status != GeneralStatusEnum.Enable;
                     }
 
                     if (!custBankInfo.bankInfoDetail.Any())
@@ -747,12 +748,13 @@ namespace MemberSite.Controllers.Api
             apiResult.Data = new ReferralSummary();
             try
             {
-                _custInfoBll.GetReferralSummary(authData.CustId, out var ReferralCount, out var conditionCount, out var AmountCount, out var AmountSum);
+                _custInfoBll.GetReferralSummary(authData.CustId, ReferralTypeEnum.Referral, out var ReferralCount, out var conditionCount, out var AmountCount, out var AmountSum, out var hasReferral);
 
                 apiResult.Data.ReferralCount = ReferralCount;
                 apiResult.Data.ConditionCount = conditionCount;
                 apiResult.Data.AmountCount = AmountCount;
                 apiResult.Data.AmountSum = AmountSum;
+                apiResult.Data.HasReferral = hasReferral > 0;
                 apiResult.ErrorCode = 0;
                 apiResult.Message = "";
             }
@@ -762,6 +764,37 @@ namespace MemberSite.Controllers.Api
             }
             return apiResult;
         }
+
+        [HttpPost]
+        public ApiResult<ReferralSummary> GetReferralSummaryV2()
+        {
+            var apiResult = new ApiResult<ReferralSummary>();
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
+                return apiResult;
+            }
+            apiResult.Data = new ReferralSummary();
+            try
+            {
+                _custInfoBll.GetReferralSummary(authData.CustId, ReferralTypeEnum.DepositReferral, out var ReferralCount, out var conditionCount, out var AmountCount, out var AmountSum, out var hasReferral);
+
+                apiResult.Data.ReferralCount = ReferralCount;
+                apiResult.Data.ConditionCount = conditionCount;
+                apiResult.Data.AmountCount = AmountCount;
+                apiResult.Data.AmountSum = AmountSum;
+                apiResult.Data.HasReferral = hasReferral > 0;
+                apiResult.ErrorCode = 0;
+                apiResult.Message = "";
+            }
+            catch (Exception ex)
+            {
+                apiResult.Message = ex.ToString();
+            }
+            return apiResult;
+        }
+
         public class RefFriendListReq
         {
             public long? StartDate { get; set; }
@@ -790,6 +823,80 @@ namespace MemberSite.Controllers.Api
             try
             {
                 apiResult.Data = _custInfoBll.GetRefFriendList(authData.CustId, refFriendListReq.StartDate, refFriendListReq.EndDate, PageSize, ref pageNumber, ref totalPages, ref rowCount);
+                foreach (var L in apiResult.Data)
+                {
+                    L.UserName = _eventsBll.MaskName(L.UserName);
+                }
+                apiResult.PageNumber = pageNumber;
+                apiResult.TotalPages = totalPages;
+                apiResult.RowCount = rowCount;
+                apiResult.ErrorCode = 0;
+                apiResult.Message = "";
+            }
+            catch (Exception ex)
+            {
+                apiResult.Message = ex.ToString();
+            }
+            return apiResult;
+        }
+
+        [HttpPost]
+        public ApiListResult<DepositReferralDao> GetRefFriendListV2(RefFriendListReq refFriendListReq)
+        {
+            var PageSize = 10;
+            if (refFriendListReq.PageSize > 0)
+                PageSize = refFriendListReq.PageSize;
+            var pageNumber = refFriendListReq.PageNumber;
+            var totalPages = 0;
+            var rowCount = 0;
+            var apiResult = new ApiListResult<DepositReferralDao>();
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
+                return apiResult;
+            }
+
+            try
+            {
+                apiResult.Data = _custInfoBll.GetDepositReferralList(authData.CustId, refFriendListReq.StartDate, refFriendListReq.EndDate, PageSize, pageNumber, ref totalPages, ref rowCount);
+                foreach (var L in apiResult.Data)
+                {
+                    L.UserName = _eventsBll.MaskName(L.UserName);
+                }
+                apiResult.PageNumber = pageNumber;
+                apiResult.TotalPages = totalPages;
+                apiResult.RowCount = rowCount;
+                apiResult.ErrorCode = 0;
+                apiResult.Message = "";
+            }
+            catch (Exception ex)
+            {
+                apiResult.Message = ex.ToString();
+            }
+            return apiResult;
+        }
+
+        [HttpPost]
+        public ApiListResult<DepositReferralDao> GetRefFriendDetail(RefFriendListReq refFriendListReq)
+        {
+            var PageSize = 10;
+            if (refFriendListReq.PageSize > 0)
+                PageSize = refFriendListReq.PageSize;
+            var pageNumber = refFriendListReq.PageNumber;
+            var totalPages = 0;
+            var rowCount = 0;
+            var apiResult = new ApiListResult<DepositReferralDao>();
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
+                return apiResult;
+            }
+
+            try
+            {
+                apiResult.Data = _custInfoBll.GetDepositReferralDetail(authData.CustId, refFriendListReq.StartDate, refFriendListReq.EndDate, PageSize, pageNumber, ref totalPages, ref rowCount);
                 foreach (var L in apiResult.Data)
                 {
                     L.UserName = _eventsBll.MaskName(L.UserName);

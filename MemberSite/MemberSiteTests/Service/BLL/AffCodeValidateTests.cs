@@ -1,6 +1,5 @@
 ﻿using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Domain;
-
 using NSubstitute;
 
 using NUnit.Framework;

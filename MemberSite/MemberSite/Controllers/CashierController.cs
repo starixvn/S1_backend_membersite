@@ -1,11 +1,13 @@
-﻿using MemberSite.Service.BLL;
+﻿using MemberSite.Extensions;
+using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using static MemberSite.Controllers.entPageController;
 
 namespace MemberSite.Controllers
@@ -121,6 +123,10 @@ namespace MemberSite.Controllers
             public string DepositInfo { get; set; }
             public int ChannelId { get; set; }
         }
+
+        private static readonly IEnumerable<int> NoExchangeInfoPay
+            = new List<int> {(int)PayEnum.Coin2Pay};
+
         public async Task<IActionResult> DepositReqCryptoPayAsync(int ChannelId, decimal Amount, string BonusCode)
         {
             var model = new ErrorData();
@@ -130,6 +136,25 @@ namespace MemberSite.Controllers
             var result = _cryptoPayInfoBll.DepositReqCryptoPay(authData.CustId, ChannelId, Amount, out var transId, out var cryptoPayInfo);
             if (result == (int)ErrorCode.Success)
             {
+                var depositInfo = JsonConvert.SerializeObject(cryptoPayInfo);
+                // 三方存款不含金額、匯率等必須資訊，需先取別家的匯率
+                if (NoExchangeInfoPay.Contains(cryptoPayInfo.PayId))
+                {
+                    var exchangeInfo =
+                        await _cryptoPayInfoBll.GetExchangeInfoAsync(custInfo.SiteId, custInfo.CurrencyId, Amount, cryptoPayInfo.ChannelName, ExchangeTypeEnum.Buy);
+                    
+                    if (exchangeInfo.ErrorCode != (int)ErrorCode.Success)
+                    {
+                        _logger.LogError($"{transId}, {cryptoPayInfo.PayName} get exchange info failed.");
+                        return RedirectErrorPage(model);
+                    }
+                    
+                    var obj = JObject.Parse(depositInfo);
+                    obj.AddOrSet("ExchangeRate", exchangeInfo.Data.Rate);
+                    obj.AddOrSet("ExchangeAmount", exchangeInfo.Data.ExchangeAmount);
+                    depositInfo = JsonConvert.SerializeObject(obj);
+                }
+                
                 if (_promotionBll.VerifyBonusCode(BonusCode))
                     _promotionBll.SetDepositPromotionQueue(transId, BonusCode, authData.CustId, custInfo.SiteId, custInfo.UserName, custInfo.CurrencyId, 1, 0);
                 var reqDepositCrypto = new ReqDepositCrypto
@@ -140,7 +165,7 @@ namespace MemberSite.Controllers
                     ChannelId = cryptoPayInfo.ChannelId,
                     PayId = cryptoPayInfo.PayId,
                     ClientIP = _tools.GetClientIP(),
-                    DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(cryptoPayInfo),
+                    DepositInfo = depositInfo,
                     ReturnUrl = $"{Request.Scheme}://{Request.Host.Host}/{custInfo.UserLang}/deposit",
                 };
 
