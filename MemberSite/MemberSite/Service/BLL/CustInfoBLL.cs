@@ -592,6 +592,7 @@ namespace MemberSite.Service.BLL
             return -1;
 
         }
+
         public int AffiliateAndReferralCheck(string affCode, out int currencyId)
         {
             currencyId = 0;
