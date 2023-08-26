@@ -15,17 +15,17 @@ namespace MemberSite.Service.Library
             return value;
         }
 
-        public static string ParseByJObject(string content, string languageCode, string defaultLanguage, string column) 
+        public static string ParseByJObject(string content, string languageCode, string defaultLanguage, string column)
         {
             var msg = "";
-            if (JObject.Parse(content)[languageCode] != null) 
+            if (JObject.Parse(content)[languageCode] != null)
             {
                 msg = JObject.Parse(content)[languageCode].ToString();
                 var value = JObject.Parse(msg)[column].ToString();
-                if (!string.IsNullOrEmpty(value)) 
+                if (!string.IsNullOrEmpty(value))
                     return value;
             }
-            if (JObject.Parse(content)[defaultLanguage] != null) 
+            if (JObject.Parse(content)[defaultLanguage] != null)
             {
                 msg = JObject.Parse(content)[defaultLanguage].ToString();
                 var value = JObject.Parse(msg)[column].ToString();
@@ -33,7 +33,7 @@ namespace MemberSite.Service.Library
                     return value;
             }
             return msg;
-            
+
         }
     }
 }

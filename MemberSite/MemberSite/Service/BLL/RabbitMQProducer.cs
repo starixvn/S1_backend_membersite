@@ -1,7 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text;
+
+using Newtonsoft.Json;
+
 using RabbitMQ.Client;
 using RabbitMQ.Client.Exceptions;
-using System.Text;
 
 namespace MemberSite.Service.BLL
 {
@@ -21,7 +23,7 @@ namespace MemberSite.Service.BLL
         public void Publish(string exchange, string routingKey, object data)
         {
             var message = JsonConvert.SerializeObject(data);
-            for (int i = 0; i < 3; i++) 
+            for (int i = 0; i < 3; i++)
             {
                 try
                 {

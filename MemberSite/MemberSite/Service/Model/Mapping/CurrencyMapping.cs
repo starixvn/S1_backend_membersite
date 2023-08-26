@@ -3,7 +3,7 @@
     public class CurrencyMapping
     {
         public Dictionary<int, string> CountryMap { get; }
-        
+
         public CurrencyMapping()
         {
             CountryMap = new Dictionary<int, string>

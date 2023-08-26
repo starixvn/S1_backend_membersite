@@ -5,7 +5,9 @@ using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Mapping;
+
 using Microsoft.Extensions.Caching.Memory;
+
 using Newtonsoft.Json;
 
 namespace MemberSite.Service.BLL
@@ -586,6 +588,7 @@ namespace MemberSite.Service.BLL
             return -1;
 
         }
+
         public int AffiliateAndReferralCheck(string affCode, out int currencyId)
         {
             currencyId = 0;

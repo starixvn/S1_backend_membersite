@@ -1,6 +1,6 @@
 ﻿using MemberSite.Service.DAL;
-using MemberSite.Service.Model;
 using MemberSite.Service.Library;
+using MemberSite.Service.Model;
 
 namespace MemberSite.Service.BLL
 {
@@ -8,7 +8,7 @@ namespace MemberSite.Service.BLL
     {
         private readonly DepositService _depositService;
         private readonly ICacheHelper _redisHelper;
-        
+
         public DepositBLL(IServiceProvider provider)
         {
             _depositService = provider.GetRequiredService<DepositService>();

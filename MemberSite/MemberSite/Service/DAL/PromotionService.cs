@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
@@ -26,7 +27,7 @@ namespace MemberSite.Service.DAL
                     request.UserName,
                     request.CurrencyId,
                     request.DeviceType,
-                    request.LockedAmount, 
+                    request.LockedAmount,
                     IP = request.ClientIp
                 }) > 0;
         }

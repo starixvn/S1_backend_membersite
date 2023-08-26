@@ -4,20 +4,20 @@ namespace MemberSite.Extensions;
 
 public static class StoreExtension
 {
-    private static IEnumerable<int> _supportStoreSiteIds = new []
+    private static IEnumerable<int> _supportStoreSiteIds = new[]
     {
         (int) SiteId.Nova88
     };
-    
-    private static IEnumerable<int> _supportStoreCurrencyIds = new []
+
+    private static IEnumerable<int> _supportStoreCurrencyIds = new[]
     {
         (int) CurrencyId.MYR,
         (int) CurrencyId.THB,
         (int) CurrencyId.IDR
     };
-    
+
     private static Dictionary<string, CurrencyId> _langCurrencyMapping =
-        new (StringComparer.OrdinalIgnoreCase)
+        new(StringComparer.OrdinalIgnoreCase)
         {
             { "en", CurrencyId.MYR },
             { "cs", CurrencyId.MYR },
@@ -38,7 +38,7 @@ public static class StoreExtension
         {
             return CurrencyId.MYR;
         }
-        
+
         return _langCurrencyMapping.ContainsKey(langId)
             ? _langCurrencyMapping[langId]
             : CurrencyId.MYR;

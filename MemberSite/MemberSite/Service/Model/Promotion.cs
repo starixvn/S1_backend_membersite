@@ -1,5 +1,4 @@
 ﻿using MemberSite.Service.Model.enums;
-using Newtonsoft.Json;
 
 namespace MemberSite.Service.Model
 {
@@ -75,7 +74,7 @@ namespace MemberSite.Service.Model
     {
         public string BonusCode { get; set; }
     }
-    
+
     public class SpecialCodeRequest
     {
         public int CustId { set; get; }
@@ -83,7 +82,7 @@ namespace MemberSite.Service.Model
         public int DeviceType { set; get; }
         public int SiteId { set; get; }
     }
-    
+
     public class DepositPromotionQueue
     {
         public string TransId { set; get; }

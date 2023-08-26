@@ -1,6 +1,8 @@
 using Elastic.Apm.SerilogEnricher;
+
 using MemberSite;
 using MemberSite.Extensions;
+
 using Serilog;
 using Serilog.Exceptions;
 

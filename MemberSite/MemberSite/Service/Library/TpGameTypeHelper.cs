@@ -27,13 +27,13 @@ namespace MemberSite.Service.Library
                 { "25", GetV8GameType},
                 { "33", GetTCGGameType},
                 { "35", GetMPGameType}
-            };        
+            };
         }
 
         public int GetTpGameType(BannerV3 banner, int currencyId)
         {
             try
-            {          
+            {
                 if (banner.ActionMode != 2 && banner.ActionMode != 6)//只有這兩種需要回傳tpGameType
                 {
                     return 0;

@@ -1,6 +1,4 @@
-﻿using MemberSite.Service.DAL.Interface;
-using MemberSite.Service.Model;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace MemberSite.Service.Domain
 {

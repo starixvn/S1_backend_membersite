@@ -1,8 +1,10 @@
-﻿using MemberSite.Service.Model;
-using Microsoft.Extensions.Options;
-using System.Net.Mail;
+﻿using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
+
+using MemberSite.Service.Model;
+
+using Microsoft.Extensions.Options;
 
 namespace MemberSite.Service.Library
 {

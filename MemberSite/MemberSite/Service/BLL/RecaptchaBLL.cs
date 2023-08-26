@@ -1,6 +1,7 @@
 using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.DAL;
 using MemberSite.Service.Model;
+
 using Microsoft.Extensions.Options;
 
 namespace MemberSite.Service.BLL
@@ -27,7 +28,7 @@ namespace MemberSite.Service.BLL
             var domain = _serverInfoBll.GetMainDomain();
             var name = _recaptchaSvc.GetGroup(domain).Result;
             var setting = _recaptcha.Groups[name];
-            
+
             return _recaptchaApi.Verify(_recaptcha.ApiUrl, setting.Secret, token);
         }
 

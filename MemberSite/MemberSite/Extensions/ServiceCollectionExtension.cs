@@ -1,6 +1,7 @@
-﻿using MemberSite.Service.Library;
+﻿using MemberSite.Service.DAL;
+using MemberSite.Service.Library;
 using MemberSite.Service.Model.enums;
-using MemberSite.Service.DAL;
+
 using RabbitMQ.Client;
 
 namespace MemberSite.Extensions
