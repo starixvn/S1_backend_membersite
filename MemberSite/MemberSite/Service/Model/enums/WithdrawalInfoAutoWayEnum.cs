@@ -1,6 +1,6 @@
 ﻿namespace MemberSite.Service.Model.enums
 {
-    public enum WithdrawalInfoVerifyWayEnum
+    public enum WithdrawalInfoAutoWayEnum
     {
         /// <summary>
         /// 手動驗證
