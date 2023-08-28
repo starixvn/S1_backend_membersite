@@ -138,11 +138,44 @@ public class SiteBll
         AffCodeObject affCodeObj = null;
         if (!string.IsNullOrWhiteSpace(signupModel.AffCode))
         {
-            affCodeObj = new AffCodeObject(signupModel.AffCode);
-            if (!affCodeObj.IsValid())
+            if (signupModel.AffCode.Trim().Length == 5)
             {
-                apiResult.ErrorCode = -9;
-                apiResult.Message = _selLangBll.GetMsg("msg_AffCodeValidate");
+                affCodeObj = new AffCodeObject(signupModel.AffCode);
+                if (!affCodeObj.IsValid())
+                {
+                    apiResult.ErrorCode = -9;
+                    apiResult.Message = _selLangBll.GetMsg("msg_AffCodeValidate");
+                    return customer;
+                }
+            }
+            else if (signupModel.AffCode.Trim().Length == 8)
+            {
+                var rffCodeObj = new ReferralObject(signupModel.AffCode);
+                if (!rffCodeObj.IsValid())
+                {
+                    apiResult.ErrorCode = -9;
+                    apiResult.Message = _selLangBll.GetMsg("msg_AffCodeValidate");
+                    return customer;
+                }
+                if (rffCodeObj.IsExists(_custInfoBLL.GetAffiliateAgentBll) < 0)
+                {
+                    apiResult.ErrorCode = -10;
+                    apiResult.Message = _selLangBll.GetMsg("msg_AffCodeNotFound");
+                    return customer;
+                }
+                if (rffCodeObj.CurrencyId != signupModel.CurrencyId)
+                {
+                    apiResult.ErrorCode = -10;
+                    apiResult.Message = _selLangBll.GetMsg("msg_AffCodeNotFound");
+                    return customer;
+                }
+                signupModel.AffId = signupModel.AffCode;
+                signupModel.AffCode = null;
+            }
+            else
+            {
+                apiResult.ErrorCode = -10;
+                apiResult.Message = _selLangBll.GetMsg("msg_AffCodeNotFound");
                 return customer;
             }
         }

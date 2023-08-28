@@ -1004,11 +1004,12 @@ namespace MemberSite.Controllers.Api
         /// <param name="req"></param>
         /// <returns></returns>
         [HttpPost]
-        public ApiResult AffiliateCheck(AffiliateExitsReq req)
+        public ApiResult<int> AffiliateCheck(AffiliateExitsReq req)
         {
-            var apiResult = new ApiResult();
-            var errorCode = _custInfoBll.AffiliateCheck(req.AffCode);
+            var apiResult = new ApiResult<int>();
+            var errorCode = _custInfoBll.AffiliateAndReferralCheck(req.AffCode.Trim(), out int currencyId);
             apiResult.ErrorCode = errorCode;
+            apiResult.Data = currencyId;
             apiResult.Message = errorCode switch
             {
                 -9 => _selLangBll.GetMsg("msg_AffCodeValidate"),
