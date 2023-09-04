@@ -112,4 +112,9 @@ namespace MemberSite.Service.Model
         public decimal BonusAmount { get; set; }
         public decimal LockedAmount { get; set; }
     }
+
+    public class PopUpPromotion
+    {
+        public string BonusCode { get; set; }
+    }
 }
