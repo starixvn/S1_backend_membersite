@@ -1,5 +1,5 @@
-﻿using MemberSite.Service.Model;
-using MemberSite.Service.Library;
+﻿using MemberSite.Service.Library;
+using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.DAL
@@ -12,17 +12,17 @@ namespace MemberSite.Service.DAL
         {
             _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
         }
-        
+
         public IEnumerable<OfflineBankAccountInfo> GetOfflineBankAccount(int siteId)
         {
             return _reportDbClient.Query<OfflineBankAccountInfo>("Member_OfflineBankAccount_Get_V2", new { _SiteId = siteId });
         }
-        
+
         public IEnumerable<int> GetCustOffDepositSysId(int custId)
         {
             return _reportDbClient.Query<int>("Member_CustOffDepositSysId_Get", new { _CustId = custId });
         }
-        
+
         public IEnumerable<OfflineBankAccountDailyDeposit> GetOfflineBankAccountDailyDeposit(
             int siteId, int currencyId, string bankIds)
         {
@@ -34,12 +34,12 @@ namespace MemberSite.Service.DAL
                     _BankIds = bankIds
                 });
         }
-        
+
         public IEnumerable<LocalPaySetting> GetLocalPaySetting()
         {
             return _reportDbClient.Query<LocalPaySetting>("Member_LocalPaySetting_Get");
         }
-        
+
         public IEnumerable<OfflineCryptoPayInfo> GetOfflineCryptoPayInfo(int siteId)
         {
             return _reportDbClient.Query<OfflineCryptoPayInfo>("Member_OfflineCryptoAccount_Get", new { _SiteId = siteId });

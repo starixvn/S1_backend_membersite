@@ -1,5 +1,7 @@
 ﻿using System.Drawing;
+
 using LazZiya.ImageResize;
+
 using SixLabors.ImageSharp.Formats.Jpeg;
 using SixLabors.ImageSharp.Processing;
 
@@ -9,7 +11,7 @@ namespace MemberSite.Service.BLL
     {
         private const double BaseSize = 500.0;
         private double _xCell = 1;
-        
+
         public async Task<byte[]> Resize(Bitmap originImage)
         {
             if (originImage.Width > BaseSize || originImage.Height > BaseSize)
@@ -25,7 +27,7 @@ namespace MemberSite.Service.BLL
             graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
             graphics.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
             graphics.DrawImage(originImage, 0, 0, newWidth, newHeight);
-            
+
             await using var ms = new System.IO.MemoryStream();
             bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
             return ms.ToArray();

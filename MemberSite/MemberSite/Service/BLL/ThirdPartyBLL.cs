@@ -1,7 +1,9 @@
-﻿using MemberSite.Service.DAL;
+﻿using System.Collections.Concurrent;
+
+using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
-using System.Collections.Concurrent;
+
 using Microsoft.Extensions.Caching.Memory;
 
 namespace MemberSite.Service.BLL

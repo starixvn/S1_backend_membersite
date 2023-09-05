@@ -1,7 +1,7 @@
-﻿using MemberSite.Extensions;
+﻿using System.Text.Json.Serialization;
+
+using MemberSite.Extensions;
 using MemberSite.Service.Model.enums;
-using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Mvc;
 
 namespace MemberSite.Service.Model
 {
@@ -59,9 +59,9 @@ namespace MemberSite.Service.Model
 
     public class LocalPayResp
     {
-
         public string TransId { get; set; }
         public decimal Amount { get; set; }
+        public bool GenerateQr { set; get; }
         public string ReturnUrl { set; get; }
         public string Code { set; get; }
         public string BankLogo { set; get; }
@@ -112,7 +112,7 @@ namespace MemberSite.Service.Model
         public string CustTimeZone { get; set; }
         public string DepositMessage { get; set; }
         public IEnumerable<DepositMessageDetail> DepositMessageDetail { get; set; }
-}
+    }
 
     public class DepositReceiptModel
     {
@@ -120,7 +120,7 @@ namespace MemberSite.Service.Model
         public int ReceiptNo { get; set; }
         public string PicFileName { get; set; }
     }
-    
+
     public class DepositReceipt
     {
         public int DepositId { get; set; }

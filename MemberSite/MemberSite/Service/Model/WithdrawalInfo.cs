@@ -1,6 +1,7 @@
-﻿using MemberSite.Extensions;
+﻿using System.Text.Json.Serialization;
+
+using MemberSite.Extensions;
 using MemberSite.Service.Model.enums;
-using System.Text.Json.Serialization;
 
 namespace MemberSite.Service.Model
 {
@@ -166,5 +167,12 @@ namespace MemberSite.Service.Model
             get => _createTime;
             set => _createTime = new DateTimeOffset(value.DateTime, TimeSpan.Zero);
         }
+    }
+
+    public class AutoPaymentRequest
+    {
+        public string TransId { get; set; }
+        public string Token { get; set; }
+        public string Comment { get; set; }
     }
 }

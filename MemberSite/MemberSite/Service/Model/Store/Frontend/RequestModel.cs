@@ -41,7 +41,7 @@ public class SetFavoriteRequest
     public bool IsFavorite { get; set; }
 }
 
-public class StoreSetFavoriteRequest: SetFavoriteRequest
+public class StoreSetFavoriteRequest : SetFavoriteRequest
 {
     public int CustId { get; set; }
 }

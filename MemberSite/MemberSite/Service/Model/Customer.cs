@@ -1,6 +1,7 @@
-﻿using MemberSite.Extensions;
+﻿using System.Text.Json.Serialization;
+
+using MemberSite.Extensions;
 using MemberSite.Service.Model.enums;
-using System.Text.Json.Serialization;
 
 namespace MemberSite.Service.Model
 {
@@ -143,6 +144,7 @@ namespace MemberSite.Service.Model
         public string AddressLineFirst { get; set; }
         public string AddressLineSecond { get; set; }
         public bool IsResetPwd { get; set; }
+        public MemberTypeEnum MemberType { get; set; }
     }
     public class CustRollOver
     {
@@ -214,7 +216,11 @@ namespace MemberSite.Service.Model
         public decimal VaildBet { get; set; }
         public decimal Deposit { get; set; }
         public int PeriodDays { get; set; }
+        public decimal DepositRewardPercentage { get; set; }
+        public decimal MinPayout { get; set; }
+        public decimal MaxPayout { get; set; }
         public string Details { get; set; }
+        public ReferralStatusEnum Status { get; set; }
     }
 
     public class ReferralSettingDetail
@@ -227,6 +233,9 @@ namespace MemberSite.Service.Model
         public decimal VaildBet { get; set; }
         public decimal Deposit { get; set; }
         public int PeriodDays { get; set; }
+        public decimal DepositRewardPercentage { get; set; }
+        public decimal MinPayout { get; set; }
+        public decimal MaxPayout { get; set; }
         public ReferralContent ReferralContent { get; set; }
     }
 
@@ -237,6 +246,7 @@ namespace MemberSite.Service.Model
         public string Title { get; set; }
         public string Description { get; set; }
         public string Detail { get; set; }
+        public ReferralTypeEnum Type { get; set; }
     }
 
     public class ReferralSummary
@@ -245,6 +255,7 @@ namespace MemberSite.Service.Model
         public int ConditionCount { get; set; }
         public int AmountCount { get; set; }
         public int AmountSum { get; set; }
+        public bool HasReferral { get; set; }
 
     }
     public class ReferralFriend
@@ -276,6 +287,16 @@ namespace MemberSite.Service.Model
         public string CustTimeZone { get; set; }
 
     }
+    public class DepositReferralDao
+    {
+        public DateTime SettledDate { get; set; }
+        public string UserName { get; set; }
+        public string CurrencyName { get; set; }
+        public decimal TotalDeposit { get; set; }
+        public decimal RewardAmount { get; set; }
+
+    }
+
     public class CustTransSummary
     {
         public decimal DepositSum { get; set; }
@@ -309,5 +330,37 @@ namespace MemberSite.Service.Model
     public class CryptoWalletDetailData : CryptoWalletDetail
     {
         public int CustId { set; get; }
+    }
+
+    public class CustTpGameTypeSettingDto
+    {
+        public int CategoryId { set; get; }
+        public int TpId { set; get; }
+        public int GameType { set; get; }
+        public CustTpGameTypeSettingType Type { set; get; }
+    }
+
+    public class CustTpGameTypeSetting
+    {
+        public int CategoryId { get; set; }
+        public int TpId { set; get; }
+        public int GameType { set; get; }
+        public bool NoShow { set; get; }
+        public bool NoPlay { set; get; }
+
+        public CustTpGameTypeSetting(int categoryId, int tpId, int gameType, bool noShow, bool noPlay)
+        {
+            CategoryId = categoryId;
+            TpId = tpId;
+            GameType = gameType;
+            NoShow = noShow;
+            NoPlay = noPlay;
+        }
+    }
+    public class CustRecentlyViewedInfo
+    {
+        public int CustId { set; get; }
+        public string RecentlyViewed { set; get; }
+        public DateTime UpdateTime { set; get; }
     }
 }

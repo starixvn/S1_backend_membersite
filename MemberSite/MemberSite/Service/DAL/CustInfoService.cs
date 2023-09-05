@@ -1,11 +1,14 @@
-﻿using Dapper;
+﻿using System.Data;
+
+using Dapper;
+
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Line;
-using System.Data;
-using MySql.Data.MySqlClient;
+
 using Newtonsoft.Json;
+
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace MemberSite.Service.DAL
@@ -40,7 +43,7 @@ namespace MemberSite.Service.DAL
             return _reportDbClient.ExecuteScalar<int>("Member_ExistsEmail_Get", new { CustId = custId, Email = email, SiteId = siteId }) != 0;
         }
 
-        public int AddCustInfo(Customer customer, string Email, string lineUserId, out int custId, string signupUrl = null, string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null, int Birth_d = 0, int Birth_m = 0, int Birth_y = 0)
+        public int AddCustInfo(Customer customer, string Email, string lineUserId, int deviceType, out int custId, string signupUrl = null, string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null, int Birth_d = 0, int Birth_m = 0, int Birth_y = 0)
         {
             using var conn = _mainDbClient.GetMySqlConnection();
             conn.Open();
@@ -58,11 +61,12 @@ namespace MemberSite.Service.DAL
                     customer.UserLang,
                     customer.AgentId,
                     customer.AllAgentId,
+                    MemberType = 1, //Normal Member
                     customer.UserLevel
                 });
                 p.Add("CustId", dbType: DbType.String, direction: ParameterDirection.Output);
 
-                var result = _mainDbClient.Execute("CustInfo_Ins", trans, p);
+                var result = _mainDbClient.Execute("CustInfo_Ins_V2", trans, p);
 
                 if (result > 0)
                 {
@@ -128,9 +132,9 @@ namespace MemberSite.Service.DAL
 
                 if (result > 0 && (!string.IsNullOrEmpty(signupUrl) || !string.IsNullOrEmpty(referralUrl)))
                 {
-                    result = _mainDbClient.Execute("Member_CustRegInfo_Ins_V2", trans,
-                        new DynamicParameters(new
-                        { CustId = custId, customer.SiteId, SignupUrl = signupUrl, ReferralUrl = referralUrl }));
+                    result = _mainDbClient.Execute("Member_CustRegInfo_Ins_V3", trans,
+                        new DynamicParameters(
+                         new { CustId = custId, customer.SiteId, SignupUrl = signupUrl, ReferralUrl = referralUrl, DeviceType = deviceType }));
                 }
 
                 if (result > 0 && !string.IsNullOrEmpty(promoCode) && _promotionService.CheckSpecialCode(promoCode))
@@ -540,7 +544,7 @@ namespace MemberSite.Service.DAL
 
         public CustInfoProfile GetCustInfoProfile(int custId)
         {
-            return _reportDbClient.QueryFirst<CustInfoProfile>("Member_CustProfile_Get_V4", new { CustId = custId });
+            return _reportDbClient.QueryFirst<CustInfoProfile>("Member_CustProfile_Get_V5", new { CustId = custId });
         }
 
         public int SubmittedCustPhotoId(int custId, int siteId, int currencyId)
@@ -847,6 +851,14 @@ namespace MemberSite.Service.DAL
             });
             var result = _mainDbClient.Execute("Service_CustUSDTInfoLog_Set_V3", trans, parameter);
             return result > 0;
+        }
+
+        public async Task<IEnumerable<CustTpGameTypeSettingDto>> GetCustTpGameTypeSetting(int custId, IEnumerable<int> types)
+            => await _mainDbClient.QueryAsync<CustTpGameTypeSettingDto>("Member_CustTpGameTypeSetting_Get",
+                new { _CustId = custId, _Types = JsonConvert.SerializeObject(types) });
+        public async Task<IEnumerable<CustRecentlyViewedInfo>> GetCustRecentlyViewed(int custId)
+        {
+            return await _reportDbClient.QueryAsync<CustRecentlyViewedInfo>("Member_CustRecentlyViewed_Get", new { _CustId = custId });
         }
     }
 }

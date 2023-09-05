@@ -1,21 +1,29 @@
+using System.Text;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
+
+using Elastic.Apm.AspNetCore;
+using Elastic.Apm.DiagnosticSource;
+using Elastic.Apm.SqlClient;
+using Elastic.Apm.StackExchange.Redis;
+
+using MemberSite.Extensions;
 using MemberSite.Service.BLL;
+using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.DAL;
+using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
+using MemberSite.Service.Model.Mapping;
+using MemberSite.Service.Model.Options;
+
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.WebEncoders;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Text.Unicode;
-using MemberSite.Extensions;
-using MemberSite.Service.BLL.Interface;
-using MemberSite.Service.DAL.Interface;
-using MemberSite.Service.Model.Mapping;
+
 using StackExchange.Redis;
-using MemberSite.Service.Model.Options;
 
 namespace MemberSite
 {
@@ -63,9 +71,11 @@ namespace MemberSite
             services.AddMemoryCache();
             services.AddDatabaseConnection(_configuration);
             services.AddMessageQueueConnection(_configuration);
-            services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(_configuration.GetValue<string>("RedisConnection")));
+            var redisConnection = ConnectionMultiplexer.Connect(_configuration.GetValue<string>("RedisConnection"));
+            redisConnection.UseElasticApm();
+            services.AddSingleton<IConnectionMultiplexer>(redisConnection);
             services.AddSingleton<ICacheHelper, RedisCacheHelper>();
-            
+
             /*Library*/
             services.AddSingleton<Tools>();
             services.AddSingleton<Common>();
@@ -96,6 +106,7 @@ namespace MemberSite
             services.AddSingleton<PayService>();
             services.AddSingleton<PromotionService>();
             services.AddSingleton<CasinoService>();
+            services.AddSingleton<LobbyCategoryService>();
             services.AddSingleton<StatementService>();
             services.AddSingleton<AuthService>();
             services.AddSingleton<IBannerService, BannerService>();
@@ -103,8 +114,7 @@ namespace MemberSite
             services.AddSingleton<NewsService>();
             services.AddSingleton<IovationService>();
             services.AddSingleton<EventsService>();
-            services.AddTransient<IEventsService, EventsService>();
-            services.AddSingleton<GameCasinoService>();
+            services.AddTransient<IEventsService, EventsService>();            
             services.AddSingleton<LiveStreamingService>();
             services.AddSingleton<VideoDataService>();
             services.AddSingleton<ConfigService>();
@@ -116,6 +126,8 @@ namespace MemberSite
             services.AddTransient<RecaptchaService>();
             services.AddSingleton<PartitionService>();
             services.AddTransient<CurrencyService>();
+            services.AddTransient<IAffiliateService, AffiliateService>();
+            services.AddTransient<GameService>();
 
             services.AddSingleton<IPService>();
             services.AddSingleton<ShieldService>();
@@ -123,8 +135,9 @@ namespace MemberSite
 
             services.AddTransient<IHotGameService, HotGameService>();
             services.AddTransient<IAnnouncementService, AnnouncementService>();
-            
+
             /*BLL*/
+            services.AddSingleton<IRabbitMQProducer, RabbitMQProducer>();
             services.AddSingleton<ServerInfoBll>();
             services.AddSingleton<CustInfoBll>();
             services.AddSingleton<WalletBLL>();
@@ -142,10 +155,9 @@ namespace MemberSite
             services.AddSingleton<PromotionBll>();
             services.AddSingleton<RedemptionBLL>();
             services.AddSingleton<StoreBLL>();
-            services.AddSingleton<GamingBLL>();
             services.AddSingleton<CasinoBll>();
+            services.AddSingleton<LobbyCategoryBLL>();
             services.AddSingleton<CommonBLL>();
-            services.AddSingleton<TemplateBLL>();
             services.AddSingleton<AuthBLL>();
             services.AddSingleton<BannerBLL>();
             services.AddSingleton<BonusWalletBLL>();
@@ -155,7 +167,6 @@ namespace MemberSite
             services.AddSingleton<EventsBLL>();
             services.AddTransient<AngPaoProcessor>();
             services.AddTransient<IAngPaoBLL, AngPaoBLL>();
-            services.AddSingleton<GameCasinoBll>();
             services.AddSingleton<LiveStreamingBll>();
             services.AddSingleton<VideoDataBll>();
             services.AddSingleton<GameBLL>();
@@ -179,7 +190,7 @@ namespace MemberSite
             services.AddTransient<CheckAttackBLL>();
             services.AddTransient<DateTimeHelper>();
             services.AddTransient<IAnnouncementBLL, AnnouncementBLL>();
-            
+
             services.AddTransient<IHotGameBLL, HotGameBLL>();
 
             services.AddSingleton<CustomCookieAuthenticationEvents>();
@@ -260,8 +271,8 @@ namespace MemberSite
                             .AllowAnyMethod()
                             .SetIsOriginAllowedToAllowWildcardSubdomains();
                     });
-                
-                options.AddPolicy("SocialChannel", 
+
+                options.AddPolicy("SocialChannel",
                     builder =>
                     {
                         builder.AllowAnyOrigin()
@@ -292,7 +303,12 @@ namespace MemberSite
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseHttpsRedirection();
-
+            if (!env.IsEnvironment("Local"))
+            {
+                app.UseElasticApm(_configuration,
+                    new HttpDiagnosticsSubscriber(),
+                    new SqlClientDiagnosticSubscriber());
+            }
             app.UseStaticFiles();
 
             app.UseRouting();
@@ -310,12 +326,9 @@ namespace MemberSite
             {
                 endpoints.MapGet("/health", async context =>
                 {
-                    await context.Response.WriteAsync($"{env.EnvironmentName}-{DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")}");
+                    await context.Response.WriteAsync($"{env.EnvironmentName}-{DateTime.Now:yyyy/MM/dd HH:mm:ss}");
                 });
-                endpoints.MapAreaControllerRoute(name: "areaRoute", "{area:exists}", "{LangId?}/{area:exists}/{controller=Home}/{action=Index}");
-                endpoints.MapControllerRoute(
-                    name: "desktop",
-                pattern: "{LangId?}/{controller=Home}/{action=Index}");
+                endpoints.MapControllerRoute(name: "desktop", pattern: "{LangId?}/{controller=Home}/{action=Index}");
             });
         }
     }

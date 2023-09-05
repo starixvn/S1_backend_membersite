@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+
 using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.Model

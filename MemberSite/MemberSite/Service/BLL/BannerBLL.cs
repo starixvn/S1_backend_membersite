@@ -1,8 +1,10 @@
-﻿using MemberSite.Service.Library;
+﻿using MemberSite.Service.DAL.Interface;
+using MemberSite.Service.Library;
 using MemberSite.Service.Model;
+
 using Microsoft.Extensions.Options;
+
 using Newtonsoft.Json;
-using MemberSite.Service.DAL.Interface;
 
 namespace MemberSite.Service.BLL
 {
@@ -15,6 +17,7 @@ namespace MemberSite.Service.BLL
         private readonly IOptions<Dictionary<string, SiteConfig>> siteConfig;
         private readonly TpGameTypeHelper tpGameTypeHelper;
         private readonly ICacheHelper _redisHelper;
+        private readonly SelLangBLL selLangBLL;
 
         public BannerBLL(IServiceProvider provider)
         {
@@ -25,6 +28,7 @@ namespace MemberSite.Service.BLL
             siteConfig = provider.GetRequiredService<IOptions<Dictionary<string, SiteConfig>>>();
             tpGameTypeHelper = provider.GetRequiredService<TpGameTypeHelper>();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
+            selLangBLL = provider.GetRequiredService<SelLangBLL>();
         }
 
         public IEnumerable<BannerSettingItem> GetBanner(int perferCurr, string FolderName)
@@ -104,17 +108,17 @@ namespace MemberSite.Service.BLL
                         TpId = bannerDetail.TpId,
                         GameId = bannerDetail.GameId,
                         UrlRouter = bannerDetail.UrlRouter,
-                        BannerLink = settings.TryGetValue("bannerLink", out var valueLink) ? valueLink : "" ,
-                        BannerPCUrl = settings.TryGetValue("bannerPCUrl", out var valuePcUrl) ? valuePcUrl : "" ,
-                        BannerMobileUrl = settings.TryGetValue("bannerMobileUrl", out var valueMobileUrl) ? valueMobileUrl : "" ,
+                        BannerLink = settings.TryGetValue("bannerLink", out var valueLink) ? valueLink : "",
+                        BannerPCUrl = settings.TryGetValue("bannerPCUrl", out var valuePcUrl) ? valuePcUrl : "",
+                        BannerMobileUrl = settings.TryGetValue("bannerMobileUrl", out var valueMobileUrl) ? valueMobileUrl : "",
                         tpGameType = tpGameTypeHelper.GetTpGameType(bannerDetail, currencyId),
                     });
                 }
             }
-            
+
             return banner;
         }
-        
+
         public async Task<IEnumerable<HotGame>> GetHotGames(int siteId, int currencyId, int deviceType)
         {
             var key = $"GetHotGames:{siteId}:{currencyId}";
@@ -142,6 +146,81 @@ namespace MemberSite.Service.BLL
                 1 => gameLogo.HotGamePcUrl,
                 2 => gameLogo.HotGameMobileUrl,
                 _ => ""
+            };
+        }
+
+        public VipBanner GetVipBanner(int siteId, int currencyId)
+        {
+            var lastUpdateTimeList = new List<DateTime>();
+            var membershipRenewal = new Dictionary<int, string>();
+            var depositPriority = new Dictionary<int, string>();
+            var withdrawalPriority = new Dictionary<int, string>();
+            var serviceSupport = new Dictionary<int, string>();
+            var designatedAccountManager = new Dictionary<int, bool>();
+
+            membershipRenewal.Add(1, "lbl_Vip_Normal");
+            membershipRenewal.Add(2, "lbl_Vip_Lifetime");
+            membershipRenewal.Add(3, "lbl_Vip_3Months");
+            membershipRenewal.Add(4, "lbl_Vip_3Months");
+            membershipRenewal.Add(5, "lbl_Vip_3Months");
+            membershipRenewal.Add(6, "lbl_Vip_3Months");
+            depositPriority.Add(3, "lbl_Vip_High");
+            depositPriority.Add(4, "lbl_Vip_High");
+            depositPriority.Add(5, "lbl_Vip_High");
+            depositPriority.Add(6, "lbl_Vip_High");
+            withdrawalPriority.Add(3, "lbl_Vip_High");
+            withdrawalPriority.Add(4, "lbl_Vip_High");
+            withdrawalPriority.Add(5, "lbl_Vip_High");
+            withdrawalPriority.Add(6, "lbl_Vip_High");
+            serviceSupport.Add(3, "lbl_Vip_High");
+            serviceSupport.Add(4, "lbl_Vip_High");
+            serviceSupport.Add(5, "lbl_Vip_High");
+            serviceSupport.Add(6, "lbl_Vip_High");
+            designatedAccountManager.Add(4, true);
+            designatedAccountManager.Add(5, true);
+            designatedAccountManager.Add(6, true);
+            var vipBanner = bannerService.GetVipBanner(siteId, currencyId);
+            var rebateCategory = bannerService.GetRebateCategory(siteId, currencyId).ToList();
+            foreach (var vip in vipBanner)
+            {
+                vip.RebateCategory = rebateCategory.FindAll(x => x.Level == vip.Level);
+                vip.RankingValidityMembershipRenewal = selLangBLL.GetResourceValue(membershipRenewal[vip.Level]);
+                vip.DepositPriority = depositPriority.ContainsKey(vip.Level) ? selLangBLL.GetResourceValue(depositPriority[vip.Level]) : null;
+                vip.WithdrawalPriority = withdrawalPriority.ContainsKey(vip.Level) ? selLangBLL.GetResourceValue(withdrawalPriority[vip.Level]) : null;
+                vip.ServiceSupport = serviceSupport.ContainsKey(vip.Level) ? selLangBLL.GetResourceValue(serviceSupport[vip.Level]) : null;
+                vip.DesignatedAccountManager = designatedAccountManager.ContainsKey(vip.Level);
+                decimal tempWithdrawalMax;
+                decimal.TryParse(vip.WithdrawalMax, out tempWithdrawalMax);
+                int tempTimes;
+                int.TryParse(vip.Times, out tempTimes);
+                if (tempWithdrawalMax == 0 && vip.Level != 6)
+                {
+                    vip.WithdrawalMax = selLangBLL.GetResourceValue("lbl_VIP_unlimited");
+                }
+                if (tempTimes == 0 && vip.Level != 6)
+                {
+                    vip.Times = selLangBLL.GetResourceValue("lbl_VIP_unlimited");
+                }
+                if (vip.Level == 6)
+                {
+                    vip.WithdrawalMax = selLangBLL.GetResourceValue("lbl_VIP_unlimited");
+                    vip.Times = selLangBLL.GetResourceValue("lbl_VIP_unlimited");
+                    vip.UpBonus = selLangBLL.GetResourceValue("lbl_Vip_ByInvitation");
+                    vip.UpDeposit = selLangBLL.GetResourceValue("lbl_Vip_ByInvitation");
+                    vip.DownDeposit = selLangBLL.GetResourceValue("lbl_Vip_ByInvitation");
+                    vip.DownTurnover = selLangBLL.GetResourceValue("lbl_Vip_ByInvitation");
+                }
+            }
+
+            var lastUpdateTime = bannerService.GetVipBannerLastUpdateTime(siteId, currencyId);
+            lastUpdateTimeList.Add(lastUpdateTime.RebateCategoryLastUpdateTime);
+            lastUpdateTimeList.Add(lastUpdateTime.WithdrawalLimitInfoLastUpdateTime);
+            lastUpdateTimeList.Add(lastUpdateTime.VipSystemLastUpdateTime);
+
+            return new VipBanner()
+            {
+                VipBannerData = vipBanner,
+                LastUpdateTime = lastUpdateTimeList.Max()
             };
         }
     }

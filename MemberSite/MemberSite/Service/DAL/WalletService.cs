@@ -1,6 +1,7 @@
-﻿using MySql.Data.MySqlClient;
+﻿using System.Data;
+
 using Dapper;
-using System.Data;
+
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
@@ -22,34 +23,36 @@ namespace MemberSite.Service.DAL
 
         public int SetBalance(int custId, int siteId, string userName, decimal amount, int type, string memo, string refTransId, out decimal afterAmount, out byte is1stDepoist, IDbTransaction trans)
         {
-            var p = new DynamicParameters(new { 
-                CustId = custId, 
-                SiteId = siteId, 
+            var p = new DynamicParameters(new
+            {
+                CustId = custId,
+                SiteId = siteId,
                 UserName = userName,
-                Amount = amount, 
+                Amount = amount,
                 Type = type,
                 Memo = memo,
-                RefTransId = refTransId });
-            
+                RefTransId = refTransId
+            });
+
             p.Add("Is1stDepoist", dbType: DbType.Boolean, direction: ParameterDirection.Output);
             p.Add("AfterAmount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
-            _mainDbClient.Execute("Wallet_Set_V2",  trans ,p);
+            _mainDbClient.Execute("Wallet_Set_V2", trans, p);
             is1stDepoist = p.Get<byte?>("Is1stDepoist") ?? 0;
             afterAmount = p.Get<decimal?>("AfterAmount") ?? 0;
-            
+
             return afterAmount >= 0 ? 1 : 0;
         }
-        
+
         public decimal GetBalance(int custId)
         {
             return _reportDbClient.ExecuteScalar<decimal>("Balance_Get", new { CustId = custId });
         }
-        
+
         public decimal GetBonus(int custId, int promoCategoryId)
         {
             return _reportDbClient.QueryFirst<decimal>("Service_Bonus_Get", new { CustId = custId, PromoCategoryId = promoCategoryId });
         }
-        
+
         public WalletInfo GetWalletInfo(int custId, int siteId)
         {
             var walletInfo = _reportDbClient.QueryFirst<WalletInfo>("Service_CustInfoLog_Get", new { CustId = custId, SiteId = siteId });
@@ -57,22 +60,22 @@ namespace MemberSite.Service.DAL
 
             return walletInfo;
         }
-        
+
         public int GetWalletTransferStatus(int custId, out int autoTransfer)
         {
             autoTransfer = 0;
-            var p = new DynamicParameters(new { CustId = custId});
+            var p = new DynamicParameters(new { CustId = custId });
             p.Add("AutoTransfer", dbType: DbType.Int32, direction: ParameterDirection.Output);
-            
+
             var result = _reportDbClient.Execute("Member_CustWalletTransferStatus_Get", p);
             autoTransfer = p.Get<int?>("AutoTransfer") ?? 0;
-            
+
             return result >= 0 ? 1 : 0;
         }
-        
+
         public int SetWalletTransferStatus(int custId, int autoTransfer)
         {
-            return _mainDbClient.Execute("Member_CustWalletTransferStatus_Set", new { CustId = custId , AutoTransfer = autoTransfer }) > 0 ? 1 : 0;
+            return _mainDbClient.Execute("Member_CustWalletTransferStatus_Set", new { CustId = custId, AutoTransfer = autoTransfer }) > 0 ? 1 : 0;
         }
     }
 }

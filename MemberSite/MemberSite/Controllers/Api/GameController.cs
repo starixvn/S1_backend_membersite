@@ -2,6 +2,7 @@
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Game;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace MemberSite.Controllers.Api
@@ -34,6 +35,39 @@ namespace MemberSite.Controllers.Api
             {
                 _logger.LogError(ex, ex.Message);
                 return new ApiResult<GetSlotGamePageResponse>
+                {
+                    ErrorCode = (int)ErrorCode.SystemException,
+                    Message = ex.Message,
+                };
+            }
+        }
+
+        /// <summary>
+        /// Home 近期瀏覽
+        /// </summary>
+        /// <remarks>
+        ///
+        /// Http Method：POST
+        ///
+        /// Func Path：Home > [Recently Viewed]
+        ///
+        /// </remarks>
+        /// <returns>結果</returns>
+        [HttpPost]
+        public async Task<ApiResult<RecentlyViewedResponse>> GetRecentlyViewed(RecentlyViewedRequest request)
+        {
+            try
+            {
+                return new ApiResult<RecentlyViewedResponse>
+                {
+                    ErrorCode = (int)ErrorCode.Success,
+                    Data = await _slotGameBll.GetRecentlyViewed(request, User)
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                return new ApiResult<RecentlyViewedResponse>
                 {
                     ErrorCode = (int)ErrorCode.SystemException,
                     Message = ex.Message,

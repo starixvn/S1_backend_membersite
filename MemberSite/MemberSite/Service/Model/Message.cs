@@ -24,7 +24,7 @@
         public string Content { get; set; }
         public DateTime StartTime { get; set; }
     }
-    
+
     public class Message
     {
         public Message(string sender, int custId, string langId, string title, string content)

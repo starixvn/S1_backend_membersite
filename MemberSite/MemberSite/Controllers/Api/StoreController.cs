@@ -2,7 +2,9 @@
 using MemberSite.Service.BLL;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.Store.Frontend;
+
 using Microsoft.AspNetCore.Mvc;
+
 using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
@@ -147,7 +149,7 @@ namespace MemberSite.Controllers.Api
                 {
                     return new ApiResult(-1, _selLangBLL.GetMsg("msg_LoginToAccess"));
                 }
-            
+
                 var apiRequest = new StoreGetBalanceRequest
                 {
                     CustId = authData.CustId
@@ -170,7 +172,7 @@ namespace MemberSite.Controllers.Api
             {
                 return lang;
             }
-            
+
             return lang.Contains("en", StringComparison.OrdinalIgnoreCase)
                 ? "en" : lang;
         }

@@ -1,9 +1,13 @@
 ﻿using MemberSite.Service.DAL;
+using MemberSite.Service.DAL.Interface;
+using MemberSite.Service.Domain;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Mapping;
+
 using Microsoft.Extensions.Caching.Memory;
+
 using Newtonsoft.Json;
 
 namespace MemberSite.Service.BLL
@@ -12,8 +16,10 @@ namespace MemberSite.Service.BLL
     {
         private readonly Tools _tools;
         private readonly VerificationRewardBLL _verificationRewardBll;
+        private readonly IRabbitMQProducer _producer;
         private readonly CustInfoService _custInfoService;
         private readonly AuthenticateService _authenticateService;
+        private readonly IAffiliateService _affiliateService;
         private readonly ServerInfoBll _serverInfoBll;
         private readonly AgentInfoService _agentInfoService;
         private readonly BankInfoService _bankInfoService;
@@ -42,6 +48,8 @@ namespace MemberSite.Service.BLL
             _areaCodeMap = provider.GetRequiredService<IEnumerable<AreaCodeMap>>();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
             _shieldBll = provider.GetRequiredService<ShieldBLL>();
+            _producer = provider.GetRequiredService<IRabbitMQProducer>();
+            _affiliateService = provider.GetRequiredService<IAffiliateService>();
         }
         public string GetCountryNameByAreaCode(string areaCode)
         {
@@ -61,7 +69,7 @@ namespace MemberSite.Service.BLL
         }
 
         public int AddCustInfo(string UserName, string Userpwd, string Email, int CurrencyId, string UserLang,
-            string refId, string affId, string aff, string affCode, string lineUserId, out int custId, string signupUrl = null,
+            string refId, string affId, string aff, AffCodeObject affCode, string lineUserId, int deviceType, out int custId, string signupUrl = null,
             string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null,
             int Birth_d = 0, int Birth_m = 0, int Birth_y = 0)
         {
@@ -89,19 +97,15 @@ namespace MemberSite.Service.BLL
                 custId = 0;
                 return -4;
             }
+            if (affCode != null && !affCode.IsExists(serverInfo.SiteId, _affiliateService.ExistsAffiliateCode))
+            {
+                custId = 0;
+                return -10;
+            }
 
             Customer agent = null;
-            if (!string.IsNullOrEmpty(affId))
-            {
-                agent = _agentInfoService.GetAffiliateAgent(affId, serverInfo.SiteId);
-
-                if (agent == null)
-                {
-                    custId = 0;
-                    return -19;
-                }
-            }
-            else if (!string.IsNullOrEmpty(refId))
+            //如果從CreditSite註冊，且有輸入邀請碼(Referral)，則該用戶屬於邀請碼下線
+            if (!string.IsNullOrEmpty(refId))
             {
                 agent = _agentInfoService.GetAffiliateAgent($"{refId}_{CurrencyId}", serverInfo.SiteId);
 
@@ -109,6 +113,16 @@ namespace MemberSite.Service.BLL
                 {
                     custId = 0;
                     return -19; /*agent Currency != CurrencyId*/
+                }
+            }
+            else if (!string.IsNullOrEmpty(affId))
+            {
+                agent = _agentInfoService.GetAffiliateAgent(affId, serverInfo.SiteId);
+
+                if (agent == null)
+                {
+                    custId = 0;
+                    return -19;
                 }
             }
 
@@ -127,7 +141,7 @@ namespace MemberSite.Service.BLL
                 UserLevel = 1,
                 UserLang = UserLang,
                 Aff = aff,
-                AffCode = affCode
+                AffCode = affCode?.Value
             };
 
             if (string.IsNullOrEmpty(signupUrl))
@@ -135,7 +149,7 @@ namespace MemberSite.Service.BLL
                 signupUrl = _tools.GetFromUrl();
             }
 
-            var result = _custInfoService.AddCustInfo(regCustInfo, Email, lineUserId, out custId, signupUrl, referralUrl, PhoneNo, AreaCode,
+            var result = _custInfoService.AddCustInfo(regCustInfo, Email, lineUserId, deviceType, out custId, signupUrl, referralUrl, PhoneNo, AreaCode,
                 RealName, promoCode, Birth_d, Birth_m, Birth_y);
 
             if (result == 0 && regCustInfo.SiteId != (int)SiteId.Nova88)
@@ -213,7 +227,7 @@ namespace MemberSite.Service.BLL
                     // send custId to tp.Shield
                     var request = new SendShieldAttributesRequest()
                     {
-                        SiteId = info.SiteId ,
+                        SiteId = info.SiteId,
                         UserId = info.CustId.ToString()
                     };
                     var result = await _shieldBll.SendShieldAttributes(request);
@@ -463,7 +477,7 @@ namespace MemberSite.Service.BLL
             if (apiResult.ErrorCode == 0 && !await _custInfoService.GetPhoneVerified(custId))
             {
                 _custInfoService.SetPhoneVerified(custId);
-                _verificationRewardBll.PhoneReward(custId);
+                await _verificationRewardBll.PhoneReward(custId);
             }
             return apiResult;
         }
@@ -475,7 +489,7 @@ namespace MemberSite.Service.BLL
             if (apiResult.ErrorCode == 0 && !await _custInfoService.GetEmailVerified(custId))
             {
                 _custInfoService.SetEmailVerified(custId);
-                _verificationRewardBll.EmailReward(custId);
+                await _verificationRewardBll.EmailReward(custId);
             }
             return apiResult;
         }
@@ -528,6 +542,8 @@ namespace MemberSite.Service.BLL
         public async Task<ReferralSettingDetail> GetReferralSettingDetailAsync(int siteId, int currencyId, string langId)
         {
             var referralData = await _agentInfoService.GetReferralSettingDetailAsync(siteId, currencyId);
+            if (referralData.Status == ReferralStatusEnum.Disable) { return null; }
+
             var referralSettingDetail = new ReferralSettingDetail()
             {
                 ReferralReward = referralData.BonusAmount,
@@ -538,17 +554,20 @@ namespace MemberSite.Service.BLL
                 Deposit = referralData.Deposit,
                 VaildBet = referralData.VaildBet,
                 PeriodDays = referralData.PeriodDays,
-                ReferralContent = DeserializeReferralContent(referralData.Details, langId)
+                DepositRewardPercentage = referralData.DepositRewardPercentage,
+                MinPayout = referralData.MinPayout,
+                MaxPayout = referralData.MaxPayout,
+                ReferralContent = DeserializeReferralContent(referralData.Status, referralData.Details, langId)
             };
             return referralSettingDetail;
         }
 
-        private ReferralContent DeserializeReferralContent(string details, string langId)
+        private ReferralContent DeserializeReferralContent(ReferralStatusEnum status, string details, string langId)
         {
             var oldLang = langId.Split('_');
             var lang = oldLang.Length == 2 ? oldLang[1] : oldLang[0];
             var referralContents = JsonConvert.DeserializeObject<IEnumerable<ReferralContent>>(details);
-            return referralContents?.FirstOrDefault(a => a.LangId == lang);
+            return referralContents?.FirstOrDefault(a => a.LangId == lang && (int)a.Type == (int)status);
         }
 
         public int GetAffiliateAgentBll(string affId)
@@ -569,13 +588,59 @@ namespace MemberSite.Service.BLL
             return -1;
 
         }
-        public void GetReferralSummary(int custId, out int referralCount, out int conditionCount, out int amountCount, out int amountSum)
+
+        public int AffiliateAndReferralCheck(string affCode, out int currencyId)
         {
-            _agentInfoService.GetReferralSummary(custId, out referralCount, out conditionCount, out amountCount, out amountSum);
+            currencyId = 0;
+            var serverInfo = _serverInfoBll.GetServerInfo();
+            if (affCode.Length == 5)
+            {
+                var affCodeObj = new AffCodeObject(affCode);
+                if (!affCodeObj.IsValid())
+                {
+                    return -9;
+                }
+                if (!affCodeObj.IsExists(serverInfo.SiteId, _affiliateService.ExistsAffiliateCode))
+                {
+                    return -10;
+                }
+                return 0;
+            }
+            else if (affCode.Length == 8)
+            {
+                var rffCodeObj = new ReferralObject(affCode);
+                if (!rffCodeObj.IsValid())
+                {
+                    return -9;
+                }
+                if (rffCodeObj.IsExists(GetAffiliateAgentBll) < 0)
+                {
+                    return -10;
+                }
+                currencyId = rffCodeObj.CurrencyId;
+                return 0;
+            }
+
+            return -10;
+        }
+
+        public void GetReferralSummary(int custId, ReferralTypeEnum type, out int referralCount, out int conditionCount, out int amountCount, out int amountSum, out int hasReferral)
+        {
+            _agentInfoService.GetReferralSummary(custId, type, out referralCount, out conditionCount, out amountCount, out amountSum, out hasReferral);
         }
         public IEnumerable<ReferralFriend> GetRefFriendList(int custId, long? StartDate, long? EndDate, int PageSize, ref int PageNumber, ref int TotalPages, ref int RowCount)
         {
             return _agentInfoService.GetRefFriendList(custId, StartDate, EndDate, PageSize, ref PageNumber, ref TotalPages, ref RowCount);
+        }
+
+        public IEnumerable<DepositReferralDao> GetDepositReferralList(int custId, long? startDate, long? endDate, int pageSize, int pageNumber, ref int totalPages, ref int rowCount)
+        {
+            return _agentInfoService.GetDepositReferralList(custId, startDate, endDate, Math.Abs(pageSize), (Math.Abs(pageNumber) - 1) * Math.Abs(pageSize), ref totalPages, ref rowCount);
+        }
+
+        public IEnumerable<DepositReferralDao> GetDepositReferralDetail(int custId, long? startDate, long? endDate, int pageSize, int pageNumber, ref int totalPages, ref int rowCount)
+        {
+            return _agentInfoService.GetDepositReferralDetail(custId, startDate, endDate, Math.Abs(pageSize), (Math.Abs(pageNumber) - 1) * Math.Abs(pageSize), ref totalPages, ref rowCount);
         }
 
         public bool VerifyCustomerStatus(int status)
@@ -665,6 +730,42 @@ namespace MemberSite.Service.BLL
         public IEnumerable<CryptoWalletDetail> GetCustCryptoWalletDetail(int custId)
         {
             return _custInfoService.GetCustCryptoWalletDetail(custId);
+        }
+        public async Task<IEnumerable<CustTpGameTypeSetting>> GetCustTpGameTypeSetting(int custId)
+        {
+            var result = new List<CustTpGameTypeSetting>();
+            var types = (CustTpGameTypeSettingType[])Enum.GetValues(typeof(CustTpGameTypeSettingType));
+            var key = $"GetCustTpGameTypeSetting:{custId}";
+            var typeResult = await _redisHelper.TryGetOrCreateAsync(key,
+                TimeSpan.FromMinutes(10),
+                async () =>
+                {
+                    return await _custInfoService.GetCustTpGameTypeSetting(custId, types.Select(x => (int)x));
+                });
+
+            var gameTypeList = typeResult.Select(x => x.GameType).Distinct();
+            foreach (var gameType in gameTypeList)
+            {
+                result.Add(new CustTpGameTypeSetting(
+                    typeResult.First(x => x.GameType == gameType).CategoryId,
+                    typeResult.First(x => x.GameType == gameType).TpId,
+                    gameType,
+                    typeResult.Where(x => x.GameType == gameType && x.Type == CustTpGameTypeSettingType.NoShow).Any(),
+                    typeResult.Where(x => x.GameType == gameType && x.Type == CustTpGameTypeSettingType.NoPlay).Any()));
+            }
+
+            return result;
+        }
+        public async Task<IEnumerable<CustRecentlyViewedInfo>> GetCustRecentlyViewed(int custId)
+        {
+            var key = $"GetCustRecentlyViewed:{custId}";
+            var result = await _redisHelper.TryGetOrCreateAsync(key,
+                TimeSpan.FromMinutes(3),
+                async () =>
+                {
+                    return await _custInfoService.GetCustRecentlyViewed(custId);
+                });
+            return result;
         }
     }
 }

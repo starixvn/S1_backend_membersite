@@ -12,7 +12,7 @@ namespace MemberSite.Service.BLL
         private readonly PayService _payService;
         private readonly DepositService _depositService;
         private readonly ICacheHelper _redisHelper;
-        
+
         public LoadCardPayInfoBLL(IServiceProvider provider)
         {
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
@@ -30,7 +30,7 @@ namespace MemberSite.Service.BLL
                 RedisDataBase.Shared);
             return dbData;
         }
-        
+
         public IEnumerable<LoadCardPayGroup> GetLoadCardPayGroupList(int custId)
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
@@ -55,7 +55,7 @@ namespace MemberSite.Service.BLL
                 .Select(x =>
                 {
                     var d = x.OrderBy(y => y.SSort).First();
-                    
+
                     return new LoadCardPayGroup
                     {
                         GroupId = d.GroupId,
@@ -67,7 +67,7 @@ namespace MemberSite.Service.BLL
                         MinAmount = d.MinAmount
                     };
                 });
-            
+
             if (depositLimitInfo != null)
             {
                 foreach (var payGroup in LoadCardPayGroupList)
@@ -138,7 +138,7 @@ namespace MemberSite.Service.BLL
             {
                 return -2;
             }
-            
+
             if (loadCardPayInfo.AmountRule == 3 && !loadCardPayInfo.AmountList.Contains(amount))
             {
                 return -2;

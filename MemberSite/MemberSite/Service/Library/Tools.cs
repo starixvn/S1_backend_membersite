@@ -1,29 +1,34 @@
-﻿using MemberSite.Service.Model;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
+
+using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
+
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 
 namespace MemberSite.Service.Library
 {
     public class Tools
     {
+        private readonly string _backEndKey;
         private readonly IOptions<JwtConfig> jwtConfig;
         private readonly IOptions<Dictionary<string, string>> _loginDeviceConfig;
         private readonly Regex _regexPassword = new(@"^(?=.{6,15}$)[a-zA-Z0-9!@#$%^&*]*$", RegexOptions.Singleline);
         public IHttpContextAccessor httpContextAccessor { get; }
 
-        public Tools(IHttpContextAccessor httpContextAccessor, IOptions<JwtConfig> jwtConfig ,IOptions<Dictionary<string, string>> loginDeviceConfig)
+        public Tools(IServiceProvider provider)
         {
-            this.httpContextAccessor = httpContextAccessor;
-            this._loginDeviceConfig = loginDeviceConfig;
-            this.jwtConfig = jwtConfig;
+            httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
+            _loginDeviceConfig = provider.GetRequiredService<IOptions<Dictionary<string, string>>>();
+            jwtConfig = provider.GetRequiredService<IOptions<JwtConfig>>();
+            var configuration = provider.GetRequiredService<IConfiguration>();
+            _backEndKey = configuration.GetValue<string>("ApiPaymentGateWayKey");
         }
-        
+
         /// <summary>
         /// MD5加密
         /// </summary>
@@ -81,9 +86,9 @@ namespace MemberSite.Service.Library
 
             return GuidString;
         }
-        
+
         #region GetClientIP
-        
+
         /// <summary>
         /// 获取客户端IP
         /// </summary>
@@ -164,9 +169,9 @@ namespace MemberSite.Service.Library
         {
             return (userIp >= begin) && (userIp <= end);
         }
-        
+
         #endregion
-        
+
         public string GetFromUrl()
         {
             var fromUrl = "";
@@ -184,7 +189,7 @@ namespace MemberSite.Service.Library
 
         public string GetDomainUrl()
         {
-            return  httpContextAccessor.HttpContext.Request.Host.Host.ToString();
+            return httpContextAccessor.HttpContext.Request.Host.Host.ToString();
         }
 
 
@@ -216,7 +221,7 @@ namespace MemberSite.Service.Library
                 return false;
             }
         }
-        
+
         public string GenerateJwtTokens(Claim[] claims)
         {
             var _jwtConfig = jwtConfig.Value;
@@ -261,13 +266,21 @@ namespace MemberSite.Service.Library
             {
                 if (url.Contains(value))
                 {
-                    deviceType = (DeviceId) Enum.Parse(typeof(DeviceId), key);
+                    deviceType = (DeviceId)Enum.Parse(typeof(DeviceId), key);
                     break;
                 }
             }
 
             return deviceType;
         }
-        
+
+        /// <summary>
+        /// CreateBackendToken
+        /// </summary>
+        /// <returns>後台API Token生成</returns>
+        public string CreateBackendToken(object para)
+        {
+            return MD5Encrypt($"{para}{_backEndKey}");
+        }
     }
 }

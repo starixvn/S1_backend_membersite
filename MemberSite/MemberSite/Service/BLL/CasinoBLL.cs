@@ -1,6 +1,7 @@
 ﻿using MemberSite.Service.DAL;
-using MemberSite.Service.Model;
 using MemberSite.Service.Library;
+using MemberSite.Service.Model;
+using MemberSite.Service.Model.Game;
 
 namespace MemberSite.Service.BLL
 {
@@ -8,7 +9,7 @@ namespace MemberSite.Service.BLL
     {
         private readonly CasinoService _casinoService;
         private readonly ICacheHelper _redisHelper;
-        
+
         public CasinoBll(IServiceProvider provider)
         {
             _casinoService = provider.GetRequiredService<CasinoService>();
@@ -43,9 +44,9 @@ namespace MemberSite.Service.BLL
         {
             var underlineIndex = gameInfo.IndexOf('_');
             if (string.IsNullOrWhiteSpace(gameInfo) || underlineIndex == -1) return (0, string.Empty);
-            
-            var strProviderId = gameInfo.Substring(0, underlineIndex); 
-            var gameId = gameInfo.Substring(underlineIndex + 1); 
+
+            var strProviderId = gameInfo.Substring(0, underlineIndex);
+            var gameId = gameInfo.Substring(underlineIndex + 1);
             int.TryParse(strProviderId, out var providerId);
             return (providerId, gameId);
         }
@@ -57,7 +58,7 @@ namespace MemberSite.Service.BLL
         }
         public IEnumerable<GameCasionByCurrencyAndSite> GetGameCasinoByCurrencyAndSite(int currencyId, int siteId)
         {
-           return _casinoService.GetGameCasinoByCurrencyAndSite(currencyId, siteId);
+            return _casinoService.GetGameCasinoByCurrencyAndSite(currencyId, siteId);
         }
 
         public IEnumerable<DisableTpGame> GetTpDisableUserByCustId(int custId)
@@ -73,19 +74,44 @@ namespace MemberSite.Service.BLL
                 {
                     foreach (var gameId in disableGame.GameList)
                     {
-                        var excludeGame = casinoGames.Find(a=>a.GameId == gameId);
+                        var excludeGame = casinoGames.Find(a => a.GameId == gameId);
                         if (excludeGame != null)
                             casinoGames.Remove(excludeGame);
-                        
+
                     }
                 }
                 else
                 {
                     var excludeTp = providers.Find(a => a.Value == disableGame.TpId);
-                    if(excludeTp != null)
+                    if (excludeTp != null)
                         providers.Remove(excludeTp);
                 }
             }
+        }
+
+        /// <summary>
+        /// Slot遊戲優先排序列表
+        /// </summary>
+        public async Task<List<SlotGameTopRankingInfo>> GetSlotGameTopRankingList()
+        {
+            var key = $"GetSlotGameTopRankingList";
+            var result = await _redisHelper.TryGetOrCreateAsync(key,
+                TimeSpan.FromHours(2),
+                async () =>
+                {
+                    var result = await _casinoService.GetSlotGameTopRankingList();
+                    return result;
+                });
+            return result.ToList();
+        }
+
+        /// <summary>
+        /// 依條件取得Slot遊戲優先排序 (SiteId、CurrencyId)
+        /// </summary>
+        public async Task<List<SlotGameTopRankingInfo>> GetLobbyCategorySequenceByLobbyCategoryId(int siteId, int currencyId)
+        {
+            var list = await GetSlotGameTopRankingList();
+            return list.Where(x => x.SiteId == siteId && x.CurrencyId == currencyId).ToList();
         }
     }
 }

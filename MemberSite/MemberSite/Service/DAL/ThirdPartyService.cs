@@ -1,8 +1,10 @@
-﻿using Dapper;
+﻿using System.Data;
+
+using Dapper;
+
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
-using System.Data;
 
 namespace MemberSite.Service.DAL
 {
@@ -26,7 +28,7 @@ namespace MemberSite.Service.DAL
         {
             return _reportDb.QueryFirst<TpCurrency>("TpCurrency_Get", new { TpId = tpId, CurrencyId = currencyId });
         }
-        
+
         public IEnumerable<TpWallet> GetTpWallet(int custId)
         {
             return _reportDb.Query<TpWallet>("Member_TpWallet_Get", new { CustId = custId });
@@ -50,16 +52,16 @@ namespace MemberSite.Service.DAL
             var tpTransferInfoHistoryResult = _reportDb.Query<TpTransferInfoHistory>("Member_TpTransferInfoSearch_Get_V3", p);
             totalPages = p.Get<int?>("_TotalPages") ?? 0;
             rowCount = p.Get<int?>("_RowCount") ?? 0;
-            
+
             return tpTransferInfoHistoryResult;
         }
-        
+
         public IEnumerable<TpTransferInfoHistory> GetTransferRecent(int custId, int siteId, int topNum)
         {
             return _reportDb.Query<TpTransferInfoHistory>("Member_TpTransferInfoRecent_Get_V2", new { CustId = custId, SiteId = siteId, TopNum = topNum });
         }
-        
-        public IEnumerable<TpWalletList> GetTpWalletList(int custId,int listType)
+
+        public IEnumerable<TpWalletList> GetTpWalletList(int custId, int listType)
         {
             return _reportDb.Query<TpWalletList>("Member_TpWallet_Get_V3", new { CustId = custId, ListType = listType });
         }

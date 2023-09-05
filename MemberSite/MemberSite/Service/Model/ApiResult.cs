@@ -1,10 +1,9 @@
-﻿using System.Xml.Linq;
-
-namespace MemberSite.Service.Model
+﻿namespace MemberSite.Service.Model
 {
     public interface ISelLang
     {
         string GetErrMsg(int code);
+        string GetMsg(string key);
     }
 
     public class ApiResult
@@ -50,7 +49,7 @@ namespace MemberSite.Service.Model
     }
     public class ApiResult<TData> : ApiResult
     {
-        public ApiResult() : this(9000, "",  default) { }
+        public ApiResult() : this(9000, "", default) { }
         public ApiResult(ISelLang selLang) : this(9000, "", default) { SelLang = selLang; }
         public ApiResult(int ErrorCode, string Message, TData data) : base(ErrorCode, Message) { Data = data; }
         public TData Data { get; set; }
@@ -67,7 +66,7 @@ namespace MemberSite.Service.Model
         public int RowCount { get; set; }
     }
 
-    public class PageData <T>
+    public class PageData<T>
     {
         public IEnumerable<T> Data { get; set; }
         public int TotalPages { get; set; }

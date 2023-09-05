@@ -1,10 +1,12 @@
 ﻿using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using MemberSite.Service.Model.enums;
+
+using Microsoft.AspNetCore.Mvc;
+
+using Newtonsoft.Json;
+
 using Serilog.Context;
-using MemberSite.Service.Model;
 
 namespace MemberSite.Controllers
 {
