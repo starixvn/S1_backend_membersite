@@ -85,6 +85,7 @@ namespace MemberSite.Service.Model.Game
 
         private void SetSlotGameCategory(List<SlotGameInfo> slotGameList, List<UserGameInfo> favorite, List<UserGameInfo> recentlyPlayed, IEnumerable<int> slotGameCategoryList)
         {
+            var homePageJackpot = new List<SlotGameInfo>();
             //沒帶slotGameCategoryList會回傳全部
             var returnAllCategory = !slotGameCategoryList.Any();
 
@@ -117,6 +118,7 @@ namespace MemberSite.Service.Model.Game
 
                 foreach (var category in game.SlotGameCategoryList)
                 {
+                    // Featured
                     if (returnAllCategory && category == (int)SlotGameCategory.Featured)
                     {
                         Featured.Add(game);
@@ -126,6 +128,7 @@ namespace MemberSite.Service.Model.Game
                         Featured.Add(game);
                     }
 
+                    // Jackpot
                     if (returnAllCategory && category == (int)SlotGameCategory.Jackpot) 
                     {             
                         Jackpot.Add(game);
@@ -134,11 +137,9 @@ namespace MemberSite.Service.Model.Game
                     {
                         Jackpot.Add(game);
                     }
-                    if (jackpotList.Contains(game.SlotGameId))
-                    {
-                        Jackpot.Add(game);
-                    }
 
+
+                    // TableAndCards
                     if (returnAllCategory && category == (int)SlotGameCategory.TableAndCards)
                     {
                         TableAndCards.Add(game);
@@ -148,6 +149,7 @@ namespace MemberSite.Service.Model.Game
                         TableAndCards.Add(game);
                     }
 
+                    // BuyFeaturesGames
                     if (returnAllCategory && category == (int)SlotGameCategory.BuyFeaturesGames)
                     {
                         BuyFeaturesGames.Add(game);
@@ -157,6 +159,7 @@ namespace MemberSite.Service.Model.Game
                         BuyFeaturesGames.Add(game);
                     }
 
+                    // Megaways
                     if (returnAllCategory && category == (int)SlotGameCategory.Megaways)
                     {
                         Megaways.Add(game);
@@ -166,6 +169,7 @@ namespace MemberSite.Service.Model.Game
                         Megaways.Add(game);
                     }
 
+                    // Mini
                     if (returnAllCategory && category == (int)SlotGameCategory.Mini)
                     {
                         Mini.Add(game);
@@ -173,9 +177,23 @@ namespace MemberSite.Service.Model.Game
                     if (category == (int)SlotGameCategory.Mini && slotGameCategoryList.Contains(category))
                     {
                         Mini.Add(game);
-                    }
+                    }       
+                }
+
+                // HomePageJackpot
+                if (jackpotList.Contains(game.SlotGameId))
+                {
+                    homePageJackpot.Add(game);
                 }
             }
+
+            // 先寫死nova88指定回傳的jackpot
+            if (homePageJackpot.Any())
+            {
+                Jackpot.Clear();
+                Jackpot = homePageJackpot;
+            }
+           
         }
 
 
