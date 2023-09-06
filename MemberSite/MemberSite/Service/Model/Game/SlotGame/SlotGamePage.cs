@@ -85,6 +85,7 @@ namespace MemberSite.Service.Model.Game
 
         private void SetSlotGameCategory(List<SlotGameInfo> slotGameList, List<UserGameInfo> favorite, List<UserGameInfo> recentlyPlayed, IEnumerable<int> slotGameCategoryList)
         {
+            var homePageJackpot = new List<SlotGameInfo>();
             //沒帶slotGameCategoryList會回傳全部
             var returnAllCategory = !slotGameCategoryList.Any();
 
@@ -136,10 +137,7 @@ namespace MemberSite.Service.Model.Game
                     {
                         Jackpot.Add(game);
                     }
-                    if (jackpotList.Contains(game.SlotGameId))
-                    {
-                        Jackpot.Add(game);
-                    }
+
 
                     // TableAndCards
                     if (returnAllCategory && category == (int)SlotGameCategory.TableAndCards)
@@ -179,9 +177,23 @@ namespace MemberSite.Service.Model.Game
                     if (category == (int)SlotGameCategory.Mini && slotGameCategoryList.Contains(category))
                     {
                         Mini.Add(game);
-                    }
+                    }       
+                }
+
+                // HomePageJackpot
+                if (jackpotList.Contains(game.SlotGameId))
+                {
+                    homePageJackpot.Add(game);
                 }
             }
+
+            // 先寫死nova88指定回傳的jackpot
+            if (homePageJackpot.Any())
+            {
+                Jackpot.Clear();
+                Jackpot = homePageJackpot;
+            }
+           
         }
 
 
