@@ -251,5 +251,17 @@ namespace MemberSite.Service.BLL
                                     x.DepositType == (int)depositType &&
                                     x.CurrencyId == custInfo.CurrencyId);
         }
+        
+        public IEnumerable<WithdrawalBlockSetting> GetWithdrawalBlockSettingWithCache(int siteId, int currencyId)
+        {
+            var key = $"PaySetting:WithdrawalBlock:{siteId}";
+            
+            var dbData = _redisHelper.TryGetOrCreate<IEnumerable<WithdrawalBlockSetting>>(key, TimeSpan.FromMinutes(5),
+                () => _payService.GetWithdrawalBlockSettingList(siteId),
+                RedisDataBase.Shared);
+            
+            return dbData.Where(x => x.CurrencyId == currencyId);
+        }
+        
     }
 }
