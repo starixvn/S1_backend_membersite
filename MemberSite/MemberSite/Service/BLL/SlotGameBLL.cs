@@ -108,7 +108,7 @@ namespace MemberSite.Service.BLL
             // 未登入狀態直接回傳
             if (custId == 0)
             {
-                return new GetSlotGamePageResponse(imgUrl, providerList, slotGameList);
+                return new GetSlotGamePageResponse(imgUrl, providerList, slotGameList, request.SlotGameCategoryList);
             }
 
             //取得User Slot Game相關資料         
@@ -121,7 +121,8 @@ namespace MemberSite.Service.BLL
                 slotGameList: slotGameList,
                 favorite: favoriteAndRecentlyPlayed.FavoriteList,
                 recentlyPlayed: favoriteAndRecentlyPlayed.RecentlyPlayedList,
-                disableGame: disableGame);
+                disableGame: disableGame,
+                slotGameCategoryList: request.SlotGameCategoryList);
         }
 
         public async Task<List<SlotGameInfo>> GetSlotGameList(int siteId, int currencyId, int deviceType)
