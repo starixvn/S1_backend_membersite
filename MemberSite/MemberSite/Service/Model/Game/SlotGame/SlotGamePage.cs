@@ -16,11 +16,11 @@ namespace MemberSite.Service.Model.Game
         /// 1	Featured
         /// 2	Jackpot
         /// 3	Table & Cards
-        /// 4	Buy Features Games
+        /// 4	Buy Features Games 
         /// 5	Megaways
         /// 6	Mini
         /// </summary>
-        public IEnumerable<int> SlotGameCategoryList { get; set; } = null;
+        public IEnumerable<int> SlotGameCategoryList { get; set; } = new List<int>();
     }
 
     /// <summary>
@@ -85,7 +85,8 @@ namespace MemberSite.Service.Model.Game
 
         private void SetSlotGameCategory(List<SlotGameInfo> slotGameList, List<UserGameInfo> favorite, List<UserGameInfo> recentlyPlayed, IEnumerable<int> slotGameCategoryList)
         {
-            var returnAllCategory = slotGameCategoryList == null;
+            //沒帶slotGameCategoryList會回傳全部
+            var returnAllCategory = !slotGameCategoryList.Any();
 
             //沒有指定回傳Category才需要設定這兩個類別
             if (returnAllCategory)
@@ -116,33 +117,60 @@ namespace MemberSite.Service.Model.Game
 
                 foreach (var category in game.SlotGameCategoryList)
                 {
-                    if ((returnAllCategory && category == (int)SlotGameCategory.Featured) || slotGameCategoryList.Contains(category))
+                    if (returnAllCategory && category == (int)SlotGameCategory.Featured)
+                    {
+                        Featured.Add(game);
+                    }
+                    if (category == (int)SlotGameCategory.Featured && slotGameCategoryList.Contains(category))
                     {
                         Featured.Add(game);
                     }
 
-                    if ((returnAllCategory && category == (int)SlotGameCategory.Jackpot ) 
-                        || (slotGameCategoryList.Contains(category) && jackpotList.Contains(game.GameId))) 
+                    if (returnAllCategory && category == (int)SlotGameCategory.Jackpot) 
                     {             
                         Jackpot.Add(game);
                     }
+                    if (category == (int)SlotGameCategory.Jackpot && slotGameCategoryList.Contains(category))
+                    {
+                        Jackpot.Add(game);
+                    }
+                    if (jackpotList.Contains(game.SlotGameId))
+                    {
+                        Jackpot.Add(game);
+                    }
 
-                    if ((returnAllCategory && category == (int)SlotGameCategory.TableAndCards) || slotGameCategoryList.Contains(category))
+                    if (returnAllCategory && category == (int)SlotGameCategory.TableAndCards)
+                    {
+                        TableAndCards.Add(game);
+                    }
+                    if (category == (int)SlotGameCategory.TableAndCards && slotGameCategoryList.Contains(category))
                     {
                         TableAndCards.Add(game);
                     }
 
-                    if ((returnAllCategory && category == (int)SlotGameCategory.BuyFeaturesGames) || slotGameCategoryList.Contains(category))
+                    if (returnAllCategory && category == (int)SlotGameCategory.BuyFeaturesGames)
+                    {
+                        BuyFeaturesGames.Add(game);
+                    }
+                    if (category == (int)SlotGameCategory.BuyFeaturesGames && slotGameCategoryList.Contains(category))
                     {
                         BuyFeaturesGames.Add(game);
                     }
 
-                    if ((returnAllCategory && category == (int)SlotGameCategory.Megaways) || slotGameCategoryList.Contains(category))
+                    if (returnAllCategory && category == (int)SlotGameCategory.Megaways)
+                    {
+                        Megaways.Add(game);
+                    }
+                    if (category == (int)SlotGameCategory.Megaways && slotGameCategoryList.Contains(category))
                     {
                         Megaways.Add(game);
                     }
 
-                    if ((returnAllCategory && category == (int)SlotGameCategory.Mini) || slotGameCategoryList.Contains(category))
+                    if (returnAllCategory && category == (int)SlotGameCategory.Mini)
+                    {
+                        Mini.Add(game);
+                    }
+                    if (category == (int)SlotGameCategory.Mini && slotGameCategoryList.Contains(category))
                     {
                         Mini.Add(game);
                     }
