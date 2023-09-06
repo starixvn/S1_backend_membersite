@@ -25,6 +25,7 @@ namespace MemberSite.Service.BLL
         private readonly SelLangBLL selLangBLL;
         private readonly IReadOnlyDictionary<string, string> singleWalletType;
         private readonly PartitionService _partitionService;
+        private readonly ShieldService _shieldService;
         private readonly ICacheHelper _cacheHelper;
         private readonly IReadOnlyDictionary<int, string> _tpList;
         private readonly IReadOnlyDictionary<int, string> _gameTypeList;
@@ -56,6 +57,7 @@ namespace MemberSite.Service.BLL
                 {"5", "lbl_UnSettle"}
             };
             _partitionService = provider.GetRequiredService<PartitionService>();
+            _shieldService = provider.GetRequiredService<ShieldService>();
             _cacheHelper = provider.GetRequiredService<ICacheHelper>();
 
             _tpList = statementService.GetTpListWithCache().ToDictionary(i => i.Id, i => i.TpName);
@@ -1056,8 +1058,22 @@ namespace MemberSite.Service.BLL
                 // shieldScores
                 var context = _httpContextAccessor.HttpContext;
                 var strDeviceScore = context.Request.Cookies["device_score"];
-                var deviceScore = strDeviceScore != null ? Convert.ToInt32(strDeviceScore) : -1;
 
+                var deviceScore = -1;
+                if (strDeviceScore != null)
+                {
+                    deviceScore = Convert.ToInt32(strDeviceScore) ;
+                }
+                else
+                {
+                    var shieldInfo = _shieldService.GetCustShieldRiskInfoList(custInfo.CustId);
+                    if (shieldInfo is not null)
+                    {
+                        deviceScore = shieldInfo.DeviceScore;
+                        _logger.LogInformation($"{transId} WithdrawalVerifyWay Manual, Can't find device_score , use DB Data : {shieldInfo.DeviceScore}  ");
+                    }
+                }
+                
                 if (deviceScore < setting.DeviceScores)
                 {
                     _logger.LogInformation($"{transId} WithdrawalVerifyWay Manual, deviceScore : {deviceScore} , Setting :{setting.DeviceScores} ");

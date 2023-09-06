@@ -27,6 +27,13 @@ public class ShieldService
         _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
     }
 
+    public CustShieldRiskInfoData GetCustShieldRiskInfoList(int custId)
+    {
+        var p = new DynamicParameters();
+        p.Add("_CustId", custId);
+        return _reportDbClient.QueryFirst<CustShieldRiskInfoData>("Member_CustShieldRiskInfo_Get", p);
+    }
+    
     public int InsertCustShieldInfo(ShieldRiskRequest input, Customer custInfo)
     {
         var p = new DynamicParameters(new
