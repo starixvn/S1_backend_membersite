@@ -117,6 +117,7 @@ namespace MemberSite.Service.Model.Game
 
                 foreach (var category in game.SlotGameCategoryList)
                 {
+                    // Featured
                     if (returnAllCategory && category == (int)SlotGameCategory.Featured)
                     {
                         Featured.Add(game);
@@ -126,6 +127,7 @@ namespace MemberSite.Service.Model.Game
                         Featured.Add(game);
                     }
 
+                    // Jackpot
                     if (returnAllCategory && category == (int)SlotGameCategory.Jackpot) 
                     {             
                         Jackpot.Add(game);
@@ -139,6 +141,7 @@ namespace MemberSite.Service.Model.Game
                         Jackpot.Add(game);
                     }
 
+                    // TableAndCards
                     if (returnAllCategory && category == (int)SlotGameCategory.TableAndCards)
                     {
                         TableAndCards.Add(game);
@@ -148,6 +151,7 @@ namespace MemberSite.Service.Model.Game
                         TableAndCards.Add(game);
                     }
 
+                    // BuyFeaturesGames
                     if (returnAllCategory && category == (int)SlotGameCategory.BuyFeaturesGames)
                     {
                         BuyFeaturesGames.Add(game);
@@ -157,6 +161,7 @@ namespace MemberSite.Service.Model.Game
                         BuyFeaturesGames.Add(game);
                     }
 
+                    // Megaways
                     if (returnAllCategory && category == (int)SlotGameCategory.Megaways)
                     {
                         Megaways.Add(game);
@@ -166,6 +171,7 @@ namespace MemberSite.Service.Model.Game
                         Megaways.Add(game);
                     }
 
+                    // Mini
                     if (returnAllCategory && category == (int)SlotGameCategory.Mini)
                     {
                         Mini.Add(game);
