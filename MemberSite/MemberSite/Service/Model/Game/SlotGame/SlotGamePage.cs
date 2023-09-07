@@ -106,11 +106,13 @@ namespace MemberSite.Service.Model.Game
                     New.Add(game);
                 }
 
+                // MyFavorite
                 if (returnAllCategory && favorite != null && favorite.Exists(i => i.TpId == game.TpId && i.GameId == game.GameId))
                 {
                     MyFavorite.Add(game);
                 }
 
+                // RecentlyPlayed
                 if (returnAllCategory && recentlyPlayed != null && recentlyPlayed.Exists(i => i.TpId == game.TpId && i.GameId == game.GameId))
                 {
                     RecentlyPlayed.Add(game);
@@ -137,7 +139,6 @@ namespace MemberSite.Service.Model.Game
                     {
                         Jackpot.Add(game);
                     }
-
 
                     // TableAndCards
                     if (returnAllCategory && category == (int)SlotGameCategory.TableAndCards)
@@ -180,7 +181,7 @@ namespace MemberSite.Service.Model.Game
                     }       
                 }
 
-                // HomePageJackpot
+                // HomePageJackpot先寫死nova88指定回傳的jackpot
                 if (jackpotList.Contains(game.SlotGameId))
                 {
                     homePageJackpot.Add(game);
@@ -188,9 +189,8 @@ namespace MemberSite.Service.Model.Game
             }
 
             // 先寫死nova88指定回傳的jackpot
-            if (homePageJackpot.Any())
+            if (!returnAllCategory && homePageJackpot.Any())
             {
-                Jackpot.Clear();
                 Jackpot = homePageJackpot;
             }
            
