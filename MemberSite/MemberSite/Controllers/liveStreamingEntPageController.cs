@@ -18,10 +18,10 @@ namespace MemberSite.Controllers
 
         public liveStreamingEntPageController(IServiceProvider provider)
         {
-            _courierAdapter = provider.GetRequiredService<CourierAdapter>(); ;
+            _courierAdapter = provider.GetRequiredService<CourierAdapter>();
             _tools = provider.GetRequiredService<Tools>();
-            _authorizeBll = provider.GetRequiredService<AuthorizeBLL>(); ;
-            _serverInfoBll = provider.GetRequiredService<ServerInfoBll>(); ;
+            _authorizeBll = provider.GetRequiredService<AuthorizeBLL>();
+            _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
             _configuration = provider.GetRequiredService<IConfiguration>();
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
         }

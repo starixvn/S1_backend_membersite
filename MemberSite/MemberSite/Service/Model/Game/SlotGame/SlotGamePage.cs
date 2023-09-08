@@ -85,7 +85,9 @@ namespace MemberSite.Service.Model.Game
 
         private void SetSlotGameCategory(List<SlotGameInfo> slotGameList, List<UserGameInfo> favorite, List<UserGameInfo> recentlyPlayed, IEnumerable<int> slotGameCategoryList)
         {
+            // HomePageJackpot先拿來放寫死nova88指定回傳的jackpot
             var homePageJackpot = new List<SlotGameInfo>();
+
             //沒帶slotGameCategoryList會回傳全部
             var returnAllCategory = !slotGameCategoryList.Any();
 
@@ -195,8 +197,6 @@ namespace MemberSite.Service.Model.Game
             }
            
         }
-
-
 
         private List<SlotGameInfo> GetRandom(List<SlotGameInfo> slotGameList)
         {
