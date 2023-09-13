@@ -17,7 +17,7 @@ namespace MemberSite.Service.BLL
     public class PaymentBLL
     {
         private readonly BankInfoOffBLL bankInfoOffBLL;
-        private readonly CustInfoBll custInfoBLL;
+        private readonly CustInfoBll _custInfoBll;
         private readonly DepositService _depositService;
         private readonly WithdrawalService withdrawalService;
         private readonly BankInfoBLL bankInfoBLL;
@@ -36,16 +36,20 @@ namespace MemberSite.Service.BLL
         private readonly string _backendUrl;
         private readonly CourierAdapter _courierAdapter;
         private readonly Tools _tools;
+        private readonly PayInfoBLL _payInfoBll;
+        private readonly DepositLimitBLL _depositLimitBll;
 
         public PaymentBLL(IServiceProvider provider)
         {
             bankInfoOffBLL = provider.GetRequiredService<BankInfoOffBLL>();
-            custInfoBLL = provider.GetRequiredService<CustInfoBll>();
+            _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _depositService = provider.GetRequiredService<DepositService>();
             withdrawalService = provider.GetRequiredService<WithdrawalService>();
             bankInfoBLL = provider.GetRequiredService<BankInfoBLL>();
             statementService = provider.GetRequiredService<StatementService>();
             selLangBLL = provider.GetRequiredService<SelLangBLL>();
+            _payInfoBll = provider.GetRequiredService<PayInfoBLL>();
+            _depositLimitBll = provider.GetRequiredService<DepositLimitBLL>();
             var configuration = provider.GetRequiredService<IConfiguration>();
             _awsDepositUrl = configuration.GetValue<string>("AwsDepositUrl");
             singleWalletType = new Dictionary<string, string>
@@ -99,7 +103,7 @@ namespace MemberSite.Service.BLL
             if (req.Amount <= 0)
                 return (-3, "Amount must be greater than 0");
 
-            var custInfo = custInfoBLL.GetCustInfoWithCache(req.CustId);
+            var custInfo = _custInfoBll.GetCustInfoWithCache(req.CustId);
             var bankCardInfo = bankInfoOffBLL.GetOfflineBankAccount(custInfo.SiteId)
                 .FirstOrDefault(x => x.BankId == req.BankId);
 
@@ -162,8 +166,8 @@ namespace MemberSite.Service.BLL
             if (amount <= 0)
                 return -1;
 
-            var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var pointLevel = custInfoBLL.GetPointLevelWithCache(custId);
+            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
+            var pointLevel = _custInfoBll.GetPointLevelWithCache(custId);
             var localBankList = bankInfoOffBLL.GetOfflineBankAccount(custInfo.SiteId)
                 .Where(x => x.CurrencyId == custInfo.CurrencyId
                             && (custInfo.UserLevel > pointLevel || pointLevel == 8 || x.PointLevels.Contains(pointLevel))
@@ -274,8 +278,8 @@ namespace MemberSite.Service.BLL
             if (amount <= 0)
                 return -1;
 
-            var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var pointLevel = custInfoBLL.GetPointLevelWithCache(custId);
+            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
+            var pointLevel = _custInfoBll.GetPointLevelWithCache(custId);
             var localBankList = bankInfoOffBLL.GetOfflineBankAccount(custInfo.SiteId)
                 .Where(x => x.CurrencyId == custInfo.CurrencyId
                             && (custInfo.UserLevel > pointLevel || pointLevel == 8 || x.PointLevels.Contains(pointLevel))
@@ -383,11 +387,11 @@ namespace MemberSite.Service.BLL
             onlineBank = null;
             if (amount <= 0)
                 return -1;
-            var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
+            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
 
 
             var depositLimitInfoList = _depositService.GetDepositLimitInfoList();
-            var pointLevel = custInfoBLL.GetPointLevelWithCache(custId);
+            var pointLevel = _custInfoBll.GetPointLevelWithCache(custId);
             var onlineBankList = depositType == DepositType.OnlineBanking ?
                 bankInfoBLL.GetOnlineBankList(custInfo.SiteId) :
                 bankInfoBLL.GetAutoChannelBankInfoList(custInfo.SiteId, depositType);
@@ -457,9 +461,9 @@ namespace MemberSite.Service.BLL
                 return -99;
 
             var withdrawalInfo = new WithdrawalInfo();
-            var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
+            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var checkAmount = amount;
-            if (custInfoBLL.IsConvertRequired(custInfo.CurrencyId))
+            if (_custInfoBll.IsConvertRequired(custInfo.CurrencyId))
             {
                 checkAmount /= 1000;
             }
@@ -491,9 +495,9 @@ namespace MemberSite.Service.BLL
                 return -99;
 
             var withdrawalCryptoInfo = new WithdrawalCryptoInfo();
-            var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
+            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var checkAmount = amount;
-            if (custInfoBLL.IsConvertRequired(custInfo.CurrencyId))
+            if (_custInfoBll.IsConvertRequired(custInfo.CurrencyId))
             {
                 checkAmount /= 1000;
             }
@@ -529,9 +533,9 @@ namespace MemberSite.Service.BLL
                 return -99;
 
             var withdrawalEWalletInfo = new WithdrawalEWalletInfo();
-            var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
+            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var checkAmount = amount;
-            if (custInfoBLL.IsConvertRequired(custInfo.CurrencyId))
+            if (_custInfoBll.IsConvertRequired(custInfo.CurrencyId))
             {
                 checkAmount /= 1000;
             }
@@ -559,7 +563,7 @@ namespace MemberSite.Service.BLL
 
         public IEnumerable<DepositInfoHistory> GetDepositInfoRecent(int custId)
         {
-            var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
+            var CustInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var depositInfoRecent = _depositService.GetDepositInfoRecent(custId, CustInfo.SiteId, 5);
             foreach (var depositInfo in depositInfoRecent)
             {
@@ -605,7 +609,7 @@ namespace MemberSite.Service.BLL
 
         public IEnumerable<WithdrawalHistory> GetWithdrawalInfoRecent(int custId)
         {
-            var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
+            var CustInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var withdrawalInfo = withdrawalService.GetWithdrawalInfoRecent(custId, CustInfo.SiteId, 5).ToList();
             withdrawalInfo.ForEach(x =>
             {
@@ -631,7 +635,7 @@ namespace MemberSite.Service.BLL
 
         public IEnumerable<DepositInfoHistory> GetDepositInfoHistory(int custId, long startDate, long endDate, ref int pageNumber, out int totalPages, out int rowCount)
         {
-            var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
+            var CustInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var depositInfoHistory = _depositService.GetDepositInfoHistory(CustInfo.CustId, startDate, endDate, CustInfo.SiteId, 5, ref pageNumber, out totalPages, out rowCount);
 
             foreach (var depositInfo in depositInfoHistory)
@@ -671,7 +675,7 @@ namespace MemberSite.Service.BLL
         }
         public IEnumerable<WithdrawalHistory> GetWithdrawalInfoHistory(int custId, long startDate, long endDate, ref int pageNumber, out int totalPages, out int rowCount)
         {
-            var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
+            var CustInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var withdrawalInfoHistory = withdrawalService.GetWithdrawalInfoHistory(CustInfo.CustId, startDate, endDate, CustInfo.SiteId, 5, ref pageNumber, out totalPages, out rowCount).ToList();
             withdrawalInfoHistory.ForEach(x =>
             {
@@ -795,13 +799,13 @@ namespace MemberSite.Service.BLL
             var depositId = 0;
             var m = Regex.Match(transId, @"\d+");
             int.TryParse(m.Value, out depositId);
-            var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
+            var CustInfo = _custInfoBll.GetCustInfoWithCache(custId);
             return _depositService.SetDepositCancel(CustInfo.CustId, depositId, CustInfo.SiteId);
         }
 
         public int SetWithdrawalCancel(int custId, string transId)
         {
-            var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
+            var CustInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var forStatus = new List<int>
             {
                 (int)WithdrawalStatus.Pending,
@@ -814,7 +818,7 @@ namespace MemberSite.Service.BLL
             var depositId = 0;
             var m = Regex.Match(transId, @"\d+");
             int.TryParse(m.Value, out depositId);
-            var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
+            var CustInfo = _custInfoBll.GetCustInfoWithCache(custId);
             return _depositService.GetDepositReceipt(depositId, CustInfo.SiteId);
         }
 
