@@ -1,15 +1,10 @@
-﻿using Amazon.Runtime.Internal.Transform;
-using MemberSite.Exceptions;
-using MemberSite.Extensions;
+﻿using MemberSite.Exceptions;
 using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using static MemberSite.Controllers.entPageController;
 
 namespace MemberSite.Controllers
@@ -27,7 +22,6 @@ namespace MemberSite.Controllers
         private readonly CryptoPayInfoBll _cryptoPayInfoBll;
         private readonly DepositBLL _depositBll;
         private readonly PromotionBll _promotionBll;
-        private readonly PayInfoBLL _payInfoBll;
         private readonly BankInfoBLL _bankInfoBll;
         private readonly BankInfoOffBLL _bankInfoOffBll;
         private readonly ILogger<CashierController> _logger;
@@ -43,7 +37,6 @@ namespace MemberSite.Controllers
             _cryptoPayInfoBll = provider.GetRequiredService<CryptoPayInfoBll>();
             _depositBll = provider.GetRequiredService<DepositBLL>();
             _promotionBll = provider.GetRequiredService<PromotionBll>();
-            _payInfoBll = provider.GetRequiredService<PayInfoBLL>();
             _bankInfoBll = provider.GetRequiredService<BankInfoBLL>();
             _bankInfoOffBll = provider.GetRequiredService<BankInfoOffBLL>();
             _logger = provider.GetRequiredService<ILogger<CashierController>>();
@@ -51,7 +44,7 @@ namespace MemberSite.Controllers
             _payApiUrl = configuration.GetValue<string>("PayService");
         }
 
-        public async Task<IActionResult> DepositReqMobilePayAsync(int channelId, decimal amount, string bonusCode, string payAccount)
+        public async Task<IActionResult> DepositReqMobilePayAsync(int ChannelId, decimal Amount, string BonusCode, string PayAccount)
         {
             var authData = _authorizeBll.GetAuthData();
             
@@ -60,18 +53,18 @@ namespace MemberSite.Controllers
             
             return await CreateDeposit(new DepositReqParams
             {
-                Amount = amount,
-                ChannelId = channelId,
+                Amount = Amount,
+                ChannelId = ChannelId,
                 CustId = authData.CustId,
                 DepositType = DepositType.MobilePayment,
                 ExtraData = new Dictionary<string, string>
                 {
-                    {"PayAccount", payAccount}
+                    {"PayAccount", PayAccount}
                 }
-            }, bonusCode);
+            }, BonusCode);
         }
 
-        public async Task<IActionResult> DepositReqCryptoPayAsync(int channelId, decimal amount, string bonusCode)
+        public async Task<IActionResult> DepositReqCryptoPayAsync(int ChannelId, decimal Amount, string BonusCode)
         {
             var authData = _authorizeBll.GetAuthData();
             
@@ -80,12 +73,12 @@ namespace MemberSite.Controllers
             
             return await CreateDeposit(new DepositReqParams
             {
-                Amount = amount,
-                ChannelId = channelId,
+                Amount = Amount,
+                ChannelId = ChannelId,
                 CustId = authData.CustId,
                 DepositType = DepositType.CryptoPayment,
                 ExtraData = new Dictionary<string, string>()
-            }, bonusCode);
+            }, BonusCode);
         }
 
 
@@ -137,7 +130,7 @@ namespace MemberSite.Controllers
                 ? actionResult : RedirectErrorPage(model);
         }
 
-        public async Task<IActionResult> DepositReqLoadCardPayAsync(int channelId, string code, string serial, decimal amount, string bonusCode)
+        public async Task<IActionResult> DepositReqLoadCardPayAsync(int ChannelId, string Code, string Serial, decimal Amount, string BonusCode)
         {
             var authData = _authorizeBll.GetAuthData();
             if (authData is not { CustId: > 0 })
@@ -145,16 +138,16 @@ namespace MemberSite.Controllers
             
             return await CreateDeposit(new DepositReqParams
             {
-                Amount = amount,
-                ChannelId = channelId,
+                Amount = Amount,
+                ChannelId = ChannelId,
                 CustId = authData.CustId,
                 DepositType = DepositType.LoadCardPayment,
                 ExtraData = new Dictionary<string, string>
                 {
-                    {"Code", code},
-                    {"Serial", serial}
+                    {"Code", Code},
+                    {"Serial", Serial}
                 }
-            }, bonusCode);
+            }, BonusCode);
         }
 
         [Route("[controller]/DepositReceip.jpg")]
@@ -236,7 +229,7 @@ namespace MemberSite.Controllers
             return result;
         }
 
-        public async Task<IActionResult> DepositReqQRPayAsync(int channelId, decimal amount, string bonusCode)
+        public async Task<IActionResult> DepositReqQRPayAsync(int ChannelId, decimal Amount, string BonusCode)
         {
             var model = new ErrorData();
             var authData = _authorizeBll.GetAuthData();
@@ -244,12 +237,12 @@ namespace MemberSite.Controllers
             
             return await CreateDeposit(new DepositReqParams
             {
-                Amount = amount,
-                ChannelId = channelId,
+                Amount = Amount,
+                ChannelId = ChannelId,
                 CustId = authData.CustId,
                 DepositType = DepositType.QRPayPayment,
                 ExtraData = new Dictionary<string, string>()
-            }, bonusCode);
+            }, BonusCode);
         }
 
 
@@ -381,7 +374,7 @@ namespace MemberSite.Controllers
             }
             catch (CustomException ex)
             {
-                _logger.LogInformation($"({ex.Code}){ex.Message}");
+                _logger.LogInformation($"({ex.Code}) {ex.Message}");
             }
             catch (Exception ex)
             {
