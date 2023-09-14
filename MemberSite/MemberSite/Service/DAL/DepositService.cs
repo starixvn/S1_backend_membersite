@@ -159,5 +159,10 @@ namespace MemberSite.Service.DAL
         {
             return _reportDbClient.Query<DepositLimitInfo>("Member_DepositLimitInfo_Get");
         }
+
+        public ActualDepositModel GetActualDepositData(int siteId, int custId, DateTime startTime, DateTime endTime)
+        {
+            return _reportDbClient.Query<ActualDepositModel>("Member_ActualDeposit_Get", new { CustId = custId, SiteId = siteId, StartTime = startTime, EndTime = endTime }).FirstOrDefault();
+        }
     }
 }
