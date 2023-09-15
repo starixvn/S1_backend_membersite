@@ -51,11 +51,11 @@ public class DepositBLL
         
         switch (input.DepositType)
         {
-            case DepositType.LoadCardPayment:
+            case DepositType.CryptoPayment:
                 (payInfo, dic) = await GetCryptoPayInfo(custInfo, input.ChannelId, vipLevel, input.Amount);
                 break;
             
-            case DepositType.CryptoPayment:
+            case DepositType.LoadCardPayment:
                 (payInfo, dic) = GetLoadCardPayInfo(custInfo, input.ChannelId, vipLevel);
                 break;
             

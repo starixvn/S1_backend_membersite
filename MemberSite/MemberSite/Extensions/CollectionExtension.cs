@@ -10,6 +10,6 @@ public static class CollectionExtension
         return obj.GetType()
             .GetProperties(BindingFlags.Instance | BindingFlags.Public)
             .Where(x => !x.GetCustomAttributes(typeof(DicIgnoreAttribute)).Any())
-            .ToDictionary(prop => prop.Name, prop => (string) prop.GetValue(obj, null));
+            .ToDictionary(prop => prop.Name, prop => prop.GetValue(obj)?.ToString());
     } 
 }

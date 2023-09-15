@@ -1,6 +1,6 @@
 ﻿using System.Net;
 using System.Text.RegularExpressions;
-
+using MemberSite.Exceptions;
 using MemberSite.Extensions;
 using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
@@ -385,70 +385,81 @@ namespace MemberSite.Service.BLL
         {
             transId = null;
             onlineBank = null;
-            if (amount <= 0)
-                return -1;
-            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
 
-
-            var depositLimitInfoList = _depositService.GetDepositLimitInfoList();
-            var pointLevel = _custInfoBll.GetPointLevelWithCache(custId);
-            var onlineBankList = depositType == DepositType.OnlineBanking ?
-                bankInfoBLL.GetOnlineBankList(custInfo.SiteId) :
-                bankInfoBLL.GetAutoChannelBankInfoList(custInfo.SiteId, depositType);
-
-            onlineBank = onlineBankList
-                .FirstOrDefault(x => pointLevel >= x.PointLevel
-                                     && x.ChannelId == channelId
-                                     && (x.SysId == sysId || !x.SelBank)
-                                     && x.PayId == payId
-                                     && x.CurrencyId == custInfo.CurrencyId);
-
-            _logger.LogInformation("onlineBank: " + JsonConvert.SerializeObject(onlineBank));
-
-            var depositLimitInfo = depositLimitInfoList?
-                .FirstOrDefault(x => x.SiteId == custInfo.SiteId
-                                     && x.VipLevel == pointLevel
-                                     && x.DepositType == (int)depositType
-                                     && x.CurrencyId == custInfo.CurrencyId);
-
-            if (depositLimitInfo?.DepositStatus == 0)
+            try
             {
-                return -3;
+                if (amount <= 0)
+                    throw new CustomException($"Amount: {amount} <= 0", -1);
+                
+                var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
+
+
+                var depositLimitInfoList = _depositService.GetDepositLimitInfoList();
+                var pointLevel = _custInfoBll.GetPointLevelWithCache(custId);
+                var onlineBankList = depositType == DepositType.OnlineBanking
+                    ? bankInfoBLL.GetOnlineBankList(custInfo.SiteId)
+                    : bankInfoBLL.GetAutoChannelBankInfoList(custInfo.SiteId, depositType);
+
+                onlineBank = onlineBankList
+                    .FirstOrDefault(x => pointLevel >= x.PointLevel
+                                         && x.ChannelId == channelId
+                                         && (x.SysId == sysId || !x.SelBank)
+                                         && x.PayId == payId
+                                         && x.CurrencyId == custInfo.CurrencyId);
+
+                if (onlineBank == null)
+                    throw new CustomException("BankInfo is null.", -4);
+
+                _logger.LogInformation("onlineBank: " + JsonConvert.SerializeObject(onlineBank));
+                
+                var depositLimitInfo = depositLimitInfoList?
+                    .FirstOrDefault(x => x.SiteId == custInfo.SiteId
+                                         && x.VipLevel == pointLevel
+                                         && x.DepositType == (int)depositType
+                                         && x.CurrencyId == custInfo.CurrencyId);
+
+                if (depositLimitInfo?.DepositStatus == 0)
+                    throw new CustomException($"DepositType={depositType} disabled.", -3);
+       
+
+                if (depositLimitInfo != null && onlineBank != null)
+                {
+                    FixDepositLimit(onlineBank, depositLimitInfo);
+                }
+
+                if (onlineBank.MaxAmount < amount || onlineBank.MinAmount > amount)
+                    throw new CustomException(
+                        $"Request amount does not meet the limits. MaxAmount={onlineBank.MaxAmount}, MinAmount={onlineBank.MinAmount}", -2);
+
+                if (sysId == 0)
+                {
+                    onlineBank.SelBank = false;
+                    onlineBank.SysId = 0;
+                    onlineBank.SysBankCode = "";
+                    onlineBank.SysBankName = "";
+                    onlineBank.BankLogo = "";
+                    onlineBank.BankName = "";
+                }
+
+                var depositDetailInfo = new DepositDetailInfo
+                {
+                    Amount = amount,
+                    CustId = custId,
+                    DepositType = (int)depositType,
+                    Memo = null,
+                    SiteId = custInfo.SiteId,
+                    UserName = custInfo.UserName,
+                    CurrencyId = custInfo.CurrencyId,
+                    DepositInfo = JsonConvert.SerializeObject(onlineBank)
+                };
+
+                _depositService.DepositReq(depositDetailInfo, out transId, out _);
             }
-
-            if (depositLimitInfo != null && onlineBank != null)
+            catch (CustomException ex)
             {
-                FixDepositLimit(onlineBank, depositLimitInfo);
+                _logger.LogInformation($"({ex.Code}) {ex.Message}");
+                return ex.Code;
             }
-
-            if (onlineBank == null || onlineBank.MaxAmount < amount || onlineBank.MinAmount > amount)
-            {
-                return -2;
-            }
-
-            if (sysId == 0)
-            {
-                onlineBank.SelBank = false;
-                onlineBank.SysId = 0;
-                onlineBank.SysBankCode = "";
-                onlineBank.SysBankName = "";
-                onlineBank.BankLogo = "";
-                onlineBank.BankName = "";
-            }
-
-            var depositDetailInfo = new DepositDetailInfo
-            {
-                Amount = amount,
-                CustId = custId,
-                DepositType = (int)depositType,
-                Memo = null,
-                SiteId = custInfo.SiteId,
-                UserName = custInfo.UserName,
-                CurrencyId = custInfo.CurrencyId,
-                DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(onlineBank)
-            };
-
-            _depositService.DepositReq(depositDetailInfo, out transId, out var postScript);
 
             return 0;
         }
