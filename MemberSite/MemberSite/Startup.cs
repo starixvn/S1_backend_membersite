@@ -150,6 +150,7 @@ namespace MemberSite
             services.AddSingleton<CryptoPayInfoBll>();
             services.AddSingleton<LoadCardPayInfoBLL>();
             services.AddSingleton<DepositBLL>();
+            services.AddSingleton<DepositLimitBLL>();
             services.AddSingleton<PaymentBLL>();
             services.AddSingleton<ThirdPartyBll>();
             services.AddSingleton<MessageBll>();
