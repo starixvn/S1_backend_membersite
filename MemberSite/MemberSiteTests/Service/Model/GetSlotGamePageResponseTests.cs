@@ -17,6 +17,7 @@ namespace MemberSite.Service.Model.Tests
         private List<UserGameInfo> _favorite;
         private List<UserGameInfo> _recentlyPlayed;
         private List<DisableTpGame> _disableGame;
+        private List<int> _slotGameCategoryList;
 
         [SetUp]
         public void Setup()
@@ -61,12 +62,13 @@ namespace MemberSite.Service.Model.Tests
                 new DisableTpGame(){ TpId = 5, GameList = new List<string> { "55"} },
                 new DisableTpGame(){ TpId = 6 },
             };
+            _slotGameCategoryList = new List<int>();
         }
 
         [Test]
         public void NoLoginSlotGamePageTests()
         {
-            var actual = new GetSlotGamePageResponse(_imgUrl, _providerList, _slotGameList);
+            var actual = new GetSlotGamePageResponse(_imgUrl, _providerList, _slotGameList, _slotGameCategoryList);
 
             Assert.AreEqual("test", actual.ImgUrl);
             Assert.AreEqual(6, actual.ProviderList.Count);
@@ -89,7 +91,7 @@ namespace MemberSite.Service.Model.Tests
         [Test]
         public void GetSlotGamePageTests()
         {
-            var actual = new GetSlotGamePageResponse(_imgUrl, _providerList, _slotGameList, _favorite, _recentlyPlayed, _disableGame);
+            var actual = new GetSlotGamePageResponse(_imgUrl, _providerList, _slotGameList, _favorite, _recentlyPlayed, _disableGame, _slotGameCategoryList);
 
             Assert.AreEqual("test", actual.ImgUrl);
             Assert.AreEqual(5, actual.ProviderList.Count);
