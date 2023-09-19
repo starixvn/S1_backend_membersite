@@ -1,11 +1,15 @@
-﻿using MemberSite.Service.DAL;
+﻿using System.Security.Claims;
+
+using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Game;
+using MemberSite.Service.Model.Lobby;
+
 using Microsoft.Extensions.Options;
+
 using Newtonsoft.Json;
-using System.Security.Claims;
 
 namespace MemberSite.Service.BLL
 {
@@ -22,7 +26,7 @@ namespace MemberSite.Service.BLL
         private readonly GameBLL _gameBll;
         private readonly SelLangBLL _selLangBll;
         private readonly CasinoBll _casinoBll;
-        private readonly LobbyCategoryBLL _lobbyCategoryBLL;
+        private readonly LobbyCategoryBLL _lobbyCategoryBll;
 
         private readonly CasinoService _casinoService;
         private readonly IConfiguration _configuration;
@@ -43,12 +47,14 @@ namespace MemberSite.Service.BLL
             _gameBll = provider.GetRequiredService<GameBLL>();
             _selLangBll = provider.GetRequiredService<SelLangBLL>();
             _casinoBll = provider.GetRequiredService<CasinoBll>();
-            _lobbyCategoryBLL = provider.GetRequiredService<LobbyCategoryBLL>();
+            _lobbyCategoryBll = provider.GetRequiredService<LobbyCategoryBLL>();
             _casinoService = provider.GetRequiredService<CasinoService>();
             _configuration = provider.GetRequiredService<IConfiguration>();
             _specialVenderLogoTp = new Dictionary<int, int>()
             {
-                { 30, 67 },
+                { 67, 30 },
+                { 109, 52},
+                { 110, 52},
             };
             _excludeTp = new List<int>
             {
@@ -69,44 +75,24 @@ namespace MemberSite.Service.BLL
             var (siteId, currencyId, custId) = GetUserInfo(request.CurrencyId, user, serverInfo);
             var imgUrl = _siteConfig.Value[serverInfo.SiteName].OldImageUrl;
 
+            // 取得SlotGame相關資料
             var providerList = await GetSlotGameProviderList(siteId, currencyId, TpCategory.Casino);
-            var slotGameList = await GetSlotGameList(siteId, currencyId, request.DeviceType);
-            // 取出有byCurrency跟Site設定的大廳Slot選單排序資訊
-            var lobbyCategorySequence = await _lobbyCategoryBLL.GetLobbyCategorySequenceByLobbyCategoryId(siteId, currencyId, LobbyCategory.Slots);
-            // 取出有byCurrency跟Site設定的Slot遊戲優先排序資訊
-            var slotGameTopRanking = await _casinoBll.GetLobbyCategorySequenceByLobbyCategoryId(siteId, currencyId);
+            var slotGameList = await GetSlotGameList(siteId, currencyId, request.DeviceType);   
+            var lobbyCategorySequence = await _lobbyCategoryBll.GetLobbyCategorySequenceByLobbyCategoryId(siteId, currencyId, LobbyCategory.Slots);
+            var slotGameTopRanking = await GetSlotGameTopRanking(siteId, currencyId);
 
-            //排除不在SlotGameList的provider
-            var slotGameProviderList = slotGameList.GroupBy(i => i.TpId).ToDictionary(i => i.Key, i => i.Key);
-            providerList = providerList.Where(
-                i => slotGameProviderList.ContainsKey(i.TpId) ||
-                i.TpId == 22 // 針對mega888特別顯示
-            ).ToList();
-
-            // Tp組入排序欄位
-            foreach (var pld in providerList)
-            {
-                pld.Sort = lobbyCategorySequence.FirstOrDefault(x => x.TpId == pld.TpId)?.Sort ?? 99999;
-            }
-            providerList = providerList.OrderBy(x => x.Sort).ToList();
-
-            // 遊戲組入排序欄位
-            foreach (var sgl in slotGameList)
-            {
-                // 不分TpId排序參數 (TpId = 0的設定資料)
-                sgl.Top = slotGameTopRanking.FirstOrDefault(x => x.NoneTpId == 0 && x.SlotGameId == sgl.SlotGameId)?.Sort ?? 99999;
-                // 指定TpId排序參數 (TpId > 0的設定資料)
-                sgl.Sort = slotGameTopRanking.FirstOrDefault(x => x.NoneTpId != 0 && x.SlotGameId == sgl.SlotGameId)?.Sort ?? 99999;
-            }
-            slotGameList = slotGameList.OrderBy(x => x.Top).ThenBy(x => x.Sort).ToList();
+            // 整理資料與排序
+            var slotGameProviderDict = slotGameList.GroupBy(i => i.TpId).ToDictionary(i => i.Key, i => i.Key);
+            providerList = FilterAndSortProviderList(providerList, slotGameProviderDict, lobbyCategorySequence);
+            slotGameList = SortSlotGameList(slotGameList, slotGameTopRanking);
 
             // 未登入狀態直接回傳
             if (custId == 0)
             {
-                return new GetSlotGamePageResponse(imgUrl, providerList, slotGameList);
+                return new GetSlotGamePageResponse(imgUrl, providerList, slotGameList, request.SlotGameCategoryList);
             }
 
-            //取得User Slot Game相關資料         
+            //取得User的SlotGame相關資料         
             var disableGame = await GetDisableGameList(custId);
             var favoriteAndRecentlyPlayed = await GetFavoriteAndRecentlyPlayed(custId);
 
@@ -116,9 +102,13 @@ namespace MemberSite.Service.BLL
                 slotGameList: slotGameList,
                 favorite: favoriteAndRecentlyPlayed.FavoriteList,
                 recentlyPlayed: favoriteAndRecentlyPlayed.RecentlyPlayedList,
-                disableGame: disableGame);
+                disableGame: disableGame,
+                slotGameCategoryList: request.SlotGameCategoryList);
         }
 
+        /// <summary>
+        /// 依條件取得SlotGame列表
+        /// </summary>
         public async Task<List<SlotGameInfo>> GetSlotGameList(int siteId, int currencyId, int deviceType)
         {
             var statusList = new List<int> { 1 };
@@ -160,7 +150,7 @@ namespace MemberSite.Service.BLL
         }
 
         /// <summary>
-        /// 根據登入狀態回傳SiteId與CurrencyId
+        /// 根據登入狀態回傳SiteId、CurrencyId、CustId
         /// </summary>
         private (int SiteId, int CurrencyId, int CustId) GetUserInfo(int? inputCurrencyId, ClaimsPrincipal user, ServerInfo serverInfo)
         {
@@ -302,7 +292,7 @@ namespace MemberSite.Service.BLL
                     tpGameIdNo = tpGameIdListDetail.TpGameIdNo;
                 }
 
-                string venderLogoTpId = _specialVenderLogoTp.ContainsKey(tpId) && _specialVenderLogoTp.ContainsValue(tpGameIdNo) ? $"{tpId}-{tpGameIdNo}" : tpId.ToString();
+                string venderLogoTpId = _specialVenderLogoTp.ContainsKey(tpGameIdNo) && _specialVenderLogoTp.ContainsValue(tpId) ? $"{tpId}-{tpGameIdNo}" : tpId.ToString();
 
                 recentlyViewedInfo.Add(new RecentlyViewedInfo()
                 {
@@ -321,6 +311,62 @@ namespace MemberSite.Service.BLL
             }
 
             return new RecentlyViewedResponse(imgUrl, bannerUrl, recentlyViewedInfo);
+        }
+
+        /// <summary>
+        /// 1.先排除不在SlotGameList的provider
+        /// 2.依照lobby的設定進行排序
+        /// </summary>
+        private List<GameProvider> FilterAndSortProviderList(List<GameProvider> providerList, Dictionary<int, int> slotGameProviderDict, List<LobbyCategorySequenceInfo> lobbyCategorySequence)
+        {
+            return providerList
+                .Where(i => slotGameProviderDict.ContainsKey(i.TpId) || i.TpId == 22) // 針對mega888特別顯示
+                .Select(pld =>
+                {
+                    // Tp組入排序欄位
+                    pld.Sort = lobbyCategorySequence.FirstOrDefault(x => x.TpId == pld.TpId)?.Sort ?? 99999;
+                    return pld;
+                })
+                .OrderBy(x => x.Sort)
+                .ToList();
+        }
+
+        /// <summary>
+        /// 排序SlotGame清單
+        /// </summary>
+        private List<SlotGameInfo> SortSlotGameList(List<SlotGameInfo> slotGameList, List<SlotGameTopRankingInfo> slotGameTopRanking)
+        {
+            // 遊戲組入排序欄位
+            return slotGameList
+               .Select(sgl => {
+                   // 不分TpId排序參數 (TpId = 0的設定資料)
+                   sgl.Top = slotGameTopRanking.Find(x => x.NoneTpId == 0 && x.SlotGameId == sgl.SlotGameId)?.Sort ?? 99999;
+                   // 指定TpId排序參數 (TpId > 0的設定資料)
+                   sgl.Sort = slotGameTopRanking.Find(x => x.NoneTpId != 0 && x.SlotGameId == sgl.SlotGameId)?.Sort ?? 99999;
+                   return sgl;
+               })
+               .OrderBy(x => x.Top)
+               .ThenBy(x => x.Sort)
+               .ToList();
+        }
+
+        /// <summary>
+        /// Slot遊戲優先排序列
+        /// </summary>
+        private async Task<IEnumerable<SlotGameTopRankingInfo>> GetSlotGameTopRankingList()
+        {
+            return await _cacheHelper.TryGetOrCreateAsync($"GetSlotGameTopRankingList",
+                TimeSpan.FromHours(2),
+                async () => await _casinoService.GetSlotGameTopRankingList());
+        }
+
+        /// <summary>
+        /// 依條件取得Slot遊戲優先排序 (SiteId、CurrencyId)
+        /// </summary>
+        private async Task<List<SlotGameTopRankingInfo>> GetSlotGameTopRanking(int siteId, int currencyId)
+        {
+            var list = await GetSlotGameTopRankingList();
+            return list.Where(x => x.SiteId == siteId && x.CurrencyId == currencyId).ToList();
         }
     }
 }

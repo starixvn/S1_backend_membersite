@@ -1,5 +1,5 @@
-﻿using MemberSite.Extensions;
-using MemberSite.Service.Model.enums;
+﻿using MemberSite.Service.Model.enums;
+
 using Newtonsoft.Json;
 
 namespace MemberSite.Service.Model
@@ -79,7 +79,7 @@ namespace MemberSite.Service.Model
         public int GSort { get; set; }
         public int SSort { get; set; }
     }
-    
+
     public class CryptoPayGroup
     {
         public int GroupId { get; set; }
@@ -162,7 +162,7 @@ namespace MemberSite.Service.Model
         public decimal MinAmount { get; set; }
         public decimal MaxAmount { get; set; }
     }
-    
+
     public class PayGroupInfo
     {
         public int GroupId { get; set; }
@@ -180,21 +180,21 @@ namespace MemberSite.Service.Model
         public string IsoCode { get; set; }
         public string Link { get; set; }
     }
-    
+
     public class ExchangeInfo
     {
         public decimal Rate { get; set; }
         public decimal To_Amount { get; set; }
         public long Updated_timestamp { get; set; }
     }
-    
+
     public class CryptoExchangeInfo
     {
         public decimal Rate { get; set; }
         public decimal ExchangeAmount { get; set; }
         public long Timestamp { get; set; }
     }
-    
+
     public class CryptoExchangeReq
     {
         public int SiteId { get; set; }

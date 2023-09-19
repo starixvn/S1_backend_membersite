@@ -12,7 +12,7 @@ namespace MemberSite.Service.DAL
             _reportDbClient = mySqlClients.FirstOrDefault(a => a.DataBase == Model.enums.DataBase.Report);
         }
 
-        public async Task<string> GetTimeZone(int currencyId) 
+        public async Task<string> GetTimeZone(int currencyId)
         {
             var currency = await _reportDbClient.QueryFirstAsync<Currency>("Member_Currency_Get", new { _CurrencyId = currencyId });
             return currency.TimeZone;

@@ -1,12 +1,15 @@
-﻿using MemberSite.Service.Model;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using NUnit.Framework;
-using MemberSite.Extensions;
-using Microsoft.Extensions.Configuration;
+﻿using MemberSite.Extensions;
 using MemberSite.Service.BLL;
+using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
+
 using MemberSiteTests.Stubs;
+
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
+using NUnit.Framework;
 
 namespace MemberSiteTests.Service.BLL
 {

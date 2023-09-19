@@ -1,9 +1,12 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
+
 using Dapper;
+
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
+
 using Microsoft.Extensions.Options;
 
 namespace MemberSite.Service.DAL;
@@ -14,7 +17,7 @@ public class ShieldService
     private readonly IOptions<ShieldConfig> _shieldConfig;
     private readonly MySqlClient _mainDbClient;
     private readonly MySqlClient _reportDbClient;
-    
+
 
     public ShieldService(IServiceProvider provider)
     {
@@ -23,14 +26,21 @@ public class ShieldService
         _mainDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Main);
         _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
     }
+
+    public CustShieldRiskInfoData GetCustShieldRiskInfoList(int custId)
+    {
+        var p = new DynamicParameters();
+        p.Add("_CustId", custId);
+        return _reportDbClient.QueryFirst<CustShieldRiskInfoData>("Member_CustShieldRiskInfo_Get", p);
+    }
     
-    public int InsertCustShieldInfo(ShieldRiskRequest input , Customer custInfo)
+    public int InsertCustShieldInfo(ShieldRiskRequest input, Customer custInfo)
     {
         var p = new DynamicParameters(new
         {
             CustId = custInfo.CustId,
             SiteId = custInfo.SiteId,
-            CurrencyId =custInfo.CurrencyId,
+            CurrencyId = custInfo.CurrencyId,
             Version = input.Version,
             Timestamp = input.Timestamp,
             SessionId = input.SessionId,
@@ -54,12 +64,12 @@ public class ShieldService
             VirtualOs = input.DeviceIntelligence.VirtualOs,
             Hooking = input.DeviceIntelligence.Hooking
         });
-        
+
         var result = _mainDbClient.Execute("Member_CustShieldRiskInfo_Ins", p);
-      
+
         return result;
     }
-    
+
     public int HighShieldRiskLog(HighShieldRiskLogRequest input)
     {
         var p = new DynamicParameters(new
@@ -72,33 +82,33 @@ public class ShieldService
             TaggedIssue = input.TaggedIssue,
             TriggeredPoint = input.TriggeredPoint
         });
-        
+
         var result = _mainDbClient.Execute("Member_CustShieldTriggeredLog_Ins", p);
-      
+
         return result;
     }
-    
+
     public async Task<GetEndpointResult> GetEndpoint(int siteId)
     {
         var siteName = Enum.GetName(typeof(SiteId), siteId);
         var siteGroup = _shieldConfig.Value.Groups[siteName ?? string.Empty];
         var apiUrl = $"{_shieldConfig.Value.ShieldService}?sid={siteGroup.SiteId}";
-        
+
         var timestamp = DateTimeOffset.Now.ToUnixTimeSeconds().ToString();
-        var sign = GetShieldSignature(timestamp ,siteId);
+        var sign = GetShieldSignature(timestamp, siteId);
         var header = new Dictionary<string, string>
         {
             {"Site-Id", siteGroup.SiteId},
             {"Timestamp", timestamp},
             {"Shield-Signature", sign}
         };
-        
+
         var result = await _courierAdapter.ShieldGetAsync<GetEndpointResult>(apiUrl, header);
-      
+
         return result;
     }
 
-    public async Task<SendAttributesResult> SendShieldAttributes(GetEndpointResult endpoint , SendShieldAttributesRequest request , string timestamp, string sign)
+    public async Task<SendAttributesResult> SendShieldAttributes(GetEndpointResult endpoint, SendShieldAttributesRequest request, string timestamp, string sign)
     {
         var apiUrl = $" {endpoint.Endpoint}/shield-fp/v1/api/attributes/{request.SessionId}";
 
@@ -107,40 +117,40 @@ public class ShieldService
             user_id = request.UserId,
             platform = request.Platform.ToUpper()
         };
-        
+
         var siteName = Enum.GetName(typeof(SiteId), request.SiteId);
         var siteGroup = _shieldConfig.Value.Groups[siteName ?? string.Empty];
-        
-        var header =new Dictionary<string, string>
+
+        var header = new Dictionary<string, string>
         {
             {"Site-Id", siteGroup.SiteId},
             {"Timestamp", timestamp},
             {"Shield-Signature", sign},
             {"X-Endpoint-Version", endpoint.Version.ToString()}
         };
-        
-        var result = await _courierAdapter.ShieldPostAsync<SendAttributesResult, object>(apiUrl, req , header);
-        
+
+        var result = await _courierAdapter.ShieldPostAsync<SendAttributesResult, object>(apiUrl, req, header);
+
         return result;
     }
-    
+
     public string GetShieldSignature(string timestamp, int siteId)
     {
         var siteName = Enum.GetName(typeof(SiteId), siteId);
         var siteGroup = _shieldConfig.Value.Groups[siteName ?? string.Empty];
-        
+
         var timeHash = HmacSha256(timestamp, siteGroup.SecretKey);
         var shieldSignature = HmacSha256(siteGroup.SiteId, timeHash);
-      
+
         return shieldSignature;
     }
-    
+
     private static string HmacSha256(string toHash, string secretKey)
     {
         using var mac = new HMACSHA256(Encoding.UTF8.GetBytes(secretKey));
         var hash = mac.ComputeHash(Encoding.UTF8.GetBytes(toHash));
         var sign = BitConverter.ToString(hash).Replace("-", "").ToLower();
-   
+
         return sign;
     }
 }

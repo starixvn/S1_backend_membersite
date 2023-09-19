@@ -1,5 +1,6 @@
 ﻿using MemberSite.Service.BLL;
 using MemberSite.Service.Model;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace MemberSite.Controllers.Api
@@ -18,16 +19,7 @@ namespace MemberSite.Controllers.Api
             this.appLinkBLL = appLinkBLL;
             this.deepLinkBLL = deepLinkBLL;
         }
-        [HttpGet]
-        [HttpHead]
-        public IActionResult Index(string url)
-        {
-            var poster = url.Replace("video.m3u8", "poster.jpg?v=1627386751522");
 
-            ViewData["url"] = url;
-            ViewData["poster"] = poster;
-            return View();
-        }
         [HttpPost]
         public ApiResult<List<GetAppLinkRep>> GetAppLink()
         {
@@ -38,11 +30,13 @@ namespace MemberSite.Controllers.Api
             apiResult.ErrorCode = 0;
             return apiResult;
         }
+
         public class GetDeepLinkReq
         {
             public int SiteId { get; set; }
             public int DeepLinkId { get; set; }
         }
+
         [HttpPost]
         public ApiResult<List<GetDeepLinkRep>> GetDeepLink(GetDeepLinkReq req)
         {
@@ -53,5 +47,5 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
     }
-  
+
 }

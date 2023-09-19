@@ -1,9 +1,11 @@
-﻿using MemberSite.Service.Model;
-using Microsoft.Extensions.Caching.Memory;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Reflection;
 using System.Resources;
+
 using MemberSite.Service.Library;
+using MemberSite.Service.Model;
+
+using Microsoft.Extensions.Caching.Memory;
 
 namespace MemberSite.Service.BLL
 {
@@ -49,7 +51,7 @@ namespace MemberSite.Service.BLL
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
             var context = _httpContextAccessor.HttpContext;
-            
+
             var langId = context?.User.Identity?.IsAuthenticated == true
                 ? context.User.Claims.FirstOrDefault(m => m.Type == "LangId")?.Value
                 : context?.Request.Cookies[$"{serverInfo.SiteName.ToLower()}LangId"];

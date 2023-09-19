@@ -1,17 +1,20 @@
-﻿using NUnit.Framework;
-using Microsoft.Extensions.DependencyInjection;
-using MemberSite.Service.Model;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Hosting.Internal;
-using Microsoft.Extensions.Configuration;
-using MemberSiteTests.Stubs;
-using NSubstitute;
-using Microsoft.Extensions.Logging;
+﻿using System.Diagnostics;
 using System.Linq;
-using System.Diagnostics;
-using MemberSite.Service.Model.enums;
-using Microsoft.AspNetCore.Builder;
+
 using MemberSite.Extensions;
+using MemberSite.Service.Model;
+using MemberSite.Service.Model.enums;
+
+using MemberSiteTests.Stubs;
+
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+
+using NSubstitute;
+
+using NUnit.Framework;
 
 namespace MemberSite.Service.Library.Tests
 {

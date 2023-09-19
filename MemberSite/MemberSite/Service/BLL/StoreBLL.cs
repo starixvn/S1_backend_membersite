@@ -41,7 +41,7 @@ public class StoreBLL
 
         return result;
     }
-    
+
     public async Task<object> SetFavoriteAsync(StoreSetFavoriteRequest request)
     {
         var url = _storeSiteUrl + "Frontend/SetFavorite";
@@ -49,7 +49,7 @@ public class StoreBLL
 
         return result;
     }
-    
+
     public async Task<object> GetBalanceAsync(StoreGetBalanceRequest request)
     {
         var url = _storeSiteUrl + "Member/GetBalance";

@@ -2,7 +2,7 @@
 {
     public class LanguageObject
     {
-        public static readonly Dictionary<int, string> CurrencyMap = new() 
+        public static readonly Dictionary<int, string> CurrencyMap = new()
         {
             { 4, "th"},
             { 15, "id"},

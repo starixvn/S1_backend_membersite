@@ -137,4 +137,9 @@
   <data name="msg_EWalletIsMaintenance"><value>ई-वॉलेट रखरखाव है, कृपया अन्य निकासी विधियों का उपयोग करें</value></data>
   <data name="msg_CompletePhoneNumber"><value>कृपया अपना मोबाइल फ़ोन (OTP) सत्यापन पूरा करें।</value></data>
   <data name="msg_OTPDailyLimit"><value>OTP सीमा तक पहुंच गया है, कृपया लाइव चैट सहायता से संपर्क करें</value></data>
+  <data name="msg_AffCodeNotFound"><value>एफिलिएट आईडी नहीं मिला पा रहा है</value></data>
+  <data name="msg_SystemUnstable"><value>सिस्टम विवरण पुनर्प्राप्त करने में असमर्थ है।</value></data>
+  <data name="msg_SystemUnstable_Detail"><value>बैंक का सिस्टम वर्तमान में लेनदेन विवरण प्राप्त करने में असमर्थ है, और इस समय आपकी जमा राशि को संसाधित करने में असमर्थ है।</value></data>
+  <data name="msg_BankUnderMaintenance"><value>बैंक रखरखाव</value></data>
+  <data name="msg_BankUnderMaintenance_Detail"><value>बैंक की सिस्टम वर्तमान में रखरखाव के तहत है और मोमेंट में आपका जमा प्रसंस्करण नहीं कर सकता।</value></data>
   </root>

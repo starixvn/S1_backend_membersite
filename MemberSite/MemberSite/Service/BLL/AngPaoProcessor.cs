@@ -4,7 +4,7 @@ namespace MemberSite.Service.BLL
 {
     public class AngPaoProcessor
     {
-        public virtual Prize Drawing(IEnumerable<Prize> prizes) 
+        public virtual Prize Drawing(IEnumerable<Prize> prizes)
         {
             var drawPrize = new Prize();
             var quota = prizes.Sum(a => a.Quota);

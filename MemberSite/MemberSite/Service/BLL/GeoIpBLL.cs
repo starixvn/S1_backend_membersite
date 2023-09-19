@@ -14,7 +14,7 @@ namespace MemberSite.Service.BLL
         public async Task<ApiResult<IpCountryModel>> CheckIp(string clientIp)
         {
             var ipCountry = await _geoIpApi.CheckIp(clientIp);
-            if (ipCountry is {Message: "Succeed"})
+            if (ipCountry is { Message: "Succeed" })
             {
                 return new ApiResult<IpCountryModel>()
                 {

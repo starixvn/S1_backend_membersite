@@ -9,6 +9,6 @@ namespace MemberSite.Service.DAL.Interface
         Task<IEnumerable<HotGameData>> GetHotGames(int siteId, int currencyId);
         IEnumerable<RebateCategory> GetRebateCategory(int SiteId, int CurrencyId);
         IEnumerable<VipBannerData> GetVipBanner(int SiteId, int CurrencyId);
-        LastUpdateTime GetVipBannerLastUpdateTime(int SiteId, int CurrencyId);  
+        LastUpdateTime GetVipBannerLastUpdateTime(int SiteId, int CurrencyId);
     }
 }

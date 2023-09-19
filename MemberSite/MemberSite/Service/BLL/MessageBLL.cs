@@ -1,9 +1,9 @@
-﻿using MemberSite.Service.DAL;
-using MemberSite.Service.Model;
-using Microsoft.Extensions.Caching.Memory;
+﻿using MemberSite.Extensions;
+using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
-using System.Data;
-using MemberSite.Extensions;
+using MemberSite.Service.Model;
+
+using Microsoft.Extensions.Caching.Memory;
 
 namespace MemberSite.Service.BLL
 {
@@ -22,8 +22,8 @@ namespace MemberSite.Service.BLL
             var msgList = await _messageService.GetMsgList(custId, pageSize, pageNumber);
             foreach (var msg in msgList.Data)
             {
-                msg.Title = msg.Title.IsJson() ? 
-                    JsonContentParser.ParseByJObject(msg.Title, language.LanguageCode, language.DefaultLanguage, "Title") : 
+                msg.Title = msg.Title.IsJson() ?
+                    JsonContentParser.ParseByJObject(msg.Title, language.LanguageCode, language.DefaultLanguage, "Title") :
                     msg.Title;
             }
             return msgList;
@@ -32,9 +32,9 @@ namespace MemberSite.Service.BLL
         public async Task<MsgContent> GetMsgContent(int custId, LanguageObject language, int msgId, int isBatch)
         {
             var msg = await _messageService.GetMsgContent(custId, msgId, isBatch);
-            if (msg != null) 
+            if (msg != null)
             {
-                msg.Content = msg.Content.IsJson() ? 
+                msg.Content = msg.Content.IsJson() ?
                     JsonContentParser.ParseByJObject(msg.Content, language.LanguageCode, language.DefaultLanguage, "Content") :
                     msg.Content;
             }

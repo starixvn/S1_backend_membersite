@@ -1,6 +1,7 @@
-﻿using MemberSite.Extensions;
+﻿using System.Text.Json.Serialization;
+
+using MemberSite.Extensions;
 using MemberSite.Service.Model.enums;
-using System.Text.Json.Serialization;
 
 namespace MemberSite.Service.Model
 {
@@ -69,7 +70,7 @@ namespace MemberSite.Service.Model
         public bool MaintainCheck(DateTime utcNow)
         {
             try
-            {         
+            {
                 if (MaintainType == MaintainType.Date)
                 {
                     return utcNow.IsBetween(BeginDate, EndDate);
@@ -80,13 +81,13 @@ namespace MemberSite.Service.Model
                 {
                     return false;
                 }
-                
+
                 // 將當下日期與維護時間組合後進行檢查
                 var date = utcNow.Date.ToString("yyyy/MM/dd");
                 var begin = DateTime.ParseExact($"{date} {BeginTime}", "yyyy/MM/dd HH:mm", null);
                 var end = DateTime.ParseExact($"{date} {EndTime}", "yyyy/MM/dd HH:mm", null);
                 var isBetween = utcNow.IsBetween(begin, end);
-                
+
                 return MaintainType switch
                 {
                     MaintainType.Day => isBetween,

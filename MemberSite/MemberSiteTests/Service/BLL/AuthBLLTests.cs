@@ -1,17 +1,19 @@
-﻿using MemberSite.Service.BLL;
-using MemberSite.Service.Library;
-using MemberSiteTests.Stubs;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting.Internal;
-using Microsoft.Extensions.Hosting;
+﻿using System;
+
 using MemberSite.Extensions;
-using Microsoft.Extensions.Configuration;
-using NSubstitute;
-using Microsoft.Extensions.Logging;
-using NUnit.Framework;
-using System;
+using MemberSite.Service.Library;
+
+using MemberSiteTests.Stubs;
+
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+
+using NSubstitute;
+
+using NUnit.Framework;
 
 namespace MemberSite.Service.BLL.Tests;
 

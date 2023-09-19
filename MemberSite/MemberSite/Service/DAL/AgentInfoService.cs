@@ -1,8 +1,12 @@
-﻿using MemberSite.Service.Model;
+﻿using System.Data;
+
 using Dapper;
-using System.Data;
+
 using MemberSite.Service.Library;
+using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
+using static MongoDB.Driver.WriteConcern;
+using System.Drawing.Printing;
 
 namespace MemberSite.Service.DAL
 {
@@ -35,31 +39,35 @@ namespace MemberSite.Service.DAL
                 DataBase.Main => _mainDbClient.QueryFirst<string>("Member_AffiliateId_Get", new { CustId = custId, SiteId = siteId }),
                 _ => _reportDb.QueryFirst<string>("Member_AffiliateId_Get", new { CustId = custId, SiteId = siteId }),
             };
-        }   
+        }
         public IEnumerable<ReferralSetting> GetReferralSetting(int siteId, int currencyId)
         {
-            return _reportDb.Query<ReferralSetting>("Member_ReferralSetting_Get", new { SiteId = siteId, CurrencyId = currencyId });
+            return _reportDb.Query<ReferralSetting>("Member_ReferralSetting_Get_V3", new { _SiteId = siteId, _CurrencyId = currencyId });
         }
         public async Task<ReferralSettingDetailData> GetReferralSettingDetailAsync(int siteId, int currencyId)
         {
             var p = new DynamicParameters();
             p.Add("_SiteId", siteId);
             p.Add("_CurrencyId", currencyId);
-            return await _reportDb.QueryFirstAsync<ReferralSettingDetailData>("Member_ReferralSetting_Get_V2", p);
+            return await _reportDb.QueryFirstAsync<ReferralSettingDetailData>("Member_ReferralSetting_Get_V3", p);
         }
-        public void GetReferralSummary(int custId, out int referralCount, out int conditionCount, out int amountCount, out int amountSum)
+        public void GetReferralSummary(int custId, ReferralTypeEnum type, out int referralCount, out int conditionCount, out int amountCount, out int amountSum, out int hasReferral)
         {
-            var p = new DynamicParameters(new { CustId = custId});
+            var p = new DynamicParameters(new { CustId = custId });
             p.Add("ReferralCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
             p.Add("ConditionCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
             p.Add("AmountCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
             p.Add("AmountSum", dbType: DbType.Int32, direction: ParameterDirection.Output);
-            _reportDb.Execute("Member_ReferralSummary_Get", p);
-
+            p.Add("HasReferral", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            if (type == ReferralTypeEnum.Referral)
+                _reportDb.Execute("Member_ReferralSummary_Get", p);
+            else
+                _reportDb.Execute("Member_ReferralSummary_Get_V2", p);
             referralCount = p.Get<int?>("ReferralCount") ?? 0;
             conditionCount = p.Get<int?>("ConditionCount") ?? 0;
             amountCount = p.Get<int?>("AmountCount") ?? 0;
             amountSum = p.Get<int?>("AmountSum") ?? 0;
+            hasReferral = p.Get<int?>("HasReferral") ?? 0;
         }
         public IEnumerable<ReferralFriend> GetRefFriendList(int custId, long? StartDate, long? EndDate, int PageSize, ref int PageNumber, ref int TotalPages, ref int RowCount)
         {
@@ -77,7 +85,43 @@ namespace MemberSite.Service.DAL
             PageNumber = props.Get<int?>("PageNumber") ?? 0;
             TotalPages = props.Get<int?>("TotalPages") ?? 0;
             RowCount = props.Get<int?>("RowCount") ?? 0;
-            
+
+            return result;
+        }
+
+        public IEnumerable<DepositReferralDao> GetDepositReferralList(int custId, long? startDate, long? endDate, int pageSize, int startIndex, ref int totalPages, ref int rowCount)
+        {
+            var SpName = "Member_DepositReferralList_Get";
+            var props = new DynamicParameters(new { _CustId = custId });
+            props.Add("_TotalPages", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            props.Add("_RowCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            props.Add("_StartIndex", startIndex);
+            props.Add("_PageSize", pageSize);
+            props.Add("_StartDate", startDate);
+            props.Add("_EndDate", endDate);
+
+            var result = _reportDb.Query<DepositReferralDao>(SpName, props, commandType: CommandType.StoredProcedure);
+            totalPages = props.Get<int?>("_TotalPages") ?? 0;
+            rowCount = props.Get<int?>("_RowCount") ?? 0;
+
+            return result;
+        }
+
+        public IEnumerable<DepositReferralDao> GetDepositReferralDetail(int custId, long? startDate, long? endDate, int pageSize, int startIndex, ref int totalPages, ref int rowCount)
+        {
+            var SpName = "Member_DepositReferralDetail_Get";
+            var props = new DynamicParameters(new { _CustId = custId });
+            props.Add("_TotalPages", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            props.Add("_RowCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            props.Add("_StartIndex", startIndex);
+            props.Add("_PageSize", pageSize);
+            props.Add("_StartDate", startDate);
+            props.Add("_EndDate", endDate);
+
+            var result = _reportDb.Query<DepositReferralDao>(SpName, props, commandType: CommandType.StoredProcedure);
+            totalPages = props.Get<int?>("_TotalPages") ?? 0;
+            rowCount = props.Get<int?>("_RowCount") ?? 0;
+
             return result;
         }
     }

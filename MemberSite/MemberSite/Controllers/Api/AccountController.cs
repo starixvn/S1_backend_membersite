@@ -1,15 +1,17 @@
-﻿using System;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Security.Claims;
+
 using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
+
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
@@ -184,7 +186,7 @@ namespace MemberSite.Controllers.Api
             if (!_isJwt)
             {
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
-                apiResult.Message = Url.RouteUrl("desktop", new { action = HttpContext.Request.RouteValues["action"], controller = HttpContext.Request.RouteValues["controller"], languageModel.LangId });
+                apiResult.Message = Url.RouteUrl("desktop", new { action = Request.RouteValues["action"], controller = Request.RouteValues["controller"], languageModel.LangId });
             }
             else
             {
@@ -745,12 +747,13 @@ namespace MemberSite.Controllers.Api
             apiResult.Data = new ReferralSummary();
             try
             {
-                _custInfoBll.GetReferralSummary(authData.CustId, out var ReferralCount, out var conditionCount, out var AmountCount, out var AmountSum);
+                _custInfoBll.GetReferralSummary(authData.CustId, ReferralTypeEnum.Referral, out var ReferralCount, out var conditionCount, out var AmountCount, out var AmountSum, out var hasReferral);
 
                 apiResult.Data.ReferralCount = ReferralCount;
                 apiResult.Data.ConditionCount = conditionCount;
                 apiResult.Data.AmountCount = AmountCount;
                 apiResult.Data.AmountSum = AmountSum;
+                apiResult.Data.HasReferral = hasReferral > 0;
                 apiResult.ErrorCode = 0;
                 apiResult.Message = "";
             }
@@ -760,6 +763,37 @@ namespace MemberSite.Controllers.Api
             }
             return apiResult;
         }
+
+        [HttpPost]
+        public ApiResult<ReferralSummary> GetReferralSummaryV2()
+        {
+            var apiResult = new ApiResult<ReferralSummary>();
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
+                return apiResult;
+            }
+            apiResult.Data = new ReferralSummary();
+            try
+            {
+                _custInfoBll.GetReferralSummary(authData.CustId, ReferralTypeEnum.DepositReferral, out var ReferralCount, out var conditionCount, out var AmountCount, out var AmountSum, out var hasReferral);
+
+                apiResult.Data.ReferralCount = ReferralCount;
+                apiResult.Data.ConditionCount = conditionCount;
+                apiResult.Data.AmountCount = AmountCount;
+                apiResult.Data.AmountSum = AmountSum;
+                apiResult.Data.HasReferral = hasReferral > 0;
+                apiResult.ErrorCode = 0;
+                apiResult.Message = "";
+            }
+            catch (Exception ex)
+            {
+                apiResult.Message = ex.ToString();
+            }
+            return apiResult;
+        }
+
         public class RefFriendListReq
         {
             public long? StartDate { get; set; }
@@ -788,6 +822,80 @@ namespace MemberSite.Controllers.Api
             try
             {
                 apiResult.Data = _custInfoBll.GetRefFriendList(authData.CustId, refFriendListReq.StartDate, refFriendListReq.EndDate, PageSize, ref pageNumber, ref totalPages, ref rowCount);
+                foreach (var L in apiResult.Data)
+                {
+                    L.UserName = _eventsBll.MaskName(L.UserName);
+                }
+                apiResult.PageNumber = pageNumber;
+                apiResult.TotalPages = totalPages;
+                apiResult.RowCount = rowCount;
+                apiResult.ErrorCode = 0;
+                apiResult.Message = "";
+            }
+            catch (Exception ex)
+            {
+                apiResult.Message = ex.ToString();
+            }
+            return apiResult;
+        }
+
+        [HttpPost]
+        public ApiListResult<DepositReferralDao> GetRefFriendListV2(RefFriendListReq refFriendListReq)
+        {
+            var PageSize = 10;
+            if (refFriendListReq.PageSize > 0)
+                PageSize = refFriendListReq.PageSize;
+            var pageNumber = refFriendListReq.PageNumber;
+            var totalPages = 0;
+            var rowCount = 0;
+            var apiResult = new ApiListResult<DepositReferralDao>();
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
+                return apiResult;
+            }
+
+            try
+            {
+                apiResult.Data = _custInfoBll.GetDepositReferralList(authData.CustId, refFriendListReq.StartDate, refFriendListReq.EndDate, PageSize, pageNumber, ref totalPages, ref rowCount);
+                foreach (var L in apiResult.Data)
+                {
+                    L.UserName = _eventsBll.MaskName(L.UserName);
+                }
+                apiResult.PageNumber = pageNumber;
+                apiResult.TotalPages = totalPages;
+                apiResult.RowCount = rowCount;
+                apiResult.ErrorCode = 0;
+                apiResult.Message = "";
+            }
+            catch (Exception ex)
+            {
+                apiResult.Message = ex.ToString();
+            }
+            return apiResult;
+        }
+
+        [HttpPost]
+        public ApiListResult<DepositReferralDao> GetRefFriendDetail(RefFriendListReq refFriendListReq)
+        {
+            var PageSize = 10;
+            if (refFriendListReq.PageSize > 0)
+                PageSize = refFriendListReq.PageSize;
+            var pageNumber = refFriendListReq.PageNumber;
+            var totalPages = 0;
+            var rowCount = 0;
+            var apiResult = new ApiListResult<DepositReferralDao>();
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
+                return apiResult;
+            }
+
+            try
+            {
+                apiResult.Data = _custInfoBll.GetDepositReferralDetail(authData.CustId, refFriendListReq.StartDate, refFriendListReq.EndDate, PageSize, pageNumber, ref totalPages, ref rowCount);
                 foreach (var L in apiResult.Data)
                 {
                     L.UserName = _eventsBll.MaskName(L.UserName);
@@ -1125,7 +1233,7 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
             var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-            apiResult.Data = await _custInfoBll.GetCustTpGameTypeSetting(custInfo.CustId) ;
+            apiResult.Data = await _custInfoBll.GetCustTpGameTypeSetting(custInfo.CustId);
             apiResult.ErrorCode = 0;
 
             return apiResult;

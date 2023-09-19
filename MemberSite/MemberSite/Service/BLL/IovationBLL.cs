@@ -64,7 +64,7 @@ namespace MemberSite.Service.BLL
             {
                 perCountry.TryGetValue((int)CurrencyId, out CountryName);
             }
-            
+
             perCurrency.TryGetValue((int)CurrencyId, out Currencyname);
             var transactionInsight = new Dictionary<string, string>
             {

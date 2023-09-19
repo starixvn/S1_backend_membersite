@@ -1,7 +1,7 @@
 ﻿using System.Net;
-using System.Xml.Linq;
+
 using Flurl.Http;
-using Flurl.Http.Content;
+
 using Newtonsoft.Json;
 
 namespace MemberSite.Service.Library
@@ -89,7 +89,7 @@ namespace MemberSite.Service.Library
                 _logger.LogError(ex, $"Ex massage: {ex.Message}, StackTrace: {ex.StackTrace}");
                 throw;
             }
-            
+
         }
 
         public IHttpHelper WithHeader(string key, string value)
@@ -151,7 +151,7 @@ namespace MemberSite.Service.Library
             {
                 urlWithQuery = $"{url}?{query}";
             }
-            
+
             var request = CreateFlurlRequest(urlWithQuery);
             request = _header.Aggregate(request, (current, item) => current.WithHeader(item.Key, item.Value));
 

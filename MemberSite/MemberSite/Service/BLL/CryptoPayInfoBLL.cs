@@ -1,8 +1,10 @@
-﻿using MemberSite.Service.DAL;
+﻿using System.Text.RegularExpressions;
+
+using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
-using System.Text.RegularExpressions;
+
 using Newtonsoft.Json;
 
 namespace MemberSite.Service.BLL
@@ -50,7 +52,7 @@ namespace MemberSite.Service.BLL
                 RedisDataBase.Shared);
             return dbData;
         }
-        
+
         public IEnumerable<CryptoPayInfo> GetCryptoPayInfoList(int custId)
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
@@ -75,7 +77,7 @@ namespace MemberSite.Service.BLL
                     {
                         ChannelName = g.Key,
                         Mode = 3,
-                        MaxAmount = g.Any(x => x.MaxAmount == 0) 
+                        MaxAmount = g.Any(x => x.MaxAmount == 0)
                             ? 0 : g.Max(x => x.MaxAmount),
                         MinAmount = g.Min(x => x.MinAmount),
                         ChannelId = -1 * (int)g.First().CryptoCurrencyId,
@@ -86,9 +88,9 @@ namespace MemberSite.Service.BLL
                         GSort = -1,
                         PayName = "LetsPay"
                     });
-            
+
             cryptoPayInfoList.AddRange(localCryptoList);
-       
+
             if (depositLimitInfo != null)
             {
                 foreach (var cryptoPayInfo in cryptoPayInfoList)
@@ -96,7 +98,7 @@ namespace MemberSite.Service.BLL
                     _depositBll.FixDepositLimit(cryptoPayInfo, depositLimitInfo);
                 }
             }
-            
+
             return cryptoPayInfoList.OrderBy(x => x.GSort);
         }
         public int DepositReqCryptoPay(int custId, int channelId, decimal amount, out string transId, out CryptoPayInfo cryptoPayInfo)
@@ -127,7 +129,7 @@ namespace MemberSite.Service.BLL
             {
                 return -2;
             }
-            
+
             if (cryptoPayInfo.AmountRule == 3 && !cryptoPayInfo.AmountList.Contains(amount))
             {
                 return -2;
@@ -144,7 +146,7 @@ namespace MemberSite.Service.BLL
                     SiteId = custInfo.SiteId,
                     UserName = custInfo.UserName,
                     CurrencyId = custInfo.CurrencyId,
-                    DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(cryptoPayInfo)
+                    DepositInfo = JsonConvert.SerializeObject(cryptoPayInfo)
                 };
 
                 _depositService.DepositReq(depositDetailInfo, out transId, out _);
@@ -153,7 +155,7 @@ namespace MemberSite.Service.BLL
 
             return -99;
         }
-        
+
         public async Task<(int ErrorCode, string Message, PayResult payResult)> DepositReqCryptoLocalPayAsync(
             Customer custInfo, decimal amount, OfflineCryptoPayInfo cryptoPayInfo)
         {
@@ -163,9 +165,9 @@ namespace MemberSite.Service.BLL
             var exchangeInfo =
                 await GetExchangeInfoAsync(custInfo.SiteId, custInfo.CurrencyId, amount, cryptoPayInfo.ChannelName, ExchangeTypeEnum.Buy);
 
-            if (exchangeInfo.ErrorCode != (int) ErrorCode.Success)
+            if (exchangeInfo.ErrorCode != (int)ErrorCode.Success)
                 return (-2, "Get exchange info failed.", null);
-            
+
             var depositDetailInfo = new DepositDetailInfo
             {
                 Amount = amount,
@@ -204,14 +206,14 @@ namespace MemberSite.Service.BLL
                 },
                 ThirdId = transId
             };
-            
-            return string.IsNullOrEmpty(transId) 
+
+            return string.IsNullOrEmpty(transId)
                 ? (-3, "Create deposit transaction failed.", null)
                 : (0, transId, payResult);
         }
 
         public async Task<ApiResult<CryptoExchangeInfo>> GetExchangeInfoAsync(int siteId, int currencyId, decimal amount, string channelName, ExchangeTypeEnum type)
-        { 
+        {
             var req = new CryptoExchangeReq
             {
                 SiteId = siteId,
@@ -258,13 +260,13 @@ namespace MemberSite.Service.BLL
             var regex = new Regex(@"^(?:[1mn32]{1}[a-km-zA-HJ-NP-Z1-9]{26,33}|bc1[a-z0-9]{39,59})$");
             return regex.IsMatch(address);
         }
-        
+
         private bool CardanoAddressValidation(string address)
         {
             var regex = new Regex(@"^(Ae2|Dd|addr|stake).*");
             return regex.IsMatch(address);
         }
-        
+
         private bool XRPAddressValidation(string address)
         {
             var regex = new Regex(@"^r[1-9a-km-zA-HJ-NP-Z]{24,34}$");

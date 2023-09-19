@@ -1,18 +1,21 @@
-﻿using FluentAssertions;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+using FluentAssertions;
+
 using MemberSite.Service.BLL;
 using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
-using NSubstitute;
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
+
+using NSubstitute;
 using NSubstitute.ReturnsExtensions;
+
+using NUnit.Framework;
 
 namespace MemberSiteTests.Service.BLL
 {
@@ -21,22 +24,22 @@ namespace MemberSiteTests.Service.BLL
     {
         private ServiceProvider _serviceProvider;
         [SetUp]
-        public void SetUp() 
+        public void SetUp()
         {
             var services = new ServiceCollection();
             services.AddTransient(p => Substitute.For<IMemoryCache>());
             _serviceProvider = services.BuildServiceProvider();
         }
         [Test]
-        public async Task User_Has_No_Ticktes() 
+        public async Task User_Has_No_Ticktes()
         {
             var eventsSvc = Substitute.For<IEventsService>();
             var angPaoPro = Substitute.For<AngPaoProcessor>();
-            eventsSvc.GetTickets(Arg.Any<int>(), Arg.Any<int>()).Returns(x => 
+            eventsSvc.GetTickets(Arg.Any<int>(), Arg.Any<int>()).Returns(x =>
             {
                 return new List<AngPowTicket>();
             });
-            
+
             var cacheHelper = new CacheHelper(_serviceProvider);
             var angPao = new AngPaoBLL(eventsSvc, angPaoPro);
             var custId = 250032;
@@ -49,7 +52,7 @@ namespace MemberSiteTests.Service.BLL
         }
 
         [Test]
-        public async Task User_Has_2_Tickets_And_1_Tickets_Can_Use() 
+        public async Task User_Has_2_Tickets_And_1_Tickets_Can_Use()
         {
             var eventsSvc = Substitute.For<IEventsService>();
             var angPaoPro = Substitute.For<AngPaoProcessor>();
@@ -104,7 +107,7 @@ namespace MemberSiteTests.Service.BLL
         [Test]
         public async Task User_Have_Not_Filled_AccountName_And_Verified_Phone()
         {
-            var customer = new Customer() 
+            var customer = new Customer()
             {
                 CustId = 250032,
                 PhoneVerified = false
@@ -131,7 +134,7 @@ namespace MemberSiteTests.Service.BLL
         }
 
         [Test]
-        public async Task AngPao_Have_Not_Started() 
+        public async Task AngPao_Have_Not_Started()
         {
             var customer = new Customer()
             {

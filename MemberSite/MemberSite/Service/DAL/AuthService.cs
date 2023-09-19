@@ -1,9 +1,12 @@
-﻿using Dapper;
+﻿using System.Data;
+
+using Dapper;
+
 using MemberSite.Service.Library;
 using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Line;
+
 using MySql.Data.MySqlClient;
-using System.Data;
 
 namespace MemberSite.Service.DAL
 {
@@ -25,11 +28,11 @@ namespace MemberSite.Service.DAL
 
             var p = new DynamicParameters(new { Token = Key });
             p.Add("PermissionData", dbType: DbType.String, direction: ParameterDirection.Output);
-            
-            _mainDbClient.Execute("Common_AuthToken_Sel", trans , p);
-            
+
+            _mainDbClient.Execute("Common_AuthToken_Sel", trans, p);
+
             trans.Commit();
-            
+
             var permissionData = p.Get<string>("PermissionData");
             return permissionData;
         }

@@ -27,57 +27,57 @@ public class DeviceIntelligence
     //web
     [JsonPropertyName("shield_id")]
     public string ShieldId { get; set; }
-    
+
     [JsonPropertyName("device_score")]
     public int DeviceScore { get; set; }
-    
+
     [JsonPropertyName("is_bot")]
     public bool? IsBot { get; set; }
-    
+
     [JsonPropertyName("is_incognito")]
     public bool? IsIncognito { get; set; }
-    
+
     [JsonPropertyName("is_emulated")]
     public bool? IsEmulated { get; set; }
-    
+
     [JsonPropertyName("is_tor")]
     public bool? IsTor { get; set; }
-    
+
     [JsonPropertyName("is_anti_fingerprinting")]
     public bool? IsAntiFingerprinting { get; set; }
-    
+
     [JsonPropertyName("is_proxy")]
     public bool? IsProxy { get; set; }
-    
+
     //app
-    
+
     [JsonPropertyName("running_clone_apps")]
     public bool? RunningCloneApps { get; set; }
-    
+
     [JsonPropertyName("running_gps_spoofers")]
     public bool? RunningGpsSpoofers { get; set; }
-    
+
     [JsonPropertyName("running_vpn_spoofers")]
     public bool? RunningVpnSpoofers { get; set; }
-    
+
     [JsonPropertyName("auto_clicker_enabled")]
     public bool? AutoClickerEnabled { get; set; }
-    
+
     [JsonPropertyName("is_device_masked")]
     public bool? IsDeviceMasked { get; set; }
-    
+
     [JsonPropertyName("is_jailbroken")]
     public bool? IsJailBroken { get; set; }
-    
+
     [JsonPropertyName("app_tampering")]
     public bool? AppTampering { get; set; }
-    
+
     [JsonPropertyName("suspicious_factory_reset")]
     public bool? SuspiciousFactoryReset { get; set; }
-    
+
     [JsonPropertyName("virtual_os")]
     public bool? VirtualOs { get; set; }
-    
+
     public bool? Hooking { get; set; }
 }
 
@@ -114,4 +114,11 @@ public class SendAttributesResult
     public string Status { get; set; }
     public string Code { get; set; }
     public string Message { get; set; }
+}
+
+public class CustShieldRiskInfoData
+{
+    public string DeviceId { get; set; }
+    public int DeviceScore { get; set; }
+    public DateTime LastUpdateTime { get; set; }
 }

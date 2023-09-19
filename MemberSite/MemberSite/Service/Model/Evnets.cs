@@ -66,7 +66,7 @@
         public string EventName { get; set; }
         public string ConditionSp { get; set; }
     }
-    public class AngPowTicket 
+    public class AngPowTicket
     {
         public int CustId { get; set; }
         public int TicketNo { get; set; }

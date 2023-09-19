@@ -68,7 +68,7 @@
 
     #region DTO
 
-    public class HotEventDto 
+    public class HotEventDto
     {
         /// <summary>
         /// 聯賽標題名稱

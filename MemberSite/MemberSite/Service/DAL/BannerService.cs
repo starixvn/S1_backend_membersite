@@ -1,7 +1,8 @@
 ﻿using Dapper;
-using MemberSite.Service.Model;
+
 using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Library;
+using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.DAL
