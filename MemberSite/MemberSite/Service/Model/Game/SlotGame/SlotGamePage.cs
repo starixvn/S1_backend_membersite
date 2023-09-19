@@ -41,6 +41,7 @@ namespace MemberSite.Service.Model.Game
         public List<SlotGameInfo> Megaways { get; set; } = new List<SlotGameInfo>();
         public List<SlotGameInfo> MyFavorite { get; set; } = new List<SlotGameInfo>();
         public List<SlotGameInfo> Mini { get; set; } = new List<SlotGameInfo>();
+        public List<SlotGameInfo> Arcade { get; set; } = new List<SlotGameInfo>();
         public GetSlotGamePageResponse()
         {
 
@@ -180,7 +181,17 @@ namespace MemberSite.Service.Model.Game
                     if (category == (int)SlotGameCategory.Mini && slotGameCategoryList.Contains(category))
                     {
                         Mini.Add(game);
-                    }       
+                    }
+
+                    // Arcade
+                    if (returnAllCategory && category == (int)SlotGameCategory.Arcade)
+                    {
+                        Arcade.Add(game);
+                    }
+                    if (category == (int)SlotGameCategory.Arcade && slotGameCategoryList.Contains(category))
+                    {
+                        Arcade.Add(game);
+                    }
                 }
 
                 // HomePageJackpot先寫死nova88指定回傳的jackpot
