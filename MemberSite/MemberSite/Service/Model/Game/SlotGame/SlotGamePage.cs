@@ -37,11 +37,12 @@ namespace MemberSite.Service.Model.Game
         public List<SlotGameInfo> Featured { get; set; } = new List<SlotGameInfo>();
         public List<SlotGameInfo> Jackpot { get; set; } = new List<SlotGameInfo>();
         public List<SlotGameInfo> TableAndCards { get; set; } = new List<SlotGameInfo>();
+        public List<SlotGameInfo> Arcade { get; set; } = new List<SlotGameInfo>();
         public List<SlotGameInfo> BuyFeaturesGames { get; set; } = new List<SlotGameInfo>();
         public List<SlotGameInfo> Megaways { get; set; } = new List<SlotGameInfo>();
         public List<SlotGameInfo> MyFavorite { get; set; } = new List<SlotGameInfo>();
         public List<SlotGameInfo> Mini { get; set; } = new List<SlotGameInfo>();
-        public List<SlotGameInfo> Arcade { get; set; } = new List<SlotGameInfo>();
+       
         public GetSlotGamePageResponse()
         {
 
