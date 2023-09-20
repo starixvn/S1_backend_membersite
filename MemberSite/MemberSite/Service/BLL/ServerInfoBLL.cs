@@ -96,6 +96,14 @@ namespace MemberSite.Service.BLL
 
         public string GetDomain()
         {
+            // 改成使用Referer來取得請求來源的域名
+            if (_httpContextAccessor.HttpContext.Request.Headers.TryGetValue("Referer", out var referer))
+            {
+                // 檢查Referer
+                var uri = new Uri(referer);
+                return uri.Host;
+            }
+
             return _httpContextAccessor.HttpContext.Request.Host.Host;
         }
 
