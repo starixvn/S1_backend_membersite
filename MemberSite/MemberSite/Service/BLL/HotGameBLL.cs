@@ -44,7 +44,7 @@ namespace MemberSite.Service.BLL
             var key = $"GetHotGamesV2:{siteId}:{currencyId}";
             var hotGames = await _redisHelper.TryGetOrCreateAsync(key, null,
                 async () => await _hotGameService.GetHotGames(siteId, currencyId));
-            hotGames = hotGames.Where(x => x.TpId == 25);
+            //hotGames = hotGames.Where(x => x.TpId == 25);
             // 取出Slot的遊戲資訊
             var slotGameList = await _slotGameBLL.GetSlotGameList(siteId, currencyId, (int)deviceType);
             // 取出其他大廳的遊戲資訊
