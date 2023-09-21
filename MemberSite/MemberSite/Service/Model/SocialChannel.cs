@@ -22,6 +22,7 @@ public class SocialChannelResponse
     public string Link { get; set; }
     public int LinkType { get; set; }
     public SocialChannelApp Scheme { get; set; }
+    public string SocialChannelLogoLink { get; set; }
 }
 
 public class SocialChannel : SocialChannelApp
