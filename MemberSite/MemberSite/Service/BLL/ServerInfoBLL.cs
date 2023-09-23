@@ -6,6 +6,7 @@ using MemberSite.Service.Model;
 
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Hosting;
 
 using Newtonsoft.Json;
 
@@ -98,14 +99,19 @@ namespace MemberSite.Service.BLL
 
         public string GetDomain()
         {
-            // 改成使用Referer來取得請求來源的域名
-            if (_httpContextAccessor.HttpContext.Request.Headers.TryGetValue("Referer", out var referer))
+            // 先拿Header的ai-host
+            if (_httpContextAccessor.HttpContext.Request.Headers.TryGetValue("ai-host", out var aiHost))
             {
-                // 檢查Referer
-                var uri = new Uri(referer);
-                return uri.Host;
+                return new Uri(aiHost).Host;
             }
 
+            // 再拿Header的Referer
+            if (_httpContextAccessor.HttpContext.Request.Headers.TryGetValue("Referer", out var referer))
+            {
+                return new Uri(referer).Host;
+            }
+
+            // 都拿不到直接用Request的Host
             return _httpContextAccessor.HttpContext.Request.Host.Host;
         }
 
