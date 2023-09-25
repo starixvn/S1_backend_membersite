@@ -6,6 +6,7 @@ using MemberSite.Service.Model;
 
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Hosting;
 
 using Newtonsoft.Json;
 
@@ -23,6 +24,7 @@ namespace MemberSite.Service.BLL
         private readonly CacheHelper _cacheHelper;
         private readonly List<string> _seoDomain = new List<string>() { };
         private readonly string[] _appHost = { "app.n17881788.com", "app.bwing.com", "app.goal123.com" };
+        private readonly Dictionary<int, Dictionary<string, string>> _socialChannelLogoLinks;
 
         public ServerInfoBll(IServiceProvider provider)
         {
@@ -33,6 +35,7 @@ namespace MemberSite.Service.BLL
             _serverInfoDic = new ConcurrentDictionary<int, ServerInfo>();
             _fixSiteId = provider.GetRequiredService<IConfiguration>().GetValue<int>("SiteId");
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
+            _socialChannelLogoLinks = provider.GetRequiredService<ConfigBLL>().GetConfigValuesBySiteId<Dictionary<string, string>>("SocialChannelLogoLink");
         }
 
         public ServerInfo GetServerInfo()
@@ -96,6 +99,19 @@ namespace MemberSite.Service.BLL
 
         public string GetDomain()
         {
+            // 先拿Header的ai-host
+            if (_httpContextAccessor.HttpContext.Request.Headers.TryGetValue("ai-host", out var aiHost))
+            {
+                return new Uri(aiHost).Host;
+            }
+
+            // 再拿Header的Referer
+            if (_httpContextAccessor.HttpContext.Request.Headers.TryGetValue("Referer", out var referer))
+            {
+                return new Uri(referer).Host;
+            }
+
+            // 都拿不到直接用Request的Host
             return _httpContextAccessor.HttpContext.Request.Host.Host;
         }
 
@@ -187,10 +203,12 @@ namespace MemberSite.Service.BLL
         public async Task<IEnumerable<SocialChannelResponse>> GetSocialChannel(SocialChannelRequest request)
         {
             var result = await _serverInfoService.GetSocialChannel(request);
+            var socialChannelLogoLink = _socialChannelLogoLinks[request.SiteId];
             var items = JsonConvert.DeserializeObject<IEnumerable<SocialChannelResponse>>(JsonConvert.SerializeObject(result));
 
             foreach (var item in items)
             {
+                item.SocialChannelLogoLink = socialChannelLogoLink.TryGetValue(item.ChannelName, out var logoLink) ? logoLink : string.Empty;
                 item.Scheme = new SocialChannelApp
                 {
                     Android = result.First(i => i.Id == item.Id).Android,
