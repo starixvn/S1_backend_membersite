@@ -172,4 +172,9 @@ namespace MemberSite.Service.Model
         public int GroupId { get; set; }
         public DepositType Type { get; set; }
     }
+
+    public class ActualDepositModel
+    {
+        public decimal ActualDeposit { get; set; }
+    }
 }

@@ -135,6 +135,7 @@ namespace MemberSite
 
             services.AddTransient<IHotGameService, HotGameService>();
             services.AddTransient<IAnnouncementService, AnnouncementService>();
+            services.AddSingleton<VIPService>();
 
             /*BLL*/
             services.AddSingleton<IRabbitMQProducer, RabbitMQProducer>();
@@ -297,6 +298,12 @@ namespace MemberSite
             services.AddOptionListByDB<TpGameTypeOption>("Admin_TpGameType_Get");
             services.AddOptionListByDB<AreaCodeMap>("Common_CountryList_Get");
             services.AddOptionListByDB<SabaSportTypeOption>("Service_SabaSportType_Get");
+
+            //處理SiteConfig
+            services.AddOptionListByDB<ServerInfo>("ServerInfoList_Get");
+            services.AddOptionListByDB<ConfigObject>("SiteConfig_Get", new { ConfigGroup = "MemberSite" });
+            services.AddSiteConfig();
+            services.AddSingleton<ConfigBLL>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

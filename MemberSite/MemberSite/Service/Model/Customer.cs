@@ -363,4 +363,12 @@ namespace MemberSite.Service.Model
         public string RecentlyViewed { set; get; }
         public DateTime UpdateTime { set; get; }
     }
+    public class CustVIPProgress
+    {
+        public int CurrentVipLevel { get; set; }
+        public decimal? UpDeposit { get; set; }
+        public decimal ActualDeposit { get; set; }
+        public decimal? DownDeposit { get; set; }
+        public decimal? DownTurnover { get; set; }
+    }
 }
