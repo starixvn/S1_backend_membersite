@@ -5,6 +5,7 @@
         Nova88 = 1,
         Goal123 = 2,
         Bwing = 3,
+        Ivorysport = 5,
         Leobet = 6
     }
 }
