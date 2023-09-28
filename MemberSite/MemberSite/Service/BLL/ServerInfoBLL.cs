@@ -105,12 +105,6 @@ namespace MemberSite.Service.BLL
                 return new Uri(aiHost).Host;
             }
 
-            // 再拿Header的Referer
-            if (_httpContextAccessor.HttpContext.Request.Headers.TryGetValue("Referer", out var referer))
-            {
-                return new Uri(referer).Host;
-            }
-
             // 都拿不到直接用Request的Host
             return _httpContextAccessor.HttpContext.Request.Host.Host;
         }
