@@ -182,7 +182,7 @@ namespace MemberSite.Service.BLL
                     {
                         SysId = x.SysId,
                         PayId = x.PayId,
-                        BankCode = x.BankCode,
+                        BankCode = x.SysBankCode,
                         BankLogo = x.BankLogo,
                         BankName = x.SysBankName,
                         ChannelId = x.ChannelId,
