@@ -36,6 +36,7 @@
 
         public RecentlyViewedResponse(string imgUrl, string bannerUrl, List<RecentlyViewedInfo> recentlyViewedList)
         {
+            recentlyViewedList.RemoveAll(i => i.TpId == 10 && (i.GameId == "F-ZP01" || i.GameId == "F-AH01"));
             this.imgUrl = imgUrl;
             this.bannerUrl = bannerUrl;
             RecentlyViewedList = recentlyViewedList;
