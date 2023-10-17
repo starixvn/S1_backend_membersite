@@ -67,6 +67,7 @@ namespace MemberSite.Service.BLL
               {"Iconic","AT" },
               {"Kiss918","918Kiss" },
               {"END","ES" },
+              {"EBet","WE" },
             };
         }
 
