@@ -185,5 +185,16 @@ namespace MemberSite.Service.BLL
                 RedisDataBase.Shared);
             return dbData;
         }
+        
+        public IEnumerable<WithdrawalBlockSetting> GetWithdrawalBlockSettingWithCache(int siteId, int currencyId)
+        {
+            var key = $"PaySetting:WithdrawalBlock:{siteId}";
+            
+            var dbData = _redisHelper.TryGetOrCreate<IEnumerable<WithdrawalBlockSetting>>(key, TimeSpan.FromMinutes(5),
+                () => _payService.GetWithdrawalBlockSettingList(siteId));
+            
+            return dbData.Where(x => x.CurrencyId == currencyId);
+        }
+        
     }
 }

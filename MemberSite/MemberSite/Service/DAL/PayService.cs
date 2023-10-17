@@ -39,5 +39,10 @@ namespace MemberSite.Service.DAL
         {
             return _reportDbClient.Query<PayGroupInfo>("Service_PayGroup_Get");
         }
+        
+        public IEnumerable<WithdrawalBlockSetting> GetWithdrawalBlockSettingList(int siteId)
+        {
+            return _reportDbClient.Query<WithdrawalBlockSetting>("Service_WithdrawalBlockSetting_Get", new { _SiteId = siteId });
+        }
     }
 }
