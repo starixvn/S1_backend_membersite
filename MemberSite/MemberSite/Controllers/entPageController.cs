@@ -166,10 +166,17 @@ namespace MemberSite.Controllers
             public string Message { get; set; }
         }
 
-        private ViewResult RedirectErrorPage(ErrorData model)
+        private IActionResult RedirectErrorPage(ErrorData model)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
-            return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
+            if (serverInfo.SiteId is 1 or 2 or 3) //Nova88,Goal123,Bwing
+            {
+                return View($"~/Views/entPage/{serverInfo.SiteName}PaymentErrorPage.cshtml", model);
+            }
+            else
+            {
+                return Json(model);
+            }
         }
     }
 }
