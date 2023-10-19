@@ -46,7 +46,7 @@ namespace MemberSite.Service.BLL
             bankInfoBLL = provider.GetRequiredService<BankInfoBLL>();
             statementService = provider.GetRequiredService<StatementService>();
             selLangBLL = provider.GetRequiredService<SelLangBLL>();
-            
+
             var configBll = provider.GetRequiredService<ConfigBLL>();
             _awsDepositUrl = configBll.GetConfigValue("AWSPaymentBucketUrl");
             singleWalletType = new Dictionary<string, string>
@@ -757,6 +757,14 @@ namespace MemberSite.Service.BLL
         {
             if (Type.Length < 5)
             {
+                if (string.IsNullOrWhiteSpace(TypeName))
+                {
+                    int.TryParse(Type, out int intType);
+                    if (intType == (int)FinancialType.Deposit || intType.IsBetween(101, 1000))
+                    {
+                        return "Deposit";
+                    }
+                }
                 return TypeName;
             }
             else
@@ -773,7 +781,6 @@ namespace MemberSite.Service.BLL
                 {
                     tpName = _gameTypeList.GetValueOrDefault(tempId, string.Empty);
                 }
-
                 return $"{tpName} {selLangBLL.GetResourceValue(WalletType)}";
             }
         }
@@ -968,16 +975,16 @@ namespace MemberSite.Service.BLL
 
         public WithdrawalInfoAutoWayEnum GetWithdrawalProcessWay(Customer custInfo, string accountNo, decimal withdrawalAmount, WithdrawalAccountTypeEnum accountType)
         {
-            var setting = withdrawalService.GetAutoPaymentRuleSetting(custInfo.SiteId, custInfo.CurrencyId , accountType ,AutoType.AutoApproved);
+            var setting = withdrawalService.GetAutoPaymentRuleSetting(custInfo.SiteId, custInfo.CurrencyId, accountType, AutoType.AutoApproved);
             if (setting is null)
                 return WithdrawalInfoAutoWayEnum.Manual; //沒有該幣別的設定就是手動
 
             var withdrawalSuccessCount = withdrawalService.GetWithdrawalSuccessCount(custInfo.CustId, accountNo);
 
             var check = CheckAutoPaymentRuleSetting(setting, custInfo.TagList, custInfo.UserLevel, withdrawalAmount, withdrawalSuccessCount);
-            
+
             _logger.LogInformation($"GetWithdrawalProcessWay GetAutoWithdrawalRuleSetting：{JsonConvert.SerializeObject(setting)}，withdrawalSuccessCounter：{withdrawalSuccessCount},CustId:{custInfo.CustId},SiteId：{custInfo.SiteId},CurrencyId:{custInfo.CurrencyId},accountNo:{accountNo}");
-            
+
             return check;
         }
 
@@ -1005,7 +1012,7 @@ namespace MemberSite.Service.BLL
 
             // 不看卡號 只看提款成功次數
             var withdrawalSuccessCount = withdrawalService.GetAllAccountWithdrawalSuccessCounterByCustId(custInfo.CustId);
-            
+
             if (custInfo.SiteId == (int)SiteId.Nova88)
             {
                 // Iovation
@@ -1025,7 +1032,7 @@ namespace MemberSite.Service.BLL
                 var deviceScore = -1;
                 if (strDeviceScore != null)
                 {
-                    deviceScore = Convert.ToInt32(strDeviceScore) ;
+                    deviceScore = Convert.ToInt32(strDeviceScore);
                 }
                 else
                 {
@@ -1036,7 +1043,7 @@ namespace MemberSite.Service.BLL
                         _logger.LogInformation($"{transId} WithdrawalVerifyWay Manual, Can't find device_score , use DB Data : {shieldInfo.DeviceScore}  ");
                     }
                 }
-                
+
                 if (deviceScore < setting.DeviceScores)
                 {
                     _logger.LogInformation($"{transId} WithdrawalVerifyWay Manual, deviceScore : {deviceScore} , Setting :{setting.DeviceScores} ");
@@ -1044,17 +1051,17 @@ namespace MemberSite.Service.BLL
                 }
             }
 
-            var check = CheckAutoPaymentRuleSetting(setting, custInfo.TagList, custInfo.UserLevel, withdrawalAmount, withdrawalSuccessCount); 
-            
+            var check = CheckAutoPaymentRuleSetting(setting, custInfo.TagList, custInfo.UserLevel, withdrawalAmount, withdrawalSuccessCount);
+
             return check;
         }
 
-        private WithdrawalInfoAutoWayEnum CheckAutoPaymentRuleSetting(AutoPaymentRuleSettingDto setting ,string tagList , int customerVip, decimal withdrawalAmount , int withdrawalSuccessCount)
+        private WithdrawalInfoAutoWayEnum CheckAutoPaymentRuleSetting(AutoPaymentRuleSettingDto setting, string tagList, int customerVip, decimal withdrawalAmount, int withdrawalSuccessCount)
         {
             var customerTags = string.IsNullOrEmpty(tagList)
                 ? new List<int>()
                 : JsonConvert.DeserializeObject<List<int>>(tagList);
-            
+
             // 玩家身上有Tag，設定也有tag 才檢查
             if (customerTags.Any() && setting.Tags.Any())
             {
@@ -1063,7 +1070,7 @@ namespace MemberSite.Service.BLL
                     return WithdrawalInfoAutoWayEnum.Manual;
                 }
             }
-            
+
             // vipLevelCheck
             if (setting.VipLevels.Any())
             {
@@ -1072,7 +1079,7 @@ namespace MemberSite.Service.BLL
                     return WithdrawalInfoAutoWayEnum.Manual;
                 }
             }
-            
+
             // withdrawal Amount check
             if (withdrawalAmount > setting.WithdrawalAmount)
             {
@@ -1084,10 +1091,10 @@ namespace MemberSite.Service.BLL
             {
                 return WithdrawalInfoAutoWayEnum.Manual;
             }
-            
+
             return WithdrawalInfoAutoWayEnum.Auto;
         }
-        
+
         private ApiResult AutoVerify(string transId)
         {
             var apiUrl = $"{_backendUrl}ApiPaymentGateWay/AutoPayment";

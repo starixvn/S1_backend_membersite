@@ -1,5 +1,4 @@
 ﻿using System.Text.Json.Serialization;
-
 using MemberSite.Extensions;
 
 namespace MemberSite.Service.Model
@@ -39,6 +38,7 @@ namespace MemberSite.Service.Model
         public string TypeName { get; set; }
 
         public string CustTimeZone { get; set; }
+
     }
 
     public class TpList
