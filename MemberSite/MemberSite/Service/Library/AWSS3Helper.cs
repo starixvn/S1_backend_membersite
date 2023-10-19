@@ -1,13 +1,9 @@
 ﻿using System.Net;
-
 using Amazon;
 using Amazon.S3;
 using Amazon.S3.Model;
-
+using MemberSite.Service.BLL;
 using MemberSite.Service.Model;
-
-using Microsoft.Extensions.Options;
-
 using Newtonsoft.Json;
 
 namespace MemberSite.Service.Library;
@@ -19,10 +15,11 @@ public class AWSS3Helper
 
     public AWSS3Helper(IServiceProvider provider)
     {
-        var configuration = provider.GetRequiredService<IConfiguration>();
-        var awsKeyConfig = provider.GetRequiredService<IOptions<Dictionary<string, AWSKeyConfig>>>().Value["ailab-s3"];
-        var proxyHost = configuration.GetValue<string>("ProxyHost");
-        var proxyPort = configuration.GetValue<int>("ProxyPort");
+        var configBll = provider.GetRequiredService<ConfigBLL>();
+        var awsKeyConfig = configBll.GetConfigValue<AWSKeyConfig>("AWSS3Key");
+        var proxyConfig = configBll.GetConfigValue<ProxyConfig>("ProxySetting");
+        var proxyHost = proxyConfig.ProxyHost;
+        var proxyPort = proxyConfig.ProxyPort;
 
         var config = new AmazonS3Config
         {
