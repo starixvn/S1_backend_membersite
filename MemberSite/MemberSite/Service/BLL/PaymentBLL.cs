@@ -46,8 +46,9 @@ namespace MemberSite.Service.BLL
             bankInfoBLL = provider.GetRequiredService<BankInfoBLL>();
             statementService = provider.GetRequiredService<StatementService>();
             selLangBLL = provider.GetRequiredService<SelLangBLL>();
-            var configuration = provider.GetRequiredService<IConfiguration>();
-            _awsDepositUrl = configuration.GetValue<string>("AwsDepositUrl");
+            
+            var configBll = provider.GetRequiredService<ConfigBLL>();
+            _awsDepositUrl = configBll.GetConfigValue("AWSPaymentBucketUrl");
             singleWalletType = new Dictionary<string, string>
             {
                 {"1", "lbl_Stake"  },
@@ -65,6 +66,7 @@ namespace MemberSite.Service.BLL
             _httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
             _logger = provider.GetRequiredService<ILogger<PaymentBLL>>();
             _iovationService = provider.GetRequiredService<IovationService>();
+            var configuration = provider.GetRequiredService<IConfiguration>();
             _backendUrl = configuration.GetValue<string>("BackendService");
             _courierAdapter = provider.GetRequiredService<CourierAdapter>();
             _tools = provider.GetRequiredService<Tools>();

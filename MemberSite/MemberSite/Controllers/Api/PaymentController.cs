@@ -30,6 +30,7 @@ namespace MemberSite.Controllers.Api
         private readonly CryptoPayInfoBll cryptoPayInfoBLL;
         private readonly LoadCardPayInfoBLL loadCardPayInfoBLL;
         private readonly string tpApiUrl;
+        private readonly string _paymentBucketName;
         private readonly FileNameBLL _fileNameBll;
         private readonly ImageEditorBLL _imageEditorBll;
         private readonly PayInfoBLL _payInfoBLL;
@@ -67,6 +68,9 @@ namespace MemberSite.Controllers.Api
             var configuration = provider.GetRequiredService<IConfiguration>();
             tpApiUrl = configuration.GetValue<string>("TpService");
             _bonusServiceUrl = configuration.GetValue<string>("BonusService");
+            var configBll = provider.GetRequiredService<ConfigBLL>();
+            _paymentBucketName = configBll.GetConfigValue("AWSPaymentBucketName");
+
         }
 
         [HttpPost]
@@ -983,7 +987,7 @@ namespace MemberSite.Controllers.Api
 
                     var putRequest = new PutObjectRequest();
                     var key = $"deposit/{depositReceipt.TransId}_{receiptNo}.png";
-                    putRequest.BucketName = "ailab-payment"; // Your bucket name
+                    putRequest.BucketName =  _paymentBucketName; // Your bucket name
                     putRequest.ContentType = "image/png";
                     putRequest.InputStream = stream;
                     putRequest.Key = key;
