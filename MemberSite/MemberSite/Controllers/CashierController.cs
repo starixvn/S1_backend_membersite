@@ -125,7 +125,7 @@ namespace MemberSite.Controllers
         }
 
         private static readonly IEnumerable<int> NoExchangeInfoPay
-            = new List<int> {(int)PayEnum.Coin2Pay};
+            = new List<int> { (int)PayEnum.Coin2Pay };
 
         public async Task<IActionResult> DepositReqCryptoPayAsync(int ChannelId, decimal Amount, string BonusCode)
         {
@@ -142,19 +142,19 @@ namespace MemberSite.Controllers
                 {
                     var exchangeInfo =
                         await _cryptoPayInfoBll.GetExchangeInfoAsync(custInfo.SiteId, custInfo.CurrencyId, Amount, cryptoPayInfo.ChannelName, ExchangeTypeEnum.Buy);
-                    
+
                     if (exchangeInfo.ErrorCode != (int)ErrorCode.Success)
                     {
                         _logger.LogError($"{transId}, {cryptoPayInfo.PayName} get exchange info failed.");
                         return RedirectErrorPage(model);
                     }
-                    
+
                     var obj = JObject.Parse(depositInfo);
                     obj.AddOrSet("ExchangeRate", exchangeInfo.Data.Rate);
                     obj.AddOrSet("ExchangeAmount", exchangeInfo.Data.ExchangeAmount);
                     depositInfo = JsonConvert.SerializeObject(obj);
                 }
-                
+
                 if (_promotionBll.VerifyBonusCode(BonusCode))
                     _promotionBll.SetDepositPromotionQueue(transId, BonusCode, authData.CustId, custInfo.SiteId, custInfo.UserName, custInfo.CurrencyId, 1, 0);
                 var reqDepositCrypto = new ReqDepositCrypto
@@ -466,10 +466,18 @@ namespace MemberSite.Controllers
             }
         }
 
-        private ViewResult RedirectErrorPage(ErrorData model)
+
+        private IActionResult RedirectErrorPage(ErrorData model)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
-            return View($"~/Views/entPage/{serverInfo.SiteName}PaymentErrorPage.cshtml", model);
+            if (serverInfo.SiteId is 1 or 2 or 3) //Nova88,Goal123,Bwing
+            {
+                return View($"~/Views/entPage/{serverInfo.SiteName}PaymentErrorPage.cshtml", model);
+            }
+            else
+            {
+                return Json(model);
+            }
         }
     }
 }
