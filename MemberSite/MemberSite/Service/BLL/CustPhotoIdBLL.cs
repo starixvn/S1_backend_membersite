@@ -1,5 +1,4 @@
 using Amazon.S3.Model;
-
 using MemberSite.Extensions;
 using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.DAL.Interface;
@@ -15,14 +14,21 @@ public class CustPhotoIdBLL : ICustPhotoIdBLL
     private readonly AWSS3Helper _s3Helper;
     private readonly ILogger<CustPhotoIdBLL> _logger;
     private readonly string _environment;
+    private readonly string _backOfficeBucketName;
 
-    public CustPhotoIdBLL(ImageEditorBLL imageEditorBll, ICustPhotoIdService custPhotoIdService, AWSS3Helper s3Helper, IWebHostEnvironment env, ILogger<CustPhotoIdBLL> logger)
+    public CustPhotoIdBLL(ImageEditorBLL imageEditorBll,
+        ICustPhotoIdService custPhotoIdService, 
+        AWSS3Helper s3Helper,
+        IWebHostEnvironment env,
+        ILogger<CustPhotoIdBLL> logger,
+        ConfigBLL configBll)
     {
         _imageEditorBll = imageEditorBll;
         _logger = logger;
         _custPhotoIdService = custPhotoIdService;
         _s3Helper = s3Helper;
         _environment = env.IsPrd() ? "PRD" : "DEV";
+        _backOfficeBucketName = configBll.GetConfigValue("AWSBackOfficeBucketName");
     }
 
     public async Task<long> UploadPhotoIdAsync(int custId, int siteId, IFormFile photo)
@@ -47,7 +53,7 @@ public class CustPhotoIdBLL : ICustPhotoIdBLL
         var key = $"{_environment}/{siteName}/CustPhotoId/{custId}/{sq}.jpeg";
         var putRequest = new PutObjectRequest
         {
-            BucketName = "ailab-backoffice",
+            BucketName = _backOfficeBucketName,
             ContentType = "image/jpeg",
             InputStream = stream,
             Key = key
