@@ -57,7 +57,7 @@ namespace MemberSite.Controllers.Api
 
             var serverInfo = serverInfoBLL.GetServerInfo();
             int siteId;
-            var currencyId = (int)CurrencyId.MYR;
+            var currencyId = serverInfo.DefCurrency;
             var landId = "en";
 
             var authData = authorizeBLL.GetAuthData();
