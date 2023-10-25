@@ -8,7 +8,7 @@ namespace MemberSite.Service.BLL
     public class LoadCardPayInfoBLL
     {
         private readonly CustInfoBll _custInfoBll;
-        private readonly DepositBLL _depositBll;
+        private readonly DepositLimitBLL _depositLimitBll;
         private readonly PayService _payService;
         private readonly DepositService _depositService;
         private readonly ICacheHelper _redisHelper;
@@ -16,13 +16,13 @@ namespace MemberSite.Service.BLL
         public LoadCardPayInfoBLL(IServiceProvider provider)
         {
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
-            _depositBll = provider.GetRequiredService<DepositBLL>();
+            _depositLimitBll = provider.GetRequiredService<DepositLimitBLL>();
             _payService = provider.GetRequiredService<PayService>();
             _depositService = provider.GetRequiredService<DepositService>();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
         }
 
-        private IEnumerable<LoadCardPayInfo> GetLoadCardPayInfoList(int siteId)
+        public IEnumerable<LoadCardPayInfo> GetLoadCardPayInfoList(int siteId)
         {
             var key = $"PaySetting:LoadCard:{siteId}";
             var dbData = _redisHelper.TryGetOrCreate<IEnumerable<LoadCardPayInfo>>(key, TimeSpan.FromMinutes(5),
@@ -36,13 +36,7 @@ namespace MemberSite.Service.BLL
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var pointLevel = _custInfoBll.GetPointLevelWithCache(custId);
             var LoadCardPayInfoList = GetLoadCardPayInfoList(custInfo.SiteId);
-
-            var depositLimitInfoList = _depositBll.GetDepositLimitInfoList(custInfo.SiteId);
-            var depositLimitInfo = depositLimitInfoList?
-                .Where(x => x.SiteId == custInfo.SiteId
-                            && x.VipLevel == pointLevel
-                            && x.DepositType == (int)DepositType.LoadCardPayment
-                            && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
+            var depositLimitInfo = _depositLimitBll.GetDepositLimitInfo(custId, DepositType.LoadCardPayment);
 
             if (depositLimitInfo?.DepositStatus == 0)
             {
@@ -72,7 +66,7 @@ namespace MemberSite.Service.BLL
             {
                 foreach (var payGroup in LoadCardPayGroupList)
                 {
-                    _depositBll.FixDepositLimit(payGroup, depositLimitInfo);
+                    _depositLimitBll.FixDepositLimit(payGroup, depositLimitInfo);
                 }
             }
 
@@ -84,8 +78,7 @@ namespace MemberSite.Service.BLL
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
 
-            var depositLimitInfoList = _depositBll.GetDepositLimitInfoList(custInfo.SiteId);
-            var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.MobilePayment && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
+            var depositLimitInfo = _depositLimitBll.GetDepositLimitInfo(custId, DepositType.LoadCardPayment);
 
             if (depositLimitInfo?.DepositStatus == 0)
             {
@@ -98,74 +91,11 @@ namespace MemberSite.Service.BLL
             {
                 foreach (var LoadCardPayInfo in LoadCardPayInfoList)
                 {
-                    _depositBll.FixDepositLimit(LoadCardPayInfo, depositLimitInfo);
+                    _depositLimitBll.FixDepositLimit(LoadCardPayInfo, depositLimitInfo);
                 }
             }
 
             return LoadCardPayInfoList.Where(x => x.MaxAmount > 0);
-        }
-        public int DepositReqLoadCardPay(int custId, int channelId, string code, string serial, decimal amount, out string transId, out LoadCardPayInfo loadCardPayInfo)
-        {
-            transId = null;
-            loadCardPayInfo = null;
-            if (amount <= 0)
-                return -1;
-            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
-            var pointLevel = _custInfoBll.GetPointLevelWithCache(custId);
-
-            var depositLimitInfoList = _depositBll.GetDepositLimitInfoList(custInfo.SiteId);
-            var depositLimitInfo = depositLimitInfoList?
-                .Where(x => x.SiteId == custInfo.SiteId
-                            && x.VipLevel == pointLevel
-                            && x.DepositType == (int)DepositType.LoadCardPayment
-                            && x.CurrencyId == custInfo.CurrencyId)
-                .FirstOrDefault();
-
-            if (depositLimitInfo?.DepositStatus == 0)
-            {
-                return -3;
-            }
-
-            loadCardPayInfo = GetLoadCardPayInfoList(custInfo.SiteId)
-                .FirstOrDefault(x => pointLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.ChannelId == channelId);
-
-            if (depositLimitInfo != null && loadCardPayInfo != null)
-            {
-                _depositBll.FixDepositLimit(loadCardPayInfo, depositLimitInfo);
-            }
-
-            if (loadCardPayInfo == null || loadCardPayInfo.MaxAmount < amount || loadCardPayInfo.MinAmount > amount)
-            {
-                return -2;
-            }
-
-            if (loadCardPayInfo.AmountRule == 3 && !loadCardPayInfo.AmountList.Contains(amount))
-            {
-                return -2;
-            }
-
-            if (loadCardPayInfo != null)
-            {
-                loadCardPayInfo.Code = code;
-                loadCardPayInfo.Serial = serial;
-
-                var depositDetailInfo = new DepositDetailInfo
-                {
-                    Amount = amount,
-                    CustId = custId,
-                    DepositType = (int)DepositType.LoadCardPayment,
-                    Memo = null,
-                    SiteId = custInfo.SiteId,
-                    UserName = custInfo.UserName,
-                    CurrencyId = custInfo.CurrencyId,
-                    DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(loadCardPayInfo)
-                };
-
-                _depositService.DepositReq(depositDetailInfo, out transId, out _);
-                return 0;
-            }
-
-            return -99;
         }
     }
 }

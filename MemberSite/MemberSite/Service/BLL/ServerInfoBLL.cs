@@ -6,6 +6,7 @@ using MemberSite.Service.Model;
 
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Hosting;
 
 using Newtonsoft.Json;
 
@@ -98,6 +99,13 @@ namespace MemberSite.Service.BLL
 
         public string GetDomain()
         {
+            // 先拿Header的ai-host
+            if (_httpContextAccessor.HttpContext.Request.Headers.TryGetValue("ai-host", out var aiHost))
+            {
+                return new Uri(aiHost).Host;
+            }
+
+            // 都拿不到直接用Request的Host
             return _httpContextAccessor.HttpContext.Request.Host.Host;
         }
 

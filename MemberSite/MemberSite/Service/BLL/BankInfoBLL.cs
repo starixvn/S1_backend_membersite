@@ -11,7 +11,7 @@ namespace MemberSite.Service.BLL
         private readonly ServerInfoBll _serverInfoBll;
         private readonly CustInfoBll _custInfoBll;
         private readonly PayService _payService;
-        private readonly DepositBLL _depositBll;
+        private readonly DepositLimitBLL _depositLimitBll;
         private readonly ICacheHelper _redisHelper;
 
         public BankInfoBLL(IServiceProvider provider)
@@ -20,7 +20,7 @@ namespace MemberSite.Service.BLL
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _payService = provider.GetRequiredService<PayService>();
-            _depositBll = provider.GetRequiredService<DepositBLL>();
+            _depositLimitBll = provider.GetRequiredService<DepositLimitBLL>();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
         }
         public IEnumerable<BankInfoSys> GetBankInfoSysListByCurrency(int currencyId)
@@ -75,10 +75,8 @@ namespace MemberSite.Service.BLL
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var pointLevel = _custInfoBll.GetPointLevelWithCache(custId);
-            var depositLimitInfoList = _depositBll.GetDepositLimitInfoList(custInfo.SiteId);
-            var depositLimitInfo = depositLimitInfoList?.FirstOrDefault(x =>
-                x.SiteId == custInfo.SiteId && x.VipLevel == pointLevel &&
-                x.DepositType == (int)DepositType.OnlineBanking && x.CurrencyId == custInfo.CurrencyId);
+            
+            var depositLimitInfo = _depositLimitBll.GetDepositLimitInfo(custId, DepositType.OnlineBanking);
 
             if (depositLimitInfo?.DepositStatus == 0)
             {
@@ -107,7 +105,7 @@ namespace MemberSite.Service.BLL
 
                     if (depositLimitInfo != null)
                     {
-                        _depositBll.FixDepositLimit(p, depositLimitInfo);
+                        _depositLimitBll.FixDepositLimit(p, depositLimitInfo);
                     }
 
                     return p;
@@ -122,10 +120,7 @@ namespace MemberSite.Service.BLL
             var pointLevel = _custInfoBll.GetPointLevelWithCache(custId);
             var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
             var bankInfoPayList = GetOnlineBankList(custInfo.SiteId);
-            var depositLimitInfoList = _depositBll.GetDepositLimitInfoList(custInfo.SiteId);
-            var depositLimitInfo = depositLimitInfoList?.FirstOrDefault(x =>
-                x.SiteId == custInfo.SiteId && x.VipLevel == pointLevel &&
-                x.DepositType == (int)DepositType.OnlineBanking && x.CurrencyId == custInfo.CurrencyId);
+            var depositLimitInfo = _depositLimitBll.GetDepositLimitInfo(custId, DepositType.OnlineBanking);
 
             var bankInfoList = bankInfoPayList
                 .Where(x => vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.PayId == payId &&
@@ -146,7 +141,7 @@ namespace MemberSite.Service.BLL
 
                     if (depositLimitInfo != null)
                     {
-                        _depositBll.FixDepositLimit(p, depositLimitInfo);
+                        _depositLimitBll.FixDepositLimit(p, depositLimitInfo);
                     }
                     return p;
                 });
@@ -159,10 +154,7 @@ namespace MemberSite.Service.BLL
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var pointLevel = _custInfoBll.GetPointLevelWithCache(custId);
 
-            var depositLimitInfoList = _depositBll.GetDepositLimitInfoList(custInfo.SiteId);
-            var depositLimitInfo = depositLimitInfoList?.FirstOrDefault(x =>
-                x.SiteId == custInfo.SiteId && x.VipLevel == pointLevel &&
-                x.DepositType == (int)DepositType.OnlineBanking && x.CurrencyId == custInfo.CurrencyId);
+            var depositLimitInfo = _depositLimitBll.GetDepositLimitInfo(custId, DepositType.OnlineBanking);
 
             if (depositLimitInfo?.DepositStatus == 0)
             {
@@ -192,7 +184,7 @@ namespace MemberSite.Service.BLL
 
                     if (depositLimitInfo != null)
                     {
-                        _depositBll.FixDepositLimit(p, depositLimitInfo);
+                        _depositLimitBll.FixDepositLimit(p, depositLimitInfo);
                     }
 
                     return p;

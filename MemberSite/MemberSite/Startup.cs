@@ -67,7 +67,6 @@ namespace MemberSite
             services.Configure<Dictionary<string, SiteConfig>>(_configuration.GetSection("SiteConfig"));
             services.Configure<Dictionary<string, string>>(_configuration.GetSection("LoginDeviceConfig"));
             services.Configure<AllowIpList>(_configuration.GetSection("AllowIpList"));
-            services.Configure<Dictionary<string, AWSKeyConfig>>(_configuration.GetSection("AwsKeyConfig"));
             services.AddMemoryCache();
             services.AddDatabaseConnection(_configuration);
             services.AddMessageQueueConnection(_configuration);
@@ -150,6 +149,7 @@ namespace MemberSite
             services.AddSingleton<CryptoPayInfoBll>();
             services.AddSingleton<LoadCardPayInfoBLL>();
             services.AddSingleton<DepositBLL>();
+            services.AddSingleton<DepositLimitBLL>();
             services.AddSingleton<PaymentBLL>();
             services.AddSingleton<ThirdPartyBll>();
             services.AddSingleton<MessageBll>();

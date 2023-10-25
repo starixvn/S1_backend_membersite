@@ -9,8 +9,7 @@ namespace MemberSite.Service.BLL
     public class PayInfoBLL
     {
         private readonly PayService _payService;
-        private readonly DepositService _depositService;
-        private readonly DepositBLL _depositBll;
+        private readonly DepositLimitBLL _depositLimitBll;
         private readonly BankInfoOffBLL _bankInfoOffBll;
         private readonly CustInfoBll _custInfoBll;
         private readonly ICacheHelper _redisHelper;
@@ -19,22 +18,19 @@ namespace MemberSite.Service.BLL
         {
             _payService = provider.GetRequiredService<PayService>();
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
-            _depositService = provider.GetRequiredService<DepositService>();
-            _depositBll = provider.GetRequiredService<DepositBLL>();
+            _depositLimitBll = provider.GetRequiredService<DepositLimitBLL>();
             _bankInfoOffBll = provider.GetRequiredService<BankInfoOffBLL>();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
         }
 
-
-
-        public IEnumerable<PayGroupInfo> GetPayGroupWithCache()
+        private IEnumerable<PayGroupInfo> GetPayGroupWithCache()
         {
             var dbData = _redisHelper.TryGetOrCreate("PayGroupInfoList", TimeSpan.FromMinutes(5),
                 () => _payService.GetPayGroup(), RedisDataBase.Shared);
             return dbData;
         }
 
-        private Dictionary<DepositType, OfflineBankAccountSupportChannelEnum> _dicSupportChannelMapper
+        private readonly Dictionary<DepositType, OfflineBankAccountSupportChannelEnum> _dicSupportChannelMapper
             = new()
             {
                 {DepositType.OnlineBanking, OfflineBankAccountSupportChannelEnum.LocalBank},
@@ -47,7 +43,7 @@ namespace MemberSite.Service.BLL
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
 
-            var depositLimitInfo = GetDepositLimitInfo(custInfo, vipLevel, depositType);
+            var depositLimitInfo = _depositLimitBll.GetDepositLimitInfo(custId, depositType);
             if (depositLimitInfo?.DepositStatus == 0)
             {
                 return new List<PayGroup>();
@@ -121,7 +117,7 @@ namespace MemberSite.Service.BLL
             {
                 foreach (var payGroup in payGroupList)
                 {
-                    _depositBll.FixDepositLimit(payGroup, depositLimitInfo);
+                    _depositLimitBll.FixDepositLimit(payGroup, depositLimitInfo);
                 }
             }
 
@@ -133,7 +129,7 @@ namespace MemberSite.Service.BLL
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
 
-            var depositLimitInfo = GetDepositLimitInfo(custInfo, vipLevel, depositType);
+            var depositLimitInfo = _depositLimitBll.GetDepositLimitInfo(custId, depositType);
             if (depositLimitInfo?.DepositStatus == 0)
             {
                 return Array.Empty<PayInfo>();
@@ -172,7 +168,7 @@ namespace MemberSite.Service.BLL
             {
                 foreach (var payInfo in payInfoList)
                 {
-                    _depositBll.FixDepositLimit(payInfo, depositLimitInfo);
+                    _depositLimitBll.FixDepositLimit(payInfo, depositLimitInfo);
                 }
             }
 
@@ -181,59 +177,7 @@ namespace MemberSite.Service.BLL
                 .ThenBy(x => x.SSort);
         }
 
-        public int DepositReqPay(int custId, int channelId, decimal amount, out string transId, out PayInfo payInfo, DepositType depositType)
-        {
-            transId = null;
-            payInfo = null;
-            if (amount <= 0)
-            {
-                return -1;
-            }
-
-            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
-            var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
-
-            var depositLimitInfo = GetDepositLimitInfo(custInfo, vipLevel, depositType);
-            if (depositLimitInfo?.DepositStatus == 0)
-            {
-                return -3;
-            }
-
-            payInfo = GetPayInfoList(custInfo.SiteId, depositType)
-                .FirstOrDefault(x => vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.ChannelId == channelId);
-
-            if (depositLimitInfo != null && payInfo != null)
-            {
-                _depositBll.FixDepositLimit(payInfo, depositLimitInfo);
-            }
-
-            if (payInfo == null || payInfo.MaxAmount < amount || payInfo.MinAmount > amount)
-            {
-                return -2;
-            }
-            else if (payInfo.AmountRule == 3 && !payInfo.AmountList.Contains(amount))
-            {
-                return -2;
-            }
-
-
-            var depositDetailInfo = new DepositDetailInfo
-            {
-                Amount = amount,
-                CustId = custId,
-                DepositType = (int)depositType,
-                Memo = null,
-                SiteId = custInfo.SiteId,
-                UserName = custInfo.UserName,
-                CurrencyId = custInfo.CurrencyId,
-                DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(payInfo)
-            };
-
-            _depositService.DepositReq(depositDetailInfo, out transId, out _);
-            return 0;
-        }
-
-        private IEnumerable<PayInfo> GetPayInfoList(int siteId, DepositType depositType)
+        public IEnumerable<PayInfo> GetPayInfoList(int siteId, DepositType depositType)
         {
             var key = $"PaySetting:{siteId}:{depositType}";
             var dbData = _redisHelper.TryGetOrCreate<IEnumerable<PayInfo>>(key, TimeSpan.FromMinutes(5),
@@ -241,15 +185,16 @@ namespace MemberSite.Service.BLL
                 RedisDataBase.Shared);
             return dbData;
         }
-
-        private DepositLimitInfo GetDepositLimitInfo(Customer custInfo, int vipLevel, DepositType depositType)
+        
+        public IEnumerable<WithdrawalBlockSetting> GetWithdrawalBlockSettingWithCache(int siteId, int currencyId)
         {
-            return _depositBll.GetDepositLimitInfoList(custInfo.SiteId)?
-                    .FirstOrDefault(x =>
-                                    x.SiteId == custInfo.SiteId &&
-                                    x.VipLevel == vipLevel &&
-                                    x.DepositType == (int)depositType &&
-                                    x.CurrencyId == custInfo.CurrencyId);
+            var key = $"PaySetting:WithdrawalBlock:{siteId}";
+            
+            var dbData = _redisHelper.TryGetOrCreate<IEnumerable<WithdrawalBlockSetting>>(key, TimeSpan.FromMinutes(5),
+                () => _payService.GetWithdrawalBlockSettingList(siteId));
+            
+            return dbData.Where(x => x.CurrencyId == currencyId);
         }
+        
     }
 }

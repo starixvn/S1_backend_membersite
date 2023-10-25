@@ -166,6 +166,13 @@ namespace MemberSite.Controllers
 
         public class ErrorData
         {
+            public ErrorData(){}
+            
+            public ErrorData(string msg)
+            {
+                Message = msg;
+            }
+            
             public string Message { get; set; }
         }
 
