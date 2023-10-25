@@ -1,4 +1,5 @@
-﻿using MemberSite.Service.BLL;
+﻿using Amazon.Runtime.Internal.Transform;
+using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model.enums;
 
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 using Serilog.Context;
+using ThirdParty.Json.LitJson;
 
 namespace MemberSite.Controllers
 {
@@ -79,6 +81,7 @@ namespace MemberSite.Controllers
             }
 
             var myUrl = $"{_apiUrl}GotoGame";
+            var errorUrl = string.Empty;
             var tpInfo = new TpInfo
             {
                 TpId = tpId,
@@ -94,6 +97,11 @@ namespace MemberSite.Controllers
                 tpInfo.AppType = appType;
             }
 
+            if (!inputs.ContainsKey("errorUrl"))
+            {
+                errorUrl = inputs["errorUrl"];
+            }
+
             try
             {
                 if (authData is { CustId: > 0 })
@@ -102,7 +110,7 @@ namespace MemberSite.Controllers
 
                     if (tpId == (int)Tp.TCG && string.CompareOrdinal(custInfo.AffCode, "67253") == 0)
                     {
-                        return RedirectErrorPage(new ErrorData() { Message = "Access Denied" });
+                        return RedirectErrorPage(errorUrl, new ErrorData() { Message = "Access Denied" });
                     }
 
                     if (tpId == (int)Tp.AG)
@@ -145,12 +153,12 @@ namespace MemberSite.Controllers
                     return Redirect(entryUrl);
                 }
 
-                return RedirectErrorPage(new ErrorData() { Message = data.RawMessage });
+                return RedirectErrorPage(errorUrl, new ErrorData() { Message = data.RawMessage });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                return RedirectErrorPage(new ErrorData() { Message = ex.Message });
+                return RedirectErrorPage(errorUrl, new ErrorData() { Message = ex.Message });
             }
         }
 
@@ -159,7 +167,7 @@ namespace MemberSite.Controllers
             public string Message { get; set; }
         }
 
-        private IActionResult RedirectErrorPage(ErrorData model)
+        private IActionResult RedirectErrorPage(string errorUrl, ErrorData model)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
             if (serverInfo.SiteId is 1 or 2 or 3) //Nova88,Goal123,Bwing
@@ -168,7 +176,7 @@ namespace MemberSite.Controllers
             }
             else
             {
-                return Json(model);
+                return Redirect($"{errorUrl}?ErrorData={System.Text.Json.JsonSerializer.Serialize(model)}");
             }
         }
     }
