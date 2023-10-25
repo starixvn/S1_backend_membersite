@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
+using Newtonsoft.Json;
 using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
@@ -363,7 +363,7 @@ namespace MemberSite.Controllers.Api
                 _bankInfoBll.BankNameLocalization(bankInfoSysList, authData.LangId);
             }
 
-            var custBankInfo = Newtonsoft.Json.JsonConvert.DeserializeObject<CustBankInfoRep>(Newtonsoft.Json.JsonConvert.SerializeObject(_custInfoBll.GetCustBankInfo(authData.CustId)));
+            var custBankInfo = JsonConvert.DeserializeObject<CustBankInfoRep>(JsonConvert.SerializeObject(_custInfoBll.GetCustBankInfo(authData.CustId)));
 
             if (custBankInfo is { bankInfoDetail: { } } && custBankInfo.bankInfoDetail.Any())
             {
@@ -375,6 +375,7 @@ namespace MemberSite.Controllers.Api
                         bankInfo.BankName = refBankInfo.BankName;
                         bankInfo.BankLogo = refBankInfo.BankLogo;
                         bankInfo.BankSite = refBankInfo.BankSite;
+                        bankInfo.Disabled = refBankInfo.Status != GeneralStatusEnum.Enable;
                     }
 
                     if (!custBankInfo.bankInfoDetail.Any())

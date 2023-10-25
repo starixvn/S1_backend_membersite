@@ -1721,5 +1721,26 @@ namespace MemberSite.Controllers.Api
             #endregion
             return await DoWithdrawalAsync(apiResult, authData, custInfo, withdrawalReqModel, custBankInfo, WithdrawalTypeStatus.EWallet, null);
         }
+        
+        [HttpPost]
+        public ApiResult<IEnumerable<WithdrawalBlockSetting>> GetWithdrawalBlockSetting()
+        {
+            var apiResult = new ApiResult<IEnumerable<WithdrawalBlockSetting>>();
+            var authData = authorizeBLL.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                apiResult.Message = selLangBLL.GetMsg("msg_ForceLogedout");
+                return apiResult;
+            }
+
+            var custInfo =  custInfoBLL.GetCustInfoWithCache(authData.CustId);
+            var data = 
+                _payInfoBLL.GetWithdrawalBlockSettingWithCache(custInfo.SiteId, custInfo.CurrencyId);
+
+            apiResult.Data = data;
+            apiResult.ErrorCode = 0;
+            
+            return apiResult;
+        }
     }
 }

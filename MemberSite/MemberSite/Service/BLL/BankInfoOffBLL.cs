@@ -12,7 +12,7 @@ namespace MemberSite.Service.BLL
         private readonly BankInfoOffService _bankInfoService;
         private readonly BankInfoBLL _bankInfoBll;
         private readonly CustInfoBll _custInfoBll;
-        private readonly DepositBLL _depositBll;
+        private readonly DepositLimitBLL _depositLimitBll;
         private readonly DepositService _depositService;
         private readonly ICacheHelper _redisHelper;
         private readonly ILogger<BankInfoOffBLL> _logger;
@@ -22,7 +22,7 @@ namespace MemberSite.Service.BLL
             _bankInfoService = provider.GetRequiredService<BankInfoOffService>();
             _bankInfoBll = provider.GetRequiredService<BankInfoBLL>();
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
-            _depositBll = provider.GetRequiredService<DepositBLL>();
+            _depositLimitBll = provider.GetRequiredService<DepositLimitBLL>();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
             _depositService = provider.GetRequiredService<DepositService>();
             _logger = provider.GetRequiredService<ILogger<BankInfoOffBLL>>();
@@ -102,7 +102,7 @@ namespace MemberSite.Service.BLL
             {
                 foreach (var localBack in localBankList)
                 {
-                    _depositBll.FixDepositLimit(localBack, depositLimitInfo);
+                    _depositLimitBll.FixDepositLimit(localBack, depositLimitInfo);
                 }
             }
 
@@ -235,7 +235,7 @@ namespace MemberSite.Service.BLL
             {
                 foreach (var localBank in localBankList)
                 {
-                    _depositBll.FixDepositLimit(localBank, depositLimitInfo);
+                    _depositLimitBll.FixDepositLimit(localBank, depositLimitInfo);
                 }
             }
 
@@ -300,7 +300,7 @@ namespace MemberSite.Service.BLL
             {
                 foreach (var localBank in localBankList)
                 {
-                    _depositBll.FixDepositLimit(localBank, depositLimitInfo);
+                    _depositLimitBll.FixDepositLimit(localBank, depositLimitInfo);
                 }
             }
 

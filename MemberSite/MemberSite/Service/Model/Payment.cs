@@ -1,4 +1,5 @@
-﻿using MemberSite.Service.Model.enums;
+﻿using MemberSite.Attributes;
+using MemberSite.Service.Model.enums;
 
 using Newtonsoft.Json;
 
@@ -23,7 +24,7 @@ namespace MemberSite.Service.Model
         public int AmountRule { get; set; }
         public string AmountShow { get; set; }
     }
-    public class MobilePayInfo : IPaymentLimit
+    public class MobilePayInfo : IPayInfo
     {
         public int PayId { get; set; }
         public string PayName { get; set; }
@@ -56,7 +57,7 @@ namespace MemberSite.Service.Model
         public decimal MaxAmount { get; set; }
     }
 
-    public class CryptoPayInfo : IPaymentLimit
+    public class CryptoPayInfo : IPayInfo
     {
         public int PayId { get; set; }
         public string PayName { get; set; }
@@ -71,12 +72,17 @@ namespace MemberSite.Service.Model
         public string PayCurrencyId { get; set; }
         public decimal MinAmount { get; set; }
         public decimal MaxAmount { get; set; }
+        [DicIgnore]
         public int AmountRule { get; set; }
+        [DicIgnore]
         [System.Text.Json.Serialization.JsonIgnore]
         public string AmountShow { get; set; }
+        [DicIgnore]
         public IEnumerable<decimal> AmountList => AmountShow == null ? null : JsonConvert.DeserializeObject<IEnumerable<decimal>>(AmountShow);
         public string PayCode { get; set; }
+        [DicIgnore]
         public int GSort { get; set; }
+        [DicIgnore]
         public int SSort { get; set; }
     }
 
@@ -87,7 +93,7 @@ namespace MemberSite.Service.Model
         public int GSort { get; set; }
     }
 
-    public class LoadCardPayInfo : IPaymentLimit
+    public class LoadCardPayInfo : IPayInfo
     {
         public int PayId { get; set; }
         public string PayName { get; set; }
@@ -104,12 +110,18 @@ namespace MemberSite.Service.Model
         public int AmountRule { get; set; }
         [System.Text.Json.Serialization.JsonIgnore]
         public string AmountShow { get; set; }
+        [DicIgnore]
         public IEnumerable<decimal> AmountList => AmountShow == null ? null : JsonConvert.DeserializeObject<IEnumerable<decimal>>(AmountShow);
         public string PayCode { get; set; }
+        [DicIgnore]
         public int GSort { get; set; }
+        [DicIgnore]
         public int SSort { get; set; }
+        [DicIgnore]
         public long Updated_timestamp { get; set; }
+        [DicIgnore]
         public string Code { get; set; }
+        [DicIgnore]
         public string Serial { get; set; }
     }
     public class LoadCardPayGroup : IPaymentLimit
@@ -128,8 +140,23 @@ namespace MemberSite.Service.Model
         public decimal MinAmount { get; set; }
         public decimal MaxAmount { get; set; }
     }
+    
+    public interface IPayInfo: IPaymentLimit
+    {
+        public int PayId { get; set; }
+        public string PayName { get; set; }
+        public int GroupId { get; set; }
+        public string GroupName { get; set; }
+        public int ChannelId { get; set; }
+        public string ChannelName { get; set; }
+        public int Mode { get; set; }
+        public int PointLevel { get; set; }
+        public int CurrencyId { get; set; }
+        public int AmountRule { get; set; }
+        public IEnumerable<decimal> AmountList { get; }
+    }
 
-    public class PayInfo : IPaymentLimit
+    public class PayInfo : IPayInfo
     {
         public int PayId { get; set; }
         public string PayName { get; set; }
@@ -144,11 +171,16 @@ namespace MemberSite.Service.Model
         public string PayCurrencyId { get; set; }
         public decimal MinAmount { get; set; }
         public decimal MaxAmount { get; set; }
+        [DicIgnore]
         public int AmountRule { get; set; }
+        [DicIgnore]
         [System.Text.Json.Serialization.JsonIgnore]
         public string AmountShow { get; set; }
+        [DicIgnore]
         public IEnumerable<decimal> AmountList => AmountShow == null ? null : JsonConvert.DeserializeObject<IEnumerable<decimal>>(AmountShow);
+        [DicIgnore]
         public int GSort { get; set; }
+        [DicIgnore]
         public int SSort { get; set; }
     }
 
