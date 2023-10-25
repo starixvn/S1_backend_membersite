@@ -1,6 +1,7 @@
 ﻿using Amazon.Runtime.Internal.Transform;
 using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
+using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 
 using Microsoft.AspNetCore.Mvc;
@@ -101,7 +102,7 @@ namespace MemberSite.Controllers
             {
                 errorUrl = inputs["errorUrl"];
             }
-
+            _logger.LogInformation($"step 1 errorUrl={errorUrl}");  //debug
             try
             {
                 if (authData is { CustId: > 0 })
@@ -176,6 +177,8 @@ namespace MemberSite.Controllers
             }
             else
             {
+                _logger.LogInformation($"step 2 errorUrl={errorUrl}"); //debug
+                errorUrl = "https://stage.aiking88dev.net/404/index_en.html";  //debug for test
                 return Redirect($"{errorUrl}?ErrorData={System.Text.Json.JsonSerializer.Serialize(model)}");
             }
         }
