@@ -1,15 +1,9 @@
-﻿using Amazon.Runtime.Internal.Transform;
-using MemberSite.Service.BLL;
+﻿using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
-using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
-
 using Microsoft.AspNetCore.Mvc;
-
 using Newtonsoft.Json;
-
 using Serilog.Context;
-using ThirdParty.Json.LitJson;
 
 namespace MemberSite.Controllers
 {
@@ -147,6 +141,7 @@ namespace MemberSite.Controllers
                 LogContext.PushProperty("TpInfo", JsonConvert.SerializeObject(tpInfo));
                 tpInfo.inputs = inputs;
                 var data = await _courierAdapter.MyPostAsync<bool, TpInfo>(myUrl, tpInfo);
+                _logger.LogInformation($"GoToGameResult={JsonConvert.SerializeObject(data)}");
                 if (data.ErrorCode == 0)
                 {
                     var entryUrl = data.Message;
@@ -179,7 +174,7 @@ namespace MemberSite.Controllers
             var serverInfo = _serverInfoBll.GetServerInfo();
             if (serverInfo.SiteId is 1 or 2 or 3 or 5) //Nova88,Goal123,Bwing
             {
-                return View($"~/Views/entPage/{serverInfo.SiteName}PaymentErrorPage.cshtml", model);
+                return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
             }
             else
             {
