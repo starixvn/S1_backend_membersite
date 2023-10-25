@@ -98,11 +98,10 @@ namespace MemberSite.Controllers
                 tpInfo.AppType = appType;
             }
 
-            if (!inputs.ContainsKey("errorUrl"))
+            if (inputs.ContainsKey("errorUrl"))
             {
                 errorUrl = inputs["errorUrl"];
             }
-            _logger.LogInformation($"step 1 errorUrl={errorUrl}");  //debug
             try
             {
                 if (authData is { CustId: > 0 })
@@ -148,14 +147,13 @@ namespace MemberSite.Controllers
                 LogContext.PushProperty("TpInfo", JsonConvert.SerializeObject(tpInfo));
                 tpInfo.inputs = inputs;
                 var data = await _courierAdapter.MyPostAsync<bool, TpInfo>(myUrl, tpInfo);
-                _logger.LogInformation($"step 2 result={System.Text.Json.JsonSerializer.Serialize(data)}");  //debug
                 if (data.ErrorCode == 0)
                 {
                     var entryUrl = data.Message;
                     return Redirect(entryUrl);
                 }
 
-                return RedirectErrorPage(errorUrl, new ErrorData(data.RawMessage));
+                return RedirectErrorPage(errorUrl, new ErrorData(data.Message ?? data.RawMessage));
             }
             catch (Exception ex)
             {
@@ -179,15 +177,15 @@ namespace MemberSite.Controllers
         private IActionResult RedirectErrorPage(string errorUrl, ErrorData model)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
-            if (serverInfo.SiteId is 1 or 2 or 3) //Nova88,Goal123,Bwing
+            if (serverInfo.SiteId is 1 or 2 or 3 or 5) //Nova88,Goal123,Bwing
             {
                 return View($"~/Views/entPage/{serverInfo.SiteName}PaymentErrorPage.cshtml", model);
             }
             else
             {
-                _logger.LogInformation($"step 3 errorUrl={errorUrl}"); //debug
-                errorUrl = "https://stage.aiking88dev.net/404/index_en.html";  //debug for test
-                return Redirect($"{errorUrl}?ErrorData={System.Text.Json.JsonSerializer.Serialize(model)}");
+                //與前端討論，先不傳訊息
+                //return Redirect($"{errorUrl}?ErrorData={System.Text.Json.JsonSerializer.Serialize(model)}");
+                return Redirect($"{errorUrl}");
             }
         }
     }
