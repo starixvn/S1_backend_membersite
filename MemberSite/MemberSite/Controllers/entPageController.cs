@@ -148,12 +148,13 @@ namespace MemberSite.Controllers
                 LogContext.PushProperty("TpInfo", JsonConvert.SerializeObject(tpInfo));
                 tpInfo.inputs = inputs;
                 var data = await _courierAdapter.MyPostAsync<bool, TpInfo>(myUrl, tpInfo);
+                _logger.LogInformation($"step 2 result={System.Text.Json.JsonSerializer.Serialize(data)}");  //debug
                 if (data.ErrorCode == 0)
                 {
                     var entryUrl = data.Message;
                     return Redirect(entryUrl);
                 }
-
+                
                 return RedirectErrorPage(errorUrl, new ErrorData() { Message = data.RawMessage });
             }
             catch (Exception ex)
@@ -177,7 +178,7 @@ namespace MemberSite.Controllers
             }
             else
             {
-                _logger.LogInformation($"step 2 errorUrl={errorUrl}"); //debug
+                _logger.LogInformation($"step 3 errorUrl={errorUrl}"); //debug
                 errorUrl = "https://stage.aiking88dev.net/404/index_en.html";  //debug for test
                 return Redirect($"{errorUrl}?ErrorData={System.Text.Json.JsonSerializer.Serialize(model)}");
             }
