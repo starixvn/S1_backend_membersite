@@ -48,7 +48,6 @@ namespace MemberSite.Service.BLL
             bankInfoBLL = provider.GetRequiredService<BankInfoBLL>();
             statementService = provider.GetRequiredService<StatementService>();
             selLangBLL = provider.GetRequiredService<SelLangBLL>();
-
             var configBll = provider.GetRequiredService<ConfigBLL>();
             _awsDepositUrl = configBll.GetConfigValue("AWSPaymentBucketUrl");
             singleWalletType = new Dictionary<string, string>
