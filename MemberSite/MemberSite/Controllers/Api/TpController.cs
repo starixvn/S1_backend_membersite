@@ -2,10 +2,8 @@
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
 using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
@@ -19,7 +17,7 @@ namespace MemberSite.Controllers.Api
         private readonly Tools _tools;
         private readonly SelLangBLL _selLangBll;
         private readonly AuthorizeBLL _authorizeBll;
-        private readonly string _apiUrl;
+        private readonly string _TpServiceApiUrl;
         private readonly ThirdPartyBll _thirdPartyBll;
         private readonly WalletBLL _walletBll;
         private readonly BonusWalletBLL _bonusWalletBll;
@@ -35,7 +33,8 @@ namespace MemberSite.Controllers.Api
             _tools = provider.GetRequiredService<Tools>();
             _selLangBll = provider.GetRequiredService<SelLangBLL>();
             _authorizeBll = provider.GetRequiredService<AuthorizeBLL>();
-            _apiUrl = provider.GetRequiredService<IConfiguration>().GetValue<string>("TpService");
+            var configBll = provider.GetRequiredService<ConfigBLL>();
+            _TpServiceApiUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost").TpService;
             _thirdPartyBll = provider.GetRequiredService<ThirdPartyBll>();
             _walletBll = provider.GetRequiredService<WalletBLL>();
             _bonusWalletBll = provider.GetRequiredService<BonusWalletBLL>();
@@ -140,7 +139,7 @@ namespace MemberSite.Controllers.Api
                     input.Add("Token", appAuthData.Token);
                 }
 
-                var myUrl = $"{_apiUrl}GotoGame";
+                var myUrl = $"{_TpServiceApiUrl}GotoGame";
                 var tpInfo = new
                 {
                     inInfo.TpId,
@@ -249,7 +248,7 @@ namespace MemberSite.Controllers.Api
                     direction = inTpTransfer.direction,
                     inputs = input
                 };
-                var myUrl = $"{_apiUrl}Transfer";
+                var myUrl = $"{_TpServiceApiUrl}Transfer";
                 result = await _courierAdapter.MyPostAsync<TransferResult, TpTransfer>(myUrl, tpTransfer);
                 if (result.ErrorCode != 0 && string.IsNullOrEmpty(result.Message) && !string.IsNullOrEmpty(result.RawMessage))
                 {
@@ -355,7 +354,7 @@ namespace MemberSite.Controllers.Api
                     direction = direction,
                     inputs = input
                 };
-                var myUrl = $"{_apiUrl}Transfer";
+                var myUrl = $"{_TpServiceApiUrl}Transfer";
                 result = await _courierAdapter.MyPostAsync<TransferResult, TpTransfer>(myUrl, tpTransfer);
                 if (result.ErrorCode != 0 && string.IsNullOrEmpty(result.Message) && !string.IsNullOrEmpty(result.RawMessage))
                 {
