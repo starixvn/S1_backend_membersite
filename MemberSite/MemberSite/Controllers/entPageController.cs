@@ -141,7 +141,6 @@ namespace MemberSite.Controllers
                 LogContext.PushProperty("TpInfo", JsonConvert.SerializeObject(tpInfo));
                 tpInfo.inputs = inputs;
                 var data = await _courierAdapter.MyPostAsync<bool, TpInfo>(myUrl, tpInfo);
-                _logger.LogInformation($"GoToGameResult={JsonConvert.SerializeObject(data)}");
                 if (data.ErrorCode == 0)
                 {
                     var entryUrl = data.Message;
