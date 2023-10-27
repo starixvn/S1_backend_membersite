@@ -75,11 +75,7 @@ namespace MemberSite.Service.BLL
                         QrCodeUrl = x.QRCodeUrl
                     }
                 });
-            result.Add("BankTransfer", new PayMethod
-            {
-                Show = bankTransferData.Any(),
-                Data = bankTransferData
-            });
+            result.Add("BankTransfer", new PayMethod(bankTransferData));
 
             var onlineBankingData = _bankInfoBll.GetOnlinePaymentList(custInfo.CustId)
                 .Select(x => new OnlineBankingChannel
@@ -103,18 +99,11 @@ namespace MemberSite.Service.BLL
                         MinAmount = x.MinAmount
                     })
                 });
-            result.Add("OnlineBanking", new PayMethod
-            {
-                Show = onlineBankingData.Any(),
-                Data = onlineBankingData
-            });
+            result.Add("OnlineBanking", new PayMethod(onlineBankingData));
 
             var line = _bankInfoBll.GetLineChannel(custInfo.SiteId, custInfo.CurrencyId);
-            result.Add("LinePay", new PayMethod
-            {
-                Show = line != null,
-                Data = new LinePay { Link = line?.Link }
-            });
+            //塞假資料給luke接
+            result.Add("LinePay", new PayMethod(new LinePay(line?.Link ?? "https://translate.google.com.tw/")));
 
             var autoChannelData = _bankInfoBll.GetAutoChannelBankList(custInfo, vipLevel)
                 .GroupBy(x => x.SysId)
@@ -131,11 +120,23 @@ namespace MemberSite.Service.BLL
                     };
                 });
             
-            result.Add("AutoChannel", new PayMethod
+            //塞假資料給luke接
+            if (!autoChannelData.Any())
             {
-                Show = false,
-                Data = autoChannelData
-            });
+                autoChannelData = new List<BankInfo>
+                {
+                    new BankInfo
+                    {
+                        BankLogo = "idbi.png",
+                        BankName = "IDBI Bank",
+                        SysId = 265,
+                        MaxAmount = 50000,
+                        MinAmount = 50
+                    }
+                };
+            }
+            
+            result.Add("AutoChannel", new PayMethod(autoChannelData));
             
             /*
              * EWallet
@@ -169,7 +170,7 @@ namespace MemberSite.Service.BLL
                 
                 if (limitInfo?.DepositStatus == 0)
                 {
-                    result.Add(name, new PayMethod {Show = true, Data = Array.Empty<GenericPayChannel>()});
+                    result.Add(name, new PayMethod(Array.Empty<GenericPayGroup>()));
                     continue;
                 }
 
@@ -260,11 +261,49 @@ namespace MemberSite.Service.BLL
                         };
                     }).OrderBy(x => x.Sort);
                 
-                result.Add(name, new PayMethod
+                //塞假資料給luke接
+                if (!payGroups.Any())
                 {
-                    Show = payGroups.Any(),
-                    Data = payGroups
-                });
+                    payGroups = new List<GenericPayGroup>
+                    {
+                        new GenericPayGroup
+                        {
+                            GroupId = 150,
+                            GroupName = "FakeGroup",
+                            MaxAmount = 50000,
+                            MinAmount = 50,
+                            SupportChannels = new List<GenericPayChannel>
+                            {
+                                new GenericPayChannel
+                                {
+                                    ChannelId = 556,
+                                    ChannelName = "FakeChannel",
+                                    Mode = (int) PayModeEnum.Redirect,
+                                    MaxAmount = 50000,
+                                    MinAmount = 50,
+                                    AmountRule = 1,
+                                    AmountList = Array.Empty<decimal>(),
+                                    GroupId = 150,
+                                    GroupName = "FakeGroup",
+                                },
+                                new GenericPayChannel
+                                {
+                                    ChannelId = 557,
+                                    ChannelName = "FakeChannel2",
+                                    Mode = (int) PayModeEnum.Redirect,
+                                    MaxAmount = 50000,
+                                    MinAmount = 50,
+                                    AmountRule = 1,
+                                    AmountList = Array.Empty<decimal>(),
+                                    GroupId = 150,
+                                    GroupName = "FakeGroup",
+                                }
+                            }
+                        }
+                    }.OrderBy(x => x.Sort);
+                }
+                
+                result.Add(name, new PayMethod(payGroups));
             }
 
             return result;
