@@ -2,19 +2,18 @@
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
-
 using Microsoft.AspNetCore.Mvc;
 
 namespace MemberSite.Controllers
 {
     public class liveStreamingEntPageController : Controller
     {
-        private readonly IConfiguration _configuration;
         private readonly Tools _tools;
         private readonly CourierAdapter _courierAdapter;
         private readonly AuthorizeBLL _authorizeBll;
         private readonly ServerInfoBll _serverInfoBll;
         private readonly CustInfoBll _custInfoBll;
+        private readonly string _commonServiceUrl;
 
         public liveStreamingEntPageController(IServiceProvider provider)
         {
@@ -22,16 +21,16 @@ namespace MemberSite.Controllers
             _tools = provider.GetRequiredService<Tools>();
             _authorizeBll = provider.GetRequiredService<AuthorizeBLL>();
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
-            _configuration = provider.GetRequiredService<IConfiguration>();
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
+            var configBll = provider.GetRequiredService<ConfigBLL>();
+            _commonServiceUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost").CommonService;
         }
 
         [HttpGet]
         public async Task<IActionResult> IndexAsync(int ch)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
-            var commonServiceUrl = _configuration.GetValue<string>("CommonService");
-            var apiUrl = $"{commonServiceUrl}LiveStreaming/GetLiveStreamingLink";
+            var apiUrl = $"{_commonServiceUrl}LiveStreaming/GetLiveStreamingLink";
             var ip = _tools.GetClientIP();
             var liveStreamingLinkReq = new LiveStreamingLinkReq
             {

@@ -1,5 +1,6 @@
 ﻿using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
+using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -18,7 +19,7 @@ namespace MemberSite.Controllers
         private readonly CustInfoBll _custInfoBll;
         private readonly ServerInfoBll _serverInfoBll;
         private readonly GameBLL _gameBll;
-        private readonly string _apiUrl;
+        private readonly string _tpServiceApiUrl;
         private readonly ILogger _logger;
 
         public entPageController(IServiceProvider provider)
@@ -32,7 +33,8 @@ namespace MemberSite.Controllers
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
             _gameBll = provider.GetRequiredService<GameBLL>();
-            _apiUrl = provider.GetRequiredService<IConfiguration>().GetValue<string>("TpService");
+            var configBll = provider.GetRequiredService<ConfigBLL>();
+            _tpServiceApiUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost").TpService;
             _logger = provider.GetRequiredService<ILogger<entPageController>>();
         }
 
@@ -75,7 +77,7 @@ namespace MemberSite.Controllers
                 }
             }
 
-            var myUrl = $"{_apiUrl}GotoGame";
+            var myUrl = $"{_tpServiceApiUrl}GotoGame";
             var errorUrl = string.Empty;
             var tpInfo = new TpInfo
             {

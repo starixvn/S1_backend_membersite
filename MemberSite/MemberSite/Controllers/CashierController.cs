@@ -40,8 +40,8 @@ namespace MemberSite.Controllers
             _bankInfoBll = provider.GetRequiredService<BankInfoBLL>();
             _bankInfoOffBll = provider.GetRequiredService<BankInfoOffBLL>();
             _logger = provider.GetRequiredService<ILogger<CashierController>>();
-            var configuration = provider.GetRequiredService<IConfiguration>();
-            _payApiUrl = configuration.GetValue<string>("PayService");
+            var configBll = provider.GetRequiredService<ConfigBLL>();
+            _payApiUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost").PayService;
         }
 
         [HttpGet]

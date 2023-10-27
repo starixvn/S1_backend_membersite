@@ -1,9 +1,7 @@
 ﻿using System.Collections.Concurrent;
-
 using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
-
 using Microsoft.Extensions.Caching.Memory;
 
 namespace MemberSite.Service.BLL
@@ -16,7 +14,7 @@ namespace MemberSite.Service.BLL
         private readonly ConcurrentDictionary<string, ThirdPartyModel> _thirdPartyModelContainer;
         private readonly CustInfoBll _custInfoBll;
         private readonly CourierAdapter _courierAdapter;
-        private readonly string _apiUrl;
+        private readonly string _tpServiceApiUrl;
         private readonly CacheHelper _cacheHelper;
 
         public ThirdPartyBll(IServiceProvider provider)
@@ -27,8 +25,9 @@ namespace MemberSite.Service.BLL
             _thirdPartyModelContainer = new ConcurrentDictionary<string, ThirdPartyModel>();
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _courierAdapter = provider.GetRequiredService<CourierAdapter>();
-            var configuration = provider.GetRequiredService<IConfiguration>();
-            _apiUrl = configuration.GetValue<string>("TpService");
+            
+            var configBll = provider.GetRequiredService<ConfigBLL>();
+            _tpServiceApiUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost").TpService;
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
         }
 
@@ -105,7 +104,7 @@ namespace MemberSite.Service.BLL
         /*Sports Wallet*/
         public async Task<ApiResult<UserBalance>> GetTpWalletBalanceAsync(int tpId, int custId)
         {
-            var myUrl = $"{_apiUrl}GetBalance";
+            var myUrl = $"{_tpServiceApiUrl}GetBalance";
             var apiResult = new ApiResult<UserBalance>();
             var oTpInfo = new TpInfo
             {

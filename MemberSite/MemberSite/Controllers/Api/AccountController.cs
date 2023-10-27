@@ -1,12 +1,10 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Security.Claims;
-
 using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
-
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -29,8 +27,7 @@ namespace MemberSite.Controllers.Api
         private readonly BankInfoBLL _bankInfoBll;
         private readonly WalletBLL _walletBll;
         private readonly CourierAdapter _courierAdapter;
-        private readonly string _apiUrl;
-        private readonly bool _isJwt;
+        private readonly string _tpServiceApiUrl;
         private readonly MessageBll _messageBll;
         private readonly PaymentBLL _paymentBll;
         private readonly ThirdPartyBll _thirdPartyBll;
@@ -41,6 +38,7 @@ namespace MemberSite.Controllers.Api
         private readonly CheckAttackBLL _checkAttackBll;
         private readonly ICacheHelper _cacheHelper;
         private readonly ServerInfoBll _serverInfoBll;
+        private readonly JwtConfig _jwtConfig;
 
         public AccountController(IServiceProvider provider)
         {
@@ -51,9 +49,10 @@ namespace MemberSite.Controllers.Api
             _bankInfoBll = provider.GetRequiredService<BankInfoBLL>();
             _walletBll = provider.GetRequiredService<WalletBLL>();
             _courierAdapter = provider.GetRequiredService<CourierAdapter>();
-            var configuration = provider.GetRequiredService<IConfiguration>();
-            _apiUrl = configuration.GetValue<string>("TpService");
-            _isJwt = configuration.GetValue<bool>("JwtSettings:IsJwt");
+            
+            var configBll = provider.GetRequiredService<ConfigBLL>();
+            _tpServiceApiUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost").TpService;
+            _jwtConfig = configBll.GetConfigValueByEnvironment<JwtConfig>("JwtSettings");
             _messageBll = provider.GetRequiredService<MessageBll>();
             _paymentBll = provider.GetRequiredService<PaymentBLL>();
             _thirdPartyBll = provider.GetRequiredService<ThirdPartyBll>();
@@ -183,7 +182,7 @@ namespace MemberSite.Controllers.Api
             identity.AddClaim(new Claim("LangId", languageModel.LangId));
 
             // tell the SignInAsync to use this new identity
-            if (!_isJwt)
+            if (!_jwtConfig.IsJwt)
             {
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
                 apiResult.Message = Url.RouteUrl("desktop", new { action = Request.RouteValues["action"], controller = Request.RouteValues["controller"], languageModel.LangId });
@@ -331,7 +330,7 @@ namespace MemberSite.Controllers.Api
         }
         private async Task<bool> LogoutAsync(int tpId, int custId)
         {
-            var myUrl = $"{_apiUrl}Logout";
+            var myUrl = $"{_tpServiceApiUrl}Logout";
             var oTpInfo = new TpInfo
             {
                 TpId = tpId,
