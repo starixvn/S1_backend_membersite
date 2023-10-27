@@ -179,9 +179,7 @@ namespace MemberSite.Controllers
             }
             else
             {
-                //與前端討論，先不傳訊息
-                //return Redirect($"{errorUrl}?ErrorData={System.Text.Json.JsonSerializer.Serialize(model)}");
-                return Redirect($"{errorUrl}");
+                return Redirect($"{errorUrl}?Message={model.Message}");
             }
         }
     }
