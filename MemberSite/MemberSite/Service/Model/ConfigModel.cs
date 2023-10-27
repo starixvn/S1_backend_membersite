@@ -1,13 +1,20 @@
 ﻿namespace MemberSite.Service.Model
 {
+    public class MailConfig
+    {
+        public string MailSender { get; set; }
+        public string MailHost { get; set; }
+        public string MailID { get; set; }
+        public string MailPwd { get; set; }
+        public int Port { get; set; }
+    }
     public class JwtConfig
     {
         public bool IsJwt { get; set; }
         public string Issuer { get; set; }
         public string SignKey { get; set; }
     }
-
-    public class SiteCloudFrontImageInfo
+    public class SiteConfig
     {
         public string OldImageUrl { get; set; }
 
@@ -18,6 +25,11 @@
         public string BannerImageUrl { get; set; }
     }
 
+    public class LoginDeviceConfig
+    {
+        public string Url { get; set; }
+    }
+
     public class LineLoginChannelConfig
     {
         public string ChannelId { get; set; }
@@ -26,7 +38,6 @@
 
         public int ExpiredSeconds { get; set; }
     }
-
     public class LineLoginConfig
     {
         public string AccessTokenApi { get; set; }
@@ -36,26 +47,19 @@
 
     public class ShieldConfig
     {
+        public string ShieldService { get; set; }
+        public Dictionary<string, ShieldGroup> Groups { get; set; }
+    }
+
+    public class ShieldGroup
+    {
         public string SiteId { get; set; }
         public string SecretKey { get; set; }
-
     }
 
-    public class ServiceHostConfig
-    {
-        public string CommonService { get; set; }
-        public string TpService { get; set; }
-        public string PayService { get; set; }
-        public string GeoIpService { get; set; }
-        public string BonusService { get; set; }
-        public string StoreService { get; set; }
-        public string BackendService { get; set; }
-    }
 
-    public class RabbitMqConfig
+    public class AllowIpList
     {
-        public string HostName { get; set; }
-        public string UserName { get; set; }
-        public string Password { get; set; }
+        public List<string> IpRange { get; set; }
     }
 }

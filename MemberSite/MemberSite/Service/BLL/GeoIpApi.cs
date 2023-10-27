@@ -9,12 +9,11 @@ namespace MemberSite.Service.BLL
         private readonly IHttpHelper _httpHelper;
         private readonly ILogger<GeoIpApi> _logger;
         private readonly string _geoIpUrl;
-        public GeoIpApi(IServiceProvider provider)
+        public GeoIpApi(IServiceProvider provider, IConfiguration configuration)
         {
             _httpHelper = provider.GetRequiredService<IHttpHelper>();
             _logger = provider.GetRequiredService<ILogger<GeoIpApi>>();
-            var configBll = provider.GetRequiredService<ConfigBLL>();
-            _geoIpUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost").GeoIpService;
+            _geoIpUrl = configuration.GetValue<string>("GeoIpService");
         }
 
         public async Task<IpCountry> CheckIp(string clientIp)

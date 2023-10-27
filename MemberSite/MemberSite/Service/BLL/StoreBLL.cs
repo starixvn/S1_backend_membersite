@@ -1,5 +1,4 @@
 ﻿using MemberSite.Service.Library;
-using MemberSite.Service.Model;
 using MemberSite.Service.Model.Store.Frontend;
 
 namespace MemberSite.Service.BLL;
@@ -10,11 +9,12 @@ public class StoreBLL
     private readonly CourierAdapter _courierAdapter;
     private readonly string _storeSiteUrl;
 
+
     public StoreBLL(IServiceProvider provider)
     {
+        var configuration = provider.GetRequiredService<IConfiguration>();
         _logger = provider.GetRequiredService<ILogger<StoreBLL>>();
-        var configBll = provider.GetRequiredService<ConfigBLL>();
-        _storeSiteUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost").StoreService;
+        _storeSiteUrl = configuration.GetValue<string>("StoreService");
         _courierAdapter = provider.GetRequiredService<CourierAdapter>();
     }
 

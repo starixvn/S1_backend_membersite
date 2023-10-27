@@ -1,6 +1,9 @@
 ﻿using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
+
+using Microsoft.Extensions.Options;
+
 using Newtonsoft.Json;
 
 namespace MemberSite.Service.BLL
@@ -9,7 +12,9 @@ namespace MemberSite.Service.BLL
     {
         private readonly IBannerService bannerService;
         private readonly ServerInfoBll serverInfoBLL;
+        private readonly PromotionBll promotionBLL;
         private readonly IWebHostEnvironment environment;
+        private readonly IOptions<Dictionary<string, SiteConfig>> siteConfig;
         private readonly TpGameTypeHelper tpGameTypeHelper;
         private readonly ICacheHelper _redisHelper;
         private readonly SelLangBLL selLangBLL;
@@ -19,6 +24,8 @@ namespace MemberSite.Service.BLL
             bannerService = provider.GetRequiredService<IBannerService>();
             serverInfoBLL = provider.GetRequiredService<ServerInfoBll>();
             environment = provider.GetRequiredService<IWebHostEnvironment>();
+            promotionBLL = provider.GetRequiredService<PromotionBll>();
+            siteConfig = provider.GetRequiredService<IOptions<Dictionary<string, SiteConfig>>>();
             tpGameTypeHelper = provider.GetRequiredService<TpGameTypeHelper>();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
             selLangBLL = provider.GetRequiredService<SelLangBLL>();
