@@ -63,6 +63,7 @@ namespace MemberSite.Service.BLL
                 {
                     SysId = x.SysId,
                     BankName = x.BankName,
+                    BankCode = x.BankCode,
                     BankLogo = x.BankLogo,
                     MaxAmount = x.MaxAmount,
                     MinAmount = x.MinAmount,
@@ -93,6 +94,7 @@ namespace MemberSite.Service.BLL
                     SupportBanks = x.BankList.Select(y => new BankInfo
                     {
                         BankLogo = y.BankLogo,
+                        BankCode = y.BankCode,
                         BankName = y.BankName,
                         SysId = y.SysId,
                         MaxAmount = x.MaxAmount,
@@ -113,6 +115,7 @@ namespace MemberSite.Service.BLL
                     return new BankInfo
                     {
                         BankLogo = bank.BankLogo,
+                        BankCode = bank.BankCode,
                         BankName = bank.BankName,
                         SysId = bank.SysId,
                         MaxAmount = x.Max(y => y.MaxAmount),
@@ -129,6 +132,7 @@ namespace MemberSite.Service.BLL
                     {
                         BankLogo = "idbi.png",
                         BankName = "IDBI Bank",
+                        BankCode = "IDBI",
                         SysId = 265,
                         MaxAmount = 50000,
                         MinAmount = 50
