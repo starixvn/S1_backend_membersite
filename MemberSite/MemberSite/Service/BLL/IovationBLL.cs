@@ -9,21 +9,22 @@ namespace MemberSite.Service.BLL
     public class IovationBLL
     {
         private readonly IovationService iovationService;
-        private readonly IConfiguration configuration;
         private readonly CourierAdapter courierAdapter;
-        private readonly ServerInfoBll serverInfoBLL;
         private readonly CustInfoBll custInfoBLL;
         private readonly Tools tools;
         private readonly Dictionary<int, string> iovationType;
         private readonly Dictionary<int, string> perCountry;
         private readonly Dictionary<int, string> perCurrency;
+        private readonly string _commonServiceUrl;
 
-        public IovationBLL(IConfiguration configuration, IovationService iovationService, CourierAdapter courierAdapter, Tools tools, ServerInfoBll serverInfoBLL, CustInfoBll custInfoBLL)
+        public IovationBLL(IovationService iovationService, 
+            CourierAdapter courierAdapter,
+            Tools tools, 
+            CustInfoBll custInfoBLL,
+            ConfigBLL configBll)
         {
             this.iovationService = iovationService;
-            this.configuration = configuration;
             this.courierAdapter = courierAdapter;
-            this.serverInfoBLL = serverInfoBLL;
             this.custInfoBLL = custInfoBLL;
             this.tools = tools;
             iovationType = new Dictionary<int, string>()
@@ -36,6 +37,8 @@ namespace MemberSite.Service.BLL
             {
               {2,"MYR" },{3,"USD" },{4,"THB" },{13,"CNY" },{15,"IDR" },{61,"INR" },{51,"VND" },{72,"USD" },{74,"BD" },
             };
+
+            _commonServiceUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost").CommonService;
         }
         public void SetIovation(int custId, IovationType type, IovationCheckResult iovation)
         {
@@ -51,8 +54,7 @@ namespace MemberSite.Service.BLL
                 return apiResult;
             }
 
-            var commonServiceUrl = configuration.GetValue<string>("CommonService");
-            var apiUrl = $"{commonServiceUrl}Iovation/IovationChecks";
+            var apiUrl = $"{_commonServiceUrl}Iovation/IovationChecks";
             string CountryName = "", Currencyname = "";
             if (CurrencyId == 96)
             {

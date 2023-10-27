@@ -7,9 +7,7 @@ using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Interfaces;
-
 using Microsoft.AspNetCore.Mvc;
-
 using Newtonsoft.Json;
 
 namespace MemberSite.Service.BLL
@@ -36,8 +34,6 @@ namespace MemberSite.Service.BLL
         private readonly string _backendUrl;
         private readonly CourierAdapter _courierAdapter;
         private readonly Tools _tools;
-        private readonly PayInfoBLL _payInfoBll;
-        private readonly DepositLimitBLL _depositLimitBll;
 
         public PaymentBLL(IServiceProvider provider)
         {
@@ -50,6 +46,7 @@ namespace MemberSite.Service.BLL
             selLangBLL = provider.GetRequiredService<SelLangBLL>();
             var configBll = provider.GetRequiredService<ConfigBLL>();
             _awsDepositUrl = configBll.GetConfigValue("AWSPaymentBucketUrl");
+            _backendUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost").BackendService;
             singleWalletType = new Dictionary<string, string>
             {
                 {"1", "lbl_Stake"  },
@@ -67,8 +64,6 @@ namespace MemberSite.Service.BLL
             _httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
             _logger = provider.GetRequiredService<ILogger<PaymentBLL>>();
             _iovationService = provider.GetRequiredService<IovationService>();
-            var configuration = provider.GetRequiredService<IConfiguration>();
-            _backendUrl = configuration.GetValue<string>("BackendService");
             _courierAdapter = provider.GetRequiredService<CourierAdapter>();
             _tools = provider.GetRequiredService<Tools>();
         }
