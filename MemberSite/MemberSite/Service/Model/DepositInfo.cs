@@ -131,7 +131,7 @@ namespace MemberSite.Service.Model
 
     public class DepositLimitInfo
     {
-        public int DepositType { get; set; }
+        public DepositType DepositType { get; set; }
         public int SiteId { get; set; }
         public int CurrencyId { get; set; }
         public int VipLevel { get; set; }

@@ -11,6 +11,7 @@ namespace MemberSite.Service.BLL
         private readonly PayService _payService;
         private readonly DepositLimitBLL _depositLimitBll;
         private readonly BankInfoOffBLL _bankInfoOffBll;
+        private readonly BankInfoBLL _bankInfoBll;
         private readonly CustInfoBll _custInfoBll;
         private readonly ICacheHelper _redisHelper;
 
@@ -20,6 +21,7 @@ namespace MemberSite.Service.BLL
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _depositLimitBll = provider.GetRequiredService<DepositLimitBLL>();
             _bankInfoOffBll = provider.GetRequiredService<BankInfoOffBLL>();
+            _bankInfoBll = provider.GetRequiredService<BankInfoBLL>();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
         }
 
@@ -35,8 +37,241 @@ namespace MemberSite.Service.BLL
             {
                 {DepositType.OnlineBanking, OfflineBankAccountSupportChannelEnum.LocalBank},
                 {DepositType.MobilePayment, OfflineBankAccountSupportChannelEnum.EWallet},
-                {DepositType.QRPayPayment, OfflineBankAccountSupportChannelEnum.BankQR}
+                {DepositType.QrPayPayment, OfflineBankAccountSupportChannelEnum.BankQR}
             };
+        
+        
+        
+
+        public IDictionary<string, PayMethod> GetPayInfoListAll(int custId)
+        {
+            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
+            var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
+            
+            /*
+             * 格式例外：
+             * BankTransfer: 只有我方卡片資訊 - ShowBlock false
+             * OnlineBanking: 沒有要顯示PayGroup那層 - ShowBlock false
+             * LinePay: 只有我方帳戶資訊  - ShowBlock false
+             * AutoDeposit: 我他媽不知該怎麼辦 ShowBlock false
+             */
+
+            var result = new Dictionary<string, PayMethod>();
+
+            var bankTransferData = _bankInfoOffBll.GetBankInfoOffListWithCache(custInfo.CustId)
+                .Select(x => new OfflineBankInfo
+                {
+                    SysId = x.SysId,
+                    BankName = x.BankName,
+                    BankLogo = x.BankLogo,
+                    MaxAmount = x.MaxAmount,
+                    MinAmount = x.MinAmount,
+                    CanSubmit = x.CanSubmit,
+                    BankAccountInfo = new OfflineBankAccount
+                    {
+                        BankId = x.BankId,
+                        AccountNo = x.AccountNo,
+                        AccountName = x.AccountName,
+                        QrCodeUrl = x.QRCodeUrl
+                    }
+                });
+            result.Add("BankTransfer", new PayMethod
+            {
+                Show = bankTransferData.Any(),
+                Data = bankTransferData
+            });
+
+            var onlineBankingData = _bankInfoBll.GetOnlinePaymentList(custInfo.CustId)
+                .Select(x => new OnlineBankingChannel
+                {
+                    ChannelId = x.ChannelId,
+                    ChannelName = x.PayName,
+                    PayId = x.PayId,
+                    PayName = x.PayName,
+                    SelectBank = x.SelBank,
+                    Mode = x.Mode,
+                    MaxAmount = x.MaxAmount,
+                    MinAmount = x.MinAmount,
+                    AmountRule = 1,
+                    AmountList = Array.Empty<decimal>(),
+                    SupportBanks = x.BankList.Select(y => new BankInfo
+                    {
+                        BankLogo = y.BankLogo,
+                        BankName = y.BankName,
+                        SysId = y.SysId,
+                        MaxAmount = x.MaxAmount,
+                        MinAmount = x.MinAmount
+                    })
+                });
+            result.Add("OnlineBanking", new PayMethod
+            {
+                Show = onlineBankingData.Any(),
+                Data = onlineBankingData
+            });
+
+            var line = _bankInfoBll.GetLineChannel(custInfo.SiteId, custInfo.CurrencyId);
+            result.Add("LinePay", new PayMethod
+            {
+                Show = line != null,
+                Data = new LinePay { Link = line?.Link }
+            });
+
+            var autoChannelData = _bankInfoBll.GetAutoChannelBankList(custInfo, vipLevel)
+                .GroupBy(x => x.SysId)
+                .Select(x =>
+                {
+                    var bank = x.First();
+                    return new BankInfo
+                    {
+                        BankLogo = bank.BankLogo,
+                        BankName = bank.BankName,
+                        SysId = bank.SysId,
+                        MaxAmount = x.Max(y => y.MaxAmount),
+                        MinAmount = x.Min(y => y.MinAmount)
+                    };
+                });
+            
+            result.Add("AutoChannel", new PayMethod
+            {
+                Show = false,
+                Data = autoChannelData
+            });
+            
+            /*
+             * EWallet
+             * LoadCard
+             * Crypto
+             * QR
+             */
+            
+            var payInfoList = GetPayInfoListWithCache(custInfo.SiteId)
+                .Where(info => vipLevel >= info.PointLevel && info.CurrencyId == custInfo.CurrencyId);
+            
+            var depositLimitInfoList = _depositLimitBll.GetDepositLimitInfoListWithCache(custInfo.SiteId)
+                ?.Where(x =>
+                    x.SiteId == custInfo.SiteId &&
+                    x.VipLevel == vipLevel &&
+                    x.CurrencyId == custInfo.CurrencyId);
+
+            var q = new Dictionary<DepositType, string>
+                {
+                    { DepositType.MobilePayment, "EWallet" },
+                    { DepositType.LoadCardPayment, "TopUpCard" },
+                    { DepositType.CryptoPayment, "Crypto" },
+                    { DepositType.QrPayPayment, "QRPay" },
+                    { DepositType.QuickTransfer, "QuickTransfer" }
+                };
+            var bankCards = _bankInfoOffBll.GetOfflineBankCardListWithCache(custId);
+
+            foreach (var (depositType, name) in q)
+            {
+                var limitInfo = depositLimitInfoList.FirstOrDefault(x => x.DepositType == depositType);
+                
+                if (limitInfo?.DepositStatus == 0)
+                {
+                    result.Add(name, new PayMethod {Show = true, Data = Array.Empty<GenericPayChannel>()});
+                    continue;
+                }
+
+                var payChannels = new List<GenericPayChannel>();
+                var payInfos = payInfoList.Where(x => x.DepositType == depositType);
+
+                if (payInfos.Any())
+                {
+                    var onlineChannels = payInfos.Select(x => new GenericPayChannel
+                    {
+                        ChannelId = x.ChannelId,
+                        ChannelName = x.PayName,
+                        PayId = x.PayId,
+                        PayName = x.PayName,
+                        Mode = x.Mode,
+                        MaxAmount = x.MaxAmount,
+                        MinAmount = x.MinAmount,
+                        AmountRule = x.AmountRule,
+                        AmountList = x.AmountList,
+                        GroupId = x.GroupId,
+                        GroupName = x.GroupName,
+                        GroupSort = x.GSort,
+                        ChannelSort = x.SSort
+                    });
+                    payChannels.AddRange(onlineChannels);
+                }
+                
+                var payGroupInfos = GetPayGroupWithCache();
+                var localPayInfos = bankCards.Where(x =>
+                    _dicSupportChannelMapper.ContainsKey(depositType)
+                    && x.SupportChannel.Contains(_dicSupportChannelMapper[depositType]));
+                
+                if (localPayInfos.Any())
+                {
+                    var localPayChannels = localPayInfos.SelectMany(b => b.GroupIds,
+                            (b, g) => new
+                            {
+                                GroupId = g,
+                                b.MinAmount,
+                                b.MaxAmount
+                            })
+                        .GroupBy(x => x.GroupId)
+                        .Where(x => payGroupInfos.Any(g => g.GroupId == x.Key && g.Type == depositType))
+                        .Select(x =>
+                        {
+                            var bankCard = x.First();
+                            var groupInfo = payGroupInfos.First(g => g.GroupId == x.Key);
+                            return new GenericPayChannel
+                            {
+                                ChannelId = bankCard.GroupId * -1,
+                                ChannelName = groupInfo.GroupName,
+                                Mode = (int) PayModeEnum.Redirect,
+                                MaxAmount = localPayInfos.Max(y => y.MaxAmount),
+                                MinAmount = localPayInfos.Min(y => y.MinAmount),
+                                AmountRule = 1,
+                                AmountList = Array.Empty<decimal>(),
+                                GroupId = bankCard.GroupId,
+                                GroupName = groupInfo.GroupName,
+                                GroupSort = groupInfo.Sort,
+                                ChannelSort = -1
+                            };
+                        });
+                    payChannels.AddRange(localPayChannels);
+                }
+                
+                if (limitInfo != null)
+                {
+                    foreach (var payChannel in payChannels)
+                    {
+                        _depositLimitBll.FixDepositLimit(payChannel, limitInfo);
+                    }
+                }
+
+                var payGroups = payChannels
+                    .GroupBy(x => x.GroupId)
+                    .Select(x =>
+                    {
+                        var f = x.First();
+                        return new GenericPayGroup
+                        {
+                            GroupId = f.GroupId,
+                            GroupName = f.GroupName,
+                            Sort = f.GroupSort,
+                            MaxAmount = x.Max(y => y.MaxAmount),
+                            MinAmount = x.Min(y => y.MinAmount),
+                            SupportChannels = x.Select(y => y)
+                                .OrderBy(y => y.ChannelSort)
+                        };
+                    }).OrderBy(x => x.Sort);
+                
+                result.Add(name, new PayMethod
+                {
+                    Show = payGroups.Any(),
+                    Data = payGroups
+                });
+            }
+
+            return result;
+        }
+
+        
+        
 
         public IEnumerable<PayGroup> GetPayGroupList(int custId, DepositType depositType)
         {
@@ -49,7 +284,7 @@ namespace MemberSite.Service.BLL
                 return new List<PayGroup>();
             }
 
-            var payInfoList = GetPayInfoList(custInfo.SiteId, depositType)
+            var payInfoList = GetPayInfoListWithCache(custInfo.SiteId, depositType)
                 .Where(info => vipLevel >= info.PointLevel && info.CurrencyId == custInfo.CurrencyId);
 
             var payGroupList = payInfoList
@@ -135,7 +370,7 @@ namespace MemberSite.Service.BLL
                 return Array.Empty<PayInfo>();
             }
 
-            var payInfoList = GetPayInfoList(custInfo.SiteId, depositType)
+            var payInfoList = GetPayInfoListWithCache(custInfo.SiteId, depositType)
                 .Where(x => vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.GroupId == groupId)
                 .ToList();
 
@@ -177,7 +412,7 @@ namespace MemberSite.Service.BLL
                 .ThenBy(x => x.SSort);
         }
 
-        public IEnumerable<PayInfo> GetPayInfoList(int siteId, DepositType depositType)
+        public IEnumerable<PayInfo> GetPayInfoListWithCache(int siteId, DepositType? depositType = null)
         {
             var key = $"PaySetting:{siteId}:{depositType}";
             var dbData = _redisHelper.TryGetOrCreate<IEnumerable<PayInfo>>(key, TimeSpan.FromMinutes(5),

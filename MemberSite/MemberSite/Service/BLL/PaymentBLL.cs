@@ -124,7 +124,7 @@ namespace MemberSite.Service.BLL
                 CurrencyId = custInfo.CurrencyId
             };
 
-            if (req.Type == DepositType.QRPayPayment)
+            if (req.Type == DepositType.QrPayPayment)
             {
                 var random = new Random();
                 code = random.Next(0, 1000000).ToString("000000");
@@ -176,7 +176,7 @@ namespace MemberSite.Service.BLL
 
             var depositLimitInfoList = _depositService.GetDepositLimitInfoList();
             var depositLimitInfo = depositLimitInfoList?.FirstOrDefault(x =>
-                x.SiteId == custInfo.SiteId && x.VipLevel == pointLevel && x.DepositType == (int)DepositType.LocalBank &&
+                x.SiteId == custInfo.SiteId && x.VipLevel == pointLevel && x.DepositType == DepositType.LocalBank &&
                 x.CurrencyId == custInfo.CurrencyId);
 
             if (depositLimitInfo?.DepositStatus == 0)
@@ -286,7 +286,7 @@ namespace MemberSite.Service.BLL
                             && x.SysId == sysId)
                 .ToList();
             var depositLimitInfoList = _depositService.GetDepositLimitInfoList();
-            var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == pointLevel && x.DepositType == (int)DepositType.LocalBank && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
+            var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == pointLevel && x.DepositType == DepositType.LocalBank && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
 
             if (depositLimitInfo?.DepositStatus == 0)
             {
@@ -414,7 +414,7 @@ namespace MemberSite.Service.BLL
                 var depositLimitInfo = depositLimitInfoList?
                     .FirstOrDefault(x => x.SiteId == custInfo.SiteId
                                          && x.VipLevel == pointLevel
-                                         && x.DepositType == (int)depositType
+                                         && x.DepositType == depositType
                                          && x.CurrencyId == custInfo.CurrencyId);
 
                 if (depositLimitInfo?.DepositStatus == 0)

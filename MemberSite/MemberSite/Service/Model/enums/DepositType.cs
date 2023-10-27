@@ -7,8 +7,9 @@
         LocalBank = 3,
         CryptoPayment = 4,
         LoadCardPayment = 5,
-        QRPayPayment = 6,
+        QrPayPayment = 6,
         BankAutoChannel = 7,
-        CryptoWallet = 8
+        CryptoWallet = 8,
+        QuickTransfer = 9
     }
 }

@@ -268,7 +268,7 @@ namespace MemberSite.Controllers
                 Amount = Amount,
                 ChannelId = ChannelId,
                 CustId = authData.CustId,
-                DepositType = DepositType.QRPayPayment,
+                DepositType = DepositType.QrPayPayment,
                 ExtraData = new Dictionary<string, string>()
             }, BonusCode);
         }
