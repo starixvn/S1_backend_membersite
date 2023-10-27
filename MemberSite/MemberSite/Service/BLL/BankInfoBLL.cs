@@ -100,7 +100,14 @@ namespace MemberSite.Service.BLL
                         SelBank = item.SelBank,
                         Mode = item.Mode,
                         MaxAmount = item.MaxAmount,
-                        MinAmount = item.MinAmount
+                        MinAmount = item.MinAmount,
+                        BankList = item.SelBank ?
+                            x.Select(y => new BankInfoSys
+                            {
+                                BankLogo = y.BankLogo,
+                                BankName = y.BankName,
+                                SysId = y.SysId
+                            }) : Array.Empty<BankInfoSys>()
                     };
 
                     if (depositLimitInfo != null)

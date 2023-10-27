@@ -84,7 +84,7 @@ namespace MemberSite.Controllers.Api
 
             return new ApiResult<IEnumerable<OfflineBankInfoFront>>
             {
-                Data = bankInfoOffBLL.GetBankInfoOffListWithCache(authData.CustId, authData.LangId),
+                Data = bankInfoOffBLL.GetBankInfoOffListWithCache(authData.CustId),
                 ErrorCode = 0
             };
         }
@@ -103,7 +103,7 @@ namespace MemberSite.Controllers.Api
 
             return new ApiResult<IEnumerable<OfflineBankInfoFront>>
             {
-                Data = bankInfoOffBLL.GetBankInfoOffListWithCache(authData.CustId, authData.LangId),
+                Data = bankInfoOffBLL.GetBankInfoOffListWithCache(authData.CustId),
                 ErrorCode = 0
             };
         }
@@ -394,7 +394,7 @@ namespace MemberSite.Controllers.Api
                 };
             }
 
-            if (localPayment.Type == DepositType.QRPayPayment && custInfo.CurrencyId == (int)CurrencyId.VND)
+            if (localPayment.Type == DepositType.QrPayPayment && custInfo.CurrencyId == (int)CurrencyId.VND)
             {
                 var vietQr = PaymentBLL.GenerateVietQr(bankAccount, transId, req.Amount);
                 return new ApiResult<LocalPayResp>
@@ -905,9 +905,9 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult<IEnumerable<CryptoPayInfo>> GetCryptoPayInfoListAsync()
+        public ApiResult<IEnumerable<PayInfo>> GetCryptoPayInfoListAsync()
         {
-            var apiResult = new ApiResult<IEnumerable<CryptoPayInfo>>();
+            var apiResult = new ApiResult<IEnumerable<PayInfo>>();
             var authData = authorizeBLL.GetAuthData();
             if (authData is not { CustId: > 0 })
             {
@@ -937,9 +937,9 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult<IEnumerable<LoadCardPayInfo>> GetLoadCardPayInfoList(PayInfoReq payInfoReq)
+        public ApiResult<IEnumerable<PayInfo>> GetLoadCardPayInfoList(PayInfoReq payInfoReq)
         {
-            var apiResult = new ApiResult<IEnumerable<LoadCardPayInfo>>();
+            var apiResult = new ApiResult<IEnumerable<PayInfo>>();
             var authData = authorizeBLL.GetAuthData();
             if (authData is not { CustId: > 0 })
             {
@@ -1550,7 +1550,7 @@ namespace MemberSite.Controllers.Api
                 return result;
             }
 
-            result.Data = _payInfoBLL.GetPayGroupList(authorizeBLL.GetAuthData().CustId, DepositType.QRPayPayment);
+            result.Data = _payInfoBLL.GetPayGroupList(authorizeBLL.GetAuthData().CustId, DepositType.QrPayPayment);
             result.ErrorCode = 0;
             return result;
         }
@@ -1566,7 +1566,7 @@ namespace MemberSite.Controllers.Api
                 return result;
             }
 
-            result.Data = _payInfoBLL.GetPayInfoList(authorizeBLL.GetAuthData().CustId, payInfoReq.groupId, DepositType.QRPayPayment);
+            result.Data = _payInfoBLL.GetPayInfoList(authorizeBLL.GetAuthData().CustId, payInfoReq.groupId, DepositType.QrPayPayment);
             result.ErrorCode = 0;
             return result;
         }
@@ -1739,6 +1739,26 @@ namespace MemberSite.Controllers.Api
             apiResult.ErrorCode = 0;
             
             return apiResult;
+        }
+
+
+        [HttpPost]
+        public ApiResult<IDictionary<string, PayMethod>> GetPayInfoListAll()
+        {
+            var authData = authorizeBLL.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                return new ApiResult<IDictionary<string, PayMethod>>
+                {
+                    Message = selLangBLL.GetMsg("msg_ForceLogedout")
+                };
+            }
+            
+            return new ApiResult<IDictionary<string, PayMethod>>
+            {
+                Data = _payInfoBLL.GetPayInfoListAll(authData.CustId),
+                ErrorCode = 0
+            };
         }
     }
 }

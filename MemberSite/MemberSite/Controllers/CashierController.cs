@@ -265,7 +265,7 @@ namespace MemberSite.Controllers
                 Amount = Amount,
                 ChannelId = ChannelId,
                 CustId = authData.CustId,
-                DepositType = DepositType.QRPayPayment,
+                DepositType = DepositType.QrPayPayment,
                 ExtraData = new Dictionary<string, string>()
             }, BonusCode);
         }
@@ -344,12 +344,6 @@ namespace MemberSite.Controllers
                     return false;
             }
         }
-
-        #region Old
-
-        
-
-        #endregion
 
         private ViewResult RedirectErrorPage(ErrorData model)
         {
