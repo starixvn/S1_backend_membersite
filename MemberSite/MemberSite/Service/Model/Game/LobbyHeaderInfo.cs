@@ -1,0 +1,50 @@
+﻿namespace MemberSite.Service.Model.Game
+{
+    public class GetLobbyHeaderRequest
+    {
+        public int SiteId { get; set; }
+        public int CurrencyId { get; set; }
+    }
+    
+    public class LobbyHeaderResponse
+    {
+        public int LobbyCategoryId { get; set; }
+        public IEnumerable<LobbyHeaderDetail> Data { get; set; }
+    }
+    
+    public class LobbyHeaderDetail
+    {
+        public string LobbyCategory { get; set; }
+        public int TpId { get; set; }
+        public string TpName { get; set; }
+        public string ProductName { get; set; }
+        public int TpGameIdNo { get; set; }
+        public string GameId { get; set; }
+        public int TpGameType { get; set; }
+        public Dictionary<string,string> CurrencyGameName { get; set; }
+        public string PcHeaderPicUrl { get; set; }
+        public string PcLobbyPicUrl { get; set; }
+        public string MobileHeaderPicUrl { get; set; }
+        public string MobileLobbyPicUrl { get; set; }
+        public int Sort { get; set; }
+    }
+    
+    public class LobbyHeaderData
+    {
+        public int LobbyCategoryId { get; set; }
+        public string LobbyCategory { get; set; }
+        public int TpId { get; set; }
+        public string TpName { get; set; }
+        public int TpGameIdNo { get; set; }
+        public string ProductName { get; set; }
+        public string CurrencyGameName { get; set; }
+        public string PcHeaderPic { get; set; }
+        public string PcLobbyPic { get; set; }
+        public string MobileHeaderPic { get; set; }
+        public string MobileLobbyPic { get; set; }
+        public string GameId { get; set; }
+        public int TpGameType { get; set; }
+        public int Sort { get; set; }
+    }
+}
+
