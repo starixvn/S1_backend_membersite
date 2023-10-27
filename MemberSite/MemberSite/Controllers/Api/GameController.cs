@@ -2,7 +2,6 @@
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Game;
-
 using Microsoft.AspNetCore.Mvc;
 
 namespace MemberSite.Controllers.Api
@@ -13,11 +12,13 @@ namespace MemberSite.Controllers.Api
     {
         private readonly ILogger<GameController> _logger;
         private readonly SlotGameBLL _slotGameBll;
+        private readonly GameBLL _gameBll;
 
         public GameController(IServiceProvider provider)
         {
             _logger = provider.GetRequiredService<ILogger<GameController>>();
             _slotGameBll = provider.GetRequiredService<SlotGameBLL>();
+            _gameBll = provider.GetRequiredService<GameBLL>();
         }
 
         [HttpPost]
@@ -68,6 +69,28 @@ namespace MemberSite.Controllers.Api
             {
                 _logger.LogError(ex, ex.Message);
                 return new ApiResult<RecentlyViewedResponse>
+                {
+                    ErrorCode = (int)ErrorCode.SystemException,
+                    Message = ex.Message,
+                };
+            }
+        }
+        
+        [HttpPost]
+        public async Task<ApiResult<IEnumerable<LobbyHeaderResponse>>> GetLobbyHeader(GetLobbyHeaderRequest request)
+        {
+            try
+            {
+                return new ApiResult<IEnumerable<LobbyHeaderResponse>>
+                {
+                    ErrorCode = (int)ErrorCode.Success,
+                    Data = await _gameBll.GetLobbyHeader(request)
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                return new ApiResult<IEnumerable<LobbyHeaderResponse>>
                 {
                     ErrorCode = (int)ErrorCode.SystemException,
                     Message = ex.Message,

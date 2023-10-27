@@ -1,10 +1,10 @@
 ﻿using System.Web;
-
 using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Game;
+using Newtonsoft.Json;
 
 namespace MemberSite.Service.BLL
 {
@@ -16,6 +16,7 @@ namespace MemberSite.Service.BLL
         private readonly StatementService _statementService;
         private readonly GameService _gameService;
         private readonly ThirdPartyBll _thirdPartyBll;
+        private readonly string _awsHeaderUrl;
 
         public GameBLL(IServiceProvider provider)
         {
@@ -28,6 +29,8 @@ namespace MemberSite.Service.BLL
             _statementService = provider.GetRequiredService<StatementService>();
             _gameService = provider.GetRequiredService<GameService>();
             _thirdPartyBll = provider.GetRequiredService<ThirdPartyBll>();
+            var configBll = provider.GetRequiredService<ConfigBLL>();
+            _awsHeaderUrl = configBll.GetConfigValue("AWSBackOfficeBucketUrl");
         }
 
         public bool IsMaintain(int siteId, int tpId, string tpGameType, out TpMaintain result)
@@ -115,6 +118,44 @@ namespace MemberSite.Service.BLL
                     return result;
                 });
             return result.ToList();
+        }
+        
+        public async Task<IEnumerable<LobbyHeaderResponse>> GetLobbyHeader(GetLobbyHeaderRequest req)
+        {
+            var key = $"GetLobbyHeader_{req.SiteId}_{req.CurrencyId}";
+            var result = await _cacheHelper.TryGetOrCreateAsync(key,
+                TimeSpan.FromMinutes(10),
+                async () =>
+                {
+                    var resultData = await _gameService.GetLobbyHeader(req);
+                   
+                    var groupedData = resultData.GroupBy(item => item.LobbyCategoryId);
+                    
+                    var result = groupedData.Select(group =>
+                        new LobbyHeaderResponse
+                        {
+                            LobbyCategoryId = group.Key,
+                            Data = group.Select(item => new LobbyHeaderDetail
+                            {
+                                LobbyCategory = item.LobbyCategory,
+                                TpId = item.TpId,
+                                TpName = item.TpName,
+                                ProductName = item.ProductName,
+                                TpGameIdNo = item.TpGameIdNo,
+                                GameId = item.GameId,
+                                TpGameType = item.TpGameType,
+                                CurrencyGameName = string.IsNullOrEmpty(item.CurrencyGameName) ? null : JsonConvert.DeserializeObject<Dictionary<string, string>>(item.CurrencyGameName),
+                                PcHeaderPicUrl = string.IsNullOrEmpty(item.PcHeaderPic) ? "" : $"{_awsHeaderUrl}{item.PcHeaderPic}",
+                                PcLobbyPicUrl = string.IsNullOrEmpty(item.PcLobbyPic) ? "" : $"{_awsHeaderUrl}{item.PcLobbyPic}",
+                                MobileHeaderPicUrl = string.IsNullOrEmpty(item.MobileHeaderPic) ? "" : $"{_awsHeaderUrl}{item.MobileHeaderPic}",
+                                MobileLobbyPicUrl = string.IsNullOrEmpty(item.MobileLobbyPic) ? "" : $"{_awsHeaderUrl}{item.MobileLobbyPic}",
+                                Sort = item.Sort
+                            }).OrderBy(x=>x.Sort)
+                        });
+                    return result;
+                });
+            
+            return result;
         }
     }
 }

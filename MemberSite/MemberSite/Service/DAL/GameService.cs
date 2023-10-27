@@ -1,6 +1,7 @@
 ﻿using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
+using MemberSite.Service.Model.Game;
 
 namespace MemberSite.Service.DAL
 {
@@ -16,6 +17,11 @@ namespace MemberSite.Service.DAL
         public Task<IEnumerable<TpGameIdListData>> GetTpGameIdList()
         {
             return _reportDbClient.QueryAsync<TpGameIdListData>("Member_TpGameId_Get", null);
+        }
+        
+        public Task<IEnumerable<LobbyHeaderData>> GetLobbyHeader(GetLobbyHeaderRequest req)
+        {
+            return _reportDbClient.QueryAsync<LobbyHeaderData>("Member_HeaderMenu_Get", new { _SiteId = req.SiteId, _CurrencyId = req.CurrencyId });
         }
     }
 }
