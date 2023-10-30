@@ -5,8 +5,6 @@ using System.Text;
 using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
-
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 namespace MemberSite.Service.BLL
@@ -24,7 +22,8 @@ namespace MemberSite.Service.BLL
             httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
             tools = provider.GetRequiredService<Tools>();
             authenticateService = provider.GetRequiredService<AuthenticateService>();
-            _jwtConfig = provider.GetRequiredService<IOptions<JwtConfig>>()?.Value;
+            var configBll = provider.GetRequiredService<ConfigBLL>();
+            _jwtConfig = configBll.GetConfigValueByEnvironment<JwtConfig>("JwtSettings");
             _logger = provider.GetRequiredService<ILogger<AuthorizeBLL>>();
         }
 

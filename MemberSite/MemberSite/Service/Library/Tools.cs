@@ -15,7 +15,7 @@ namespace MemberSite.Service.Library
     public class Tools
     {
         private readonly string _backEndKey;
-        private readonly IOptions<JwtConfig> jwtConfig;
+        private readonly JwtConfig jwtConfig;
         private readonly Dictionary<string, string> _loginDeviceConfig;
         private readonly Regex _regexPassword = new(@"^(?=.{6,15}$)[a-zA-Z0-9!@#$%^&*]*$", RegexOptions.Singleline);
         public IHttpContextAccessor httpContextAccessor { get; }
@@ -23,9 +23,10 @@ namespace MemberSite.Service.Library
         public Tools(IServiceProvider provider)
         {
             httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
-            jwtConfig = provider.GetRequiredService<IOptions<JwtConfig>>();
+            
             var configBll = provider.GetRequiredService<ConfigBLL>();
             _backEndKey = configBll.GetConfigValue("ApiPaymentGateWayKey");
+            jwtConfig = configBll.GetConfigValueByEnvironment<JwtConfig>("JwtSettings");
             _loginDeviceConfig = configBll.GetConfigValueByEnvironment<Dictionary<string, string>>("LoginDeviceConfig");
         }
 
@@ -224,9 +225,8 @@ namespace MemberSite.Service.Library
 
         public string GenerateJwtTokens(Claim[] claims)
         {
-            var _jwtConfig = jwtConfig.Value;
-            var issuer = _jwtConfig.Issuer;
-            var signKey = _jwtConfig.SignKey;
+            var issuer = jwtConfig.Issuer;
+            var signKey = jwtConfig.SignKey;
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(signKey));
             var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha512Signature);
             //var userClaimsIdentity = new ClaimsIdentity(claims);
