@@ -45,7 +45,7 @@ internal class AuthBLLTests
         _configuration = app.Configuration;
         _authBll = app.Services.GetRequiredService<AuthBLL>();
         _cryptoHelper = app.Services.GetRequiredService<CryptoHelper>();
-        _publicApiAuthToken = "QzEgmnPemTF43F2t";
+        _publicApiAuthToken = _configuration.GetValue<string>("PublicApiAuthToken");
     }
 
     /// <summary>

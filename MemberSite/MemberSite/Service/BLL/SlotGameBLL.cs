@@ -1,10 +1,14 @@
 ﻿using System.Security.Claims;
+
 using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Game;
 using MemberSite.Service.Model.Lobby;
+
+using Microsoft.Extensions.Options;
+
 using Newtonsoft.Json;
 
 namespace MemberSite.Service.BLL
@@ -14,7 +18,7 @@ namespace MemberSite.Service.BLL
         private readonly ILogger<SlotGameBLL> _logger;
         private readonly MySqlClient _reportDbClient;
         private readonly ICacheHelper _cacheHelper;
-        private readonly Dictionary<string, SiteCloudFrontImageInfo> _siteCloudFrontImageInfo;
+        private readonly IOptions<Dictionary<string, SiteConfig>> _siteConfig;
 
         private readonly AuthorizeBLL _authorizeBll;
         private readonly ServerInfoBll _serverInfoBll;
@@ -25,20 +29,18 @@ namespace MemberSite.Service.BLL
         private readonly LobbyCategoryBLL _lobbyCategoryBll;
 
         private readonly CasinoService _casinoService;
+        private readonly IConfiguration _configuration;
+
         private readonly Dictionary<int, int> _specialVenderLogoTp;
         private readonly List<int> _excludeTp;
         private readonly Dictionary<string, string> _changeGameImgName;
-        private readonly int _isStage;
-
 
         public SlotGameBLL(IServiceProvider provider)
         {
             _logger = provider.GetRequiredService<ILogger<SlotGameBLL>>();
             _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
             _cacheHelper = provider.GetRequiredService<ICacheHelper>();
-            var configBll = provider.GetRequiredService<ConfigBLL>();
-            _siteCloudFrontImageInfo = configBll.GetConfigValuesBySiteName<SiteCloudFrontImageInfo>("SiteCloudFrontImageInfo");
-            _isStage = configBll.GetConfigValueByEnvironment<int>("IsStage");
+            _siteConfig = provider.GetRequiredService<IOptions<Dictionary<string, SiteConfig>>>();
             _authorizeBll = provider.GetRequiredService<AuthorizeBLL>();
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
@@ -47,6 +49,7 @@ namespace MemberSite.Service.BLL
             _casinoBll = provider.GetRequiredService<CasinoBll>();
             _lobbyCategoryBll = provider.GetRequiredService<LobbyCategoryBLL>();
             _casinoService = provider.GetRequiredService<CasinoService>();
+            _configuration = provider.GetRequiredService<IConfiguration>();
             _specialVenderLogoTp = new Dictionary<int, int>()
             {
                 { 67, 30 },
@@ -70,7 +73,7 @@ namespace MemberSite.Service.BLL
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
             var (siteId, currencyId, custId) = GetUserInfo(request.CurrencyId, user, serverInfo);
-            var imgUrl = _siteCloudFrontImageInfo[serverInfo.SiteName].OldImageUrl;
+            var imgUrl = _siteConfig.Value[serverInfo.SiteName].OldImageUrl;
 
             // 取得SlotGame相關資料
             var providerList = await GetSlotGameProviderList(siteId, currencyId, TpCategory.Casino);
@@ -109,12 +112,13 @@ namespace MemberSite.Service.BLL
         public async Task<List<SlotGameInfo>> GetSlotGameList(int siteId, int currencyId, int deviceType)
         {
             var statusList = new List<int> { 1 };
-            if (_isStage == 1)
+            var IsStage = _configuration.GetValue<int>("IsStage");
+            if (IsStage == 1)
             {
                 statusList.Add(3);
             }
 
-            var key = $"GetSlotGameList:{_isStage}:{currencyId}:{siteId}:{deviceType}";
+            var key = $"GetSlotGameList:{IsStage}:{currencyId}:{siteId}:{deviceType}";
             var result = await _cacheHelper.TryGetOrCreateAsync(key,
                 TimeSpan.FromMinutes(10),
                 async () =>
@@ -202,8 +206,8 @@ namespace MemberSite.Service.BLL
 
             var serverInfo = _serverInfoBll.GetServerInfo();
             var (siteId, currencyId, custId) = GetUserInfo(request.CurrencyId, user, serverInfo);
-            var imgUrl = _siteCloudFrontImageInfo[serverInfo.SiteName].OldImageUrl;
-            var bannerUrl = _siteCloudFrontImageInfo[serverInfo.SiteName].BannerImageUrl;
+            var imgUrl = _siteConfig.Value[serverInfo.SiteName].OldImageUrl;
+            var bannerUrl = _siteConfig.Value[serverInfo.SiteName].BannerImageUrl;
             var deviceType = request.DeviceType;
             var devicePath = deviceType == (int)HotGameDeviceType.Pc ? "desktop" : "h5";
 

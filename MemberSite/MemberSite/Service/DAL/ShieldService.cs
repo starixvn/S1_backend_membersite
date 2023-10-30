@@ -1,17 +1,20 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
+
 using Dapper;
-using MemberSite.Service.BLL;
+
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
+
+using Microsoft.Extensions.Options;
+
 namespace MemberSite.Service.DAL;
 
 public class ShieldService
 {
     private readonly CourierAdapter _courierAdapter;
-    private readonly Dictionary<string, ShieldConfig> _shieldConfig;
-    private readonly string _shieldApiUrl;
+    private readonly IOptions<ShieldConfig> _shieldConfig;
     private readonly MySqlClient _mainDbClient;
     private readonly MySqlClient _reportDbClient;
 
@@ -19,10 +22,7 @@ public class ShieldService
     public ShieldService(IServiceProvider provider)
     {
         _courierAdapter = provider.GetRequiredService<CourierAdapter>();
-
-        var configBll = provider.GetRequiredService<ConfigBLL>();
-        _shieldConfig = configBll.GetConfigValuesBySiteName<ShieldConfig>("ShieldConfig");
-        _shieldApiUrl = configBll.GetConfigValue("ShieldApiUrl");
+        _shieldConfig = provider.GetRequiredService<IOptions<ShieldConfig>>();
         _mainDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Main);
         _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
     }
@@ -33,7 +33,7 @@ public class ShieldService
         p.Add("_CustId", custId);
         return _reportDbClient.QueryFirst<CustShieldRiskInfoData>("Member_CustShieldRiskInfo_Get", p);
     }
-
+    
     public int InsertCustShieldInfo(ShieldRiskRequest input, Customer custInfo)
     {
         var p = new DynamicParameters(new
@@ -91,8 +91,8 @@ public class ShieldService
     public async Task<GetEndpointResult> GetEndpoint(int siteId)
     {
         var siteName = Enum.GetName(typeof(SiteId), siteId);
-        var siteGroup = _shieldConfig[siteName ?? string.Empty];
-        var apiUrl = $"{_shieldApiUrl}?sid={siteGroup.SiteId}";
+        var siteGroup = _shieldConfig.Value.Groups[siteName ?? string.Empty];
+        var apiUrl = $"{_shieldConfig.Value.ShieldService}?sid={siteGroup.SiteId}";
 
         var timestamp = DateTimeOffset.Now.ToUnixTimeSeconds().ToString();
         var sign = GetShieldSignature(timestamp, siteId);
@@ -119,7 +119,7 @@ public class ShieldService
         };
 
         var siteName = Enum.GetName(typeof(SiteId), request.SiteId);
-        var siteGroup = _shieldConfig[siteName ?? string.Empty];
+        var siteGroup = _shieldConfig.Value.Groups[siteName ?? string.Empty];
 
         var header = new Dictionary<string, string>
         {
@@ -137,7 +137,7 @@ public class ShieldService
     public string GetShieldSignature(string timestamp, int siteId)
     {
         var siteName = Enum.GetName(typeof(SiteId), siteId);
-        var siteGroup = _shieldConfig[siteName ?? string.Empty];
+        var siteGroup = _shieldConfig.Value.Groups[siteName ?? string.Empty];
 
         var timeHash = HmacSha256(timestamp, siteGroup.SecretKey);
         var shieldSignature = HmacSha256(siteGroup.SiteId, timeHash);

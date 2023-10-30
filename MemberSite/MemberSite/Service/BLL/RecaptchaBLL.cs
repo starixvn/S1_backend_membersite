@@ -2,6 +2,8 @@ using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.DAL;
 using MemberSite.Service.Model;
 
+using Microsoft.Extensions.Options;
+
 namespace MemberSite.Service.BLL
 {
     public class RecaptchaBLL
@@ -12,9 +14,9 @@ namespace MemberSite.Service.BLL
         private readonly IGeoIpApi _geoIpApi;
         private readonly IRecaptchaApi _recaptchaApi;
 
-        public RecaptchaBLL(RecaptchaSetting reCaptcha, RecaptchaService recaptchaSvc, IGeoIpApi geoIpApi, IRecaptchaApi recaptchaApi, ServerInfoBll serverInfoBll)
+        public RecaptchaBLL(IOptions<RecaptchaSetting> reCaptcha, RecaptchaService recaptchaSvc, IGeoIpApi geoIpApi, IRecaptchaApi recaptchaApi, ServerInfoBll serverInfoBll)
         {
-            _recaptcha = reCaptcha;
+            _recaptcha = reCaptcha.Value;
             _recaptchaSvc = recaptchaSvc;
             _geoIpApi = geoIpApi;
             _recaptchaApi = recaptchaApi;

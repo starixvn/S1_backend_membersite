@@ -3,7 +3,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
-using MemberSite.Service.BLL;
+
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 
@@ -16,17 +16,17 @@ namespace MemberSite.Service.Library
     {
         private readonly string _backEndKey;
         private readonly IOptions<JwtConfig> jwtConfig;
-        private readonly Dictionary<string, string> _loginDeviceConfig;
+        private readonly IOptions<Dictionary<string, string>> _loginDeviceConfig;
         private readonly Regex _regexPassword = new(@"^(?=.{6,15}$)[a-zA-Z0-9!@#$%^&*]*$", RegexOptions.Singleline);
         public IHttpContextAccessor httpContextAccessor { get; }
 
         public Tools(IServiceProvider provider)
         {
             httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
+            _loginDeviceConfig = provider.GetRequiredService<IOptions<Dictionary<string, string>>>();
             jwtConfig = provider.GetRequiredService<IOptions<JwtConfig>>();
-            var configBll = provider.GetRequiredService<ConfigBLL>();
-            _backEndKey = configBll.GetConfigValue("ApiPaymentGateWayKey");
-            _loginDeviceConfig = configBll.GetConfigValueByEnvironment<Dictionary<string, string>>("LoginDeviceConfig");
+            var configuration = provider.GetRequiredService<IConfiguration>();
+            _backEndKey = configuration.GetValue<string>("ApiPaymentGateWayKey");
         }
 
         /// <summary>
@@ -262,7 +262,7 @@ namespace MemberSite.Service.Library
         public DeviceId GetDeviceId(string url)
         {
             var deviceType = DeviceId.Desktop;
-            foreach (var (key, value) in _loginDeviceConfig)
+            foreach (var (key, value) in _loginDeviceConfig.Value)
             {
                 if (url.Contains(value))
                 {

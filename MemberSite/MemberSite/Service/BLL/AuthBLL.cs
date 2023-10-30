@@ -18,10 +18,8 @@ namespace MemberSite.Service.BLL
         {
             this.authService = provider.GetRequiredService<AuthService>();
             _cryptoHelper = provider.GetRequiredService<CryptoHelper>();
-
-            var configBll = provider.GetRequiredService<ConfigBLL>();
-            _publicApiAuthToken = configBll.GetConfigValue("PublicApiAuthToken");
-            _publicApiPassToken = configBll.GetConfigValue("PublicApiPassToken");
+            _publicApiAuthToken = provider.GetRequiredService<IConfiguration>().GetValue<string>("PublicApiAuthToken");
+            _publicApiPassToken = provider.GetRequiredService<IConfiguration>().GetValue<string>("PublicApiPassToken");
             _logger = provider.GetRequiredService<ILogger<AuthBLL>>();
             _hostEnvironment = provider.GetRequiredService<IHostEnvironment>();
         }

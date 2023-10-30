@@ -6,16 +6,20 @@ namespace MemberSite.Service.BLL
     public class FPSBLL
     {
         private readonly CourierAdapter courierAdapter;
-        private readonly string _commonServiceUrl;
+        private readonly IConfiguration configuration;
 
-        public FPSBLL(CourierAdapter courierAdapter, ConfigBLL configBll)
+        public FPSBLL(IConfiguration configuration, CourierAdapter courierAdapter)
         {
             this.courierAdapter = courierAdapter;
-            this._commonServiceUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost").CommonService;
+            this.configuration = configuration;
         }
         public async Task<ApiResult> FPSChecksAsync(int custId, string action, string actionResult, string url, string platform, string userAgent, string screen, string di, string ip)
         {
-            var apiUrl = $"{_commonServiceUrl}FPS/FPSChecks";
+            var apiResult = new ApiResult();
+
+
+            var commonServiceUrl = configuration.GetValue<string>("CommonService");
+            var apiUrl = $"{commonServiceUrl}FPS/FPSChecks";
 
             dynamic req = new
             {
@@ -30,7 +34,7 @@ namespace MemberSite.Service.BLL
                 di
             };
 
-            ApiResult apiResult = await courierAdapter.MyPostAsync<bool, dynamic>(apiUrl, req);
+            apiResult = await courierAdapter.MyPostAsync<bool, dynamic>(apiUrl, req);
 
             return apiResult;
 
