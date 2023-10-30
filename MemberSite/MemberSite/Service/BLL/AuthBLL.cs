@@ -98,6 +98,10 @@ namespace MemberSite.Service.BLL
             {
                 var token = jbody["token"].ToString();
                 var requestStr = content.Replace(token, _publicApiAuthToken);
+                var sha256Result = _cryptoHelper.SHA256(requestStr);
+                
+                _logger.LogError($"MickeyDebug：token:{token}，requestStr:{requestStr}，_publicApiAuthToken:{_publicApiAuthToken}, sha256Result:{sha256Result}");
+
                 if (token != _cryptoHelper.SHA256(requestStr))
                 {
                     _logger.LogError($"Request vaild fail：Check crypto token fail. request.token={token}. correct token={_cryptoHelper.SHA256(requestStr)}. plaintext={requestStr}.");
