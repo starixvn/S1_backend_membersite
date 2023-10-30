@@ -33,9 +33,10 @@ namespace MemberSite.Service.BLL
             _httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
             _siteInfoDic = new ConcurrentDictionary<string, int>(StringComparer.OrdinalIgnoreCase);
             _serverInfoDic = new ConcurrentDictionary<int, ServerInfo>();
-            _fixSiteId = provider.GetRequiredService<IConfiguration>().GetValue<int>("SiteId");
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
-            _socialChannelLogoLinks = provider.GetRequiredService<ConfigBLL>().GetConfigValuesBySiteId<Dictionary<string, string>>("SocialChannelLogoLink");
+            var configBll = provider.GetRequiredService<ConfigBLL>();
+            _fixSiteId = configBll.GetConfigValue<int>("FixSiteId");
+            _socialChannelLogoLinks = configBll.GetConfigValuesBySiteId<Dictionary<string, string>>("SocialChannelLogoLink");
         }
 
         public ServerInfo GetServerInfo()
