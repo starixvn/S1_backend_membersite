@@ -1,6 +1,8 @@
 ﻿using System.Net;
+
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
+
 using Microsoft.AspNetCore.Routing.Template;
 using Microsoft.Extensions.Caching.Memory;
 
@@ -11,21 +13,20 @@ namespace MemberSite.Service.BLL
         private readonly RequestDelegate _next;
         private readonly SelLangBLL _selLangBll;
         private readonly Tools _tools;
+        private readonly IConfiguration _configuration;
         private readonly ServerInfoBll _serverInfoBll;
         private readonly IPBLL _iPBLL;
         private readonly CacheHelper _cacheHelper;
-        private readonly int[] _supportH5;
 
         public SiteMiddleware(IServiceProvider provider, RequestDelegate next)
         {
             _next = next;
             _selLangBll = provider.GetRequiredService<SelLangBLL>();
             _tools = provider.GetRequiredService<Tools>();
+            _configuration = provider.GetRequiredService<IConfiguration>();
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
             _iPBLL = provider.GetRequiredService<IPBLL>();
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
-            var configBll = provider.GetRequiredService<ConfigBLL>();
-            _supportH5 = configBll.GetConfigValue<int[]>("SupportH5");
         }
         public RouteValueDictionary Match(string routeTemplate, string requestPath)
         {
@@ -59,7 +60,9 @@ namespace MemberSite.Service.BLL
                 else if (IsGetMethod(context) && IsSupportContentType(context))
                 {
                     var host = context.Request.Host.Host;
-                    if (!IPAddress.TryParse(host, out var pAddress) && _supportH5 != null && _tools.IsMobile() && _supportH5.Any(x => x == _serverInfoBll.GetServerInfo().SiteId) && !host.StartsWith("m.", StringComparison.OrdinalIgnoreCase) && !host.StartsWith("mrelease.", StringComparison.OrdinalIgnoreCase))
+                    var supportH5 = _configuration.GetSection("SupportH5").Get<int[]>();
+
+                    if (!IPAddress.TryParse(host, out var pAddress) && supportH5 != null && _tools.IsMobile() && supportH5.Any(x => x == _serverInfoBll.GetServerInfo().SiteId) && !host.StartsWith("m.", StringComparison.OrdinalIgnoreCase) && !host.StartsWith("mrelease.", StringComparison.OrdinalIgnoreCase))
                     {
                         var AnticipationRouteData = Match("{controller=Home}/{action=Index}", context.Request.Path);
                         AnticipationRouteData.TryGetValue("controller", out var controller);

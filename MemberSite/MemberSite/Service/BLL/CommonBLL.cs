@@ -14,8 +14,8 @@ namespace MemberSite.Service.BLL
 
         public CommonBLL(IServiceProvider provider)
         {
-            var configBll = provider.GetRequiredService<ConfigBLL>();
-            _commonServiceUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost").CommonService;
+            var configuration = provider.GetRequiredService<IConfiguration>();
+            _commonServiceUrl = configuration.GetValue<string>("CommonService");
             _courierAdapter = provider.GetRequiredService<CourierAdapter>();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
             _dateTimeHelper = provider.GetRequiredService<DateTimeHelper>();

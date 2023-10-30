@@ -1,15 +1,18 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Web;
+
 using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Line;
+
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace MemberSite.Controllers.Api
 {
@@ -24,7 +27,7 @@ namespace MemberSite.Controllers.Api
         private readonly SelLangBLL _selLangBll;
         private readonly CustInfoBll _custInfoBll;
         private readonly FPSBLL _sFpsBll;
-        private readonly LineLoginChannelConfig _lineLoginChannelConfig;
+        private readonly IOptions<LineLoginChannelConfig> _lineLoginChannelConfig;
         private readonly ILogger<LineLoginController> _logger;
 
         #region Constructor
@@ -37,8 +40,7 @@ namespace MemberSite.Controllers.Api
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _sFpsBll = provider.GetRequiredService<FPSBLL>();
             _logger = provider.GetRequiredService<ILogger<LineLoginController>>();
-            var configBll = provider.GetRequiredService<ConfigBLL>();
-            _lineLoginChannelConfig = configBll.GetConfigValueByEnvironment<LineLoginChannelConfig>("LineLoginChannelConfig");
+            _lineLoginChannelConfig = provider.GetRequiredService<IOptions<LineLoginChannelConfig>>();
         }
 
         #endregion
@@ -110,7 +112,7 @@ namespace MemberSite.Controllers.Api
 
             #endregion
 
-            var config = _lineLoginChannelConfig;
+            var config = _lineLoginChannelConfig.Value;
 
             if (!_lineLoginBll.IssueLineToken(request.type, out var errorCode, out var token))
             {
