@@ -593,7 +593,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult<IEnumerable<int>> GetTpIds(int currencyId = 0)
+        public ApiResult<IEnumerable<int>> GetTpIds([FromBody]int currencyId = 0)
         {
             var apiResult = new ApiResult<IEnumerable<int>>();
             try
