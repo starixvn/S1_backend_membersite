@@ -591,7 +591,8 @@ namespace MemberSite.Controllers.Api
             return result;
         }
 
-        public ApiResult<IEnumerable<int>> GetTpIds()
+        [HttpPost]
+        public ApiResult<IEnumerable<int>> GetTpIds(int currency = 0)
         {
             var apiResult = new ApiResult<IEnumerable<int>>();
             try
@@ -611,7 +612,7 @@ namespace MemberSite.Controllers.Api
                 else
                 {
                     var serverInfo = _serverInfoBll.GetServerInfo();
-                    apiResult.Data = _casinoBll.GetProviderIdByCurrency(0, serverInfo.SiteId);
+                    apiResult.Data = _casinoBll.GetProviderIdByCurrency(currency, serverInfo.SiteId);
                 }
             }
             catch (Exception e)
