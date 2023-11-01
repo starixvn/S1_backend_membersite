@@ -591,7 +591,7 @@ namespace MemberSite.Controllers.Api
             return result;
         }
 
-        public ApiResult<IEnumerable<int>> GetTpIds()
+        public ApiResult<IEnumerable<int>> GetTpIds(int currencyId = 0)
         {
             var apiResult = new ApiResult<IEnumerable<int>>();
             try
@@ -600,6 +600,7 @@ namespace MemberSite.Controllers.Api
                 if (authData is { CustId: > 0 })
                 {
                     var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                    _logger.LogInformation($"GetTpIds by CustInfo, CurrencyId:{custInfo.CurrencyId}, SiteId:{custInfo.SiteId}");
                     var tpIds = _casinoBll.GetProviderIdByCurrency(custInfo.CurrencyId, custInfo.SiteId).ToList();
                     if (string.CompareOrdinal(custInfo.AffCode, "67253") == 0)
                     {
@@ -611,7 +612,8 @@ namespace MemberSite.Controllers.Api
                 else
                 {
                     var serverInfo = _serverInfoBll.GetServerInfo();
-                    apiResult.Data = _casinoBll.GetProviderIdByCurrency(0, serverInfo.SiteId);
+                    _logger.LogInformation($"GetTpIds not login, CurrencyId:{currencyId}, SiteId:{serverInfo.SiteId}");
+                    apiResult.Data = _casinoBll.GetProviderIdByCurrency(currencyId, serverInfo.SiteId);
                 }
             }
             catch (Exception e)
