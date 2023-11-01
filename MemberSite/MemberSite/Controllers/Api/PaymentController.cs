@@ -1767,7 +1767,7 @@ namespace MemberSite.Controllers.Api
         /// 舊的site沒有改用GetPayInfoListAll，等都轉移去新平台再一起拔掉
         /// </summary>
         [HttpPost]
-        public ApiResult<IDictionary<string, PayMethod>> GetPayInfoQuickDeposit()
+        public ApiResult<IDictionary<string, PayMethod>> GetPayInfoQuickTransfer()
         {
             var authData = authorizeBLL.GetAuthData();
             if (authData is not { CustId: > 0 })
