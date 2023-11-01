@@ -39,23 +39,11 @@ namespace MemberSite.Service.BLL
                 {DepositType.MobilePayment, OfflineBankAccountSupportChannelEnum.EWallet},
                 {DepositType.QrPayPayment, OfflineBankAccountSupportChannelEnum.BankQR}
             };
-        
-        
-        
 
         public IDictionary<string, PayMethod> GetPayInfoListAll(int custId)
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
-            
-            /*
-             * 格式例外：
-             * BankTransfer: 只有我方卡片資訊 - ShowBlock false
-             * OnlineBanking: 沒有要顯示PayGroup那層 - ShowBlock false
-             * LinePay: 只有我方帳戶資訊  - ShowBlock false
-             * AutoDeposit: 我他媽不知該怎麼辦 ShowBlock false
-             */
-
             var result = new Dictionary<string, PayMethod>();
 
             var bankTransferData = _bankInfoOffBll.GetBankInfoOffListWithCache(custInfo.CustId)
@@ -142,13 +130,24 @@ namespace MemberSite.Service.BLL
             
             result.Add("AutoChannel", new PayMethod(autoChannelData));
             
-            /*
-             * EWallet
-             * LoadCard
-             * Crypto
-             * QR
-             */
-            
+            var d = new Dictionary<DepositType, string>
+                {
+                    { DepositType.MobilePayment, "EWallet" },
+                    { DepositType.LoadCardPayment, "TopUpCard" },
+                    { DepositType.CryptoPayment, "Crypto" },
+                    { DepositType.QrPayPayment, "QRPay" },
+                    { DepositType.QuickTransfer, "QuickTransfer" }
+                };
+
+            result.AddRange(GetGernericPayMethods(d, custId));
+
+            return result;
+        }
+
+        public IDictionary<string, PayMethod> GetGernericPayMethods(IDictionary<DepositType, string> depositTypes, int custId)
+        {
+            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
+            var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
             var payInfoList = GetPayInfoListWithCache(custInfo.SiteId)
                 .Where(info => vipLevel >= info.PointLevel && info.CurrencyId == custInfo.CurrencyId);
             
@@ -157,18 +156,11 @@ namespace MemberSite.Service.BLL
                     x.SiteId == custInfo.SiteId &&
                     x.VipLevel == vipLevel &&
                     x.CurrencyId == custInfo.CurrencyId);
-
-            var q = new Dictionary<DepositType, string>
-                {
-                    { DepositType.MobilePayment, "EWallet" },
-                    { DepositType.LoadCardPayment, "TopUpCard" },
-                    { DepositType.CryptoPayment, "Crypto" },
-                    { DepositType.QrPayPayment, "QRPay" },
-                    { DepositType.QuickTransfer, "QuickTransfer" }
-                };
+            
             var bankCards = _bankInfoOffBll.GetOfflineBankCardListWithCache(custId);
-
-            foreach (var (depositType, name) in q)
+            
+            var result = new Dictionary<string, PayMethod>();
+            foreach (var (depositType, name) in depositTypes)
             {
                 var limitInfo = depositLimitInfoList.FirstOrDefault(x => x.DepositType == depositType);
                 
@@ -313,8 +305,8 @@ namespace MemberSite.Service.BLL
             return result;
         }
 
-        
-        
+
+
 
         public IEnumerable<PayGroup> GetPayGroupList(int custId, DepositType depositType)
         {

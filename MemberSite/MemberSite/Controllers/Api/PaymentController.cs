@@ -1762,5 +1762,32 @@ namespace MemberSite.Controllers.Api
                 ErrorCode = 0
             };
         }
+        
+        /// <summary>
+        /// 舊的site沒有改用GetPayInfoListAll，等都轉移去新平台再一起拔掉
+        /// </summary>
+        [HttpPost]
+        public ApiResult<IDictionary<string, PayMethod>> GetPayInfoQuickDeposit()
+        {
+            var authData = authorizeBLL.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                return new ApiResult<IDictionary<string, PayMethod>>
+                {
+                    Message = selLangBLL.GetMsg("msg_ForceLogedout")
+                };
+            }
+            
+            return new ApiResult<IDictionary<string, PayMethod>>
+            {
+                Data = _payInfoBLL.GetGernericPayMethods(
+                    new Dictionary<DepositType, string>
+                    {
+                        { DepositType.QuickTransfer, "QuickTransfer" }
+                    }, authData.CustId),
+                
+                ErrorCode = 0
+            };
+        }
     }
 }
