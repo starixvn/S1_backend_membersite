@@ -1,4 +1,5 @@
 ﻿using MemberSite.Service.BLL;
+using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Store.Redemption;
@@ -17,6 +18,7 @@ public class RedemptionController : Controller
     private readonly SelLangBLL _selLangBll;
     private readonly AuthorizeBLL _authorizeBll;
     private readonly CustInfoBll _custInfoBll;
+    private readonly ICacheHelper _redisHelper;
 
     public RedemptionController(IServiceProvider provider)
     {
@@ -24,6 +26,7 @@ public class RedemptionController : Controller
         _selLangBll = provider.GetRequiredService<SelLangBLL>();
         _custInfoBll = provider.GetRequiredService<CustInfoBll>();
         _authorizeBll = provider.GetRequiredService<AuthorizeBLL>();
+        _redisHelper = provider.GetRequiredService<ICacheHelper>();
     }
 
     [HttpPost]
@@ -33,18 +36,24 @@ public class RedemptionController : Controller
         var authData = _authorizeBll.GetAuthData();
         if (authData is { CustId: > 0 })
         {
-            var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-
-            var sendReq = new CreateRedemptionRequest()
+            var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);           
+            
+            var lockKey = $"CreateRedemptionLock:{custInfo.CustId}";
+            var lockValue = Guid.NewGuid().ToString(); // 每次取鎖使用唯一值，確保為同一個執行序所執行
+            var lockExpiry = TimeSpan.FromSeconds(15); //lock 15 sec        
+            if (await _redisHelper.TryCreateLockAsync(lockKey, lockValue, lockExpiry))
             {
-                SiteId = custInfo.SiteId,
-                CustId = custInfo.CustId,
-                CurrencyId = custInfo.CurrencyId,
-                Point = req.Point,
-                GiftId = req.GiftId
-            };
+                result = await _redemptionBll.CreateRedemptionAsync(new CreateRedemptionRequest()
+                {
+                    SiteId = custInfo.SiteId,
+                    CustId = custInfo.CustId,
+                    CurrencyId = custInfo.CurrencyId,
+                    Point = req.Point,
+                    GiftId = req.GiftId
+                });
 
-            result = await _redemptionBll.CreateRedemptionAsync(sendReq);
+                await _redisHelper.UnLockAsync(lockKey, lockValue);
+            }                          
         }
 
         switch (result.ErrorCode)
