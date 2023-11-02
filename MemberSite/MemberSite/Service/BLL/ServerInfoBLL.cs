@@ -6,6 +6,7 @@ using MemberSite.Service.Model;
 
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Hosting;
 
 using Newtonsoft.Json;
 
@@ -32,9 +33,10 @@ namespace MemberSite.Service.BLL
             _httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
             _siteInfoDic = new ConcurrentDictionary<string, int>(StringComparer.OrdinalIgnoreCase);
             _serverInfoDic = new ConcurrentDictionary<int, ServerInfo>();
-            _fixSiteId = provider.GetRequiredService<IConfiguration>().GetValue<int>("SiteId");
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
-            _socialChannelLogoLinks = provider.GetRequiredService<ConfigBLL>().GetConfigValuesBySiteId<Dictionary<string, string>>("SocialChannelLogoLink");
+            var configBll = provider.GetRequiredService<ConfigBLL>();
+            _fixSiteId = configBll.GetConfigValue<int>("FixSiteId");
+            _socialChannelLogoLinks = configBll.GetConfigValuesBySiteId<Dictionary<string, string>>("SocialChannelLogoLink");
         }
 
         public ServerInfo GetServerInfo()
@@ -98,6 +100,13 @@ namespace MemberSite.Service.BLL
 
         public string GetDomain()
         {
+            // 先拿Header的ai-host
+            if (_httpContextAccessor.HttpContext.Request.Headers.TryGetValue("ai-host", out var aiHost))
+            {
+                return new Uri(aiHost).Host;
+            }
+
+            // 都拿不到直接用Request的Host
             return _httpContextAccessor.HttpContext.Request.Host.Host;
         }
 

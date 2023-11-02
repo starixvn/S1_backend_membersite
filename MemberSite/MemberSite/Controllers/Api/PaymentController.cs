@@ -1,11 +1,9 @@
 ﻿using Amazon.S3.Model;
-
 using MemberSite.Service.BLL;
 using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,23 +21,21 @@ namespace MemberSite.Controllers.Api
         private readonly PaymentBLL paymentBLL;
         private readonly CustInfoBll custInfoBLL;
         private readonly BankInfoBLL bankInfoBLL;
-        private readonly CourierAdapter courierAdapter;
         private readonly SelLangBLL selLangBLL;
         private readonly WalletBLL walletBLL;
         private readonly IovationBLL iovationBLL;
         private readonly CryptoPayInfoBll cryptoPayInfoBLL;
         private readonly LoadCardPayInfoBLL loadCardPayInfoBLL;
-        private readonly string tpApiUrl;
-        private readonly FileNameBLL _fileNameBll;
-        private readonly ImageEditorBLL _imageEditorBll;
         private readonly PayInfoBLL _payInfoBLL;
         private readonly PromotionBll _promotionBll;
         private readonly CustInfoService _custInfoService;
         private readonly ILogger<PaymentController> _logger;
         private readonly CourierAdapter _courierAdapter;
-        private readonly string _bonusServiceUrl;
         private readonly AWSS3Helper _s3Helper;
         private readonly ICacheHelper _cacheHelper;
+
+        private readonly string _paymentBucketName;
+        private readonly string _bonusServiceUrl;
 
         public PaymentController(IServiceProvider provider)
         {
@@ -48,14 +44,13 @@ namespace MemberSite.Controllers.Api
             paymentBLL = provider.GetRequiredService<PaymentBLL>();
             custInfoBLL = provider.GetRequiredService<CustInfoBll>();
             bankInfoBLL = provider.GetRequiredService<BankInfoBLL>();
-            courierAdapter = provider.GetRequiredService<CourierAdapter>();
+            
             selLangBLL = provider.GetRequiredService<SelLangBLL>();
             walletBLL = provider.GetRequiredService<WalletBLL>();
             iovationBLL = provider.GetRequiredService<IovationBLL>();
             cryptoPayInfoBLL = provider.GetRequiredService<CryptoPayInfoBll>();
             loadCardPayInfoBLL = provider.GetRequiredService<LoadCardPayInfoBLL>();
-            _fileNameBll = provider.GetRequiredService<FileNameBLL>();
-            _imageEditorBll = provider.GetRequiredService<ImageEditorBLL>();
+            
             _payInfoBLL = provider.GetRequiredService<PayInfoBLL>();
             _promotionBll = provider.GetRequiredService<PromotionBll>();
             _custInfoService = provider.GetRequiredService<CustInfoService>();
@@ -64,9 +59,9 @@ namespace MemberSite.Controllers.Api
             _s3Helper = provider.GetRequiredService<AWSS3Helper>();
             _cacheHelper = provider.GetRequiredService<ICacheHelper>();
 
-            var configuration = provider.GetRequiredService<IConfiguration>();
-            tpApiUrl = configuration.GetValue<string>("TpService");
-            _bonusServiceUrl = configuration.GetValue<string>("BonusService");
+            var configBll = provider.GetRequiredService<ConfigBLL>();
+            _bonusServiceUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost").BonusService;
+            _paymentBucketName = configBll.GetConfigValue("AWSPaymentBucketName");
         }
 
         [HttpPost]
@@ -984,7 +979,7 @@ namespace MemberSite.Controllers.Api
 
                     var putRequest = new PutObjectRequest();
                     var key = $"deposit/{depositReceipt.TransId}_{receiptNo}.png";
-                    putRequest.BucketName = "ailab-payment"; // Your bucket name
+                    putRequest.BucketName =  _paymentBucketName; // Your bucket name
                     putRequest.ContentType = "image/png";
                     putRequest.InputStream = stream;
                     putRequest.Key = key;

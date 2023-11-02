@@ -3,7 +3,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
-
+using MemberSite.Service.BLL;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 
@@ -15,18 +15,19 @@ namespace MemberSite.Service.Library
     public class Tools
     {
         private readonly string _backEndKey;
-        private readonly IOptions<JwtConfig> jwtConfig;
-        private readonly IOptions<Dictionary<string, string>> _loginDeviceConfig;
+        private readonly JwtConfig jwtConfig;
+        private readonly Dictionary<string, string> _loginDeviceConfig;
         private readonly Regex _regexPassword = new(@"^(?=.{6,15}$)[a-zA-Z0-9!@#$%^&*]*$", RegexOptions.Singleline);
         public IHttpContextAccessor httpContextAccessor { get; }
 
         public Tools(IServiceProvider provider)
         {
             httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
-            _loginDeviceConfig = provider.GetRequiredService<IOptions<Dictionary<string, string>>>();
-            jwtConfig = provider.GetRequiredService<IOptions<JwtConfig>>();
-            var configuration = provider.GetRequiredService<IConfiguration>();
-            _backEndKey = configuration.GetValue<string>("ApiPaymentGateWayKey");
+            
+            var configBll = provider.GetRequiredService<ConfigBLL>();
+            _backEndKey = configBll.GetConfigValue("ApiPaymentGateWayKey");
+            jwtConfig = configBll.GetConfigValueByEnvironment<JwtConfig>("JwtSettings");
+            _loginDeviceConfig = configBll.GetConfigValueByEnvironment<Dictionary<string, string>>("LoginDeviceConfig");
         }
 
         /// <summary>
@@ -224,9 +225,8 @@ namespace MemberSite.Service.Library
 
         public string GenerateJwtTokens(Claim[] claims)
         {
-            var _jwtConfig = jwtConfig.Value;
-            var issuer = _jwtConfig.Issuer;
-            var signKey = _jwtConfig.SignKey;
+            var issuer = jwtConfig.Issuer;
+            var signKey = jwtConfig.SignKey;
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(signKey));
             var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha512Signature);
             //var userClaimsIdentity = new ClaimsIdentity(claims);
@@ -262,7 +262,7 @@ namespace MemberSite.Service.Library
         public DeviceId GetDeviceId(string url)
         {
             var deviceType = DeviceId.Desktop;
-            foreach (var (key, value) in _loginDeviceConfig.Value)
+            foreach (var (key, value) in _loginDeviceConfig)
             {
                 if (url.Contains(value))
                 {

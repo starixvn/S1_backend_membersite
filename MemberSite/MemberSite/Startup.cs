@@ -1,12 +1,9 @@
-using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
-
 using Elastic.Apm.AspNetCore;
 using Elastic.Apm.DiagnosticSource;
 using Elastic.Apm.SqlClient;
 using Elastic.Apm.StackExchange.Redis;
-
 using MemberSite.Extensions;
 using MemberSite.Service.BLL;
 using MemberSite.Service.BLL.Interface;
@@ -16,12 +13,9 @@ using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.Mapping;
 using MemberSite.Service.Model.Options;
-
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.WebEncoders;
-using Microsoft.IdentityModel.Tokens;
 
 using StackExchange.Redis;
 
@@ -58,19 +52,9 @@ namespace MemberSite
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<MailConfig>(_configuration.GetSection("MailConfig"));
-            services.Configure<JwtConfig>(_configuration.GetSection("JwtSettings"));
-            services.Configure<LineLoginChannelConfig>(_configuration.GetSection("LineLoginChannelConfig"));
-            services.Configure<LineLoginConfig>(_configuration.GetSection("LineLoginConfig"));
-            services.Configure<ShieldConfig>(_configuration.GetSection("ShieldConfig"));
-            services.Configure<RecaptchaSetting>(_configuration.GetSection("ReCaptchaSetting"));
-            services.Configure<Dictionary<string, SiteConfig>>(_configuration.GetSection("SiteConfig"));
-            services.Configure<Dictionary<string, string>>(_configuration.GetSection("LoginDeviceConfig"));
-            services.Configure<AllowIpList>(_configuration.GetSection("AllowIpList"));
-            services.Configure<Dictionary<string, AWSKeyConfig>>(_configuration.GetSection("AwsKeyConfig"));
             services.AddMemoryCache();
             services.AddDatabaseConnection(_configuration);
-            services.AddMessageQueueConnection(_configuration);
+            
             var redisConnection = ConnectionMultiplexer.Connect(_configuration.GetValue<string>("RedisConnection"));
             redisConnection.UseElasticApm();
             services.AddSingleton<IConnectionMultiplexer>(redisConnection);
@@ -201,62 +185,6 @@ namespace MemberSite
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();
 
-            if (_configuration.GetValue<bool>("JwtSettings:IsJwt"))
-            {
-                services
-                   // 檢查 HTTP Header 的 Authorization 是否有 JWT Bearer Token
-                   .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                   // 設定 JWT Bearer Token 的檢查選項
-                   .AddJwtBearer(options =>
-                   {
-                       // 當驗證失敗時，回應標頭會包含 WWW-Authenticate 標頭，這裡會顯示失敗的詳細錯誤原因
-                       options.IncludeErrorDetails = true;
-                       // 身份驗證需要HTTPS
-                       options.RequireHttpsMetadata = true;
-                       // 它將JWT訪問令牌保存在當前HttpContext，以便我們可以使用方法await HttpContext.GetTokenAsync(“Bearer”, “access_token”)或類似方法檢索它。
-                       options.SaveToken = true;
-
-                       options.TokenValidationParameters = new TokenValidationParameters
-                       {
-                           // 一般我們都會驗證 Issuer
-                           ValidateIssuer = true,
-                           ValidIssuer = _configuration.GetValue<string>("JwtSettings:Issuer"),
-                           // 通常不太需要驗證 Audience
-                           ValidateAudience = false,
-                           //ValidAudience = "JwtAuthDemo", // 不驗證就不需要填寫
-                           // 一般我們都會驗證 Token 的有效期間
-                           ValidateLifetime = true,
-                           // 如果 Token 中包含 key 才需要驗證，一般都只有簽章而已
-                           ValidateIssuerSigningKey = true,
-                           // "1234567890123456" 應該從 IConfiguration 取得
-                           IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetValue<string>("JwtSettings:SignKey"))),
-                       };
-                   });
-            }
-            else
-            {
-                services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(option =>
-                {
-                    //或許要從組態檔讀取，自己斟酌決定
-                    //option.LoginPath = new PathString("/Home/Login");//登入頁
-                    //option.LogoutPath = new PathString("/Home/Logout");//登出Action
-                    //用戶頁面停留太久，登入逾期，或Controller中用戶登入時機點也可以設定↓
-                    option.LoginPath = "/";
-                    option.Cookie.Name = ".ES";
-                    option.ExpireTimeSpan = TimeSpan.FromMinutes(30);
-                    option.EventsType = typeof(CustomCookieAuthenticationEvents);
-                    //option.Cookie.SameSite = environment.IsDevelopment() ? SameSiteMode.None : SameSiteMode.Unspecified;
-                    option.Cookie.SameSite = SameSiteMode.Unspecified;
-                });
-            }
-
-            services.AddDataProtection().DisableAutomaticKeyGeneration();
-            services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo("CookieKeys")).SetApplicationName("SharedCookieApp");
-
-            //services.ConfigureApplicationCookie(options =>
-            //{
-            //    options.EventsType = typeof(CustomCookieAuthenticationEvents);
-            //});
             services.Configure<WebEncoderOptions>(options =>
             {
                 options.TextEncoderSettings = new TextEncoderSettings(UnicodeRanges.All);
@@ -305,6 +233,13 @@ namespace MemberSite
             services.AddOptionListByDB<ConfigObject>("SiteConfig_Get", new { ConfigGroup = "MemberSite" });
             services.AddSiteConfig();
             services.AddSingleton<ConfigBLL>();
+            services.AddMessageQueueConnection();
+            services.AddGoogleReCaptchaSetting();
+
+            // JWT | Cookie Auth
+            services.AddAuthenticationDefinition();
+            services.AddDataProtection().DisableAutomaticKeyGeneration();
+            services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo("CookieKeys")).SetApplicationName("SharedCookieApp");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
