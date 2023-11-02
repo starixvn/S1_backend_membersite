@@ -1,4 +1,5 @@
-﻿using MemberSite.Service.DAL.Interface;
+﻿using MemberSite.Service.BLL;
+using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 
@@ -11,8 +12,8 @@ namespace MemberSite.Service.DAL
         public VerificationRewardService(IServiceProvider provider)
         {
             _courierAdapter = provider.GetService<CourierAdapter>();
-            var configuration = provider.GetRequiredService<IConfiguration>();
-            _bonusServiceUrl = configuration.GetValue<string>("BonusService");
+            var configBll = provider.GetRequiredService<ConfigBLL>();
+            _bonusServiceUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost").BonusService;
         }
 
         public async Task<ApiResult> SetVerificationReward(int custId, int verificationType)

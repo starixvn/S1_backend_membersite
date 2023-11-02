@@ -13,9 +13,9 @@ public class RedemptionBLL
 
     public RedemptionBLL(IServiceProvider provider)
     {
-        var configuration = provider.GetRequiredService<IConfiguration>();
         _logger = provider.GetRequiredService<ILogger<RedemptionBLL>>();
-        _storeSiteUrl = configuration.GetValue<string>("StoreService");
+        var configBll = provider.GetRequiredService<ConfigBLL>();
+        _storeSiteUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost").StoreService;
         _courierAdapter = provider.GetRequiredService<CourierAdapter>();
     }
 

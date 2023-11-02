@@ -1,10 +1,8 @@
 ﻿using System.Text.RegularExpressions;
-
 using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
-
 using Newtonsoft.Json;
 
 namespace MemberSite.Service.BLL
@@ -28,7 +26,9 @@ namespace MemberSite.Service.BLL
             _bankInfoOffBll = provider.GetRequiredService<BankInfoOffBLL>();
             _payService = provider.GetRequiredService<PayService>();
             _depositService = provider.GetRequiredService<DepositService>();
-            _payApiUrl = provider.GetRequiredService<IConfiguration>().GetValue<string>("PayService");
+            var configBll = provider.GetRequiredService<ConfigBLL>();
+            _payApiUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost").PayService;
+
             _courierAdapter = provider.GetRequiredService<CourierAdapter>();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
             _cryptoValidateHandler = new Dictionary<NetworkType, Func<string, bool>>
