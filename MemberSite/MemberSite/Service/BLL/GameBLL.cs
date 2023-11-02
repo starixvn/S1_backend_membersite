@@ -16,8 +16,8 @@ namespace MemberSite.Service.BLL
         private readonly StatementService _statementService;
         private readonly GameService _gameService;
         private readonly ThirdPartyBll _thirdPartyBll;
-        private readonly string _awsHeaderUrl;
-
+        private readonly Dictionary<string, SiteCloudFrontImageInfo> _siteCloudFrontImageInfo;
+        
         public GameBLL(IServiceProvider provider)
         {
             _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
@@ -30,7 +30,7 @@ namespace MemberSite.Service.BLL
             _gameService = provider.GetRequiredService<GameService>();
             _thirdPartyBll = provider.GetRequiredService<ThirdPartyBll>();
             var configBll = provider.GetRequiredService<ConfigBLL>();
-            _awsHeaderUrl = configBll.GetConfigValue("AWSBackOfficeBucketUrl");
+            _siteCloudFrontImageInfo = configBll.GetConfigValuesBySiteName<SiteCloudFrontImageInfo>("SiteCloudFrontImageInfo");
         }
 
         public bool IsMaintain(int siteId, int tpId, string tpGameType, out TpMaintain result)
@@ -120,7 +120,7 @@ namespace MemberSite.Service.BLL
             return result.ToList();
         }
         
-        public async Task<IEnumerable<LobbyHeaderResponse>> GetLobbyHeader(GetLobbyHeaderRequest req)
+        public async Task<IEnumerable<LobbyHeaderResponse>> GetLobbyHeader(GetLobbyHeaderRequest req ,ServerInfo serverInfo)
         {
             var key = $"GetLobbyHeader_{req.SiteId}_{req.CurrencyId}";
             var result = await _cacheHelper.TryGetOrCreateAsync(key,
@@ -128,9 +128,9 @@ namespace MemberSite.Service.BLL
                 async () =>
                 {
                     var resultData = await _gameService.GetLobbyHeader(req);
-                   
-                    var groupedData = resultData.GroupBy(item => item.LobbyCategoryId);
+                    var imgDomain = _siteCloudFrontImageInfo[serverInfo.SiteName].BannerImageUrl;
                     
+                    var groupedData = resultData.GroupBy(item => item.LobbyCategoryId);
                     var result = groupedData.Select(group =>
                         new LobbyHeaderResponse
                         {
@@ -145,10 +145,10 @@ namespace MemberSite.Service.BLL
                                 GameId = item.GameId,
                                 TpGameType = item.TpGameType,
                                 CurrencyGameName = string.IsNullOrEmpty(item.CurrencyGameName) ? null : JsonConvert.DeserializeObject<Dictionary<string, string>>(item.CurrencyGameName),
-                                PcHeaderPicUrl = string.IsNullOrEmpty(item.PcHeaderPic) ? "" : $"{_awsHeaderUrl}{item.PcHeaderPic}",
-                                PcLobbyPicUrl = string.IsNullOrEmpty(item.PcLobbyPic) ? "" : $"{_awsHeaderUrl}{item.PcLobbyPic}",
-                                MobileHeaderPicUrl = string.IsNullOrEmpty(item.MobileHeaderPic) ? "" : $"{_awsHeaderUrl}{item.MobileHeaderPic}",
-                                MobileLobbyPicUrl = string.IsNullOrEmpty(item.MobileLobbyPic) ? "" : $"{_awsHeaderUrl}{item.MobileLobbyPic}",
+                                PcHeaderPicUrl = $"{imgDomain}/desktop/img/Header/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.jpg",
+                                PcLobbyPicUrl = $"{imgDomain}/desktop/img/LobbyHeader/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.jpg",
+                                MobileHeaderPicUrl = $"{imgDomain}/h5/img/Header/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.jpg",
+                                MobileLobbyPicUrl = $"{imgDomain}/h5/img/LobbyHeader/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.jpg",
                                 Sort = item.Sort
                             }).OrderBy(x=>x.Sort)
                         });

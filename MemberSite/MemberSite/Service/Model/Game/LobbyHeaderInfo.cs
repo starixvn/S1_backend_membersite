@@ -38,13 +38,10 @@
         public int TpGameIdNo { get; set; }
         public string ProductName { get; set; }
         public string CurrencyGameName { get; set; }
-        public string PcHeaderPic { get; set; }
-        public string PcLobbyPic { get; set; }
-        public string MobileHeaderPic { get; set; }
-        public string MobileLobbyPic { get; set; }
         public string GameId { get; set; }
         public int TpGameType { get; set; }
         public int Sort { get; set; }
+        public string ImgProductName => ProductName.ToLower().Replace(" ","-");
     }
 }
 
