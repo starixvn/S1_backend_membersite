@@ -77,8 +77,9 @@ namespace MemberSite.Controllers
                 }
             }
 
-            var myUrl = $"{_tpServiceApiUrl}GotoGame";
             var errorUrl = string.Empty;
+            var myUrl = $"{_tpServiceApiUrl}GotoGame";
+
             var tpInfo = new TpInfo
             {
                 TpId = tpId,
