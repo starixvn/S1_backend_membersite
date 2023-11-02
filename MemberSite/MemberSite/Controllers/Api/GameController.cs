@@ -13,12 +13,14 @@ namespace MemberSite.Controllers.Api
         private readonly ILogger<GameController> _logger;
         private readonly SlotGameBLL _slotGameBll;
         private readonly GameBLL _gameBll;
+        private readonly ServerInfoBll _serverInfoBll;
 
         public GameController(IServiceProvider provider)
         {
             _logger = provider.GetRequiredService<ILogger<GameController>>();
             _slotGameBll = provider.GetRequiredService<SlotGameBLL>();
             _gameBll = provider.GetRequiredService<GameBLL>();
+            _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
         }
 
         [HttpPost]
@@ -81,10 +83,13 @@ namespace MemberSite.Controllers.Api
         {
             try
             {
+                var serverInfo = _serverInfoBll.GetServerInfo();
+                var data = await _gameBll.GetLobbyHeader(request, serverInfo);
+                
                 return new ApiResult<IEnumerable<LobbyHeaderResponse>>
                 {
                     ErrorCode = (int)ErrorCode.Success,
-                    Data = await _gameBll.GetLobbyHeader(request)
+                    Data = data
                 };
             }
             catch (Exception ex)
