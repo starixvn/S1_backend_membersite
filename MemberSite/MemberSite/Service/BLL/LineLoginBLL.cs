@@ -1,12 +1,8 @@
 ﻿using System.Net.Http.Headers;
-
 using MemberSite.Service.DAL;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Line;
-
-using Microsoft.Extensions.Options;
-
 using Newtonsoft.Json;
 
 namespace MemberSite.Service.BLL
@@ -16,8 +12,8 @@ namespace MemberSite.Service.BLL
         private readonly CustInfoService _custInfoService;
         private readonly AuthService _authService;
         private readonly AuthorizeBLL _authorizeBll;
-        private readonly IOptions<LineLoginChannelConfig> _lineLoginChannelConfig;
-        private readonly IOptions<LineLoginConfig> _lineLoginConfig;
+        private readonly LineLoginChannelConfig _lineLoginChannelConfig;
+        private readonly LineLoginConfig _lineLoginConfig;
         private readonly ILogger<LineLoginBLL> _logger;
 
         private static readonly Lazy<HttpClient> lazy = new Lazy<HttpClient>(() =>
@@ -35,8 +31,9 @@ namespace MemberSite.Service.BLL
             _custInfoService = provider.GetRequiredService<CustInfoService>();
             _authService = provider.GetRequiredService<AuthService>();
             _authorizeBll = provider.GetRequiredService<AuthorizeBLL>();
-            _lineLoginChannelConfig = provider.GetRequiredService<IOptions<LineLoginChannelConfig>>();
-            _lineLoginConfig = provider.GetRequiredService<IOptions<LineLoginConfig>>();
+            var configBll = provider.GetRequiredService<ConfigBLL>();
+            _lineLoginChannelConfig = configBll.GetConfigValueByEnvironment<LineLoginChannelConfig>("LineLoginChannelConfig");
+            _lineLoginConfig = configBll.GetConfigValue<LineLoginConfig>("LineLoginConfig");
             _logger = provider.GetRequiredService<ILogger<LineLoginBLL>>();
         }
 
@@ -90,7 +87,7 @@ namespace MemberSite.Service.BLL
         public async Task<CallBackReponseModel> LineLoginCallBack(string code, string state, string error, int errorCode, string errorDescription, string errorMessage, string redirectUri)
         {
             var lineUserId = string.Empty;
-            var config = _lineLoginChannelConfig.Value;
+            var config = _lineLoginChannelConfig;
             var resultCode = LineLoginErrorCode.Success;
 
             if (!CheckLineResponse(code, state, error, errorCode, errorDescription, errorMessage, out resultCode))
@@ -281,7 +278,7 @@ namespace MemberSite.Service.BLL
                 var tokenRequestMessage = new HttpRequestMessage();
                 tokenRequestMessage.Content = new FormUrlEncodedContent(parameters);
                 tokenRequestMessage.Method = HttpMethod.Post;
-                tokenRequestMessage.RequestUri = new Uri(_lineLoginConfig.Value.AccessTokenApi);
+                tokenRequestMessage.RequestUri = new Uri(_lineLoginConfig.AccessTokenApi);
                 tokenRequestMessage.Content.Headers.ContentType = new MediaTypeWithQualityHeaderValue("application/x-www-form-urlencoded");
 
                 var tokenResponse = client.SendAsync(tokenRequestMessage).Result;
@@ -301,7 +298,7 @@ namespace MemberSite.Service.BLL
 
                 var profileRequestMessage = new HttpRequestMessage();
                 profileRequestMessage.Method = HttpMethod.Get;
-                profileRequestMessage.RequestUri = new Uri(_lineLoginConfig.Value.ProfileApi);
+                profileRequestMessage.RequestUri = new Uri(_lineLoginConfig.ProfileApi);
                 profileRequestMessage.Headers.TryAddWithoutValidation("Authorization", "Bearer " + tokenResponseObj.access_token);
 
                 var profileResponse = client.SendAsync(profileRequestMessage).Result;

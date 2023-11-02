@@ -1,11 +1,9 @@
 ﻿using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
+using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
-
 using Microsoft.AspNetCore.Mvc;
-
 using Newtonsoft.Json;
-
 using Serilog.Context;
 
 namespace MemberSite.Controllers
@@ -21,7 +19,7 @@ namespace MemberSite.Controllers
         private readonly CustInfoBll _custInfoBll;
         private readonly ServerInfoBll _serverInfoBll;
         private readonly GameBLL _gameBll;
-        private readonly string _apiUrl;
+        private readonly string _tpServiceApiUrl;
         private readonly ILogger _logger;
 
         public entPageController(IServiceProvider provider)
@@ -35,7 +33,8 @@ namespace MemberSite.Controllers
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
             _gameBll = provider.GetRequiredService<GameBLL>();
-            _apiUrl = provider.GetRequiredService<IConfiguration>().GetValue<string>("TpService");
+            var configBll = provider.GetRequiredService<ConfigBLL>();
+            _tpServiceApiUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost").TpService;
             _logger = provider.GetRequiredService<ILogger<entPageController>>();
         }
 
@@ -78,7 +77,9 @@ namespace MemberSite.Controllers
                 }
             }
 
-            var myUrl = $"{_apiUrl}GotoGame";
+            var errorUrl = string.Empty;
+            var myUrl = $"{_tpServiceApiUrl}GotoGame";
+
             var tpInfo = new TpInfo
             {
                 TpId = tpId,
@@ -94,6 +95,10 @@ namespace MemberSite.Controllers
                 tpInfo.AppType = appType;
             }
 
+            if (inputs.ContainsKey("errorUrl"))
+            {
+                errorUrl = inputs["errorUrl"];
+            }
             try
             {
                 if (authData is { CustId: > 0 })
@@ -102,7 +107,7 @@ namespace MemberSite.Controllers
 
                     if (tpId == (int)Tp.TCG && string.CompareOrdinal(custInfo.AffCode, "67253") == 0)
                     {
-                        return RedirectErrorPage(new ErrorData() { Message = "Access Denied" });
+                        return RedirectErrorPage(errorUrl, new ErrorData("Access Denied"));
                     }
 
                     if (tpId == (int)Tp.AG)
@@ -145,31 +150,38 @@ namespace MemberSite.Controllers
                     return Redirect(entryUrl);
                 }
 
-                return RedirectErrorPage(new ErrorData() { Message = data.RawMessage });
+                return RedirectErrorPage(errorUrl, new ErrorData(data.Message ?? data.RawMessage));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                return RedirectErrorPage(new ErrorData() { Message = ex.Message });
+                return RedirectErrorPage(errorUrl, new ErrorData(ex.Message));
             }
         }
 
         public class ErrorData
         {
-            public ErrorData(){}
-            
+            public ErrorData() { }
+
             public ErrorData(string msg)
             {
                 Message = msg;
             }
-            
+
             public string Message { get; set; }
         }
 
-        private ViewResult RedirectErrorPage(ErrorData model)
+        private IActionResult RedirectErrorPage(string errorUrl, ErrorData model)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
-            return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
+            if (serverInfo.SiteId is 1 or 2 or 3 or 5) //Nova88,Goal123,Bwing
+            {
+                return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
+            }
+            else
+            {
+                return Redirect($"{errorUrl}?Message={model.Message}");
+            }
         }
     }
 }
