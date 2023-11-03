@@ -21,7 +21,7 @@ namespace MemberSite.Service.DAL
             var p = new DynamicParameters();
             p.Add("_SiteId", siteId);
             p.Add("_CurrencyId", currencyId);
-            return _reportDbClient.QueryAsync<HotGameDto>("Member_HotGames_Get_V2", p);
+            return _reportDbClient.QueryAsync<HotGameDto>("Member_HotGames_Get_V3", p);
         }
     }
 }
