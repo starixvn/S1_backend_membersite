@@ -1,5 +1,4 @@
 ﻿using Amazon.S3.Model;
-
 using MemberSite.Controllers.Api;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
@@ -20,6 +19,7 @@ namespace MemberSite.Service.BLL
         private readonly string _fileName;
         private readonly string _folder;
         private readonly string _nginxIpKey;
+        private readonly string _configBucketName;
 
         public CheckAttackBLL(IServiceProvider provider)
         {
@@ -35,7 +35,8 @@ namespace MemberSite.Service.BLL
             _fileName = env.IsProduction() || env.EnvironmentName == "Release" ? "geoblockIp.txt" : "geoblockIp_test.txt";
             _nginxIpKey = env.IsProduction() || env.EnvironmentName == "Release" ? "$remote_addr" : "$real_ip";
             _folder = Path.Combine(env.ContentRootPath, "NginxConfig");
-
+            var configBll = provider.GetRequiredService<ConfigBLL>();
+            _configBucketName = configBll.GetConfigValue("AWSConfigBucketName");
         }
 
         public bool CheckAttack(RrofileReq req, HttpRequest Request)
@@ -202,7 +203,7 @@ namespace MemberSite.Service.BLL
 
                 var putRequest = new PutObjectRequest
                 {
-                    BucketName = "ailab-config",
+                    BucketName = _configBucketName,
                     ContentType = "text/plain",
                     InputStream = destination,
                     Key = _fileName

@@ -1,15 +1,13 @@
 ﻿using System.Net;
 using System.Text.RegularExpressions;
-
+using MemberSite.Exceptions;
 using MemberSite.Extensions;
 using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Interfaces;
-
 using Microsoft.AspNetCore.Mvc;
-
 using Newtonsoft.Json;
 
 namespace MemberSite.Service.BLL
@@ -17,7 +15,7 @@ namespace MemberSite.Service.BLL
     public class PaymentBLL
     {
         private readonly BankInfoOffBLL bankInfoOffBLL;
-        private readonly CustInfoBll custInfoBLL;
+        private readonly CustInfoBll _custInfoBll;
         private readonly DepositService _depositService;
         private readonly WithdrawalService withdrawalService;
         private readonly BankInfoBLL bankInfoBLL;
@@ -25,6 +23,7 @@ namespace MemberSite.Service.BLL
         private readonly SelLangBLL selLangBLL;
         private readonly IReadOnlyDictionary<string, string> singleWalletType;
         private readonly PartitionService _partitionService;
+        private readonly ShieldService _shieldService;
         private readonly ICacheHelper _cacheHelper;
         private readonly IReadOnlyDictionary<int, string> _tpList;
         private readonly IReadOnlyDictionary<int, string> _gameTypeList;
@@ -39,14 +38,16 @@ namespace MemberSite.Service.BLL
         public PaymentBLL(IServiceProvider provider)
         {
             bankInfoOffBLL = provider.GetRequiredService<BankInfoOffBLL>();
-            custInfoBLL = provider.GetRequiredService<CustInfoBll>();
+            _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _depositService = provider.GetRequiredService<DepositService>();
             withdrawalService = provider.GetRequiredService<WithdrawalService>();
             bankInfoBLL = provider.GetRequiredService<BankInfoBLL>();
             statementService = provider.GetRequiredService<StatementService>();
             selLangBLL = provider.GetRequiredService<SelLangBLL>();
-            var configuration = provider.GetRequiredService<IConfiguration>();
-            _awsDepositUrl = configuration.GetValue<string>("AwsDepositUrl");
+            
+            var configBll = provider.GetRequiredService<ConfigBLL>();
+            _awsDepositUrl = configBll.GetConfigValue("AWSPaymentBucketUrl");
+            _backendUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost").BackendService;
             singleWalletType = new Dictionary<string, string>
             {
                 {"1", "lbl_Stake"  },
@@ -56,6 +57,7 @@ namespace MemberSite.Service.BLL
                 {"5", "lbl_UnSettle"}
             };
             _partitionService = provider.GetRequiredService<PartitionService>();
+            _shieldService = provider.GetRequiredService<ShieldService>();
             _cacheHelper = provider.GetRequiredService<ICacheHelper>();
 
             _tpList = statementService.GetTpListWithCache().ToDictionary(i => i.Id, i => i.TpName);
@@ -63,7 +65,6 @@ namespace MemberSite.Service.BLL
             _httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
             _logger = provider.GetRequiredService<ILogger<PaymentBLL>>();
             _iovationService = provider.GetRequiredService<IovationService>();
-            _backendUrl = configuration.GetValue<string>("BackendService");
             _courierAdapter = provider.GetRequiredService<CourierAdapter>();
             _tools = provider.GetRequiredService<Tools>();
         }
@@ -97,7 +98,7 @@ namespace MemberSite.Service.BLL
             if (req.Amount <= 0)
                 return (-3, "Amount must be greater than 0");
 
-            var custInfo = custInfoBLL.GetCustInfoWithCache(req.CustId);
+            var custInfo = _custInfoBll.GetCustInfoWithCache(req.CustId);
             var bankCardInfo = bankInfoOffBLL.GetOfflineBankAccount(custInfo.SiteId)
                 .FirstOrDefault(x => x.BankId == req.BankId);
 
@@ -160,8 +161,8 @@ namespace MemberSite.Service.BLL
             if (amount <= 0)
                 return -1;
 
-            var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var pointLevel = custInfoBLL.GetPointLevelWithCache(custId);
+            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
+            var pointLevel = _custInfoBll.GetPointLevelWithCache(custId);
             var localBankList = bankInfoOffBLL.GetOfflineBankAccount(custInfo.SiteId)
                 .Where(x => x.CurrencyId == custInfo.CurrencyId
                             && (custInfo.UserLevel > pointLevel || pointLevel == 8 || x.PointLevels.Contains(pointLevel))
@@ -272,8 +273,8 @@ namespace MemberSite.Service.BLL
             if (amount <= 0)
                 return -1;
 
-            var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
-            var pointLevel = custInfoBLL.GetPointLevelWithCache(custId);
+            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
+            var pointLevel = _custInfoBll.GetPointLevelWithCache(custId);
             var localBankList = bankInfoOffBLL.GetOfflineBankAccount(custInfo.SiteId)
                 .Where(x => x.CurrencyId == custInfo.CurrencyId
                             && (custInfo.UserLevel > pointLevel || pointLevel == 8 || x.PointLevels.Contains(pointLevel))
@@ -379,70 +380,81 @@ namespace MemberSite.Service.BLL
         {
             transId = null;
             onlineBank = null;
-            if (amount <= 0)
-                return -1;
-            var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
 
-
-            var depositLimitInfoList = _depositService.GetDepositLimitInfoList();
-            var pointLevel = custInfoBLL.GetPointLevelWithCache(custId);
-            var onlineBankList = depositType == DepositType.OnlineBanking ?
-                bankInfoBLL.GetOnlineBankList(custInfo.SiteId) :
-                bankInfoBLL.GetAutoChannelBankInfoList(custInfo.SiteId, depositType);
-
-            onlineBank = onlineBankList
-                .FirstOrDefault(x => pointLevel >= x.PointLevel
-                                     && x.ChannelId == channelId
-                                     && (x.SysId == sysId || !x.SelBank)
-                                     && x.PayId == payId
-                                     && x.CurrencyId == custInfo.CurrencyId);
-
-            _logger.LogInformation("onlineBank: " + JsonConvert.SerializeObject(onlineBank));
-
-            var depositLimitInfo = depositLimitInfoList?
-                .FirstOrDefault(x => x.SiteId == custInfo.SiteId
-                                     && x.VipLevel == pointLevel
-                                     && x.DepositType == (int)depositType
-                                     && x.CurrencyId == custInfo.CurrencyId);
-
-            if (depositLimitInfo?.DepositStatus == 0)
+            try
             {
-                return -3;
+                if (amount <= 0)
+                    throw new CustomException($"Amount: {amount} <= 0", -1);
+                
+                var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
+
+
+                var depositLimitInfoList = _depositService.GetDepositLimitInfoList();
+                var pointLevel = _custInfoBll.GetPointLevelWithCache(custId);
+                var onlineBankList = depositType == DepositType.OnlineBanking
+                    ? bankInfoBLL.GetOnlineBankList(custInfo.SiteId)
+                    : bankInfoBLL.GetAutoChannelBankInfoList(custInfo.SiteId, depositType);
+
+                onlineBank = onlineBankList
+                    .FirstOrDefault(x => pointLevel >= x.PointLevel
+                                         && x.ChannelId == channelId
+                                         && (x.SysId == sysId || !x.SelBank)
+                                         && x.PayId == payId
+                                         && x.CurrencyId == custInfo.CurrencyId);
+
+                if (onlineBank == null)
+                    throw new CustomException("BankInfo is null.", -4);
+
+                _logger.LogInformation("onlineBank: " + JsonConvert.SerializeObject(onlineBank));
+                
+                var depositLimitInfo = depositLimitInfoList?
+                    .FirstOrDefault(x => x.SiteId == custInfo.SiteId
+                                         && x.VipLevel == pointLevel
+                                         && x.DepositType == (int)depositType
+                                         && x.CurrencyId == custInfo.CurrencyId);
+
+                if (depositLimitInfo?.DepositStatus == 0)
+                    throw new CustomException($"DepositType={depositType} disabled.", -3);
+       
+
+                if (depositLimitInfo != null && onlineBank != null)
+                {
+                    FixDepositLimit(onlineBank, depositLimitInfo);
+                }
+
+                if (onlineBank.MaxAmount < amount || onlineBank.MinAmount > amount)
+                    throw new CustomException(
+                        $"Request amount does not meet the limits. MaxAmount={onlineBank.MaxAmount}, MinAmount={onlineBank.MinAmount}", -2);
+
+                if (sysId == 0)
+                {
+                    onlineBank.SelBank = false;
+                    onlineBank.SysId = 0;
+                    onlineBank.SysBankCode = "";
+                    onlineBank.SysBankName = "";
+                    onlineBank.BankLogo = "";
+                    onlineBank.BankName = "";
+                }
+
+                var depositDetailInfo = new DepositDetailInfo
+                {
+                    Amount = amount,
+                    CustId = custId,
+                    DepositType = (int)depositType,
+                    Memo = null,
+                    SiteId = custInfo.SiteId,
+                    UserName = custInfo.UserName,
+                    CurrencyId = custInfo.CurrencyId,
+                    DepositInfo = JsonConvert.SerializeObject(onlineBank)
+                };
+
+                _depositService.DepositReq(depositDetailInfo, out transId, out _);
             }
-
-            if (depositLimitInfo != null && onlineBank != null)
+            catch (CustomException ex)
             {
-                FixDepositLimit(onlineBank, depositLimitInfo);
+                _logger.LogInformation($"({ex.Code}) {ex.Message}");
+                return ex.Code;
             }
-
-            if (onlineBank == null || onlineBank.MaxAmount < amount || onlineBank.MinAmount > amount)
-            {
-                return -2;
-            }
-
-            if (sysId == 0)
-            {
-                onlineBank.SelBank = false;
-                onlineBank.SysId = 0;
-                onlineBank.SysBankCode = "";
-                onlineBank.SysBankName = "";
-                onlineBank.BankLogo = "";
-                onlineBank.BankName = "";
-            }
-
-            var depositDetailInfo = new DepositDetailInfo
-            {
-                Amount = amount,
-                CustId = custId,
-                DepositType = (int)depositType,
-                Memo = null,
-                SiteId = custInfo.SiteId,
-                UserName = custInfo.UserName,
-                CurrencyId = custInfo.CurrencyId,
-                DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(onlineBank)
-            };
-
-            _depositService.DepositReq(depositDetailInfo, out transId, out var postScript);
 
             return 0;
         }
@@ -455,9 +467,9 @@ namespace MemberSite.Service.BLL
                 return -99;
 
             var withdrawalInfo = new WithdrawalInfo();
-            var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
+            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var checkAmount = amount;
-            if (custInfoBLL.IsConvertRequired(custInfo.CurrencyId))
+            if (_custInfoBll.IsConvertRequired(custInfo.CurrencyId))
             {
                 checkAmount /= 1000;
             }
@@ -475,7 +487,7 @@ namespace MemberSite.Service.BLL
 
             var result = withdrawalService.WithdrawalReq(custId, custInfo.UserName, custInfo.CurrencyId, custInfo.SiteId, amount, memo, JsonConvert.SerializeObject(withdrawalInfo), withdrawalProcessWay, out afterAmount, out transId);
 
-            SetAutoVerifyWay(transId, custInfo, accountNo, amount);
+            SetAutoVerifyWay(transId, custInfo, amount);
 
             return result;
         }
@@ -489,9 +501,9 @@ namespace MemberSite.Service.BLL
                 return -99;
 
             var withdrawalCryptoInfo = new WithdrawalCryptoInfo();
-            var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
+            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var checkAmount = amount;
-            if (custInfoBLL.IsConvertRequired(custInfo.CurrencyId))
+            if (_custInfoBll.IsConvertRequired(custInfo.CurrencyId))
             {
                 checkAmount /= 1000;
             }
@@ -513,7 +525,7 @@ namespace MemberSite.Service.BLL
 
             var result = withdrawalService.WithdrawalReq(custId, custInfo.UserName, custInfo.CurrencyId, custInfo.SiteId, amount, memo, JsonConvert.SerializeObject(withdrawalCryptoInfo), withdrawalProcessWay, out afterAmount, out transId);
 
-            SetAutoVerifyWay(transId, custInfo, accountNo, amount);
+            SetAutoVerifyWay(transId, custInfo, amount);
 
             return result;
         }
@@ -527,9 +539,9 @@ namespace MemberSite.Service.BLL
                 return -99;
 
             var withdrawalEWalletInfo = new WithdrawalEWalletInfo();
-            var custInfo = custInfoBLL.GetCustInfoWithCache(custId);
+            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var checkAmount = amount;
-            if (custInfoBLL.IsConvertRequired(custInfo.CurrencyId))
+            if (_custInfoBll.IsConvertRequired(custInfo.CurrencyId))
             {
                 checkAmount /= 1000;
             }
@@ -550,14 +562,14 @@ namespace MemberSite.Service.BLL
 
             var result = withdrawalService.WithdrawalReq(custId, custInfo.UserName, custInfo.CurrencyId, custInfo.SiteId, amount, memo, JsonConvert.SerializeObject(withdrawalEWalletInfo), withdrawalProcessWay, out afterAmount, out transId);
 
-            SetAutoVerifyWay(transId, custInfo, accountNo, amount);
+            SetAutoVerifyWay(transId, custInfo, amount);
 
             return result;
         }
 
         public IEnumerable<DepositInfoHistory> GetDepositInfoRecent(int custId)
         {
-            var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
+            var CustInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var depositInfoRecent = _depositService.GetDepositInfoRecent(custId, CustInfo.SiteId, 5);
             foreach (var depositInfo in depositInfoRecent)
             {
@@ -603,7 +615,7 @@ namespace MemberSite.Service.BLL
 
         public IEnumerable<WithdrawalHistory> GetWithdrawalInfoRecent(int custId)
         {
-            var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
+            var CustInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var withdrawalInfo = withdrawalService.GetWithdrawalInfoRecent(custId, CustInfo.SiteId, 5).ToList();
             withdrawalInfo.ForEach(x =>
             {
@@ -629,7 +641,7 @@ namespace MemberSite.Service.BLL
 
         public IEnumerable<DepositInfoHistory> GetDepositInfoHistory(int custId, long startDate, long endDate, ref int pageNumber, out int totalPages, out int rowCount)
         {
-            var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
+            var CustInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var depositInfoHistory = _depositService.GetDepositInfoHistory(CustInfo.CustId, startDate, endDate, CustInfo.SiteId, 5, ref pageNumber, out totalPages, out rowCount);
 
             foreach (var depositInfo in depositInfoHistory)
@@ -669,7 +681,7 @@ namespace MemberSite.Service.BLL
         }
         public IEnumerable<WithdrawalHistory> GetWithdrawalInfoHistory(int custId, long startDate, long endDate, ref int pageNumber, out int totalPages, out int rowCount)
         {
-            var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
+            var CustInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var withdrawalInfoHistory = withdrawalService.GetWithdrawalInfoHistory(CustInfo.CustId, startDate, endDate, CustInfo.SiteId, 5, ref pageNumber, out totalPages, out rowCount).ToList();
             withdrawalInfoHistory.ForEach(x =>
             {
@@ -793,13 +805,13 @@ namespace MemberSite.Service.BLL
             var depositId = 0;
             var m = Regex.Match(transId, @"\d+");
             int.TryParse(m.Value, out depositId);
-            var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
+            var CustInfo = _custInfoBll.GetCustInfoWithCache(custId);
             return _depositService.SetDepositCancel(CustInfo.CustId, depositId, CustInfo.SiteId);
         }
 
         public int SetWithdrawalCancel(int custId, string transId)
         {
-            var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
+            var CustInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var forStatus = new List<int>
             {
                 (int)WithdrawalStatus.Pending,
@@ -812,7 +824,7 @@ namespace MemberSite.Service.BLL
             var depositId = 0;
             var m = Regex.Match(transId, @"\d+");
             int.TryParse(m.Value, out depositId);
-            var CustInfo = custInfoBLL.GetCustInfoWithCache(custId);
+            var CustInfo = _custInfoBll.GetCustInfoWithCache(custId);
             return _depositService.GetDepositReceipt(depositId, CustInfo.SiteId);
         }
 
@@ -962,62 +974,29 @@ namespace MemberSite.Service.BLL
             return (startDate, endDate);
         }
 
-        public WithdrawalInfoProcessWayEnum GetWithdrawalProcessWay(Customer custInfo, string accountNo, decimal withdrawalAmount, WithdrawalAccountTypeEnum accountType)
+        public WithdrawalInfoAutoWayEnum GetWithdrawalProcessWay(Customer custInfo, string accountNo, decimal withdrawalAmount, WithdrawalAccountTypeEnum accountType)
         {
-            var setting = withdrawalService.GetAutoWithdrawalRuleSetting(custInfo.SiteId, custInfo.CurrencyId);
+            var setting = withdrawalService.GetAutoPaymentRuleSetting(custInfo.SiteId, custInfo.CurrencyId , accountType ,AutoType.AutoApproved);
             if (setting is null)
-                return WithdrawalInfoProcessWayEnum.Manual; //沒有該幣別的設定就是手動
+                return WithdrawalInfoAutoWayEnum.Manual; //沒有該幣別的設定就是手動
 
             var withdrawalSuccessCount = withdrawalService.GetWithdrawalSuccessCount(custInfo.CustId, accountNo);
-            var customerAccountType = (int)accountType;
-            var customerVip = custInfo.UserLevel;
-            var customerTags = string.IsNullOrEmpty(custInfo.TagList)
-                ? new List<int>()
-                : JsonConvert.DeserializeObject<List<int>>(custInfo.TagList);
 
-            // 玩家身上有Tag，設定也有tag 才檢查
-            if (customerTags.Any() && setting.Tags.Any())
-            {
-                if (!customerTags.Intersect(setting.Tags).Any())
-                    return WithdrawalInfoProcessWayEnum.Manual;
-            }
-
-            // vipLevelCheck
-            if (setting.VipLevels.Any())
-            {
-                if (setting.VipLevels.All(x => x != customerVip))
-                    return WithdrawalInfoProcessWayEnum.Manual;
-            }
-
-            // withdrawal AccountType check
-            if (setting.WithdrawalTypes.Any())
-            {
-                if (setting.WithdrawalTypes.All(r => r != customerAccountType))
-                    return WithdrawalInfoProcessWayEnum.Manual;
-            }
-
-            // withdrawal Amount check
-            if (withdrawalAmount > setting.WithdrawalAmount)
-                return WithdrawalInfoProcessWayEnum.Manual;
-
-            // withdrawal SuccessCounter check
-            if (withdrawalSuccessCount < setting.AccountWithdrawalCount)
-                return WithdrawalInfoProcessWayEnum.Manual;
-
+            var check = CheckAutoPaymentRuleSetting(setting, custInfo.TagList, custInfo.UserLevel, withdrawalAmount, withdrawalSuccessCount);
+            
             _logger.LogInformation($"GetWithdrawalProcessWay GetAutoWithdrawalRuleSetting：{JsonConvert.SerializeObject(setting)}，withdrawalSuccessCounter：{withdrawalSuccessCount},CustId:{custInfo.CustId},SiteId：{custInfo.SiteId},CurrencyId:{custInfo.CurrencyId},accountNo:{accountNo}");
-
-
-            return WithdrawalInfoProcessWayEnum.Auto;
+            
+            return check;
         }
 
-        private void SetAutoVerifyWay(string transId, Customer custInfo, string accountNo, decimal withdrawalAmount)
+        private void SetAutoVerifyWay(string transId, Customer custInfo, decimal withdrawalAmount)
         {
             try
             {
-                var withdrawalVerifyWay = GetWithdrawalVerifyWay(transId, custInfo, accountNo, withdrawalAmount);
-                if (withdrawalVerifyWay == WithdrawalInfoVerifyWayEnum.Auto)
+                var withdrawalVerifyWay = GetWithdrawalVerifyWay(transId, custInfo, withdrawalAmount);
+                if (withdrawalVerifyWay == WithdrawalInfoAutoWayEnum.Auto)
                 {
-                    var _ = AutoVerify(transId);
+                    _ = AutoVerify(transId);
                 }
             }
             catch (Exception e)
@@ -1026,20 +1005,15 @@ namespace MemberSite.Service.BLL
             }
         }
 
-        private WithdrawalInfoVerifyWayEnum GetWithdrawalVerifyWay(string transId, Customer custInfo, string accountNo, decimal withdrawalAmount)
+        private WithdrawalInfoAutoWayEnum GetWithdrawalVerifyWay(string transId, Customer custInfo, decimal withdrawalAmount)
         {
-            var setting = withdrawalService.GetAutoPaymentRuleSetting(custInfo.SiteId, custInfo.CurrencyId, AutoType.AutoVerify);
+            var setting = withdrawalService.GetAutoPaymentRuleSetting(custInfo.SiteId, custInfo.CurrencyId, 0, AutoType.AutoVerify);
             if (setting is null)
-                return WithdrawalInfoVerifyWayEnum.Manual; //沒有該幣別的設定就是手動
+                return WithdrawalInfoAutoWayEnum.Manual; //沒有該幣別的設定就是手動
 
             // 不看卡號 只看提款成功次數
             var withdrawalSuccessCount = withdrawalService.GetAllAccountWithdrawalSuccessCounterByCustId(custInfo.CustId);
-
-            var customerVip = custInfo.UserLevel;
-            var customerTags = string.IsNullOrEmpty(custInfo.TagList)
-                ? new List<int>()
-                : JsonConvert.DeserializeObject<List<int>>(custInfo.TagList);
-
+            
             if (custInfo.SiteId == (int)SiteId.Nova88)
             {
                 // Iovation
@@ -1047,61 +1021,81 @@ namespace MemberSite.Service.BLL
                 if (!setting.DeviceLevel.Contains(custIovation.Iovation))
                 {
                     _logger.LogInformation($"{transId} WithdrawalVerifyWay Manual, custIovation : {custIovation} , Setting :{JsonConvert.SerializeObject(setting.DeviceLevel)} ");
-                    return WithdrawalInfoVerifyWayEnum.Manual; ;
+                    return WithdrawalInfoAutoWayEnum.Manual;
                 }
-
             }
             else
             {
                 // shieldScores
                 var context = _httpContextAccessor.HttpContext;
                 var strDeviceScore = context.Request.Cookies["device_score"];
-                var deviceScore = strDeviceScore != null ? Convert.ToInt32(strDeviceScore) : -1;
 
+                var deviceScore = -1;
+                if (strDeviceScore != null)
+                {
+                    deviceScore = Convert.ToInt32(strDeviceScore) ;
+                }
+                else
+                {
+                    var shieldInfo = _shieldService.GetCustShieldRiskInfoList(custInfo.CustId);
+                    if (shieldInfo is not null)
+                    {
+                        deviceScore = shieldInfo.DeviceScore;
+                        _logger.LogInformation($"{transId} WithdrawalVerifyWay Manual, Can't find device_score , use DB Data : {shieldInfo.DeviceScore}  ");
+                    }
+                }
+                
                 if (deviceScore < setting.DeviceScores)
                 {
                     _logger.LogInformation($"{transId} WithdrawalVerifyWay Manual, deviceScore : {deviceScore} , Setting :{setting.DeviceScores} ");
-                    return WithdrawalInfoVerifyWayEnum.Manual;
+                    return WithdrawalInfoAutoWayEnum.Manual;
                 }
             }
 
+            var check = CheckAutoPaymentRuleSetting(setting, custInfo.TagList, custInfo.UserLevel, withdrawalAmount, withdrawalSuccessCount); 
+            
+            return check;
+        }
+
+        private WithdrawalInfoAutoWayEnum CheckAutoPaymentRuleSetting(AutoPaymentRuleSettingDto setting ,string tagList , int customerVip, decimal withdrawalAmount , int withdrawalSuccessCount)
+        {
+            var customerTags = string.IsNullOrEmpty(tagList)
+                ? new List<int>()
+                : JsonConvert.DeserializeObject<List<int>>(tagList);
+            
             // 玩家身上有Tag，設定也有tag 才檢查
             if (customerTags.Any() && setting.Tags.Any())
             {
                 if (!customerTags.Intersect(setting.Tags).Any())
                 {
-                    _logger.LogInformation($"{transId} WithdrawalVerifyWay Manual, customerTags : {JsonConvert.SerializeObject(customerTags)} , Setting :{JsonConvert.SerializeObject(setting.Tags)} ");
-                    return WithdrawalInfoVerifyWayEnum.Manual;
+                    return WithdrawalInfoAutoWayEnum.Manual;
                 }
             }
-
+            
             // vipLevelCheck
             if (setting.VipLevels.Any())
             {
                 if (setting.VipLevels.All(x => x != customerVip))
                 {
-                    _logger.LogInformation($"{transId} WithdrawalVerifyWay Manual, customerVip : {customerVip} , Setting :{JsonConvert.SerializeObject(setting.VipLevels)} ");
-                    return WithdrawalInfoVerifyWayEnum.Manual;
+                    return WithdrawalInfoAutoWayEnum.Manual;
                 }
             }
-
+            
             // withdrawal Amount check
             if (withdrawalAmount > setting.WithdrawalAmount)
             {
-                _logger.LogInformation($"{transId} WithdrawalVerifyWay Manual, withdrawalAmount : {withdrawalAmount} , Setting :{setting.WithdrawalAmount} ");
-                return WithdrawalInfoVerifyWayEnum.Manual;
+                return WithdrawalInfoAutoWayEnum.Manual;
             }
 
             // withdrawal SuccessCounter check
             if (withdrawalSuccessCount < setting.AccountWithdrawalCount)
             {
-                _logger.LogInformation($"{transId} WithdrawalVerifyWay Manual, SuccessWithdrawalCount : {withdrawalSuccessCount} , Setting :{setting.AccountWithdrawalCount} ");
-                return WithdrawalInfoVerifyWayEnum.Manual;
+                return WithdrawalInfoAutoWayEnum.Manual;
             }
-
-            return WithdrawalInfoVerifyWayEnum.Auto;
+            
+            return WithdrawalInfoAutoWayEnum.Auto;
         }
-
+        
         private ApiResult AutoVerify(string transId)
         {
             var apiUrl = $"{_backendUrl}ApiPaymentGateWay/AutoPayment";

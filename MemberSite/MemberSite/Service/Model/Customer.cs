@@ -75,6 +75,7 @@ namespace MemberSite.Service.Model
         public string BankName { set; get; }
         public string BankLogo { set; get; }
         public string BankSite { set; get; }
+        public bool Disabled { set; get; }
     }
 
     public class CustBankInfoRep
@@ -362,5 +363,13 @@ namespace MemberSite.Service.Model
         public int CustId { set; get; }
         public string RecentlyViewed { set; get; }
         public DateTime UpdateTime { set; get; }
+    }
+    public class CustVIPProgress
+    {
+        public int CurrentVipLevel { get; set; }
+        public decimal? UpDeposit { get; set; }
+        public decimal ActualDeposit { get; set; }
+        public decimal? DownDeposit { get; set; }
+        public decimal? DownTurnover { get; set; }
     }
 }

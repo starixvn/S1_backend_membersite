@@ -29,7 +29,7 @@ namespace MemberSite.Service.DAL
         }
 
         public int WithdrawalReq(int custId, string userName, int currencyId, int siteId, decimal amount, string memo,
-            string withdrawalInfo, WithdrawalInfoProcessWayEnum processWay,
+            string withdrawalInfo, WithdrawalInfoAutoWayEnum processWay,
             out decimal afterAmount, out string transId)
         {
             transId = "";
@@ -234,14 +234,15 @@ namespace MemberSite.Service.DAL
                 }).FirstOrDefault();
         }
 
-        public AutoPaymentRuleSettingDto GetAutoPaymentRuleSetting(int siteId, int currencyId, AutoType autoType)
+        public AutoPaymentRuleSettingDto GetAutoPaymentRuleSetting(int siteId, int currencyId, WithdrawalAccountTypeEnum withdrawalType, AutoType autoType)
         {
-            return _reportDbClient.Query<AutoPaymentRuleSettingDto>("Member_AutoPaymentRuleSetting_Get",
+            return _reportDbClient.Query<AutoPaymentRuleSettingDto>("Member_AutoPaymentRuleSetting_Get_V2",
                 new
                 {
                     _SiteId = siteId,
                     _CurrencyId = currencyId,
-                    _AutoType = (int)autoType
+                    _AutoType = (int)autoType,
+                    _WithdrawalType = (int)withdrawalType
                 }).FirstOrDefault();
         }
 

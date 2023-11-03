@@ -1,10 +1,8 @@
 ﻿using System.Text.RegularExpressions;
-
 using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
-
 using Newtonsoft.Json;
 
 namespace MemberSite.Service.BLL
@@ -12,7 +10,7 @@ namespace MemberSite.Service.BLL
     public class CryptoPayInfoBll
     {
         private readonly CustInfoBll _custInfoBll;
-        private readonly DepositBLL _depositBll;
+        private readonly DepositLimitBLL _depositLimitBll;
         private readonly PayService _payService;
         private readonly DepositService _depositService;
         private readonly BankInfoOffBLL _bankInfoOffBll;
@@ -24,11 +22,13 @@ namespace MemberSite.Service.BLL
         public CryptoPayInfoBll(IServiceProvider provider)
         {
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
-            _depositBll = provider.GetRequiredService<DepositBLL>();
+            _depositLimitBll = provider.GetRequiredService<DepositLimitBLL>();
             _bankInfoOffBll = provider.GetRequiredService<BankInfoOffBLL>();
             _payService = provider.GetRequiredService<PayService>();
             _depositService = provider.GetRequiredService<DepositService>();
-            _payApiUrl = provider.GetRequiredService<IConfiguration>().GetValue<string>("PayService");
+            var configBll = provider.GetRequiredService<ConfigBLL>();
+            _payApiUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost").PayService;
+
             _courierAdapter = provider.GetRequiredService<CourierAdapter>();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
             _cryptoValidateHandler = new Dictionary<NetworkType, Func<string, bool>>
@@ -44,7 +44,7 @@ namespace MemberSite.Service.BLL
                 };
         }
 
-        private IEnumerable<CryptoPayInfo> GetCryptoPayInfoListWithCache(int siteId)
+        public IEnumerable<CryptoPayInfo> GetCryptoPayInfoListWithCache(int siteId)
         {
             var key = $"PaySetting:Crypto:{siteId}";
             var dbData = _redisHelper.TryGetOrCreate<IEnumerable<CryptoPayInfo>>(key, TimeSpan.FromMinutes(5),
@@ -58,9 +58,7 @@ namespace MemberSite.Service.BLL
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
 
-            var depositLimitInfoList = _depositBll.GetDepositLimitInfoList(custInfo.SiteId);
-            var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.CryptoPayment && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
-
+            var depositLimitInfo = _depositLimitBll.GetDepositLimitInfo(custId, DepositType.CryptoPayment);
             if (depositLimitInfo?.DepositStatus == 0)
             {
                 return Array.Empty<CryptoPayInfo>();
@@ -95,65 +93,11 @@ namespace MemberSite.Service.BLL
             {
                 foreach (var cryptoPayInfo in cryptoPayInfoList)
                 {
-                    _depositBll.FixDepositLimit(cryptoPayInfo, depositLimitInfo);
+                    _depositLimitBll.FixDepositLimit(cryptoPayInfo, depositLimitInfo);
                 }
             }
 
             return cryptoPayInfoList.OrderBy(x => x.GSort);
-        }
-        public int DepositReqCryptoPay(int custId, int channelId, decimal amount, out string transId, out CryptoPayInfo cryptoPayInfo)
-        {
-            transId = null;
-            cryptoPayInfo = null;
-            if (amount <= 0)
-                return -1;
-            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
-            var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
-
-            var depositLimitInfoList = _depositBll.GetDepositLimitInfoList(custInfo.SiteId);
-            var depositLimitInfo = depositLimitInfoList?.Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == vipLevel && x.DepositType == (int)DepositType.CryptoPayment && x.CurrencyId == custInfo.CurrencyId).FirstOrDefault();
-
-            if (depositLimitInfo?.DepositStatus == 0)
-            {
-                return -3;
-            }
-
-            cryptoPayInfo = GetCryptoPayInfoListWithCache(custInfo.SiteId).FirstOrDefault(x => vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.ChannelId == channelId);
-
-            if (depositLimitInfo != null && cryptoPayInfo != null)
-            {
-                _depositBll.FixDepositLimit(cryptoPayInfo, depositLimitInfo);
-            }
-
-            if (cryptoPayInfo == null || cryptoPayInfo.MaxAmount < amount || cryptoPayInfo.MinAmount > amount)
-            {
-                return -2;
-            }
-
-            if (cryptoPayInfo.AmountRule == 3 && !cryptoPayInfo.AmountList.Contains(amount))
-            {
-                return -2;
-            }
-
-            if (cryptoPayInfo != null)
-            {
-                var depositDetailInfo = new DepositDetailInfo
-                {
-                    Amount = amount,
-                    CustId = custId,
-                    DepositType = (int)DepositType.CryptoPayment,
-                    Memo = null,
-                    SiteId = custInfo.SiteId,
-                    UserName = custInfo.UserName,
-                    CurrencyId = custInfo.CurrencyId,
-                    DepositInfo = Newtonsoft.Json.JsonConvert.SerializeObject(cryptoPayInfo)
-                };
-
-                _depositService.DepositReq(depositDetailInfo, out transId, out _);
-                return 0;
-            }
-
-            return -99;
         }
 
         public async Task<(int ErrorCode, string Message, PayResult payResult)> DepositReqCryptoLocalPayAsync(

@@ -1,7 +1,6 @@
 ﻿using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
-using MemberSite.Service.Model.Game;
 
 namespace MemberSite.Service.BLL
 {
@@ -56,62 +55,8 @@ namespace MemberSite.Service.BLL
             return _redisHelper.TryGetOrCreate($"ProviderIdByCurrency:{currencyId}:{siteId}", TimeSpan.FromMinutes(10),
                 () => _casinoService.GetProviderIdByCurrency(currencyId, siteId));
         }
-        public IEnumerable<GameCasionByCurrencyAndSite> GetGameCasinoByCurrencyAndSite(int currencyId, int siteId)
-        {
-            return _casinoService.GetGameCasinoByCurrencyAndSite(currencyId, siteId);
-        }
 
-        public IEnumerable<DisableTpGame> GetTpDisableUserByCustId(int custId)
-        {
-            return _casinoService.GetTpDisableUserByCustId(custId);
-        }
 
-        public void ExcludeBlockGames(List<GameCasinoListData> casinoGames, List<Provider> providers, IEnumerable<DisableTpGame> disableGames)
-        {
-            foreach (var disableGame in disableGames)
-            {
-                if (disableGame.GameList != null && disableGame.GameList.Any())
-                {
-                    foreach (var gameId in disableGame.GameList)
-                    {
-                        var excludeGame = casinoGames.Find(a => a.GameId == gameId);
-                        if (excludeGame != null)
-                            casinoGames.Remove(excludeGame);
 
-                    }
-                }
-                else
-                {
-                    var excludeTp = providers.Find(a => a.Value == disableGame.TpId);
-                    if (excludeTp != null)
-                        providers.Remove(excludeTp);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Slot遊戲優先排序列表
-        /// </summary>
-        public async Task<List<SlotGameTopRankingInfo>> GetSlotGameTopRankingList()
-        {
-            var key = $"GetSlotGameTopRankingList";
-            var result = await _redisHelper.TryGetOrCreateAsync(key,
-                TimeSpan.FromHours(2),
-                async () =>
-                {
-                    var result = await _casinoService.GetSlotGameTopRankingList();
-                    return result;
-                });
-            return result.ToList();
-        }
-
-        /// <summary>
-        /// 依條件取得Slot遊戲優先排序 (SiteId、CurrencyId)
-        /// </summary>
-        public async Task<List<SlotGameTopRankingInfo>> GetLobbyCategorySequenceByLobbyCategoryId(int siteId, int currencyId)
-        {
-            var list = await GetSlotGameTopRankingList();
-            return list.Where(x => x.SiteId == siteId && x.CurrencyId == currencyId).ToList();
-        }
     }
 }
