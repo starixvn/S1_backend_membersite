@@ -9,6 +9,7 @@ namespace MemberSite.Controllers.Api
 {
     [AllowAnonymous]
     [Route("api/[controller]/[action]")]
+    [Route("api/[controller]/[action]/{LangId}")]
     [ApiController]
     public class HotGameController : ControllerBase
     {
@@ -33,7 +34,7 @@ namespace MemberSite.Controllers.Api
 
 
         [HttpPost]
-        public async Task<ApiResult<Dictionary<string, IEnumerable<HotGameResponse>>>> GetDataList(GetHotGameDataListRequest request)
+        public async Task<ApiResult<Dictionary<string, IEnumerable<HotGameResponse>>>> GetDataList(GetHotGameDataListRequest request, [FromRoute] string langId = null)
         {
             int currencyId;
             int siteId;
@@ -43,19 +44,21 @@ namespace MemberSite.Controllers.Api
                 var customerInfo = _customerInfoBll.GetCustInfoWithCache(authData.CustId);
                 siteId = customerInfo.SiteId;
                 currencyId = customerInfo.CurrencyId;
+                langId = _selLangBll.GetLangId();
             }
             else
             {
                 var serverInfo = _serverInfoBll.GetServerInfo();
                 siteId = serverInfo.SiteId;
                 currencyId = request.CurrencyId ?? _selLangBll.GetPreferCurrencyId();
+                langId = _selLangBll.CheckLangId(langId) ? langId : _selLangBll.GetLangId();
             }
 
             var apiResult = new ApiResult<Dictionary<string, IEnumerable<HotGameResponse>>>();
 
             try
             {
-                var data = await _hotGameBll.GetHotGames(siteId, currencyId, request.DeviceType);
+                var data = await _hotGameBll.GetHotGames(siteId, currencyId, request.DeviceType, langId);
                 apiResult.Data = data;
                 apiResult.ErrorCode = 0;
             }
