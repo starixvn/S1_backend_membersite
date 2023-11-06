@@ -2,5 +2,5 @@ namespace MemberSite.Service.DAL.Interface;
 
 public interface ICustPhotoIdService
 {
-    Task<long> SetCustPhotoId(int custId, int siteId, string picFileName, byte[] photoIdPic);
+    Task<long> SetCustPhotoId(int custId, int siteId);
 }
