@@ -17,16 +17,13 @@ public class CustPhotoIdService : ICustPhotoIdService
         _mainDbClient = mainDbClient.SingleOrDefault(a => a.DataBase == DataBase.Main);
     }
 
-    public async Task<long> SetCustPhotoId(int custId, int siteId, string picFileName, byte[] photoIdPic)
+    public async Task<long> SetCustPhotoId(int custId, int siteId)
     {
         var p = new DynamicParameters();
         p.Add("_CustId", custId);
         p.Add("_SiteId", siteId);
-        p.Add("_PicFileName", picFileName);
-        p.Add("_PhotoIdPic", photoIdPic);
         p.Add("_SQ", dbType: DbType.Int64, direction: ParameterDirection.Output);
-
-        await _mainDbClient.ExecuteAsync("Member_CustPhotoId_Set_V2", p);
+        await _mainDbClient.ExecuteAsync("Member_CustPhotoId_Set_V3", p);
 
         var sq = p.Get<long>("_SQ");
         return sq > 0 ? sq : 0;
