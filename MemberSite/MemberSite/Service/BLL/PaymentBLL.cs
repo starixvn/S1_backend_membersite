@@ -376,7 +376,7 @@ namespace MemberSite.Service.BLL
             return 0;
         }
 
-        public int DepositReqOnlineBanking(int custId, int sysId, int payId, int channelId, decimal amount, out string transId, out BankInfoPay onlineBank, DepositType depositType = DepositType.OnlineBanking)
+        public int DepositReqOnlineBanking(int custId, int sysId, int channelId, decimal amount, out string transId, out BankInfoPay onlineBank, DepositType depositType = DepositType.OnlineBanking)
         {
             transId = null;
             onlineBank = null;
@@ -391,15 +391,14 @@ namespace MemberSite.Service.BLL
 
                 var depositLimitInfoList = _depositService.GetDepositLimitInfoList();
                 var pointLevel = _custInfoBll.GetPointLevelWithCache(custId);
-                var onlineBankList = depositType == DepositType.OnlineBanking
-                    ? bankInfoBLL.GetOnlineBankList(custInfo.SiteId)
-                    : bankInfoBLL.GetAutoChannelBankInfoList(custInfo.SiteId, depositType);
+                var onlineBankList = depositType == DepositType.BankAutoChannel
+                    ? bankInfoBLL.GetAutoChannelBankInfoList(custInfo.SiteId, depositType)
+                    : bankInfoBLL.GetOnlineBankList(custInfo.SiteId, depositType);
 
                 onlineBank = onlineBankList
                     .FirstOrDefault(x => pointLevel >= x.PointLevel
                                          && x.ChannelId == channelId
                                          && (x.SysId == sysId || !x.SelBank)
-                                         && x.PayId == payId
                                          && x.CurrencyId == custInfo.CurrencyId);
 
                 if (onlineBank == null)

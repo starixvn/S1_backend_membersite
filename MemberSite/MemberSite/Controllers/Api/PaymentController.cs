@@ -835,7 +835,7 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
             var custInfo = custInfoBLL.GetCustInfoWithCache(authData.CustId);
-            apiResult.Data = bankInfoBLL.GetOnlinePaymentList(custInfo.CustId);
+            apiResult.Data = bankInfoBLL.GetOnlinePaymentList(custInfo.CustId, DepositType.OnlineBanking);
             apiResult.ErrorCode = 0;
             return apiResult;
         }
@@ -1773,11 +1773,8 @@ namespace MemberSite.Controllers.Api
             
             return new ApiResult<IDictionary<string, PayMethod>>
             {
-                Data = _payInfoBLL.GetGernericPayMethods(
-                    new Dictionary<DepositType, string>
-                    {
-                        { DepositType.QuickTransfer, "QuickTransfer" }
-                    }, authData.CustId),
+                Data = _payInfoBLL.GetGenericPayMethods(
+                    new []{DepositType.QuickTransfer }, authData.CustId),
                 
                 ErrorCode = 0
             };

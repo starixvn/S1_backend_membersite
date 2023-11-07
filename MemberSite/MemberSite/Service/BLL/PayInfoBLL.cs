@@ -31,6 +31,13 @@ namespace MemberSite.Service.BLL
                 () => _payService.GetPayGroup(), RedisDataBase.Shared);
             return dbData;
         }
+        
+        public IEnumerable<PayChannelInfo> GetPayChannelWithCache()
+        {
+            var dbData = _redisHelper.TryGetOrCreate("PayChannelInfoList", TimeSpan.FromMinutes(5),
+                () => _payService.GetPayChannel(), RedisDataBase.Shared);
+            return dbData;
+        }
 
         private readonly Dictionary<DepositType, OfflineBankAccountSupportChannelEnum> _dicSupportChannelMapper
             = new()
@@ -65,31 +72,14 @@ namespace MemberSite.Service.BLL
                     }
                 });
             result.Add("BankTransfer", new PayMethod(bankTransferData));
+            
+            var depositTypes = new []
+            {
+                DepositType.OnlineBanking,
+                DepositType.QuickTransfer
+            };
 
-            var onlineBankingData = _bankInfoBll.GetOnlinePaymentList(custInfo.CustId)
-                .Select(x => new OnlineBankingChannel
-                {
-                    ChannelId = x.ChannelId,
-                    ChannelName = x.PayName,
-                    PayId = x.PayId,
-                    PayName = x.PayName,
-                    SelectBank = x.SelBank,
-                    Mode = x.Mode,
-                    MaxAmount = x.MaxAmount,
-                    MinAmount = x.MinAmount,
-                    AmountRule = 1,
-                    AmountList = Array.Empty<decimal>(),
-                    SupportBanks = x.BankList.Select(y => new BankInfo
-                    {
-                        BankLogo = y.BankLogo,
-                        BankCode = y.BankCode,
-                        BankName = y.BankName,
-                        SysId = y.SysId,
-                        MaxAmount = x.MaxAmount,
-                        MinAmount = x.MinAmount
-                    })
-                });
-            result.Add("OnlineBanking", new PayMethod(onlineBankingData));
+            result.AddRange(GetOnlineBankMethods(depositTypes, custId));
 
             var line = _bankInfoBll.GetLineChannel(custInfo.SiteId, custInfo.CurrencyId);
             //塞假資料給luke接
@@ -128,23 +118,58 @@ namespace MemberSite.Service.BLL
                 };
             }
             
-            result.Add("AutoChannel", new PayMethod(autoChannelData));
+            result.Add(DepositType.BankAutoChannel.GetDescription(), new PayMethod(autoChannelData));
             
-            var d = new Dictionary<DepositType, string>
+            depositTypes = new []
                 {
-                    { DepositType.MobilePayment, "EWallet" },
-                    { DepositType.LoadCardPayment, "TopUpCard" },
-                    { DepositType.CryptoPayment, "Crypto" },
-                    { DepositType.QrPayPayment, "QRPay" },
-                    { DepositType.QuickTransfer, "QuickTransfer" }
+                    DepositType.MobilePayment,
+                    DepositType.LoadCardPayment,
+                    DepositType.CryptoPayment,
+                    DepositType.QrPayPayment
                 };
 
-            result.AddRange(GetGernericPayMethods(d, custId));
+            result.AddRange(GetGenericPayMethods(depositTypes, custId));
 
             return result;
         }
 
-        public IDictionary<string, PayMethod> GetGernericPayMethods(IDictionary<DepositType, string> depositTypes, int custId)
+        private IDictionary<string, PayMethod> GetOnlineBankMethods(IEnumerable<DepositType> depositTypes, int custId)
+        {
+            var result = new Dictionary<string, PayMethod>();
+            
+            foreach (var depositType in depositTypes)
+            {
+                var data = _bankInfoBll.GetOnlinePaymentList(custId, depositType)
+                    .Select(x => new OnlineBankChannel
+                    {
+                        ChannelId = x.ChannelId,
+                        ChannelName = x.PayName,
+                        PayId = x.PayId,
+                        PayName = x.PayName,
+                        SelectBank = x.SelBank,
+                        Mode = x.Mode,
+                        MaxAmount = x.MaxAmount,
+                        MinAmount = x.MinAmount,
+                        AmountRule = 1,
+                        AmountList = Array.Empty<decimal>(),
+                        SupportBanks = x.BankList.Select(y => new BankInfo
+                        {
+                            BankLogo = y.BankLogo,
+                            BankCode = y.BankCode,
+                            BankName = y.BankName,
+                            SysId = y.SysId,
+                            MaxAmount = x.MaxAmount,
+                            MinAmount = x.MinAmount
+                        })
+                    });
+                
+                result.Add(depositType.GetDescription(), new PayMethod(data));
+            }
+
+            return result;
+        }
+
+        public IDictionary<string, PayMethod> GetGenericPayMethods(IEnumerable<DepositType> depositTypes, int custId)
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
@@ -160,13 +185,13 @@ namespace MemberSite.Service.BLL
             var bankCards = _bankInfoOffBll.GetOfflineBankCardListWithCache(custId);
             
             var result = new Dictionary<string, PayMethod>();
-            foreach (var (depositType, name) in depositTypes)
+            foreach (var depositType in depositTypes)
             {
                 var limitInfo = depositLimitInfoList.FirstOrDefault(x => x.DepositType == depositType);
                 
                 if (limitInfo?.DepositStatus == 0)
                 {
-                    result.Add(name, new PayMethod(Array.Empty<GenericPayGroup>()));
+                    result.Add(depositType.GetDescription(), new PayMethod(Array.Empty<GenericPayGroup>()));
                     continue;
                 }
 
@@ -299,7 +324,7 @@ namespace MemberSite.Service.BLL
                     }.OrderBy(x => x.Sort);
                 }
                 
-                result.Add(name, new PayMethod(payGroups));
+                result.Add(depositType.GetDescription(), new PayMethod(payGroups));
             }
 
             return result;

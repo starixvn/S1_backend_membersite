@@ -36,7 +36,7 @@ namespace MemberSite.Service.Model
         public string QrCodeUrl { get; set; }
     }
 
-    public class OnlineBankingChannel : GenericPayChannel
+    public class OnlineBankChannel : GenericPayChannel
     {
         public bool SelectBank { get; set; }
         public IEnumerable<BankInfo> SupportBanks { get; set; }
