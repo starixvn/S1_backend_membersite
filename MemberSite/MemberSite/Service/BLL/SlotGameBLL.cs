@@ -67,6 +67,7 @@ namespace MemberSite.Service.BLL
               {"Iconic","AT" },
               {"Kiss918","918Kiss" },
               {"END","ES" },
+              {"EBet","WE" },
             };
         }
 
@@ -139,9 +140,9 @@ namespace MemberSite.Service.BLL
         /// <summary>
         /// 透過共用方法取回Slot Game Provider
         /// </summary>
-        public async Task<List<GameProvider>> GetSlotGameProviderList(int siteId, int currencyId, TpCategory tpCategory)
+        private async Task<List<GameProvider>> GetSlotGameProviderList(int siteId, int currencyId, TpCategory tpCategory)
         {
-            var providerList = await _gameBll.GetGameProviderByCategory(siteId, currencyId, tpCategory);
+            var providerList = await _gameBll.GetGameProviderByCategory(siteId, currencyId, tpCategory, _changeGameImgName);
             var result = providerList.Where(i => !_excludeTp.Contains(i.TpId)).ToList();
             foreach (var provider in result)
             {
@@ -231,6 +232,11 @@ namespace MemberSite.Service.BLL
             // 取出其他大廳的遊戲資訊
             var tpGameIdList = await _gameBll.GetTpGameIdList();
 
+            foreach (var detail in tpGameIdList)
+            {
+                detail.ImgTpName = _changeGameImgName.TryGetValue(detail.ImgTpName, out var changeName) ? changeName : detail.ImgTpName;
+            }
+            
             foreach (var item in data)
             {
                 var isMaintain = false;
