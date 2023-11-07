@@ -33,7 +33,10 @@ internal class AuthBLLTests
             EnvironmentName = "Local",
         });
 
-        builder.Configuration.AddRemoteJsonConfig(builder.Configuration.GetSection("ConfigService").Get<string[]>());
+        var remoteUrls = builder.Configuration.GetSection("ConfigService").Get<string[]>();
+        remoteUrls = builder.Configuration.CheckLocalConfig(builder.Environment, new[] { "Nova" }, remoteUrls);
+        builder.Configuration.AddRemoteJsonConfig(remoteUrls);
+
         builder.Services.AddTransient(p => Substitute.For<ILogger<MySqlClient>>());
         builder.Services.AddSingleton(p => Substitute.For<IWebHostEnvironment>());
         builder.Services.AddSingleton(p => Substitute.For<ILogger<AuthBLL>>());
