@@ -276,20 +276,7 @@ namespace MemberSite.Controllers
             return await CreateDeposit(p, bonusCode);
         }
         
-        
-        /*public async Task<IActionResult> DepositReqLocalAsync(int channelId, int sysId, decimal amount, string bonusCode, int type)
-        {
-            var authData = _authorizeBll.GetAuthData();
-            if (authData is not { CustId: > 0 })
-            {
-                return RedirectErrorPage(new ErrorData());
-            }
-
-            
-        }*/
-
-        // localpay應該分開較好?
-        public async Task<IActionResult> DepositCryptoWalletAsync(int custId, int channelId, decimal amount, string bonusCode)
+        private async Task<IActionResult> DepositCryptoWalletAsync(int custId, int channelId, decimal amount, string bonusCode)
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var cryptoInfos = _bankInfoOffBll.GetFilteredOfflineCryptoPayInfo(custInfo.CustId)
