@@ -1773,8 +1773,8 @@ namespace MemberSite.Controllers.Api
             
             return new ApiResult<IDictionary<string, PayMethod>>
             {
-                Data = _payInfoBLL.GetGenericPayMethods(
-                    new []{DepositType.QuickTransfer }, authData.CustId),
+                Data = _payInfoBLL.GetOnlineBankMethods(
+                    new []{ DepositType.QuickTransfer }, authData.CustId),
                 
                 ErrorCode = 0
             };

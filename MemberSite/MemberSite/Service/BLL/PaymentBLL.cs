@@ -376,10 +376,9 @@ namespace MemberSite.Service.BLL
             return 0;
         }
 
-        public int DepositReqOnlineBanking(int custId, int sysId, int channelId, decimal amount, out string transId, out BankInfoPay onlineBank, DepositType depositType = DepositType.OnlineBanking)
+        public int DepositReqOnlineBanking(int custId, int sysId, int channelId, decimal amount, DepositType depositType, out string transId)
         {
             transId = null;
-            onlineBank = null;
 
             try
             {
@@ -395,7 +394,7 @@ namespace MemberSite.Service.BLL
                     ? bankInfoBLL.GetAutoChannelBankInfoList(custInfo.SiteId, depositType)
                     : bankInfoBLL.GetOnlineBankList(custInfo.SiteId, depositType);
 
-                onlineBank = onlineBankList
+                var onlineBank = onlineBankList
                     .FirstOrDefault(x => pointLevel >= x.PointLevel
                                          && x.ChannelId == channelId
                                          && (x.SysId == sysId || !x.SelBank)

@@ -133,7 +133,7 @@ namespace MemberSite.Service.BLL
             return result;
         }
 
-        private IDictionary<string, PayMethod> GetOnlineBankMethods(IEnumerable<DepositType> depositTypes, int custId)
+        public IDictionary<string, PayMethod> GetOnlineBankMethods(IEnumerable<DepositType> depositTypes, int custId)
         {
             var result = new Dictionary<string, PayMethod>();
             
@@ -169,7 +169,7 @@ namespace MemberSite.Service.BLL
             return result;
         }
 
-        public IDictionary<string, PayMethod> GetGenericPayMethods(IEnumerable<DepositType> depositTypes, int custId)
+        private IDictionary<string, PayMethod> GetGenericPayMethods(IEnumerable<DepositType> depositTypes, int custId)
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
@@ -220,43 +220,76 @@ namespace MemberSite.Service.BLL
                 }
                 
                 var payGroupInfos = GetPayGroupWithCache();
-                var localPayInfos = bankCards.Where(x =>
-                    _dicSupportChannelMapper.ContainsKey(depositType)
-                    && x.SupportChannel.Contains(_dicSupportChannelMapper[depositType]));
-                
-                if (localPayInfos.Any())
+
+                #region Add LOCAL PAYMENT
+
+                if (depositType == DepositType.CryptoPayment)
                 {
-                    var localPayChannels = localPayInfos.SelectMany(b => b.GroupIds,
-                            (b, g) => new
+                    var localCryptoList = _bankInfoOffBll.GetFilteredOfflineCryptoPayInfo(custId)
+                        .GroupBy(x => x.ChannelName)
+                        .Select(g =>
+                            new GenericPayChannel
                             {
-                                GroupId = g,
-                                b.MinAmount,
-                                b.MaxAmount
-                            })
-                        .GroupBy(x => x.GroupId)
-                        .Where(x => payGroupInfos.Any(g => g.GroupId == x.Key && g.Type == depositType))
-                        .Select(x =>
-                        {
-                            var bankCard = x.First();
-                            var groupInfo = payGroupInfos.First(g => g.GroupId == x.Key);
-                            return new GenericPayChannel
-                            {
-                                ChannelId = bankCard.GroupId * -1,
-                                ChannelName = groupInfo.GroupName,
-                                Mode = (int) PayModeEnum.Redirect,
-                                MaxAmount = localPayInfos.Max(y => y.MaxAmount),
-                                MinAmount = localPayInfos.Min(y => y.MinAmount),
+                                ChannelId = -1 * (int) g.First().CryptoCurrencyId,
+                                ChannelName = g.Key,
+                                Mode = (int) PayModeEnum.QrCode,
+                                MaxAmount = g.Any(x => x.MaxAmount == 0)
+                                    ? 0
+                                    : g.Max(x => x.MaxAmount),
+                                MinAmount = g.Min(x => x.MinAmount),
                                 AmountRule = 1,
                                 AmountList = Array.Empty<decimal>(),
-                                GroupId = bankCard.GroupId,
-                                GroupName = groupInfo.GroupName,
-                                GroupSort = groupInfo.Sort,
-                                ChannelSort = -1
-                            };
-                        });
-                    payChannels.AddRange(localPayChannels);
+                                GroupId = -1,
+                                GroupName = "LetsPay",
+                                PayName = "LetsPay",
+                                ChannelSort = -1,
+                                GroupSort = -1
+                            });
+                    
+                    payChannels.AddRange(localCryptoList);
                 }
+                else
+                {
+                    var localPayInfos = bankCards.Where(x =>
+                        _dicSupportChannelMapper.ContainsKey(depositType)
+                        && x.SupportChannel.Contains(_dicSupportChannelMapper[depositType]));
                 
+                    if (localPayInfos.Any())
+                    {
+                        var localPayChannels = localPayInfos.SelectMany(b => b.GroupIds,
+                                (b, g) => new
+                                {
+                                    GroupId = g,
+                                    b.MinAmount,
+                                    b.MaxAmount
+                                })
+                            .GroupBy(x => x.GroupId)
+                            .Where(x => payGroupInfos.Any(g => g.GroupId == x.Key && g.Type == depositType))
+                            .Select(x =>
+                            {
+                                var bankCard = x.First();
+                                var groupInfo = payGroupInfos.First(g => g.GroupId == x.Key);
+                                return new GenericPayChannel
+                                {
+                                    ChannelId = bankCard.GroupId * -1,
+                                    ChannelName = groupInfo.GroupName,
+                                    Mode = (int) PayModeEnum.Redirect,
+                                    MaxAmount = localPayInfos.Max(y => y.MaxAmount),
+                                    MinAmount = localPayInfos.Min(y => y.MinAmount),
+                                    AmountRule = 1,
+                                    AmountList = Array.Empty<decimal>(),
+                                    GroupId = bankCard.GroupId,
+                                    GroupName = groupInfo.GroupName,
+                                    GroupSort = groupInfo.Sort,
+                                    ChannelSort = -1
+                                };
+                            });
+                        payChannels.AddRange(localPayChannels);
+                    }
+                }
+
+                #endregion
+
                 if (limitInfo != null)
                 {
                     foreach (var payChannel in payChannels)
