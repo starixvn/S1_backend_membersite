@@ -146,10 +146,10 @@ namespace MemberSite.Service.BLL
                                 GameId = item.GameId,
                                 TpGameType = item.TpGameType,
                                 CurrencyGameName = string.IsNullOrEmpty(item.CurrencyGameName) ? null : JsonConvert.DeserializeObject<Dictionary<string, string>>(item.CurrencyGameName),
-                                PcHeaderPicUrl = $"{imgDomain}/desktop/img/Header/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.jpg",
-                                PcLobbyPicUrl = $"{imgDomain}/desktop/img/LobbyHeader/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.jpg",
-                                MobileHeaderPicUrl = $"{imgDomain}/h5/img/Header/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.jpg",
-                                MobileLobbyPicUrl = $"{imgDomain}/h5/img/LobbyHeader/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.jpg",
+                                PcHeaderPicUrl = $"{imgDomain}/desktop/img/Header/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.png",
+                                PcLobbyPicUrl = $"{imgDomain}/desktop/img/LobbyHeader/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.png",
+                                MobileHeaderPicUrl = $"{imgDomain}/h5/img/Header/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.png",
+                                MobileLobbyPicUrl = $"{imgDomain}/h5/img/LobbyHeader/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.png",
                                 Sort = item.Sort
                             }).OrderBy(x=>x.Sort)
                         });
