@@ -48,7 +48,6 @@ namespace MemberSite.Controllers.Api
         public class GetLeaderboardListReq
         {
             public int LBCategoryId { get; set; }
-            public string EventCode { get; set; }
             public int TopNum { get; set; }
             public int BeforeDays { get; set; }
         }
@@ -56,14 +55,12 @@ namespace MemberSite.Controllers.Api
         public class GetCustRankReq
         {
             public int LBCategoryId { get; set; }
-            public string EventCode { get; set; }
             public int BeforeDays { get; set; }
         }
 
         public class GetCustRankMonthReq
         {
             public int LBCategoryId { get; set; }
-            public string EventCode { get; set; }
             public DateTime SelectDays { get; set; }
         }
 
@@ -75,7 +72,6 @@ namespace MemberSite.Controllers.Api
         public class GetLeaderboardListMonthReq
         {
             public int LBCategoryId { get; set; }
-            public string EventCode { get; set; }
             public int TopNum { get; set; }
             public DateTime SelectDays { get; set; }
         }
@@ -103,7 +99,6 @@ namespace MemberSite.Controllers.Api
             }
 
             apiResult.Data = _eventsBll.GetLeaderboardList(
-                getLeaderboardListV2Req.EventCode,
                 getLeaderboardListV2Req.LBCategoryId,
                 siteId,
                 currencyId,
@@ -160,7 +155,6 @@ namespace MemberSite.Controllers.Api
             }
 
             apiResult.Data = _eventsBll.GetLeaderboardListMonth(
-                getLeaderboardListMonthReq.EventCode,
                 getLeaderboardListMonthReq.LBCategoryId,
                 siteId,
                 currencyId,
@@ -199,7 +193,7 @@ namespace MemberSite.Controllers.Api
             if (authData is { CustId: > 0 })
             {
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-                apiResult.Data = _eventsBll.GetCustRank(input.LBCategoryId, input.EventCode, custInfo.SiteId, custInfo.CurrencyId, authData.CustId, input.BeforeDays); ;
+                apiResult.Data = _eventsBll.GetCustRank(input.LBCategoryId, custInfo.SiteId, custInfo.CurrencyId, authData.CustId, input.BeforeDays); ;
                 apiResult.ErrorCode = 0;
             }
 
@@ -219,7 +213,7 @@ namespace MemberSite.Controllers.Api
             {
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
 
-                var (custRank, point) = _eventsBll.GetCustRankWithCacheMonth(getCustRankMonthReq.LBCategoryId, getCustRankMonthReq.EventCode, custInfo.SiteId, custInfo.CurrencyId, authData.CustId, getCustRankMonthReq.SelectDays);
+                var (custRank, point) = _eventsBll.GetCustRankWithCacheMonth(getCustRankMonthReq.LBCategoryId, custInfo.SiteId, custInfo.CurrencyId, authData.CustId, getCustRankMonthReq.SelectDays);
 
                 apiResult.Data.CustRank = custRank;
                 apiResult.Data.point = point;
