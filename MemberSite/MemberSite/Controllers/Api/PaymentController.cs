@@ -180,7 +180,7 @@ namespace MemberSite.Controllers.Api
             apiResult.ErrorCode = 0;
             return apiResult;
         }
-        public class DepositReqWireTransferReq
+        public class DepositReqWireTransferReq : ILocalBankReq
         {
             public int SysId { set; get; }
             public decimal Amount { set; get; }
@@ -190,23 +190,21 @@ namespace MemberSite.Controllers.Api
             public int FromChannel { set; get; }
             public int FromSysId { set; get; }
             public string FromAccountNum { set; get; }
-            public string FromIfscCode { set; get; }
-            public bool HasPromotion { get; set; }
+            public bool HasPromotion { set; get; }
         }
 
         /// <summary>
         /// Local Bank Transfer
         /// </summary>
-        /// <param name="depositReqWireTransferReq"></param>
+        /// <param name="req"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ApiResult<DepositRep3>> DepositReqWireTransfer(DepositReqWireTransferReq depositReqWireTransferReq)
+        public async Task<ApiResult<DepositRep3>> DepositReqWireTransfer(DepositReqWireTransferReq req)
         {
-            var apiResult = new ApiResult<DepositRep3>();
             var authData = _authorizeBll.GetAuthData();
 
-            var checkResult = CheckDeposit(authData, depositReqWireTransferReq.Amount,
-                depositReqWireTransferReq.HasPromotion);
+            var checkResult = CheckDeposit(authData, req.Amount,
+                req.HasPromotion);
 
             if (checkResult.ErrorCode != 0)
             {
@@ -217,31 +215,8 @@ namespace MemberSite.Controllers.Api
                 };
             }
 
-            var key = $"Deposite:LocalBank:{authData.CustId}:{depositReqWireTransferReq.SysId}";
-            if (await _cacheHelper.SetNxAsync(key, "", TimeSpan.FromSeconds(5)))
-            {
-                DepositRep3 depositRep3;
-                var depositFromInfo = new DepositFromInfo
-                {
-                    Channel = depositReqWireTransferReq.FromChannel,
-                    SysId = depositReqWireTransferReq.FromSysId,
-                    AccountNo = depositReqWireTransferReq.FromAccountNum,
-                    IFSCCode = depositReqWireTransferReq.FromIfscCode
-                };
-                var fromInfo = JsonConvert.SerializeObject(depositFromInfo);
-
-                if (depositReqWireTransferReq.FromChannel == 0 && depositReqWireTransferReq.FromSysId == 0 && depositReqWireTransferReq.FromAccountNum == null)
-                    apiResult.ErrorCode = _paymentBll.DepositReqLocalBank(authData.CustId, depositReqWireTransferReq.SysId,
-                        depositReqWireTransferReq.BankId, depositReqWireTransferReq.Amount, depositReqWireTransferReq.Memo, out depositRep3);
-                else
-                    apiResult.ErrorCode = _paymentBll.DepositReqLocalBankWithFrom(authData.CustId, depositReqWireTransferReq.SysId,
-                        depositReqWireTransferReq.BankId, depositReqWireTransferReq.Amount, depositReqWireTransferReq.Memo, fromInfo, out depositRep3);
-
-                if (apiResult.ErrorCode == (int)ErrorCode.Success)
-                {
-                    apiResult.Data = depositRep3;
-                }
-            }
+            var apiResult = await DepositByLocalBankAsync(authData.CustId, req);
+            
             return apiResult;
         }
 
@@ -306,41 +281,13 @@ namespace MemberSite.Controllers.Api
             public int GroupId { set; get; }
             public decimal Amount { set; get; }
             public string BonusCode { set; get; }
+            public DepositType DepositType { set; get; }
         }
 
         [HttpPost]
         public ApiResult<LocalPayResp> DepositReqLocalPay(DepositReqLocalPayReq req)
         {
             var authData = _authorizeBll.GetAuthData();
-            var custId = authData.CustId;
-            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
-            var localPayment = _bankInfoOffBll.GetLocalPaymentSettingWithCache()
-                .FirstOrDefault(x => x.GroupId == req.GroupId);
-
-            if (localPayment == null)
-            {
-                return new ApiResult<LocalPayResp>
-                {
-                    ErrorCode = -1,
-                    RawMessage = "No available channels."
-                };
-            }
-
-            var cards = _bankInfoOffBll.GetOfflineBankCardListWithCache(custId)
-                .Where(x => x.GroupIds.Contains(req.GroupId)
-                    && req.Amount >= x.MinAmount
-                    && req.Amount <= x.MaxAmount)
-                .ToList();
-
-            if (!cards.Any())
-            {
-                return new ApiResult<LocalPayResp>
-                {
-                    ErrorCode = -2,
-                    RawMessage = "No available channels."
-                };
-            }
-
             var hasPromotion = _promotionBll.VerifyBonusCode(req.BonusCode);
             var checkResult = CheckDeposit(authData, req.Amount, hasPromotion);
 
@@ -352,33 +299,22 @@ namespace MemberSite.Controllers.Api
                     RawMessage = checkResult.Message
                 };
             }
+            
+            var custId = authData.CustId;
+            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
+            var result = DepositByLocalPayment(custId, req.GroupId, req.Amount);
 
-            // 隨機配卡
-            var random = new Random();
-            var card = cards[random.Next(cards.Count - 1)];
-            var (errorCode, message) = _paymentBll.DepositReqLocalBank(new DepositReqLocalPayModel
-            {
-                Amount = req.Amount,
-                CustId = custId,
-                BankId = card.BankId,
-                Type = localPayment.Type
-            }, out var transId, out var code, out var bankAccount);
-
-            if (errorCode != 0)
-            {
-                return new ApiResult<LocalPayResp>
-                {
-                    ErrorCode = errorCode,
-                    RawMessage = message
-                };
-            }
-
+            if (result.ErrorCode != (int) ErrorCode.Success)
+                return result;
+            
+            var transId = result.Data.TransId;
+            
             if (hasPromotion)
             {
                 if (!_promotionBll.SetDepositPromotionQueue(
                         transId,
                         req.BonusCode,
-                        authData.CustId,
+                        custId,
                         custInfo.SiteId,
                         custInfo.UserName,
                         custInfo.CurrencyId,
@@ -388,37 +324,8 @@ namespace MemberSite.Controllers.Api
                     _logger.LogError($"TransId:{transId} SetDepositPromotionQueue Failed");
                 }
             }
-
-            if (localPayment.Type == DepositType.QrPayPayment && custInfo.CurrencyId == (int)CurrencyId.VND)
-            {
-                var vietQr = PaymentBLL.GenerateVietQr(bankAccount, transId, req.Amount);
-                return new ApiResult<LocalPayResp>
-                {
-                    Data = new LocalPayResp
-                    {
-                        GenerateQr = true,
-                        Amount = req.Amount,
-                        ReturnUrl = vietQr,
-                        TransId = transId,
-                        Code = code,
-                        BankLogo = card.BankLogo
-                    },
-                    ErrorCode = 0
-                };
-            }
-
-            return new ApiResult<LocalPayResp>
-            {
-                Data = new LocalPayResp
-                {
-                    Amount = req.Amount,
-                    ReturnUrl = card.QRCodeUrl,
-                    TransId = transId,
-                    Code = code,
-                    BankLogo = card.BankLogo
-                },
-                ErrorCode = 0
-            };
+            
+            return result;
         }
 
         [HttpPost]
@@ -1749,6 +1656,266 @@ namespace MemberSite.Controllers.Api
                     new []{ DepositType.QuickTransfer }, authData.CustId),
                 
                 ErrorCode = 0
+            };
+        }
+        
+        public class DepositReqLocalPaymentReq : ILocalBankReq
+        {
+            public int ChannelId { set; get; }
+            public decimal Amount { set; get; }
+            public string BonusCode { set; get; }
+            public DepositType DepositType { set; get; }
+            
+            // LOCAL BANK
+            public int SysId { set; get; }
+            public int BankId { set; get; }
+            // LocalBank 中 Deposit Channel 填的內容
+            public int FromChannel { set; get; }
+            public int FromSysId { set; get; }
+            public string FromAccountNum { set; get; }
+        }
+        
+        private interface ILocalBankReq
+        {
+            public decimal Amount { set; get; }
+            public int SysId { set; get; }
+            public int BankId { set; get; }
+            public int FromChannel { set; get; }
+            public int FromSysId { set; get; }
+            public string FromAccountNum { set; get; }
+        }
+        
+        [HttpPost]
+        public async Task<ApiResult<object>> DepositReqLocalPaymentAsync(DepositReqLocalPaymentReq req)
+        {
+            var authData = _authorizeBll.GetAuthData();
+            var hasPromotion = _promotionBll.VerifyBonusCode(req.BonusCode);
+            var checkResult = CheckDeposit(authData, req.Amount, hasPromotion);
+
+            if (checkResult.ErrorCode != 0)
+            {
+                return new ApiResult<object>
+                {
+                    ErrorCode = checkResult.ErrorCode,
+                    RawMessage = checkResult.Message
+                };
+            }
+            
+            var custId = authData.CustId;
+            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
+            string transId;
+            ApiResult<object> result;
+
+            switch (req.DepositType)
+            {
+                case DepositType.LocalBank:
+                    var localBankResult = await DepositByLocalBankAsync(authData.CustId, req);
+                    transId = localBankResult.Data?.TransId;
+
+                    result = new ApiResult<object>(localBankResult.ErrorCode,
+                        localBankResult.Message,
+                        new {TransId = transId});
+                    
+                    break;
+                
+                case DepositType.CryptoWallet:
+                    var cryptoWalletResult = await DepositByCryptoWalletAsync(authData.CustId, req.ChannelId * -1, req.Amount);
+                    transId = cryptoWalletResult.Data?.ThirdId;
+
+                    result = new ApiResult<object>(cryptoWalletResult.ErrorCode,
+                        cryptoWalletResult.Message,
+                        cryptoWalletResult.Data);
+                    
+                    break;
+                
+                default:
+                    var localPaymentResult = DepositByLocalPayment(custId, req.ChannelId * -1, req.Amount);
+                    transId = localPaymentResult.Data?.TransId;
+
+                    result = new ApiResult<object>(localPaymentResult.ErrorCode,
+                        localPaymentResult.Message,
+                        localPaymentResult.Data);
+                    
+                    break;
+            }
+
+            if (result.ErrorCode != (int)ErrorCode.Success)
+                return result;
+
+            if (hasPromotion)
+            {
+                if (!_promotionBll.SetDepositPromotionQueue(
+                        transId,
+                        req.BonusCode,
+                        custId,
+                        custInfo.SiteId,
+                        custInfo.UserName,
+                        custInfo.CurrencyId,
+                        1,
+                        0))
+                {
+                    _logger.LogError($"TransId:{transId} SetDepositPromotionQueue Failed");
+                }
+            }
+            
+            return result;
+        }
+
+        private ApiResult<LocalPayResp> DepositByLocalPayment(int custId, int groupId, decimal amount)
+        {
+            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
+            var localPayment = _bankInfoOffBll.GetLocalPaymentSettingWithCache()
+                .FirstOrDefault(x => x.GroupId == groupId);
+
+            if (localPayment == null)
+            {
+                return new ApiResult<LocalPayResp>
+                {
+                    ErrorCode = -1,
+                    RawMessage = "No available channels."
+                };
+            }
+
+            var cards = _bankInfoOffBll.GetOfflineBankCardListWithCache(custId)
+                .Where(x => x.GroupIds.Contains(groupId)
+                    && amount >= x.MinAmount
+                    && amount <= x.MaxAmount)
+                .ToList();
+
+            if (!cards.Any())
+            {
+                return new ApiResult<LocalPayResp>
+                {
+                    ErrorCode = -2,
+                    RawMessage = "No available channels."
+                };
+            }
+
+            // 隨機配卡
+            var random = new Random();
+            var card = cards[random.Next(cards.Count - 1)];
+            var (errorCode, message) = _paymentBll.DepositReqLocalBank(new DepositReqLocalPayModel
+            {
+                Amount = amount,
+                CustId = custId,
+                BankId = card.BankId,
+                Type = localPayment.Type
+            }, out var transId, out var code, out var bankAccount);
+
+            if (errorCode != 0)
+            {
+                return new ApiResult<LocalPayResp>
+                {
+                    ErrorCode = errorCode,
+                    RawMessage = message
+                };
+            }
+
+            if (localPayment.Type == DepositType.QrPayPayment && custInfo.CurrencyId == (int)CurrencyId.VND)
+            {
+                var vietQr = PaymentBLL.GenerateVietQr(bankAccount, transId, amount);
+                return new ApiResult<LocalPayResp>
+                {
+                    Data = new LocalPayResp
+                    {
+                        GenerateQr = true,
+                        Amount = amount,
+                        ReturnUrl = vietQr,
+                        TransId = transId,
+                        Code = code,
+                        BankLogo = card.BankLogo
+                    },
+                    ErrorCode = 0
+                };
+            }
+
+            return new ApiResult<LocalPayResp>
+            {
+                Data = new LocalPayResp
+                {
+                    Amount = amount,
+                    ReturnUrl = card.QRCodeUrl,
+                    TransId = transId,
+                    Code = code,
+                    BankLogo = card.BankLogo
+                },
+                ErrorCode = 0
+            };
+        }
+
+        private async Task<ApiResult<PayResult>> DepositByCryptoWalletAsync(int custId, int cryptoCurrencyId, decimal amount)
+        {
+            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
+            var cryptoInfos = _bankInfoOffBll.GetFilteredOfflineCryptoPayInfo(custInfo.CustId)
+                .Where(x => (int)x.CryptoCurrencyId == cryptoCurrencyId
+                            && (x.MinAmount == 0 || amount >= x.MinAmount)
+                            && (x.MaxAmount == 0 || amount <= x.MaxAmount))
+                .ToList();
+
+            if (!cryptoInfos.Any())
+            {
+                var msg = "no channels available";
+            }
+
+            // 隨機配卡
+            var random = new Random();
+            var cryptoInfo = cryptoInfos[random.Next(cryptoInfos.Count - 1)];
+
+            var (errorCode, message, payResult) = await _cryptoPayInfoBll.DepositReqCryptoLocalPayAsync(
+                custInfo, amount, cryptoInfo);
+
+            if (errorCode != (int)ErrorCode.Success)
+            {
+                _logger.LogError($"({errorCode}) {message}");
+                
+            }
+
+            return new ApiResult<PayResult>
+            {
+                Data = payResult,
+                ErrorCode = errorCode
+            };
+        }
+        
+        private async Task<ApiResult<DepositRep3>> DepositByLocalBankAsync (int custId, ILocalBankReq req)
+        {
+            var key = $"Deposit:LocalBank:{custId}:{req.SysId}";
+            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
+            const int sec = 5;
+            if (!await _cacheHelper.SetNxAsync(key, "", TimeSpan.FromSeconds(sec)))
+            {
+                _logger.LogError($"Duplicate request within {sec} sec, UserName={custInfo.UserName}");
+
+                return new ApiResult<DepositRep3>
+                {
+                    ErrorCode = -1,
+                    Message = "Duplicate request."
+                };
+            }
+            
+            var depositFromInfo = new DepositFromInfo
+            {
+                Channel = req.FromChannel,
+                SysId = req.FromSysId,
+                AccountNo = req.FromAccountNum
+            };
+            var fromInfo = req.FromChannel == 0 && req.FromSysId == 0 && req.FromAccountNum == null
+                ? null
+                : JsonConvert.SerializeObject(depositFromInfo);
+
+            var errorCode = _paymentBll.DepositReqLocalBank(
+                custId,
+                req.SysId,
+                req.BankId, 
+                req.Amount,
+                string.Empty,
+                fromInfo,
+                out var depositRep);
+            
+            return new ApiResult<DepositRep3>
+            {
+                ErrorCode = errorCode,
+                Data = depositRep
             };
         }
     }
