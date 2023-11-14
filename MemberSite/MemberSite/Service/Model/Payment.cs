@@ -132,6 +132,17 @@ namespace MemberSite.Service.Model
         public DepositType Type { get; set; }
         public int Sort { get; set; }
     }
+    
+    public class PayChannelInfo
+    {
+        public int ChannelId { get; set; }
+        public int PayId { get; set; }
+        public int GroupId { get; set; }
+        public string ChannelName { get; set; }
+        public DepositType Type { get; set; }
+        public PayChannelMethod Method { get; set; }
+        public PayModeEnum Mode { get; set; }
+    }
 
     public class LineChannel
     {
