@@ -24,7 +24,11 @@ namespace MemberSiteTests.Service.BLL
             {
                 EnvironmentName = "Local",
             });
-            builder.Configuration.AddRemoteJsonConfig(builder.Configuration.GetSection("ConfigService").Get<string[]>());
+
+            var remoteUrls = builder.Configuration.GetSection("ConfigService").Get<string[]>();
+            remoteUrls = builder.Configuration.CheckLocalConfig(builder.Environment, new[] { "Nova" }, remoteUrls);
+            builder.Configuration.AddRemoteJsonConfig(remoteUrls);
+
             var startup = new StubStartUp(builder.Configuration);
             startup.ConfigureServices(builder.Services);
             var app = builder.Build();

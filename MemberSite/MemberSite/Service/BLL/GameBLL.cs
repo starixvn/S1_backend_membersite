@@ -65,7 +65,7 @@ namespace MemberSite.Service.BLL
             }
         }
 
-        public async Task<IEnumerable<GameProvider>> GetGameProviderByCategory(int siteId, int currencyId, TpCategory tpCategory)
+        public async Task<IEnumerable<GameProvider>> GetGameProviderByCategory(int siteId, int currencyId, TpCategory tpCategory , Dictionary<string, string> changeGameImgName)
         {
             return await _cacheHelper.TryGetOrCreateAsync($"GetGameProviderByCategory:{currencyId}:{siteId}:{tpCategory}",
                 TimeSpan.FromMinutes(10),
@@ -79,7 +79,8 @@ namespace MemberSite.Service.BLL
                     });
                     foreach (var provider in providerList)
                     {
-                        provider.ImgName = $"{tpCategory}_{provider.TpName}".ToLower();
+                        var tpName = changeGameImgName.TryGetValue(provider.TpName, out var changeName) ? changeName : provider.TpName;
+                        provider.ImgName = $"{tpCategory}_{tpName}".ToLower();
                         provider.OpenPath = _openPathList.TryGetValue(provider.TpId, out var openPath) ? openPath : null;
                     }
                     return providerList;
