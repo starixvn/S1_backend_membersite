@@ -199,7 +199,7 @@ namespace MemberSite.Controllers.Api
         /// <param name="req"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ApiResult<DepositRep3>> DepositReqWireTransfer(DepositReqWireTransferReq req)
+        public async Task<ApiResult<DepositRep3>> DepositReqWireTransferAsync(DepositReqWireTransferReq req)
         {
             var authData = _authorizeBll.GetAuthData();
 
@@ -1877,7 +1877,7 @@ namespace MemberSite.Controllers.Api
             };
         }
         
-        private async Task<ApiResult<DepositRep3>> DepositByLocalBankAsync (int custId, ILocalBankReq req)
+        private async Task<ApiResult<DepositRep3>> DepositByLocalBankAsync(int custId, ILocalBankReq req)
         {
             var key = $"Deposit:LocalBank:{custId}:{req.SysId}";
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);

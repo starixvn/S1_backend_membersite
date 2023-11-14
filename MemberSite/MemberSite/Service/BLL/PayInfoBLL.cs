@@ -69,7 +69,8 @@ namespace MemberSite.Service.BLL
                         AccountNo = x.AccountNo,
                         AccountName = x.AccountName,
                         QrCodeUrl = x.QRCodeUrl
-                    }
+                    },
+                    DepositType = DepositType.LocalBank
                 });
             result.Add("BankTransfer", new PayMethod(bankTransferData));
             
@@ -90,30 +91,32 @@ namespace MemberSite.Service.BLL
                 .Select(x =>
                 {
                     var bank = x.First();
-                    return new BankInfo
+                    return new AutoChannelBankInfo
                     {
                         BankLogo = bank.BankLogo,
                         BankCode = bank.BankCode,
                         BankName = bank.BankName,
                         SysId = bank.SysId,
                         MaxAmount = x.Max(y => y.MaxAmount),
-                        MinAmount = x.Min(y => y.MinAmount)
+                        MinAmount = x.Min(y => y.MinAmount),
+                        DepositType = DepositType.BankAutoChannel
                     };
                 });
             
             //塞假資料給luke接
             if (!autoChannelData.Any())
             {
-                autoChannelData = new List<BankInfo>
+                autoChannelData = new AutoChannelBankInfo[]
                 {
-                    new BankInfo
+                    new ()
                     {
                         BankLogo = "idbi.png",
                         BankName = "IDBI Bank",
                         BankCode = "IDBI",
                         SysId = 265,
                         MaxAmount = 50000,
-                        MinAmount = 50
+                        MinAmount = 50,
+                        DepositType = DepositType.BankAutoChannel
                     }
                 };
             }
@@ -160,7 +163,8 @@ namespace MemberSite.Service.BLL
                             SysId = y.SysId,
                             MaxAmount = x.MaxAmount,
                             MinAmount = x.MinAmount
-                        })
+                        }),
+                        DepositType = depositType
                     });
                 
                 result.Add(depositType.GetDescription(), new PayMethod(data));
@@ -214,7 +218,8 @@ namespace MemberSite.Service.BLL
                         GroupId = x.GroupId,
                         GroupName = x.GroupName,
                         GroupSort = x.GSort,
-                        ChannelSort = x.SSort
+                        ChannelSort = x.SSort,
+                        DepositType = depositType
                     });
                     payChannels.AddRange(onlineChannels);
                 }
@@ -243,7 +248,8 @@ namespace MemberSite.Service.BLL
                                 GroupName = "LetsPay",
                                 PayName = "LetsPay",
                                 ChannelSort = -1,
-                                GroupSort = -1
+                                GroupSort = -1,
+                                DepositType = DepositType.CryptoWallet
                             });
                     
                     payChannels.AddRange(localCryptoList);
@@ -281,7 +287,8 @@ namespace MemberSite.Service.BLL
                                     GroupId = bankCard.GroupId,
                                     GroupName = groupInfo.GroupName,
                                     GroupSort = groupInfo.Sort,
-                                    ChannelSort = -1
+                                    ChannelSort = -1,
+                                    DepositType = depositType
                                 };
                             });
                         payChannels.AddRange(localPayChannels);

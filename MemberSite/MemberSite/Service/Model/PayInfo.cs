@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.Model
 {
@@ -21,10 +22,16 @@ namespace MemberSite.Service.Model
         public decimal MinAmount { get; set; }
         public decimal MaxAmount { get; set; }
     }
+
+    public class AutoChannelBankInfo : BankInfo
+    {
+        public DepositType DepositType { get; set; }
+    }
     
     public class OfflineBankInfo : BankInfo
     {
         public bool CanSubmit { get; set; }
+        public DepositType DepositType { get; set; }
         public OfflineBankAccount BankAccountInfo { get; set; }
     }
     
@@ -70,6 +77,7 @@ namespace MemberSite.Service.Model
         public int GroupSort { get; set; }
         [JsonIgnore]
         public int ChannelSort { get; set; }
+        public DepositType DepositType { get; set; }
     }
     
     public class PayMethod

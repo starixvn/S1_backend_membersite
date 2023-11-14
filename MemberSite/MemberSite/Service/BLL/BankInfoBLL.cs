@@ -106,7 +106,8 @@ namespace MemberSite.Service.BLL
                             {
                                 BankLogo = y.BankLogo,
                                 BankName = y.BankName,
-                                SysId = y.SysId
+                                SysId = y.SysId,
+                                BankCode = y.BankCode
                             }) : Array.Empty<BankInfoSys>()
                     };
 
@@ -206,7 +207,7 @@ namespace MemberSite.Service.BLL
         #endregion
         public IEnumerable<BankInfoPay> GetOnlineBankList(int siteId, DepositType depositType)
         {
-            var key = $"PaySetting:OnlineBanking:{siteId}";
+            var key = $"PaySetting:OnlineBanking:{siteId}:{depositType}";
             var dbData = _redisHelper.TryGetOrCreate<IEnumerable<BankInfoPay>>(key, TimeSpan.FromMinutes(5),
                 () => _bankInfoService.GetBankInfoPayList(siteId, depositType).OrderBy(x => x.MSort).ThenBy(x => x.SSort),
                 RedisDataBase.Shared);
