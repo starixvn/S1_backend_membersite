@@ -1893,6 +1893,15 @@ namespace MemberSite.Controllers.Api
                 };
             }
             
+            if (_bankInfoOffBll.GetCustOffDepositSysId(custId).Contains(req.SysId))
+            {
+                return new ApiResult<DepositRep3>
+                {
+                    ErrorCode = -3,
+                    Message = "A deposit with the same bank already exists. Please complete it before trying again."
+                };
+            }
+            
             var depositFromInfo = new DepositFromInfo
             {
                 Channel = req.FromChannel,
