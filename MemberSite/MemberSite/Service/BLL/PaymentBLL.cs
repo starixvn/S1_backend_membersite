@@ -258,7 +258,7 @@ namespace MemberSite.Service.BLL
                 if (onlineBank == null)
                     throw new CustomException("BankInfo is null.", -4);
 
-                _logger.LogInformation("onlineBank: " + JsonConvert.SerializeObject(onlineBank));
+                _logger.LogInformation($"{depositType}: {JsonConvert.SerializeObject(onlineBank)}");
                 
                 var depositLimitInfo = depositLimitInfoList?
                     .FirstOrDefault(x => x.SiteId == custInfo.SiteId

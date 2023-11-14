@@ -54,7 +54,20 @@ namespace MemberSite.Controllers
             if (authData is not { CustId: > 0 })
                 return RedirectErrorPage(new ErrorData());
             
-            return await DepositOnlineBankingAsync(authData.CustId, sysId, ChannelId, Amount, BonusCode);
+            try
+            {
+                return await DepositOnlineBankingAsync(authData.CustId, sysId, ChannelId, Amount, BonusCode);
+            }
+            catch (CustomException ex)
+            {
+                _logger.LogInformation($"({ex.Code}) {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message, ex);
+            }
+            
+            return RedirectErrorPage(new ErrorData());
         }
 
         public async Task<IActionResult> DepositReqMobilePayAsync(int ChannelId, decimal Amount, string BonusCode, string PayAccount)
@@ -209,7 +222,20 @@ namespace MemberSite.Controllers
                 return RedirectErrorPage(new ErrorData());
             }
             
-            return await DepositBankAutoChannelAsync(authData.CustId, sysId, Amount, BonusCode);
+            try
+            {
+                return await DepositBankAutoChannelAsync(authData.CustId, sysId, Amount, BonusCode);
+            }
+            catch (CustomException ex)
+            {
+                _logger.LogInformation($"({ex.Code}) {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message, ex);
+            }
+            
+            return RedirectErrorPage(new ErrorData());
         }
         
         public async Task<IActionResult> DepositReqAsync(int channelId, int sysId, decimal amount, string bonusCode,
@@ -221,59 +247,72 @@ namespace MemberSite.Controllers
                 return RedirectErrorPage(new ErrorData());
             }
 
-            if (channelId == 0 && sysId > 0)
+            try
             {
-                return await DepositBankAutoChannelAsync(authData.CustId, sysId, amount, bonusCode);
+                if (channelId == 0 && sysId > 0)
+                {
+                    return await DepositBankAutoChannelAsync(authData.CustId, sysId, amount, bonusCode);
+                }
+            
+                var channels = _payInfoBll.GetPayChannelWithCache();
+                var channel = channels.FirstOrDefault(x => x.ChannelId == channelId);
+
+                if (channel == null)
+                {
+                    _logger.LogError("No channel data, channelId=" + channelId);
+                    return RedirectErrorPage(new ErrorData());
+                }
+
+                var p = new DepositReqParams
+                {
+                    Amount = amount,
+                    ChannelId = channelId,
+                    CustId = authData.CustId,
+                    DepositType = channel.Type
+                };
+
+                switch (channel.Type)
+                {
+                    case DepositType.OnlineBanking:
+                    case DepositType.QuickTransfer:
+                        return await DepositOnlineBankingAsync(authData.CustId, sysId, channelId, amount, bonusCode, channel.Type);
+                
+                    case DepositType.MobilePayment:
+                        p.ExtraData = new Dictionary<string, string>
+                        {
+                            {"PayAccount", payAccount}
+                        };
+                        break;
+                
+                    case DepositType.CryptoPayment:
+                        p.ExtraData = new Dictionary<string, string>();
+                        break;
+                    
+                    case DepositType.LoadCardPayment:
+                        p.ExtraData = new Dictionary<string, string>
+                        {
+                            {"Code", code},
+                            {"Serial", serial}
+                        };
+                        break;
+                
+                    default:
+                        _logger.LogError($"No supported type={channel.Type}, channelId={channelId}");
+                        return RedirectErrorPage(new ErrorData());
+                }
+
+                return await CreateDeposit(p, bonusCode);
+            }
+            catch (CustomException ex)
+            {
+                _logger.LogInformation($"({ex.Code}) {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message, ex);
             }
             
-            var channels = _payInfoBll.GetPayChannelWithCache();
-            var channel = channels.FirstOrDefault(x => x.ChannelId == channelId);
-
-            if (channel == null)
-            {
-                _logger.LogError("No channel data, channelId=" + channelId);
-                return RedirectErrorPage(new ErrorData());
-            }
-
-            var p = new DepositReqParams
-            {
-                Amount = amount,
-                ChannelId = channelId,
-                CustId = authData.CustId,
-                DepositType = channel.Type
-            };
-
-            switch (channel.Type)
-            {
-                case DepositType.OnlineBanking:
-                case DepositType.QuickTransfer:
-                    return await DepositOnlineBankingAsync(authData.CustId, sysId, channelId, amount, bonusCode, channel.Type);
-                
-                case DepositType.MobilePayment:
-                    p.ExtraData = new Dictionary<string, string>
-                    {
-                        {"PayAccount", payAccount}
-                    };
-                    break;
-                
-                case DepositType.CryptoPayment:
-                    p.ExtraData = new Dictionary<string, string>();
-                    break;
-                    
-                case DepositType.LoadCardPayment:
-                    p.ExtraData = new Dictionary<string, string>
-                    {
-                        {"Code", code},
-                        {"Serial", serial}
-                    };
-                    break;
-                
-                default:
-                    _logger.LogError($"No supported type={channel.Type}, channelId={channelId}");
-                    return RedirectErrorPage(new ErrorData());
-            }
-
-            return await CreateDeposit(p, bonusCode);
+            return RedirectErrorPage(new ErrorData());
         }
         
         private async Task<IActionResult> DepositCryptoWalletAsync(int custId, int channelId, decimal amount, string bonusCode)
