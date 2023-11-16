@@ -71,19 +71,19 @@ namespace MemberSite.Service.BLL
             }
         }
 
-        public IEnumerable<PaymentFront> GetOnlinePaymentList(int custId)
+        public IEnumerable<PaymentFront> GetOnlinePaymentList(int custId, DepositType depositType)
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var pointLevel = _custInfoBll.GetPointLevelWithCache(custId);
             
-            var depositLimitInfo = _depositLimitBll.GetDepositLimitInfo(custId, DepositType.OnlineBanking);
+            var depositLimitInfo = _depositLimitBll.GetDepositLimitInfo(custId, depositType);
 
             if (depositLimitInfo?.DepositStatus == 0)
             {
                 return Array.Empty<PaymentFront>();
             }
 
-            var bankInfoPayList = GetOnlineBankList(custInfo.SiteId)
+            var bankInfoPayList = GetOnlineBankList(custInfo.SiteId, depositType)
                 .Where(x => pointLevel >= x.PointLevel
                     && (x.CurrencyId == custInfo.CurrencyId || x.CurrencyId == 0));
 
@@ -106,7 +106,8 @@ namespace MemberSite.Service.BLL
                             {
                                 BankLogo = y.BankLogo,
                                 BankName = y.BankName,
-                                SysId = y.SysId
+                                SysId = y.SysId,
+                                BankCode = y.BankCode
                             }) : Array.Empty<BankInfoSys>()
                     };
 
@@ -126,12 +127,11 @@ namespace MemberSite.Service.BLL
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var pointLevel = _custInfoBll.GetPointLevelWithCache(custId);
             var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
-            var bankInfoPayList = GetOnlineBankList(custInfo.SiteId);
+            var bankInfoPayList = GetOnlineBankList(custInfo.SiteId, DepositType.OnlineBanking);
             var depositLimitInfo = _depositLimitBll.GetDepositLimitInfo(custId, DepositType.OnlineBanking);
 
             var bankInfoList = bankInfoPayList
-                .Where(x => vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.PayId == payId &&
-                            x.Method is 0 or 1)
+                .Where(x => vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.PayId == payId)
                 .GroupBy(x => new { x.SysId, x.BankCode })
                 .Select(x =>
                 {
@@ -168,7 +168,7 @@ namespace MemberSite.Service.BLL
                 return null;
             }
 
-            var bankInfoPayList = GetOnlineBankList(custInfo.SiteId)
+            var bankInfoPayList = GetOnlineBankList(custInfo.SiteId, DepositType.OnlineBanking)
                 .Where(x => pointLevel >= x.PointLevel
                             && x.CurrencyId == custInfo.CurrencyId
                             && x.SysId == sysId
@@ -205,11 +205,11 @@ namespace MemberSite.Service.BLL
         #region China Pay
 
         #endregion
-        public IEnumerable<BankInfoPay> GetOnlineBankList(int siteId)
+        public IEnumerable<BankInfoPay> GetOnlineBankList(int siteId, DepositType depositType)
         {
-            var key = $"PaySetting:OnlineBanking:{siteId}";
+            var key = $"PaySetting:OnlineBanking:{siteId}:{depositType}";
             var dbData = _redisHelper.TryGetOrCreate<IEnumerable<BankInfoPay>>(key, TimeSpan.FromMinutes(5),
-                () => _bankInfoService.GetBankInfoPayList(siteId, DepositType.OnlineBanking).OrderBy(x => x.MSort).ThenBy(x => x.SSort),
+                () => _bankInfoService.GetBankInfoPayList(siteId, depositType).OrderBy(x => x.MSort).ThenBy(x => x.SSort),
                 RedisDataBase.Shared);
             return dbData;
         }
@@ -231,7 +231,7 @@ namespace MemberSite.Service.BLL
         public IEnumerable<BankInfoPay> GetAutoChannelBankList(Customer customer, int vipLevel)
         {
             return GetAutoChannelBankInfoList(customer.SiteId, GetAutoChannelDepositType(customer.SiteId))
-                    .Where(i => vipLevel >= i.PointLevel && i.CurrencyId == customer.CurrencyId && (i.Method == 0 || i.Method == 1) && i.SelBank);
+                    .Where(i => vipLevel >= i.PointLevel && i.CurrencyId == customer.CurrencyId && i.SelBank);
         }
 
         public DepositType GetAutoChannelDepositType(int siteId)

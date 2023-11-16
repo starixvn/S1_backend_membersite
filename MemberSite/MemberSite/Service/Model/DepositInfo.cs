@@ -144,7 +144,6 @@ namespace MemberSite.Service.Model
         public int Channel { get; set; }
         public int SysId { get; set; }
         public string AccountNo { get; set; }
-        public string IFSCCode { get; set; }
     }
 
     public class DepositMessage
