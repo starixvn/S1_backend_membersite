@@ -133,26 +133,30 @@ namespace MemberSite.Service.BLL
                     
                     var groupedData = resultData.GroupBy(item => item.LobbyCategoryId);
                     var result = groupedData.Select(group =>
-                        new LobbyHeaderResponse
                         {
-                            LobbyCategoryId = group.Key,
-                            Data = group.Select(item => new LobbyHeaderDetail
+                            var response = new LobbyHeaderResponse
                             {
-                                LobbyCategory = item.LobbyCategory,
-                                TpId = item.TpId,
-                                TpName = item.TpName,
-                                ProductName = item.ProductName,
-                                TpGameIdNo = item.TpGameIdNo,
-                                GameId = item.GameId,
-                                TpGameType = item.TpGameType,
-                                CurrencyGameName = string.IsNullOrEmpty(item.CurrencyGameName) ? null : JsonConvert.DeserializeObject<Dictionary<string, string>>(item.CurrencyGameName),
-                                PcHeaderPicUrl = $"{imgDomain}/desktop/img/Header/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.png",
-                                PcLobbyPicUrl = $"{imgDomain}/desktop/img/LobbyHeader/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.png",
-                                MobileHeaderPicUrl = $"{imgDomain}/h5/img/Header/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.png",
-                                MobileLobbyPicUrl = $"{imgDomain}/h5/img/LobbyHeader/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.png",
-                                Sort = item.Sort
-                            }).OrderBy(x=>x.Sort)
+                                LobbyCategoryId = group.Key,
+                                Data = group.Select(item => new LobbyHeaderDetail
+                                {
+                                    LobbyCategory = item.LobbyCategory,
+                                    TpId = item.TpId,
+                                    TpName = item.TpName,
+                                    ProductName = item.ProductName,
+                                    TpGameIdNo = item.TpGameIdNo,
+                                    GameId = item.GameId,
+                                    TpGameType = item.TpGameType,
+                                    CurrencyGameName = string.IsNullOrEmpty(item.CurrencyGameName) ? null : JsonConvert.DeserializeObject<Dictionary<string, string>>(item.CurrencyGameName),
+                                    PcHeaderPicUrl = JsonConvert.SerializeObject(new List<string> { $"{imgDomain}/desktop/img/Header/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.png"}),
+                                    PcLobbyPicUrl = JsonConvert.SerializeObject(new List<string> { $"{imgDomain}/desktop/img/LobbyHeader/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.png"}),
+                                    MobileHeaderPicUrl = JsonConvert.SerializeObject(new List<string> { $"{imgDomain}/h5/img/Header/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.png"}),
+                                    MobileLobbyPicUrl = JsonConvert.SerializeObject(new List<string> { $"{imgDomain}/h5/img/LobbyHeader/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.png"}),
+                                    Sort = item.Sort
+                                }).OrderBy(x => x.Sort)
+                            };
+                            return response;
                         });
+                    
                     return result;
                 });
             
