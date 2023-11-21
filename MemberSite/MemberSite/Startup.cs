@@ -16,7 +16,7 @@ using MemberSite.Service.Model.Options;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.WebEncoders;
-
+using Prometheus;
 using StackExchange.Redis;
 
 namespace MemberSite
@@ -255,7 +255,10 @@ namespace MemberSite
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseHttpMetrics(options =>
+            {
+                options.AddCustomLabel("host", context => context.Request.Host.Host);
+            });
             app.UseCors();
             app.UseCors("LandingPage");
             app.UseCors("SocialChannel");
@@ -267,6 +270,7 @@ namespace MemberSite
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapMetrics();
                 endpoints.MapGet("/health", async context =>
                 {
                     await context.Response.WriteAsync($"{env.EnvironmentName}-{DateTime.Now:yyyy/MM/dd HH:mm:ss}");

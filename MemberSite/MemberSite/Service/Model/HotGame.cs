@@ -47,9 +47,7 @@ namespace MemberSite.Service.Model
         public int TpGameType { get; set; }
         public int TpCategory { get; set; }
         public string GameName { get; set; }
-        public string GameLogo { get; set; }
         public string TpName { get; set; }
-        public string TpLogo { get; set; }
         public int Sort { get; set; }
         public HotGameTopCategory TopCategory { get; set; }
     }
