@@ -1,4 +1,6 @@
-﻿namespace MemberSite.Service.Model.Game
+﻿using MemberSite.Service.Model.enums;
+
+namespace MemberSite.Service.Model.Game
 {
     public class GetLobbyHeaderRequest
     {
@@ -22,6 +24,9 @@
         public string GameId { get; set; }
         public int TpGameType { get; set; }
         public Dictionary<string,string> CurrencyGameName { get; set; }
+        public HeaderIconTypeEnum IconType { get; set; }
+        public DateTime IconStartTime { get; set; }
+        public DateTime IconEndTime { get; set; }
         public string PcHeaderPicUrl { get; set; }
         public string PcLobbyPicUrl { get; set; }
         public string MobileHeaderPicUrl { get; set; }
@@ -40,6 +45,9 @@
         public string CurrencyGameName { get; set; }
         public string GameId { get; set; }
         public int TpGameType { get; set; }
+        public HeaderIconTypeEnum IconType { get; set; }
+        public DateTime IconStartTime { get; set; }
+        public DateTime IconEndTime { get; set; }
         public int Sort { get; set; }
         public string ImgProductName => ProductName.ToLower().Replace(" ","-");
     }
