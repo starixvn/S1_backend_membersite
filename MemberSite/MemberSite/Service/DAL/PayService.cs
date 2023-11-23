@@ -29,7 +29,7 @@ namespace MemberSite.Service.DAL
 
         public IEnumerable<PayGroupInfo> GetPayGroup()
         {
-            return _reportDbClient.Query<PayGroupInfo>("Service_PayChannel_Get");
+            return _reportDbClient.Query<PayGroupInfo>("Service_PayGroup_Get");
         }
         
         public IEnumerable<PayChannelInfo> GetPayChannel()
