@@ -559,7 +559,7 @@ namespace MemberSite.Service.DAL
 
         public int SetPhoneVerified(int custId)
         {
-            var result = _mainDbClient.Execute("Common_PhoneVerified_Set", new DynamicParameters(new { CustId = custId }));
+            var result = _mainDbClient.QueryFirst<int>("Common_PhoneVerified_Set", new DynamicParameters(new { CustId = custId }));
             return result;
         }
 
@@ -571,7 +571,7 @@ namespace MemberSite.Service.DAL
 
         public int SetEmailVerified(int custId)
         {
-            var result = _mainDbClient.Execute("Common_EmailVerified_Set", new DynamicParameters(new { _CustId = custId }));
+            var result = _mainDbClient.QueryFirst<int>("Common_EmailVerified_Set", new DynamicParameters(new { _CustId = custId }));
             return result;
         }
 
