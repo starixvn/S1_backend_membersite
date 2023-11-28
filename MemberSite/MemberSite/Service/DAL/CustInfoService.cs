@@ -581,7 +581,7 @@ namespace MemberSite.Service.DAL
             using var conn = _mainDbClient.GetMySqlConnection();
             conn.Open();
             using var trans = conn.BeginTransaction();
-            var result = _mainDbClient.QueryFirst<int>("Common_EmailVerified_Set", new DynamicParameters(new { _CustId = custId }));
+            var result = _mainDbClient.Execute("Common_EmailVerified_Set", trans, new { _CustId = custId });
             if (result > 0)
             {
                 MySqlClient.CommitAndDisposeConnection(conn, trans);
