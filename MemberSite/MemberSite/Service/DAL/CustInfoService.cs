@@ -559,7 +559,14 @@ namespace MemberSite.Service.DAL
 
         public int SetPhoneVerified(int custId)
         {
-            var result = _mainDbClient.QueryFirst<int>("Common_PhoneVerified_Set", new DynamicParameters(new { CustId = custId }));
+            using var conn = _mainDbClient.GetMySqlConnection();
+            conn.Open();
+            using var trans = conn.BeginTransaction();
+            var result = _mainDbClient.Execute("Common_PhoneVerified_Set", trans, new { CustId = custId });
+            if (result > 0 )
+            {
+                MySqlClient.CommitAndDisposeConnection(conn, trans);
+            }
             return result;
         }
 
@@ -571,7 +578,14 @@ namespace MemberSite.Service.DAL
 
         public int SetEmailVerified(int custId)
         {
+            using var conn = _mainDbClient.GetMySqlConnection();
+            conn.Open();
+            using var trans = conn.BeginTransaction();
             var result = _mainDbClient.QueryFirst<int>("Common_EmailVerified_Set", new DynamicParameters(new { _CustId = custId }));
+            if (result > 0)
+            {
+                MySqlClient.CommitAndDisposeConnection(conn, trans);
+            }
             return result;
         }
 
