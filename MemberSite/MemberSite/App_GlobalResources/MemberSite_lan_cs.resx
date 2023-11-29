@@ -586,4 +586,5 @@
   <data name="lbl_Vip_Normal"><value>普通会员</value></data>
   <data name="lbl_Vip_ByInvitation"><value>邀请</value></data>
   <data name="lbl_VIP_unlimited"><value>无上限</value></data>
-  </root>
+  <data name="lbl_Wallet_HL"><value>GD钱包</value></data>
+</root>
