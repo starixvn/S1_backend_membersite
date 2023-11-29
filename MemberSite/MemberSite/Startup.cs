@@ -181,6 +181,7 @@ namespace MemberSite
 
             services.AddSingleton<CustomCookieAuthenticationEvents>();
             services.AddTransient<HotEventBLL>();
+            services.AddTransient<NewYear2024BLL>();
             services.AddSingleton<CryptoHelper>();
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();

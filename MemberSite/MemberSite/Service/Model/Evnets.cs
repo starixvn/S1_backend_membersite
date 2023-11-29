@@ -72,4 +72,61 @@
         public int TicketNo { get; set; }
         public bool IsUsed { get; set; }
     }
+    
+    public class PromotionMission
+    {
+        public string MissionDate { get; set; }
+        public int MissionNo { get; set; }
+        public bool DepositFlag { get; set; }
+        public decimal DepositAmount { get; set; }
+        public bool TurnoverFlag { get; set; }
+        public decimal TurnoverAmount { get; set; }
+        public int TpCategoryId { get; set; }
+        public bool AffFlag { get; set; }
+        public int AffCount { get; set; }
+        public int EggCount { get; set; }
+        public bool IsCompleted { get; set; }
+    }
+    
+    public class PromotionMissionProgress
+    {
+        public decimal UnUsedDepositAmount { get; set; }
+        public decimal TurnoverSum { get; set; }
+        public int AffCount { get; set; }
+    }
+    
+    public class PromotionMissionMessage
+    {
+        public int Type { get; set; }
+        public string LangId { get; set; }
+        public string Message { get; set; }
+        public int TpCategoryId { get; set; }
+    }
+
+    public class CustPromotionMission
+    {
+        public string MissionDate { get; set; }
+        public int MissionNo { get; set; }
+    }
+    
+    
+    public class NewYearMission2024
+    {
+        public string MissionDate { get; set; }
+        public string MissionName { get; set; }
+        public int MissionNo { get; set; }
+        public decimal GoalAmount { get; set; }
+        public decimal ProgressAmount { get; set; }
+        public int EggCount { get; set; }
+        public bool IsCompleted { get; set; }
+    }
+    
+    public class CheckPromotionMissionResponse
+    {
+        public IEnumerable<NewYearMission2024> NewYearMission2024 { get; set; }
+        public int EggTicket { get; set; }
+    }
+    
+    
+    
 }

@@ -1,11 +1,10 @@
 ﻿using System.Data;
-
 using Dapper;
-
 using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
+using Newtonsoft.Json;
 
 namespace MemberSite.Service.DAL
 {
@@ -225,5 +224,114 @@ namespace MemberSite.Service.DAL
 
             return rtn;
         }
+
+        #region PromotionMission
+
+        public IEnumerable<PromotionMission> GetPromotionMission(int siteId, int currencyId, string missionDate)
+        {
+            var p = new DynamicParameters(new
+            {
+                _SiteId = siteId,
+                _CurrencyId = currencyId,
+                _MissionDate = missionDate
+            });
+            var result = _reportDbClient.Query<PromotionMission>("Service_PromotionMission_Get", p);
+            
+            return result;
+        }
+        
+        public PromotionMissionProgress GetPromotionMissionProgress(int custId, int currencyId,  int tpCategoryId, DateTime startTime ,DateTime endTime)
+        {
+            var p = new DynamicParameters(new
+            {
+                _CustId = custId,
+                _CurrencyId = currencyId,
+                _TpCategoryId = tpCategoryId,
+                _StartTime = startTime,
+                _EndTime = endTime,
+            });
+            p.Add("_UnUsedDepositAmount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
+            p.Add("_TurnoverSum", dbType: DbType.Decimal, direction: ParameterDirection.Output);
+            p.Add("_AffCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            _reportDbClient.Query<PromotionMissionProgress>("Service_PromotionMissionCheck_Get", p);
+            
+            var unUsedDepositAmount = p.Get<decimal>("_UnUsedDepositAmount");
+            var turnoverSum = p.Get<decimal>("_TurnoverSum");
+            var affCount = p.Get<int>("_AffCount");
+
+            var resultModel = new PromotionMissionProgress
+            {
+                UnUsedDepositAmount = unUsedDepositAmount,
+                TurnoverSum = turnoverSum,
+                AffCount = affCount
+            };
+            return resultModel;
+        }
+        
+        public IEnumerable<PromotionMissionMessage> GetPromotionMissionMessage()
+        {
+            var result = _reportDbClient.Query<PromotionMissionMessage>("Service_PromotionMissionMessage_Get");
+            
+            return result;
+        }
+        
+        public IEnumerable<CustPromotionMission> GetCustPromotionMission(int custId, string missionDate)
+        {
+            var p = new DynamicParameters( new
+            { 
+                _CustId = custId, 
+                _MissionDate = missionDate
+            });
+            var result = _reportDbClient.Query<CustPromotionMission>("Service_CustPromotionMission_Get", p);
+            
+            return result;
+        }
+        
+        public int ClaimPromotionMission(int custId, int siteId, int currencyId, string missionDate, IEnumerable<NewYearMission2024> mission)
+        {
+            using var conn = _mainDbClient.GetMySqlConnection();
+            conn.Open();
+            using var trans = conn.BeginTransaction();
+
+            var missionNos = mission.Select(x => x.MissionNo);
+            var p = new DynamicParameters( new
+            { 
+                _CustId = custId, 
+                _SiteId = siteId,
+                _CurrencyId = currencyId,
+                _MissionDate = missionDate,
+                _MissionNos = JsonConvert.SerializeObject(missionNos)
+            });
+            _mainDbClient.Execute("Service_CustPromotionMission_Ins", trans, p);
+            
+            var p2 = new DynamicParameters(new
+            {
+                _CustId = custId,
+                _MissionDate = missionDate,
+                _TicketCount = mission.Sum(x=>x.EggCount)
+            });
+            p2.Add("_EggTicket", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            _mainDbClient.Execute("Service_CustEggTicket_Ins", trans, p2);
+            var eggTicket = p2.Get<int>("_EggTicket") ;
+            
+            MySqlClient.CommitAndDisposeConnection(conn, trans);
+            
+            return eggTicket;
+        }
+        
+        public int GetEggTicket(int custId)
+        {
+            var p = new DynamicParameters(new
+            {
+                _CustId = custId,
+            });
+            var eggTicket = _reportDbClient.QueryFirst<int>("Service_CustEggTicket_Get", p);
+            
+            return eggTicket;
+        }
+
+        #endregion
+       
+        
     }
 }

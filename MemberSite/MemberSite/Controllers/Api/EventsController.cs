@@ -19,6 +19,7 @@ namespace MemberSite.Controllers.Api
         private readonly IAngPaoBLL _angPaoBLL;
         private readonly ICacheHelper _cacheHelper;
         private readonly CustInfoBll _custInfoBll;
+        private readonly NewYear2024BLL _NewYear2024Bll;
         private readonly SelLangBLL _selLangBll;
         private readonly ServerInfoBll _serverInfoBll;
         private readonly MessageBll _messageBll;
@@ -38,7 +39,8 @@ namespace MemberSite.Controllers.Api
             _messageBll = provider.GetRequiredService<MessageBll>();
             _dateTimeHelper = provider.GetRequiredService<DateTimeHelper>();
             _logger = provider.GetRequiredService<ILogger<EventsController>>();
-
+            _NewYear2024Bll = provider.GetRequiredService<NewYear2024BLL>();
+            
             _perCurrency = new Dictionary<int, string>()
             {
               {2,"MYR" },{4,"THB" },{13,"CNY" },{15,"IDR" },{51,"VND" },{61,"INR" },{96,"USDT" }
@@ -489,6 +491,45 @@ namespace MemberSite.Controllers.Api
                 };
             }
 
+        }
+        
+        [Authorize]
+        [HttpPost]
+        public async Task<ApiResult<CheckPromotionMissionResponse>> CheckPromotionMission()
+        {
+            var apiResult = new ApiResult<CheckPromotionMissionResponse>();
+            
+            var authData = _authorizeBll.GetAuthData();
+            
+            if (authData is { CustId: > 0 })
+            {
+                var data = new CheckPromotionMissionResponse();
+                
+                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                var promotionMission = await _NewYear2024Bll.CheckPromotionMission(custInfo);
+                var eggTicket = await _NewYear2024Bll.GetEggTicket(custInfo.CustId);
+                
+                if (promotionMission is not null)
+                {
+                    var claimMission = promotionMission.Where(x => x.IsCompleted);
+                    if (claimMission.Any())
+                    {
+                        eggTicket = _NewYear2024Bll.ClaimPromotionMission(custInfo , claimMission , eggTicket);
+                    }
+                    
+                    data.EggTicket = eggTicket;
+                    data.NewYearMission2024 = promotionMission;
+                    apiResult.Data = data;
+                }
+                else
+                {
+                    apiResult.Message = _selLangBll.GetMsg("msg_Ineligible");
+                }
+                
+                apiResult.ErrorCode = (int) ErrorCode.Success;
+            }
+
+            return apiResult;
         }
 
     }

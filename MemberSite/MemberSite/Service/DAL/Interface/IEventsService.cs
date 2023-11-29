@@ -20,5 +20,17 @@ namespace MemberSite.Service.DAL.Interface
         Task<IEnumerable<AngPowTicket>> GetTickets(int custId, int currencyId);
         Task<Prize> GetCustPrizeOnToday(int eventId, int custId, int currencyId);
         Task<int> PayoutPrize(int eventId, int prizeId, string prizeName, int siteId, int custId, string userName, int currencyId, decimal prizeAmount, int ticketNo, int prizeType, bool isUsed);
+
+        #region PromotionMission
+
+        public IEnumerable<PromotionMission> GetPromotionMission(int siteId, int currencyId, string missionDate);
+        public PromotionMissionProgress GetPromotionMissionProgress(int custId, int currencyId, int tpCategoryId, DateTime startTime, DateTime endTime);
+        public IEnumerable<PromotionMissionMessage> GetPromotionMissionMessage();
+        public IEnumerable<CustPromotionMission> GetCustPromotionMission(int custId, string missionDate);
+        public int ClaimPromotionMission(int custId, int siteId, int currencyId, string missionDate, IEnumerable<NewYearMission2024> mission);
+        public int GetEggTicket(int custId);
+
+        #endregion
+
     }
 }
