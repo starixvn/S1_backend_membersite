@@ -22,11 +22,11 @@ namespace MemberSite.Service.BLL
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
         }
 
-        public IEnumerable<LoadCardPayInfo> GetLoadCardPayInfoList(int siteId)
+        public IEnumerable<PayInfo> GetLoadCardPayInfoList(int siteId)
         {
             var key = $"PaySetting:LoadCard:{siteId}";
-            var dbData = _redisHelper.TryGetOrCreate<IEnumerable<LoadCardPayInfo>>(key, TimeSpan.FromMinutes(5),
-                () => _payService.GetLoadCardPayInfo(siteId).OrderBy(x => x.GSort).ThenBy(x => x.SSort),
+            var dbData = _redisHelper.TryGetOrCreate<IEnumerable<PayInfo>>(key, TimeSpan.FromMinutes(5),
+                () => _payService.GetPayInfo(siteId, DepositType.LoadCardPayment).OrderBy(x => x.GSort).ThenBy(x => x.SSort),
                 RedisDataBase.Shared);
             return dbData;
         }
@@ -73,7 +73,7 @@ namespace MemberSite.Service.BLL
             return LoadCardPayGroupList;
         }
 
-        public IEnumerable<LoadCardPayInfo> GetLoadCardPayInfoList(int custId, int groupId)
+        public IEnumerable<PayInfo> GetLoadCardPayInfoList(int custId, int groupId)
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
@@ -82,7 +82,7 @@ namespace MemberSite.Service.BLL
 
             if (depositLimitInfo?.DepositStatus == 0)
             {
-                return new LoadCardPayInfo[] { };
+                return Array.Empty<PayInfo>();
             }
 
             var LoadCardPayInfoList = GetLoadCardPayInfoList(custInfo.SiteId).Where(x => vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.GroupId == groupId).ToList();

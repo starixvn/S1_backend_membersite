@@ -60,7 +60,7 @@ public class DepositBLL
                 break;
             
             case DepositType.MobilePayment:
-            case DepositType.QRPayPayment:
+            case DepositType.QrPayPayment:
             default:
                 (payInfo, dic) = GenericGetPayInfo(custInfo, input.DepositType, input.ChannelId, vipLevel);
                 break;
@@ -110,7 +110,7 @@ public class DepositBLL
     
     private async Task<(IPayInfo, Dictionary<string, string>)> GetCryptoPayInfo(Customer custInfo, int channelId, int vipLevel, decimal amount)
     {
-        var payInfo = _cryptoPayInfoBll.GetCryptoPayInfoListWithCache(custInfo.SiteId)
+        var payInfo = _payInfoBll.GetPayInfoListWithCache(custInfo.SiteId, DepositType.CryptoPayment)
             .FirstOrDefault(x => vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.ChannelId == channelId);
         
         if (payInfo == null)
@@ -156,7 +156,7 @@ public class DepositBLL
 
     private (IPayInfo, Dictionary<string, string>) GenericGetPayInfo(Customer custInfo, DepositType depositType, int channelId, int vipLevel)
     {
-        var payInfo = _payInfoBll.GetPayInfoList(custInfo.SiteId, depositType)
+        var payInfo = _payInfoBll.GetPayInfoListWithCache(custInfo.SiteId, depositType)
             .FirstOrDefault(x => vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.ChannelId == channelId);
 
         if (payInfo == null)

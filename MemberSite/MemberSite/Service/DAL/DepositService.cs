@@ -24,7 +24,7 @@ namespace MemberSite.Service.DAL
             _shieldBll = provider.GetRequiredService<ShieldBLL>();
         }
 
-        public int DepositReq(DepositDetailInfo depositDetailInfo, out string transId, out string postScript)
+        public int DepositReq(DepositDetailInfo depositDetailInfo, out string transId, out string postScript, string depositFrom = null)
         {
             transId = null;
             postScript = null;
@@ -33,45 +33,20 @@ namespace MemberSite.Service.DAL
             conn.Open();
             using var trans = conn.BeginTransaction();
 
-            var p = new DynamicParameters(new { depositDetailInfo.DepositType, depositDetailInfo.CustId, depositDetailInfo.UserName, depositDetailInfo.CurrencyId, depositDetailInfo.SiteId, depositDetailInfo.DepositInfo, depositDetailInfo.Amount, depositDetailInfo.Memo, Prefix = $"D{_common.GetEnv()}" });
-            p.Add("vPostScript", dbType: DbType.String, direction: ParameterDirection.Output);
-            p.Add("vTransId", dbType: DbType.String, direction: ParameterDirection.Output);
-
-            var result = _mainDbClient.Execute("DepositInfo_Ins", trans, p);
-            trans.Commit();
-
-            if (depositDetailInfo.SiteId != (int)SiteId.Nova88)
+            var p = new DynamicParameters(new
             {
-                _ = Task.Run(async () =>
-                {
-                    var checkResult = _shieldBll.CheckCustShieldRisk(
-                        new Customer()
-                        {
-                            SiteId = depositDetailInfo.SiteId,
-                            CurrencyId = depositDetailInfo.CurrencyId,
-                            CustId = depositDetailInfo.CustId
-                        },
-                        ShieldRiskTriggeredPoint.Deposit,
-                        ShieldRiskTaggedIssue.HighRisk);
-                });
-            }
-
-            postScript = p.Get<string>("vPostScript");
-            transId = p.Get<string>("vTransId");
-
-            return result;
-        }
-
-        public int DepositReqwithFrom(DepositDetailInfo depositDetailInfo, string depositFrom, out string transId, out string postScript)
-        {
-            transId = null;
-            postScript = null;
-
-            using var conn = _mainDbClient.GetMySqlConnection();
-            conn.Open();
-            using var trans = conn.BeginTransaction();
-
-            var p = new DynamicParameters(new { depositDetailInfo.DepositType, depositDetailInfo.CustId, depositDetailInfo.UserName, depositDetailInfo.CurrencyId, depositDetailInfo.SiteId, depositFrom, depositDetailInfo.DepositInfo, depositDetailInfo.Amount, depositDetailInfo.Memo, Prefix = $"D{_common.GetEnv()}" });
+                depositDetailInfo.DepositType,
+                depositDetailInfo.CustId,
+                depositDetailInfo.UserName,
+                depositDetailInfo.CurrencyId,
+                depositDetailInfo.SiteId,
+                depositDetailInfo.DepositInfo,
+                DepositFrom = depositFrom,
+                depositDetailInfo.Amount,
+                depositDetailInfo.Memo,
+                Prefix = $"D{_common.GetEnv()}"
+            });
+            
             p.Add("vPostScript", dbType: DbType.String, direction: ParameterDirection.Output);
             p.Add("vTransId", dbType: DbType.String, direction: ParameterDirection.Output);
 
@@ -80,10 +55,10 @@ namespace MemberSite.Service.DAL
 
             if (depositDetailInfo.SiteId != (int)SiteId.Nova88)
             {
-                _ = Task.Run(async () =>
+                _ = Task.Run(() =>
                 {
-                    var checkResult = _shieldBll.CheckCustShieldRisk(
-                        new Customer()
+                    _ = _shieldBll.CheckCustShieldRisk(
+                        new Customer
                         {
                             SiteId = depositDetailInfo.SiteId,
                             CurrencyId = depositDetailInfo.CurrencyId,

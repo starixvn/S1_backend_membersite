@@ -66,9 +66,9 @@ namespace MemberSite.Service.DAL
 
                 if (siteId != (int)SiteId.Nova88)
                 {
-                    _ = Task.Run(async () =>
+                    _ = Task.Run(() =>
                     {
-                        var checkResult = _shieldBll.CheckCustShieldRisk(
+                        _ = _shieldBll.CheckCustShieldRisk(
                             new Customer()
                             {
                                 SiteId = siteId,
