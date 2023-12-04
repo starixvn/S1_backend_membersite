@@ -20,6 +20,7 @@ namespace MemberSite.Controllers.Api
     [ApiController]
     public class AccountController : ControllerBase
     {
+        //etta eks test
         private readonly CustInfoBll _custInfoBll;
         private readonly Tools _tools;
         private readonly SelLangBLL _selLangBll;
