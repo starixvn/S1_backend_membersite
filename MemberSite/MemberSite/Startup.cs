@@ -120,6 +120,7 @@ namespace MemberSite
             services.AddTransient<IHotGameService, HotGameService>();
             services.AddTransient<IAnnouncementService, AnnouncementService>();
             services.AddSingleton<VIPService>();
+            services.AddSingleton<BigWinService>();
 
             /*BLL*/
             services.AddSingleton<IRabbitMQProducer, RabbitMQProducer>();
@@ -180,7 +181,7 @@ namespace MemberSite
             services.AddTransient<IAnnouncementBLL, AnnouncementBLL>();
 
             services.AddTransient<IHotGameBLL, HotGameBLL>();
-
+            services.AddTransient<BigWinBLL>();
             services.AddSingleton<CustomCookieAuthenticationEvents>();
             services.AddTransient<HotEventBLL>();
             services.AddSingleton<CryptoHelper>();
