@@ -671,6 +671,12 @@ namespace MemberSite.Controllers.Api
                     errorCode = 2;
                     break;
                 }
+
+                case 2 when prize.PrizeName == "Blessings Sticker":
+                {
+                    errorCode = 2;
+                    break;
+                }
             }
 
             return errorCode;
