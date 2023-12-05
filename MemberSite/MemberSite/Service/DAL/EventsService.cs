@@ -151,16 +151,31 @@ namespace MemberSite.Service.DAL
             await using var conn = _mainDbClient.GetMySqlConnection();
             await conn.OpenAsync();
             await using var trans = await conn.BeginTransactionAsync();
-            var res = await _mainDbClient.ExecuteAsync("Member_DrawPrize_Set_V2", trans, new { _EventId = eventId, _PrizeId = prizeId, _PrizeName = prizeName, _Amount = prizeAmount, _CustId = custId, _CurrencyId = currencyId, _TicketNo = ticketNo, _IsUsed = isUsed });
+
+            var sp = new List<int> {15, 16, 17}.Contains(eventId) ? "Member_DrawPrizeNewYear2024_Set" : "Member_DrawPrize_Set_V2";
+            
+            var res = await _mainDbClient.ExecuteAsync(sp ,trans, new
+            {
+                _EventId = eventId,
+                _PrizeId = prizeId, 
+                _PrizeName = prizeName,
+                _Amount = prizeAmount,
+                _CustId = custId,
+                _CurrencyId = currencyId,
+                _TicketNo = ticketNo,
+                _IsUsed = isUsed
+            });
+            
             if (prizeType == 1 && prizeAmount > 0)
             {
-                var memo = $"Prize: {prizeAmount.ToString("#,##0.##")}";
-                res = _walletService.SetBalance(custId, siteId, userName, prizeAmount, 8, memo, eventId.ToString(), out _, out _, trans);
-                res = _withdrawalLimitService.SetWithdrawalLimit(custId, userName, siteId, prizeAmount, 1, memo, eventId.ToString(), (int)WithdrawalLimitLogCreateFromEnum.DrawPrize, "System", out var afterWithdrawalLimit, trans);
+                var memo = $"PrizeName : {prizeName} ,Prize: {prizeAmount:#,##0.##}";
+                _walletService.SetBalance(custId, siteId, userName, prizeAmount, 8, memo, eventId.ToString(), out _, out _, trans);
+                res = _withdrawalLimitService.SetWithdrawalLimit(custId, userName, siteId, prizeAmount, 1, memo, eventId.ToString(), (int)WithdrawalLimitLogCreateFromEnum.DrawPrize, "System", out _, trans);
             }
+            
             if (res > 0)
             {
-                trans.Commit();
+                MySqlClient.CommitAndDisposeConnection(conn,trans);
             }
 
             return res;
@@ -240,7 +255,7 @@ namespace MemberSite.Service.DAL
             return result;
         }
         
-        public PromotionMissionProgress GetPromotionMissionProgress(int custId, int currencyId,  int tpCategoryId, DateTime startTime ,DateTime endTime)
+        public PromotionMissionProgress GetCustPromotionMissionProgress(int custId, int currencyId,  int tpCategoryId, DateTime startTime ,DateTime endTime)
         {
             var p = new DynamicParameters(new
             {
@@ -319,6 +334,10 @@ namespace MemberSite.Service.DAL
             return eggTicket;
         }
         
+        #endregion
+
+        #region NewYear2024
+
         public int GetEggTicket(int custId)
         {
             var p = new DynamicParameters(new
@@ -330,6 +349,20 @@ namespace MemberSite.Service.DAL
             return eggTicket;
         }
 
+        public int GetCustBlessingsSticker(int custId)
+        {
+            var p = new DynamicParameters(new
+            {
+                _CustId = custId,
+            });
+            p.Add("_StickerCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            _reportDbClient.Execute("Service_CustBlessingsSticker_Get", p);
+            
+            var stickerCount = p.Get<int>("_StickerCount");
+            
+            return stickerCount;
+        }
+        
         #endregion
        
         

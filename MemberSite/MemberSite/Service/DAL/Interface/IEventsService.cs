@@ -24,11 +24,12 @@ namespace MemberSite.Service.DAL.Interface
         #region PromotionMission
 
         public IEnumerable<PromotionMission> GetPromotionMission(int siteId, int currencyId, string missionDate);
-        public PromotionMissionProgress GetPromotionMissionProgress(int custId, int currencyId, int tpCategoryId, DateTime startTime, DateTime endTime);
+        public PromotionMissionProgress GetCustPromotionMissionProgress(int custId, int currencyId, int tpCategoryId, DateTime startTime, DateTime endTime);
         public IEnumerable<PromotionMissionMessage> GetPromotionMissionMessage();
         public IEnumerable<CustPromotionMission> GetCustPromotionMission(int custId, string missionDate);
         public int ClaimPromotionMission(int custId, int siteId, int currencyId, string missionDate, IEnumerable<NewYearMission2024> mission);
         public int GetEggTicket(int custId);
+        public int GetCustBlessingsSticker(int custId);
 
         #endregion
 

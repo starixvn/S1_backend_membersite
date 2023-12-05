@@ -20,7 +20,7 @@ public class NewYear2024BLL
         _logger = provider.GetRequiredService<ILogger<NewYear2024BLL>>();
     }
 
-    public async Task<IEnumerable<NewYearMission2024>> CheckPromotionMission(Customer customer)
+    public async Task<IEnumerable<NewYearMission2024>> CheckCustPromotionMission(Customer customer)
     {
         var result = new List<NewYearMission2024>();
             
@@ -39,7 +39,7 @@ public class NewYear2024BLL
         }
         
         var tpCategoryId = promotionMission.Any(x => x.TpCategoryId != 0) ? promotionMission.FirstOrDefault(x => x.TpCategoryId != 0).TpCategoryId : 0;
-        var progress = _eventsService.GetPromotionMissionProgress(customer.CustId, customer.CurrencyId, tpCategoryId, startTime, endTime);
+        var progress = _eventsService.GetCustPromotionMissionProgress(customer.CustId, customer.CurrencyId, tpCategoryId, startTime, endTime);
         var messageList = _eventsService.GetPromotionMissionMessage();
             
         foreach (var mission in promotionMission)
@@ -104,10 +104,16 @@ public class NewYear2024BLL
         return eggTicket;
     }
 
+    public async Task<int> GetCustBlessingsSticker(int custId)
+    {
+        var sticker = _eventsService.GetCustBlessingsSticker(custId);
+        return sticker;
+    }
+    
     public int ClaimPromotionMission(Customer customer, IEnumerable<NewYearMission2024> mission , int eggTicket)
     {
         var missionDate = mission.FirstOrDefault().MissionDate;
-        var missionNos = mission.Select(m => m.MissionNo).ToList();
+        var missionNos = mission.Select(m => m.MissionNo);
 
         // 檢查已領取過任務
         var custPromotionMission = _eventsService.GetCustPromotionMission(customer.CustId, missionDate).ToList();
@@ -125,6 +131,81 @@ public class NewYear2024BLL
         }
 
         return eggTicket;
+    }
+    
+    public async Task<(int error, List<Prize> prize)> DrawPrize(int eventId, Customer customer ,int drawTimes)
+    {
+        var prizes = await _eventsService.GetPrizes(eventId, customer.CurrencyId);
+        if (prizes == null || !prizes.Any()) return (105, null);
+        
+        if (string.IsNullOrEmpty(customer.AccountName) || !customer.PhoneVerified) return (104, null);
+
+        //檢查有無票,是否足夠
+        var tickets = _eventsService.GetEggTicket(customer.CustId);
+        if (tickets == 0) return (102, null);
+        if (tickets < drawTimes) return (106, null);
+        
+        var drawPrizeList = new List<Prize>();
+
+        var remainingDraw = drawTimes;
+        try
+        {
+            // 開抽
+            for (var i = 0; i < drawTimes; i++)
+            {
+                var drawPrize = Drawing(prizes);
+                var res = await _eventsService.PayoutPrize(
+                    eventId,
+                    drawPrize.PrizeId,
+                    drawPrize.PrizeName, 
+                    customer.SiteId, 
+                    customer.CustId,
+                    customer.UserName,
+                    customer.CurrencyId, 
+                    drawPrize.Amount,
+                    0, 
+                    drawPrize.PrizeType,
+                    true
+                );
+
+                if (res > 0)
+                {
+                    drawPrizeList.Add(drawPrize);
+                    remainingDraw -= 1;
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, $"CustId:{customer.CustId} ,DrawTimes :{drawTimes} ,Remaining Draw :{remainingDraw} , DrawPrize Error");
+            return ((int)ErrorCode.Success, drawPrizeList);
+        }
+        
+        return ((int)ErrorCode.Success, drawPrizeList);
+    }
+
+    private Prize Drawing(IEnumerable<Prize> prizes)
+    {
+        var drawPrize = new Prize();
+        var rate = prizes.Sum(a => a.Rate);
+        if (rate > 0)
+        {
+            var r = new Random();
+            var luckyNum = r.Next(rate) + 1;
+            var luckyCnt = 0;
+
+            foreach (var prize in prizes.Where(x => x.Rate > 0))
+            {
+                drawPrize = prize;
+                luckyCnt += prize.Rate;
+                if (luckyNum <= luckyCnt)
+                {
+                    break;
+                }
+            }
+        }
+
+        return drawPrize;
     }
     
 }
