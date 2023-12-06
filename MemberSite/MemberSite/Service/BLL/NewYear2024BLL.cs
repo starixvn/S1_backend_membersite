@@ -10,6 +10,7 @@ public class NewYear2024BLL
     private readonly IEventsService _eventsService;
     private readonly SelLangBLL _selLangBll;
     private readonly DateTimeHelper _dateTimeHelper;
+    private readonly EventsBLL _eventsBll;
     private readonly ILogger<NewYear2024BLL> _logger;
 
     public NewYear2024BLL(IServiceProvider provider)
@@ -17,6 +18,7 @@ public class NewYear2024BLL
         _eventsService = provider.GetRequiredService<IEventsService>();
         _selLangBll = provider.GetRequiredService<SelLangBLL>();
         _dateTimeHelper = provider.GetRequiredService<DateTimeHelper>();
+        _eventsBll = provider.GetRequiredService<EventsBLL>();
         _logger = provider.GetRequiredService<ILogger<NewYear2024BLL>>();
     }
 
@@ -103,12 +105,6 @@ public class NewYear2024BLL
         var eggTicket = _eventsService.GetEggTicket(custId);
         return eggTicket;
     }
-
-    public async Task<int> GetCustBlessingsSticker(int custId)
-    {
-        var sticker = _eventsService.GetCustBlessingsSticker(custId);
-        return sticker;
-    }
     
     public int ClaimPromotionMission(Customer customer, IEnumerable<NewYearMission2024> mission , int eggTicket)
     {
@@ -135,8 +131,8 @@ public class NewYear2024BLL
     
     public async Task<(int error, List<Prize> prize)> DrawPrize(int eventId, Customer customer ,int drawTimes)
     {
-        var prizes = await _eventsService.GetPrizes(eventId, customer.CurrencyId);
-        if (prizes == null || !prizes.Any()) return (105, null);
+        var prizes = _eventsService.GetPrizes(eventId, customer.CurrencyId).Result.ToList();
+        if (!prizes.Any()) return (105, null);
         
         if (string.IsNullOrEmpty(customer.AccountName) || !customer.PhoneVerified) return (104, null);
 
@@ -150,10 +146,23 @@ public class NewYear2024BLL
         var remainingDraw = drawTimes;
         try
         {
+            var stickers = _eventsService.GetCustBlessingsSticker(customer.CustId);
+            ChangePrizeRate(prizes,stickers);
+            
             // 開抽
             for (var i = 0; i < drawTimes; i++)
             {
                 var drawPrize = Drawing(prizes);
+                
+                if (string.Equals(drawPrize.PrizeName, "Blessings Sticker", StringComparison.InvariantCulture))
+                {
+                    stickers += 1;
+                    if (stickers >= 5)
+                    {
+                        ChangePrizeRate(prizes,stickers);
+                    }
+                }
+                
                 var res = await _eventsService.PayoutPrize(
                     eventId,
                     drawPrize.PrizeId,
@@ -183,6 +192,46 @@ public class NewYear2024BLL
         
         return ((int)ErrorCode.Success, drawPrizeList);
     }
+    
+    public async Task<int> GetCustBlessingsSticker(int custId)
+    {
+        var sticker = _eventsService.GetCustBlessingsSticker(custId);
+        return sticker;
+    }
+    
+    public async Task<(int,Prize)> ClaimNewYearBigPrize(Customer customer ,int eventId)
+    {
+        var claimedPrizeList = _eventsBll.GetCustDrawPrizeList(eventId, customer.SiteId, customer.CustId);
+        if (claimedPrizeList.Any(x => x.PrizeName.StartsWith("Five Fortunes")))
+            return (-2,null);
+        
+        var sticker = _eventsService.GetCustBlessingsSticker(customer.CustId);
+        if (sticker >= 5)
+        {
+            var prizes = await _eventsService.GetPrizes(eventId, customer.CurrencyId);
+
+            var drawPrize = prizes.FirstOrDefault(x => x.PrizeName.StartsWith("Five Fortunes"));
+            
+            var res = await _eventsService.PayoutPrize(
+                eventId,
+                drawPrize.PrizeId,
+                drawPrize.PrizeName, 
+                customer.SiteId, 
+                customer.CustId,
+                customer.UserName,
+                customer.CurrencyId, 
+                drawPrize.Amount,
+                0, 
+                drawPrize.PrizeType,
+                true
+            );
+            
+            return (res,drawPrize);
+        }
+        return (-1,null);
+    }
+    
+    #region Private
 
     private Prize Drawing(IEnumerable<Prize> prizes)
     {
@@ -207,5 +256,24 @@ public class NewYear2024BLL
 
         return drawPrize;
     }
-    
+
+    private void ChangePrizeRate(List<Prize> prizes , int stickers)
+    {
+        // move sticker Rate to 銘謝惠顧 5%
+        if (stickers >= 5)
+        {
+            var stickerPrize = prizes.FirstOrDefault(x => string.Equals(x.PrizeName, "Blessings Sticker", StringComparison.InvariantCulture));
+            if (stickerPrize != null)
+            {
+                var changeRate = stickerPrize.Rate;
+                stickerPrize.Rate = 0;
+            
+                var noPrize = prizes.FirstOrDefault(x => x.PrizeType == 1 && x.Amount == 0);
+                if (noPrize != null) noPrize.Rate += changeRate;
+            }
+        }
+    }
+
+    #endregion
+   
 }
