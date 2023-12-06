@@ -3,7 +3,6 @@ using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -74,6 +73,12 @@ namespace MemberSite.Controllers.Api
             public int LBCategoryId { get; set; }
             public int TopNum { get; set; }
             public DateTime SelectDays { get; set; }
+        }
+        
+        public class GetLeaderboardSettingReq
+        {
+            public int SiteId { get; set; }
+            public int CurrencyId { get; set; }
         }
 
         //[Authorize]
@@ -181,6 +186,39 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
 
+        [HttpPost]
+        public ApiResult<LeaderboardSetting> GetLeaderboardSetting(GetLeaderboardSettingReq req)
+        {
+            var result = new ApiResult<LeaderboardSetting>();
+            
+            try
+            {
+                var time = _dateTimeHelper.ToCurrencyZone(DateTime.UtcNow, req.CurrencyId).Result;
+                var date = time.ToString("yyyyMM");
+                
+                var calculation = _eventsBll.GetLeaderboardPointCalculation(req.SiteId, date).FirstOrDefault(x=>x.CurrencyId == req.CurrencyId);
+                var rankingBonus = _eventsBll.GetLeaderboardRankingBonus(req.SiteId,req.CurrencyId);
+
+                var data = new LeaderboardSetting
+                {
+                    LeaderboardPointCalculation = calculation,
+                    LeaderboardRankingBonus = rankingBonus
+                };
+                result.Data = data;
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "GetLeaderboardPointCalculation");
+                return new ApiResult<LeaderboardSetting>
+                {
+                    Message = "System Error.",
+                    ErrorCode = 9000
+                };
+            }
+
+        }
+        
         [Authorize]
         [HttpPost]
         public ApiResult<LeaderboardCustRank> GetCustRank(GetCustRankReq input)
