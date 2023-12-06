@@ -802,7 +802,11 @@ namespace MemberSite.Controllers.Api
                         custInfo.AddressLineFirst,
                         custInfo.AddressLineSecond,
                         custInfo.IsResetPwd,
-                        custInfo.MemberType
+                        custInfo.MemberType,
+                        custInfo.CurrentAddress,
+                        custInfo.Nationality,
+                        custInfo.Occupation,
+                        custInfo.SourceOfIncome
                     };
 
                     apiResult.ErrorCode = 0;
