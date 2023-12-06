@@ -199,10 +199,18 @@ public class NewYear2024BLL
         return sticker;
     }
     
-    public async Task<(int,Prize)> ClaimNewYearBigPrize(Customer customer ,int eventId)
+    public bool CheckNewYearBigPrize(Customer customer, int eventId)
     {
         var claimedPrizeList = _eventsBll.GetCustDrawPrizeList(eventId, customer.SiteId, customer.CustId);
         if (claimedPrizeList.Any(x => x.PrizeName.StartsWith("Five Fortunes")))
+            return false;
+
+        return true;
+    }
+    
+    public async Task<(int,Prize)> ClaimNewYearBigPrize(Customer customer ,int eventId)
+    {
+        if(CheckNewYearBigPrize(customer,eventId))
             return (-2,null);
         
         var sticker = _eventsService.GetCustBlessingsSticker(customer.CustId);
@@ -273,7 +281,7 @@ public class NewYear2024BLL
             }
         }
     }
-
+    
     #endregion
    
 }

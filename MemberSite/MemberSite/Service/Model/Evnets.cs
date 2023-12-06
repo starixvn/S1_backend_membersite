@@ -187,6 +187,12 @@
         public IEnumerable<NewYearMission2024> NewYearMission2024 { get; set; }
         public int EggTicket { get; set; }
     }
+    
+    public class CustBlessingsStickerResponse
+    {
+        public bool IsClaimedBigPrize { get; set; }
+        public int Stickers { get; set; }
+    }
 
     #endregion
     
