@@ -135,8 +135,8 @@ public class NewYear2024BLL
     
     public async Task<(int error, List<Prize> prize)> DrawPrize(int eventId, Customer customer ,int drawTimes)
     {
-        var prizes = await _eventsService.GetPrizes(eventId, customer.CurrencyId);
-        if (prizes == null || !prizes.Any()) return (105, null);
+        var prizes = _eventsService.GetPrizes(eventId, customer.CurrencyId).Result.ToList();
+        if (!prizes.Any()) return (105, null);
         
         if (string.IsNullOrEmpty(customer.AccountName) || !customer.PhoneVerified) return (104, null);
 
@@ -150,10 +150,23 @@ public class NewYear2024BLL
         var remainingDraw = drawTimes;
         try
         {
+            var stickers = _eventsService.GetCustBlessingsSticker(customer.CustId);
+            ChangePrizeRate(prizes,stickers);
+            
             // 開抽
             for (var i = 0; i < drawTimes; i++)
             {
                 var drawPrize = Drawing(prizes);
+                
+                if (string.Equals(drawPrize.PrizeName, "Blessings Sticker", StringComparison.InvariantCulture))
+                {
+                    stickers += 1;
+                    if (stickers >= 5)
+                    {
+                        ChangePrizeRate(prizes,stickers);
+                    }
+                }
+                
                 var res = await _eventsService.PayoutPrize(
                     eventId,
                     drawPrize.PrizeId,
@@ -183,6 +196,8 @@ public class NewYear2024BLL
         
         return ((int)ErrorCode.Success, drawPrizeList);
     }
+    
+    #region Private
 
     private Prize Drawing(IEnumerable<Prize> prizes)
     {
@@ -207,5 +222,24 @@ public class NewYear2024BLL
 
         return drawPrize;
     }
-    
+
+    private void ChangePrizeRate(List<Prize> prizes , int stickers)
+    {
+        // move sticker Rate to 銘謝惠顧 5%
+        if (stickers >= 5)
+        {
+            var stickerPrize = prizes.FirstOrDefault(x => string.Equals(x.PrizeName, "Blessings Sticker", StringComparison.InvariantCulture));
+            if (stickerPrize != null)
+            {
+                var changeRate = stickerPrize.Rate;
+                stickerPrize.Rate = 0;
+            
+                var noPrize = prizes.FirstOrDefault(x => x.PrizeType == 1 && x.Amount == 0);
+                if (noPrize != null) noPrize.Rate += changeRate;
+            }
+        }
+    }
+
+    #endregion
+   
 }
