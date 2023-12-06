@@ -194,13 +194,14 @@ public class SiteBll
 
         var fromUrl = _tools.GetFromUrl();
         var deviceType = (int)_tools.GetDeviceId(fromUrl);
-        
+        var signupIp = _tools.GetClientIP();
+
         var result = _custInfoBLL.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email,
             signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff,
             affCodeObj, signupModel.LineUserId, deviceType , out var custId, signupModel.SignupUrl, signupModel.ReferralUrl, signupModel.PhoneNo,
             signupModel.AreaCode, signupModel.RealName, signupModel.PromoCode, signupModel.Birth_d,
             signupModel.Birth_m,
-            signupModel.Birth_y);
+            signupModel.Birth_y, signupIp);
 
         switch (result)
         {
