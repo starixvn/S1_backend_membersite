@@ -57,6 +57,18 @@ namespace MemberSite.Service.BLL
             return JsonConvert.DeserializeObject<IEnumerable<Leaderboard>>(json);
         }
 
+        public IEnumerable<LeaderboardPointCalculation> GetLeaderboardPointCalculation(int siteId, string date)
+        {
+            var list = _eventsService.GetLeaderboardPointCalculation(siteId, date);
+            return list;
+        }
+        
+        public IEnumerable<LeaderboardRankingBonus> GetLeaderboardRankingBonus(int siteId,int currencyId)
+        {
+            var list = _eventsService.GetLeaderboardRankingBonus(siteId,currencyId);
+            return list;
+        }
+        
         public LeaderboardCustRank GetCustRank(int lBCategoryId, int siteId, int currencyId, int custId, int beforeDays)
         {
             var list = GetLeaderboardListWithCache(lBCategoryId, siteId, currencyId, beforeDays);
@@ -97,7 +109,7 @@ namespace MemberSite.Service.BLL
 
             return (0, 0);
         }
-
+        
         public IEnumerable<Prize> CheckDrawPrize(ref int eventId, int custId, int currencyId, out int prizeId, out int result)
         {
             return _eventsService.CheckDrawPrize(ref eventId, custId, currencyId, out prizeId, out result);
@@ -182,6 +194,7 @@ namespace MemberSite.Service.BLL
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)),
                 i => GetDrawPrizeMessage(eventId, langId));
         }
+        
     }
 }
 

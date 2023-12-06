@@ -25,6 +25,7 @@ namespace MemberSite.Controllers.Api
         private readonly MessageBll _messageBll;
         private readonly ILogger<EventsController> _logger;
         private readonly QueueJobBLL _queueJobBll;
+        private readonly DateTimeHelper _dateTimeHelper;
 
         public EventsController(IServiceProvider provider)
         {
@@ -39,8 +40,9 @@ namespace MemberSite.Controllers.Api
             _logger = provider.GetRequiredService<ILogger<EventsController>>();
             _newYear2024Bll = provider.GetRequiredService<NewYear2024BLL>();
             _queueJobBll = provider.GetRequiredService<QueueJobBLL>();
+            _dateTimeHelper = provider.GetRequiredService<DateTimeHelper>();
         }
-
+        
         #region Leaderboard
         
         //[Authorize]
@@ -93,8 +95,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult<IEnumerable<Leaderboard>> GetLeaderboardListMonth(
-            GetLeaderboardListMonthReq getLeaderboardListMonthReq)
+        public ApiResult<IEnumerable<Leaderboard>> GetLeaderboardListMonth(GetLeaderboardListMonthReq getLeaderboardListMonthReq)
         {
             var apiResult = new ApiResult<IEnumerable<Leaderboard>>()
             {
@@ -149,6 +150,39 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
 
+        [HttpPost]
+        public ApiResult<LeaderboardSetting> GetLeaderboardSetting(GetLeaderboardSettingReq req)
+        {
+            var result = new ApiResult<LeaderboardSetting>();
+            
+            try
+            {
+                var time = _dateTimeHelper.ToCurrencyZone(DateTime.UtcNow, req.CurrencyId).Result;
+                var date = time.ToString("yyyyMM");
+                
+                var calculation = _eventsBll.GetLeaderboardPointCalculation(req.SiteId, date).FirstOrDefault(x=>x.CurrencyId == req.CurrencyId);
+                var rankingBonus = _eventsBll.GetLeaderboardRankingBonus(req.SiteId,req.CurrencyId);
+
+                var data = new LeaderboardSetting
+                {
+                    LeaderboardPointCalculation = calculation,
+                    LeaderboardRankingBonus = rankingBonus
+                };
+                result.Data = data;
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "GetLeaderboardPointCalculation");
+                return new ApiResult<LeaderboardSetting>
+                {
+                    Message = "System Error.",
+                    ErrorCode = 9000
+                };
+            }
+
+        }
+        
         [Authorize]
         [HttpPost]
         public ApiResult<LeaderboardCustRank> GetCustRank(GetCustRankReq input)

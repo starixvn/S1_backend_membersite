@@ -244,6 +244,25 @@ namespace MemberSite.Service.DAL
             message = p.Get<string>("Message");
             return rtn;
         }
+        
+        public IEnumerable<LeaderboardPointCalculation> GetLeaderboardPointCalculation(int siteId, string date)
+        {
+            var p = new DynamicParameters();
+            p.Add("_SiteId", siteId);
+            p.Add("_Date", date);
+            var result = _reportDbClient.Query<LeaderboardPointCalculation>("Service_LeaderboardPointCalculation_Get", p);
+            return result;
+        }
+        
+        public IEnumerable<LeaderboardRankingBonus> GetLeaderboardRankingBonus(int siteId,int currencyId)
+        {
+            var p = new DynamicParameters();
+            p.Add("_SiteId", siteId);
+            p.Add("_CurrencyId", currencyId);
+            var result = _reportDbClient.Query<LeaderboardRankingBonus>("Service_LeaderboardRankingBonus_Get", p);
+
+            return result;
+        }
 
         #region PromotionMission
 
