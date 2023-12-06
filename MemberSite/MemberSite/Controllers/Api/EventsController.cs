@@ -631,7 +631,7 @@ namespace MemberSite.Controllers.Api
             {
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                 var (result,prize) = await _newYear2024Bll.ClaimNewYearBigPrize(custInfo, req.EventId);
-
+                
                 switch (result)
                 {
                     case >= 0:
@@ -654,9 +654,9 @@ namespace MemberSite.Controllers.Api
         
         [Authorize]
         [HttpPost]
-        public async Task<ApiResult<int>> GetCustBlessingsSticker()
+        public async Task<ApiResult<CustBlessingsStickerResponse>> GetCustBlessingsSticker(DrawPrizeReq req)
         {
-            var apiResult = new ApiResult<int>();
+            var apiResult = new ApiResult<CustBlessingsStickerResponse>();
 
             var authData = _authorizeBll.GetAuthData();
 
@@ -664,8 +664,10 @@ namespace MemberSite.Controllers.Api
             {
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                 var sticker = await _newYear2024Bll.GetCustBlessingsSticker(custInfo.CustId);
-
-                apiResult.Data = sticker;
+                var isClaimed = _newYear2024Bll.CheckNewYearBigPrize(custInfo, req.EventId);
+                
+                apiResult.Data.Stickers = sticker;
+                apiResult.Data.IsClaimedBigPrize = isClaimed;
                 apiResult.ErrorCode = (int) ErrorCode.Success;
             }
 
