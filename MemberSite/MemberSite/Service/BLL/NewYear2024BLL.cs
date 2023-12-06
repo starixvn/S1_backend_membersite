@@ -10,6 +10,7 @@ public class NewYear2024BLL
     private readonly IEventsService _eventsService;
     private readonly SelLangBLL _selLangBll;
     private readonly DateTimeHelper _dateTimeHelper;
+    private readonly EventsBLL _eventsBll;
     private readonly ILogger<NewYear2024BLL> _logger;
 
     public NewYear2024BLL(IServiceProvider provider)
@@ -17,6 +18,7 @@ public class NewYear2024BLL
         _eventsService = provider.GetRequiredService<IEventsService>();
         _selLangBll = provider.GetRequiredService<SelLangBLL>();
         _dateTimeHelper = provider.GetRequiredService<DateTimeHelper>();
+        _eventsBll = provider.GetRequiredService<EventsBLL>();
         _logger = provider.GetRequiredService<ILogger<NewYear2024BLL>>();
     }
 
@@ -102,12 +104,6 @@ public class NewYear2024BLL
     {
         var eggTicket = _eventsService.GetEggTicket(custId);
         return eggTicket;
-    }
-
-    public async Task<int> GetCustBlessingsSticker(int custId)
-    {
-        var sticker = _eventsService.GetCustBlessingsSticker(custId);
-        return sticker;
     }
     
     public int ClaimPromotionMission(Customer customer, IEnumerable<NewYearMission2024> mission , int eggTicket)
@@ -195,6 +191,44 @@ public class NewYear2024BLL
         }
         
         return ((int)ErrorCode.Success, drawPrizeList);
+    }
+    
+    public async Task<int> GetCustBlessingsSticker(int custId)
+    {
+        var sticker = _eventsService.GetCustBlessingsSticker(custId);
+        return sticker;
+    }
+    
+    public async Task<(int,Prize)> ClaimNewYearBigPrize(Customer customer ,int eventId)
+    {
+        var claimedPrizeList = _eventsBll.GetCustDrawPrizeList(eventId, customer.SiteId, customer.CustId);
+        if (claimedPrizeList.Any(x => x.PrizeName.StartsWith("Five Fortunes")))
+            return (-2,null);
+        
+        var sticker = _eventsService.GetCustBlessingsSticker(customer.CustId);
+        if (sticker >= 5)
+        {
+            var prizes = await _eventsService.GetPrizes(eventId, customer.CurrencyId);
+
+            var drawPrize = prizes.FirstOrDefault(x => x.PrizeName.StartsWith("Five Fortunes"));
+            
+            var res = await _eventsService.PayoutPrize(
+                eventId,
+                drawPrize.PrizeId,
+                drawPrize.PrizeName, 
+                customer.SiteId, 
+                customer.CustId,
+                customer.UserName,
+                customer.CurrencyId, 
+                drawPrize.Amount,
+                0, 
+                drawPrize.PrizeType,
+                true
+            );
+            
+            return (res,drawPrize);
+        }
+        return (-1,null);
     }
     
     #region Private

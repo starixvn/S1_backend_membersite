@@ -622,6 +622,38 @@ namespace MemberSite.Controllers.Api
 
         [Authorize]
         [HttpPost]
+        public async Task<ApiResult> ClaimNewYearBigPrize(DrawPrizeReq req)
+        {
+            var apiResult = new ApiResult();
+
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is {CustId: > 0})
+            {
+                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                var (result,prize) = await _newYear2024Bll.ClaimNewYearBigPrize(custInfo, req.EventId);
+
+                switch (result)
+                {
+                    case >= 0:
+                        SendDrawPrizeMessage(req.EventId, custInfo, prize);
+                        apiResult.ErrorCode = (int) ErrorCode.Success;
+                        break;
+                    
+                    case -1:
+                        apiResult.Message = _selLangBll.GetMsg("msg_Ineligible");
+                        break;
+                    
+                    case -2:
+                        apiResult.Message = "Already Claimed";
+                        break;
+                }
+            }
+
+            return apiResult;
+        }
+        
+        [Authorize]
+        [HttpPost]
         public async Task<ApiResult<int>> GetCustBlessingsSticker()
         {
             var apiResult = new ApiResult<int>();
@@ -639,21 +671,16 @@ namespace MemberSite.Controllers.Api
 
             return apiResult;
         }
-        
+
+        #region Private
+
         private int DealDrawPrize(int eventId, Customer custInfo, Prize prize)
         {
             var errorCode = -1;
             
             if (prize.Amount > 0)
             {
-                //todo
-                // var drawPrizeMessage = _eventsBll.GetDrawPrizeMessageWithCache(eventId, _selLangBll.GetLangId());
-                // var currencyName = Enum.GetName(typeof(CurrencyId), custInfo.CurrencyId);
-                // var prizeName = $"{currencyName} {prize.PrizeName}";
-                // var title = drawPrizeMessage.Tital;
-                // var msg = string.Format(drawPrizeMessage.Message, prizeName);
-                // _messageBll.SendMessage(new Message("System", custInfo.CustId, custInfo.UserLang, title, msg));
-
+                // SendDrawPrizeMessage(eventId, custInfo, prize);
                 errorCode = 0;
             }
 
@@ -687,6 +714,18 @@ namespace MemberSite.Controllers.Api
 
             return errorCode;
         }
+
+        private void SendDrawPrizeMessage(int eventId, Customer custInfo, Prize prize)
+        {
+            var drawPrizeMessage = _eventsBll.GetDrawPrizeMessageWithCache(eventId, _selLangBll.GetLangId());
+            var currencyName = Enum.GetName(typeof(CurrencyId), custInfo.CurrencyId);
+            var prizeName = $"{currencyName} {prize.PrizeName}";
+            var title = drawPrizeMessage.Tital;
+            var msg = string.Format(drawPrizeMessage.Message, prizeName);
+            _messageBll.SendMessage(new Message("System", custInfo.CustId, custInfo.UserLang, title, msg));
+        }
+
+        #endregion
         
         #endregion
     }
