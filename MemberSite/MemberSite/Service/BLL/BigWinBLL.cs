@@ -51,12 +51,12 @@ namespace MemberSite.Service.BLL
                 }
                 else
                 {
-                    // 取出其他大廳的遊戲資訊
-                    var tpGameIdList = await _gameBll.GetTpGameIdList();
+                    //// 取出其他大廳的遊戲資訊
+                    //var tpGameIdList = await _gameBll.GetTpGameIdList();
 
-                    result.GameName = tpGameIdList.FirstOrDefault(r => r.TpId == bigWinPopUpData.TpId)?.TypeName;
+                    //result.GameName = tpGameIdList.FirstOrDefault(r => r.TpId == bigWinPopUpData.TpId)?.TypeName;
+                    result.GameName = bigWinPopUpData.TypeName;
                 }
-
             }
 
             return result;
@@ -75,16 +75,12 @@ namespace MemberSite.Service.BLL
                     maskchar = maskchar + "*";
                 }
                 username = username.Replace(maskstr, maskchar);
-
             }
             else
             {
-
                 username = "****";
             }
             return username;
-
-
         }
     }
 }
