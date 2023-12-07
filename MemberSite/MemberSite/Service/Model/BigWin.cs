@@ -9,6 +9,7 @@
         public decimal WinlostAmount { get; set; }
         public string MemberID { get; set; }
         public DateTime Time { get; set; }
+        public string TypeName { get; set; }
     }
     public class BigWinPopUp
     {
