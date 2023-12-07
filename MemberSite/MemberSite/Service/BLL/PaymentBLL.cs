@@ -144,7 +144,7 @@ namespace MemberSite.Service.BLL
             return (0, string.Empty);
         }
 
-        public int DepositReqLocalBank(int custId, int sysId, int bankId, decimal amount, string memo, string depositFromInfo, out DepositRep3 depositRep3)
+        public int DepositReqLocalBank(int custId, int sysId, int bankId, decimal amount, string memo, out DepositRep3 depositRep3)
         {
             depositRep3 = new DepositRep3();
 
@@ -216,7 +216,7 @@ namespace MemberSite.Service.BLL
                 })
             };
 
-            _depositService.DepositReq(depositDetailInfo, out var transId, out var postScript, depositFromInfo);
+            _depositService.DepositReq(depositDetailInfo, out var transId, out var postScript);
 
             depositRep3.TransId = transId;
             depositRep3.PostScript = postScript;
