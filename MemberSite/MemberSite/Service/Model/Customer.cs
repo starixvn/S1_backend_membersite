@@ -147,7 +147,6 @@ namespace MemberSite.Service.Model
         public bool IsResetPwd { get; set; }
         public MemberTypeEnum MemberType { get; set; }
         public string CurrentAddress { get; set; }
-        public string Nationality { get; set; }
         public int Occupation { get; set; }
         public int SourceOfIncome { get; set; }
     }

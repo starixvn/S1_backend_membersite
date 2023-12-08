@@ -53,6 +53,19 @@ namespace MemberSite.Controllers.Api
             _logger = provider.GetRequiredService<ILogger<AccountStrictController>>();
         }
 
+        Dictionary<int, string> counrtyDic = new Dictionary<int, string>() {
+            {2,"Malaysia" },
+            {3,"United States of America" },
+            {4,"Thailand" },         
+            {13,"China" },
+            {15,"Indonesia" },
+            {51,"Viet Nam" },
+            {61,"India" },
+            {72,"Cambodia" },
+            {74,"Bangladesh" },
+        };
+
+
         public class BankInfo
         {
             public int SysId { set; get; }
@@ -771,6 +784,9 @@ namespace MemberSite.Controllers.Api
 
                     var isLineBinding = _lineLoginBll.GetCustLineProfile(authData.CustId, null) != null;
 
+                    var nationality = string.Empty;
+                    counrtyDic.TryGetValue(custInfo.CurrencyId, out nationality);
+
                     apiResult.Data = new
                     {
                         custInfo.UserName,
@@ -804,7 +820,7 @@ namespace MemberSite.Controllers.Api
                         custInfo.IsResetPwd,
                         custInfo.MemberType,
                         custInfo.CurrentAddress,
-                        custInfo.Nationality,
+                        Nationality = nationality,
                         custInfo.Occupation,
                         custInfo.SourceOfIncome
                     };
