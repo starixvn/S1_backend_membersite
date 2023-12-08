@@ -204,7 +204,9 @@ namespace MemberSite.Controllers.Api
                     LeaderboardPointCalculation = calculation,
                     LeaderboardRankingBonus = rankingBonus
                 };
+                result.ErrorCode = 0;
                 result.Data = data;
+                
                 return result;
             }
             catch (Exception e)
