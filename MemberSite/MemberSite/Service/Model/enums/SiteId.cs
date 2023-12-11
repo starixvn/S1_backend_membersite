@@ -6,6 +6,6 @@
         Goal123 = 2,
         Bwing = 3,
         Ivorysport = 5,
-        Leobet = 6
+        Yashbet = 6
     }
 }
