@@ -131,20 +131,13 @@ namespace MemberSite.Service.Model
 
     public class DepositLimitInfo
     {
-        public int DepositType { get; set; }
+        public DepositType DepositType { get; set; }
         public int SiteId { get; set; }
         public int CurrencyId { get; set; }
         public int VipLevel { get; set; }
         public decimal DepositMin { get; set; }
         public decimal DepositMax { get; set; }
         public int DepositStatus { get; set; }
-    }
-    public class DepositFromInfo
-    {
-        public int Channel { get; set; }
-        public int SysId { get; set; }
-        public string AccountNo { get; set; }
-        public string IFSCCode { get; set; }
     }
 
     public class DepositMessage

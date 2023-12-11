@@ -159,9 +159,9 @@ namespace MemberSite.Service.BLL
             if (result == 0 && regCustInfo.SiteId != (int)SiteId.Nova88)
             {
                 regCustInfo.CustId = custId;
-                _ = Task.Run(async () =>
+                _ = Task.Run(() =>
                 {
-                    var checkResult = _shieldBll.CheckCustShieldRisk(
+                    _ = _shieldBll.CheckCustShieldRisk(
                         regCustInfo,
                         ShieldRiskTriggeredPoint.Registration,
                         ShieldRiskTaggedIssue.HighRisk);
