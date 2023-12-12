@@ -203,9 +203,9 @@ public class NewYear2024BLL
     {
         var claimedPrizeList = _eventsBll.GetCustDrawPrizeList(eventId, customer.SiteId, customer.CustId);
         if (claimedPrizeList.Any(x => x.PrizeName.StartsWith("Five Fortunes")))
-            return false;
+            return true;
 
-        return true;
+        return false;
     }
     
     public async Task<(int,Prize)> ClaimNewYearBigPrize(Customer customer ,int eventId)
