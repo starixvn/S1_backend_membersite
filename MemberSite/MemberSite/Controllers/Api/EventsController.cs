@@ -347,22 +347,27 @@ namespace MemberSite.Controllers.Api
                 if (eventId is 15 or 16 or 17)
                 {
                     var errorCode = -1;
+
+                    var prize = new Prize();
                     try
                     {
                         var (error, prizeList) = await _newYear2024Bll.DrawPrize(eventId, custInfo, 1);
-                        var prize = prizeList.FirstOrDefault();
                         
-                        if (error is >= 0 and < 100)
+                        if (prizeList is not null)
                         {
-                            errorCode = DealDrawPrize(eventId, custInfo, prize);
+                            prize = prizeList.FirstOrDefault();
+                            if (error is >= 0 and < 100)
+                            {
+                                errorCode = DealDrawPrize(eventId, custInfo, prize);
+                            }
+                            apiResult.Data.PrizeId = prize.PrizeId;
+                            apiResult.Data.PrizeName = prize.PrizeName;
                         }
                         else if (error > 100)
                         {
                             errorCode = error;
                         }
-
-                        apiResult.Data.PrizeId = prize.PrizeId;
-                        apiResult.Data.PrizeName = prize.PrizeName;
+                        
                         apiResult.ErrorCode = errorCode;
                         apiResult.Message = errorCode switch
                         {
@@ -371,7 +376,7 @@ namespace MemberSite.Controllers.Api
                             2 => prize.PrizeName,
                             104 => _selLangBll.GetMsg("msg_ProfileOrPhoneNotFinish"),
                             105 => _selLangBll.GetMsg("msg_Event_has_not_started"),
-                            106 => "Not Enough Eggs",
+                            106 or 102 => "Not Enough Eggs",
                             _ => _selLangBll.GetMsg("msg_Ineligible"),
                         };
                     }
@@ -506,7 +511,7 @@ namespace MemberSite.Controllers.Api
                             0 => "Success",
                             104 => _selLangBll.GetMsg("msg_ProfileOrPhoneNotFinish"),
                             105 => _selLangBll.GetMsg("msg_Event_has_not_started"),
-                            106 => "Not Enough Eggs",
+                            106 or 102 => "Not Enough Eggs",
                             _ => _selLangBll.GetMsg("msg_Ineligible"),
                         };
                     }
@@ -656,7 +661,10 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public async Task<ApiResult<CustBlessingsStickerResponse>> GetCustBlessingsSticker(DrawPrizeReq req)
         {
-            var apiResult = new ApiResult<CustBlessingsStickerResponse>();
+            var apiResult = new ApiResult<CustBlessingsStickerResponse>
+            {
+                Data = new CustBlessingsStickerResponse()
+            };
 
             var authData = _authorizeBll.GetAuthData();
 
