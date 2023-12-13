@@ -302,6 +302,9 @@ namespace MemberSite.Controllers
                             {"Serial", serial}
                         };
                         break;
+                    case DepositType.ChatTransfer:
+                        p.ExtraData = new Dictionary<string, string>();
+                        break;
                 
                     default:
                         _logger.LogError($"No supported type={channel.Type}, channelId={channelId}");

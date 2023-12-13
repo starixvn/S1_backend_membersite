@@ -20,6 +20,8 @@ namespace MemberSite.Service.Model.enums
         BankAutoChannel = 7,
         CryptoWallet = 8,
         [Description("QuickTransfer")]
-        QuickTransfer = 9
+        QuickTransfer = 9,
+        [Description("ChatTransfer")]
+        ChatTransfer = 10
     }
 }
