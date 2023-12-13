@@ -477,7 +477,8 @@ namespace MemberSite.Controllers
                 {DepositType.QrPayPayment, PaymentView.DepositReqMobilePay},
                 {DepositType.LoadCardPayment, PaymentView.DepositReqLoadCardPay},
                 {DepositType.BankAutoChannel, PaymentView.DepositReqOnlineBanking},
-                {DepositType.QuickTransfer, PaymentView.DepositReqOnlineBanking}
+                {DepositType.QuickTransfer, PaymentView.DepositReqOnlineBanking},
+                {DepositType.ChatTransfer, PaymentView.DepositReqOnlineBanking}
             };
 
         private async Task<IActionResult> CreateDeposit(DepositReqParams input, string bonusCode, string errorUrl)
