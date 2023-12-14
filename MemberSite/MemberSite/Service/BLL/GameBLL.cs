@@ -17,6 +17,7 @@ namespace MemberSite.Service.BLL
         private readonly GameService _gameService;
         private readonly ThirdPartyBll _thirdPartyBll;
         private readonly Dictionary<string, SiteCloudFrontImageInfo> _siteCloudFrontImageInfo;
+        private readonly Dictionary<string, string> _changeTpName;
         
         public GameBLL(IServiceProvider provider)
         {
@@ -31,6 +32,11 @@ namespace MemberSite.Service.BLL
             _thirdPartyBll = provider.GetRequiredService<ThirdPartyBll>();
             var configBll = provider.GetRequiredService<ConfigBLL>();
             _siteCloudFrontImageInfo = configBll.GetConfigValuesBySiteName<SiteCloudFrontImageInfo>("SiteCloudFrontImageInfo");
+            _changeTpName = new Dictionary<string, string>()
+            {
+                {"END","ES" },
+                {"EBet","WE" },
+            };
         }
 
         public bool IsMaintain(int siteId, int tpId, string tpGameType, out TpMaintain result)
@@ -132,12 +138,15 @@ namespace MemberSite.Service.BLL
                     var imgDomain = _siteCloudFrontImageInfo[serverInfo.SiteName].BannerImageUrl;
                     
                     var groupedData = resultData.GroupBy(item => item.LobbyCategoryId);
-                    var result = groupedData.Select(group =>
+                    var result = groupedData.Select(group => 
+                    {
+                        var response = new LobbyHeaderResponse
                         {
-                            var response = new LobbyHeaderResponse
+                            LobbyCategoryId = group.Key,
+                            Data = group.Select(item =>
                             {
-                                LobbyCategoryId = group.Key,
-                                Data = group.Select(item => new LobbyHeaderDetail
+                                item.TpName = _changeTpName.TryGetValue(item.TpName, out var changeName) ? changeName : item.TpName;
+                                var responseDetail = new LobbyHeaderDetail
                                 {
                                     LobbyCategory = item.LobbyCategory,
                                     TpId = item.TpId,
@@ -150,17 +159,18 @@ namespace MemberSite.Service.BLL
                                     IconStartTime = item.IconStartTime,
                                     IconEndTime = item.IconEndTime,
                                     CurrencyGameName = string.IsNullOrEmpty(item.CurrencyGameName) ? null : JsonConvert.DeserializeObject<Dictionary<string, string>>(item.CurrencyGameName),
-                                    PcHeaderPicUrl = JsonConvert.SerializeObject(new List<string> { $"{imgDomain}/desktop/img/Header/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.png"}),
-                                    PcLobbyPicUrl = JsonConvert.SerializeObject(new List<string> { $"{imgDomain}/desktop/img/LobbyHeader/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.png"}),
-                                    MobileHeaderPicUrl = JsonConvert.SerializeObject(new List<string> { $"{imgDomain}/h5/img/Header/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.png"}),
-                                    MobileLobbyPicUrl = JsonConvert.SerializeObject(new List<string> { $"{imgDomain}/h5/img/LobbyHeader/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.png"}),
+                                    PcHeaderPicUrl = JsonConvert.SerializeObject(new List<string> {$"{imgDomain}/desktop/img/Header/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.png"}),
+                                    PcLobbyPicUrl = JsonConvert.SerializeObject(new List<string> {$"{imgDomain}/desktop/img/LobbyHeader/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.png"}),
+                                    MobileHeaderPicUrl = JsonConvert.SerializeObject(new List<string> {$"{imgDomain}/h5/img/Header/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.png"}),
+                                    MobileLobbyPicUrl = JsonConvert.SerializeObject(new List<string> {$"{imgDomain}/h5/img/LobbyHeader/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.png"}),
                                     Sort = item.Sort
-                                }).OrderBy(x => x.Sort)
-                            };
-                            return response;
-                        });
-                    
-                    return result;
+                                };
+                                return responseDetail;
+                            }).OrderBy(x => x.Sort)
+                        };
+                        return response;
+                    });
+                    return result; 
                 });
             
             return result;
