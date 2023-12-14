@@ -465,6 +465,8 @@ namespace MemberSite.Controllers
             public string TransId { get; set; }
             public string ClientIP { get; set; }
             public string ReturnUrl { get; set; }
+            
+            public DeviceId DeviceType { get; set; }
         }
 
         private readonly IDictionary<DepositType, PaymentView> _paymentViewMapper =
@@ -531,6 +533,7 @@ namespace MemberSite.Controllers
             {
                 TransId = transId,
                 ClientIP = _tools.GetClientIP(),
+                DeviceType = _tools.GetDeviceId(_tools.GetFromUrl()),
                 ReturnUrl = $"{Request.Scheme}://{Request.Host.Host}/{custInfo.UserLang}/deposit"
             });
 
