@@ -368,7 +368,7 @@ namespace MemberSite.Controllers.Api
                             errorCode = error;
                         }
                         
-                        apiResult.ErrorCode = errorCode;
+                        apiResult.ErrorCode = errorCode is > 100 or -1 ? errorCode : (int) ErrorCode.Success;
                         apiResult.Message = errorCode switch
                         {
                             0 => string.Format(_selLangBll.GetMsg("msg_congratulation_event_reward"), prize.Amount.ToString("#,##0.##") ),
@@ -505,7 +505,7 @@ namespace MemberSite.Controllers.Api
                             errorCode = 0;
                         }
 
-                        apiResult.ErrorCode = errorCode;
+                        apiResult.ErrorCode = errorCode == (int)ErrorCode.Success ? (int)ErrorCode.Success : errorCode ;
                         apiResult.Message = errorCode switch
                         {
                             0 => "Success",
