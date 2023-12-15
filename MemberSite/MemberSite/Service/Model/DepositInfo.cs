@@ -139,12 +139,6 @@ namespace MemberSite.Service.Model
         public decimal DepositMax { get; set; }
         public int DepositStatus { get; set; }
     }
-    public class DepositFromInfo
-    {
-        public int Channel { get; set; }
-        public int SysId { get; set; }
-        public string AccountNo { get; set; }
-    }
 
     public class DepositMessage
     {
