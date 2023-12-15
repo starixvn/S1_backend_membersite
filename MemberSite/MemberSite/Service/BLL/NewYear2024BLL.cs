@@ -22,6 +22,9 @@ public class NewYear2024BLL
         _logger = provider.GetRequiredService<ILogger<NewYear2024BLL>>();
     }
 
+    /// <summary>
+    /// 檢查每日任務進度
+    /// </summary>
     public async Task<IEnumerable<NewYearMission2024>> CheckCustPromotionMission(Customer customer)
     {
         var result = new List<NewYearMission2024>();
@@ -91,7 +94,9 @@ public class NewYear2024BLL
                 GoalAmount = goalAmount,
                 ProgressAmount = progressAmount,
                 EggCount = mission.EggCount,
-                IsCompleted = mission.IsCompleted
+                IsCompleted = mission.IsCompleted,
+                Type = type,
+                TpCategoryId = mission.TpCategoryId
             };
             
             result.Add(model);
@@ -100,12 +105,18 @@ public class NewYear2024BLL
         return result;
     }
 
+    /// <summary>
+    /// 檢查目前龍蛋數量
+    /// </summary>
     public async Task<int> GetEggTicket(int custId)
     {
         var eggTicket = _eventsService.GetEggTicket(custId);
         return eggTicket;
     }
     
+    /// <summary>
+    /// 領取達成每日任務
+    /// </summary>
     public int ClaimPromotionMission(Customer customer, IEnumerable<NewYearMission2024> mission , int eggTicket)
     {
         var missionDate = mission.FirstOrDefault().MissionDate;
@@ -129,6 +140,9 @@ public class NewYear2024BLL
         return eggTicket;
     }
     
+    /// <summary>
+    /// 抽獎開抽
+    /// </summary>
     public async Task<(int error, List<Prize> prize)> DrawPrize(int eventId, Customer customer ,int drawTimes)
     {
         var prizes = _eventsService.GetPrizes(eventId, customer.CurrencyId).Result.ToList();
@@ -193,12 +207,18 @@ public class NewYear2024BLL
         return ((int)ErrorCode.Success, drawPrizeList);
     }
     
+    /// <summary>
+    /// 取得蒐集福字貼紙數量
+    /// </summary>
     public async Task<int> GetCustBlessingsSticker(int custId)
     {
         var sticker = _eventsService.GetCustBlessingsSticker(custId);
         return sticker;
     }
     
+    /// <summary>
+    /// 檢查大獎領取狀態
+    /// </summary>
     public bool CheckNewYearBigPrize(Customer customer, int eventId)
     {
         var claimedPrizeList = _eventsBll.GetCustDrawPrizeList(eventId, customer.SiteId, customer.CustId);
@@ -208,6 +228,9 @@ public class NewYear2024BLL
         return false;
     }
     
+    /// <summary>
+    /// 領取大獎
+    /// </summary>
     public async Task<(int,Prize)> ClaimNewYearBigPrize(Customer customer ,int eventId)
     {
         if(CheckNewYearBigPrize(customer,eventId))
@@ -241,6 +264,9 @@ public class NewYear2024BLL
     
     #region Private
 
+    /// <summary>
+    /// 抽獎機率邏輯
+    /// </summary>
     private Prize Drawing(IEnumerable<Prize> prizes)
     {
         var drawPrize = new Prize();

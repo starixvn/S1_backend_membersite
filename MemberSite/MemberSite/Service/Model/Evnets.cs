@@ -1,4 +1,6 @@
-﻿namespace MemberSite.Service.Model
+﻿using MemberSite.Service.Model.enums;
+
+namespace MemberSite.Service.Model
 {
 
     #region LeaderBoard
@@ -208,16 +210,27 @@
     {
         public string MissionDate { get; set; }
         public string MissionName { get; set; }
+        public int TpCategoryId { get; set; }
         public int MissionNo { get; set; }
+        /// <summary>
+        /// 目標金額
+        /// </summary>
         public decimal GoalAmount { get; set; }
+        /// <summary>
+        /// 進度金額
+        /// </summary>
         public decimal ProgressAmount { get; set; }
         public int EggCount { get; set; }
         public bool IsCompleted { get; set; }
+        public PromotionMissionTypeEnum Type { get; set; }
     }
     
     public class CheckPromotionMissionResponse
     {
         public IEnumerable<NewYearMission2024> NewYearMission2024 { get; set; }
+        /// <summary>
+        /// 目前抽獎券數量
+        /// </summary>
         public int EggTicket { get; set; }
     }
     
