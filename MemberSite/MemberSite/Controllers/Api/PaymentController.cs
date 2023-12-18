@@ -1765,7 +1765,7 @@ namespace MemberSite.Controllers.Api
 
             return new ApiResult<IDictionary<string, PayMethod>>
             {
-                Data = _payInfoBll.GetGenericPayMethods(
+                Data = _payInfoBll.GetOnlineBankMethods(
                     new[] { DepositType.ChatTransfer }, authData.CustId),
 
                 ErrorCode = 0
