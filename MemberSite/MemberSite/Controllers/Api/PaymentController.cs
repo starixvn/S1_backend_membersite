@@ -187,9 +187,6 @@ namespace MemberSite.Controllers.Api
             public string Memo { set; get; }
 
             public int BankId { set; get; }
-            public int FromChannel { set; get; }
-            public int FromSysId { set; get; }
-            public string FromAccountNum { set; get; }
             public bool HasPromotion { set; get; }
         }
 
@@ -1669,10 +1666,6 @@ namespace MemberSite.Controllers.Api
             // LOCAL BANK
             public int SysId { set; get; }
             public int BankId { set; get; }
-            // LocalBank 中 Deposit Channel 填的內容
-            public int FromChannel { set; get; }
-            public int FromSysId { set; get; }
-            public string FromAccountNum { set; get; }
         }
         
         private interface ILocalBankReq
@@ -1680,9 +1673,6 @@ namespace MemberSite.Controllers.Api
             public decimal Amount { set; get; }
             public int SysId { set; get; }
             public int BankId { set; get; }
-            public int FromChannel { set; get; }
-            public int FromSysId { set; get; }
-            public string FromAccountNum { set; get; }
         }
         
         [HttpPost]
@@ -1922,23 +1912,12 @@ namespace MemberSite.Controllers.Api
                 };
             }
             
-            var depositFromInfo = new DepositFromInfo
-            {
-                Channel = req.FromChannel,
-                SysId = req.FromSysId,
-                AccountNo = req.FromAccountNum
-            };
-            var fromInfo = req.FromChannel == 0 && req.FromSysId == 0 && req.FromAccountNum == null
-                ? null
-                : JsonConvert.SerializeObject(depositFromInfo);
-
             var errorCode = _paymentBll.DepositReqLocalBank(
                 custId,
                 req.SysId,
                 req.BankId, 
                 req.Amount,
                 string.Empty,
-                fromInfo,
                 out var depositRep);
             
             return new ApiResult<DepositRep3>
