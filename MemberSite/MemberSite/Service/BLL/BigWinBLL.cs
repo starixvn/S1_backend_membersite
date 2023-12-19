@@ -46,7 +46,7 @@ namespace MemberSite.Service.BLL
 
                     if (gameSlotDetail != null)
                     {
-                        result.GameName = gameSlotDetail.GameName.ContainsKey("en") ? gameSlotDetail.GameName["en"] : string.Empty;
+                        result.GameName = gameSlotDetail.GameName.ContainsKey("en") ? $"{bigWinPopUpData.VenderName} - {gameSlotDetail.GameName["en"]}" : string.Empty;
                     }
                 }
                 else
