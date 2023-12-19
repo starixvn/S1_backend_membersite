@@ -10,6 +10,7 @@
         public string MemberID { get; set; }
         public DateTime Time { get; set; }
         public string TypeName { get; set; }
+        public string VenderName { get; set; }
     }
     public class BigWinPopUp
     {
