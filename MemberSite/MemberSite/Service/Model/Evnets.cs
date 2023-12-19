@@ -65,8 +65,7 @@ namespace MemberSite.Service.Model
         public DateTime EndTime { get; set; }
         public int Quota { get; set; }
         public int Rate { get; set; }
-        
-        public int TestCount { get; set; }
+        public DrawPrizeTypeEnum DrawPrizeType { get; set; }
     }
 
     public class CustGift

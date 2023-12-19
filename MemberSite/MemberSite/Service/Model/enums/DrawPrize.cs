@@ -6,4 +6,11 @@
         AccumulateValidTurnover = 2,
         SuccessfullyReferAFriend = 3
     }
+    
+    public enum DrawPrizeTypeEnum
+    {
+        NormalPrize = 0,
+        NoPrize = 1,
+        BlessingsSticker = 2
+    }
 }

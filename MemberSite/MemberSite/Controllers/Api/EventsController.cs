@@ -358,7 +358,7 @@ namespace MemberSite.Controllers.Api
                             prize = prizeList.FirstOrDefault();
                             if (error is >= 0 and < 100)
                             {
-                                errorCode = DealDrawPrize(eventId, custInfo, prize);
+                                errorCode = DealDrawPrize(custInfo, prize);
                             }
                             apiResult.Data.PrizeId = prize.PrizeId;
                             apiResult.Data.PrizeName = prize.PrizeName;
@@ -492,7 +492,7 @@ namespace MemberSite.Controllers.Api
                         {
                             foreach (var prize in prizeList)
                             {
-                                DealDrawPrize(eventId, custInfo, prize);
+                                DealDrawPrize(custInfo, prize);
                               
                                 var prizeData = new CustGift
                                 {
@@ -684,13 +684,12 @@ namespace MemberSite.Controllers.Api
 
         #region Private
 
-        private int DealDrawPrize(int eventId, Customer custInfo, Prize prize)
+        private int DealDrawPrize(Customer custInfo, Prize prize)
         {
             var errorCode = -1;
             
             if (prize.Amount > 0)
             {
-                // SendDrawPrizeMessage(eventId, custInfo, prize);
                 errorCode = 0;
             }
 
@@ -698,12 +697,15 @@ namespace MemberSite.Controllers.Api
             {
                 // 再接再厲
                 case 1 when prize.Amount <= 0:
+                    prize.DrawPrizeType = DrawPrizeTypeEnum.NoPrize;
                     errorCode = 1;
                     break;
                 
                 // 物件類型的獎品
                 case 2 when prize.PrizeName != "Blessings Sticker":
                 {
+                    prize.DrawPrizeType = DrawPrizeTypeEnum.NormalPrize;
+                    
                     // 進Queue Worker
                     var data = new DrawPrizeQueueJob()
                     {
@@ -717,6 +719,7 @@ namespace MemberSite.Controllers.Api
 
                 case 2 when prize.PrizeName == "Blessings Sticker":
                 {
+                    prize.DrawPrizeType = DrawPrizeTypeEnum.BlessingsSticker;
                     errorCode = 2;
                     break;
                 }
