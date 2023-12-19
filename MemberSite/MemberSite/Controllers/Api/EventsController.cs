@@ -4,6 +4,7 @@ using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -151,6 +152,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
+        [EnableCors]
         public ApiResult<LeaderboardSetting> GetLeaderboardSetting(GetLeaderboardSettingReq req)
         {
             var result = new ApiResult<LeaderboardSetting>();
