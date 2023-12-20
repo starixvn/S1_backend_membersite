@@ -107,6 +107,7 @@ namespace MemberSite.Service.Model
         public int PrizeId { get; set; }
         public string PrizeName { get; set; }
         public int TicketCount { get; set; }
+        public DrawPrizeTypeEnum DrawPrizeType { get; set; }
     }
     
     public class CustGiftList
