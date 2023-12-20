@@ -188,7 +188,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        [EnableCors]
+        [EnableCors("LeaderBoard")]
         public ApiResult<LeaderboardSetting> GetLeaderboardSetting(GetLeaderboardSettingReq req)
         {
             var result = new ApiResult<LeaderboardSetting>();
