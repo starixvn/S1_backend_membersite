@@ -360,6 +360,7 @@ namespace MemberSite.Controllers.Api
                             {
                                 errorCode = DealDrawPrize(custInfo, prize);
                             }
+                            apiResult.Data.DrawPrizeType = prize.DrawPrizeType;
                             apiResult.Data.PrizeId = prize.PrizeId;
                             apiResult.Data.PrizeName = prize.PrizeName;
                         }
@@ -497,7 +498,8 @@ namespace MemberSite.Controllers.Api
                                 var prizeData = new CustGift
                                 {
                                     PrizeId = prize.PrizeId,
-                                    PrizeName = prize.PrizeName
+                                    PrizeName = prize.PrizeName,
+                                    DrawPrizeType = prize.DrawPrizeType
                                 };
                                 apiResult.Data.Add(prizeData);
                             }
