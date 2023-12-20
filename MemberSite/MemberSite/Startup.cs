@@ -217,6 +217,15 @@ namespace MemberSite
                             .SetIsOriginAllowedToAllowWildcardSubdomains();
                     });
 
+                options.AddPolicy("LeaderBoard",
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin()
+                            .AllowAnyMethod()
+                            .AllowAnyHeader()
+                            .SetIsOriginAllowedToAllowWildcardSubdomains();
+                    });
+
 
                 options.AddPolicy("LandingPage",
                     builder =>
@@ -271,6 +280,7 @@ namespace MemberSite
             app.UseCors();
             app.UseCors("LandingPage");
             app.UseCors("SocialChannel");
+            app.UseCors("LeaderBoard");
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseRequestLogMiddleware();
