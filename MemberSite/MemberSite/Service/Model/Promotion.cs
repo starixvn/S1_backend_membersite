@@ -44,8 +44,15 @@ namespace MemberSite.Service.Model
         public bool BeenUsed { get; set; }
         public IEnumerable<TierAmount> TierAmountList { get; set; }
         public IEnumerable<CanJoinTierAmount> CanJoinTierAmountList { get; set; }
+        public MissionBonusProgress MissionBonusProgress { get; set; }
     }
 
+    public class MissionBonusProgress
+    {
+        public decimal DepositAmountSum { get; set; }
+        public decimal TurnoverSum { get; set; }
+    }
+    
     public class CashBackDetails
     {
         public decimal TotalBonus { get; set; }
