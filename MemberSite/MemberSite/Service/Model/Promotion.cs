@@ -108,6 +108,8 @@ namespace MemberSite.Service.Model
         public decimal Bonus { get; set; }
         public decimal MaxBonus { get; set; }
         public decimal RequiredAmount { get; set; }
+        public decimal RequiredTurnover { get; set; }
+        public int TpCategoryId { get; set; }
         public int RollOver { get; set; }
         public int WinOver { get; set; }
     }
