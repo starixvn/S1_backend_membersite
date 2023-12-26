@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 
 using MemberSite.Service.DAL;
+using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 
@@ -12,11 +13,13 @@ namespace MemberSite.Service.BLL
     {
         private readonly LiveStreamingService _liveStreamingService;
         private readonly CacheHelper _cacheHelper;
+        private readonly HotEventBLL _hotEventBLL;
 
         public LiveStreamingBll(IServiceProvider provider)
         {
             _liveStreamingService = provider.GetRequiredService<LiveStreamingService>();
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
+            _hotEventBLL = provider.GetRequiredService<HotEventBLL>();
         }
 
         public IEnumerable<LiveStreamingData> GetLiveStreamingList(int siteId, string langId)
@@ -80,6 +83,38 @@ namespace MemberSite.Service.BLL
                 }
             }
             return liveStreaming;
+        }
+
+        public async Task<IEnumerable<SportLiveStreamingResponse>> GetSportLiveStreaming(int siteId, int currencyId, string langId, ServerInfo serverInfo)
+        {
+            var sportLiveStreamingList = await _liveStreamingService.GetSportLiveStreaming(siteId, langId);
+
+            if (!sportLiveStreamingList.Any() && langId != "en")
+            {
+                sportLiveStreamingList = await _liveStreamingService.GetSportLiveStreaming(siteId, "en");
+            }
+
+            var sportTeamsInfo = await _hotEventBLL.GetSportTeamsInfo();
+            var sportLeaguesInfo = await _hotEventBLL.GetSportLeaguesInfo();
+
+            var response = sportLiveStreamingList.Where(x=> x.ICurrencyList.Any(y => y == currencyId)).Select(r => new SportLiveStreamingResponse
+            {
+                SportLeaguesTitle = r.SportLeaguesTitle,
+                MatchId = r.MatchId,
+                TpId = r.TpId,
+                GameId = r.GameId,
+                HomeTeamName = r.HomeTeamName,
+                AwayTeamName = r.AwayTeamName,
+                BattleTime = r.BattleTime,
+                HomeOdds = r.HomeOdds,
+                AwayOdds = r.AwayOdds,
+                Handicap = r.Handicap,
+                BackgroundPic = _hotEventBLL.GetBackgroundPic(serverInfo, sportLeaguesInfo, r),
+                HomeTeamPic = _hotEventBLL.GetHomeTeamPic(serverInfo, sportLeaguesInfo, r, sportTeamsInfo),
+                AwayTeamPic = _hotEventBLL.GetAwayTeamPic(serverInfo, sportLeaguesInfo, r, sportTeamsInfo)
+            }).Take(5);
+
+            return response;
         }
     }
 }
