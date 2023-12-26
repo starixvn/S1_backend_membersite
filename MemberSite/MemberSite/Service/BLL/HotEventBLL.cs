@@ -53,17 +53,17 @@ namespace MemberSite.Service.BLL
         #region private method
 
 
-        private string GetBackgroundPic(ServerInfo serverInfo, IEnumerable<SportLeaguesInfoDto> sportLeaguesInfo, HotEventDto hotEvent)
+        public string GetBackgroundPic(ServerInfo serverInfo, IEnumerable<SportLeaguesInfoDto> sportLeaguesInfo, HotEventDto hotEvent)
         {
             return $"{_siteCloudFrontImageInfo[serverInfo.SiteName].HotEventImageUrl}/{MapSportLeaguesName(sportLeaguesInfo, hotEvent.HomeTeamLeaguesId)}/{serverInfo.SiteName}/Background.jpg";
         }
 
-        private string GetHomeTeamPic(ServerInfo serverInfo, IEnumerable<SportLeaguesInfoDto> sportLeaguesInfo, HotEventDto r, IEnumerable<SportTeamsInfoDto> sportTeamsInfo)
+        public string GetHomeTeamPic(ServerInfo serverInfo, IEnumerable<SportLeaguesInfoDto> sportLeaguesInfo, HotEventDto r, IEnumerable<SportTeamsInfoDto> sportTeamsInfo)
         {
             return $"{_siteCloudFrontImageInfo[serverInfo.SiteName].HotEventImageUrl}/{MapSportLeaguesName(sportLeaguesInfo, r.HomeTeamLeaguesId)}/{MapSportTeamName(sportTeamsInfo, r.HomeTeamLeaguesId, r.HomeTeamId)}.png";
         }
 
-        private string GetAwayTeamPic(ServerInfo serverInfo, IEnumerable<SportLeaguesInfoDto> sportLeaguesInfo, HotEventDto r, IEnumerable<SportTeamsInfoDto> sportTeamsInfo)
+        public string GetAwayTeamPic(ServerInfo serverInfo, IEnumerable<SportLeaguesInfoDto> sportLeaguesInfo, HotEventDto r, IEnumerable<SportTeamsInfoDto> sportTeamsInfo)
         {
             return $"{_siteCloudFrontImageInfo[serverInfo.SiteName].HotEventImageUrl}/{MapSportLeaguesName(sportLeaguesInfo, r.AwayTeamLeaguesId)}/{MapSportTeamName(sportTeamsInfo, r.AwayTeamLeaguesId, r.AwayTeamId)}.png";
         }
@@ -82,7 +82,7 @@ namespace MemberSite.Service.BLL
                 .FirstOrDefault();
         }
 
-        private async Task<IEnumerable<SportTeamsInfoDto>> GetSportTeamsInfo()
+        public async Task<IEnumerable<SportTeamsInfoDto>> GetSportTeamsInfo()
         {
             const string sportTeamInfoKey = $"sportTeamInfoKey";
             var sportTeamsInfoResult = await _redisHelper.TryGetOrCreateAsync(sportTeamInfoKey, TimeSpan.FromMinutes(10),
@@ -91,7 +91,7 @@ namespace MemberSite.Service.BLL
             return sportTeamsInfoResult;
         }
 
-        private async Task<IEnumerable<SportLeaguesInfoDto>> GetSportLeaguesInfo()
+        public async Task<IEnumerable<SportLeaguesInfoDto>> GetSportLeaguesInfo()
         {
             const string sportLeaguesInfoKey = $"sportLeaguesInfoKey";
             var sportLeaguesInfoResult = await _redisHelper.TryGetOrCreateAsync(sportLeaguesInfoKey, TimeSpan.FromMinutes(10),
