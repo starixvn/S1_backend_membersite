@@ -1,4 +1,5 @@
-﻿using MemberSite.Service.DAL.Interface;
+﻿using MemberSite.Controllers.Api;
+using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using Newtonsoft.Json;
@@ -13,6 +14,7 @@ namespace MemberSite.Service.BLL
         private readonly TpGameTypeHelper tpGameTypeHelper;
         private readonly ICacheHelper _redisHelper;
         private readonly SelLangBLL selLangBLL;
+        private readonly ILogger<BannerBLL> _logger;
 
         public BannerBLL(IServiceProvider provider)
         {
@@ -22,6 +24,7 @@ namespace MemberSite.Service.BLL
             tpGameTypeHelper = provider.GetRequiredService<TpGameTypeHelper>();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
             selLangBLL = provider.GetRequiredService<SelLangBLL>();
+            _logger = provider.GetRequiredService<ILogger<BannerBLL>>();
         }
 
         public IEnumerable<BannerSettingItem> GetBanner(int perferCurr, string FolderName)
@@ -89,23 +92,31 @@ namespace MemberSite.Service.BLL
             {
                 if (bannerDetail.Details != null && bannerDetail.BannerType != 2)
                 {
-                    var details = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(bannerDetail.Details);
-                    if (!details.ContainsKey(langId)) continue;
-                    var settings = details[langId];
-                    banner.Add(new BannerV3()
+                    try
+                    {               
+                        var details = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(bannerDetail.Details);
+                        if (!details.ContainsKey(langId)) continue;
+                        var settings = details[langId];
+                        banner.Add(new BannerV3()
+                        {
+                            BannerName = bannerDetail.BannerName,
+                            BannerType = bannerDetail.BannerType,
+                            ActionMode = bannerDetail.ActionMode,
+                            BonusCode = bannerDetail.BonusCode,
+                            TpId = bannerDetail.TpId,
+                            GameId = bannerDetail.GameId,
+                            UrlRouter = bannerDetail.UrlRouter,
+                            BannerLink = settings.TryGetValue("bannerLink", out var valueLink) ? valueLink : "",
+                            BannerPCUrl = settings.TryGetValue("bannerPCUrl", out var valuePcUrl) ? valuePcUrl : "",
+                            BannerMobileUrl = settings.TryGetValue("bannerMobileUrl", out var valueMobileUrl) ? valueMobileUrl : "",
+                            tpGameType = tpGameTypeHelper.GetTpGameType(bannerDetail, currencyId),
+                        });
+                    }
+                    catch (Exception ex)
                     {
-                        BannerName = bannerDetail.BannerName,
-                        BannerType = bannerDetail.BannerType,
-                        ActionMode = bannerDetail.ActionMode,
-                        BonusCode = bannerDetail.BonusCode,
-                        TpId = bannerDetail.TpId,
-                        GameId = bannerDetail.GameId,
-                        UrlRouter = bannerDetail.UrlRouter,
-                        BannerLink = settings.TryGetValue("bannerLink", out var valueLink) ? valueLink : "",
-                        BannerPCUrl = settings.TryGetValue("bannerPCUrl", out var valuePcUrl) ? valuePcUrl : "",
-                        BannerMobileUrl = settings.TryGetValue("bannerMobileUrl", out var valueMobileUrl) ? valueMobileUrl : "",
-                        tpGameType = tpGameTypeHelper.GetTpGameType(bannerDetail, currencyId),
-                    });
+                        _logger.LogError(ex, "GetBannerV3 bannerDetail Exception");
+                        continue;
+                    }
                 }
             }
 

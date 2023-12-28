@@ -83,8 +83,7 @@ namespace MemberSite.Service.BLL
             result.AddRange(GetOnlineBankMethods(depositTypes, custId));
 
             var line = _bankInfoBll.GetLineChannel(custInfo.SiteId, custInfo.CurrencyId);
-            //塞假資料給luke接
-            result.Add("LinePay", new PayMethod(new LinePay(line?.Link ?? "https://translate.google.com.tw/")));
+            result.Add("LinePay", new PayMethod(new LinePay(line?.Link)));
 
             var autoChannelData = _bankInfoBll.GetAutoChannelBankList(custInfo, vipLevel)
                 .GroupBy(x => x.SysId)
@@ -102,25 +101,7 @@ namespace MemberSite.Service.BLL
                         DepositType = DepositType.BankAutoChannel
                     };
                 });
-            
-            //塞假資料給luke接
-            if (!autoChannelData.Any())
-            {
-                autoChannelData = new AutoChannelBankInfo[]
-                {
-                    new ()
-                    {
-                        BankLogo = "idbi.png",
-                        BankName = "IDBI Bank",
-                        BankCode = "IDBI",
-                        SysId = 265,
-                        MaxAmount = 50000,
-                        MinAmount = 50,
-                        DepositType = DepositType.BankAutoChannel
-                    }
-                };
-            }
-            
+
             result.Add(DepositType.BankAutoChannel.GetDescription(), new PayMethod(autoChannelData));
             
             depositTypes = new []
@@ -173,7 +154,7 @@ namespace MemberSite.Service.BLL
             return result;
         }
 
-        private IDictionary<string, PayMethod> GetGenericPayMethods(IEnumerable<DepositType> depositTypes, int custId)
+        public IDictionary<string, PayMethod> GetGenericPayMethods(IEnumerable<DepositType> depositTypes, int custId)
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
@@ -321,48 +302,6 @@ namespace MemberSite.Service.BLL
                                 .OrderBy(y => y.ChannelSort)
                         };
                     }).OrderBy(x => x.Sort);
-                
-                //塞假資料給luke接
-                if (!payGroups.Any())
-                {
-                    payGroups = new List<GenericPayGroup>
-                    {
-                        new GenericPayGroup
-                        {
-                            GroupId = 150,
-                            GroupName = "FakeGroup",
-                            MaxAmount = 50000,
-                            MinAmount = 50,
-                            SupportChannels = new List<GenericPayChannel>
-                            {
-                                new GenericPayChannel
-                                {
-                                    ChannelId = 556,
-                                    ChannelName = "FakeChannel",
-                                    Mode = (int) PayModeEnum.Redirect,
-                                    MaxAmount = 50000,
-                                    MinAmount = 50,
-                                    AmountRule = 1,
-                                    AmountList = Array.Empty<decimal>(),
-                                    GroupId = 150,
-                                    GroupName = "FakeGroup",
-                                },
-                                new GenericPayChannel
-                                {
-                                    ChannelId = 557,
-                                    ChannelName = "FakeChannel2",
-                                    Mode = (int) PayModeEnum.Redirect,
-                                    MaxAmount = 50000,
-                                    MinAmount = 50,
-                                    AmountRule = 1,
-                                    AmountList = Array.Empty<decimal>(),
-                                    GroupId = 150,
-                                    GroupName = "FakeGroup",
-                                }
-                            }
-                        }
-                    }.OrderBy(x => x.Sort);
-                }
                 
                 result.Add(depositType.GetDescription(), new PayMethod(payGroups));
             }
