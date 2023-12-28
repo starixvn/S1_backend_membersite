@@ -184,6 +184,7 @@ namespace MemberSite.Controllers.Api
             public int TpId { set; get; }
             public int CustId { set; get; }
             public string Description { set; get; }
+            public string LangId { set; get; }
             public decimal Amount { set; get; }
             public TpDirection direction { set; get; }
             public Dictionary<string, string> inputs { set; get; }
@@ -268,6 +269,7 @@ namespace MemberSite.Controllers.Api
         {
             public int FromTpId { set; get; }
             public int ToTpId { set; get; }
+            public string LangId { get; set; }
             public decimal Amount { set; get; }
             public int TransferAction { set; get; }
         }
@@ -350,6 +352,7 @@ namespace MemberSite.Controllers.Api
                 {
                     TpId = activeTpId,
                     CustId = authData.CustId,
+                    LangId = inTpTransfer.LangId,
                     Amount = amount,
                     direction = direction,
                     inputs = input
@@ -376,6 +379,7 @@ namespace MemberSite.Controllers.Api
                     {
                         FromTpId = 0,
                         ToTpId = inTpTransfer.ToTpId,
+                        LangId = inTpTransfer.LangId,
                         Amount = inTpTransfer.Amount,
                         TransferAction = inTpTransfer.TransferAction
                     };
