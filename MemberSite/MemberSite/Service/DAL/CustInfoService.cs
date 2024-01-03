@@ -874,6 +874,7 @@ namespace MemberSite.Service.DAL
             return await _reportDbClient.QueryAsync<CustRecentlyViewedInfo>("Member_CustRecentlyViewed_Get", new { _CustId = custId });
         }
 
+        //只給Ivorysport使用
         public int IvorysportAddCustInfo(Customer customer, string Email, string lineUserId, int deviceType, out int custId, string signupUrl = null, string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null, int Birth_d = 0, int Birth_m = 0, int Birth_y = 0, string signupIp = null, string nationality = null, int cccupation = 0, int sourceOfIncome = 0, string address = null)
         {
             using var conn = _mainDbClient.GetMySqlConnection();

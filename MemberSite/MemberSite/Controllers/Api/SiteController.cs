@@ -383,7 +383,10 @@ namespace MemberSite.Controllers.Api
 
             return apiResult;
         }
+
+
         [HttpPost]
+        //只給Ivorysport使用
         public async Task<ApiResult> IvorysportSignupAsync(IvorysportSignupModel signupModel)
         {
             var apiResult = new ApiResult(_selLangBll);

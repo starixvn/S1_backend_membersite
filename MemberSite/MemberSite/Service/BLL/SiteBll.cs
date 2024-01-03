@@ -312,6 +312,7 @@ public class SiteBll
         return customer;
     }
 
+    //只給Ivorysport使用
     public Customer IvorysportSignup(SiteController.IvorysportSignupModel signupModel, ApiResult apiResult, bool isAuthenticated,
         string host, string userAgent, bool checkReCaptchaToken)
     {
@@ -358,7 +359,17 @@ public class SiteBll
 
         if (string.IsNullOrWhiteSpace(signupModel.Nationality))
         {
+            apiResult.ErrorCode = -30;
+            apiResult.Message = _selLangBll.GetMsg("msg_NeedNationality");
+            return customer;
+        }
 
+        if (string.IsNullOrWhiteSpace(signupModel.Country) || string.IsNullOrWhiteSpace(signupModel.City) ||
+            string.IsNullOrWhiteSpace(signupModel.PostCode) || string.IsNullOrWhiteSpace(signupModel.LineFirst))
+        {
+            apiResult.ErrorCode = -31;
+            apiResult.Message = _selLangBll.GetMsg("msg_NeedAddress");
+            return customer;
         }
 
         if (!_regexEmail.IsMatch(signupModel.Email))

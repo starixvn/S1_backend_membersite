@@ -820,6 +820,7 @@ namespace MemberSite.Service.BLL
             return actualDepositData == null ? 0 : actualDepositData.ActualDeposit;
         }
 
+        //只給Ivorysport使用
         public int IvorysportAddCustInfo(string UserName, string Userpwd, string Email, int CurrencyId, string UserLang,
             string refId, string affId, string aff, AffCodeObject affCode, string lineUserId, int deviceType, out int custId, string signupUrl = null,
             string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null,
@@ -909,12 +910,7 @@ namespace MemberSite.Service.BLL
                 addressDic.Add("City", city);
                 addressDic.Add("PostCode", postCode);
                 addressDic.Add("LineFirst", lineFirst);
-                var tempDic = ConvertAddress(addressDic);
-
-                if(tempDic.Count > 0)
-                {
-                    address = JsonConvert.SerializeObject(tempDic);
-                }
+                address = JsonConvert.SerializeObject(addressDic);
             }
 
             var result = _custInfoService.IvorysportAddCustInfo(regCustInfo, Email, lineUserId, deviceType, out custId, signupUrl, referralUrl, PhoneNo, AreaCode,
