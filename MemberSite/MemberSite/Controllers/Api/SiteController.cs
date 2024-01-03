@@ -18,7 +18,6 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 using Newtonsoft.Json;
-
 using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
@@ -290,6 +289,16 @@ namespace MemberSite.Controllers.Api
             public int Birth_m { get; set; }
             public int Birth_y { get; set; }
         }
+        public class IvorysportSignupModel : SignupModel
+        {
+            public int Occupation { get; set; }
+            public int SourceOfIncome { get; set; }
+            public string Nationality { get; set; }
+            public string Country { get; set; }
+            public string City { get; set; }
+            public string PostCode { get; set; }
+            public string LineFirst { get; set; }
+        }
 
         [HttpPost]
         public async Task<ApiResult> SignupAsync(SignupModel signupModel)
@@ -371,6 +380,47 @@ namespace MemberSite.Controllers.Api
             };
             apiResult.Data = data;
 
+            return apiResult;
+        }
+
+
+        [HttpPost]
+        //只給Ivorysport使用
+        public async Task<ApiResult> IvorysportSignupAsync(IvorysportSignupModel signupModel)
+        {
+            var apiResult = new ApiResult(_selLangBll);
+            var isAuthenticated = User.Identity is { IsAuthenticated: true };
+            if (string.IsNullOrWhiteSpace(signupModel.RealName)
+                || !_stringVaildHelper.VaildAccountNameForSetProfile(signupModel.RealName))
+            {
+                apiResult.ErrorCode = 21;
+                apiResult.Message = $"{_selLangBll.GetMsg("msg_RealNameWrongFormat")}";
+                return apiResult;
+            }
+            var customer = _siteBll.IvorysportSignup(signupModel, apiResult, isAuthenticated, Request.Host.Host,
+                Request.Headers["User-Agent"], true);
+            if (apiResult.ErrorCode == (int)ErrorCode.Attack)
+            {
+                Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return null;
+            }
+
+            if (apiResult.ErrorCode != 0 || customer == null) return apiResult;
+
+
+
+            var claims = new List<Claim>
+            {
+                new(ClaimTypes.Name, customer.UserName),
+                new(ClaimTypes.NameIdentifier, customer.CustId.ToString()),
+                new("Token", customer.Token),
+                new("LangId", customer.UserLang)
+            };
+
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity));
+            await _cacheHelper.StringFireAndForgetSetAsync(customer.CustId.ToString(), customer.Token, TimeSpan.FromMinutes(30), RedisDataBase.Token);
             return apiResult;
         }
 
