@@ -9,7 +9,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using Newtonsoft.Json;
-
+using System.Text.RegularExpressions;
+using static MemberSite.Controllers.Api.SiteController;
 using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
@@ -34,6 +35,7 @@ namespace MemberSite.Controllers.Api
         private readonly IEnumerable<AreaCodeMap> _areaCodeMap;
         private readonly ILogger<AccountStrictController> _logger;
         private readonly ICustPhotoIdBLL _custPhoto;
+        private readonly Regex _regexEmail = new(@"^\w+((-\w+)|(\.\w+))*@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$");
 
         public AccountStrictController(IServiceProvider provider)
         {
@@ -491,6 +493,13 @@ namespace MemberSite.Controllers.Api
                 {
                     apiResult.ErrorCode = 21;
                     apiResult.Message = $"{email} {_selLangBLL.GetMsg("msg_HasExist")}";
+                    return apiResult;
+                }
+
+                if (!string.IsNullOrEmpty(email) && custInfo.SiteId == (int)SiteId.Nova88 && !_regexEmail.IsMatch(email))
+                {
+                    apiResult.ErrorCode = -10;
+                    apiResult.Message = _selLangBll.GetMsg("msg_EmailFormatVerify");
                     return apiResult;
                 }
 

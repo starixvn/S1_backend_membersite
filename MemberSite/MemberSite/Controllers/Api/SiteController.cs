@@ -266,7 +266,7 @@ namespace MemberSite.Controllers.Api
         {
             public string UserName { get; set; }
             public string Userpwd { get; set; }
-            public string Email { get; set; }
+            public string Email { get; set; } = null;
             public int CurrencyId { get; set; }
             public string UserLang { get; set; }
             public string RefId { get; set; }
