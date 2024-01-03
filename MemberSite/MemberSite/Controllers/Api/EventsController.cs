@@ -18,7 +18,7 @@ namespace MemberSite.Controllers.Api
         private readonly AuthorizeBLL _authorizeBll;
         private readonly EventsBLL _eventsBll;
         private readonly IAngPaoBLL _angPaoBll;
-        private readonly ICacheHelper _cacheHelper;
+        private readonly ICacheHelper _redisHelper;
         private readonly CustInfoBll _custInfoBll;
         private readonly NewYear2024BLL _newYear2024Bll;
         private readonly SelLangBLL _selLangBll;
@@ -33,7 +33,7 @@ namespace MemberSite.Controllers.Api
             _authorizeBll = provider.GetRequiredService<AuthorizeBLL>();
             _eventsBll = provider.GetRequiredService<EventsBLL>();
             _angPaoBll = provider.GetRequiredService<IAngPaoBLL>();
-            _cacheHelper = provider.GetRequiredService<ICacheHelper>();
+            _redisHelper = provider.GetRequiredService<ICacheHelper>();
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _selLangBll = provider.GetRequiredService<SelLangBLL>();
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
@@ -383,23 +383,31 @@ namespace MemberSite.Controllers.Api
                     var prize = new Prize();
                     try
                     {
-                        var (error, prizeList) = await _newYear2024Bll.DrawPrize(eventId, custInfo, 1);
+                        var lockKey = $"DrawPrizeLock:{custInfo.CustId}";
+                        var lockValue = Guid.NewGuid().ToString(); // 每次取鎖使用唯一值，確保為同一個執行序所執行
+                        var lockExpiry = TimeSpan.FromSeconds(15); //lock 15 sec        
                         
-                        if (prizeList is not null)
+                        if (await _redisHelper.TryCreateLockAsync(lockKey, lockValue, lockExpiry))
                         {
-                            prize = prizeList.FirstOrDefault();
-                            if (error is >= 0 and < 100)
+                            var (error, prizeList) = await _newYear2024Bll.DrawPrize(eventId, custInfo, 1);
+                        
+                            if (prizeList is not null)
                             {
-                                errorCode = DealDrawPrize(custInfo, prize);
+                                prize = prizeList.FirstOrDefault();
+                                if (error is >= 0 and < 100)
+                                {
+                                    errorCode = DealDrawPrize(custInfo, prize);
+                                }
+                                apiResult.Data.DrawPrizeType = prize.DrawPrizeType;
+                                apiResult.Data.PrizeId = prize.PrizeId;
+                                apiResult.Data.PrizeName = prize.PrizeName;
                             }
-                            apiResult.Data.DrawPrizeType = prize.DrawPrizeType;
-                            apiResult.Data.PrizeId = prize.PrizeId;
-                            apiResult.Data.PrizeName = prize.PrizeName;
-                        }
-                        else if (error > 100)
-                        {
-                            errorCode = error;
-                        }
+                            else if (error > 100)
+                            {
+                                errorCode = error;
+                            }
+                            await _redisHelper.UnLockAsync(lockKey, lockValue);
+                        }                          
                         
                         apiResult.ErrorCode = errorCode is > 100 or -1 ? errorCode : (int) ErrorCode.Success;
                         apiResult.Message = errorCode switch
@@ -510,50 +518,58 @@ namespace MemberSite.Controllers.Api
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                 var eventId = drawPrizeReq.EventId;
 
-                if (eventId is 15 or 16 or 17)
+                var lockKey = $"DrawPrizeLock:{custInfo.CustId}";
+                var lockValue = Guid.NewGuid().ToString(); // 每次取鎖使用唯一值，確保為同一個執行序所執行
+                var lockExpiry = TimeSpan.FromSeconds(15); //lock 15 sec        
+                if (await _redisHelper.TryCreateLockAsync(lockKey, lockValue, lockExpiry))
                 {
-                    var errorCode = -1;
-                    try
+                    if (eventId is 15 or 16 or 17)
                     {
-                        var (error, prizeList) = await _newYear2024Bll.DrawPrize(eventId, custInfo, drawPrizeReq.DrawTimes);
+                        var errorCode = -1;
+                        try
+                        {
+                            var (error, prizeList) = await _newYear2024Bll.DrawPrize(eventId, custInfo, drawPrizeReq.DrawTimes);
 
-                        if (error > 100)
-                        {
-                            errorCode = error;
-                        }
-                        else if (error is >= 0 and < 100) 
-                        {
-                            foreach (var prize in prizeList)
+                            if (error > 100)
                             {
-                                DealDrawPrize(custInfo, prize);
-                              
-                                var prizeData = new CustGift
+                                errorCode = error;
+                            }
+                            else if (error is >= 0 and < 100) 
+                            {
+                                foreach (var prize in prizeList)
                                 {
-                                    PrizeId = prize.PrizeId,
-                                    PrizeName = prize.PrizeName,
-                                    DrawPrizeType = prize.DrawPrizeType
-                                };
-                                apiResult.Data.Add(prizeData);
+                                    DealDrawPrize(custInfo, prize);
+                              
+                                    var prizeData = new CustGift
+                                    {
+                                        PrizeId = prize.PrizeId,
+                                        PrizeName = prize.PrizeName,
+                                        DrawPrizeType = prize.DrawPrizeType
+                                    };
+                                    apiResult.Data.Add(prizeData);
+                                }
+
+                                errorCode = 0;
                             }
 
-                            errorCode = 0;
+                            apiResult.ErrorCode = errorCode == (int)ErrorCode.Success ? (int)ErrorCode.Success : errorCode ;
+                            apiResult.Message = errorCode switch
+                            {
+                                0 => "Success",
+                                104 => _selLangBll.GetMsg("msg_ProfileOrPhoneNotFinish"),
+                                105 => _selLangBll.GetMsg("msg_Event_has_not_started"),
+                                106 or 102 => "Not Enough Eggs",
+                                _ => _selLangBll.GetMsg("msg_Ineligible"),
+                            };
                         }
-
-                        apiResult.ErrorCode = errorCode == (int)ErrorCode.Success ? (int)ErrorCode.Success : errorCode ;
-                        apiResult.Message = errorCode switch
+                        catch (Exception ex)
                         {
-                            0 => "Success",
-                            104 => _selLangBll.GetMsg("msg_ProfileOrPhoneNotFinish"),
-                            105 => _selLangBll.GetMsg("msg_Event_has_not_started"),
-                            106 or 102 => "Not Enough Eggs",
-                            _ => _selLangBll.GetMsg("msg_Ineligible"),
-                        };
+                            _logger.LogError(ex, "drop prize failed");
+                        }
                     }
-                    catch (Exception ex)
-                    {
-                        _logger.LogError(ex, "drop prize failed");
-                    }
-                }
+
+                    await _redisHelper.UnLockAsync(lockKey, lockValue);
+                }   
             }
 
             return apiResult;
@@ -669,23 +685,32 @@ namespace MemberSite.Controllers.Api
             if (authData is {CustId: > 0})
             {
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-                var (result,prize) = await _newYear2024Bll.ClaimNewYearBigPrize(custInfo, req.EventId);
                 
-                switch (result)
+                var lockKey = $"ClaimNewYearBigPrizeLock:{custInfo.CustId}";
+                var lockValue = Guid.NewGuid().ToString(); // 每次取鎖使用唯一值，確保為同一個執行序所執行
+                var lockExpiry = TimeSpan.FromSeconds(15); //lock 15 sec        
+                if (await _redisHelper.TryCreateLockAsync(lockKey, lockValue, lockExpiry))
                 {
-                    case >= 0:
-                        SendDrawPrizeMessage(req.EventId, custInfo, prize);
-                        apiResult.ErrorCode = (int) ErrorCode.Success;
-                        break;
+                    var (result,prize) = await _newYear2024Bll.ClaimNewYearBigPrize(custInfo, req.EventId);
+                
+                    switch (result)
+                    {
+                        case >= 0:
+                            SendDrawPrizeMessage(req.EventId, custInfo, prize);
+                            apiResult.ErrorCode = (int) ErrorCode.Success;
+                            break;
                     
-                    case -1:
-                        apiResult.Message = _selLangBll.GetMsg("msg_Ineligible");
-                        break;
+                        case -1:
+                            apiResult.Message = _selLangBll.GetMsg("msg_Ineligible");
+                            break;
                     
-                    case -2:
-                        apiResult.Message = "Already Claimed";
-                        break;
-                }
+                        case -2:
+                            apiResult.Message = "Already Claimed";
+                            break;
+                    }
+
+                    await _redisHelper.UnLockAsync(lockKey, lockValue);
+                }            
             }
 
             return apiResult;
