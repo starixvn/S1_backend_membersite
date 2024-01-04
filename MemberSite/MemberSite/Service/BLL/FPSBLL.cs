@@ -5,32 +5,33 @@ namespace MemberSite.Service.BLL
 {
     public class FPSBLL
     {
-        private readonly CourierAdapter courierAdapter;
+        private readonly CourierAdapter _courierAdapter;
         private readonly string _commonServiceUrl;
 
         public FPSBLL(CourierAdapter courierAdapter, ConfigBLL configBll)
         {
-            this.courierAdapter = courierAdapter;
-            this._commonServiceUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost").CommonService;
+            _courierAdapter = courierAdapter;
+            _commonServiceUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost").CommonService;
         }
-        public async Task<ApiResult> FPSChecksAsync(int custId, string action, string actionResult, string url, string platform, string userAgent, string screen, string di, string ip)
+        public async Task<ApiResult> FPSChecksAsync(FPSApiRequest request)
         {
             var apiUrl = $"{_commonServiceUrl}FPS/FPSChecks";
 
-            dynamic req = new
+            dynamic req = new FPSApiRequest
             {
-                account = custId,
-                action,
-                actionResult,
-                ip,
-                url,
-                platform,
-                userAgent,
-                screen,
-                di
+                Account = request.Account,
+                DI = request.DI,
+                BI = request.BI,
+                IP = request.IP,
+                UserAgent = request.UserAgent,
+                DetecasAnalysis = request.DetecasAnalysis,
+                AcceptsTypes = request.AcceptsTypes,
+                SessionKey = request.SessionKey,
+                Token =  request.Token,
+                Url =  request.Url
             };
 
-            ApiResult apiResult = await courierAdapter.MyPostAsync<bool, dynamic>(apiUrl, req);
+            var apiResult = await _courierAdapter.MyPostAsync<bool, dynamic>(apiUrl, req);
 
             return apiResult;
 

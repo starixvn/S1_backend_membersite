@@ -1,24 +1,21 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using System.Globalization;
+using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Net.Sockets;
 using System.Security.Claims;
 using System.Text.RegularExpressions;
-
 using MemberSite.Attributes;
 using MemberSite.Service.BLL;
 using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
-
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-
 using Newtonsoft.Json;
-
 using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
@@ -47,7 +44,9 @@ namespace MemberSite.Controllers.Api
         private readonly CheckAttackBLL _checkAttackBll;
         private readonly StringVaildHelper _stringVaildHelper;
         private readonly IGeoIpApi _geoIpApi;
-
+        private readonly FPSBLL _FPSBll;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        
         public SiteController(IServiceProvider provider)
         {
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
@@ -64,10 +63,11 @@ namespace MemberSite.Controllers.Api
             _cacheHelper = provider.GetRequiredService<ICacheHelper>();
             _recaptchaBll = provider.GetRequiredService<RecaptchaBLL>();
             _logger = provider.GetRequiredService<ILogger<SiteController>>();
-            
             _checkAttackBll = provider.GetRequiredService<CheckAttackBLL>();
             _stringVaildHelper = provider.GetRequiredService<StringVaildHelper>();
             _geoIpApi = provider.GetRequiredService<IGeoIpApi>();
+            _FPSBll = provider.GetRequiredService<FPSBLL>();
+            _httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
         }
 
         public class LoginModel
@@ -79,7 +79,7 @@ namespace MemberSite.Controllers.Api
             public string platform { get; set; }
             public string userAgent { get; set; }
             public string screen { get; set; }
-            public string di { get; set; }
+            public FPSRequest FPSRequest { get; set; }
         }
 
         [HttpPost]
@@ -161,14 +161,32 @@ namespace MemberSite.Controllers.Api
                 };
             }
 
-            // if (loginModel.di != null)
-            // {
-            //     _ = Task.Run(async () =>
-            //     {
-            //         await _sFpsBll.FPSChecksAsync(customer.CustId, "login", "Successfully", loginModel.url, loginModel.platform, loginModel.userAgent, loginModel.screen, loginModel.di, ip);
-            //     });
-            // }
+            #region FPS
 
+            if (loginModel.FPSRequest != null)
+            {
+                var context = _httpContextAccessor.HttpContext;
+                _ = Task.Run(async () =>
+                {
+                    var request = new FPSApiRequest
+                    {
+                        Account = customer.CustId.ToString(),
+                        DI = loginModel.FPSRequest.DI,
+                        BI = loginModel.FPSRequest.BI,
+                        IP = ip,
+                        UserAgent = Request.Headers["User-Agent"],
+                        DetecasAnalysis = loginModel.FPSRequest.DetecasAnalysis,
+                        AcceptsTypes = context?.Request.Headers["Accept"].ToString(),
+                        SessionKey = loginModel.FPSRequest.SessionKey,
+                        Token = loginModel.FPSRequest.Token,
+                        Url = loginModel.url
+                    };
+                    await _FPSBll.FPSChecksAsync(request);
+                });
+            }
+
+            #endregion
+            
             await _cacheHelper.StringFireAndForgetSetAsync(customer.CustId.ToString(), token, TimeSpan.FromMinutes(30), RedisDataBase.Token);
 
             Response.Cookies.Delete($"Initialization{User.Identity?.Name}");
@@ -243,13 +261,27 @@ namespace MemberSite.Controllers.Api
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
-            // if (loginModel.di != null)
-            // {
-            //     _ = Task.Run(async () =>
-            //     {
-            //         await _sFpsBll.FPSChecksAsync(customer.CustId, "login", "Successfully", loginModel.url, loginModel.platform, loginModel.userAgent, loginModel.screen, loginModel.di, ip);
-            //     });
-            // }
+            if (loginModel.FPSRequest != null)
+            {
+                var context = _httpContextAccessor.HttpContext;
+                _ = Task.Run(async () =>
+                {
+                    var request = new FPSApiRequest
+                    {
+                        Account = customer.CustId.ToString(),
+                        DI = loginModel.FPSRequest.DI,
+                        BI = loginModel.FPSRequest.BI,
+                        IP = ip,
+                        UserAgent = Request.Headers["User-Agent"],
+                        DetecasAnalysis = loginModel.FPSRequest.DetecasAnalysis,
+                        AcceptsTypes = context?.Request.Headers["Accept"].ToString(),
+                        SessionKey = loginModel.FPSRequest.SessionKey,
+                        Token = loginModel.FPSRequest.Token,
+                        Url = loginModel.url
+                    };
+                    await _FPSBll.FPSChecksAsync(request);
+                });
+            }
 
             var accessToken = _tools.GenerateJwtTokens(claims);
             var data = new JwtAuthData
