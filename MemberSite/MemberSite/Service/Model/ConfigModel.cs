@@ -51,11 +51,4 @@
         public string StoreService { get; set; }
         public string BackendService { get; set; }
     }
-
-    public class RabbitMqConfig
-    {
-        public string HostName { get; set; }
-        public string UserName { get; set; }
-        public string Password { get; set; }
-    }
 }

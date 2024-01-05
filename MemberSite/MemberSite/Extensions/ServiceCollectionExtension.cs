@@ -38,24 +38,6 @@ namespace MemberSite.Extensions
                });
         }
 
-        public static void AddMessageQueueConnection(this IServiceCollection services)
-        {
-            var provider = services.BuildServiceProvider();
-            var configBll = provider.GetRequiredService<ConfigBLL>();
-            var rabbitMqConfig = configBll.GetConfigValueByEnvironment<RabbitMqConfig>("RabbitMQ");
-
-            var hostName = rabbitMqConfig.HostName;
-            var userName = rabbitMqConfig.UserName;
-            var password = rabbitMqConfig.Password;
-
-            services.AddSingleton<IConnectionFactory>(_ => new ConnectionFactory()
-            {
-                HostName = hostName,
-                UserName = userName,
-                Password = password
-            });
-        }
-
         public static IServiceCollection AddOptionListByDB<T>(this IServiceCollection services, string sql, object parameters = null)
         {
             var provider = services.BuildServiceProvider();
