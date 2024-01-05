@@ -123,7 +123,6 @@ namespace MemberSite
             services.AddSingleton<BigWinService>();
 
             /*BLL*/
-            services.AddSingleton<IRabbitMQProducer, RabbitMQProducer>();
             services.AddSingleton<ServerInfoBll>();
             services.AddSingleton<CustInfoBll>();
             services.AddSingleton<WalletBLL>();
