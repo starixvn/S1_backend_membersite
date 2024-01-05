@@ -152,7 +152,7 @@ namespace MemberSite.Service.BLL
         /// </summary>
         private (int SiteId, int CurrencyId, int CustId) GetUserInfo(int? inputCurrencyId, ClaimsPrincipal user, ServerInfo serverInfo)
         {
-            if (user.Identity.IsAuthenticated)
+            if (user?.Identity is { IsAuthenticated: true })
             {
                 var authData = _authorizeBll.GetAuthData();
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
