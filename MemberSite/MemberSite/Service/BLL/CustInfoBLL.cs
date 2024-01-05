@@ -16,7 +16,6 @@ namespace MemberSite.Service.BLL
     {
         private readonly Tools _tools;
         private readonly VerificationRewardBLL _verificationRewardBll;
-        private readonly IRabbitMQProducer _producer;
         private readonly CustInfoService _custInfoService;
         private readonly AuthenticateService _authenticateService;
         private readonly IAffiliateService _affiliateService;
@@ -50,7 +49,6 @@ namespace MemberSite.Service.BLL
             _areaCodeMap = provider.GetRequiredService<IEnumerable<AreaCodeMap>>();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
             _shieldBll = provider.GetRequiredService<ShieldBLL>();
-            _producer = provider.GetRequiredService<IRabbitMQProducer>();
             _affiliateService = provider.GetRequiredService<IAffiliateService>();
             _vIPService = provider.GetRequiredService<VIPService>();
             _depositService = provider.GetRequiredService<DepositService>();

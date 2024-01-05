@@ -122,7 +122,6 @@ namespace MemberSite
             services.AddSingleton<VIPService>();
 
             /*BLL*/
-            services.AddSingleton<IRabbitMQProducer, RabbitMQProducer>();
             services.AddSingleton<ServerInfoBll>();
             services.AddSingleton<CustInfoBll>();
             services.AddSingleton<WalletBLL>();
