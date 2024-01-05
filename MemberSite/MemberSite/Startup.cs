@@ -243,7 +243,6 @@ namespace MemberSite
             services.AddOptionListByDB<ConfigObject>("SiteConfig_Get", new { ConfigGroup = "MemberSite" });
             services.AddSiteConfig();
             services.AddSingleton<ConfigBLL>();
-            services.AddMessageQueueConnection();
             services.AddGoogleReCaptchaSetting();
 
             // JWT | Cookie Auth
