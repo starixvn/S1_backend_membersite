@@ -123,7 +123,6 @@ namespace MemberSite
             services.AddSingleton<BigWinService>();
 
             /*BLL*/
-            services.AddSingleton<IRabbitMQProducer, RabbitMQProducer>();
             services.AddSingleton<ServerInfoBll>();
             services.AddSingleton<CustInfoBll>();
             services.AddSingleton<WalletBLL>();
@@ -243,7 +242,6 @@ namespace MemberSite
             services.AddOptionListByDB<ConfigObject>("SiteConfig_Get", new { ConfigGroup = "MemberSite" });
             services.AddSiteConfig();
             services.AddSingleton<ConfigBLL>();
-            services.AddMessageQueueConnection();
             services.AddGoogleReCaptchaSetting();
 
             // JWT | Cookie Auth
