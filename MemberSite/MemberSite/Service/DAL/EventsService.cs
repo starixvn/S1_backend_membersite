@@ -146,7 +146,7 @@ namespace MemberSite.Service.DAL
             return result;
         }
 
-        public async Task<int> PayoutPrize(int eventId, int prizeId, string prizeName, int siteId, int custId, string userName, int currencyId, decimal prizeAmount, int ticketNo, int prizeType, bool isUsed)
+        public async Task<int> PayoutPrize(int eventId, int prizeId, string prizeName, int siteId, int custId, string userName, int currencyId, decimal prizeAmount, int ticketNo, int prizeType, bool isUsed , bool isBigPrize)
         {
             await using var conn = _mainDbClient.GetMySqlConnection();
             await conn.OpenAsync();
@@ -163,7 +163,8 @@ namespace MemberSite.Service.DAL
                 _CustId = custId,
                 _CurrencyId = currencyId,
                 _TicketNo = ticketNo,
-                _IsUsed = isUsed
+                _IsUsed = isUsed,
+                _IsBigPrize = isBigPrize
             });
             
             if (prizeType == 1 && prizeAmount > 0)
