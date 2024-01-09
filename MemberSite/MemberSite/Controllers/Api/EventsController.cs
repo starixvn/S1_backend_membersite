@@ -792,7 +792,7 @@ namespace MemberSite.Controllers.Api
             var drawPrizeMessage = _eventsBll.GetDrawPrizeMessageWithCache(eventId, _selLangBll.GetLangId());
             var currencyName = Enum.GetName(typeof(CurrencyId), custInfo.CurrencyId);
             var prizeName = $"{currencyName} {prize.PrizeName}";
-            var title = drawPrizeMessage.Tital;
+            var title = string.Format(drawPrizeMessage.Tital, prizeName);
             var msg = string.Format(drawPrizeMessage.Message, prizeName);
             _messageBll.SendMessage(new Message("System", custInfo.CustId, custInfo.UserLang, title, msg));
         }

@@ -188,7 +188,8 @@ public class NewYear2024BLL
                     drawPrize.Amount,
                     0, 
                     drawPrize.PrizeType,
-                    true
+                    true,
+                    false
                 );
 
                 if (res > 0)
@@ -254,8 +255,9 @@ public class NewYear2024BLL
                 drawPrize.Amount,
                 0, 
                 drawPrize.PrizeType,
+                true,
                 true
-            );
+                );
             
             return (res,drawPrize);
         }
