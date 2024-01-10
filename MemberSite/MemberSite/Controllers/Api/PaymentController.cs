@@ -1704,7 +1704,7 @@ namespace MemberSite.Controllers.Api
 
                     result = new ApiResult<object>(localBankResult.ErrorCode,
                         localBankResult.Message,
-                        new {TransId = transId});
+                        new {TransId = transId, localBankResult.Data?.Code});
                     
                     break;
                 
