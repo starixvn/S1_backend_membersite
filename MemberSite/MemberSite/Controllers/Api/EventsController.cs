@@ -595,6 +595,17 @@ namespace MemberSite.Controllers.Api
                     apiResult.Data = _eventsBll.GetCustDrawPrizeList(eventId, custInfo.SiteId, authData.CustId);
                 }
 
+                if (eventId is 15 or 16 or 17)
+                {
+                    foreach (var gift in apiResult.Data)
+                    {
+                        if (gift.PrizeName == "Advant Play Free Bet")
+                        {
+                            gift.PrizeName = string.Concat(gift.PrizeName, $" {gift.Amount}");
+                        }
+                    }
+                }
+
                 apiResult.ErrorCode = 0;
             }
 
@@ -753,6 +764,7 @@ namespace MemberSite.Controllers.Api
                 errorCode = 0;
             }
 
+            // PrizeType 1: 金額類  , PrizeType = 2 物件類
             switch (prize.PrizeType)
             {
                 // 再接再厲

@@ -152,20 +152,31 @@ namespace MemberSite.Service.DAL
             await conn.OpenAsync();
             await using var trans = await conn.BeginTransactionAsync();
 
-            var sp = new List<int> {15, 16, 17}.Contains(eventId) ? "Member_DrawPrizeNewYear2024_Set" : "Member_DrawPrize_Set_V2";
-            
-            var res = await _mainDbClient.ExecuteAsync(sp ,trans, new
-            {
-                _EventId = eventId,
-                _PrizeId = prizeId, 
+            var para = new DynamicParameters(new { _EventId = eventId,
+                _PrizeId = prizeId,
                 _PrizeName = prizeName,
                 _Amount = prizeAmount,
                 _CustId = custId,
                 _CurrencyId = currencyId,
                 _TicketNo = ticketNo,
                 _IsUsed = isUsed,
-                _IsBigPrize = isBigPrize
-            });
+                _IsBigPrize = isBigPrize });
+            
+            var sp = "Member_DrawPrize_Set_V2";
+            if (new List<int> {15, 16, 17}.Contains(eventId))
+            {
+                sp = "Member_DrawPrizeNewYear2024_Set";
+                para.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            }
+            
+            var res = await _mainDbClient.ExecuteAsync(sp ,trans, para);
+            var result = para.Get<int?>("Result") ?? 0;
+
+            if (result == -99)
+            {
+                //抽滿了 重抽
+                return result;
+            }
             
             if (prizeType == 1 && prizeAmount > 0)
             {
