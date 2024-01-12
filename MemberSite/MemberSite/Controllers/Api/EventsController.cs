@@ -24,6 +24,7 @@ namespace MemberSite.Controllers.Api
         private readonly SelLangBLL _selLangBll;
         private readonly ServerInfoBll _serverInfoBll;
         private readonly MessageBll _messageBll;
+        private readonly DateTimeHelper _dateTimeHelper;
         private readonly ILogger<EventsController> _logger;
         private readonly QueueJobBLL _queueJobBll;
         private readonly DateTimeHelper _dateTimeHelper;
@@ -39,9 +40,9 @@ namespace MemberSite.Controllers.Api
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
             _messageBll = provider.GetRequiredService<MessageBll>();
             _logger = provider.GetRequiredService<ILogger<EventsController>>();
+            _dateTimeHelper = provider.GetRequiredService<DateTimeHelper>();
             _newYear2024Bll = provider.GetRequiredService<NewYear2024BLL>();
             _queueJobBll = provider.GetRequiredService<QueueJobBLL>();
-            _dateTimeHelper = provider.GetRequiredService<DateTimeHelper>();
         }
         
         #region Leaderboard
@@ -199,7 +200,7 @@ namespace MemberSite.Controllers.Api
             if (authData is {CustId: > 0})
             {
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-                apiResult.Data = _eventsBll.GetCustRank(input.LBCategoryId, custInfo.SiteId, custInfo.CurrencyId, authData.CustId, input.BeforeDays); ;
+                apiResult.Data = _eventsBll.GetCustRank(input.LBCategoryId, custInfo.SiteId, custInfo.CurrencyId, authData.CustId, input.BeforeDays);
                 apiResult.ErrorCode = 0;
             }
 
@@ -594,6 +595,17 @@ namespace MemberSite.Controllers.Api
                     apiResult.Data = _eventsBll.GetCustDrawPrizeList(eventId, custInfo.SiteId, authData.CustId);
                 }
 
+                if (eventId is 15 or 16 or 17)
+                {
+                    foreach (var gift in apiResult.Data)
+                    {
+                        if (gift.PrizeName == "Advant Play Free Bet")
+                        {
+                            gift.PrizeName = string.Concat(gift.PrizeName, $" {gift.Amount}");
+                        }
+                    }
+                }
+
                 apiResult.ErrorCode = 0;
             }
 
@@ -752,6 +764,7 @@ namespace MemberSite.Controllers.Api
                 errorCode = 0;
             }
 
+            // PrizeType 1: 金額類  , PrizeType = 2 物件類
             switch (prize.PrizeType)
             {
                 // 再接再厲

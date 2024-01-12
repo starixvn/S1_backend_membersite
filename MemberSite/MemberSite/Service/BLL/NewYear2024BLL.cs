@@ -40,7 +40,7 @@ public class NewYear2024BLL
 
         if (!promotionMission.Any())
         {
-            return null;
+            return result;
         }
         
         var tpCategoryId = promotionMission.Any(x => x.TpCategoryId != 0) ? promotionMission.FirstOrDefault(x => x.TpCategoryId != 0).TpCategoryId : 0;
@@ -166,37 +166,44 @@ public class NewYear2024BLL
             // 開抽
             for (var i = 0; i < drawTimes; i++)
             {
-                var drawPrize = Drawing(prizes);
-                
-                if (string.Equals(drawPrize.PrizeName, "Blessings Sticker", StringComparison.InvariantCulture))
+                // -99 : 抽滿了 重抽
+                int payoutPrizeOutput;
+                do
                 {
-                    stickers += 1;
-                    if (stickers >= 5)
+                    var drawPrize = Drawing(prizes);
+                
+                    if (string.Equals(drawPrize.PrizeName, "Blessings Sticker", StringComparison.InvariantCulture))
                     {
-                        ChangePrizeRate(prizes,stickers);
+                        stickers += 1;
+                        if (stickers >= 5)
+                        {
+                            ChangePrizeRate(prizes,stickers);
+                        }
                     }
-                }
                 
-                var res = await _eventsService.PayoutPrize(
-                    eventId,
-                    drawPrize.PrizeId,
-                    drawPrize.PrizeName, 
-                    customer.SiteId, 
-                    customer.CustId,
-                    customer.UserName,
-                    customer.CurrencyId, 
-                    drawPrize.Amount,
-                    0, 
-                    drawPrize.PrizeType,
-                    true,
-                    false
-                );
+                    payoutPrizeOutput = await _eventsService.PayoutPrize(
+                        eventId,
+                        drawPrize.PrizeId,
+                        drawPrize.PrizeName, 
+                        customer.SiteId, 
+                        customer.CustId,
+                        customer.UserName,
+                        customer.CurrencyId, 
+                        drawPrize.Amount,
+                        0, 
+                        drawPrize.PrizeType,
+                        true,
+                        false
+                    );
 
-                if (res > 0)
-                {
-                    drawPrizeList.Add(drawPrize);
-                    remainingDraw -= 1;
-                }
+                    if (payoutPrizeOutput > 0)
+                    {
+                        drawPrizeList.Add(drawPrize);
+                        remainingDraw -= 1;
+                    }
+                    
+                } while (payoutPrizeOutput == -99 );
+                
             }
         }
         catch (Exception e)
