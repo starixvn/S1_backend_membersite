@@ -27,7 +27,6 @@ namespace MemberSite.Controllers.Api
         private readonly DateTimeHelper _dateTimeHelper;
         private readonly ILogger<EventsController> _logger;
         private readonly QueueJobBLL _queueJobBll;
-        private readonly DateTimeHelper _dateTimeHelper;
 
         public EventsController(IServiceProvider provider)
         {
