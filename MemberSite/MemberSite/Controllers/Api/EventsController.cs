@@ -600,7 +600,7 @@ namespace MemberSite.Controllers.Api
                     {
                         if (gift.PrizeName == "Advant Play Free Bet")
                         {
-                            gift.PrizeName = string.Concat(gift.PrizeName, $" {gift.Amount}");
+                            gift.PrizeName = string.Concat(gift.PrizeName, $" {(int)gift.Amount}");
                         }
                     }
                 }
