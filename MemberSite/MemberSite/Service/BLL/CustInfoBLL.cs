@@ -16,7 +16,6 @@ namespace MemberSite.Service.BLL
     {
         private readonly Tools _tools;
         private readonly VerificationRewardBLL _verificationRewardBll;
-        private readonly IRabbitMQProducer _producer;
         private readonly CustInfoService _custInfoService;
         private readonly AuthenticateService _authenticateService;
         private readonly IAffiliateService _affiliateService;
@@ -50,7 +49,6 @@ namespace MemberSite.Service.BLL
             _areaCodeMap = provider.GetRequiredService<IEnumerable<AreaCodeMap>>();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
             _shieldBll = provider.GetRequiredService<ShieldBLL>();
-            _producer = provider.GetRequiredService<IRabbitMQProducer>();
             _affiliateService = provider.GetRequiredService<IAffiliateService>();
             _vIPService = provider.GetRequiredService<VIPService>();
             _depositService = provider.GetRequiredService<DepositService>();
@@ -75,7 +73,7 @@ namespace MemberSite.Service.BLL
         public int AddCustInfo(string UserName, string Userpwd, string Email, int CurrencyId, string UserLang,
             string refId, string affId, string aff, AffCodeObject affCode, string lineUserId, int deviceType, out int custId, string signupUrl = null,
             string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null,
-            int Birth_d = 0, int Birth_m = 0, int Birth_y = 0)
+            int Birth_d = 0, int Birth_m = 0, int Birth_y = 0, string signupIp = null)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
             if (string.IsNullOrEmpty(affId) && !serverInfo.ICurrencyList.Contains(CurrencyId))
@@ -154,14 +152,14 @@ namespace MemberSite.Service.BLL
             }
 
             var result = _custInfoService.AddCustInfo(regCustInfo, Email, lineUserId, deviceType, out custId, signupUrl, referralUrl, PhoneNo, AreaCode,
-                RealName, promoCode, Birth_d, Birth_m, Birth_y);
+                RealName, promoCode, Birth_d, Birth_m, Birth_y, signupIp);
 
             if (result == 0 && regCustInfo.SiteId != (int)SiteId.Nova88)
             {
                 regCustInfo.CustId = custId;
-                _ = Task.Run(async () =>
+                _ = Task.Run(() =>
                 {
-                    var checkResult = _shieldBll.CheckCustShieldRisk(
+                    _ = _shieldBll.CheckCustShieldRisk(
                         regCustInfo,
                         ShieldRiskTriggeredPoint.Registration,
                         ShieldRiskTaggedIssue.HighRisk);
@@ -480,8 +478,14 @@ namespace MemberSite.Service.BLL
 
             if (apiResult.ErrorCode == 0 && !await _custInfoService.GetPhoneVerified(custId))
             {
-                _custInfoService.SetPhoneVerified(custId);
-                await _verificationRewardBll.PhoneReward(custId);
+                if (_custInfoService.SetPhoneVerified(custId) > 0)
+                {
+                    await _verificationRewardBll.PhoneReward(custId);
+                }
+                else
+                {
+                    apiResult.ErrorCode = -1;
+                }
             }
             return apiResult;
         }
@@ -492,8 +496,14 @@ namespace MemberSite.Service.BLL
 
             if (apiResult.ErrorCode == 0 && !await _custInfoService.GetEmailVerified(custId))
             {
-                _custInfoService.SetEmailVerified(custId);
-                await _verificationRewardBll.EmailReward(custId);
+                if (_custInfoService.SetEmailVerified(custId) > 0)
+                {
+                    await _verificationRewardBll.EmailReward(custId);
+                }
+                else
+                {
+                    apiResult.ErrorCode = -1;
+                }               
             }
             return apiResult;
         }

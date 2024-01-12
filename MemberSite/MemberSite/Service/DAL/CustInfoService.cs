@@ -43,7 +43,7 @@ namespace MemberSite.Service.DAL
             return _reportDbClient.ExecuteScalar<int>("Member_ExistsEmail_Get", new { CustId = custId, Email = email, SiteId = siteId }) != 0;
         }
 
-        public int AddCustInfo(Customer customer, string Email, string lineUserId, int deviceType, out int custId, string signupUrl = null, string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null, int Birth_d = 0, int Birth_m = 0, int Birth_y = 0)
+        public int AddCustInfo(Customer customer, string Email, string lineUserId, int deviceType, out int custId, string signupUrl = null, string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null, int Birth_d = 0, int Birth_m = 0, int Birth_y = 0, string signupIp = null)
         {
             using var conn = _mainDbClient.GetMySqlConnection();
             conn.Open();
@@ -132,9 +132,9 @@ namespace MemberSite.Service.DAL
 
                 if (result > 0 && (!string.IsNullOrEmpty(signupUrl) || !string.IsNullOrEmpty(referralUrl)))
                 {
-                    result = _mainDbClient.Execute("Member_CustRegInfo_Ins_V3", trans,
+                    result = _mainDbClient.Execute("Member_CustRegInfo_Ins_V4", trans,
                         new DynamicParameters(
-                         new { CustId = custId, customer.SiteId, SignupUrl = signupUrl, ReferralUrl = referralUrl, DeviceType = deviceType }));
+                         new { CustId = custId, customer.SiteId, SignupUrl = signupUrl, ReferralUrl = referralUrl, DeviceType = deviceType, SignupIp = signupIp }));
                 }
 
                 if (result > 0 && !string.IsNullOrEmpty(promoCode) && _promotionService.CheckSpecialCode(promoCode))
@@ -559,7 +559,14 @@ namespace MemberSite.Service.DAL
 
         public int SetPhoneVerified(int custId)
         {
-            var result = _mainDbClient.Execute("Common_PhoneVerified_Set", new DynamicParameters(new { CustId = custId }));
+            using var conn = _mainDbClient.GetMySqlConnection();
+            conn.Open();
+            using var trans = conn.BeginTransaction();
+            var result = _mainDbClient.Execute("Common_PhoneVerified_Set", trans, new { CustId = custId });
+            if (result > 0 )
+            {
+                MySqlClient.CommitAndDisposeConnection(conn, trans);
+            }
             return result;
         }
 
@@ -571,7 +578,14 @@ namespace MemberSite.Service.DAL
 
         public int SetEmailVerified(int custId)
         {
-            var result = _mainDbClient.Execute("Common_EmailVerified_Set", new DynamicParameters(new { _CustId = custId }));
+            using var conn = _mainDbClient.GetMySqlConnection();
+            conn.Open();
+            using var trans = conn.BeginTransaction();
+            var result = _mainDbClient.Execute("Common_EmailVerified_Set", trans, new { _CustId = custId });
+            if (result > 0)
+            {
+                MySqlClient.CommitAndDisposeConnection(conn, trans);
+            }
             return result;
         }
 

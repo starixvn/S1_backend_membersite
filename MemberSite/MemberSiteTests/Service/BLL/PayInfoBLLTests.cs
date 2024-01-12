@@ -46,11 +46,11 @@ namespace MemberSite.Service.BLL.Tests
 
 
         [TestCase(251048, DepositType.MobilePayment, ExpectedResult = true)]
-        [TestCase(251048, DepositType.QRPayPayment, ExpectedResult = true)]
+        [TestCase(251048, DepositType.QrPayPayment, ExpectedResult = true)]
         public bool GetPayGroupListTest(int custId, DepositType depositType) => _payInfoBLL.GetPayGroupList(custId, depositType).Any();
 
         [TestCase(251048, 2, DepositType.MobilePayment, ExpectedResult = true)]
-        [TestCase(251048, 29, DepositType.QRPayPayment, ExpectedResult = true)]
+        [TestCase(251048, 29, DepositType.QrPayPayment, ExpectedResult = true)]
         public bool GetPayInfoListTest(int custId, int groupId, DepositType depositType) => _payInfoBLL.GetPayInfoList(custId, groupId, depositType).Any();
     }
 }

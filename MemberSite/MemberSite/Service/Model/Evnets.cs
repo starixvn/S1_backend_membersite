@@ -50,6 +50,39 @@ namespace MemberSite.Service.Model
         public DateTime SelectDays { get; set; }
     }
     
+    public class LeaderboardSetting
+    {
+        public LeaderboardPointCalculation LeaderboardPointCalculation { get; set; }
+        public IEnumerable<LeaderboardRankingBonus> LeaderboardRankingBonus { get; set; }
+    }
+    
+    public class LeaderboardPointCalculation
+    {
+        public string Date { get; set; }
+        public int SiteId { get; set; }
+        public int CurrencyId { get; set; }
+        public decimal SportTurnover { get; set; }
+        public decimal SlotTurnover { get; set; }
+        public decimal LiveCasinoTurnover { get; set; }
+    }
+    
+    public class LeaderboardRankingBonus
+    {
+        public int SiteId { get; set; }
+        public string SiteName { get; set; }
+        public string Currency { get; set; }
+        public int CurrencyId { get; set; }
+        public string Ranking { get; set; }
+        public decimal MinPoint { get; set; }
+        public decimal Bonus { get; set; }
+    }
+    
+    public class GetLeaderboardSettingReq
+    {
+        public int SiteId { get; set; }
+        public int CurrencyId { get; set; }
+    }
+    
     #endregion
     
     #region DrawPrize

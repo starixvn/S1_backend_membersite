@@ -4,6 +4,7 @@ using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -23,6 +24,7 @@ namespace MemberSite.Controllers.Api
         private readonly SelLangBLL _selLangBll;
         private readonly ServerInfoBll _serverInfoBll;
         private readonly MessageBll _messageBll;
+        private readonly DateTimeHelper _dateTimeHelper;
         private readonly ILogger<EventsController> _logger;
         private readonly QueueJobBLL _queueJobBll;
 
@@ -37,10 +39,11 @@ namespace MemberSite.Controllers.Api
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
             _messageBll = provider.GetRequiredService<MessageBll>();
             _logger = provider.GetRequiredService<ILogger<EventsController>>();
+            _dateTimeHelper = provider.GetRequiredService<DateTimeHelper>();
             _newYear2024Bll = provider.GetRequiredService<NewYear2024BLL>();
             _queueJobBll = provider.GetRequiredService<QueueJobBLL>();
         }
-
+        
         #region Leaderboard
         
         //[Authorize]
@@ -66,7 +69,6 @@ namespace MemberSite.Controllers.Api
             }
 
             apiResult.Data = _eventsBll.GetLeaderboardList(
-                getLeaderboardListV2Req.EventCode,
                 getLeaderboardListV2Req.LBCategoryId,
                 siteId,
                 currencyId,
@@ -124,7 +126,6 @@ namespace MemberSite.Controllers.Api
             }
 
             apiResult.Data = _eventsBll.GetLeaderboardListMonth(
-                getLeaderboardListMonthReq.EventCode,
                 getLeaderboardListMonthReq.LBCategoryId,
                 siteId,
                 currencyId,
@@ -151,6 +152,42 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
 
+        [HttpPost]
+        [EnableCors("LeaderBoard")]
+        public ApiResult<LeaderboardSetting> GetLeaderboardSetting(GetLeaderboardSettingReq req)
+        {
+            var result = new ApiResult<LeaderboardSetting>();
+            
+            try
+            {
+                var time = _dateTimeHelper.ToCurrencyZone(DateTime.UtcNow, req.CurrencyId).Result;
+                var date = time.ToString("yyyyMM");
+                
+                var calculation = _eventsBll.GetLeaderboardPointCalculation(req.SiteId, date).FirstOrDefault(x=>x.CurrencyId == req.CurrencyId);
+                var rankingBonus = _eventsBll.GetLeaderboardRankingBonus(req.SiteId,req.CurrencyId);
+
+                var data = new LeaderboardSetting
+                {
+                    LeaderboardPointCalculation = calculation,
+                    LeaderboardRankingBonus = rankingBonus
+                };
+                result.ErrorCode = 0;
+                result.Data = data;
+                
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "GetLeaderboardPointCalculation");
+                return new ApiResult<LeaderboardSetting>
+                {
+                    Message = "System Error.",
+                    ErrorCode = 9000
+                };
+            }
+
+        }
+        
         [Authorize]
         [HttpPost]
         public ApiResult<LeaderboardCustRank> GetCustRank(GetCustRankReq input)
@@ -163,9 +200,7 @@ namespace MemberSite.Controllers.Api
             if (authData is {CustId: > 0})
             {
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-                apiResult.Data = _eventsBll.GetCustRank(input.LBCategoryId, input.EventCode, custInfo.SiteId,
-                    custInfo.CurrencyId, authData.CustId, input.BeforeDays);
-                ;
+                apiResult.Data = _eventsBll.GetCustRank(input.LBCategoryId, custInfo.SiteId, custInfo.CurrencyId, authData.CustId, input.BeforeDays);
                 apiResult.ErrorCode = 0;
             }
 
@@ -185,9 +220,7 @@ namespace MemberSite.Controllers.Api
             {
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
 
-                var (custRank, point) = _eventsBll.GetCustRankWithCacheMonth(getCustRankMonthReq.LBCategoryId,
-                    getCustRankMonthReq.EventCode, custInfo.SiteId, custInfo.CurrencyId, authData.CustId,
-                    getCustRankMonthReq.SelectDays);
+                var (custRank, point) = _eventsBll.GetCustRankWithCacheMonth(getCustRankMonthReq.LBCategoryId, custInfo.SiteId, custInfo.CurrencyId, authData.CustId, getCustRankMonthReq.SelectDays);
 
                 apiResult.Data.CustRank = custRank;
                 apiResult.Data.point = point;
