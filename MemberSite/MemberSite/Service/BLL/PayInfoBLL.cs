@@ -53,6 +53,7 @@ namespace MemberSite.Service.BLL
             var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
             var result = new Dictionary<string, PayMethod>();
             
+            var code = CommonExtension.GenerateRandomNumber();
             var bankTransferData = _bankInfoOffBll.GetBankInfoOffListWithCache(custInfo.CustId)
                 .Select(x => new OfflineBankInfo
                 {
@@ -69,7 +70,7 @@ namespace MemberSite.Service.BLL
                         AccountNo = x.AccountNo,
                         AccountName = x.AccountName,
                         QrCodeUrl = x.QRCodeUrl,
-                        Code = x.Code
+                        Code = code
                     },
                     DepositType = DepositType.LocalBank
                 });

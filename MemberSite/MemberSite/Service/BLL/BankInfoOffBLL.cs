@@ -72,12 +72,11 @@ namespace MemberSite.Service.BLL
             var offBankList = _redisHelper.TryGetOrCreate(key, TimeSpan.FromMinutes(5),
                 () => GetBankAccountOffList(siteId, currencyId, pointLevel, custInfo.UserLevel, lang));
 
-            var code = CommonExtension.GenerateRandomNumber();
             var custDepositSysIds = _bankInfoService.GetCustOffDepositSysId(custId);
             var result = offBankList
                 .Where(x => !x.SupportChannel.Any()
                             || x.SupportChannel.Contains(OfflineBankAccountSupportChannelEnum.LocalBank))
-                .Select(x => new OfflineBankInfoFront(x, !custDepositSysIds.Contains(x.SysId), code));
+                .Select(x => new OfflineBankInfoFront(x, !custDepositSysIds.Contains(x.SysId)));
             return result;
         }
         
@@ -170,6 +169,7 @@ namespace MemberSite.Service.BLL
                 depositRep3.BankName = info.BankName;
                 depositRep3.BankLogo = info.BankLogo;
                 depositRep3.BankSite = info.BankSite;
+                depositRep3.Code = CommonExtension.GenerateRandomNumber();
 
                 return 0;
             }
