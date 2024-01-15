@@ -144,7 +144,7 @@ namespace MemberSite.Service.BLL
             return (0, string.Empty);
         }
 
-        public int DepositReqLocalBank(int custId, int sysId, int bankId, decimal amount, string memo, out DepositRep3 depositRep3)
+        public int DepositReqLocalBank(int custId, int sysId, int bankId, decimal amount, string memo, string code, out DepositRep3 depositRep3)
         {
             depositRep3 = new DepositRep3();
 
@@ -195,8 +195,6 @@ namespace MemberSite.Service.BLL
                 _logger.LogError($"No available bank card, bankId: {bankId}, amount: {amount}");
                 return -3;
             }
-
-            var code = CommonExtension.GenerateRandomNumber();
 
             var depositDetailInfo = new DepositDetailInfo
             {

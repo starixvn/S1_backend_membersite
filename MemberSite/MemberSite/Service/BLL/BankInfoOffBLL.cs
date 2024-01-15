@@ -1,4 +1,5 @@
-﻿using MemberSite.Service.DAL;
+﻿using MemberSite.Extensions;
+using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
@@ -71,11 +72,12 @@ namespace MemberSite.Service.BLL
             var offBankList = _redisHelper.TryGetOrCreate(key, TimeSpan.FromMinutes(5),
                 () => GetBankAccountOffList(siteId, currencyId, pointLevel, custInfo.UserLevel, lang));
 
+            var code = CommonExtension.GenerateRandomNumber();
             var custDepositSysIds = _bankInfoService.GetCustOffDepositSysId(custId);
             var result = offBankList
                 .Where(x => !x.SupportChannel.Any()
                             || x.SupportChannel.Contains(OfflineBankAccountSupportChannelEnum.LocalBank))
-                .Select(x => new OfflineBankInfoFront(x, !custDepositSysIds.Contains(x.SysId)));
+                .Select(x => new OfflineBankInfoFront(x, !custDepositSysIds.Contains(x.SysId), code));
             return result;
         }
         
