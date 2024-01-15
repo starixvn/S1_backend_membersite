@@ -53,7 +53,7 @@ namespace MemberSite.Service.Model
     {
         public OfflineBankInfoFront() { }
 
-        public OfflineBankInfoFront(SysBankInfoFront bankInfo, bool canSubmit)
+        public OfflineBankInfoFront(SysBankInfoFront bankInfo, bool canSubmit, string code)
         {
             base.BankId = bankInfo.BankId;
             base.SysId = bankInfo.SysId;
@@ -70,8 +70,10 @@ namespace MemberSite.Service.Model
             base.QRCodeUrl = bankInfo.QRCodeUrl;
             base.SupportChannel = bankInfo.SupportChannel;
             this.CanSubmit = canSubmit;
+            this.Code = code;
         }
         public bool CanSubmit { get; set; }
+        public string Code { get; set; }
     }
 
     public class BankInfoName

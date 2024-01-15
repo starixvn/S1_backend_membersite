@@ -41,6 +41,7 @@ namespace MemberSite.Service.Model
         public string AccountName { get; set; }
         public string AccountNo { get; set; }
         public string QrCodeUrl { get; set; }
+        public string Code { get; set; }
     }
 
     public class OnlineBankChannel : GenericPayChannel
