@@ -42,6 +42,7 @@ namespace MemberSite.Service.Model
         public int? PromotionAction { set; get; }
         public CashBackDetails CashBackDetails { get; set; }
         public bool BeenUsed { get; set; }
+        public int PeriodType { set; get; }
         public IEnumerable<TierAmount> TierAmountList { get; set; }
         public IEnumerable<CanJoinTierAmount> CanJoinTierAmountList { get; set; }
         public MissionBonusProgress MissionBonusProgress { get; set; }
