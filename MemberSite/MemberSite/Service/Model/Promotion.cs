@@ -118,6 +118,8 @@ namespace MemberSite.Service.Model
     public class CanJoinTierAmount
     {
         public decimal RequiredAmount { get; set; }
+        public decimal RequiredTurnover { get; set; }
+        public int TpCategoryId { get; set; }
         public decimal Bonus { get; set; }
         public decimal BonusAmount { get; set; }
         public decimal LockedAmount { get; set; }
