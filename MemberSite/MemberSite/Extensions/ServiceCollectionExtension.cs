@@ -3,7 +3,6 @@ using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
-using RabbitMQ.Client;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -36,24 +35,6 @@ namespace MemberSite.Extensions
                {
                    DataBase = DataBase.Log
                });
-        }
-
-        public static void AddMessageQueueConnection(this IServiceCollection services)
-        {
-            var provider = services.BuildServiceProvider();
-            var configBll = provider.GetRequiredService<ConfigBLL>();
-            var rabbitMqConfig = configBll.GetConfigValueByEnvironment<RabbitMqConfig>("RabbitMQ");
-
-            var hostName = rabbitMqConfig.HostName;
-            var userName = rabbitMqConfig.UserName;
-            var password = rabbitMqConfig.Password;
-
-            services.AddSingleton<IConnectionFactory>(_ => new ConnectionFactory()
-            {
-                HostName = hostName,
-                UserName = userName,
-                Password = password
-            });
         }
 
         public static IServiceCollection AddOptionListByDB<T>(this IServiceCollection services, string sql, object parameters = null)
