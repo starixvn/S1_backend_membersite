@@ -400,7 +400,7 @@ namespace MemberSite.Controllers.Api
                                 }
                                 apiResult.Data.DrawPrizeType = prize.DrawPrizeType;
                                 apiResult.Data.PrizeId = prize.PrizeId;
-                                apiResult.Data.PrizeName = prize.PrizeName;
+                                apiResult.Data.PrizeName = AlterDisplayPrizeName(prize);
                             }
                             else if (error > 100)
                             {
@@ -543,7 +543,7 @@ namespace MemberSite.Controllers.Api
                                     var prizeData = new CustGift
                                     {
                                         PrizeId = prize.PrizeId,
-                                        PrizeName = prize.PrizeName,
+                                        PrizeName = AlterDisplayPrizeName(prize),
                                         DrawPrizeType = prize.DrawPrizeType
                                     };
                                     apiResult.Data.Add(prizeData);
@@ -795,12 +795,6 @@ namespace MemberSite.Controllers.Api
                     break;
                 }
             }
-
-            // for display name
-            if (prize.PrizeName == "Advant Play Free Bet")
-            {
-                prize.PrizeName = string.Concat(prize.PrizeName, $" {(int)prize.Amount}");
-            }
             
             return errorCode;
         }
@@ -815,6 +809,13 @@ namespace MemberSite.Controllers.Api
             _messageBll.SendMessage(new Message("System", custInfo.CustId, custInfo.UserLang, title, msg));
         }
 
+        private string AlterDisplayPrizeName(Prize prize)
+        {
+            return prize.PrizeName == "Advant Play Free Bet"
+                ? string.Concat(prize.PrizeName, $" {(int) prize.Amount}")
+                : prize.PrizeName;
+        }
+        
         #endregion
         
         #endregion
