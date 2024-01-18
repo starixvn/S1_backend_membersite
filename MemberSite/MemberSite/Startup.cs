@@ -120,9 +120,9 @@ namespace MemberSite
             services.AddTransient<IHotGameService, HotGameService>();
             services.AddTransient<IAnnouncementService, AnnouncementService>();
             services.AddSingleton<VIPService>();
+            services.AddSingleton<BigWinService>();
 
             /*BLL*/
-            services.AddSingleton<IRabbitMQProducer, RabbitMQProducer>();
             services.AddSingleton<ServerInfoBll>();
             services.AddSingleton<CustInfoBll>();
             services.AddSingleton<WalletBLL>();
@@ -178,7 +178,7 @@ namespace MemberSite
             services.AddTransient<IAnnouncementBLL, AnnouncementBLL>();
 
             services.AddTransient<IHotGameBLL, HotGameBLL>();
-
+            services.AddTransient<BigWinBLL>();
             services.AddSingleton<CustomCookieAuthenticationEvents>();
             services.AddTransient<HotEventBLL>();
             services.AddSingleton<CryptoHelper>();
@@ -242,7 +242,6 @@ namespace MemberSite
             services.AddOptionListByDB<ConfigObject>("SiteConfig_Get", new { ConfigGroup = "MemberSite" });
             services.AddSiteConfig();
             services.AddSingleton<ConfigBLL>();
-            services.AddMessageQueueConnection();
             services.AddGoogleReCaptchaSetting();
 
             // JWT | Cookie Auth

@@ -10,13 +10,14 @@ using Microsoft.Extensions.Caching.Memory;
 
 using Newtonsoft.Json;
 
+using Org.BouncyCastle.Asn1.Tsp;
+
 namespace MemberSite.Service.BLL
 {
     public class CustInfoBll
     {
         private readonly Tools _tools;
         private readonly VerificationRewardBLL _verificationRewardBll;
-        private readonly IRabbitMQProducer _producer;
         private readonly CustInfoService _custInfoService;
         private readonly AuthenticateService _authenticateService;
         private readonly IAffiliateService _affiliateService;
@@ -50,7 +51,6 @@ namespace MemberSite.Service.BLL
             _areaCodeMap = provider.GetRequiredService<IEnumerable<AreaCodeMap>>();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
             _shieldBll = provider.GetRequiredService<ShieldBLL>();
-            _producer = provider.GetRequiredService<IRabbitMQProducer>();
             _affiliateService = provider.GetRequiredService<IAffiliateService>();
             _vIPService = provider.GetRequiredService<VIPService>();
             _depositService = provider.GetRequiredService<DepositService>();
@@ -287,6 +287,7 @@ namespace MemberSite.Service.BLL
 
             return 0;
         }
+
         public Customer GetCustInfoWithCache(int custId, bool forceUseMainDb = false)
         {
             return _redisHelper.TryGetOrCreate($"CustInfo:{custId}", TimeSpan.FromMinutes(1),
@@ -451,21 +452,22 @@ namespace MemberSite.Service.BLL
         {
             return _custInfoService.GetCustInfoProfile(custId);
         }
+
         public CustInfoProfile GetCustInfoProfileWithCache(int custId)
         {
-            var key = $"CustInfoProfile_{custId}";
-            return _cacheHelper.TryGetOrCreate(key,
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)),
-                i => GetCustInfoProfile(custId));
+            return _redisHelper.TryGetOrCreate(
+                $"CustInfoProfile:{custId}",
+                TimeSpan.FromMinutes(1),
+                () => GetCustInfoProfile(custId));
         }
+
         public int SubmittedCustPhotoId(int custId)
         {
             var custInfo = GetCustInfoWithCache(custId);
-            return _custInfoService.SubmittedCustPhotoId(custId, custInfo.SiteId, custInfo.CurrencyId);
-        }
-        public void ForgetPwd1(int custId, string resetPasswordUrl)
-        {
-            _commonBll.SendResetPwdMail(custId, resetPasswordUrl);
+            return _redisHelper.TryGetOrCreate(
+                $"SubmittedCustPhotoId:{custId}", 
+                TimeSpan.FromSeconds(5),
+                () => _custInfoService.SubmittedCustPhotoId(custId, custInfo.SiteId, custInfo.CurrencyId));
         }
 
         public async Task<ApiResult> ForgetPwd1Async(int custId, string resetPasswordUrl)
