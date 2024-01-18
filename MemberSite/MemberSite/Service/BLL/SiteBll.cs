@@ -82,12 +82,12 @@ public class SiteBll
                     break;
             }
 
-            if (!_regexEmail.IsMatch(signupModel.Email))
-            {
-                apiResult.ErrorCode = -10;
-                apiResult.Message = _selLangBll.GetMsg("msg_EmailFormatVerify");
-                return customer;
-            }
+            //if (!_regexEmail.IsMatch(signupModel.Email))
+            //{
+            //    apiResult.ErrorCode = -10;
+            //    apiResult.Message = _selLangBll.GetMsg("msg_EmailFormatVerify");
+            //    return customer;
+            //}
         }
 
         if (checkReCaptchaToken && !string.IsNullOrEmpty(signupModel.ReCaptchaToken))
@@ -118,15 +118,15 @@ public class SiteBll
             return customer;
         }
 
-        if (!string.IsNullOrWhiteSpace(signupModel.Email))
-        {
-            if (_custInfoBLL.ExistsEmail(0, signupModel.Email))
-            {
-                apiResult.ErrorCode = -10;
-                apiResult.Message = $"{_selLangBll.GetResourceValue("lbl_Email")} {_selLangBll.GetMsg("msg_HasExist")}";
-                return customer;
-            }
-        }
+        //if (!string.IsNullOrWhiteSpace(signupModel.Email))
+        //{
+        //    if (_custInfoBLL.ExistsEmail(0, signupModel.Email))
+        //    {
+        //        apiResult.ErrorCode = -10;
+        //        apiResult.Message = $"{_selLangBll.GetResourceValue("lbl_Email")} {_selLangBll.GetMsg("msg_HasExist")}";
+        //        return customer;
+        //    }
+        //}
 
         if (!_regexUserName.IsMatch(signupModel.UserName))
         {
@@ -250,19 +250,21 @@ public class SiteBll
                     }
                     else
                     {
-                        _ = Task.Run(async () =>
-                        {
-                            _commonBll.SendWelcomeMail(custId);
+                        //註冊的時候改成不填email
 
-                            // Signup Remove Iovation
-                            //if (signupModel.blackbox != null)
-                            //{
-                            //    var apiResultIovation = await _iovationBll.IovationChecks(custId, signupModel.CurrencyId,
-                            //        signupModel.UserName, signupModel.blackbox, IovationType.registration);
-                            //    if (apiResultIovation.ErrorCode == 0 & apiResultIovation.Data != null)
-                            //        _iovationBll.SetIovation(custId, IovationType.registration, apiResultIovation.Data);
-                            //}
-                        });
+                        //_ = Task.Run(async () =>
+                        //{
+                        //    _commonBll.SendWelcomeMail(custId);
+
+                        //    // Signup Remove Iovation
+                        //    //if (signupModel.blackbox != null)
+                        //    //{
+                        //    //    var apiResultIovation = await _iovationBll.IovationChecks(custId, signupModel.CurrencyId,
+                        //    //        signupModel.UserName, signupModel.blackbox, IovationType.registration);
+                        //    //    if (apiResultIovation.ErrorCode == 0 & apiResultIovation.Data != null)
+                        //    //        _iovationBll.SetIovation(custId, IovationType.registration, apiResultIovation.Data);
+                        //    //}
+                        //});
 
                         var userLoginResult = _custInfoBLL.UserLogin(false, 0, signupModel.UserName, signupModel.Userpwd,
                             _tools.GetClientIP(), fromUrl, userAgent, deviceType, ref customer, out var token);

@@ -266,7 +266,7 @@ namespace MemberSite.Service.DAL
             string Email = profile[nameof(Email)];
             string AreaCode = profile[nameof(AreaCode)];
             string PhoneNo = profile[nameof(PhoneNo)];
-            var result = _mainDbClient.Execute("Member_CustProfile_Set",
+            var result = _mainDbClient.Execute("Member_CustProfile_Set_V2",
                 new
                 {
                     CustId = custId,
