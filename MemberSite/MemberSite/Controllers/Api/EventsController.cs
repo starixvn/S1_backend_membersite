@@ -796,6 +796,12 @@ namespace MemberSite.Controllers.Api
                 }
             }
 
+            // for display name
+            if (prize.PrizeName == "Advant Play Free Bet")
+            {
+                prize.PrizeName = string.Concat(prize.PrizeName, $" {(int)prize.Amount}");
+            }
+            
             return errorCode;
         }
 

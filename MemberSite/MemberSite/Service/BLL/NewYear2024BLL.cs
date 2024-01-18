@@ -198,10 +198,6 @@ public class NewYear2024BLL
 
                     if (payoutPrizeOutput > 0)
                     {
-                        if (drawPrize.PrizeName == "Advant Play Free Bet")
-                        {
-                            drawPrize.PrizeName = string.Concat(drawPrize.PrizeName, $" {(int)drawPrize.Amount}");
-                        }
                         drawPrizeList.Add(drawPrize);
                         remainingDraw -= 1;
                     }
