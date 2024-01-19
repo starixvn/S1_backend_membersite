@@ -599,7 +599,7 @@ namespace MemberSite.Controllers.Api
                 {
                     foreach (var gift in apiResult.Data)
                     {
-                        if (gift.PrizeName == "Advant Play Free Bet")
+                        if (gift.PrizeName.Contains("Advant Play Free Bet"))
                         {
                             gift.PrizeName = string.Concat(gift.PrizeName, $" {(int)gift.Amount}");
                         }
