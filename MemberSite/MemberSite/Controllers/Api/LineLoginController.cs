@@ -36,6 +36,7 @@ namespace MemberSite.Controllers.Api
         public LineLoginController(IServiceProvider provider)
         {
             _tools = provider.GetRequiredService<Tools>();
+            _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
             _lineLoginBll = provider.GetRequiredService<LineLoginBLL>();
             _selLangBll = provider.GetRequiredService<SelLangBLL>();
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
