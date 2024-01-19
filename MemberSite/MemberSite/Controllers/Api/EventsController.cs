@@ -811,7 +811,7 @@ namespace MemberSite.Controllers.Api
 
         private string AlterDisplayPrizeName(Prize prize)
         {
-            return prize.PrizeName == "Advant Play Free Bet"
+            return prize.PrizeName.Contains("Advant Play Free Bet")
                 ? string.Concat(prize.PrizeName, $" {(int) prize.Amount}")
                 : prize.PrizeName;
         }
