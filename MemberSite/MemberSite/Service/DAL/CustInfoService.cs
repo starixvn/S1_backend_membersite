@@ -1,5 +1,4 @@
 ﻿using System.Data;
-
 using Dapper;
 
 using MemberSite.Service.Library;
@@ -43,7 +42,7 @@ namespace MemberSite.Service.DAL
             return _reportDbClient.ExecuteScalar<int>("Member_ExistsEmail_Get", new { CustId = custId, Email = email, SiteId = siteId }) != 0;
         }
 
-        public int AddCustInfo(Customer customer, string Email, string lineUserId, int deviceType, out int custId, string signupUrl = null, string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null, int Birth_d = 0, int Birth_m = 0, int Birth_y = 0)
+        public int AddCustInfo(Customer customer, string Email, string lineUserId, int deviceType, out int custId, string signupUrl = null, string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null, int Birth_d = 0, int Birth_m = 0, int Birth_y = 0, string signupIp = null)
         {
             using var conn = _mainDbClient.GetMySqlConnection();
             conn.Open();
@@ -132,9 +131,9 @@ namespace MemberSite.Service.DAL
 
                 if (result > 0 && (!string.IsNullOrEmpty(signupUrl) || !string.IsNullOrEmpty(referralUrl)))
                 {
-                    result = _mainDbClient.Execute("Member_CustRegInfo_Ins_V3", trans,
+                    result = _mainDbClient.Execute("Member_CustRegInfo_Ins_V4", trans,
                         new DynamicParameters(
-                         new { CustId = custId, customer.SiteId, SignupUrl = signupUrl, ReferralUrl = referralUrl, DeviceType = deviceType }));
+                         new { CustId = custId, customer.SiteId, SignupUrl = signupUrl, ReferralUrl = referralUrl, DeviceType = deviceType, SignupIp = signupIp }));
                 }
 
                 if (result > 0 && !string.IsNullOrEmpty(promoCode) && _promotionService.CheckSpecialCode(promoCode))
@@ -266,7 +265,7 @@ namespace MemberSite.Service.DAL
             string Email = profile[nameof(Email)];
             string AreaCode = profile[nameof(AreaCode)];
             string PhoneNo = profile[nameof(PhoneNo)];
-            var result = _mainDbClient.Execute("Member_CustProfile_Set",
+            var result = _mainDbClient.Execute("Member_CustProfile_Set_V2",
                 new
                 {
                     CustId = custId,
@@ -563,7 +562,7 @@ namespace MemberSite.Service.DAL
             conn.Open();
             using var trans = conn.BeginTransaction();
             var result = _mainDbClient.Execute("Common_PhoneVerified_Set", trans, new { CustId = custId });
-            if (result > 0 )
+            if (result > 0)
             {
                 MySqlClient.CommitAndDisposeConnection(conn, trans);
             }
@@ -873,6 +872,194 @@ namespace MemberSite.Service.DAL
         public async Task<IEnumerable<CustRecentlyViewedInfo>> GetCustRecentlyViewed(int custId)
         {
             return await _reportDbClient.QueryAsync<CustRecentlyViewedInfo>("Member_CustRecentlyViewed_Get", new { _CustId = custId });
+        }
+
+        //只給Ivorysport使用
+        public int IvorysportAddCustInfo(Customer customer, string Email, string lineUserId, int deviceType, out int custId, string signupUrl = null, string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null, int Birth_d = 0, int Birth_m = 0, int Birth_y = 0, string signupIp = null, string nationality = null, int cccupation = 0, int sourceOfIncome = 0, string address = null)
+        {
+            using var conn = _mainDbClient.GetMySqlConnection();
+            conn.Open();
+            using var trans = conn.BeginTransaction();
+
+            try
+            {
+                custId = 0;
+                var p = new DynamicParameters(new
+                {
+                    customer.SiteId,
+                    customer.UserName,
+                    customer.Userpwd,
+                    customer.CurrencyId,
+                    customer.UserLang,
+                    customer.AgentId,
+                    customer.AllAgentId,
+                    MemberType = 1, //Normal Member
+                    customer.UserLevel
+                });
+                p.Add("CustId", dbType: DbType.String, direction: ParameterDirection.Output);
+
+                var result = _mainDbClient.Execute("CustInfo_Ins_V2", trans, p);
+
+                if (result > 0)
+                {
+                    var strCustId = p.Get<string>("CustId") ?? "";
+                    custId = int.Parse(strCustId);
+
+                    if (custId == 0)
+                    {
+                        trans.Rollback();
+                        conn.Close();
+                        conn.Dispose();
+                        return -5;
+                    }
+                }
+                else
+                {
+                    trans.Rollback();
+                    conn.Close();
+                    conn.Dispose();
+                    return -5;
+                }
+
+                if ((!string.IsNullOrEmpty(Email) ||
+                     (!string.IsNullOrEmpty(PhoneNo) && !string.IsNullOrEmpty(AreaCode))))
+                {
+                    if (string.IsNullOrEmpty(Email))
+                    {
+                        Email = null;
+                    }
+                    else if (string.IsNullOrEmpty(PhoneNo) || string.IsNullOrEmpty(AreaCode))
+                    {
+                        PhoneNo = null;
+                        AreaCode = null;
+                    }
+
+                    var profiler = new Dictionary<string, string>();
+
+                    if (!string.IsNullOrEmpty(RealName)) profiler.Add("AccountName", RealName);
+                    if (Birth_d != 0 && Birth_m != 0 && Birth_y != 0)
+                    {
+                        profiler.Add("Birth_d", Birth_d.ToString());
+                        profiler.Add("Birth_m", Birth_m.ToString());
+                        profiler.Add("Birth_y", Birth_y.ToString());
+                    }
+                    if (nationality != null)
+                    {
+                        profiler.Add("Nationality", nationality);
+                    }
+
+                    if (cccupation != 0)
+                    {
+                        profiler.Add("Occupation", cccupation.ToString());
+                    }
+
+                    if(sourceOfIncome != 0)
+                    {
+                        profiler.Add("SourceOfIncome", sourceOfIncome.ToString());
+                    }
+
+                    var profile = profiler.Count <= 0 ? null : Newtonsoft.Json.JsonConvert.SerializeObject(profiler);
+                    result = _mainDbClient.Execute("Member_CustProfile_Ins", trans, new DynamicParameters(new
+                    {
+                        CustId = custId,
+                        customer.SiteId,
+                        Email,
+                        Profile = profile,
+                        PhoneNo,
+                        AreaCode
+                    }));
+
+                    if (!string.IsNullOrEmpty(RealName))
+                    {
+                        SetCustBankInfo(custId, customer.SiteId, RealName, true, trans);
+                    }
+
+                }
+
+                if (result > 0 && (!string.IsNullOrEmpty(signupUrl) || !string.IsNullOrEmpty(referralUrl)))
+                {
+                    result = _mainDbClient.Execute("Member_CustRegInfo_Ins_V4", trans,
+                        new DynamicParameters(
+                         new { CustId = custId, customer.SiteId, SignupUrl = signupUrl, ReferralUrl = referralUrl, DeviceType = deviceType, SignupIp = signupIp }));
+                }
+
+                if (result > 0 && !string.IsNullOrEmpty(promoCode) && _promotionService.CheckSpecialCode(promoCode))
+                {
+                    if (_promotionService.CheckScratchCardCode(promoCode))
+                    {
+                        var parameters = new DynamicParameters(new
+                        { CustId = custId, ScratchCardCode = promoCode, DeviceType = 1 });
+                        parameters.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                        _mainDbClient.Execute("Member_CustScratchCardCodeV3_Ins", trans, parameters);
+                        result = parameters.Get<int>("Result") == 0 ? 1 : 0;
+                    }
+                    else
+                    {
+                        result = _mainDbClient.Execute("Member_CustPromoCode_Ins", trans,
+                            new DynamicParameters(new { CustId = custId, PromoCode = promoCode.Trim() }));
+                    }
+
+                    if (result == 0)
+                    {
+                        result = -7;
+                    }
+                }
+
+                if (result > 0 && (int.TryParse(customer.Aff, out var iAff) || !string.IsNullOrEmpty(customer.AffCode)))
+                {
+                    result = _mainDbClient.Execute("Member_VNAffiliate_Ins", trans,
+                        new DynamicParameters(new { CustId = custId, customer.SiteId, AffId = iAff, customer.AffCode }));
+                }
+
+                if (result > 0 && !string.IsNullOrWhiteSpace(lineUserId))
+                {
+                    if (GetCustLineProfile(0, lineUserId) != null)
+                    {
+                        result = -3002;
+                    }
+                    else
+                    {
+                        result = InsertCustLineProfile(custId, lineUserId, trans) ? 1 : 0;
+                    }
+                }
+
+                if(result > 0 && address != null)
+                {
+                    result = _mainDbClient.Execute("Member_CustProfile_Address_Set", trans,
+                        new DynamicParameters(new {
+                            CustId = custId,
+                            SiteId = customer.SiteId,
+                            Address = address
+                        }));
+                }
+
+                if (result > 0)
+                {
+                    trans.Commit();
+                }
+                else
+                {
+                    trans.Rollback();
+                }
+                conn.Close();
+                conn.Dispose();
+
+                result = result switch
+                {
+                    > 0 => 0,
+                    0 => -5,
+                    _ => result
+                };
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"{ex.Message}");
+                conn.Close();
+                conn.Dispose();
+                throw;
+            }
         }
     }
 }

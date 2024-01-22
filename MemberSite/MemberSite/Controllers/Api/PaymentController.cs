@@ -1751,6 +1751,26 @@ namespace MemberSite.Controllers.Api
             return result;
         }
 
+        [HttpPost]
+        public ApiResult<IDictionary<string, PayMethod>> GetPayInfoChatTransfer()
+        {
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                return new ApiResult<IDictionary<string, PayMethod>>
+                {
+                    Message = _selLangBll.GetMsg("msg_ForceLogedout")
+                };
+            }
+
+            return new ApiResult<IDictionary<string, PayMethod>>
+            {
+                Data = _payInfoBll.GetOnlineBankMethods(
+                    new[] { DepositType.ChatTransfer }, authData.CustId),
+
+                ErrorCode = 0
+            };
+        }
         private ApiResult<LocalPayResp> DepositByLocalPayment(int custId, int groupId, decimal amount)
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);

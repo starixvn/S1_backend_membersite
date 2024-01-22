@@ -9,7 +9,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using Newtonsoft.Json;
-
+using System.Text.RegularExpressions;
+using static MemberSite.Controllers.Api.SiteController;
 using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
@@ -34,6 +35,7 @@ namespace MemberSite.Controllers.Api
         private readonly IEnumerable<AreaCodeMap> _areaCodeMap;
         private readonly ILogger<AccountStrictController> _logger;
         private readonly ICustPhotoIdBLL _custPhoto;
+        private readonly Regex _regexEmail = new(@"^\w+((-\w+)|(\.\w+))*@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$");
 
         public AccountStrictController(IServiceProvider provider)
         {
@@ -52,6 +54,19 @@ namespace MemberSite.Controllers.Api
             _areaCodeMap = provider.GetRequiredService<IEnumerable<AreaCodeMap>>();
             _logger = provider.GetRequiredService<ILogger<AccountStrictController>>();
         }
+
+        Dictionary<int, string> counrtyDic = new Dictionary<int, string>() {
+            {2,"Malaysia" },
+            {3,"United States of America" },
+            {4,"Thailand" },         
+            {13,"China" },
+            {15,"Indonesia" },
+            {51,"Viet Nam" },
+            {61,"India" },
+            {72,"Cambodia" },
+            {74,"Bangladesh" },
+        };
+
 
         public class BankInfo
         {
@@ -481,6 +496,13 @@ namespace MemberSite.Controllers.Api
                     return apiResult;
                 }
 
+                if (!string.IsNullOrEmpty(email) && custInfo.SiteId == (int)SiteId.Nova88 && !_regexEmail.IsMatch(email))
+                {
+                    apiResult.ErrorCode = -10;
+                    apiResult.Message = _selLangBll.GetMsg("msg_EmailFormatVerify");
+                    return apiResult;
+                }
+
                 if (!string.IsNullOrEmpty(beforeCustInfo.Email))
                 {
                     custProfile["Email"] = beforeCustInfo.Email;
@@ -769,6 +791,9 @@ namespace MemberSite.Controllers.Api
 
                     var isLineBinding = _lineLoginBll.GetCustLineProfile(authData.CustId, null) != null;
 
+                    var nationality = string.Empty;
+                    counrtyDic.TryGetValue(custInfo.CurrencyId, out nationality);
+
                     apiResult.Data = new
                     {
                         custInfo.UserName,
@@ -800,7 +825,11 @@ namespace MemberSite.Controllers.Api
                         custInfo.AddressLineFirst,
                         custInfo.AddressLineSecond,
                         custInfo.IsResetPwd,
-                        custInfo.MemberType
+                        custInfo.MemberType,
+                        custInfo.CurrentAddress,
+                        Nationality = nationality,
+                        custInfo.Occupation,
+                        custInfo.SourceOfIncome
                     };
 
                     apiResult.ErrorCode = 0;
