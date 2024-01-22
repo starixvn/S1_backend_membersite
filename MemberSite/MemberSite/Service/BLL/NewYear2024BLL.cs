@@ -83,7 +83,7 @@ public class NewYear2024BLL
             {
                 PromotionMissionTypeEnum.AccumulateDeposit when landId == "en" => string.Format(message, Enum.GetName(typeof(CurrencyId), customer.CurrencyId), (int)goalAmount ),
                 PromotionMissionTypeEnum.SuccessfullyReferAFriend => message, 
-                _ => string.Format(message, goalAmount)
+                _ => string.Format(message, (int)goalAmount)
             };
 
             var model = new NewYearMission2024
