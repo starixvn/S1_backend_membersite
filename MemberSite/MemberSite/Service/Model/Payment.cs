@@ -84,13 +84,14 @@ namespace MemberSite.Service.Model
         public int Mode { get; set; }
         public DepositType DepositType { get; set; }
         public int PointLevel { get; set; }
+        public string PayCode { get; set; }
         public int CurrencyId { get; set; }
+        public string PayCurrencyId { get; set; }
         public decimal MinAmount { get; set; }
         public decimal MaxAmount { get; set; }
         [DicIgnore]
         public int AmountRule { get; set; }
         [DicIgnore]
-        [System.Text.Json.Serialization.JsonIgnore]
         public string AmountShow { get; set; }
         [DicIgnore]
         public IEnumerable<decimal> AmountList => AmountShow == null
