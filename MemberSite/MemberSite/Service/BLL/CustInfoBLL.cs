@@ -9,6 +9,7 @@ using MemberSite.Service.Model.Mapping;
 using Microsoft.Extensions.Caching.Memory;
 
 using Newtonsoft.Json;
+using static MemberSite.Controllers.Api.SiteController;
 
 using Org.BouncyCastle.Asn1.Tsp;
 
@@ -507,7 +508,7 @@ namespace MemberSite.Service.BLL
                 else
                 {
                     apiResult.ErrorCode = -1;
-                }               
+                }
             }
             return apiResult;
         }
@@ -692,7 +693,6 @@ namespace MemberSite.Service.BLL
             }
 
             return result;
-            ;
         }
 
         public IEnumerable<BankInfoDetailData> GetCustBankDetail(int sysId, string accountNo, int siteId)
@@ -792,7 +792,7 @@ namespace MemberSite.Service.BLL
             CustVIPProgress result = new CustVIPProgress();
             var customer = _custInfoService.GetCustInfo(custId);
             result.CurrentVipLevel = customer.UserLevel;
-            var vipSystem = _vIPService.GetVipSystem(customer.SiteId).Where(x=> x.CurrencyId == customer.CurrencyId).ToList();
+            var vipSystem = _vIPService.GetVipSystem(customer.SiteId).Where(x => x.CurrencyId == customer.CurrencyId).ToList();
 
             if (vipSystem != null)
             {
@@ -821,6 +821,116 @@ namespace MemberSite.Service.BLL
             var actualDepositData = _depositService.GetActualDepositData(siteId, custId, startTime, endTime);
 
             return actualDepositData == null ? 0 : actualDepositData.ActualDeposit;
+        }
+
+        //只給Ivorysport使用
+        public int IvorysportAddCustInfo(string UserName, string Userpwd, string Email, int CurrencyId, string UserLang,
+            string refId, string affId, string aff, AffCodeObject affCode, string lineUserId, int deviceType, out int custId, string signupUrl = null,
+            string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null,
+            int Birth_d = 0, int Birth_m = 0, int Birth_y = 0, string signupIp = null, 
+            string nationality = null, int cccupation = 0, int sourceOfIncome = 0, string country = null, string city = null, string postCode = null, string lineFirst = null)
+        {
+            var serverInfo = _serverInfoBll.GetServerInfo();
+            if (string.IsNullOrEmpty(affId) && !serverInfo.ICurrencyList.Contains(CurrencyId))
+            {
+                custId = 0;
+                return -1;
+            }
+            if (!_tools.CheckUserName(UserName))
+            {
+                custId = 0;
+                return -2;
+            }
+            if (!_tools.CheckUserInputPassword(Userpwd))
+            {
+                custId = 0;
+                return -3;
+            }
+
+            if (!serverInfo.ILangList.Contains(UserLang))
+            {
+                custId = 0;
+                return -4;
+            }
+            if (affCode != null && !affCode.IsExists(serverInfo.SiteId, _affiliateService.ExistsAffiliateCode))
+            {
+                custId = 0;
+                return -10;
+            }
+
+            Customer agent = null;
+            //如果從CreditSite註冊，且有輸入邀請碼(Referral)，則該用戶屬於邀請碼下線
+            if (!string.IsNullOrEmpty(refId))
+            {
+                agent = _agentInfoService.GetAffiliateAgent($"{refId}_{CurrencyId}", serverInfo.SiteId);
+
+                if (agent?.CurrencyId != CurrencyId)
+                {
+                    custId = 0;
+                    return -19; /*agent Currency != CurrencyId*/
+                }
+            }
+            else if (!string.IsNullOrEmpty(affId))
+            {
+                agent = _agentInfoService.GetAffiliateAgent(affId, serverInfo.SiteId);
+
+                if (agent == null)
+                {
+                    custId = 0;
+                    return -19;
+                }
+            }
+
+            agent ??= _agentInfoService.GetSuperAgent(serverInfo.SiteId, CurrencyId);
+
+            var regCustInfo = new Customer
+            {
+                UserName = UserName,
+                Userpwd = _tools.MD5Encrypt(Userpwd),
+                AgentId = agent.CustId,
+                AllAgentId = GetAllAgentByUserId(agent),
+                ActStatus = (int)CustActStatus.NonDepoist,
+                CurrencyId = agent.CurrencyId,
+                IsTest = agent.IsTest,
+                SiteId = serverInfo.SiteId,
+                UserLevel = 1,
+                UserLang = UserLang,
+                Aff = aff,
+                AffCode = affCode?.Value
+            };
+
+            if (string.IsNullOrEmpty(signupUrl))
+            {
+                signupUrl = _tools.GetFromUrl();
+            }
+
+            string address = null;
+
+            if (country != null && city != null && postCode != null && lineFirst != null)
+            {
+                Dictionary<string, string> addressDic = new Dictionary<string, string>();
+                addressDic.Add("Country", country);
+                addressDic.Add("City", city);
+                addressDic.Add("PostCode", postCode);
+                addressDic.Add("LineFirst", lineFirst);
+                address = JsonConvert.SerializeObject(addressDic);
+            }
+
+            var result = _custInfoService.IvorysportAddCustInfo(regCustInfo, Email, lineUserId, deviceType, out custId, signupUrl, referralUrl, PhoneNo, AreaCode,
+                RealName, promoCode, Birth_d, Birth_m, Birth_y, signupIp, nationality, cccupation, sourceOfIncome, address);
+
+            if (result == 0 && regCustInfo.SiteId != (int)SiteId.Nova88)
+            {
+                regCustInfo.CustId = custId;
+                _ = Task.Run(() =>
+                {
+                    _ = _shieldBll.CheckCustShieldRisk(
+                        regCustInfo,
+                        ShieldRiskTriggeredPoint.Registration,
+                        ShieldRiskTaggedIssue.HighRisk);
+                });
+            }
+            return result != 0 ? result : 0;
         }
     }
 }
