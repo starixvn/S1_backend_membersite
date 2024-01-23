@@ -86,11 +86,11 @@ namespace MemberSite.Controllers.Api
         public async Task<ApiResult> SignIn(LoginModel loginModel)
         {
             var apiResult = new ApiResult(_selLangBll);
-            if (_checkAttackBll.CheckAttackForSignIn(loginModel, true, Request))
-            {
-                Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
-                return null;
-            }
+            // if (_checkAttackBll.CheckAttackForSignIn(loginModel, true, Request))
+            // {
+            //     Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+            //     return null;
+            // }
 
             if (!_regexUserName.IsMatch(loginModel.UserName))
             {
