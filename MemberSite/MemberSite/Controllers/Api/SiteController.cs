@@ -625,14 +625,16 @@ namespace MemberSite.Controllers.Api
                         var custInfoProfile = _custInfoBll.GetCustInfoProfileByUserName(serverInfo.SiteId, reSetPwdByOtpReq.Username);
                         var otpResponse = await _commonBll.SendOTPSMSAsync(custInfoProfile.CustId, custInfoProfile.CurrencyId);
 
+                        apiResult.ErrorCode = 0;
                         return otpResponse;
                     }
 
                     // 找不到 翻譯黨
+                    apiResult.ErrorCode = -1;
                     apiResult.Message = _selLangBll.GetMsg("ForgetPwdSuccess");
                 }
 
-                apiResult.ErrorCode = 0;
+                apiResult.ErrorCode = -1;
                 return apiResult;
             }
             catch (Exception e)
