@@ -112,6 +112,7 @@ namespace MemberSite
             services.AddTransient<CurrencyService>();
             services.AddTransient<IAffiliateService, AffiliateService>();
             services.AddTransient<GameService>();
+            services.AddTransient<QueueJobService>();
 
             services.AddSingleton<IPService>();
             services.AddSingleton<ShieldService>();
@@ -181,6 +182,8 @@ namespace MemberSite
             services.AddTransient<BigWinBLL>();
             services.AddSingleton<CustomCookieAuthenticationEvents>();
             services.AddTransient<HotEventBLL>();
+            services.AddTransient<NewYear2024BLL>();
+            services.AddTransient<QueueJobBLL>();
             services.AddSingleton<CryptoHelper>();
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();
