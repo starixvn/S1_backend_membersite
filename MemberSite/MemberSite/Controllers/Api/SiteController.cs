@@ -46,7 +46,8 @@ namespace MemberSite.Controllers.Api
         private readonly IGeoIpApi _geoIpApi;
         private readonly FPSBLL _FPSBll;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        
+        private readonly CommonBLL _commonBll;
+
         public SiteController(IServiceProvider provider)
         {
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
@@ -68,6 +69,7 @@ namespace MemberSite.Controllers.Api
             _geoIpApi = provider.GetRequiredService<IGeoIpApi>();
             _FPSBll = provider.GetRequiredService<FPSBLL>();
             _httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
+            _commonBll = provider.GetRequiredService<CommonBLL>();
         }
 
         public class LoginModel
@@ -584,6 +586,60 @@ namespace MemberSite.Controllers.Api
             }
 
             return apiResult;
+        }
+
+        public class ReSetPwdByOTPReq
+        {
+            public string AreaCode { get; set; }
+            public string PhoneNo { get; set; }
+            public string Username { get; set; }
+        }
+        
+        [HttpPost]
+        public async Task<ApiResult<SendOTPSMSResult>> ReSetPwdByOTPAsync(ReSetPwdByOTPReq reSetPwdByOtpReq)
+        {
+            var apiResult = new ApiResult<SendOTPSMSResult>(_selLangBll);
+
+            try
+            {
+                var checkValue = new RrofileReq
+                {
+                    AreaCode = reSetPwdByOtpReq.AreaCode,
+                    PhoneNo = reSetPwdByOtpReq.PhoneNo
+                };
+                
+                if (_checkAttackBll.CheckAttack(checkValue, Request))
+                {
+                    Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                    return null;
+                }
+                
+                if (long.TryParse(reSetPwdByOtpReq.PhoneNo, out var phoneNo))
+                {
+                    var serverInfo = _serverInfoBll.GetServerInfo();
+                    
+                    reSetPwdByOtpReq.PhoneNo = phoneNo.ToString();
+                    if (_custInfoBll.ExistsPhoneNoAndUserName(reSetPwdByOtpReq.Username, reSetPwdByOtpReq.AreaCode,
+                            reSetPwdByOtpReq.PhoneNo, serverInfo.SiteId))
+                    {
+                        var custInfoProfile = _custInfoBll.GetCustInfoProfileByUserName(serverInfo.SiteId, reSetPwdByOtpReq.Username);
+                        var otpResponse = await _commonBll.SendOTPSMSAsync(custInfoProfile.CustId, custInfoProfile.CurrencyId);
+
+                        return otpResponse;
+                    }
+
+                    // 找不到 翻譯黨
+                    apiResult.Message = _selLangBll.GetMsg("ForgetPwdSuccess");
+                }
+
+                apiResult.ErrorCode = 0;
+                return apiResult;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, GetCurrentMethod());
+                return apiResult;
+            }
         }
 
         [HttpPost]
