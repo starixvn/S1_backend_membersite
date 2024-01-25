@@ -19,6 +19,7 @@ namespace MemberSite.Controllers.Api
     [ApiController]
     public class LineLoginController : ControllerBase
     {
+        private readonly ServerInfoBll _serverInfoBll;
         private readonly Tools _tools;
         private readonly LineLoginBLL _lineLoginBll;
         private readonly SelLangBLL _selLangBll;
@@ -32,6 +33,7 @@ namespace MemberSite.Controllers.Api
         public LineLoginController(IServiceProvider provider)
         {
             _tools = provider.GetRequiredService<Tools>();
+            _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
             _lineLoginBll = provider.GetRequiredService<LineLoginBLL>();
             _selLangBll = provider.GetRequiredService<SelLangBLL>();
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
@@ -117,7 +119,7 @@ namespace MemberSite.Controllers.Api
                 return new ApiResult(_selLangBll) { ErrorCode = errorCode, Message = _selLangBll.GetMsg("msg_ApiServerError") };
             }
 
-            var domainUrl = _tools.GetDomainUrl();
+            var domainUrl = _serverInfoBll.GetDomain();
             var redirectUri = $"https://{domainUrl}/callback";
 
             var lineLoginUrl = string.Format("https://access.line.me/oauth2/v2.1/authorize?" +
@@ -138,7 +140,7 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public async Task<ApiResult> LineCallbackAsync(LineCallbackModel request)
         {
-            var domainUrl = _tools.GetDomainUrl();
+            var domainUrl = _serverInfoBll.GetDomain();
             var redirectUri = $"https://{domainUrl}/callback";
 
             var result = await _lineLoginBll.LineLoginCallBack(request.LineLoginResponse.code,

@@ -100,6 +100,12 @@ namespace MemberSite.Service.BLL
 
         public string GetDomain()
         {
+            // 先拿Header的origin-host
+            if (_httpContextAccessor.HttpContext.Request.Headers.TryGetValue("origin-host", out var originHost))
+            {
+                return new Uri(originHost).Host;
+            }
+
             // 先拿Header的ai-host
             if (_httpContextAccessor.HttpContext.Request.Headers.TryGetValue("ai-host", out var aiHost))
             {
