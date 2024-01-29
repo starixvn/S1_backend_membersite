@@ -46,6 +46,7 @@ namespace MemberSite.Controllers.Api
         private readonly CheckAttackBLL _checkAttackBll;
         private readonly StringVaildHelper _stringVaildHelper;
         private readonly IGeoIpApi _geoIpApi;
+        private readonly ICheckIpBLL _checkIpBll;
 
         public SiteController(IServiceProvider provider)
         {
@@ -63,10 +64,11 @@ namespace MemberSite.Controllers.Api
             _cacheHelper = provider.GetRequiredService<ICacheHelper>();
             _recaptchaBll = provider.GetRequiredService<RecaptchaBLL>();
             _logger = provider.GetRequiredService<ILogger<SiteController>>();
-            
+
             _checkAttackBll = provider.GetRequiredService<CheckAttackBLL>();
             _stringVaildHelper = provider.GetRequiredService<StringVaildHelper>();
             _geoIpApi = provider.GetRequiredService<IGeoIpApi>();
+            _checkIpBll = provider.GetRequiredService<ICheckIpBLL>();
         }
 
         public class LoginModel
@@ -1265,13 +1267,13 @@ namespace MemberSite.Controllers.Api
 
         [HttpPost]
         [HttpGet]
-        public async Task<ApiResult<IpCountry>> GetIpCountry()
+        public async Task<ApiResult<IpCountryWithAccess>> GetIpCountry()
         {
-            return new ApiResult<IpCountry>()
+            return new ApiResult<IpCountryWithAccess>()
             {
                 ErrorCode = (int)ErrorCode.Success,
-                Data = await _geoIpApi.CheckIp(_tools.GetClientIP())
-            };           
+                Data = await _checkIpBll.CheckIp(_tools.GetClientIP())
+            };
         }
     }
 }
