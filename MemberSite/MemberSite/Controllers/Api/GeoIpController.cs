@@ -1,7 +1,8 @@
 ﻿using MemberSite.Service.BLL;
+using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
-
+using MemberSite.Service.Model.enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,19 +15,23 @@ namespace MemberSite.Controllers.Api
     public class GeoIpController : Controller
     {
         private readonly Tools _tools;
-        private readonly GeoIpBLL _geoIpBll;
+        private readonly ICheckIpBLL _checkIpBll;
 
         public GeoIpController(IServiceProvider provider)
         {
             _tools = provider.GetRequiredService<Tools>();
-            _geoIpBll = provider.GetRequiredService<GeoIpBLL>();
+            _checkIpBll = provider.GetRequiredService<ICheckIpBLL>();
         }
 
         [HttpGet, HttpPost]
-        public async Task<ApiResult<IpCountryModel>> CheckIp()
+        public async Task<ApiResult<IpCountryWithAccess>> CheckIp()
         {
-            var clientIp = _tools.GetClientIP();
-            return await _geoIpBll.CheckIp(clientIp);
+            var result = await _checkIpBll.CheckIp(_tools.GetClientIP(), true);
+            return new ApiResult<IpCountryWithAccess>()
+            {
+                ErrorCode = result is { Message: "Succeed" } ? (int)ErrorCode.Success : (int)ErrorCode.SystemException,
+                Data = result
+            };
         }
     }
 }
