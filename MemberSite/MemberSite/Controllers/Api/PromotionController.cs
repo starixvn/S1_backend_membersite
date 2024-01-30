@@ -204,7 +204,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult<CustPromotion> GetPromotionDetail(PromotionDetailReq data)
+        public async Task<ApiResult<CustPromotion>> GetPromotionDetailAsync(PromotionDetailReq data)
         {
             var result = new ApiResult<CustPromotion>();
             try
@@ -242,7 +242,7 @@ namespace MemberSite.Controllers.Api
                     BonusCode = data.BonusCode
                 };
 
-                result = _courierAdapter.MyPostAsync<CustPromotion, PromotionDetailRequest>(apiUrl, req).Result;
+                result = await _courierAdapter.MyPostAsync<CustPromotion, PromotionDetailRequest>(apiUrl, req);
             }
             catch (Exception e)
             {
@@ -483,7 +483,7 @@ namespace MemberSite.Controllers.Api
             var result = new ApiResult<PopUpPromotion>();
             try
             {
-                
+
                 var authData = _authorizeBll.GetAuthData();
                 if (authData is { CustId: > 0 })
                 {
