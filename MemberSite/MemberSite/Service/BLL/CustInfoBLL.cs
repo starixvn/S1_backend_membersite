@@ -484,6 +484,14 @@ namespace MemberSite.Service.BLL
                 () => _custInfoService.SubmittedCustPhotoId(custId, custInfo.SiteId, custInfo.CurrencyId));
         }
 
+        public int GetCustPhotoIdToKYC(int custId)
+        {
+            return _redisHelper.TryGetOrCreate(
+                $"CustPhotoIdToKYC:{custId}", 
+                TimeSpan.FromSeconds(5),
+                () => _custInfoService.GetCustPhotoIdToKYC(custId));
+        }
+        
         public async Task<ApiResult> ForgetPwd1Async(int custId, string resetPasswordUrl)
         {
             var result = await _commonBll.SendResetPwdMailAsync(custId, resetPasswordUrl);
