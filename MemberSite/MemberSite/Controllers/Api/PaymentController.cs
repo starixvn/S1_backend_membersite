@@ -1037,6 +1037,25 @@ namespace MemberSite.Controllers.Api
 
             return result;
         }
+        
+        /// <summary>
+        /// </summary>
+        /// For Ivorysport PAGCOR
+        /// <returns>ErrorCode: 0=無須驗證KYC, 1=需驗證KYC</returns>
+        [HttpPost]
+        public ApiResult DepositKycCheck()
+        {
+            var result = new ApiResult();
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                result.Message = _selLangBll.GetMsg("msg_ForceLogedout");
+                return result;
+            }
+            result.ErrorCode = _custInfoBll.GetCustPhotoIdToKYC(authData.CustId);
+
+            return result;
+        }
 
         public class CustTpBetRecordListOneDayReq
         {

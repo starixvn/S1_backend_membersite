@@ -550,6 +550,11 @@ namespace MemberSite.Service.DAL
         {
             return _reportDbClient.ExecuteScalar<int>("Member_SubmittedCustPhotoId_GetV2", new { CustId = custId, SiteId = siteId, CurrencyId = currencyId });
         }
+        
+        public int GetCustPhotoIdToKYC(int custId)
+        {
+            return _reportDbClient.ExecuteScalar<int>("Member_CustPhotoIdToKYC_Get", new { CustId = custId });
+        }
 
         public bool SetResetPwd(int custId, string md5NewPassword)
         {
