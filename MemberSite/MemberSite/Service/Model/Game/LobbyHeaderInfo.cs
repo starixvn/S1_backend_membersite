@@ -51,5 +51,12 @@ namespace MemberSite.Service.Model.Game
         public int Sort { get; set; }
         public string ImgProductName => ProductName.ToLower().Replace(" ","-");
     }
+    
+    public class LobbyHeaderSequenceData
+    {
+        public int SiteId { get; set; }
+        public int CurrencyId { get; set; }
+        public string LobbyCategoryList { get; set; }
+    }
 }
 
