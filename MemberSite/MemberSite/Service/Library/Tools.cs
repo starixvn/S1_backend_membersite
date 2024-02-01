@@ -23,7 +23,7 @@ namespace MemberSite.Service.Library
         public Tools(IServiceProvider provider)
         {
             httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
-            
+
             var configBll = provider.GetRequiredService<ConfigBLL>();
             _backEndKey = configBll.GetConfigValue("ApiPaymentGateWayKey");
             jwtConfig = configBll.GetConfigValueByEnvironment<JwtConfig>("JwtSettings");
@@ -188,10 +188,10 @@ namespace MemberSite.Service.Library
             return fromUrl;
         }
 
-        public string GetDomainUrl()
-        {
-            return httpContextAccessor.HttpContext.Request.Host.Host.ToString();
-        }
+        //public string GetDomainUrl()
+        //{
+        //    return httpContextAccessor.HttpContext.Request.Host.Host.ToString();
+        //}
 
 
         /// <summary>

@@ -112,6 +112,7 @@ namespace MemberSite
             services.AddTransient<CurrencyService>();
             services.AddTransient<IAffiliateService, AffiliateService>();
             services.AddTransient<GameService>();
+            services.AddTransient<QueueJobService>();
 
             services.AddSingleton<IPService>();
             services.AddSingleton<ShieldService>();
@@ -120,9 +121,9 @@ namespace MemberSite
             services.AddTransient<IHotGameService, HotGameService>();
             services.AddTransient<IAnnouncementService, AnnouncementService>();
             services.AddSingleton<VIPService>();
+            services.AddSingleton<BigWinService>();
 
             /*BLL*/
-            services.AddSingleton<IRabbitMQProducer, RabbitMQProducer>();
             services.AddSingleton<ServerInfoBll>();
             services.AddSingleton<CustInfoBll>();
             services.AddSingleton<WalletBLL>();
@@ -178,9 +179,11 @@ namespace MemberSite
             services.AddTransient<IAnnouncementBLL, AnnouncementBLL>();
 
             services.AddTransient<IHotGameBLL, HotGameBLL>();
-
+            services.AddTransient<BigWinBLL>();
             services.AddSingleton<CustomCookieAuthenticationEvents>();
             services.AddTransient<HotEventBLL>();
+            services.AddTransient<NewYear2024BLL>();
+            services.AddTransient<QueueJobBLL>();
             services.AddSingleton<CryptoHelper>();
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();
@@ -211,6 +214,15 @@ namespace MemberSite
                             .SetIsOriginAllowedToAllowWildcardSubdomains();
                     });
 
+                options.AddPolicy("LeaderBoard",
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin()
+                            .AllowAnyMethod()
+                            .AllowAnyHeader()
+                            .SetIsOriginAllowedToAllowWildcardSubdomains();
+                    });
+
 
                 options.AddPolicy("LandingPage",
                     builder =>
@@ -233,7 +245,6 @@ namespace MemberSite
             services.AddOptionListByDB<ConfigObject>("SiteConfig_Get", new { ConfigGroup = "MemberSite" });
             services.AddSiteConfig();
             services.AddSingleton<ConfigBLL>();
-            services.AddMessageQueueConnection();
             services.AddGoogleReCaptchaSetting();
 
             // JWT | Cookie Auth
@@ -262,6 +273,7 @@ namespace MemberSite
             app.UseCors();
             app.UseCors("LandingPage");
             app.UseCors("SocialChannel");
+            app.UseCors("LeaderBoard");
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseRequestLogMiddleware();

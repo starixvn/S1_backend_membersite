@@ -1,4 +1,5 @@
 ﻿using MemberSite.Service.Model.enums;
+using Newtonsoft.Json;
 
 namespace MemberSite.Service.Model
 {
@@ -22,12 +23,18 @@ namespace MemberSite.Service.Model
         public decimal MinAmount { get; set; }
         public decimal MaxAmount { get; set; }
         public int Mode { get; set; }
+        [JsonIgnore]
+        public int AmountRule { get; set; }
+        [JsonIgnore]
+        public IEnumerable<BankInfoSys> BankList { get; set; }
     }
 
     public class SysBankInfoFront : IPaymentLimit
     {
         public int BankId { get; set; }
         public int SysId { get; set; }
+        public string AccountNo { get; set; }
+        public string AccountName { get; set; }
         public string BankCode { get; set; }
         public string BankName { get; set; }
         public string IFSCCode { get; set; }
@@ -51,6 +58,8 @@ namespace MemberSite.Service.Model
             base.BankId = bankInfo.BankId;
             base.SysId = bankInfo.SysId;
             base.BankCode = bankInfo.BankCode;
+            base.AccountNo = bankInfo.AccountNo;
+            base.AccountName = bankInfo.AccountName;
             base.BankName = bankInfo.BankName;
             base.IFSCCode = bankInfo.IFSCCode;
             base.BankLogo = bankInfo.BankLogo;
