@@ -23,5 +23,10 @@ namespace MemberSite.Service.DAL
         {
             return _reportDbClient.QueryAsync<LobbyHeaderData>("Member_HeaderMenu_Get", new { _SiteId = req.SiteId, _CurrencyId = req.CurrencyId });
         }
+        
+        public Task<LobbyHeaderSequenceData> GetLobbyHeaderSequence(GetLobbyHeaderRequest req)
+        {
+            return _reportDbClient.QueryFirstAsync<LobbyHeaderSequenceData>("Member_LobbyHeaderSequence_Get", new { _SiteId = req.SiteId, _CurrencyId = req.CurrencyId });
+        }
     }
 }

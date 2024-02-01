@@ -135,6 +135,14 @@ namespace MemberSite.Service.BLL
                 async () =>
                 {
                     var resultData = await _gameService.GetLobbyHeader(req);
+                    
+                    var sequence = new List<int>();
+                    var headerSequence = await _gameService.GetLobbyHeaderSequence(req);
+                    if (headerSequence is not null)
+                    {
+                        sequence = JsonConvert.DeserializeObject<List<int>>(headerSequence.LobbyCategoryList);
+                    }
+                    
                     var imgDomain = _siteCloudFrontImageInfo[serverInfo.SiteName].BannerImageUrl;
                     
                     var groupedData = resultData.GroupBy(item => item.LobbyCategoryId);
@@ -166,10 +174,10 @@ namespace MemberSite.Service.BLL
                                     Sort = item.Sort
                                 };
                                 return responseDetail;
-                            }).OrderBy(x => x.Sort)
+                            }).OrderBy(x => x.Sort) // 排序遊戲清單
                         };
                         return response;
-                    });
+                    }).OrderBy(r => sequence.IndexOf(r.LobbyCategoryId));  // 排序header Category
                     return result; 
                 });
             
