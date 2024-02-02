@@ -867,7 +867,7 @@ namespace MemberSite.Service.BLL
             // 不看卡號 只看提款成功次數
             var withdrawalSuccessCount = withdrawalService.GetAllAccountWithdrawalSuccessCounterByCustId(custInfo.CustId);
             
-            if (custInfo.SiteId == (int)SiteId.Nova88)
+            if (custInfo.SiteId == 1)
             {
                 // Iovation
                 var custIovation = _iovationService.GetCustIovation(custInfo.CustId);
