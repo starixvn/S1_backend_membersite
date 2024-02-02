@@ -26,6 +26,7 @@ namespace MemberSite.Service.BLL
         public async Task<IpCountryWithAccess> CheckIp(string clientIp, bool isReturnClientIp = false)
         {
             var country = await _geoIpApi.CheckIp(clientIp);
+            if (clientIp is "127.0.0.1") country.Code = "TW";
             //判斷的規則順序：
             //1.是否為白名單IP=>是則 return true, 不是則繼續下一個判斷
             if (_officeIps.Any(x => x == clientIp))
