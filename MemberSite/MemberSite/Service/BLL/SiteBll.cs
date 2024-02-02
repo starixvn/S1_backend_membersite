@@ -50,7 +50,7 @@ public class SiteBll
         }
 
         var serverInfo = _serverInfoBll.GetServerInfo();
-        if (serverInfo.SiteId == (int)SiteId.Nova88)
+        if (serverInfo.SiteId == 1)
         {
             switch (signupModel.AreaCode)
             {

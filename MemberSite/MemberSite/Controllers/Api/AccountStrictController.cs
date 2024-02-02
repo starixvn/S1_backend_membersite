@@ -496,7 +496,7 @@ namespace MemberSite.Controllers.Api
                     return apiResult;
                 }
 
-                if (!string.IsNullOrEmpty(email) && custInfo.SiteId == (int)SiteId.Nova88 && !_regexEmail.IsMatch(email))
+                if (!string.IsNullOrEmpty(email) && custInfo.SiteId == 1 && !_regexEmail.IsMatch(email))
                 {
                     apiResult.ErrorCode = -10;
                     apiResult.Message = _selLangBll.GetMsg("msg_EmailFormatVerify");
@@ -743,7 +743,7 @@ namespace MemberSite.Controllers.Api
                 {
                     custProfile["CountryCode"] = _custInfoBLL.GetCountryNameByAreaCode(beforeCustInfo.AreaCode);
                 }
-                else if (siteId is (int)SiteId.Goal123 or (int)SiteId.Bwing)
+                else if (siteId is 2 or 3)
                 {
                     custProfile["CountryCode"] = "VN";
                 }
