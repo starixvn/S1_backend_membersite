@@ -232,7 +232,7 @@ namespace MemberSite.Controllers.Api
             //check AccountName first
             var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
 
-            if (custInfo.SiteId == (int)SiteId.Goal123 && _custInfoBll.GetCustBankInfo(authData.CustId) == null)
+            if (custInfo.SiteId == 2 && _custInfoBll.GetCustBankInfo(authData.CustId) == null)
             {
                 return new ApiResult
                 {
@@ -676,7 +676,7 @@ namespace MemberSite.Controllers.Api
             var result = _bankInfoBll.GetBankInfoSysListByCurrencyForCtrl(custInfo.CurrencyId)
                 .ToList();
 
-            if (custInfo.SiteId == (int)SiteId.Nova88
+            if (custInfo.SiteId == 1
                 && custInfo.CurrencyId == (int)CurrencyId.THB) // Nova88 泰國銀行名稱支援多語系
             {
                 _bankInfoBll.BankNameLocalization(result, authData.LangId);
@@ -705,7 +705,7 @@ namespace MemberSite.Controllers.Api
             var result = _bankInfoBll.GetOnlineBankInfoSysList(custInfo.CustId, payment.payId)
                 .ToList();
 
-            if (custInfo.SiteId == (int)SiteId.Nova88
+            if (custInfo.SiteId == 1
                 && custInfo.CurrencyId == (int)CurrencyId.THB) // Nova88 泰國銀行名稱支援多語系
             {
                 _bankInfoBll.BankNameLocalization(result, authData.LangId);
@@ -1035,6 +1035,25 @@ namespace MemberSite.Controllers.Api
                 return result;
             }
             result.ErrorCode = _custInfoBll.SubmittedCustPhotoId(authData.CustId);
+
+            return result;
+        }
+        
+        /// <summary>
+        /// </summary>
+        /// For Ivorysport PAGCOR
+        /// <returns>ErrorCode: 0=無須驗證KYC, 1=需驗證KYC</returns>
+        [HttpPost]
+        public ApiResult DepositKycCheck()
+        {
+            var result = new ApiResult();
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                result.Message = _selLangBll.GetMsg("msg_ForceLogedout");
+                return result;
+            }
+            result.ErrorCode = _custInfoBll.GetCustPhotoIdToKYC(authData.CustId);
 
             return result;
         }
@@ -1457,7 +1476,7 @@ namespace MemberSite.Controllers.Api
             var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
             var vipLevel = _custInfoBll.GetPointLevelWithCache(authData.CustId);
             var result = _bankInfoBll.GetAutoChannelBankGroupList(custInfo, vipLevel).ToList();
-            if (custInfo.SiteId == (int)SiteId.Nova88 && custInfo.CurrencyId == (int)CurrencyId.THB) // Nova88 泰國銀行名稱支援多語系
+            if (custInfo.SiteId == 1 && custInfo.CurrencyId == (int)CurrencyId.THB) // Nova88 泰國銀行名稱支援多語系
             {
                 _bankInfoBll.BankNameLocalization(result, authData.LangId);
             }

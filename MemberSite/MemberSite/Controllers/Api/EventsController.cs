@@ -105,7 +105,9 @@ namespace MemberSite.Controllers.Api
             int siteId;
             int currencyId;
 
-            if (getLeaderboardListMonthReq.SelectDays.Month <= DateTime.UtcNow.AddMonths(-2).Month)
+            var nowMonth = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, 1);
+            var dateDifference = nowMonth - getLeaderboardListMonthReq.SelectDays;
+            if (dateDifference.TotalDays > 60)
             {
                 return apiResult;
             }

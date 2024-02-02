@@ -53,7 +53,7 @@ namespace MemberSite.Service.DAL
             var result = _mainDbClient.Execute("DepositInfoWithFrom_Ins", trans, p);
             trans.Commit();
 
-            if (depositDetailInfo.SiteId != (int)SiteId.Nova88)
+            if (depositDetailInfo.SiteId is 2 or 3 ) // goal and bwing
             {
                 _ = Task.Run(() =>
                 {
