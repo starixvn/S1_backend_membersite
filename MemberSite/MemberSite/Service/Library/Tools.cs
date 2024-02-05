@@ -101,7 +101,6 @@ namespace MemberSite.Service.Library
         }
         public string GetClientIP(HttpContext httpContext)
         {
-            if (httpContext.Request.Host.ToString() == "localhost") return "127.0.0.1"; //for frontend test
             var HeaderNames = new string[] { "X-Forwarded-For", "HTTP_X_FORWARDED_FOR", "HTTP_INCAP_CLIENT_IP", "HTTP_TRUE_CLIENT_IP", "HTTP_X_REAL_IP", "REMOTE_ADDR" };
 
             foreach (var Header in HeaderNames)
