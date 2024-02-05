@@ -1,6 +1,7 @@
 ﻿using MemberSite.Service.BLL.Interface;
-using MemberSite.Service.Library;
+using Newtonsoft.Json;
 using MemberSite.Service.Model;
+using MongoDB.Bson.IO;
 
 namespace MemberSite.Service.BLL
 {
@@ -26,7 +27,6 @@ namespace MemberSite.Service.BLL
         public async Task<IpCountryWithAccess> CheckIp(string clientIp, bool isReturnClientIp = false)
         {
             var country = await _geoIpApi.CheckIp(clientIp);
-            if (clientIp is "127.0.0.1") country.Code = "TW";
             //判斷的規則順序：
             //1.是否為白名單IP=>是則 return true, 不是則繼續下一個判斷
             if (_officeIps.Any(x => x == clientIp))
@@ -38,6 +38,7 @@ namespace MemberSite.Service.BLL
             {
                 return new IpCountryWithAccess(false, country, isReturnClientIp, clientIp);
             }
+            _logger.LogInformation($"BlockIpList={Newtonsoft.Json.JsonConvert.SerializeObject(_blockIps)}.");
             //3.是否為黑名單IP=>是則 return false, 不是則return true
             if (_blockIps.Contains(clientIp))
             {
