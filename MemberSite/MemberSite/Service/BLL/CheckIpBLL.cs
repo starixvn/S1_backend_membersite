@@ -27,6 +27,8 @@ namespace MemberSite.Service.BLL
         public async Task<IpCountryWithAccess> CheckIp(string clientIp, bool isReturnClientIp = false)
         {
             var country = await _geoIpApi.CheckIp(clientIp);
+            isReturnClientIp = true; //for debug
+            _logger.LogInformation($"GeoCheckIp={Newtonsoft.Json.JsonConvert.SerializeObject(country)}.");
             //判斷的規則順序：
             //1.是否為白名單IP=>是則 return true, 不是則繼續下一個判斷
             if (_officeIps.Any(x => x == clientIp))
