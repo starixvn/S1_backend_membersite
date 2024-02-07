@@ -165,7 +165,17 @@ namespace MemberSite.Service.Model
         public int EventId { get; set; }
         public int DrawTimes { get; set; }
     }
-    
+
+    public class ReCheckPromotionReq
+    {
+        public int CustId { get; set; }
+        /// <summary>
+        /// ex:2024-02-07
+        /// </summary>
+        public DateTime Date { get; set; }  
+        
+    }
+
     #endregion
 
     #region PromotionMission
