@@ -689,6 +689,45 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
 
+        [HttpPost]
+        public async Task<ApiResult<CheckPromotionMissionResponse>> ReCheckPromotionMission(ReCheckPromotionReq request)
+        {
+            var apiResult = new ApiResult<CheckPromotionMissionResponse>();
+
+            var key = _newYear2024Bll.CheckKey();
+            if (!key) return apiResult;
+            var custInfo = _custInfoBll.GetCustInfoWithCache(request.CustId);
+
+            if (custInfo is { CustId: > 0 })
+            {
+                var data = new CheckPromotionMissionResponse();
+
+                var custPromotionMission = await _newYear2024Bll.CheckCustPromotionMission(custInfo, request.Date);
+                var eggTicket = await _newYear2024Bll.GetEggTicket(custInfo.CustId);
+
+                if (custPromotionMission is not null)
+                {
+                    var claimMission = custPromotionMission.Where(x => x.IsCompleted);
+                    if (claimMission.Any())
+                    {
+                        eggTicket = _newYear2024Bll.ClaimPromotionMission(custInfo, claimMission, eggTicket);
+                    }
+
+                    data.EggTicket = eggTicket;
+                    data.NewYearMission2024 = custPromotionMission;
+                    apiResult.Data = data;
+                }
+                else
+                {
+                    apiResult.Message = _selLangBll.GetMsg("msg_Ineligible");
+                }
+
+                apiResult.ErrorCode = (int)ErrorCode.Success;
+            }
+
+            return apiResult;
+        }
+
         [Authorize]
         [HttpPost]
         public async Task<ApiResult> ClaimNewYearBigPrize(DrawPrizeReq req)
