@@ -533,6 +533,13 @@ namespace MemberSite.Service.BLL
             }
             return apiResult;
         }
+        
+        public async Task<ApiResult> ReSetPwdVerifyOTPAsync(int custId, string inputOTP)
+        {
+            var apiResult = await _commonBll.VerifyOTPAsync(custId, inputOTP);
+            
+            return apiResult;
+        }
 
         public string GetAffiliateId(int custId)
         {
