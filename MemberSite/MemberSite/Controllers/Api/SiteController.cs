@@ -649,7 +649,8 @@ namespace MemberSite.Controllers.Api
         public class ReSetPwdVerifyOTPReq
         {
             public string Username { get; set; }
-            public string inputOTPcode { set; get; }
+            public string InputOTPcode { set; get; }
+            public string NewPassword { set; get; }
         }
         
         [HttpPost]
@@ -658,8 +659,22 @@ namespace MemberSite.Controllers.Api
             var serverInfo = _serverInfoBll.GetServerInfo();
             var custInfoProfile = _custInfoBll.GetCustInfoProfileByUserName(serverInfo.SiteId, req.Username);
             
-            var apiResult = await _custInfoBll.ReSetPwdVerifyOTPAsync(custInfoProfile.CustId, req.inputOTPcode);
+            var apiResult = await _custInfoBll.ReSetPwdVerifyOTPAsync(custInfoProfile.CustId, req.InputOTPcode);
 
+            if (apiResult.ErrorCode == 0)
+            {
+                if (_custInfoBll.SetResetPwd(custInfoProfile.CustId, req.NewPassword))
+                {
+                    apiResult.ErrorCode = 0;
+                    apiResult.Message = _selLangBll.GetMsg("ResetPwdSuccess");
+                }
+                else
+                {
+                    apiResult.ErrorCode = -1;
+                    apiResult.Message = _selLangBll.GetMsg("msg_UpdateFailed");
+                }
+            }
+            
             return apiResult;
         }
         

@@ -911,32 +911,6 @@ namespace MemberSite.Controllers.Api
 
             return apiResult;
         }
-
-        public class ResetPasswordByOTPModel
-        {
-            public string Username { get; set; }
-            public string NewPassword { set; get; }
-        }
-        
-        [HttpPost]
-        public ApiResult ResetPasswordByOTP(ResetPasswordByOTPModel resetPassword)
-        {
-            var apiResult = new ApiResult();
-            var serverInfo = _serverInfoBLL.GetServerInfo();
-            var custInfoProfile = _custInfoBLL.GetCustInfoProfileByUserName(serverInfo.SiteId, resetPassword.Username);
-  
-            if (_custInfoBLL.SetResetPwd(custInfoProfile.CustId, resetPassword.NewPassword))
-            {
-                apiResult.ErrorCode = 0;
-                apiResult.Message = _selLangBLL.GetMsg("ResetPwdSuccess");
-            }
-            else
-            {
-                apiResult.Message = _selLangBLL.GetMsg("msg_UpdateFailed");
-            }
-
-            return apiResult;
-        }
         
         [HttpPost]
         public async Task<ApiResult<SendOTPSMSResult>> SendOTPSMSAsync()
