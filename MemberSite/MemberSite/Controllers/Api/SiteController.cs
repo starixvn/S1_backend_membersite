@@ -612,6 +612,23 @@ namespace MemberSite.Controllers.Api
             }
         }
 
+        public class ReSetPwdVerifyOTPReq
+        {
+            public string Username { get; set; }
+            public string inputOTPcode { set; get; }
+        }
+        
+        [HttpPost]
+        public async Task<ApiResult> ReSetPwdVerifyOTPAsync(ReSetPwdVerifyOTPReq req)
+        {
+            var serverInfo = _serverInfoBll.GetServerInfo();
+            var custInfoProfile = _custInfoBll.GetCustInfoProfileByUserName(serverInfo.SiteId, req.Username);
+            
+            var apiResult = await _custInfoBll.ReSetPwdVerifyOTPAsync(custInfoProfile.CustId, req.inputOTPcode);
+
+            return apiResult;
+        }
+        
         [HttpPost]
         public ApiResult<Dictionary<string, string>> GetTranslationData(string[] keys)
         {
