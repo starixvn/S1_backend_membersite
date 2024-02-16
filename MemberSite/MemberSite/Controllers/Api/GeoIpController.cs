@@ -23,7 +23,7 @@ namespace MemberSite.Controllers.Api
             _checkIpBll = provider.GetRequiredService<ICheckIpBLL>();
         }
 
-        [HttpGet, HttpPost]
+        [HttpPost]
         public async Task<ApiResult<IpCountryWithAccess>> CheckIp()
         {
             var result = await _checkIpBll.CheckIp(_tools.GetClientIP(), true);
