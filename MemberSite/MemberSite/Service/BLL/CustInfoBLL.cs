@@ -351,6 +351,9 @@ namespace MemberSite.Service.BLL
 
         public bool SetResetPwd(int custId, string newPassword)
         {
+            var check = _tools.CheckUserInputPassword(newPassword);
+            if (!check) return false;
+            
             var md5NewPassword = _tools.MD5Encrypt(newPassword);
             return _custInfoService.SetResetPwd(custId, md5NewPassword);
         }

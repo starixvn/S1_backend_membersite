@@ -597,9 +597,9 @@ namespace MemberSite.Controllers.Api
                         return otpResponse;
                     }
 
-                    // 找不到 翻譯黨
+                    // cant find mapping
                     apiResult.ErrorCode = -1;
-                    apiResult.Message = _selLangBll.GetMsg("ForgetPwdSuccess");
+                    apiResult.Message = _selLangBll.GetMsg("WrongPhoneNumberAndUserName");
                 }
 
                 apiResult.ErrorCode = -1;
