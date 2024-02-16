@@ -68,6 +68,10 @@ namespace MemberSite.Controllers.Api
             _checkAttackBll = provider.GetRequiredService<CheckAttackBLL>();
             _stringVaildHelper = provider.GetRequiredService<StringVaildHelper>();
             _geoIpApi = provider.GetRequiredService<IGeoIpApi>();
+            _checkIpBll = provider.GetRequiredService<ICheckIpBLL>();
+            _checkAttackBll = provider.GetRequiredService<CheckAttackBLL>();
+            _stringVaildHelper = provider.GetRequiredService<StringVaildHelper>();
+            _geoIpApi = provider.GetRequiredService<IGeoIpApi>();
             _FPSBll = provider.GetRequiredService<FPSBLL>();
             _httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
             _commonBll = provider.GetRequiredService<CommonBLL>();
@@ -1389,7 +1393,6 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        [HttpGet]
         public async Task<ApiResult<IpCountryWithAccess>> GetIpCountry()
         {
             return new ApiResult<IpCountryWithAccess>()
