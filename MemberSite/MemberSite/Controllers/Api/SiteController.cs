@@ -637,7 +637,7 @@ namespace MemberSite.Controllers.Api
 
                     // cant find mapping
                     apiResult.ErrorCode = -1;
-                    apiResult.Message = _selLangBll.GetMsg("WrongPhoneNumberAndUserName");
+                    apiResult.Message = _selLangBll.GetMsg("msg_WrongPhoneNumberAndUserName");
                 }
 
                 apiResult.ErrorCode = -1;
