@@ -184,6 +184,7 @@ namespace MemberSite
             services.AddTransient<HotEventBLL>();
             services.AddTransient<NewYear2024BLL>();
             services.AddTransient<QueueJobBLL>();
+            services.AddTransient<ICheckIpBLL, CheckIpBLL>();
             services.AddSingleton<CryptoHelper>();
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();

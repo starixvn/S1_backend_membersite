@@ -44,9 +44,10 @@ namespace MemberSite.Controllers.Api
         private readonly CheckAttackBLL _checkAttackBll;
         private readonly StringVaildHelper _stringVaildHelper;
         private readonly IGeoIpApi _geoIpApi;
+        private readonly ICheckIpBLL _checkIpBll;
         private readonly FPSBLL _FPSBll;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        
+
         public SiteController(IServiceProvider provider)
         {
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
@@ -63,6 +64,10 @@ namespace MemberSite.Controllers.Api
             _cacheHelper = provider.GetRequiredService<ICacheHelper>();
             _recaptchaBll = provider.GetRequiredService<RecaptchaBLL>();
             _logger = provider.GetRequiredService<ILogger<SiteController>>();
+            _checkAttackBll = provider.GetRequiredService<CheckAttackBLL>();
+            _stringVaildHelper = provider.GetRequiredService<StringVaildHelper>();
+            _geoIpApi = provider.GetRequiredService<IGeoIpApi>();
+            _checkIpBll = provider.GetRequiredService<ICheckIpBLL>();
             _checkAttackBll = provider.GetRequiredService<CheckAttackBLL>();
             _stringVaildHelper = provider.GetRequiredService<StringVaildHelper>();
             _geoIpApi = provider.GetRequiredService<IGeoIpApi>();
@@ -1297,14 +1302,13 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        [HttpGet]
-        public async Task<ApiResult<IpCountry>> GetIpCountry()
+        public async Task<ApiResult<IpCountryWithAccess>> GetIpCountry()
         {
-            return new ApiResult<IpCountry>()
+            return new ApiResult<IpCountryWithAccess>()
             {
                 ErrorCode = (int)ErrorCode.Success,
-                Data = await _geoIpApi.CheckIp(_tools.GetClientIP())
-            };           
+                Data = await _checkIpBll.CheckIp(_tools.GetClientIP())
+            };
         }
     }
 }

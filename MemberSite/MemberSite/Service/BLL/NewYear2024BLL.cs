@@ -1,4 +1,5 @@
 ﻿using MemberSite.Service.DAL.Interface;
+using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using Newtonsoft.Json;
@@ -12,6 +13,7 @@ public class NewYear2024BLL
     private readonly DateTimeHelper _dateTimeHelper;
     private readonly EventsBLL _eventsBll;
     private readonly ILogger<NewYear2024BLL> _logger;
+    private readonly ICacheHelper _redisHelper;
 
     public NewYear2024BLL(IServiceProvider provider)
     {
@@ -20,17 +22,26 @@ public class NewYear2024BLL
         _dateTimeHelper = provider.GetRequiredService<DateTimeHelper>();
         _eventsBll = provider.GetRequiredService<EventsBLL>();
         _logger = provider.GetRequiredService<ILogger<NewYear2024BLL>>();
+        _redisHelper = provider.GetRequiredService<ICacheHelper>();
     }
 
     /// <summary>
     /// 檢查每日任務進度
     /// </summary>
-    public async Task<IEnumerable<NewYearMission2024>> CheckCustPromotionMission(Customer customer)
+    public async Task<IEnumerable<NewYearMission2024>> CheckCustPromotionMission(Customer customer,DateTime starDate = new DateTime())
     {
         var result = new List<NewYearMission2024>();
-            
+        DateTimeOffset startTimeTimeZone;
         var landId = _selLangBll.GetLangId();
-        var startTimeTimeZone = await _dateTimeHelper.ToCurrencyZone(DateTime.UtcNow, customer.CurrencyId);
+        if (starDate != new DateTime())
+        {
+            startTimeTimeZone = await _dateTimeHelper.ToCurrencyZone(starDate, customer.CurrencyId);
+        }
+        else
+        {
+            startTimeTimeZone = await _dateTimeHelper.ToCurrencyZone(DateTime.UtcNow, customer.CurrencyId);
+        }
+
         var startTime = startTimeTimeZone.DateTime.Date;
         var endTime = startTime.AddDays(1).AddSeconds(-1);
         
@@ -270,7 +281,20 @@ public class NewYear2024BLL
         }
         return (-1,null);
     }
-    
+
+    public bool CheckKey()
+    {
+        var result = false;
+        var key = $"ReCheckPromotionMission";
+        var value = _redisHelper.StringGet(key);
+        if (value == "1")
+        {
+            result = true;
+        }
+
+        return result;
+    }
+
     #region Private
 
     /// <summary>
