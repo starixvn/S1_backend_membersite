@@ -1,4 +1,5 @@
-﻿using MemberSite.Service.DAL;
+﻿using MemberSite.Extensions;
+using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
@@ -168,6 +169,7 @@ namespace MemberSite.Service.BLL
                 depositRep3.BankName = info.BankName;
                 depositRep3.BankLogo = info.BankLogo;
                 depositRep3.BankSite = info.BankSite;
+                depositRep3.Code = CommonExtension.GenerateRandomNumber();
 
                 return 0;
             }

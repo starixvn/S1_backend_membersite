@@ -122,8 +122,7 @@ namespace MemberSite.Service.BLL
 
             if (req.Type == DepositType.QrPayPayment)
             {
-                var random = new Random();
-                code = random.Next(0, 1000000).ToString("000000");
+                code = CommonExtension.GenerateRandomNumber();
             }
 
             var depositInfo3_1 = new DepositInfo3_1
@@ -145,7 +144,7 @@ namespace MemberSite.Service.BLL
             return (0, string.Empty);
         }
 
-        public int DepositReqLocalBank(int custId, int sysId, int bankId, decimal amount, string memo, out DepositRep3 depositRep3)
+        public int DepositReqLocalBank(int custId, int sysId, int bankId, decimal amount, string memo, string code, out DepositRep3 depositRep3)
         {
             depositRep3 = new DepositRep3();
 
@@ -213,7 +212,8 @@ namespace MemberSite.Service.BLL
                     SysId = info.SysId,
                     AccountNo = info.AccountNo,
                     IFSCCode = info.AccountCode,
-                    Ver = 1
+                    Ver = 1,
+                    Code = code
                 })
             };
 
@@ -227,6 +227,7 @@ namespace MemberSite.Service.BLL
             depositRep3.BankName = info.BankName;
             depositRep3.BankLogo = info.BankLogo;
             depositRep3.BankSite = info.BankSite;
+            depositRep3.Code = code;
 
             return 0;
         }
