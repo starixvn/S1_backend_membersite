@@ -55,6 +55,7 @@ namespace MemberSite.Service.Model
         public string PostScript { get; set; }
         public decimal MinAmount { get; set; }
         public decimal MaxAmount { get; set; }
+        public string Code { get; set; }
     }
 
     public class LocalPayResp

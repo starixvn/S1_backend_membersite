@@ -188,6 +188,7 @@ namespace MemberSite.Controllers.Api
 
             public int BankId { set; get; }
             public bool HasPromotion { set; get; }
+            public string Code { set; get; }
         }
 
         /// <summary>
@@ -1685,6 +1686,7 @@ namespace MemberSite.Controllers.Api
             // LOCAL BANK
             public int SysId { set; get; }
             public int BankId { set; get; }
+            public string Code { set; get; }
         }
         
         private interface ILocalBankReq
@@ -1692,6 +1694,7 @@ namespace MemberSite.Controllers.Api
             public decimal Amount { set; get; }
             public int SysId { set; get; }
             public int BankId { set; get; }
+            public string Code { set; get; }
         }
         
         [HttpPost]
@@ -1723,7 +1726,7 @@ namespace MemberSite.Controllers.Api
 
                     result = new ApiResult<object>(localBankResult.ErrorCode,
                         localBankResult.Message,
-                        new {TransId = transId});
+                        new {TransId = transId, localBankResult.Data?.Code});
                     
                     break;
                 
@@ -1937,6 +1940,7 @@ namespace MemberSite.Controllers.Api
                 req.BankId, 
                 req.Amount,
                 string.Empty,
+                req.Code,
                 out var depositRep);
             
             return new ApiResult<DepositRep3>
