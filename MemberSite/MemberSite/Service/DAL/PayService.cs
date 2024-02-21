@@ -12,22 +12,14 @@ namespace MemberSite.Service.DAL
         {
             _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
         }
-        public IEnumerable<MobilePayInfo> GetMobilePayInfo(int siteId)
+        public IEnumerable<PayInfo> GetCryptoPayInfo(int siteId)
         {
-            return _reportDbClient.Query<MobilePayInfo>("Member_MobilePay_Get_V3", new { _SiteId = siteId });
+            return _reportDbClient.Query<PayInfo>("Service_PayInfo_Get_V2", new { _SiteId = siteId, _DepositType = DepositType.CryptoPayment });
         }
-        public IEnumerable<CryptoPayInfo> GetCryptoPayInfo(int siteId)
+        
+        public IEnumerable<PayInfo> GetPayInfo(int siteId, DepositType? depositType)
         {
-            return _reportDbClient.Query<CryptoPayInfo>("Service_PayInfo_Get_V2", new { _SiteId = siteId, _DepositType = DepositType.CryptoPayment });
-        }
-        public IEnumerable<LoadCardPayInfo> GetLoadCardPayInfo(int siteId)
-        {
-            return _reportDbClient.Query<LoadCardPayInfo>("Service_PayInfo_Get_V2", new { _SiteId = siteId, _DepositType = DepositType.LoadCardPayment });
-        }
-
-        public IEnumerable<PayInfo> GetPayInfo(int siteId, DepositType depositType)
-        {
-            return _reportDbClient.Query<PayInfo>("Service_PayInfo_Get_V2", new { _SiteId = siteId, _DepositType = (int)depositType });
+            return _reportDbClient.Query<PayInfo>("Service_PayInfo_Get_V2", new { _SiteId = siteId, _DepositType = (int?)depositType ?? 0 });
         }
 
         public LineChannel? GetLineChannel(int siteId, int currencyId)
@@ -38,6 +30,11 @@ namespace MemberSite.Service.DAL
         public IEnumerable<PayGroupInfo> GetPayGroup()
         {
             return _reportDbClient.Query<PayGroupInfo>("Service_PayGroup_Get");
+        }
+        
+        public IEnumerable<PayChannelInfo> GetPayChannel()
+        {
+            return _reportDbClient.Query<PayChannelInfo>("Service_PayChannel_Get");
         }
         
         public IEnumerable<WithdrawalBlockSetting> GetWithdrawalBlockSettingList(int siteId)

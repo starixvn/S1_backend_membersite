@@ -44,16 +44,16 @@ namespace MemberSite.Service.BLL
                 };
         }
 
-        public IEnumerable<CryptoPayInfo> GetCryptoPayInfoListWithCache(int siteId)
+        public IEnumerable<PayInfo> GetCryptoPayInfoListWithCache(int siteId)
         {
             var key = $"PaySetting:Crypto:{siteId}";
-            var dbData = _redisHelper.TryGetOrCreate<IEnumerable<CryptoPayInfo>>(key, TimeSpan.FromMinutes(5),
+            var dbData = _redisHelper.TryGetOrCreate<IEnumerable<PayInfo>>(key, TimeSpan.FromMinutes(5),
                 () => _payService.GetCryptoPayInfo(siteId).OrderBy(x => x.GSort).ThenBy(x => x.SSort),
                 RedisDataBase.Shared);
             return dbData;
         }
 
-        public IEnumerable<CryptoPayInfo> GetCryptoPayInfoList(int custId)
+        public IEnumerable<PayInfo> GetCryptoPayInfoList(int custId)
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
@@ -61,7 +61,7 @@ namespace MemberSite.Service.BLL
             var depositLimitInfo = _depositLimitBll.GetDepositLimitInfo(custId, DepositType.CryptoPayment);
             if (depositLimitInfo?.DepositStatus == 0)
             {
-                return Array.Empty<CryptoPayInfo>();
+                return Array.Empty<PayInfo>();
             }
 
             var cryptoPayInfoList = GetCryptoPayInfoListWithCache(custInfo.SiteId)
@@ -71,7 +71,7 @@ namespace MemberSite.Service.BLL
             var localCryptoList = _bankInfoOffBll.GetFilteredOfflineCryptoPayInfo(custId)
                 .GroupBy(x => x.ChannelName)
                 .Select(g =>
-                    new CryptoPayInfo
+                    new PayInfo
                     {
                         ChannelName = g.Key,
                         Mode = 3,

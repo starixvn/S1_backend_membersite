@@ -1,24 +1,21 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using System.Globalization;
+using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Net.Sockets;
 using System.Security.Claims;
 using System.Text.RegularExpressions;
-
 using MemberSite.Attributes;
 using MemberSite.Service.BLL;
 using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
-
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-
 using Newtonsoft.Json;
-
 using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
@@ -47,6 +44,9 @@ namespace MemberSite.Controllers.Api
         private readonly CheckAttackBLL _checkAttackBll;
         private readonly StringVaildHelper _stringVaildHelper;
         private readonly IGeoIpApi _geoIpApi;
+        private readonly ICheckIpBLL _checkIpBll;
+        private readonly FPSBLL _FPSBll;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public SiteController(IServiceProvider provider)
         {
@@ -64,10 +64,15 @@ namespace MemberSite.Controllers.Api
             _cacheHelper = provider.GetRequiredService<ICacheHelper>();
             _recaptchaBll = provider.GetRequiredService<RecaptchaBLL>();
             _logger = provider.GetRequiredService<ILogger<SiteController>>();
-            
             _checkAttackBll = provider.GetRequiredService<CheckAttackBLL>();
             _stringVaildHelper = provider.GetRequiredService<StringVaildHelper>();
             _geoIpApi = provider.GetRequiredService<IGeoIpApi>();
+            _checkIpBll = provider.GetRequiredService<ICheckIpBLL>();
+            _checkAttackBll = provider.GetRequiredService<CheckAttackBLL>();
+            _stringVaildHelper = provider.GetRequiredService<StringVaildHelper>();
+            _geoIpApi = provider.GetRequiredService<IGeoIpApi>();
+            _FPSBll = provider.GetRequiredService<FPSBLL>();
+            _httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
         }
 
         public class LoginModel
@@ -79,7 +84,7 @@ namespace MemberSite.Controllers.Api
             public string platform { get; set; }
             public string userAgent { get; set; }
             public string screen { get; set; }
-            public string di { get; set; }
+            public FPSRequest FPSRequest { get; set; }
         }
 
         [HttpPost]
@@ -161,14 +166,32 @@ namespace MemberSite.Controllers.Api
                 };
             }
 
-            // if (loginModel.di != null)
-            // {
-            //     _ = Task.Run(async () =>
-            //     {
-            //         await _sFpsBll.FPSChecksAsync(customer.CustId, "login", "Successfully", loginModel.url, loginModel.platform, loginModel.userAgent, loginModel.screen, loginModel.di, ip);
-            //     });
-            // }
+            #region FPS
 
+            if (loginModel.FPSRequest != null)
+            {
+                var context = _httpContextAccessor.HttpContext;
+                _ = Task.Run(async () =>
+                {
+                    var request = new FPSApiRequest
+                    {
+                        Account = customer.CustId.ToString(),
+                        DI = loginModel.FPSRequest.DI,
+                        BI = loginModel.FPSRequest.BI,
+                        IP = ip,
+                        UserAgent = Request.Headers["User-Agent"],
+                        DetecasAnalysis = loginModel.FPSRequest.DetecasAnalysis,
+                        AcceptsTypes = context?.Request.Headers["Accept"].ToString(),
+                        SessionKey = loginModel.FPSRequest.SessionKey,
+                        Token = loginModel.FPSRequest.Token,
+                        Url = loginModel.url
+                    };
+                    await _FPSBll.FPSChecksAsync(request);
+                });
+            }
+
+            #endregion
+            
             await _cacheHelper.StringFireAndForgetSetAsync(customer.CustId.ToString(), token, TimeSpan.FromMinutes(30), RedisDataBase.Token);
 
             Response.Cookies.Delete($"Initialization{User.Identity?.Name}");
@@ -243,13 +266,27 @@ namespace MemberSite.Controllers.Api
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
-            // if (loginModel.di != null)
-            // {
-            //     _ = Task.Run(async () =>
-            //     {
-            //         await _sFpsBll.FPSChecksAsync(customer.CustId, "login", "Successfully", loginModel.url, loginModel.platform, loginModel.userAgent, loginModel.screen, loginModel.di, ip);
-            //     });
-            // }
+            if (loginModel.FPSRequest != null)
+            {
+                var context = _httpContextAccessor.HttpContext;
+                _ = Task.Run(async () =>
+                {
+                    var request = new FPSApiRequest
+                    {
+                        Account = customer.CustId.ToString(),
+                        DI = loginModel.FPSRequest.DI,
+                        BI = loginModel.FPSRequest.BI,
+                        IP = ip,
+                        UserAgent = Request.Headers["User-Agent"],
+                        DetecasAnalysis = loginModel.FPSRequest.DetecasAnalysis,
+                        AcceptsTypes = context?.Request.Headers["Accept"].ToString(),
+                        SessionKey = loginModel.FPSRequest.SessionKey,
+                        Token = loginModel.FPSRequest.Token,
+                        Url = loginModel.url
+                    };
+                    await _FPSBll.FPSChecksAsync(request);
+                });
+            }
 
             var accessToken = _tools.GenerateJwtTokens(claims);
             var data = new JwtAuthData
@@ -266,7 +303,7 @@ namespace MemberSite.Controllers.Api
         {
             public string UserName { get; set; }
             public string Userpwd { get; set; }
-            public string Email { get; set; }
+            public string Email { get; set; } = null;
             public int CurrencyId { get; set; }
             public string UserLang { get; set; }
             public string RefId { get; set; }
@@ -290,6 +327,16 @@ namespace MemberSite.Controllers.Api
             public int Birth_d { get; set; }
             public int Birth_m { get; set; }
             public int Birth_y { get; set; }
+        }
+        public class IvorysportSignupModel : SignupModel
+        {
+            public int Occupation { get; set; }
+            public int SourceOfIncome { get; set; }
+            public string Nationality { get; set; }
+            public string Country { get; set; }
+            public string City { get; set; }
+            public string PostCode { get; set; }
+            public string LineFirst { get; set; }
         }
 
         [HttpPost]
@@ -372,6 +419,47 @@ namespace MemberSite.Controllers.Api
             };
             apiResult.Data = data;
 
+            return apiResult;
+        }
+
+
+        [HttpPost]
+        //只給Ivorysport使用
+        public async Task<ApiResult> IvorysportSignupAsync(IvorysportSignupModel signupModel)
+        {
+            var apiResult = new ApiResult(_selLangBll);
+            var isAuthenticated = User.Identity is { IsAuthenticated: true };
+            if (string.IsNullOrWhiteSpace(signupModel.RealName)
+                || !_stringVaildHelper.VaildAccountNameForSetProfile(signupModel.RealName))
+            {
+                apiResult.ErrorCode = 21;
+                apiResult.Message = $"{_selLangBll.GetMsg("msg_RealNameWrongFormat")}";
+                return apiResult;
+            }
+            var customer = _siteBll.IvorysportSignup(signupModel, apiResult, isAuthenticated, Request.Host.Host,
+                Request.Headers["User-Agent"], true);
+            if (apiResult.ErrorCode == (int)ErrorCode.Attack)
+            {
+                Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return null;
+            }
+
+            if (apiResult.ErrorCode != 0 || customer == null) return apiResult;
+
+
+
+            var claims = new List<Claim>
+            {
+                new(ClaimTypes.Name, customer.UserName),
+                new(ClaimTypes.NameIdentifier, customer.CustId.ToString()),
+                new("Token", customer.Token),
+                new("LangId", customer.UserLang)
+            };
+
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity));
+            await _cacheHelper.StringFireAndForgetSetAsync(customer.CustId.ToString(), customer.Token, TimeSpan.FromMinutes(30), RedisDataBase.Token);
             return apiResult;
         }
 
@@ -1214,14 +1302,13 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        [HttpGet]
-        public async Task<ApiResult<IpCountry>> GetIpCountry()
+        public async Task<ApiResult<IpCountryWithAccess>> GetIpCountry()
         {
-            return new ApiResult<IpCountry>()
+            return new ApiResult<IpCountryWithAccess>()
             {
                 ErrorCode = (int)ErrorCode.Success,
-                Data = await _geoIpApi.CheckIp(_tools.GetClientIP())
-            };           
+                Data = await _checkIpBll.CheckIp(_tools.GetClientIP())
+            };
         }
     }
 }

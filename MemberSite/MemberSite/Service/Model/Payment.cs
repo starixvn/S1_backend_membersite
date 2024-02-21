@@ -14,49 +14,6 @@ namespace MemberSite.Service.Model
         public string Message { get; set; }
     }
 
-    public class PayCurrency : IPaymentLimit
-    {
-        public int ChannelId { get; set; }
-        public int CurrencyId { get; set; }
-        public string PayCurrencyId { get; set; }
-        public decimal MinAmount { get; set; }
-        public decimal MaxAmount { get; set; }
-        public int AmountRule { get; set; }
-        public string AmountShow { get; set; }
-    }
-    public class MobilePayInfo : IPayInfo
-    {
-        public int PayId { get; set; }
-        public string PayName { get; set; }
-        public int GroupId { get; set; }
-        public string GroupName { get; set; }
-        public int ChannelId { get; set; }
-        public string ChannelName { get; set; }
-        public int Mode { get; set; }
-        public int PointLevel { get; set; }
-        public int CurrencyId { get; set; }
-        public string PayCurrencyId { get; set; }
-        public decimal MinAmount { get; set; }
-        public decimal MaxAmount { get; set; }
-        public int AmountRule { get; set; }
-        [System.Text.Json.Serialization.JsonIgnore]
-        public string AmountShow { get; set; }
-        public IEnumerable<decimal> AmountList => AmountShow == null ? null : JsonConvert.DeserializeObject<IEnumerable<decimal>>(AmountShow);
-        public int GSort { get; set; }
-        public int SSort { get; set; }
-    }
-
-    public class MobilePayGroup
-    {
-        public int GroupId { get; set; }
-        public string GroupName { get; set; }
-        public int GSort { get; set; }
-        public int Mode { get; set; }
-        public string ChannelName { get; set; }
-        public decimal MinAmount { get; set; }
-        public decimal MaxAmount { get; set; }
-    }
-
     public class CryptoPayInfo : IPayInfo
     {
         public int PayId { get; set; }
@@ -86,44 +43,6 @@ namespace MemberSite.Service.Model
         public int SSort { get; set; }
     }
 
-    public class CryptoPayGroup
-    {
-        public int GroupId { get; set; }
-        public string GroupName { get; set; }
-        public int GSort { get; set; }
-    }
-
-    public class LoadCardPayInfo : IPayInfo
-    {
-        public int PayId { get; set; }
-        public string PayName { get; set; }
-        public int GroupId { get; set; }
-        public string GroupName { get; set; }
-        public int ChannelId { get; set; }
-        public string ChannelName { get; set; }
-        public int Mode { get; set; }
-        public int PointLevel { get; set; }
-        public int CurrencyId { get; set; }
-        public string PayCurrencyId { get; set; }
-        public decimal MinAmount { get; set; }
-        public decimal MaxAmount { get; set; }
-        public int AmountRule { get; set; }
-        [System.Text.Json.Serialization.JsonIgnore]
-        public string AmountShow { get; set; }
-        [DicIgnore]
-        public IEnumerable<decimal> AmountList => AmountShow == null ? null : JsonConvert.DeserializeObject<IEnumerable<decimal>>(AmountShow);
-        public string PayCode { get; set; }
-        [DicIgnore]
-        public int GSort { get; set; }
-        [DicIgnore]
-        public int SSort { get; set; }
-        [DicIgnore]
-        public long Updated_timestamp { get; set; }
-        [DicIgnore]
-        public string Code { get; set; }
-        [DicIgnore]
-        public string Serial { get; set; }
-    }
     public class LoadCardPayGroup : IPaymentLimit
     {
         public int GroupId { get; set; }
@@ -150,8 +69,6 @@ namespace MemberSite.Service.Model
         public int ChannelId { get; set; }
         public string ChannelName { get; set; }
         public int Mode { get; set; }
-        public int PointLevel { get; set; }
-        public int CurrencyId { get; set; }
         public int AmountRule { get; set; }
         public IEnumerable<decimal> AmountList { get; }
     }
@@ -165,6 +82,7 @@ namespace MemberSite.Service.Model
         public int ChannelId { get; set; }
         public string ChannelName { get; set; }
         public int Mode { get; set; }
+        public DepositType DepositType { get; set; }
         public int PointLevel { get; set; }
         public string PayCode { get; set; }
         public int CurrencyId { get; set; }
@@ -174,10 +92,10 @@ namespace MemberSite.Service.Model
         [DicIgnore]
         public int AmountRule { get; set; }
         [DicIgnore]
-        [System.Text.Json.Serialization.JsonIgnore]
         public string AmountShow { get; set; }
         [DicIgnore]
-        public IEnumerable<decimal> AmountList => AmountShow == null ? null : JsonConvert.DeserializeObject<IEnumerable<decimal>>(AmountShow);
+        public IEnumerable<decimal> AmountList => AmountShow == null
+            ? null : JsonConvert.DeserializeObject<IEnumerable<decimal>>(AmountShow);
         [DicIgnore]
         public int GSort { get; set; }
         [DicIgnore]
@@ -186,6 +104,19 @@ namespace MemberSite.Service.Model
 
     public class PayGroup : IPaymentLimit
     {
+        
+        public int GroupId { get; set; }
+        public string GroupName { get; set; }
+        public int GSort { get; set; }
+        public int Mode { get; set; }
+        public string ChannelName { get; set; }
+        public decimal MinAmount { get; set; }
+        public decimal MaxAmount { get; set; }
+    }
+    
+    public class PayGroupV2 : IPaymentLimit
+    {
+        
         public int GroupId { get; set; }
         public string GroupName { get; set; }
         public int GSort { get; set; }
@@ -201,6 +132,17 @@ namespace MemberSite.Service.Model
         public string GroupName { get; set; }
         public DepositType Type { get; set; }
         public int Sort { get; set; }
+    }
+    
+    public class PayChannelInfo
+    {
+        public int ChannelId { get; set; }
+        public int PayId { get; set; }
+        public int GroupId { get; set; }
+        public string ChannelName { get; set; }
+        public DepositType Type { get; set; }
+        public PayChannelMethod Method { get; set; }
+        public PayModeEnum Mode { get; set; }
     }
 
     public class LineChannel

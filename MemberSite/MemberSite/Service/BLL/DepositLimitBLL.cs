@@ -18,7 +18,7 @@ namespace MemberSite.Service.BLL
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
         }
 
-        private IEnumerable<DepositLimitInfo> GetDepositLimitInfoList(int siteId)
+        public IEnumerable<DepositLimitInfo> GetDepositLimitInfoListWithCache(int siteId)
         {
             var key = $"DepositLimitInfoList:{siteId}";
 
@@ -32,10 +32,10 @@ namespace MemberSite.Service.BLL
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
             
-            return GetDepositLimitInfoList(custInfo.SiteId)?.FirstOrDefault(x =>
+            return GetDepositLimitInfoListWithCache(custInfo.SiteId)?.FirstOrDefault(x =>
                 x.SiteId == custInfo.SiteId &&
                 x.VipLevel == vipLevel &&
-                x.DepositType == (int)depositType &&
+                x.DepositType == depositType &&
                 x.CurrencyId == custInfo.CurrencyId);
         }
 

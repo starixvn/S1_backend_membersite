@@ -1,4 +1,5 @@
-﻿using MemberSite.Service.DAL;
+﻿using MemberSite.Extensions;
+using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
@@ -16,6 +17,7 @@ namespace MemberSite.Service.BLL
         private readonly DepositService _depositService;
         private readonly ICacheHelper _redisHelper;
         private readonly ILogger<BankInfoOffBLL> _logger;
+        private readonly AuthorizeBLL _authorizeBll;
 
         public BankInfoOffBLL(IServiceProvider provider)
         {
@@ -26,6 +28,7 @@ namespace MemberSite.Service.BLL
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
             _depositService = provider.GetRequiredService<DepositService>();
             _logger = provider.GetRequiredService<ILogger<BankInfoOffBLL>>();
+            _authorizeBll = provider.GetRequiredService<AuthorizeBLL>();
         }
 
         public IEnumerable<OfflineBankAccountInfo> GetOfflineBankAccount(int siteId)
@@ -57,12 +60,13 @@ namespace MemberSite.Service.BLL
             return _bankInfoService.GetCustOffDepositSysId(custId);
         }
 
-        public IEnumerable<OfflineBankInfoFront> GetBankInfoOffListWithCache(int custId, string lang)
+        public IEnumerable<OfflineBankInfoFront> GetBankInfoOffListWithCache(int custId)
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var pointLevel = _custInfoBll.GetPointLevelWithCache(custId);
             var siteId = custInfo.SiteId;
             var currencyId = custInfo.CurrencyId;
+            var lang = _authorizeBll.GetAuthData().LangId;
 
             var key = $"PaySetting:LocalBank:{siteId}:{currencyId}:{pointLevel}:{custInfo.UserLevel}:{lang}";
             var offBankList = _redisHelper.TryGetOrCreate(key, TimeSpan.FromMinutes(5),
@@ -75,7 +79,7 @@ namespace MemberSite.Service.BLL
                 .Select(x => new OfflineBankInfoFront(x, !custDepositSysIds.Contains(x.SysId)));
             return result;
         }
-
+        
         public int LocalBankinfo(int custId, int sysId, string memo, out DepositRep3 depositRep3)
         {
             depositRep3 = new DepositRep3();
@@ -90,7 +94,7 @@ namespace MemberSite.Service.BLL
                 .ToList();
             var depositLimitInfoList = _depositService.GetDepositLimitInfoList();
             var depositLimitInfo = depositLimitInfoList?
-                .Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == pointLevel && x.DepositType == (int)DepositType.LocalBank && x.CurrencyId == custInfo.CurrencyId)
+                .Where(x => x.SiteId == custInfo.SiteId && x.VipLevel == pointLevel && x.DepositType == DepositType.LocalBank && x.CurrencyId == custInfo.CurrencyId)
                 .FirstOrDefault();
 
             if (depositLimitInfo?.DepositStatus == 0)
@@ -165,6 +169,7 @@ namespace MemberSite.Service.BLL
                 depositRep3.BankName = info.BankName;
                 depositRep3.BankLogo = info.BankLogo;
                 depositRep3.BankSite = info.BankSite;
+                depositRep3.Code = CommonExtension.GenerateRandomNumber();
 
                 return 0;
             }
@@ -223,7 +228,7 @@ namespace MemberSite.Service.BLL
             var depositLimitInfo = _depositService.GetDepositLimitInfoList()
                 .FirstOrDefault(x => x.SiteId == siteId
                     && x.VipLevel == pointLevel // DepositLimit 裡的 VipLevel 是 PointLevel
-                    && x.DepositType == (int)DepositType.LocalBank
+                    && x.DepositType == DepositType.LocalBank
                     && x.CurrencyId == currencyId);
 
             if (depositLimitInfo?.DepositStatus == 0)
@@ -268,8 +273,10 @@ namespace MemberSite.Service.BLL
                         Status = d.Status,
                         QRCodeUrl = d.QRCodeUrl,
                         SupportChannel = d.SupportChannel,
-                        MinAmount = x.Min(y => y.MinAmount),
-                        MaxAmount = x.Max(y => y.MaxAmount)
+                        MinAmount = d.MinAmount,
+                        MaxAmount = d.MaxAmount,
+                        AccountName = d.AccountName,
+                        AccountNo = d.AccountNo
                     };
                 });
 
@@ -288,7 +295,7 @@ namespace MemberSite.Service.BLL
             var depositLimitInfo = _depositService.GetDepositLimitInfoList()
                 .FirstOrDefault(x => x.SiteId == siteId
                     && x.VipLevel == pointLevel // DepositLimit 裡的 VipLevel 是 PointLevel
-                    && x.DepositType == (int)DepositType.LocalBank
+                    && x.DepositType == DepositType.LocalBank
                     && x.CurrencyId == currencyId);
 
             if (depositLimitInfo?.DepositStatus == 0)

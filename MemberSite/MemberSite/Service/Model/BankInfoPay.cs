@@ -7,7 +7,6 @@
         public string SysBankCode { get; set; }
         public string SysBankName { get; set; }
         public string BankLogo { get; set; }
-        public int Method { get; set; }
         public int PayId { get; set; }
         public string BankCode { get; set; }
         public string BankPayoutCode { get; set; }

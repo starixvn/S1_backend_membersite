@@ -1,4 +1,7 @@
-﻿namespace MemberSite.Service.Model
+﻿using MemberSite.Service.Model.enums;
+using Newtonsoft.Json;
+
+namespace MemberSite.Service.Model
 {
     public class LiveStreaming
     {
@@ -48,5 +51,23 @@
         public string SiteName { set; get; }
         public string Uid { set; get; }
         public string Ip { set; get; }
+    }
+
+    public class SportLiveStreamingResponse : HotEventResponse
+    {
+
+    }
+    public class SportLiveStreamingData : HotEventDto
+    {
+        private string Currency { get; set; }
+        public IEnumerable<int> ICurrencyList
+        {
+            get
+            {
+                return string.IsNullOrWhiteSpace(Currency) ? 
+                    null:
+                    JsonConvert.DeserializeObject<IEnumerable<int>>(Currency);
+            }
+        }
     }
 }
