@@ -155,4 +155,5 @@
   <data name="msg_BankUnderMaintenance"><value>Bảo trì ngân hàng</value></data>
   <data name="msg_BankUnderMaintenance_Detail"><value>Hệ thống ngân hàng hiện đang được bảo trì và tạm thời không thể xử lý khoản tiền gửi của bạn.</value></data>
   <data name="msg_AffCodeNotFound"><value>Tìm không thấy ID Đại lý</value></data>
+ <data name="msg_OTP_SendOTPSMS_Fail"><value>Invalid OTP Code</value></data>
   </root>
