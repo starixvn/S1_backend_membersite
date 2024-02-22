@@ -18,6 +18,7 @@ namespace MemberSite.Service.BLL
         private readonly ThirdPartyBll _thirdPartyBll;
         private readonly Dictionary<string, SiteCloudFrontImageInfo> _siteCloudFrontImageInfo;
         private readonly Dictionary<string, string> _changeTpName;
+        private readonly int _isStage;
         
         public GameBLL(IServiceProvider provider)
         {
@@ -37,6 +38,7 @@ namespace MemberSite.Service.BLL
                 {"END","ES" },
                 {"EBet","WE" },
             };
+            _isStage = configBll.GetConfigValueByEnvironment<int>("IsStage");
         }
 
         public bool IsMaintain(int siteId, int tpId, string tpGameType, out TpMaintain result)
@@ -129,12 +131,18 @@ namespace MemberSite.Service.BLL
         
         public async Task<IEnumerable<LobbyHeaderResponse>> GetLobbyHeader(GetLobbyHeaderRequest req ,ServerInfo serverInfo)
         {
-            var key = $"GetLobbyHeader_{req.SiteId}_{req.CurrencyId}";
+            var key = $"GetLobbyHeader:{_isStage}:{req.SiteId}:{req.CurrencyId}";
             var result = await _cacheHelper.TryGetOrCreateAsync(key,
                 TimeSpan.FromMinutes(10),
                 async () =>
                 {
-                    var resultData = await _gameService.GetLobbyHeader(req);
+                    var statusList = new List<int> { 1 };
+                    if (_isStage == 1)
+                    {
+                        statusList.Add(3);
+                    }
+                    
+                    var resultData = await _gameService.GetLobbyHeader(req ,statusList);
                     
                     var sequence = new List<int>();
                     var headerSequence = await _gameService.GetLobbyHeaderSequence(req);

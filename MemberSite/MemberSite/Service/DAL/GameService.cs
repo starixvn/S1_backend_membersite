@@ -2,6 +2,7 @@
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Game;
+using Newtonsoft.Json;
 
 namespace MemberSite.Service.DAL
 {
@@ -19,9 +20,14 @@ namespace MemberSite.Service.DAL
             return _reportDbClient.QueryAsync<TpGameIdListData>("Member_TpGameId_Get", null);
         }
         
-        public Task<IEnumerable<LobbyHeaderData>> GetLobbyHeader(GetLobbyHeaderRequest req)
+        public Task<IEnumerable<LobbyHeaderData>> GetLobbyHeader(GetLobbyHeaderRequest req , List<int> statusList)
         {
-            return _reportDbClient.QueryAsync<LobbyHeaderData>("Member_HeaderMenu_Get", new { _SiteId = req.SiteId, _CurrencyId = req.CurrencyId });
+            return _reportDbClient.QueryAsync<LobbyHeaderData>("Member_HeaderMenu_Get", 
+                new { 
+                    _SiteId = req.SiteId, 
+                    _CurrencyId = req.CurrencyId,
+                    StatusJson = JsonConvert.SerializeObject(statusList)
+                });
         }
         
         public Task<LobbyHeaderSequenceData> GetLobbyHeaderSequence(GetLobbyHeaderRequest req)
