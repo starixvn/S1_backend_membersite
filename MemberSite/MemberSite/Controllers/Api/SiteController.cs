@@ -640,6 +640,11 @@ namespace MemberSite.Controllers.Api
                     apiResult.Message = _selLangBll.GetMsg("msg_UpdateFailed");
                 }
             }
+            else
+            {
+                apiResult.ErrorCode = -1;
+                apiResult.Message = _selLangBll.GetMsg("msg_OTP_SendOTPSMS_1000");
+            }
             
             return apiResult;
         }
