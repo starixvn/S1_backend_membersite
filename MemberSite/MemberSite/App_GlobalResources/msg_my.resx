@@ -434,4 +434,7 @@
   <data name="msg_NeedNationality" xml:space="preserve">
     <value>tak terisi kewarganegaraan</value>
   </data>
+  <data name="msg_OTP_SendOTPSMS_Fail" xml:space="preserve">
+    <value>Kod OTP tidak sah</value>
+  </data>
 </root>

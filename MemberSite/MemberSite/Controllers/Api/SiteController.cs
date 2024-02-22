@@ -643,7 +643,7 @@ namespace MemberSite.Controllers.Api
             else
             {
                 apiResult.ErrorCode = -1;
-                apiResult.Message = _selLangBll.GetMsg("msg_OTP_SendOTPSMS_1000");
+                apiResult.Message = _selLangBll.GetMsg("msg_OTP_SendOTPSMS_Fail");
             }
             
             return apiResult;

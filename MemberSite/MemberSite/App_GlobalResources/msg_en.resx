@@ -454,4 +454,7 @@
   <data name="msg_NeedNationality" xml:space="preserve">
     <value>Unfilled Nationality</value>
   </data>
+  <data name="msg_OTP_SendOTPSMS_Fail" xml:space="preserve">
+    <value>Invalid OTP Code</value>
+  </data>
 </root>
