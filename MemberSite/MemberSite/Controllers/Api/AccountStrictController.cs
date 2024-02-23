@@ -916,7 +916,7 @@ namespace MemberSite.Controllers.Api
 
             return apiResult;
         }
-
+        
         [HttpPost]
         public async Task<ApiResult<SendOTPSMSResult>> SendOTPSMSAsync()
         {

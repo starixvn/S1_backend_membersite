@@ -351,6 +351,9 @@ namespace MemberSite.Service.BLL
 
         public bool SetResetPwd(int custId, string newPassword)
         {
+            var check = _tools.CheckUserInputPassword(newPassword);
+            if (!check) return false;
+            
             var md5NewPassword = _tools.MD5Encrypt(newPassword);
             return _custInfoService.SetResetPwd(custId, md5NewPassword);
         }
@@ -435,6 +438,11 @@ namespace MemberSite.Service.BLL
 
             return _custInfoService.ExistsEmail(custId, email, siteId);
         }
+        
+        public bool ExistsPhoneNoAndUserName(string userName, string areaCode, string phoneNo , int siteId)
+        {
+            return _custInfoService.ExistsPhoneNoAndUserName(userName, areaCode, phoneNo, siteId);
+        }
 
         /// <summary>
         /// Check user's have AccountName or not
@@ -462,6 +470,14 @@ namespace MemberSite.Service.BLL
                 () => GetCustInfoProfile(custId));
         }
 
+        public CustInfoProfile GetCustInfoProfileByUserName(int siteId , string userName)
+        {
+            return _redisHelper.TryGetOrCreate(
+                $"CustInfoProfile:{siteId}:{userName}",
+                TimeSpan.FromMinutes(1),
+                () => _custInfoService.GetCustInfoProfileByUserName(siteId,userName,null));
+        }
+        
         public int SubmittedCustPhotoId(int custId)
         {
             var custInfo = GetCustInfoWithCache(custId);
@@ -518,6 +534,13 @@ namespace MemberSite.Service.BLL
                     apiResult.ErrorCode = -1;
                 }
             }
+            return apiResult;
+        }
+        
+        public async Task<ApiResult> ReSetPwdVerifyOTPAsync(int custId, string inputOTP)
+        {
+            var apiResult = await _commonBll.VerifyOTPAsync(custId, inputOTP);
+            
             return apiResult;
         }
 

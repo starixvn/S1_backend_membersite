@@ -142,4 +142,6 @@
   <data name="msg_SystemUnstable_Detail"><value>बैंक का सिस्टम वर्तमान में लेनदेन विवरण प्राप्त करने में असमर्थ है, और इस समय आपकी जमा राशि को संसाधित करने में असमर्थ है।</value></data>
   <data name="msg_BankUnderMaintenance"><value>बैंक रखरखाव</value></data>
   <data name="msg_BankUnderMaintenance_Detail"><value>बैंक की सिस्टम वर्तमान में रखरखाव के तहत है और मोमेंट में आपका जमा प्रसंस्करण नहीं कर सकता।</value></data>
+  <data name="msg_WrongPhoneNumberAndUserName"><value>खाता या फ़ोन नंबर गलत है, कृपया इसे पुनः दर्ज करें।</value></data>
+  <data name="msg_OTP_SendOTPSMS_Fail"><value>अमान्य ओटीपी कोड</value></data>
   </root>

@@ -141,4 +141,5 @@
   <data name="msg_SystemUnstable_Detail"><value>ব্যাংকের সিস্টেম বর্তমানে লেনদেনের বিশদ তথ্য পুনরুদ্ধার করতে অক্ষম এবং এই মুহূর্তে আপনার আমানত প্রক্রিয়া করতে অক্ষম।</value></data>
   <data name="msg_BankUnderMaintenance"><value>ব্যাংক মেইন্টেনেন্স</value></data>
   <data name="msg_BankUnderMaintenance_Detail"><value>ব্যাংকের সিস্টেম বর্তমানে রক্ষণাবেক্ষণ করা হচ্ছে এবং এই মুহূর্তে আপনার জমা গ্রহণ করতে অক্ষম।</value></data>
+  <data name="msg_WrongPhoneNumberAndUserName"><value>অ্যাকাউন্ট বা ফোন নম্বরটি ভুল, দয়া করে আবার লিখুন৷</value></data>
   </root>
