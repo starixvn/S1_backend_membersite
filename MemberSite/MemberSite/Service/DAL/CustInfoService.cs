@@ -550,7 +550,7 @@ namespace MemberSite.Service.DAL
         {
             return _reportDbClient.ExecuteScalar<int>("Member_SubmittedCustPhotoId_GetV2", new { CustId = custId, SiteId = siteId, CurrencyId = currencyId });
         }
-        
+
         public int GetCustPhotoIdToKYC(int custId)
         {
             return _reportDbClient.ExecuteScalar<int>("Member_CustPhotoIdToKYC_Get", new { CustId = custId });
@@ -958,7 +958,7 @@ namespace MemberSite.Service.DAL
                         profiler.Add("Occupation", cccupation.ToString());
                     }
 
-                    if(sourceOfIncome != 0)
+                    if (sourceOfIncome != 0)
                     {
                         profiler.Add("SourceOfIncome", sourceOfIncome.ToString());
                     }
@@ -1028,10 +1028,11 @@ namespace MemberSite.Service.DAL
                     }
                 }
 
-                if(result > 0 && address != null)
+                if (result > 0 && address != null)
                 {
                     result = _mainDbClient.Execute("Member_CustProfile_Address_Set", trans,
-                        new DynamicParameters(new {
+                        new DynamicParameters(new
+                        {
                             CustId = custId,
                             SiteId = customer.SiteId,
                             Address = address
@@ -1065,6 +1066,15 @@ namespace MemberSite.Service.DAL
                 conn.Dispose();
                 throw;
             }
+        }
+
+        public TpCustInfo GetTpCustInfo(int custId, int tpId)
+        {
+            return _reportDbClient.QueryFirst<TpCustInfo>("TpCustInfo_Get_V2", new DynamicParameters(new
+            {
+                CustId = custId,
+                TpId = tpId
+            }));
         }
     }
 }

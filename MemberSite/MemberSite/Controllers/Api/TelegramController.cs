@@ -1,7 +1,9 @@
 ﻿using MemberSite.Service.BLL;
 using MemberSite.Service.Model;
+using MemberSite.Service.Model.enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace MemberSite.Controllers.Api
 {
@@ -12,24 +14,28 @@ namespace MemberSite.Controllers.Api
     {
         private readonly AuthorizeBLL _authorizeBll;
         private readonly SelLangBLL _selLangBll;
-        private readonly TelegramBotConfig _telegramBotConfig;
+        private readonly Dictionary<int, SabaConfig> _siteSabaConfigs;
+        private readonly CustInfoBll _custInfoBLL;
+        private readonly TelegramBLL _telegramBLL;
+
         public TelegramController(IServiceProvider provider)
         {
             _authorizeBll = provider.GetRequiredService<AuthorizeBLL>();
             _selLangBll = provider.GetRequiredService<SelLangBLL>();
             var configBll = provider.GetRequiredService<ConfigBLL>();
-            _telegramBotConfig = configBll.GetConfigValue<TelegramBotConfig>("TelegramBot");
+            //_siteSabaConfigs = provider.GetRequiredService<ConfigBLL>().GetConfigValuesBySiteId<SabaConfig>(Tp.SBSW.ToString());
+            _custInfoBLL = provider.GetRequiredService<CustInfoBll>();
+            _telegramBLL = provider.GetRequiredService<TelegramBLL>();
         }
 
         public class TelegramBot
         {
             public string Url { get; set; }
         }
-        public class TelegramBotConfig
+        public class SabaConfig
         {
-            public string Url { get; set; }
-            public string Token { get; set; }
-            public string UserName { get; set; }
+            public string ApiUrl { get; set; }
+            public string VendorId { get; set; }
         }
         [HttpPost]
         [AllowAnonymous]
@@ -44,14 +50,23 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
 
-            var data = new TelegramBot()
-            {
-                Url = $"{_telegramBotConfig.Url}/{_telegramBotConfig.UserName}?start={authData.CustId}"
-            };
+            var tpCustInfo = _custInfoBLL.GetTpCustInfo(authData.CustId, (int)Tp.SBSW);
 
-            apiResult.Data = data;
-            apiResult.ErrorCode = 0;
-            apiResult.Message = "";
+            var tpSiteConfigs = _telegramBLL.GetTpSiteConfig().ToList();
+            var sbswConfig = tpSiteConfigs.Find(x => x.SiteId == tpCustInfo.SiteId && x.ConfigKey == Tp.SBSW.ToString());
+            var config = JsonConvert.DeserializeObject<SabaConfig>(sbswConfig.ConfigValue);
+
+            var result = _telegramBLL.GetTelegramUrl(config.ApiUrl, config.VendorId, tpCustInfo.TpUserName);
+
+            if(result.error_code == 0)
+            {
+                apiResult.Data = new TelegramBot()
+                {
+                    Url = result.Data.url
+                };
+                apiResult.ErrorCode = 0;
+                apiResult.Message = "";
+            }
 
             return apiResult;
         }

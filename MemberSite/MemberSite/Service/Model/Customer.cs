@@ -375,4 +375,9 @@ namespace MemberSite.Service.Model
         public decimal? DownDeposit { get; set; }
         public decimal? DownTurnover { get; set; }
     }
+    public class TpCustInfo
+    {
+        public int SiteId { get; set; }
+        public string TpUserName { get; set; }
+    }
 }
