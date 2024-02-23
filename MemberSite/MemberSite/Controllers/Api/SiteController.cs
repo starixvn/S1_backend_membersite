@@ -47,6 +47,7 @@ namespace MemberSite.Controllers.Api
         private readonly ICheckIpBLL _checkIpBll;
         private readonly FPSBLL _FPSBll;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly CommonBLL _commonBll;
 
         public SiteController(IServiceProvider provider)
         {
@@ -73,6 +74,7 @@ namespace MemberSite.Controllers.Api
             _geoIpApi = provider.GetRequiredService<IGeoIpApi>();
             _FPSBll = provider.GetRequiredService<FPSBLL>();
             _httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
+            _commonBll = provider.GetRequiredService<CommonBLL>();
         }
 
         public class LoginModel
@@ -592,6 +594,99 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
 
+        public class ReSetPwdByOTPReq
+        {
+            public string AreaCode { get; set; }
+            public string PhoneNo { get; set; }
+            public string Username { get; set; }
+        }
+        
+        [HttpPost]
+        public async Task<ApiResult<SendOTPSMSResult>> ReSetPwdByOTPAsync(ReSetPwdByOTPReq reSetPwdByOtpReq)
+        {
+            var apiResult = new ApiResult<SendOTPSMSResult>(_selLangBll);
+
+            try
+            {
+                var checkValue = new RrofileReq
+                {
+                    AreaCode = reSetPwdByOtpReq.AreaCode,
+                    PhoneNo = reSetPwdByOtpReq.PhoneNo
+                };
+                
+                if (_checkAttackBll.CheckAttack(checkValue, Request))
+                {
+                    Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                    return null;
+                }
+                
+                if (long.TryParse(reSetPwdByOtpReq.PhoneNo, out var phoneNo))
+                {
+                    var serverInfo = _serverInfoBll.GetServerInfo();
+                    
+                    reSetPwdByOtpReq.PhoneNo = phoneNo.ToString();
+                    if (_custInfoBll.ExistsPhoneNoAndUserName(reSetPwdByOtpReq.Username, reSetPwdByOtpReq.AreaCode,
+                            reSetPwdByOtpReq.PhoneNo, serverInfo.SiteId))
+                    {
+                        var custInfoProfile = _custInfoBll.GetCustInfoProfileByUserName(serverInfo.SiteId, reSetPwdByOtpReq.Username);
+                        var otpResponse = await _commonBll.SendOTPSMSAsync(custInfoProfile.CustId, custInfoProfile.CurrencyId);
+
+                        apiResult.ErrorCode = 0;
+                        return otpResponse;
+                    }
+
+                    // cant find mapping
+                    apiResult.ErrorCode = -1;
+                    apiResult.Message = _selLangBll.GetMsg("msg_WrongPhoneNumberAndUserName");
+                }
+
+                apiResult.ErrorCode = -1;
+                return apiResult;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, GetCurrentMethod());
+                return apiResult;
+            }
+        }
+
+        public class ReSetPwdVerifyOTPReq
+        {
+            public string Username { get; set; }
+            public string InputOTPcode { set; get; }
+            public string NewPassword { set; get; }
+        }
+        
+        [HttpPost]
+        public async Task<ApiResult> ReSetPwdVerifyOTPAsync(ReSetPwdVerifyOTPReq req)
+        {
+            var serverInfo = _serverInfoBll.GetServerInfo();
+            var custInfoProfile = _custInfoBll.GetCustInfoProfileByUserName(serverInfo.SiteId, req.Username);
+            
+            var apiResult = await _custInfoBll.ReSetPwdVerifyOTPAsync(custInfoProfile.CustId, req.InputOTPcode);
+
+            if (apiResult.ErrorCode == 0)
+            {
+                if (_custInfoBll.SetResetPwd(custInfoProfile.CustId, req.NewPassword))
+                {
+                    apiResult.ErrorCode = 0;
+                    apiResult.Message = _selLangBll.GetMsg("ResetPwdSuccess");
+                }
+                else
+                {
+                    apiResult.ErrorCode = -1;
+                    apiResult.Message = _selLangBll.GetMsg("msg_UpdateFailed");
+                }
+            }
+            else
+            {
+                apiResult.ErrorCode = -1;
+                apiResult.Message = _selLangBll.GetMsg("msg_OTP_SendOTPSMS_Fail");
+            }
+            
+            return apiResult;
+        }
+        
         [HttpPost]
         public ApiResult<Dictionary<string, string>> GetTranslationData(string[] keys)
         {

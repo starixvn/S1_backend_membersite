@@ -115,6 +115,7 @@ namespace MemberSite.Service.Model
 
     public class CustInfoProfile
     {
+        public int CustId { get; set; }
         public string UserName { get; set; }
         public int CurrencyId { get; set; }
         public int UserLevel { get; set; }

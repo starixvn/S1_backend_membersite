@@ -430,6 +430,9 @@
   <data name="msg_OTPDailyLimit" xml:space="preserve">
     <value>OTP has reached the limit,please contact Live Chat Support</value>
   </data>
+  <data name="msg_WrongPhoneNumberAndUserName" xml:space="preserve">
+    <value>The account or phone number is incorrect, please re-enter it.</value>
+  </data>
   <data name="msg_AffCodeNotFound" xml:space="preserve">
     <value>Affiliate ID cant be found</value>
   </data>
@@ -450,5 +453,8 @@
   </data>
   <data name="msg_NeedNationality" xml:space="preserve">
     <value>Unfilled Nationality</value>
+  </data>
+  <data name="msg_OTP_SendOTPSMS_Fail" xml:space="preserve">
+    <value>Invalid OTP Code</value>
   </data>
 </root>
