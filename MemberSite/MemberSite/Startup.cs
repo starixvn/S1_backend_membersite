@@ -122,7 +122,8 @@ namespace MemberSite
             services.AddTransient<IAnnouncementService, AnnouncementService>();
             services.AddSingleton<VIPService>();
             services.AddSingleton<BigWinService>();
-
+            services.AddSingleton<TelegramService>();
+            
             /*BLL*/
             services.AddSingleton<ServerInfoBll>();
             services.AddSingleton<CustInfoBll>();
@@ -187,6 +188,7 @@ namespace MemberSite
             services.AddTransient<NewYear2024BLL>();
             services.AddTransient<QueueJobBLL>();
             services.AddTransient<ICheckIpBLL, CheckIpBLL>();
+            services.AddTransient<TelegramBLL>();
             services.AddSingleton<CryptoHelper>();
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();
@@ -252,6 +254,7 @@ namespace MemberSite
             services.AddSiteConfig();
             services.AddSingleton<ConfigBLL>();
             services.AddGoogleReCaptchaSetting();
+            
 
             // JWT | Cookie Auth
             services.AddAuthenticationDefinition();

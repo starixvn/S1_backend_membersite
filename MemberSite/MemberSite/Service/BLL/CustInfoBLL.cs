@@ -482,7 +482,7 @@ namespace MemberSite.Service.BLL
         {
             var custInfo = GetCustInfoWithCache(custId);
             return _redisHelper.TryGetOrCreate(
-                $"SubmittedCustPhotoId:{custId}", 
+                $"SubmittedCustPhotoId:{custId}",
                 TimeSpan.FromSeconds(5),
                 () => _custInfoService.SubmittedCustPhotoId(custId, custInfo.SiteId, custInfo.CurrencyId));
         }
@@ -490,11 +490,11 @@ namespace MemberSite.Service.BLL
         public int GetCustPhotoIdToKYC(int custId)
         {
             return _redisHelper.TryGetOrCreate(
-                $"CustPhotoIdToKYC:{custId}", 
+                $"CustPhotoIdToKYC:{custId}",
                 TimeSpan.FromSeconds(5),
                 () => _custInfoService.GetCustPhotoIdToKYC(custId));
         }
-        
+
         public async Task<ApiResult> ForgetPwd1Async(int custId, string resetPasswordUrl)
         {
             var result = await _commonBll.SendResetPwdMailAsync(custId, resetPasswordUrl);
@@ -859,7 +859,7 @@ namespace MemberSite.Service.BLL
         public int IvorysportAddCustInfo(string UserName, string Userpwd, string Email, int CurrencyId, string UserLang,
             string refId, string affId, string aff, AffCodeObject affCode, string lineUserId, int deviceType, out int custId, string signupUrl = null,
             string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null,
-            int Birth_d = 0, int Birth_m = 0, int Birth_y = 0, string signupIp = null, 
+            int Birth_d = 0, int Birth_m = 0, int Birth_y = 0, string signupIp = null,
             string nationality = null, int cccupation = 0, int sourceOfIncome = 0, string country = null, string city = null, string postCode = null, string lineFirst = null)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
@@ -963,6 +963,11 @@ namespace MemberSite.Service.BLL
                 });
             }
             return result != 0 ? result : 0;
+        }
+
+        public TpCustInfo GetTpCustInfo(int custId, int tpId)
+        {
+            return _custInfoService.GetTpCustInfo(custId, tpId);
         }
     }
 }
