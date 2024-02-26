@@ -13,22 +13,26 @@ namespace MemberSite.Service.BLL
         private readonly ILogger<TelegramBLL> _logger;
         private readonly TelegramService _telegramService;
         private readonly ICacheHelper _redisHelper;
+        private readonly SelLangBLL _selLangBll;
         public TelegramBLL(IServiceProvider provider)
         {
             _logger = provider.GetRequiredService<ILogger<TelegramBLL>>();
             _telegramService = provider.GetRequiredService<TelegramService>();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
+            _selLangBll = provider.GetRequiredService<SelLangBLL>();
         }
 
         public Telegram GetTelegramUrl(string url, string vendorId, string vendorMemberId)
         {
             var client = new HttpClient();
             var httpRequestMessage = new HttpRequestMessage();
+            var langId = _selLangBll.GetLangId();
+
             var parameters = new Dictionary<string, string>()
             {
                 { "vendor_id", vendorId },
                 { "vendor_member_id", vendorMemberId },
-                { "user_language","en"},
+                { "user_language",GetBotLang(langId)},
             };
             //httpRequestMessage.Content = new StringContent($"vendor_id={vendorId}&vendor_member_id={vendorMemberId}&user_language=en");
             httpRequestMessage.Content = new FormUrlEncodedContent(parameters);
@@ -51,6 +55,17 @@ namespace MemberSite.Service.BLL
             return _redisHelper.TryGetOrCreate($"SiteConfig:TP", TimeSpan.FromMinutes(10),
                 () => _telegramService.GetTpSiteConfig(),
                 RedisDataBase.Shared);
+        }
+
+        private string GetBotLang(string lang)
+        {
+            return lang switch
+            {
+                "id" => "id",
+                "vn" => "vn",
+                "cs" => "cs",
+                _ => "en"
+            };
         }
     }
 }

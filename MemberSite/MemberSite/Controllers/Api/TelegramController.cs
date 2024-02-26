@@ -14,7 +14,6 @@ namespace MemberSite.Controllers.Api
     {
         private readonly AuthorizeBLL _authorizeBll;
         private readonly SelLangBLL _selLangBll;
-        private readonly Dictionary<int, SabaConfig> _siteSabaConfigs;
         private readonly CustInfoBll _custInfoBLL;
         private readonly TelegramBLL _telegramBLL;
 
@@ -22,8 +21,6 @@ namespace MemberSite.Controllers.Api
         {
             _authorizeBll = provider.GetRequiredService<AuthorizeBLL>();
             _selLangBll = provider.GetRequiredService<SelLangBLL>();
-            var configBll = provider.GetRequiredService<ConfigBLL>();
-            //_siteSabaConfigs = provider.GetRequiredService<ConfigBLL>().GetConfigValuesBySiteId<SabaConfig>(Tp.SBSW.ToString());
             _custInfoBLL = provider.GetRequiredService<CustInfoBll>();
             _telegramBLL = provider.GetRequiredService<TelegramBLL>();
         }
