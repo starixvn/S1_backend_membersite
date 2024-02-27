@@ -75,7 +75,7 @@ namespace MemberSite.Controllers.Api
             _FPSBll = provider.GetRequiredService<FPSBLL>();
             _httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
             _commonBll = provider.GetRequiredService<CommonBLL>();
-            _checkIpBll = provider.GetRequiredService<ICheckIpBLL>();
+
         }
 
         public class LoginModel
