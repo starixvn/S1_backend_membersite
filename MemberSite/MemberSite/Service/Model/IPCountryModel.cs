@@ -22,7 +22,7 @@
 
         public IpCountryWithAccess(IpCountry ipCountry, string clientIpAddress)
         {
-            IsAccess = ipCountry.Forbidden;
+            IsAccess = !ipCountry.Forbidden;
             Code = ipCountry.Code;
             Forbidden = ipCountry.Forbidden;
             Message = ipCountry.Message;
