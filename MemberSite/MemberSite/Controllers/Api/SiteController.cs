@@ -1063,7 +1063,9 @@ namespace MemberSite.Controllers.Api
                 "REMOTE_ADDR",
                 "HTTP_X_FORWARDED_FOR",
                 "HTTP_X_FORWARDED_PROTO",
-                "SERVER_NAME"
+                "SERVER_NAME",
+                "X-Client-IP",
+                "X-Real-IP"
             };
 
                 foreach (var head in Request.Headers)
