@@ -1,5 +1,7 @@
-﻿using MemberSite.Service.Library;
+﻿using MemberSite.Service.DAL;
+using MemberSite.Service.Library;
 using MemberSite.Service.Model;
+using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Store.Redemption;
 
 namespace MemberSite.Service.BLL;
@@ -9,21 +11,31 @@ public class RedemptionBLL
     private readonly ILogger<RedemptionBLL> _logger;
     private readonly CourierAdapter _courierAdapter;
     private readonly string _storeSiteUrl;
-
+    private readonly string _tpServiceUrl;
+    private readonly RedemptionService _redemptionService;
 
     public RedemptionBLL(IServiceProvider provider)
     {
         _logger = provider.GetRequiredService<ILogger<RedemptionBLL>>();
         var configBll = provider.GetRequiredService<ConfigBLL>();
         _storeSiteUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost").StoreService;
+        _tpServiceUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost").TpService;
         _courierAdapter = provider.GetRequiredService<CourierAdapter>();
+        _redemptionService = provider.GetRequiredService<RedemptionService>();
     }
 
     public async Task<ApiResult> CreateRedemptionAsync(CreateRedemptionRequest req)
     {
+        var giftInfo = _redemptionService.GetGiftInfo(req);
         var url = _storeSiteUrl + "Redemption/CreateRedemption";
+        //var url = "http://localhost:51001/api/Redemption/CreateRedemption";
         var result = await _courierAdapter.MyPostAsync<object, CreateRedemptionRequest>(url, req);
 
+        //申請完後自動發放
+        if (result.ErrorCode == 0 && giftInfo.GiftType == 2)
+        {
+            await AutoApportion(req, giftInfo);
+        }
         return result;
     }
 
@@ -34,4 +46,44 @@ public class RedemptionBLL
 
         return result;
     }
+
+    private async Task AutoApportion(CreateRedemptionRequest req, GiftInfo giftInfo)
+    {
+        var transId = _redemptionService.GetRedemptionId(req);
+        var bonusCode = $"PPFREESPIN{giftInfo.Round}FOR{((SiteEnum)req.SiteId).ToString()}{DateTime.Now.ToString("yyyyMMdd")}";
+        _logger.LogInformation($"FreeSpinAutoProcess，TransId:{transId}");
+        var inputs = new Dictionary<string, string>
+        {
+            { "bonusCode", bonusCode }
+        };
+        var request = new AddPrize()
+        {
+            TpId = 5,
+            CustId = req.CustId,
+            SiteId = req.SiteId,
+            inputs = inputs
+        };
+        var tpUrl = _tpServiceUrl + "AddPrizeToPlayer";
+        var autoResult = await _courierAdapter.MyPostAsync<object, AddPrize>(tpUrl, request);
+
+        //發放成功後更改status與紀錄
+        if (autoResult.ErrorCode == 0)
+        {
+            var setRedemptionInfoRequest = new SetRedemptionInfoRequest
+            {
+                SiteId = giftInfo.SiteId,
+                TransId = transId,
+                Action = 2,
+                Comment = "auto",
+                ActualCost = giftInfo.PriceWorth,
+                ReceiptUrls = null,
+                Operator = "System"
+            };
+            var storeUrl = _storeSiteUrl + "Redemption/SetRedemptionInfo";
+            var storeResult = await _courierAdapter.MyPostAsync<object, SetRedemptionInfoRequest>(storeUrl, setRedemptionInfoRequest);
+
+            _logger.LogInformation(storeResult.ErrorCode == 0 ? "AutoProcessSuccess" : "AutoProcessFail:"+storeResult.RawMessage);
+        }
+    }
+
 }
