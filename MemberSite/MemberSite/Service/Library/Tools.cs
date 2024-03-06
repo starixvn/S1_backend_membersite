@@ -101,7 +101,7 @@ namespace MemberSite.Service.Library
         }
         public string GetClientIP(HttpContext httpContext)
         {
-            var HeaderNames = new string[] { "X-Forwarded-For", "HTTP_X_FORWARDED_FOR", "HTTP_INCAP_CLIENT_IP", "HTTP_TRUE_CLIENT_IP", "HTTP_X_REAL_IP", "REMOTE_ADDR" };
+            var HeaderNames = new string[] { "X-Client-IP", "X-Forwarded-For", "HTTP_X_FORWARDED_FOR", "HTTP_INCAP_CLIENT_IP", "HTTP_TRUE_CLIENT_IP", "HTTP_X_REAL_IP", "REMOTE_ADDR" };
 
             foreach (var Header in HeaderNames)
             {
