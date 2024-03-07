@@ -339,6 +339,7 @@ namespace MemberSite.Controllers.Api
             public string City { get; set; }
             public string PostCode { get; set; }
             public string LineFirst { get; set; }
+            public IFormFile PhotoId { get; set; }
         }
 
         [HttpPost]
@@ -427,7 +428,7 @@ namespace MemberSite.Controllers.Api
 
         [HttpPost]
         //只給Ivorysport使用
-        public async Task<ApiResult> IvorysportSignupAsync(IvorysportSignupModel signupModel)
+        public async Task<ApiResult> IvorysportSignupAsync([FromForm] IvorysportSignupModel signupModel)
         {
             var apiResult = new ApiResult(_selLangBll);
             var isAuthenticated = User.Identity is { IsAuthenticated: true };
@@ -1064,7 +1065,9 @@ namespace MemberSite.Controllers.Api
                 "REMOTE_ADDR",
                 "HTTP_X_FORWARDED_FOR",
                 "HTTP_X_FORWARDED_PROTO",
-                "SERVER_NAME"
+                "SERVER_NAME",
+                "X-Client-IP",
+                "X-Real-IP"
             };
 
                 foreach (var head in Request.Headers)
