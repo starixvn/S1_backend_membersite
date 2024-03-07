@@ -157,7 +157,7 @@ namespace MemberSite.Service.BLL
             var result = _custInfoService.AddCustInfo(regCustInfo, Email, lineUserId, deviceType, out custId, signupUrl, referralUrl, PhoneNo, AreaCode,
                 RealName, promoCode, Birth_d, Birth_m, Birth_y, signupIp);
 
-            if (result == 0 && regCustInfo.SiteId != (int)SiteId.Nova88)
+            if (result == 0 && regCustInfo.SiteId is 2 or 3 ) // goal and bwing
             {
                 regCustInfo.CustId = custId;
                 _ = Task.Run(() =>
@@ -218,7 +218,7 @@ namespace MemberSite.Service.BLL
                 return -3;
             }
 
-            if (customer.SiteId != (int)SiteId.Nova88)
+            if (customer.SiteId is 2 or 3) // goal and bwing
             {
                 var info = customer;
                 _ = Task.Run(async () =>
@@ -950,7 +950,7 @@ namespace MemberSite.Service.BLL
             var result = _custInfoService.IvorysportAddCustInfo(regCustInfo, Email, lineUserId, deviceType, out custId, signupUrl, referralUrl, PhoneNo, AreaCode,
                 RealName, promoCode, Birth_d, Birth_m, Birth_y, signupIp, nationality, cccupation, sourceOfIncome, address);
 
-            if (result == 0 && regCustInfo.SiteId != (int)SiteId.Nova88)
+            if (result == 0 && regCustInfo.SiteId is 2 or 3) // goal and bwing
             {
                 regCustInfo.CustId = custId;
                 _ = Task.Run(() =>

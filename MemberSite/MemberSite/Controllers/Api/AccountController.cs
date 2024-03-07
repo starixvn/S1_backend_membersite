@@ -356,7 +356,7 @@ namespace MemberSite.Controllers.Api
             var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
             var bankInfoSysList = _bankInfoBll.GetBankInfoSysListByCurrency(custInfo.CurrencyId).ToList();
 
-            if (custInfo.SiteId == (int)SiteId.Nova88
+            if (custInfo.SiteId == 1
                 && custInfo.CurrencyId == (int)CurrencyId.THB) // Nova88 泰國銀行名稱支援多語系
             {
                 _bankInfoBll.BankNameLocalization(bankInfoSysList, authData.LangId);
