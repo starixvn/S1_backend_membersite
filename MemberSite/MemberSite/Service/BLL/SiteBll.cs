@@ -439,7 +439,7 @@ public class SiteBll
 
         var result = _custInfoBLL.IvorysportAddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email,
             signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff,
-            affCodeObj, signupModel.LineUserId, deviceType, out var custId, signupModel.SignupUrl, signupModel.ReferralUrl, signupModel.PhoneNo,
+            affCodeObj, signupModel.LineUserId, deviceType, signupModel.PhotoId, out var custId, signupModel.SignupUrl, signupModel.ReferralUrl, signupModel.PhoneNo,
             signupModel.AreaCode, signupModel.RealName, signupModel.PromoCode, signupModel.Birth_d,
             signupModel.Birth_m,
             signupModel.Birth_y, signupIp, signupModel.Nationality, signupModel.Occupation, signupModel.SourceOfIncome, signupModel.Country, signupModel.City, signupModel.PostCode, signupModel.LineFirst);
