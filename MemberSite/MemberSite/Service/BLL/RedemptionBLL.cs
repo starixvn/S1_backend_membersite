@@ -1,7 +1,6 @@
 ﻿using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
-using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Store.Redemption;
 
 namespace MemberSite.Service.BLL;
@@ -13,6 +12,7 @@ public class RedemptionBLL
     private readonly string _storeSiteUrl;
     private readonly string _tpServiceUrl;
     private readonly RedemptionService _redemptionService;
+    private readonly ServerInfoBll _serverInfoBll;
 
     public RedemptionBLL(IServiceProvider provider)
     {
@@ -22,6 +22,7 @@ public class RedemptionBLL
         _tpServiceUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost").TpService;
         _courierAdapter = provider.GetRequiredService<CourierAdapter>();
         _redemptionService = provider.GetRequiredService<RedemptionService>();
+        _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
     }
 
     public async Task<ApiResult> CreateRedemptionAsync(CreateRedemptionRequest req)
@@ -49,8 +50,9 @@ public class RedemptionBLL
 
     private async Task AutoApportion(CreateRedemptionRequest req, GiftInfo giftInfo)
     {
+        var serverInfo = _serverInfoBll.GetServerInfo();
         var transId = _redemptionService.GetRedemptionId(req);
-        var bonusCode = $"PPFREESPIN{giftInfo.Round}FOR{((SiteEnum)req.SiteId).ToString()}{DateTime.Now.ToString("yyyyMMdd")}";
+        var bonusCode = BonusCodeRule(giftInfo, serverInfo.SiteName);
         _logger.LogInformation($"FreeSpinAutoProcess，TransId:{transId}");
         var inputs = new Dictionary<string, string>
         {
@@ -86,4 +88,9 @@ public class RedemptionBLL
         }
     }
 
+    private static string BonusCodeRule(GiftInfo giftInfo, string siteName)
+    {
+        var bonusCode = $"PPFREESPIN{giftInfo.Round}FOR{siteName.ToUpper()}{DateTime.Now.ToString("yyyyMMdd")}";
+        return bonusCode;
+    }
 }
