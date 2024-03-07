@@ -132,7 +132,7 @@ namespace MemberSite.Controllers.Api
 
                     apiResult = await _courierAdapter.MyPostAsync<ApiResult, PromotionRequest>(apiUrl, req);
 
-                    if (custInfo.SiteId != (int)SiteId.Nova88)
+                    if (custInfo.SiteId is 2 or 3 ) // bwing and goal
                     {
                         _ = Task.Run(() =>
                         {
