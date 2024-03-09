@@ -65,6 +65,12 @@ namespace MemberSite.Extensions.Middlewares
 
                     var authData = _authorizeBll.GetAuthData();
                     var serverInfo = _serverInfoBll.GetServerInfo();
+                    
+                    foreach (var header in context.Request.Headers)
+                    {
+                        LogContext.PushProperty(header.Key, header.Value.ToString());
+                    }
+
                     LogContext.PushProperty("CustId", authData?.CustId);
                     LogContext.PushProperty("UserName", authData?.UserName);
                     LogContext.PushProperty("SiteId", serverInfo?.SiteId);
