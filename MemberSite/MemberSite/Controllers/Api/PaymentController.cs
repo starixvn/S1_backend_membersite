@@ -1616,9 +1616,12 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<IEnumerable<WithdrawalBlockSetting>>();
             var authData = _authorizeBll.GetAuthData();
+            
             if (authData is not { CustId: > 0 })
             {
-                apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
+                apiResult.Data = Array.Empty<WithdrawalBlockSetting>();
+                apiResult.ErrorCode = 0;
+                
                 return apiResult;
             }
 
