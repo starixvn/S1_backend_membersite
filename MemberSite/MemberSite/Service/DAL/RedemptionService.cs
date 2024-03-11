@@ -28,7 +28,6 @@ namespace MemberSite.Service.DAL
             p.Add("_CurrencyId", req.CurrencyId, DbType.Int32);
             p.Add("_GiftId", req.GiftId, DbType.Int32);
             p.Add("_Point", req.Point, DbType.Int32);
-            p.Add("_Operator", "System");
 
             return _reportClient.QueryFirst<string>("Member_RedemptionTransId_Get", p);
         }

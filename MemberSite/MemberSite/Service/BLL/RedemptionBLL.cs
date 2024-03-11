@@ -83,13 +83,13 @@ public class RedemptionBLL
             var storeUrl = _storeSiteUrl + "Redemption/SetRedemptionInfo";
             var storeResult = await _courierAdapter.MyPostAsync<object, SetRedemptionInfoRequest>(storeUrl, setRedemptionInfoRequest);
 
-            _logger.LogInformation(storeResult.ErrorCode == 0 ? "AutoProcessSuccess" : "AutoProcessFail:"+storeResult.RawMessage);
+            _logger.LogInformation(storeResult.ErrorCode == 0 ? "AutoProcessSuccess" : $"AutoProcessFail:{storeResult.RawMessage}");
         }
     }
 
     private static string BonusCodeRule(GiftInfo giftInfo, string siteName)
     {
-        var bonusCode = $"PPFREESPIN{giftInfo.Round}FOR{siteName.ToUpper()}{DateTime.Now.ToString("yyyyMMdd")}";
+        var bonusCode = $"PPFREESPIN{giftInfo.Round}FOR{siteName.ToUpper()}{DateTime.UtcNow.ToString("yyyyMMdd")}";
         return bonusCode;
     }
 }
