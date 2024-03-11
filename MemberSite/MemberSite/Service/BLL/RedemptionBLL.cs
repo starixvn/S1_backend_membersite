@@ -77,7 +77,7 @@ public class RedemptionBLL
                 Action = 2,//approve
                 Comment = "auto",
                 ActualCost = giftInfo.PriceWorth,
-                ReceiptUrls = null,
+                ReceiptUrls = Enumerable.Empty<string>(),
                 Operator = "System"
             };
             var storeUrl = _storeSiteUrl + "Redemption/SetRedemptionInfo";
