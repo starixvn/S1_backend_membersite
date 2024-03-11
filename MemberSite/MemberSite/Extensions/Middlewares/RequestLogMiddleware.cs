@@ -65,6 +65,12 @@ namespace MemberSite.Extensions.Middlewares
 
                     var authData = _authorizeBll.GetAuthData();
                     var serverInfo = _serverInfoBll.GetServerInfo();
+                    
+                    foreach (var header in context.Request.Headers)
+                    {
+                        LogContext.PushProperty(header.Key, header.Value.ToString());
+                    }
+
                     LogContext.PushProperty("CustId", authData?.CustId);
                     LogContext.PushProperty("UserName", authData?.UserName);
                     LogContext.PushProperty("SiteId", serverInfo?.SiteId);
@@ -100,8 +106,10 @@ namespace MemberSite.Extensions.Middlewares
                             content = jbody.ToString();
                         }
 
-                        _logger.LogInformation(
-                            $"REQUEST METHOD: {context.Request.Method}, CodePage: {codePage}, REQUEST BODY: {content}, REQUEST URL: {url}, ES: {context.Request.Cookies[".ES"]}, JWT: {context.Request.Headers?["authorization"].ToString()}");
+                        var log = new StringBuilder();
+                        log.AppendLine($"REQUEST URL: {url}, Method: {context.Request.Method}, CodePage: {codePage},");
+                        log.AppendLine($"REQUEST BODY: {content}");
+                        _logger.LogInformation(log.ToString());
                     }
                 }
 
