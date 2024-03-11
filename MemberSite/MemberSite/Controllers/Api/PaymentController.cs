@@ -1618,7 +1618,7 @@ namespace MemberSite.Controllers.Api
             
             if (authData is not { CustId: > 0 })
             {
-                apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout")
+                apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
                     
                 return apiResult;
             }
