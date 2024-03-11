@@ -11,7 +11,6 @@ using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
 {
-    [Authorize]
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class PaymentController : ControllerBase
