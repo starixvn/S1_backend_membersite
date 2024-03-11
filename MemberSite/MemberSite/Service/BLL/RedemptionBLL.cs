@@ -29,7 +29,6 @@ public class RedemptionBLL
     {
         var giftInfo = _redemptionService.GetGiftInfo(req);
         var url = _storeSiteUrl + "Redemption/CreateRedemption";
-        //var url = "http://localhost:51001/api/Redemption/CreateRedemption";
         var result = await _courierAdapter.MyPostAsync<object, CreateRedemptionRequest>(url, req);
 
         //申請完後自動發放
@@ -68,14 +67,14 @@ public class RedemptionBLL
         var tpUrl = _tpServiceUrl + "AddPrizeToPlayer";
         var autoResult = await _courierAdapter.MyPostAsync<object, AddPrize>(tpUrl, request);
 
-        //發放成功後更改status與紀錄
+        //發放成功後更改status與紀錄，與後台approve動作相同
         if (autoResult.ErrorCode == 0)
         {
             var setRedemptionInfoRequest = new SetRedemptionInfoRequest
             {
                 SiteId = giftInfo.SiteId,
                 TransId = transId,
-                Action = 2,
+                Action = 2,//approve
                 Comment = "auto",
                 ActualCost = giftInfo.PriceWorth,
                 ReceiptUrls = null,
