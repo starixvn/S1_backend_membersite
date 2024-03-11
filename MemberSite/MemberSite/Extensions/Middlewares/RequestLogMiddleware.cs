@@ -106,8 +106,12 @@ namespace MemberSite.Extensions.Middlewares
                             content = jbody.ToString();
                         }
 
-                        _logger.LogInformation(
-                            $"REQUEST METHOD: {context.Request.Method}, CodePage: {codePage}, REQUEST BODY: {content}, REQUEST URL: {url}, ES: {context.Request.Cookies[".ES"]}, JWT: {context.Request.Headers?["authorization"].ToString()}");
+                        var log = new StringBuilder();
+                        log.AppendLine($"REQUEST URL: {url},");
+                        log.AppendLine($"REQUEST METHOD: {context.Request.Method},");
+                        log.AppendLine($"REQUEST CodePage: {codePage},");
+                        log.AppendLine($"REQUEST BODY:{content}");
+                        _logger.LogInformation(log.ToString());
                     }
                 }
 
