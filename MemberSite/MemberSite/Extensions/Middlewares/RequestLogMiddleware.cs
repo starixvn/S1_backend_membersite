@@ -107,10 +107,8 @@ namespace MemberSite.Extensions.Middlewares
                         }
 
                         var log = new StringBuilder();
-                        log.AppendLine($"REQUEST URL: {url},");
-                        log.AppendLine($"REQUEST METHOD: {context.Request.Method},");
-                        log.AppendLine($"REQUEST CodePage: {codePage},");
-                        log.AppendLine($"REQUEST BODY:{content}");
+                        log.AppendLine($"REQUEST URL: {url}, Method: {context.Request.Method}, CodePage: {codePage},");
+                        log.AppendLine($"REQUEST BODY: {content}");
                         _logger.LogInformation(log.ToString());
                     }
                 }
