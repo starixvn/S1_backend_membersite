@@ -54,7 +54,6 @@ namespace MemberSite.Service.BLL
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
             var context = _httpContextAccessor.HttpContext;
-            _logger.LogInformation($"context={JsonConvert.SerializeObject(context)}");
             var langId = context?.User.Identity?.IsAuthenticated == true
                 ? context.User.Claims.FirstOrDefault(m => m.Type == "LangId")?.Value
                 : context?.Request.Cookies[$"{serverInfo.SiteName.ToLower()}LangId"];
