@@ -6,6 +6,7 @@ using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 
 using Microsoft.Extensions.Caching.Memory;
+using Newtonsoft.Json;
 
 namespace MemberSite.Service.BLL
 {
@@ -22,12 +23,14 @@ namespace MemberSite.Service.BLL
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ConcurrentDictionary<string, ResourceManager> _rm = new();
         private readonly CacheHelper _cacheHelper;
+        private readonly ILogger<SelLangBLL> _logger;
 
         public SelLangBLL(IServiceProvider provider)
         {
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
             _httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
+            _logger = provider.GetRequiredService<ILogger<SelLangBLL>>();
         }
 
         public IEnumerable<SiteLanguage> GetLangIdList()
@@ -51,7 +54,7 @@ namespace MemberSite.Service.BLL
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
             var context = _httpContextAccessor.HttpContext;
-
+            _logger.LogInformation($"context={JsonConvert.SerializeObject(context)}");
             var langId = context?.User.Identity?.IsAuthenticated == true
                 ? context.User.Claims.FirstOrDefault(m => m.Type == "LangId")?.Value
                 : context?.Request.Cookies[$"{serverInfo.SiteName.ToLower()}LangId"];
@@ -237,7 +240,7 @@ namespace MemberSite.Service.BLL
             {
                 return 0;
             }
-
+            _logger.LogInformation($"ServerInfo={JsonConvert.SerializeObject(serverInfo)}");
             var langId = GetLangId();
             var defCurrencyId = serverInfo.DefCurrency;
 
