@@ -4,7 +4,7 @@
     {
         Main, //ConnectionString
         Report,//ConnectionStringReport
-        Wager,//ConnectionStringWager
         Log,//ConnectionStringLog
+        ReportBackupDB,
     }
 }

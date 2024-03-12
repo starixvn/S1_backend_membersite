@@ -205,12 +205,12 @@ namespace MemberSite.Service.DAL
         }
         public IEnumerable<PrizeList> GetDrawPrizeList(int eventId, int currencyId)
         {
-            return _reportDbClient.Query<PrizeList>("Member_DrawPrizeList_Get", new { EventId = eventId, CurrencyId = currencyId }, commandType: CommandType.StoredProcedure);
+            return _reportDbClient.Query<PrizeList>("Member_DrawPrizeList_Get", new { EventId = eventId, CurrencyId = currencyId });
         }
 
         public IEnumerable<PrizeDisPlayList> GetDrawPrizeDisPlaySetting(int eventId)
         {
-            return _reportDbClient.Query<PrizeDisPlayList>("Member_DrawPrizeDisPlaySetting_Get", new { EventId = eventId }, commandType: CommandType.StoredProcedure);
+            return _reportDbClient.Query<PrizeDisPlayList>("Member_DrawPrizeDisPlaySetting_Get", new { EventId = eventId });
         }
 
         public EventDrawInfo GetEventDrawInfo(int eventId)

@@ -3,6 +3,7 @@ using System.Diagnostics;
 
 using Dapper;
 
+using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 
 using MySql.Data.MySqlClient;
@@ -13,20 +14,67 @@ namespace MemberSite.Service.Library
 {
     public sealed class MySqlClient
     {
-        public DataBase DataBase { get; set; }
+        public readonly DataBase DataBase;
+
         private readonly string _connectionString;
+
+        private readonly IEnumerable<string> _backupConnectionStringList;
 
         private readonly ILogger<MySqlClient> _logger;
 
-        public MySqlClient(string connectionString, ILogger<MySqlClient> logger)
+        public MySqlClient(IServiceProvider provider, DataBase dataBase, string connectionString)
         {
+            DataBase = dataBase;
+            _logger = provider.GetRequiredService<ILogger<MySqlClient>>();
             _connectionString = connectionString;
-            _logger = logger;
+            _backupConnectionStringList = null;
+        }
+
+        public MySqlClient(IServiceProvider provider, DataBase dataBase, string connectionString, IEnumerable<string> backupConnectionStringList)
+        {
+            DataBase = dataBase;
+            _logger = provider.GetRequiredService<ILogger<MySqlClient>>();
+            _connectionString = connectionString;
+            _backupConnectionStringList = backupConnectionStringList;
+        }
+
+        private string HealthCheck()
+        {
+            if (_backupConnectionStringList == null)
+            {
+                return _connectionString;
+            }
+
+            foreach (var backupConn in _backupConnectionStringList)
+            {
+                try
+                {
+                    using var connection = new MySqlConnection(backupConn);
+                    var dbSlaveStatus = connection.QueryFirstOrDefault<DBSlaveStatus>("Service_HealthCheck_V2", commandType: CommandType.StoredProcedure);
+
+                    // 拿不到Status或延遲太久都換下一個連線
+                    if (dbSlaveStatus == null || dbSlaveStatus.Seconds_Behind_Master > 180)
+                    {
+                        _logger.LogWarning($"{ReplaceDBString(backupConn)} | DelayTime = {dbSlaveStatus?.Seconds_Behind_Master}");
+                        continue;
+                    }
+
+                    return backupConn;
+                }
+                catch (Exception e)
+                {
+                    _logger.LogError(e, $"{ReplaceDBString(backupConn)} | HealthCheck Exception");
+                }
+            }
+
+            // 前面連線檢查都有問題，用最後一個連線
+            return _backupConnectionStringList.Last();
         }
 
         public MySqlConnection GetMySqlConnection()
         {
-            return new MySqlConnection(_connectionString);
+            var conn = HealthCheck();
+            return new MySqlConnection(conn);
         }
 
         #region Query
@@ -38,7 +86,8 @@ namespace MemberSite.Service.Library
 
             try
             {
-                await using var connection = new MySqlConnection(_connectionString);
+                var conn = HealthCheck();
+                await using var connection = new MySqlConnection(conn);
                 var command = new CommandDefinition(name, parameters, // 使用 CommandDefinition 不讓 Dapper 用預設值建立
                     commandType: CommandType.StoredProcedure,
                     flags: CommandFlags.NoCache);
@@ -64,7 +113,8 @@ namespace MemberSite.Service.Library
             var sw = Stopwatch.StartNew();
             try
             {
-                using var connection = new MySqlConnection(_connectionString);
+                var conn = HealthCheck();
+                using var connection = new MySqlConnection(conn);
                 var command = new CommandDefinition(name, parameters, // 使用 CommandDefinition 不讓 Dapper 用預設值建立
                     commandType: CommandType.StoredProcedure,
                     flags: CommandFlags.NoCache);
@@ -84,42 +134,17 @@ namespace MemberSite.Service.Library
             return result;
         }
 
-        public IEnumerable<T> Query<T>(string name)
+        public IEnumerable<T> Query<T>(string sql, object parameters = null)
         {
             IEnumerable<T> result;
             var sw = Stopwatch.StartNew();
 
             try
             {
-                using var connection = new MySqlConnection(_connectionString);
-                var command = new CommandDefinition(name, // 使用 CommandDefinition 不讓 Dapper 用預設值建立
-                    commandType: CommandType.StoredProcedure,
-                    flags: CommandFlags.NoCache);
-                result = connection.Query<T>(command);
-                connection.Close();
-                connection.Dispose();
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, name);
-                throw;
-            }
-
-            LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
-            _logger.LogDebug(name);
-            return result.ToList();
-        }
-
-        public IEnumerable<T> Query<T>(string sql, object parameters, CommandType commandType = CommandType.StoredProcedure)
-        {
-            IEnumerable<T> result;
-            var sw = Stopwatch.StartNew();
-
-            try
-            {
-                using var connection = new MySqlConnection(_connectionString);
+                var conn = HealthCheck();
+                using var connection = new MySqlConnection(conn);
                 var command = new CommandDefinition(sql, parameters, // 使用 CommandDefinition 不讓 Dapper 用預設值建立
-                    commandType: commandType,
+                    commandType: CommandType.StoredProcedure,
                     flags: CommandFlags.NoCache);
 
                 result = connection.Query<T>(command);
@@ -135,33 +160,6 @@ namespace MemberSite.Service.Library
             LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
             _logger.LogDebug($"{sql} {sw.Elapsed:c}");
             return result.ToList();
-        }
-
-        public T Query<T>(string name, object parameters, Func<SqlMapper.GridReader, T> func)
-        {
-            T result;
-            var sw = Stopwatch.StartNew();
-            try
-            {
-                using var connection = new MySqlConnection(_connectionString);
-                var command = new CommandDefinition(name, parameters, // 使用 CommandDefinition 不讓 Dapper 用預設值建立
-                    commandType: CommandType.StoredProcedure,
-                    flags: CommandFlags.NoCache);
-
-                var multiple = connection.QueryMultiple(command);
-                result = func.Invoke(multiple);
-                connection.Close();
-                connection.Dispose();
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, name);
-                throw;
-            }
-
-            LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
-            _logger.LogDebug($"{name} {sw.Elapsed:c}");
-            return result;
         }
 
         public IEnumerable<T> Query<T>(string sql, IDbTransaction transaction, object parameters)
@@ -191,35 +189,9 @@ namespace MemberSite.Service.Library
 
             try
             {
-                await using var connection = new MySqlConnection(_connectionString);
+                var conn = HealthCheck();
+                await using var connection = new MySqlConnection(conn);
                 result = await connection.QueryAsync<T>(name, parameters, commandType: CommandType.StoredProcedure);
-                await connection.CloseAsync();
-                await connection.DisposeAsync();
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, name);
-                throw;
-            }
-
-            LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
-            _logger.LogDebug($"{name} {sw.Elapsed:c}");
-            return result;
-        }
-
-        public async Task<T> QueryAsync<T>(string name, object parameters, Func<SqlMapper.GridReader, T> func)
-        {
-            T result;
-            var sw = Stopwatch.StartNew();
-            try
-            {
-                await using var connection = new MySqlConnection(_connectionString);
-                var command = new CommandDefinition(name, parameters, // 使用 CommandDefinition 不讓 Dapper 用預設值建立
-                    commandType: CommandType.StoredProcedure,
-                    flags: CommandFlags.NoCache);
-
-                var multiple = connection.QueryMultipleAsync(command);
-                result = func.Invoke(await multiple);
                 await connection.CloseAsync();
                 await connection.DisposeAsync();
             }
@@ -421,6 +393,11 @@ namespace MemberSite.Service.Library
             trans.Dispose();
             conn.Close();
             conn.Dispose();
+        }
+
+        private string ReplaceDBString(string conn)
+        {
+            return conn.Substring(0, 28);
         }
     }
 }
