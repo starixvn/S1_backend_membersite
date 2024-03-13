@@ -415,11 +415,11 @@
   <data name="msg_AffCodeNotFound" xml:space="preserve">
     <value>ไม่พบรหัสพันธมิตรดังกล่าว</value>
   </data>
-  <data name="msg_SystemUnstable" xml:space="preserve">
+  <data name="msg_BankSystemUnstable" xml:space="preserve">
     <value>ระบบไม่สามารถตรวจสอบข้อมูล</value>
   </data>
-  <data name="msg_SystemUnstable_Detail" xml:space="preserve">
-    <value>ขณะนี้ระบบของธนาคารไม่สามารถตรวจสอบข้อมูลการทำรายการฝาก ดังนั้นจึงไม่สามารถดำเนินรายการฝากเงินของคุณได้ในขณะนี้</value>
+  <data name="msg_BankSystemUnstable_Detail" xml:space="preserve">
+    <value>ระบบของธนาคารไม่สามารถตรวจสอบข้อมูลได้</value>
   </data>
   <data name="msg_BankUnderMaintenance" xml:space="preserve">
     <value>ธนาคารปิดปรับปรุง</value>
@@ -432,5 +432,17 @@
   </data>
   <data name="msg_NeedNationality" xml:space="preserve">
     <value>ยังไม่สำเร็จ สัญชาติ</value>
+  </data>
+  <data name="msg_DepositRemarkReminder" xml:space="preserve">
+    <value>银行系统无法查询明细</value>
+  </data>
+  <data name="msg_DepositRemarkReminder_Detail" xml:space="preserve">
+    <value>การทำธุรกรรมของคุณได้รับการอนุมัติ อย่างไรก็ตาม ดูเหมือนว่ามีข้อผิดพลาดในหมายเหตุที่ให้ไว้ ก่อนที่จะส่งในเว็บไซต์ของเรา โปรดตรวจสอบให้แน่ใจว่าคุณใส่รายละเอียดธนาคารและหมายเหตุที่ถูกต้องโดยตรงลงในระบบธนาคารของคุณ</value>
+  </data>
+  <data name="msg_EnterRemarkReminder" xml:space="preserve">
+    <value>银行系统无法查询明细</value>
+  </data>
+  <data name="msg_EnterRemarkReminder_Detail" xml:space="preserve">
+    <value>เพื่อส่งเร่งกระบวนการตรวจสอบและประมวลผลคำขอฝากเงินของคุณ โปรดแน่ใจว่าคุณใส่หมายเลขอ้างอิงที่ให้ไว้บนหน้าฝากเงินเมื่อโอนเงิน</value>
   </data>
 </root>
