@@ -150,10 +150,14 @@
   <data name="msg_LineAccountAlreadyBind"><value>Tài khoản LINE này đã được sử dụng, vui lòng sử dụng tài khoản khác.</value></data>
   <data name="msg_RealNameWrongFormat"><value>Tên thật không thể chứa số hoặc ký tự đặc biệt.</value></data>
   <data name="msg_OTPDailyLimit"><value>Bạn đã gửi nhiều yêu cầu OTP trước đó, vui lòng liên hệ bộ phận Live Chat để được hỗ trợ</value></data>
-  <data name="msg_SystemUnstable"><value>Hệ thống hiện không thể hiện chi tiết.</value></data>
-  <data name="msg_SystemUnstable_Detail"><value>Hệ thống ngân hàng hiện không thể hiện chi tiết giao dịch và xử lý giao dịch nạp tiền. Vui lòng quay lại sau.</value></data>
+  <data name="msg_BankSystemUnstable"><value>Hệ thống hiện không thể hiện chi tiết.</value></data>
+  <data name="msg_BankSystemUnstable_Detail"><value>Không thể lấy được chi tiết từ hệ thống ngân hàng</value></data>
   <data name="msg_BankUnderMaintenance"><value>Bảo trì ngân hàng</value></data>
   <data name="msg_BankUnderMaintenance_Detail"><value>Hệ thống ngân hàng hiện đang được bảo trì và tạm thời không thể xử lý khoản tiền gửi của bạn.</value></data>
   <data name="msg_AffCodeNotFound"><value>Tìm không thấy ID Đại lý</value></data>
  <data name="msg_OTP_SendOTPSMS_Fail"><value>Invalid OTP Code</value></data>
-  </root>
+ <data name="msg_DepositRemarkReminder" xml:space="preserve"><value>Ghi chú gửi tiền</value></data>
+ <data name="msg_DepositRemarkReminder_Detail" xml:space="preserve"><value>Giao dịch của bạn đã được phê duyệt. Tuy nhiên, có vẻ như có một lỗi trong các ghi chú được cung cấp. Trước khi gửi trên trang web của chúng tôi, xin vui lòng đảm bảo rằng bạn nhập đúng thông tin ngân hàng và ghi chú trực tiếp vào hệ thống ngân hàng của mình.</value></data>
+ <data name="msg_FillUpRemarkReminder" xml:space="preserve"><value>Nhắc nhớ điền vào ghi chú</value></data>
+ <data name="msg_FillUpRemarkReminder_Detail" xml:space="preserve"><value>Để tăng tốc quá trình xác minh và xử lý yêu cầu gửi tiền của bạn, hãy chắc chắn nhập số tham chiếu được cung cấp trên trang gửi tiền khi thực hiện việc chuyển khoản.</value></data>
+</root>

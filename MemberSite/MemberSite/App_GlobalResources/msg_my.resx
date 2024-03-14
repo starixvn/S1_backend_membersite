@@ -416,10 +416,10 @@
   <data name="msg_AffCodeNotFound" xml:space="preserve">
     <value>ID ahli gabungan tidak ditemui</value>
   </data>
-  <data name="msg_SystemUnstable" xml:space="preserve">
+  <data name="msg_BankSystemUnstable" xml:space="preserve">
     <value>Sistem bank tidak dapat mendapatkan butiran</value>
   </data>
-  <data name="msg_SystemUnstable_Detail" xml:space="preserve">
+  <data name="msg_BankSystemUnstable_Detail" xml:space="preserve">
     <value>Sistem bank sedang tidak dapat mengambil butiran transaksi, dan tidak dapat memproses deposit anda buat masa ini.</value>
   </data>
   <data name="msg_BankUnderMaintenance" xml:space="preserve">
@@ -436,5 +436,17 @@
   </data>
   <data name="msg_OTP_SendOTPSMS_Fail" xml:space="preserve">
     <value>Kod OTP tidak sah</value>
+  </data>
+  <data name="msg_DepositRemarkReminder" xml:space="preserve">
+    <value>Pengingat ruju kan Deposit</value>
+  </data>
+  <data name="msg_DepositRemarkReminder_Detail" xml:space="preserve">
+    <value>Transaksi anda telah diluluskan. Walau bagaimanapun, terdapat ralat dalam keterangan yang diberikan. Sebelum membuat penghantaran di laman web kami, sila pastikan anda memasukkan butiran bank yang betul dan keterangan terus ke dalam sistem perbankan anda.</value>
+  </data>
+  <data name="msg_FillUpRemarkReminder" xml:space="preserve">
+    <value>Pengingat rujukan Mengisi</value>
+  </data>
+  <data name="msg_FillUpRemarkReminder_Detail" xml:space="preserve">
+    <value>Untuk memastikan permohonan deposit anda diproses dengan lebih cepat, sila pastikan untuk memasukkan nombor rujukan yang diberikan pada halaman deposit semasa membuat pindahan.</value>
   </data>
 </root>

@@ -412,10 +412,10 @@
   <data name="msg_AffCodeNotFound" xml:space="preserve">
     <value>代理商ID 无法查找</value>
   </data>
-  <data name="msg_SystemUnstable" xml:space="preserve">
+  <data name="msg_BankSystemUnstable" xml:space="preserve">
     <value>银行系统无法查询明细</value>
   </data>
-  <data name="msg_SystemUnstable_Detail" xml:space="preserve">
+  <data name="msg_BankSystemUnstable_Detail" xml:space="preserve">
     <value>银行系统暂时无法查询明细信息，目前无法处理您的存款。</value>
   </data>
   <data name="msg_BankUnderMaintenance" xml:space="preserve">
@@ -429,5 +429,17 @@
   </data>
   <data name="msg_NeedNationality" xml:space="preserve">
     <value>尚未填写国籍</value>
+  </data>
+  <data name="msg_DepositRemarkReminder" xml:space="preserve">
+    <value>存款备注提醒</value>
+  </data>
+  <data name="msg_DepositRemarkReminder_Detail" xml:space="preserve">
+    <value>您的交易已获批准。在我们的网站提交存款之前，请确保您将正确的银行详细信息和备注直接输入您的银行系统中。</value>
+  </data>
+  <data name="msg_FillUpRemarkReminder" xml:space="preserve">
+    <value>填写备注提醒</value>
+  </data>
+  <data name="msg_FillUpRemarkReminder_Detail" xml:space="preserve">
+    <value>为了更快速地核对和处理您的存款申请，请务必在进行存款转账时输入存款页面上提供的备注序号。</value>
   </data>
 </root>
