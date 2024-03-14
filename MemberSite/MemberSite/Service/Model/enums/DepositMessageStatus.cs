@@ -12,6 +12,6 @@
         BankSystemUnstable = 7,
         BankUnderMaintenance = 8,
         DepositRemarkReminder = 9,
-        EnterRemarkReminder = 10
+        FillUpRemarkReminder = 10
     }
 }

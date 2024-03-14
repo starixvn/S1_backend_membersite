@@ -458,19 +458,19 @@
     <value>Invalid OTP Code</value>
   </data>
   <data name="msg_DepositRemarkReminder" xml:space="preserve">
-    <value>银行系统无法查询明细</value>
+    <value>Deposit Remark Reminder</value>
   </data>
   <data name="msg_DepositRemarkReminder_Detail" xml:space="preserve">
     <value>Your transaction has been approved.However, there appears to be an error in the remarks provided. Prior to submission on our site, kindly ensure that you input the correct bank details and remarks directly into your banking system.</value>
   </data>
-  <data name="msg_EnterRemarkReminder" xml:space="preserve">
-    <value>银行系统无法查询明细</value>
+  <data name="msg_FillUpRemarkReminder" xml:space="preserve">
+    <value>Fill up Remark Reminder</value>
   </data>
-  <data name="msg_EnterRemarkReminder_Detail" xml:space="preserve">
+  <data name="msg_FillUpRemarkReminder_Detail" xml:space="preserve">
     <value>To expedite the verification and processing of your deposit request, please be sure to input the remark number provided on the deposit page when making the transfer.</value>
   </data>
   <data name="msg_WithdrawalLimitExceededINR" xml:space="preserve">
-    <value>银行系统无法查询明细</value>
+    <value>Withdrawal amount exceeded</value>
   </data>
   <data name="msg_WithdrawalLimitExceededINR_Detail" xml:space="preserve">
     <value>Due to the current payment system's maximum limit of INR 50,000 per transaction, we regret to inform you that we are unable to process your payment request. Kindly resubmit a withdrawal request below INR 50,000.</value>

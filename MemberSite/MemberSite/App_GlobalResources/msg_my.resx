@@ -438,15 +438,15 @@
     <value>Kod OTP tidak sah</value>
   </data>
   <data name="msg_DepositRemarkReminder" xml:space="preserve">
-    <value>银行系统无法查询明细</value>
+    <value>Pengingat ruju kan Deposit</value>
   </data>
   <data name="msg_DepositRemarkReminder_Detail" xml:space="preserve">
     <value>Transaksi anda telah diluluskan. Walau bagaimanapun, terdapat ralat dalam keterangan yang diberikan. Sebelum membuat penghantaran di laman web kami, sila pastikan anda memasukkan butiran bank yang betul dan keterangan terus ke dalam sistem perbankan anda.</value>
   </data>
-  <data name="msg_EnterRemarkReminder" xml:space="preserve">
-    <value>银行系统无法查询明细</value>
+  <data name="msg_FillUpRemarkReminder" xml:space="preserve">
+    <value>Pengingat rujukan Mengisi</value>
   </data>
-  <data name="msg_EnterRemarkReminder_Detail" xml:space="preserve">
+  <data name="msg_FillUpRemarkReminder_Detail" xml:space="preserve">
     <value>Untuk memastikan permohonan deposit anda diproses dengan lebih cepat, sila pastikan untuk memasukkan nombor rujukan yang diberikan pada halaman deposit semasa membuat pindahan.</value>
   </data>
 </root>

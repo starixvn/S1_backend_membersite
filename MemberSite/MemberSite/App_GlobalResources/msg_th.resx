@@ -434,15 +434,15 @@
     <value>ยังไม่สำเร็จ สัญชาติ</value>
   </data>
   <data name="msg_DepositRemarkReminder" xml:space="preserve">
-    <value>银行系统无法查询明细</value>
+    <value>หมายเหตุการฝากเงิน</value>
   </data>
   <data name="msg_DepositRemarkReminder_Detail" xml:space="preserve">
     <value>การทำธุรกรรมของคุณได้รับการอนุมัติ อย่างไรก็ตาม ดูเหมือนว่ามีข้อผิดพลาดในหมายเหตุที่ให้ไว้ ก่อนที่จะส่งในเว็บไซต์ของเรา โปรดตรวจสอบให้แน่ใจว่าคุณใส่รายละเอียดธนาคารและหมายเหตุที่ถูกต้องโดยตรงลงในระบบธนาคารของคุณ</value>
   </data>
-  <data name="msg_EnterRemarkReminder" xml:space="preserve">
-    <value>银行系统无法查询明细</value>
+  <data name="msg_FillUpRemarkReminder" xml:space="preserve">
+    <value>กรอกหมายเหตุเตือนความจำ</value>
   </data>
-  <data name="msg_EnterRemarkReminder_Detail" xml:space="preserve">
+  <data name="msg_FillUpRemarkReminder_Detail" xml:space="preserve">
     <value>เพื่อส่งเร่งกระบวนการตรวจสอบและประมวลผลคำขอฝากเงินของคุณ โปรดแน่ใจว่าคุณใส่หมายเลขอ้างอิงที่ให้ไว้บนหน้าฝากเงินเมื่อโอนเงิน</value>
   </data>
 </root>

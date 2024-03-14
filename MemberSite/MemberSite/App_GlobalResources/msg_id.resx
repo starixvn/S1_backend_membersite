@@ -410,15 +410,15 @@
     <value>tidak terisi Kebangsaan</value>
   </data>
   <data name="msg_DepositRemarkReminder" xml:space="preserve">
-    <value>银行系统无法查询明细</value>
+    <value>Pengingat Catatan Setoran</value>
   </data>
   <data name="msg_DepositRemarkReminder_Detail" xml:space="preserve">
     <value>Transaksi Anda telah disetujui. Namun, terdapat kesalahan dalam catatan yang diberikan. Sebelum mengirimkan di situs kami, pastikan Anda memasukkan detail bank dan catatan yang benar langsung ke dalam sistem perbankan Anda.</value>
   </data>
-  <data name="msg_EnterRemarkReminder" xml:space="preserve">
-    <value>银行系统无法查询明细</value>
+  <data name="msg_FillUpRemarkReminder" xml:space="preserve">
+    <value>Isi Catatan Pengingat</value>
   </data>
-  <data name="msg_EnterRemarkReminder_Detail" xml:space="preserve">
+  <data name="msg_FillUpRemarkReminder_Detail" xml:space="preserve">
     <value>Untuk mempercepat verifikasi dan pemrosesan permintaan deposit Anda, pastikan untuk memasukkan nomor catatan yang disediakan pada halaman deposit saat melakukan transfer.</value>
   </data>
 </root>
