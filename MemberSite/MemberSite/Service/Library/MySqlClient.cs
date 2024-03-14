@@ -77,8 +77,6 @@ namespace MemberSite.Service.Library
             return new MySqlConnection(conn);
         }
 
-        #region Query
-
         public async Task<T> QueryFirstAsync<T>(string name, object parameters)
         {
             T result;
@@ -206,10 +204,6 @@ namespace MemberSite.Service.Library
             return result;
         }
 
-        #endregion
-
-        #region Execute
-
         public int Execute(string name, object parameters)
         {
             var result = 0;
@@ -267,28 +261,6 @@ namespace MemberSite.Service.Library
 
             LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
             _logger.LogDebug($"{name} {sw.Elapsed:c}");
-            return result;
-        }
-
-        public int Execute(string command)
-        {
-            int result;
-            var sw = Stopwatch.StartNew();
-            try
-            {
-                using var connection = new MySqlConnection(_connectionString);
-                result = connection.Execute(command, CommandType.Text);
-                connection.Close();
-                connection.Dispose();
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, command);
-                throw;
-            }
-
-            LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds);
-            _logger.LogDebug(command);
             return result;
         }
 
@@ -376,8 +348,6 @@ namespace MemberSite.Service.Library
             _logger.LogDebug($"{name} {sw.Elapsed:c}");
             return result;
         }
-
-        #endregion
 
         public static void CommitAndDisposeConnection(MySqlConnection conn, IDbTransaction trans)
         {
