@@ -64,7 +64,7 @@ namespace MemberSite.Service.DAL
             {
                 MySqlClient.CommitAndDisposeConnection(conn, trans);
 
-                if (siteId != (int)SiteId.Nova88)
+                if (siteId is 2 or 3) // goal and bwing
                 {
                     _ = Task.Run(() =>
                     {
