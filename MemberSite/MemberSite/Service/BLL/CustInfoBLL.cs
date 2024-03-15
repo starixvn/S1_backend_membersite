@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using static MemberSite.Controllers.Api.SiteController;
 
 using Org.BouncyCastle.Asn1.Tsp;
+using MemberSite.Service.BLL.Interface;
 
 namespace MemberSite.Service.BLL
 {
@@ -37,6 +38,7 @@ namespace MemberSite.Service.BLL
         private readonly ShieldBLL _shieldBll;
         private readonly VIPService _vIPService;
         private readonly DepositService _depositService;
+        private readonly ICustPhotoIdBLL _custPhoto;
 
         public CustInfoBll(IServiceProvider provider)
         {
@@ -55,6 +57,7 @@ namespace MemberSite.Service.BLL
             _affiliateService = provider.GetRequiredService<IAffiliateService>();
             _vIPService = provider.GetRequiredService<VIPService>();
             _depositService = provider.GetRequiredService<DepositService>();
+            _custPhoto = provider.GetRequiredService<ICustPhotoIdBLL>();
         }
         public string GetCountryNameByAreaCode(string areaCode)
         {
@@ -855,7 +858,7 @@ namespace MemberSite.Service.BLL
 
         //只給Ivorysport使用
         public int IvorysportAddCustInfo(string UserName, string Userpwd, string Email, int CurrencyId, string UserLang,
-            string refId, string affId, string aff, AffCodeObject affCode, string lineUserId, int deviceType, out int custId, string signupUrl = null,
+            string refId, string affId, string aff, AffCodeObject affCode, string lineUserId, int deviceType, IFormFile photoId, out int custId, string signupUrl = null,
             string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null,
             int Birth_d = 0, int Birth_m = 0, int Birth_y = 0, string signupIp = null, 
             string nationality = null, int cccupation = 0, int sourceOfIncome = 0, string country = null, string city = null, string postCode = null, string lineFirst = null)
@@ -960,6 +963,12 @@ namespace MemberSite.Service.BLL
                         ShieldRiskTaggedIssue.HighRisk);
                 });
             }
+
+            if(result == 0)
+            {
+                _ = _custPhoto.UploadPhotoIdAsync(custId, regCustInfo.SiteId, photoId);
+            }
+
             return result != 0 ? result : 0;
         }
     }
