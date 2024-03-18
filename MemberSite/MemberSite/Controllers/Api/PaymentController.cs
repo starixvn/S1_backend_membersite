@@ -11,6 +11,7 @@ using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
 {
+    [Authorize]
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class PaymentController : ControllerBase
@@ -1615,11 +1616,9 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<IEnumerable<WithdrawalBlockSetting>>();
             var authData = _authorizeBll.GetAuthData();
-            
             if (authData is not { CustId: > 0 })
             {
                 apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
-                    
                 return apiResult;
             }
 
@@ -1702,12 +1701,6 @@ namespace MemberSite.Controllers.Api
         public async Task<ApiResult<object>> DepositReqLocalPaymentAsync(DepositReqLocalPaymentReq req)
         {
             var authData = _authorizeBll.GetAuthData();
-            
-            if (authData is not { CustId: > 0 })
-            {
-                return new ApiResult<object>(-1, _selLangBll.GetMsg("msg_ForceLogedout"), null);
-            }
-            
             var hasPromotion = _promotionBll.VerifyBonusCode(req.BonusCode);
             var checkResult = CheckDeposit(authData, req.Amount, hasPromotion);
 
