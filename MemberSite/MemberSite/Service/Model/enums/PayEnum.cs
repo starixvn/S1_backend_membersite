@@ -1,10 +1,7 @@
 ﻿
-namespace MemberSite.Service.Model.enums
+namespace MemberSite.Service.Model.enums;
+public enum PayEnum
 {
-    public enum PayEnum
-    {
-        Coin2Pay = 44
-    }
-
+    Coin2Pay = 44,
+    SDSPay = 63
 }
-
