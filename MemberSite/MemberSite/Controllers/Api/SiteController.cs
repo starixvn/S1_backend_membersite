@@ -339,6 +339,7 @@ namespace MemberSite.Controllers.Api
             public string City { get; set; }
             public string PostCode { get; set; }
             public string LineFirst { get; set; }
+            public IFormFile PhotoId { get; set; }
         }
 
         [HttpPost]
@@ -424,10 +425,16 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
 
+        private readonly Dictionary<string, System.Drawing.Imaging.ImageFormat> _contentTypesCheck = new Dictionary<string, System.Drawing.Imaging.ImageFormat>(comparer: StringComparer.OrdinalIgnoreCase)
+        {
+            {"image/png",System.Drawing.Imaging.ImageFormat.Png},
+            {"image/jpeg",System.Drawing.Imaging.ImageFormat.Jpeg},
+            { "image/gif",System.Drawing.Imaging.ImageFormat.Gif}
+        };
 
         [HttpPost]
         //只給Ivorysport使用
-        public async Task<ApiResult> IvorysportSignupAsync(IvorysportSignupModel signupModel)
+        public async Task<ApiResult> IvorysportSignupAsync([FromForm] IvorysportSignupModel signupModel)
         {
             var apiResult = new ApiResult(_selLangBll);
             var isAuthenticated = User.Identity is { IsAuthenticated: true };
@@ -438,6 +445,12 @@ namespace MemberSite.Controllers.Api
                 apiResult.Message = $"{_selLangBll.GetMsg("msg_RealNameWrongFormat")}";
                 return apiResult;
             }
+
+            if (!_contentTypesCheck.ContainsKey(signupModel.PhotoId.ContentType))
+            {
+                return new ApiResult { ErrorCode = -1, Message = _selLangBll.GetMsg("msg_UpdateFailed") };
+            }
+
             var customer = _siteBll.IvorysportSignup(signupModel, apiResult, isAuthenticated, Request.Host.Host,
                 Request.Headers["User-Agent"], true);
             if (apiResult.ErrorCode == (int)ErrorCode.Attack)
