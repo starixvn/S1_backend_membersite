@@ -176,6 +176,18 @@ namespace MemberSite.Service.Library
         public string GetFromUrl()
         {
             var fromUrl = "";
+            // 先拿Header的origin-host
+            if (httpContextAccessor.HttpContext.Request.Headers.TryGetValue("origin-host", out var originHost))
+            {
+                fromUrl = new Uri(originHost).Host.ToString();
+            }
+
+            // 先拿Header的ai-host
+            if (httpContextAccessor.HttpContext.Request.Headers.TryGetValue("ai-host", out var aiHost))
+            {
+                fromUrl = new Uri(aiHost).Host.ToString();
+            }
+
             if (httpContextAccessor.HttpContext.Request.Headers.ContainsKey("Referer"))
             {
                 fromUrl = httpContextAccessor.HttpContext.Request.Headers["Referer"].ToString();
