@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Text.RegularExpressions;
+
 using MemberSite.Exceptions;
 using MemberSite.Extensions;
 using MemberSite.Service.DAL;
@@ -7,7 +8,9 @@ using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Interfaces;
+
 using Microsoft.AspNetCore.Mvc;
+
 using Newtonsoft.Json;
 
 namespace MemberSite.Service.BLL
@@ -161,7 +164,7 @@ namespace MemberSite.Service.BLL
                     && (custInfo.UserLevel > pointLevel || pointLevel == 8 || x.PointLevels.Contains(pointLevel))
                     && x.VipLevels.Contains(custInfo.UserLevel)
                     && x.SysId == sysId).ToList();
-            
+
             var depositLimitInfoList = _depositService.GetDepositLimitInfoList();
             var depositLimitInfo = depositLimitInfoList?.Where(x =>
                 x.SiteId == custInfo.SiteId
@@ -239,7 +242,7 @@ namespace MemberSite.Service.BLL
             {
                 if (amount <= 0)
                     throw new CustomException($"Amount: {amount} <= 0", -1);
-                
+
                 var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
 
 
@@ -259,7 +262,7 @@ namespace MemberSite.Service.BLL
                     throw new CustomException("BankInfo is null.", -4);
 
                 _logger.LogInformation($"{depositType}: {JsonConvert.SerializeObject(onlineBank)}");
-                
+
                 var depositLimitInfo = depositLimitInfoList?
                     .FirstOrDefault(x => x.SiteId == custInfo.SiteId
                                          && x.VipLevel == pointLevel
@@ -268,7 +271,7 @@ namespace MemberSite.Service.BLL
 
                 if (depositLimitInfo?.DepositStatus == 0)
                     throw new CustomException($"DepositType={depositType} disabled.", -3);
-       
+
 
                 if (depositLimitInfo != null && onlineBank != null)
                 {
@@ -873,7 +876,7 @@ namespace MemberSite.Service.BLL
 
             // 不看卡號 只看提款成功次數
             var withdrawalSuccessCount = withdrawalService.GetAllAccountWithdrawalSuccessCounterByCustId(custInfo.CustId);
-            
+
             if (custInfo.SiteId == 1)
             {
                 // Iovation

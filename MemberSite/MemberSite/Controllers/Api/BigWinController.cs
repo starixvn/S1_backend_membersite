@@ -1,7 +1,9 @@
 ﻿using MemberSite.Service.BLL;
 using MemberSite.Service.Model;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
@@ -29,7 +31,7 @@ namespace MemberSite.Controllers.Api
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _logger = provider.GetRequiredService<ILogger<BigWinController>>();
         }
-        
+
         public class GetPopUpDataListRequest
         {
             public int deviceType { get; set; }

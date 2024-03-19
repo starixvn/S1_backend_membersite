@@ -1,8 +1,10 @@
 ﻿using System.Text.RegularExpressions;
+
 using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
+
 using Newtonsoft.Json;
 
 namespace MemberSite.Service.BLL

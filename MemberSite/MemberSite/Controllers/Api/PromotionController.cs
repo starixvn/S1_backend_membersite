@@ -2,8 +2,10 @@
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
@@ -132,7 +134,7 @@ namespace MemberSite.Controllers.Api
 
                     apiResult = await _courierAdapter.MyPostAsync<ApiResult, PromotionRequest>(apiUrl, req);
 
-                    if (custInfo.SiteId is 2 or 3 ) // bwing and goal
+                    if (custInfo.SiteId is 2 or 3) // bwing and goal
                     {
                         _ = Task.Run(() =>
                         {

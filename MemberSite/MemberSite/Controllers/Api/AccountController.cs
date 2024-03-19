@@ -1,15 +1,19 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Security.Claims;
+
 using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
+
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 using Newtonsoft.Json;
+
 using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
@@ -50,7 +54,7 @@ namespace MemberSite.Controllers.Api
             _bankInfoBll = provider.GetRequiredService<BankInfoBLL>();
             _walletBll = provider.GetRequiredService<WalletBLL>();
             _courierAdapter = provider.GetRequiredService<CourierAdapter>();
-            
+
             var configBll = provider.GetRequiredService<ConfigBLL>();
             _tpServiceApiUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost").TpService;
             _jwtConfig = configBll.GetConfigValueByEnvironment<JwtConfig>("JwtSettings");

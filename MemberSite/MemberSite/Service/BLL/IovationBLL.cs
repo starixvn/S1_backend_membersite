@@ -17,9 +17,9 @@ namespace MemberSite.Service.BLL
         private readonly Dictionary<int, string> perCurrency;
         private readonly string _commonServiceUrl;
 
-        public IovationBLL(IovationService iovationService, 
+        public IovationBLL(IovationService iovationService,
             CourierAdapter courierAdapter,
-            Tools tools, 
+            Tools tools,
             CustInfoBll custInfoBLL,
             ConfigBLL configBll)
         {

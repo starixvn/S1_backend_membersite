@@ -1,4 +1,5 @@
 ﻿using MemberSite.Service.Model;
+
 using Newtonsoft.Json;
 
 namespace MemberSite.Service.BLL
