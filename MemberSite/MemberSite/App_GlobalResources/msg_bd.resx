@@ -137,8 +137,8 @@
   <data name="msg_DecimalOutOfRange"><value>2টি সংখ্যার চেয়ে বেশি দশমিকের কারণে স্থানান্তর ব্যর্থ হয়েছে৷</value></data>
   <data name="msg_OTPDailyLimit"><value>ওটিপি সীমায় পৌঁছেছে, অনুগ্রহ করে লাইভ চ্যাট সহায়তার সাথে যোগাযোগ করুন</value></data>
   <data name="msg_AffCodeNotFound"><value>এফিলিয়েট আইডি পাওয়া যাচ্ছে না</value></data>
-  <data name="msg_BankSystemUnstable"><value>ব্যাংকের সিস্টেম বিশদগতি পুনরুদ্ধার করতে অক্ষম।</value></data>
-  <data name="msg_BankSystemUnstable_Detail"><value>ব্যাংকের সিস্টেম বর্তমানে লেনদেনের বিশদ তথ্য পুনরুদ্ধার করতে অক্ষম এবং এই মুহূর্তে আপনার আমানত প্রক্রিয়া করতে অক্ষম।</value></data>
+  <data name="msg_BankSystemUnstable"><value>ব্যাংক সিস্টেম অস্থির</value></data>
+  <data name="msg_BankSystemUnstable_Detail"><value>ব্যাংকের সিস্টেম বিশদগতি পুনরুদ্ধার করতে অক্ষম।</value></data>
   <data name="msg_BankUnderMaintenance"><value>ব্যাংক মেইন্টেনেন্স</value></data>
   <data name="msg_BankUnderMaintenance_Detail"><value>ব্যাংকের সিস্টেম বর্তমানে রক্ষণাবেক্ষণ করা হচ্ছে এবং এই মুহূর্তে আপনার জমা গ্রহণ করতে অক্ষম।</value></data>
   <data name="msg_WrongPhoneNumberAndUserName"><value>অ্যাকাউন্ট বা ফোন নম্বরটি ভুল, দয়া করে আবার লিখুন৷</value></data>

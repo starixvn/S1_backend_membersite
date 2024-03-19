@@ -416,7 +416,7 @@
     <value>ไม่พบรหัสพันธมิตรดังกล่าว</value>
   </data>
   <data name="msg_BankSystemUnstable" xml:space="preserve">
-    <value>ระบบไม่สามารถตรวจสอบข้อมูล</value>
+    <value>ระบบธนาคารไม่เสถียร</value>
   </data>
   <data name="msg_BankSystemUnstable_Detail" xml:space="preserve">
     <value>ระบบของธนาคารไม่สามารถตรวจสอบข้อมูลได้</value>

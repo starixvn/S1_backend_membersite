@@ -413,10 +413,10 @@
     <value>代理商ID 无法查找</value>
   </data>
   <data name="msg_BankSystemUnstable" xml:space="preserve">
-    <value>银行系统无法查询明细</value>
+    <value>银行系统不稳定</value>
   </data>
   <data name="msg_BankSystemUnstable_Detail" xml:space="preserve">
-    <value>银行系统暂时无法查询明细信息，目前无法处理您的存款。</value>
+    <value>银行系统无法查询明细</value>
   </data>
   <data name="msg_BankUnderMaintenance" xml:space="preserve">
     <value>银行维护</value>
