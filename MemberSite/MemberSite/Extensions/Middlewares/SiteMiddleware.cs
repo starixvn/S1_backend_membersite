@@ -52,7 +52,7 @@ namespace MemberSite.Extensions.Middlewares
         {
             try
             {
-                if (await IsForbidden(context))
+                if (await IsBlockIP(context))
                 {
                     context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
                     return;
@@ -126,11 +126,10 @@ namespace MemberSite.Extensions.Middlewares
             return true;
         }
 
-        private async Task<bool> IsForbidden(HttpContext context)
+        private Task<bool> IsBlockIP(HttpContext context)
         {
             var clientIp = _tools.GetClientIP(context);
-            var ipCountry = await _checkIpBll.CheckIp(clientIp);
-            return ipCountry.Forbidden;
+            return _checkIpBll.CheckBlockIp(clientIp);
         }
     }
 }
