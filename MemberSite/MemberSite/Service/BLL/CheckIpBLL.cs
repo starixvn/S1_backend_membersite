@@ -36,6 +36,16 @@ namespace MemberSite.Service.BLL
                     return new IpCountryWithAccess(clientIp, "not found in IPCountryList");
                 }
 
+                // 檢查黑名單
+                if (await CheckBlockIp(clientIp))
+                {
+                    return new IpCountryWithAccess(clientIp, "in block ip list.")
+                    {
+                        Code = ipCountry.Code,
+                        Forbidden = true //block
+                    };
+                }
+
                 // 檢查白名單
                 if (await _cacheHelper.KeyExistsAsync($"AllowedIp:{clientIp}", RedisDataBase.IP))
                 {
@@ -43,16 +53,6 @@ namespace MemberSite.Service.BLL
                     {
                         Code = ipCountry.Code,
                         Forbidden = false //access
-                    };
-                }
-
-                // 檢查黑名單
-                if (await _cacheHelper.KeyExistsAsync($"BlockIp:{clientIp}", RedisDataBase.IP))
-                {
-                    return new IpCountryWithAccess(clientIp, "in block ip list.")
-                    {
-                        Code = ipCountry.Code,
-                        Forbidden = true //block
                     };
                 }
 
@@ -77,6 +77,11 @@ namespace MemberSite.Service.BLL
                 _logger.LogError(e, e.Message);
                 return new IpCountryWithAccess(clientIp, e.Message);
             }
+        }
+
+        public async Task<bool> CheckBlockIp(string clientIp)
+        {
+            return await _cacheHelper.KeyExistsAsync($"BlockIp:{clientIp}", RedisDataBase.IP);
         }
     }
 }
