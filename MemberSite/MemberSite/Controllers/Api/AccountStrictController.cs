@@ -1,3 +1,5 @@
+using System.Text.RegularExpressions;
+
 using MemberSite.Service.BLL;
 using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.Library;
@@ -9,8 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using Newtonsoft.Json;
-using System.Text.RegularExpressions;
-using static MemberSite.Controllers.Api.SiteController;
+
 using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
@@ -58,7 +59,7 @@ namespace MemberSite.Controllers.Api
         Dictionary<int, string> counrtyDic = new Dictionary<int, string>() {
             {2,"Malaysia" },
             {3,"United States of America" },
-            {4,"Thailand" },         
+            {4,"Thailand" },
             {13,"China" },
             {15,"Indonesia" },
             {51,"Viet Nam" },
@@ -909,7 +910,7 @@ namespace MemberSite.Controllers.Api
 
             return apiResult;
         }
-        
+
         [HttpPost]
         public async Task<ApiResult<SendOTPSMSResult>> SendOTPSMSAsync()
         {

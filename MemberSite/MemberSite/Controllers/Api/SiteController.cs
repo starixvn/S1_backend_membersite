@@ -1,21 +1,23 @@
-﻿using System.Globalization;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Net.Sockets;
 using System.Security.Claims;
 using System.Text.RegularExpressions;
+
 using MemberSite.Attributes;
 using MemberSite.Service.BLL;
-using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
+
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+
 using Newtonsoft.Json;
+
 using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
@@ -43,8 +45,7 @@ namespace MemberSite.Controllers.Api
         private readonly ILogger<SiteController> _logger;
         private readonly CheckAttackBLL _checkAttackBll;
         private readonly StringVaildHelper _stringVaildHelper;
-        private readonly IGeoIpApi _geoIpApi;
-        private readonly ICheckIpBLL _checkIpBll;
+        private readonly CheckIpBLL _checkIpBll;
         private readonly FPSBLL _FPSBll;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly CommonBLL _commonBll;
@@ -67,11 +68,9 @@ namespace MemberSite.Controllers.Api
             _logger = provider.GetRequiredService<ILogger<SiteController>>();
             _checkAttackBll = provider.GetRequiredService<CheckAttackBLL>();
             _stringVaildHelper = provider.GetRequiredService<StringVaildHelper>();
-            _geoIpApi = provider.GetRequiredService<IGeoIpApi>();
-            _checkIpBll = provider.GetRequiredService<ICheckIpBLL>();
+            _checkIpBll = provider.GetRequiredService<CheckIpBLL>();
             _checkAttackBll = provider.GetRequiredService<CheckAttackBLL>();
             _stringVaildHelper = provider.GetRequiredService<StringVaildHelper>();
-            _geoIpApi = provider.GetRequiredService<IGeoIpApi>();
             _FPSBll = provider.GetRequiredService<FPSBLL>();
             _httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
             _commonBll = provider.GetRequiredService<CommonBLL>();
@@ -193,7 +192,7 @@ namespace MemberSite.Controllers.Api
             }
 
             #endregion
-            
+
             await _cacheHelper.StringFireAndForgetSetAsync(customer.CustId.ToString(), token, TimeSpan.FromMinutes(30), RedisDataBase.Token);
 
             Response.Cookies.Delete($"Initialization{User.Identity?.Name}");
@@ -613,7 +612,7 @@ namespace MemberSite.Controllers.Api
             public string PhoneNo { get; set; }
             public string Username { get; set; }
         }
-        
+
         [HttpPost]
         public async Task<ApiResult<SendOTPSMSResult>> ReSetPwdByOTPAsync(ReSetPwdByOTPReq reSetPwdByOtpReq)
         {
@@ -626,17 +625,17 @@ namespace MemberSite.Controllers.Api
                     AreaCode = reSetPwdByOtpReq.AreaCode,
                     PhoneNo = reSetPwdByOtpReq.PhoneNo
                 };
-                
+
                 if (_checkAttackBll.CheckAttack(checkValue, Request))
                 {
                     Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
                     return null;
                 }
-                
+
                 if (long.TryParse(reSetPwdByOtpReq.PhoneNo, out var phoneNo))
                 {
                     var serverInfo = _serverInfoBll.GetServerInfo();
-                    
+
                     reSetPwdByOtpReq.PhoneNo = phoneNo.ToString();
                     if (_custInfoBll.ExistsPhoneNoAndUserName(reSetPwdByOtpReq.Username, reSetPwdByOtpReq.AreaCode,
                             reSetPwdByOtpReq.PhoneNo, serverInfo.SiteId))
@@ -669,13 +668,13 @@ namespace MemberSite.Controllers.Api
             public string InputOTPcode { set; get; }
             public string NewPassword { set; get; }
         }
-        
+
         [HttpPost]
         public async Task<ApiResult> ReSetPwdVerifyOTPAsync(ReSetPwdVerifyOTPReq req)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
             var custInfoProfile = _custInfoBll.GetCustInfoProfileByUserName(serverInfo.SiteId, req.Username);
-            
+
             var apiResult = await _custInfoBll.ReSetPwdVerifyOTPAsync(custInfoProfile.CustId, req.InputOTPcode);
 
             if (apiResult.ErrorCode == 0)
@@ -696,10 +695,10 @@ namespace MemberSite.Controllers.Api
                 apiResult.ErrorCode = -1;
                 apiResult.Message = _selLangBll.GetMsg("msg_OTP_SendOTPSMS_Fail");
             }
-            
+
             return apiResult;
         }
-        
+
         [HttpPost]
         public ApiResult<Dictionary<string, string>> GetTranslationData(string[] keys)
         {

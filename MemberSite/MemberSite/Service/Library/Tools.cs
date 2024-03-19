@@ -1,13 +1,15 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
+
+using MemberSite.Exceptions;
 using MemberSite.Service.BLL;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 namespace MemberSite.Service.Library
@@ -88,7 +90,32 @@ namespace MemberSite.Service.Library
             return GuidString;
         }
 
-        #region GetClientIP
+        #region IP
+
+        public uint GetIpToLong(string ipAddress)
+        {
+            if (ipAddress.IndexOf(".", StringComparison.Ordinal) > 0)
+            {
+                try
+                {
+                    var b = IPAddress.Parse(ipAddress).GetAddressBytes();
+                    Array.Reverse(b);
+                    return BitConverter.ToUInt32(b, 0);
+                }
+                catch (Exception e)
+                {
+                    throw new IPFormatException("ipv4 format error");
+                }
+            }
+            else if (ipAddress.IndexOf(":", StringComparison.Ordinal) > 0)
+            {
+                throw new IPFormatException("no support ipv6");
+            }
+            else
+            {
+                throw new IPFormatException("ip format error");
+            }
+        }
 
         /// <summary>
         /// 获取客户端IP
@@ -294,5 +321,7 @@ namespace MemberSite.Service.Library
         {
             return MD5Encrypt($"{para}{_backEndKey}");
         }
+
+
     }
 }

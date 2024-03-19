@@ -44,8 +44,7 @@ namespace MemberSite.Service.BLL.Tests
         public void Test_SplitGameInfo(string gameInfo, int providerId, string gameId)
         {
             var services = new ServiceCollection();
-            services.AddSingleton(_configuration);
-            services.AddTransient(p => new MySqlClient("", Substitute.For<ILogger<MySqlClient>>()) { DataBase = DataBase.Report });
+            services.AddSingleton(_configuration);            
             services.AddTransient(p => Substitute.For<IMemoryCache>());
             services.AddTransient(p => Substitute.For<ILogger<MySqlClient>>());
             services.AddTransient<CacheHelper>();

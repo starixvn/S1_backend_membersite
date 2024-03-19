@@ -24,14 +24,14 @@ namespace MemberSite.Service.BLL
 
             var dbData = _redisHelper.TryGetOrCreate(key, TimeSpan.FromMinutes(5),
                     () => _depositService.GetDepositLimitInfoList().Where(x => x.SiteId == siteId));
-                return dbData;
+            return dbData;
         }
-        
+
         public DepositLimitInfo GetDepositLimitInfo(int custId, DepositType depositType)
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
-            
+
             return GetDepositLimitInfoListWithCache(custInfo.SiteId)?.FirstOrDefault(x =>
                 x.SiteId == custInfo.SiteId &&
                 x.VipLevel == vipLevel &&

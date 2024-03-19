@@ -2,7 +2,7 @@
 {
     public enum QueueJob
     {
-        Init = 0 ,
+        Init = 0,
         Verification = 1,
         DrawPrize = 2
     }
