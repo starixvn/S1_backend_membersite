@@ -150,7 +150,7 @@
   <data name="msg_LineAccountAlreadyBind"><value>Tài khoản LINE này đã được sử dụng, vui lòng sử dụng tài khoản khác.</value></data>
   <data name="msg_RealNameWrongFormat"><value>Tên thật không thể chứa số hoặc ký tự đặc biệt.</value></data>
   <data name="msg_OTPDailyLimit"><value>Bạn đã gửi nhiều yêu cầu OTP trước đó, vui lòng liên hệ bộ phận Live Chat để được hỗ trợ</value></data>
-  <data name="msg_BankSystemUnstable"><value>Hệ thống hiện không thể hiện chi tiết.</value></data>
+  <data name="msg_BankSystemUnstable"><value>Hệ thống ngân hàng không ổn định</value></data>
   <data name="msg_BankSystemUnstable_Detail"><value>Không thể lấy được chi tiết từ hệ thống ngân hàng</value></data>
   <data name="msg_BankUnderMaintenance"><value>Bảo trì ngân hàng</value></data>
   <data name="msg_BankUnderMaintenance_Detail"><value>Hệ thống ngân hàng hiện đang được bảo trì và tạm thời không thể xử lý khoản tiền gửi của bạn.</value></data>

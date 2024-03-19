@@ -437,10 +437,10 @@
     <value>Affiliate ID cant be found</value>
   </data>
   <data name="msg_BankSystemUnstable" xml:space="preserve">
-    <value>System is unable to retrieve details.</value>
+    <value>Bank System Unstable.</value>
   </data>
   <data name="msg_BankSystemUnstable_Detail" xml:space="preserve">
-    <value>System is unable to retrieve details. revised to Bank's system is unable to retrieve details.</value>
+    <value>Bank's system is unable to retrieve details.</value>
   </data>
   <data name="msg_BankUnderMaintenance" xml:space="preserve">
     <value>Bank Maintenance</value>
