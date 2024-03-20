@@ -27,8 +27,8 @@ namespace MemberSite.Service.BLL
                 DetecasAnalysis = request.DetecasAnalysis,
                 AcceptsTypes = request.AcceptsTypes,
                 SessionKey = request.SessionKey,
-                Token =  request.Token,
-                Url =  request.Url
+                Token = request.Token,
+                Url = request.Url
             };
 
             var apiResult = await _courierAdapter.MyPostAsync<bool, dynamic>(apiUrl, req);

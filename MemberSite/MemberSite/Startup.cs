@@ -1,9 +1,11 @@
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
+
 using Elastic.Apm.AspNetCore;
 using Elastic.Apm.DiagnosticSource;
 using Elastic.Apm.SqlClient;
 using Elastic.Apm.StackExchange.Redis;
+
 using MemberSite.Extensions;
 using MemberSite.Service.BLL;
 using MemberSite.Service.BLL.Interface;
@@ -11,12 +13,16 @@ using MemberSite.Service.DAL;
 using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
+using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Mapping;
 using MemberSite.Service.Model.Options;
+
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.WebEncoders;
+
 using Prometheus;
+
 using StackExchange.Redis;
 
 namespace MemberSite
@@ -54,7 +60,7 @@ namespace MemberSite
         {
             services.AddMemoryCache();
             services.AddDatabaseConnection(_configuration);
-            
+
             var redisConnection = ConnectionMultiplexer.Connect(_configuration.GetValue<string>("RedisConnection"));
             redisConnection.UseElasticApm();
             services.AddSingleton<IConnectionMultiplexer>(redisConnection);
@@ -98,7 +104,7 @@ namespace MemberSite
             services.AddSingleton<NewsService>();
             services.AddSingleton<IovationService>();
             services.AddSingleton<EventsService>();
-            services.AddTransient<IEventsService, EventsService>();            
+            services.AddTransient<IEventsService, EventsService>();
             services.AddSingleton<LiveStreamingService>();
             services.AddSingleton<VideoDataService>();
             services.AddSingleton<ConfigService>();
@@ -159,10 +165,8 @@ namespace MemberSite
             services.AddSingleton<LiveStreamingBll>();
             services.AddSingleton<VideoDataBll>();
             services.AddSingleton<GameBLL>();
-            services.AddTransient<IGeoIpApi, GeoIpApi>();
             services.AddTransient<IRecaptchaApi, RecaptchaApi>();
             services.AddTransient<ICustPhotoIdBLL, CustPhotoIdBLL>();
-            services.AddTransient<GeoIpBLL>();
             services.AddTransient<AppLinkBLL>();
             services.AddTransient<FileNameBLL>();
             services.AddTransient<ImageEditorBLL>();
@@ -188,7 +192,7 @@ namespace MemberSite
             services.AddTransient<HotEventBLL>();
             services.AddTransient<NewYear2024BLL>();
             services.AddTransient<QueueJobBLL>();
-            services.AddTransient<ICheckIpBLL, CheckIpBLL>();
+            services.AddSingleton<CheckIpBLL>();
             services.AddTransient<TelegramBLL>();
             services.AddSingleton<CryptoHelper>();
             services.AddControllersWithViews();
@@ -248,6 +252,7 @@ namespace MemberSite
 
             services.AddOptionListByDB<AreaCodeMap>("Common_CountryList_Get");
             services.AddOptionListByDB<SabaSportTypeOption>("Service_SabaSportType_Get");
+            services.AddOptionListByDB<IPCountry>("Service_IPCode_Get", dataBase: DataBase.ReportIPTable);
 
             //處理SiteConfig
             services.AddOptionListByDB<ServerInfo>("ServerInfoList_Get");
@@ -288,7 +293,7 @@ namespace MemberSite
             app.UseAuthorization();
             app.UseRequestLogMiddleware();
             app.UseResponseLogMiddleware();
-            app.UseMiddleware<SiteMiddleware>();
+            app.UseSiteMiddleware();
 
             app.UseEndpoints(endpoints =>
             {

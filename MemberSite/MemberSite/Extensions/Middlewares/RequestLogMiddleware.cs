@@ -65,7 +65,7 @@ namespace MemberSite.Extensions.Middlewares
 
                     var authData = _authorizeBll.GetAuthData();
                     var serverInfo = _serverInfoBll.GetServerInfo();
-                    
+
                     foreach (var header in context.Request.Headers)
                     {
                         LogContext.PushProperty($"Headers.{header.Key}", header.Value.ToString());

@@ -1,4 +1,5 @@
 using System.Reflection;
+
 using MemberSite.Attributes;
 
 namespace MemberSite.Extensions;
@@ -11,5 +12,5 @@ public static class CollectionExtension
             .GetProperties(BindingFlags.Instance | BindingFlags.Public)
             .Where(x => !x.GetCustomAttributes(typeof(DicIgnoreAttribute)).Any())
             .ToDictionary(prop => prop.Name, prop => prop.GetValue(obj)?.ToString());
-    } 
+    }
 }

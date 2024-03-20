@@ -1,4 +1,5 @@
-﻿using MemberSite.Service.DAL;
+﻿using MemberSite.Service.BLL.Interface;
+using MemberSite.Service.DAL;
 using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Domain;
 using MemberSite.Service.Library;
@@ -9,10 +10,6 @@ using MemberSite.Service.Model.Mapping;
 using Microsoft.Extensions.Caching.Memory;
 
 using Newtonsoft.Json;
-using static MemberSite.Controllers.Api.SiteController;
-
-using Org.BouncyCastle.Asn1.Tsp;
-using MemberSite.Service.BLL.Interface;
 
 namespace MemberSite.Service.BLL
 {
@@ -160,7 +157,7 @@ namespace MemberSite.Service.BLL
             var result = _custInfoService.AddCustInfo(regCustInfo, Email, lineUserId, deviceType, out custId, signupUrl, referralUrl, PhoneNo, AreaCode,
                 RealName, promoCode, Birth_d, Birth_m, Birth_y, signupIp);
 
-            if (result == 0 && regCustInfo.SiteId is 2 or 3 ) // goal and bwing
+            if (result == 0 && regCustInfo.SiteId is 2 or 3) // goal and bwing
             {
                 regCustInfo.CustId = custId;
                 _ = Task.Run(() =>
@@ -356,7 +353,7 @@ namespace MemberSite.Service.BLL
         {
             var check = _tools.CheckUserInputPassword(newPassword);
             if (!check) return false;
-            
+
             var md5NewPassword = _tools.MD5Encrypt(newPassword);
             return _custInfoService.SetResetPwd(custId, md5NewPassword);
         }
@@ -441,8 +438,8 @@ namespace MemberSite.Service.BLL
 
             return _custInfoService.ExistsEmail(custId, email, siteId);
         }
-        
-        public bool ExistsPhoneNoAndUserName(string userName, string areaCode, string phoneNo , int siteId)
+
+        public bool ExistsPhoneNoAndUserName(string userName, string areaCode, string phoneNo, int siteId)
         {
             return _custInfoService.ExistsPhoneNoAndUserName(userName, areaCode, phoneNo, siteId);
         }
@@ -473,14 +470,14 @@ namespace MemberSite.Service.BLL
                 () => GetCustInfoProfile(custId));
         }
 
-        public CustInfoProfile GetCustInfoProfileByUserName(int siteId , string userName)
+        public CustInfoProfile GetCustInfoProfileByUserName(int siteId, string userName)
         {
             return _redisHelper.TryGetOrCreate(
                 $"CustInfoProfile:{siteId}:{userName}",
                 TimeSpan.FromMinutes(1),
-                () => _custInfoService.GetCustInfoProfileByUserName(siteId,userName,null));
+                () => _custInfoService.GetCustInfoProfileByUserName(siteId, userName, null));
         }
-        
+
         public int SubmittedCustPhotoId(int custId)
         {
             var custInfo = GetCustInfoWithCache(custId);
@@ -539,11 +536,11 @@ namespace MemberSite.Service.BLL
             }
             return apiResult;
         }
-        
+
         public async Task<ApiResult> ReSetPwdVerifyOTPAsync(int custId, string inputOTP)
         {
             var apiResult = await _commonBll.VerifyOTPAsync(custId, inputOTP);
-            
+
             return apiResult;
         }
 
@@ -966,7 +963,7 @@ namespace MemberSite.Service.BLL
                 });
             }
 
-            if(result == 0)
+            if (result == 0)
             {
                 _ = _custPhoto.UploadPhotoIdAsync(custId, regCustInfo.SiteId, photoId);
             }

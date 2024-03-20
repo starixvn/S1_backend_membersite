@@ -53,7 +53,7 @@ namespace MemberSite.Service.Model
         public decimal DepositAmountSum { get; set; }
         public decimal TurnoverSum { get; set; }
     }
-    
+
     public class CashBackDetails
     {
         public decimal TotalBonus { get; set; }
