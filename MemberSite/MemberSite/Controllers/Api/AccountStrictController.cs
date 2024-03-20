@@ -22,6 +22,7 @@ namespace MemberSite.Controllers.Api
     [ApiController]
     public class AccountStrictController : ControllerBase
     {
+        private readonly ServerInfoBll _serverInfoBll;
         private readonly SelLangBLL _selLangBLL;
         private readonly AuthorizeBLL _authorizeBLL;
         private readonly CustInfoBll _custInfoBLL;
@@ -40,6 +41,7 @@ namespace MemberSite.Controllers.Api
 
         public AccountStrictController(IServiceProvider provider)
         {
+            _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
             _selLangBLL = provider.GetRequiredService<SelLangBLL>();
             _authorizeBLL = provider.GetRequiredService<AuthorizeBLL>();
             _custInfoBLL = provider.GetRequiredService<CustInfoBll>();
@@ -974,7 +976,7 @@ namespace MemberSite.Controllers.Api
             var profileUrl = _serverInfoBLL.GetHttpDomain();
             var langId = _selLangBLL.GetLangId();
 
-            var host = Url.ActionContext.HttpContext.Request.Host.Host;
+            var host = _serverInfoBll.GetDomain();
             if (host.Split('.')[0] == "app")
             {
                 profileUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://{host.Replace("app", "m")}";
