@@ -193,7 +193,7 @@ namespace MemberSite.Controllers.Api
             }
 
             #endregion
-            
+
             await _cacheHelper.StringFireAndForgetSetAsync(customer.CustId.ToString(), token, TimeSpan.FromMinutes(30), RedisDataBase.Token);
 
             Response.Cookies.Delete($"Initialization{User.Identity?.Name}");
@@ -526,34 +526,34 @@ namespace MemberSite.Controllers.Api
                 Customer custInfo = null;
 
                 string resetPasswordUrl;
-
+                var host = _serverInfoBll.GetDomain();
                 if (forgetPwdReq.flag == 1)
                 {
-                    resetPasswordUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://{Url.ActionContext.HttpContext.Request.Host.Host}/{_selLangBll.GetLangId()}/resetPassword";
+                    resetPasswordUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://{host}/{_selLangBll.GetLangId()}/resetPassword";
                 }
                 else if (forgetPwdReq.flag == 2)
                 {
-                    if (Url.ActionContext.HttpContext.Request.Host.Host == "app.n17881788.com")
+                    if (host == "app.n17881788.com")
                     {
                         resetPasswordUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://m.n17881788.com/{_selLangBll.GetLangId()}/resetPassword";
                     }
-                    else if (Url.ActionContext.HttpContext.Request.Host.Host == "app.bwing.com")
+                    else if (host == "app.bwing.com")
                     {
                         resetPasswordUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://m.bwing.com/{_selLangBll.GetLangId()}/resetPassword";
                     }
-                    else if (Url.ActionContext.HttpContext.Request.Host.Host == "app.goal123.com")
+                    else if (host == "app.goal123.com")
                     {
                         resetPasswordUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://m.goal123.com/{_selLangBll.GetLangId()}/resetPassword";
                     }
                     else
                     {
                         //H5
-                        resetPasswordUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://{Url.ActionContext.HttpContext.Request.Host.Host}/resetPassword";
+                        resetPasswordUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://{host}/resetPassword";
                     }
                 }
                 else
                 {
-                    resetPasswordUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://{Url.ActionContext.HttpContext.Request.Host.Host}/resetPassword";
+                    resetPasswordUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://{host}/resetPassword";
                 }
 
                 if (!string.IsNullOrEmpty(forgetPwdReq.Username))
@@ -613,7 +613,7 @@ namespace MemberSite.Controllers.Api
             public string PhoneNo { get; set; }
             public string Username { get; set; }
         }
-        
+
         [HttpPost]
         public async Task<ApiResult<SendOTPSMSResult>> ReSetPwdByOTPAsync(ReSetPwdByOTPReq reSetPwdByOtpReq)
         {
@@ -626,17 +626,17 @@ namespace MemberSite.Controllers.Api
                     AreaCode = reSetPwdByOtpReq.AreaCode,
                     PhoneNo = reSetPwdByOtpReq.PhoneNo
                 };
-                
+
                 if (_checkAttackBll.CheckAttack(checkValue, Request))
                 {
                     Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
                     return null;
                 }
-                
+
                 if (long.TryParse(reSetPwdByOtpReq.PhoneNo, out var phoneNo))
                 {
                     var serverInfo = _serverInfoBll.GetServerInfo();
-                    
+
                     reSetPwdByOtpReq.PhoneNo = phoneNo.ToString();
                     if (_custInfoBll.ExistsPhoneNoAndUserName(reSetPwdByOtpReq.Username, reSetPwdByOtpReq.AreaCode,
                             reSetPwdByOtpReq.PhoneNo, serverInfo.SiteId))
@@ -669,13 +669,13 @@ namespace MemberSite.Controllers.Api
             public string InputOTPcode { set; get; }
             public string NewPassword { set; get; }
         }
-        
+
         [HttpPost]
         public async Task<ApiResult> ReSetPwdVerifyOTPAsync(ReSetPwdVerifyOTPReq req)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
             var custInfoProfile = _custInfoBll.GetCustInfoProfileByUserName(serverInfo.SiteId, req.Username);
-            
+
             var apiResult = await _custInfoBll.ReSetPwdVerifyOTPAsync(custInfoProfile.CustId, req.InputOTPcode);
 
             if (apiResult.ErrorCode == 0)
@@ -696,10 +696,10 @@ namespace MemberSite.Controllers.Api
                 apiResult.ErrorCode = -1;
                 apiResult.Message = _selLangBll.GetMsg("msg_OTP_SendOTPSMS_Fail");
             }
-            
+
             return apiResult;
         }
-        
+
         [HttpPost]
         public ApiResult<Dictionary<string, string>> GetTranslationData(string[] keys)
         {
@@ -1420,5 +1420,15 @@ namespace MemberSite.Controllers.Api
                 Data = await _checkIpBll.CheckIp(_tools.GetClientIP())
             };
         }
+
+        //[HttpPost]
+        //public async Task<ApiResult<bool>> ReCaptchaV3Test()
+        //{
+        //    _recaptchaBll.CreateAssessment();
+        //    return new ApiResult<bool>()
+        //    {
+        //        ErrorCode = (int)ErrorCode.Success
+        //    };
+        //}
     }
 }
