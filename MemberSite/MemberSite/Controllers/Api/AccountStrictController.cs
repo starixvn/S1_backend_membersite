@@ -973,7 +973,7 @@ namespace MemberSite.Controllers.Api
             var host = _serverInfoBll.GetDomain();
             if (host.Split('.')[0] == "app")
             {
-                profileUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://{host.Replace("app", "m")}";
+                profileUrl = $"https://{host.Replace("app", "m")}";
                 req.route = host == "app.n17881788.com" ? "profile" : "member";
             }
             if (!string.IsNullOrEmpty(langId) && req.route != "member")
