@@ -417,10 +417,10 @@
     <value>ID ahli gabungan tidak ditemui</value>
   </data>
   <data name="msg_BankSystemUnstable" xml:space="preserve">
-    <value>Sistem bank tidak dapat mendapatkan butiran</value>
+    <value>Sistem Bank Tidak Stabil</value>
   </data>
   <data name="msg_BankSystemUnstable_Detail" xml:space="preserve">
-    <value>Sistem bank sedang tidak dapat mengambil butiran transaksi, dan tidak dapat memproses deposit anda buat masa ini.</value>
+    <value>Sistem bank tidak dapat mendapatkan butiran</value>
   </data>
   <data name="msg_BankUnderMaintenance" xml:space="preserve">
     <value>Penyelenggaraan Bank</value>
