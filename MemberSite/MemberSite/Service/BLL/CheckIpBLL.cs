@@ -77,6 +77,15 @@ namespace MemberSite.Service.BLL
                 _logger.LogError(e, e.Message);
                 return new IpCountryWithAccess(clientIp, e.Message);
             }
+            catch (Exception e)
+            {
+                _logger.LogError(e, e.Message);
+                return new IpCountryWithAccess(clientIp, e.Message)
+                {
+                    //發生例外不阻擋，避免前台無法進入
+                    Forbidden = false
+                };
+            }
         }
 
         public async Task<bool> CheckBlockIp(string clientIp)

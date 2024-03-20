@@ -2,8 +2,10 @@
 
 using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
+using MemberSite.Service.Model;
 
 using Microsoft.AspNetCore.Routing.Template;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace MemberSite.Extensions.Middlewares
 {
@@ -15,6 +17,8 @@ namespace MemberSite.Extensions.Middlewares
         private readonly ServerInfoBll _serverInfoBll;
         private readonly int[] _supportH5;
         private readonly CheckIpBLL _checkIpBll;
+        private readonly CacheHelper _cacheHelper;
+        private readonly IPBLL _iPBLL;
 
         public SiteMiddleware(IServiceProvider provider, RequestDelegate next)
         {
@@ -25,6 +29,8 @@ namespace MemberSite.Extensions.Middlewares
             var configBll = provider.GetRequiredService<ConfigBLL>();
             _supportH5 = configBll.GetConfigValue<int[]>("SupportH5");
             _checkIpBll = provider.GetRequiredService<CheckIpBLL>();
+            _cacheHelper = provider.GetRequiredService<CacheHelper>();
+            _iPBLL = provider.GetRequiredService<IPBLL>();
         }
 
         public RouteValueDictionary Match(string routeTemplate, string requestPath)
@@ -126,10 +132,29 @@ namespace MemberSite.Extensions.Middlewares
             return true;
         }
 
-        private Task<bool> IsBlockIP(HttpContext context)
+        private async Task<bool> IsBlockIP(HttpContext context)
         {
-            var clientIp = _tools.GetClientIP(context);
-            return _checkIpBll.CheckBlockIp(clientIp);
+            try
+            {
+                var clientIp = _tools.GetClientIP(context);
+                return await _checkIpBll.CheckBlockIp(clientIp);
+            }
+            catch
+            {
+                // 發生例外改從DB取黑名單，避免API服務中斷
+                var _blockIp = _cacheHelper.TryGetOrCreate("GetBlockIP",
+                    new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)),
+                    i => _iPBLL.GetBlockIp<BlockIP>()?.ToDictionary(item => item.IP, item => item.IP)
+                    );
+                if (_blockIp == null || !_blockIp.Any())
+                {
+                    return false;
+                }
+
+                var clientIp = _tools.GetClientIP(context);
+                return _blockIp.TryGetValue(clientIp, out var _);
+            }
+
         }
     }
 }
