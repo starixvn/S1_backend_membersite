@@ -1421,14 +1421,14 @@ namespace MemberSite.Controllers.Api
             };
         }
 
-        [HttpPost]
-        public async Task<ApiResult<bool>> ReCaptchaV3Test()
-        {
-            _recaptchaBll.CreateAssessment();
-            return new ApiResult<bool>()
-            {
-                ErrorCode = (int)ErrorCode.Success
-            };
-        }
+        //[HttpPost]
+        //public async Task<ApiResult<bool>> ReCaptchaV3Test()
+        //{
+        //    _recaptchaBll.CreateAssessment();
+        //    return new ApiResult<bool>()
+        //    {
+        //        ErrorCode = (int)ErrorCode.Success
+        //    };
+        //}
     }
 }
