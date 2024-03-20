@@ -152,30 +152,29 @@ namespace MemberSite.Service.BLL
 
         public string GetHttpDomain()
         {
-            var http = _httpContextAccessor.HttpContext.Request.Scheme;
             var host = string.Empty;
 
             // 先拿Header的origin-host
             if (string.IsNullOrWhiteSpace(host) && _httpContextAccessor.HttpContext.Request.Headers.TryGetValue("origin-host", out var originHost))
             {
-                host = new Uri(originHost).Host.ToString();
+                host = new Uri(originHost).Host;
             }
 
             // 先拿Header的ai-host
             if (string.IsNullOrWhiteSpace(host) && _httpContextAccessor.HttpContext.Request.Headers.TryGetValue("ai-host", out var aiHost))
             {
-                host = new Uri(aiHost).Host.ToString();
+                host = new Uri(aiHost).Host;
             }
 
-            if (string.IsNullOrWhiteSpace(host) && _httpContextAccessor.HttpContext.Request.Headers.ContainsKey("Referer"))
+            if (string.IsNullOrWhiteSpace(host) && _httpContextAccessor.HttpContext.Request.Headers.TryGetValue("Referer", out var referer))
             {
-                host = _httpContextAccessor.HttpContext.Request.Headers["Referer"].ToString();
+                host = new Uri(referer).Host;
             }
 
             if (_appHost.Any(a => a == host))
                 host = $"m{host[host.IndexOf('.')..]}";
 
-            return $"{http}://{host}";
+            return $"https://{host}";
         }
 
         public IEnumerable<Domainlist> GetSupportDomainList(int siteId, int currencyId)
