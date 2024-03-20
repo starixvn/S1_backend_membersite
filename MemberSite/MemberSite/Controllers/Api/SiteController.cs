@@ -528,31 +528,31 @@ namespace MemberSite.Controllers.Api
                 var host = _serverInfoBll.GetDomain();
                 if (forgetPwdReq.flag == 1)
                 {
-                    resetPasswordUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://{host}/{_selLangBll.GetLangId()}/resetPassword";
+                    resetPasswordUrl = $"https://{host}/{_selLangBll.GetLangId()}/resetPassword";
                 }
                 else if (forgetPwdReq.flag == 2)
                 {
                     if (host == "app.n17881788.com")
                     {
-                        resetPasswordUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://m.n17881788.com/{_selLangBll.GetLangId()}/resetPassword";
+                        resetPasswordUrl = $"https://m.n17881788.com/{_selLangBll.GetLangId()}/resetPassword";
                     }
                     else if (host == "app.bwing.com")
                     {
-                        resetPasswordUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://m.bwing.com/{_selLangBll.GetLangId()}/resetPassword";
+                        resetPasswordUrl = $"https://m.bwing.com/{_selLangBll.GetLangId()}/resetPassword";
                     }
                     else if (host == "app.goal123.com")
                     {
-                        resetPasswordUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://m.goal123.com/{_selLangBll.GetLangId()}/resetPassword";
+                        resetPasswordUrl = $"https://m.goal123.com/{_selLangBll.GetLangId()}/resetPassword";
                     }
                     else
                     {
                         //H5
-                        resetPasswordUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://{host}/resetPassword";
+                        resetPasswordUrl = $"https://{host}/resetPassword";
                     }
                 }
                 else
                 {
-                    resetPasswordUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://{host}/resetPassword";
+                    resetPasswordUrl = $"https://{host}/resetPassword";
                 }
 
                 if (!string.IsNullOrEmpty(forgetPwdReq.Username))
