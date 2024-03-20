@@ -36,17 +36,7 @@ namespace MemberSite.Service.BLL
                     return new IpCountryWithAccess(clientIp, "not found in IPCountryList");
                 }
 
-                // 檢查黑名單
-                if (await CheckBlockIp(clientIp))
-                {
-                    return new IpCountryWithAccess(clientIp, "in block ip list.")
-                    {
-                        Code = ipCountry.Code,
-                        Forbidden = true //block
-                    };
-                }
-
-                // 檢查白名單
+                // 1.檢查白名單
                 if (await _cacheHelper.KeyExistsAsync($"AllowedIp:{clientIp}", RedisDataBase.IP))
                 {
                     return new IpCountryWithAccess(clientIp, "in allow ip list.")
@@ -56,7 +46,17 @@ namespace MemberSite.Service.BLL
                     };
                 }
 
-                // 檢查黑名單國家
+                // 2.檢查黑名單
+                if (await CheckBlockIp(clientIp))
+                {
+                    return new IpCountryWithAccess(clientIp, "in block ip list.")
+                    {
+                        Code = ipCountry.Code,
+                        Forbidden = true //block
+                    };
+                }
+
+                // 3.檢查黑名單國家
                 if (string.IsNullOrWhiteSpace(ipCountry.Code) || _forbiddenCountries.TryGetValue(ipCountry.Code.Trim(), out _))
                 {
                     return new IpCountryWithAccess(clientIp, $"CountryCode: [{ipCountry.Code}] is in block country list or can't recognize country code.")
