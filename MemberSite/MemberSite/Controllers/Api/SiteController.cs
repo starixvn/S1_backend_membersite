@@ -525,34 +525,34 @@ namespace MemberSite.Controllers.Api
                 Customer custInfo = null;
 
                 string resetPasswordUrl;
-
+                var host = _serverInfoBll.GetDomain();
                 if (forgetPwdReq.flag == 1)
                 {
-                    resetPasswordUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://{Url.ActionContext.HttpContext.Request.Host.Host}/{_selLangBll.GetLangId()}/resetPassword";
+                    resetPasswordUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://{host}/{_selLangBll.GetLangId()}/resetPassword";
                 }
                 else if (forgetPwdReq.flag == 2)
                 {
-                    if (Url.ActionContext.HttpContext.Request.Host.Host == "app.n17881788.com")
+                    if (host == "app.n17881788.com")
                     {
                         resetPasswordUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://m.n17881788.com/{_selLangBll.GetLangId()}/resetPassword";
                     }
-                    else if (Url.ActionContext.HttpContext.Request.Host.Host == "app.bwing.com")
+                    else if (host == "app.bwing.com")
                     {
                         resetPasswordUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://m.bwing.com/{_selLangBll.GetLangId()}/resetPassword";
                     }
-                    else if (Url.ActionContext.HttpContext.Request.Host.Host == "app.goal123.com")
+                    else if (host == "app.goal123.com")
                     {
                         resetPasswordUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://m.goal123.com/{_selLangBll.GetLangId()}/resetPassword";
                     }
                     else
                     {
                         //H5
-                        resetPasswordUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://{Url.ActionContext.HttpContext.Request.Host.Host}/resetPassword";
+                        resetPasswordUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://{host}/resetPassword";
                     }
                 }
                 else
                 {
-                    resetPasswordUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://{Url.ActionContext.HttpContext.Request.Host.Host}/resetPassword";
+                    resetPasswordUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://{host}/resetPassword";
                 }
 
                 if (!string.IsNullOrEmpty(forgetPwdReq.Username))
