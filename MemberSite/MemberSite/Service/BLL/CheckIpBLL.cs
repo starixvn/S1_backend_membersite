@@ -47,7 +47,7 @@ namespace MemberSite.Service.BLL
                 }
 
                 // 2.檢查黑名單
-                if (await CheckBlockIp(clientIp))
+                if (await _cacheHelper.KeyExistsAsync($"BlockIp:{clientIp}", RedisDataBase.IP))
                 {
                     return new IpCountryWithAccess(clientIp, "in block ip list.")
                     {
@@ -82,15 +82,10 @@ namespace MemberSite.Service.BLL
                 _logger.LogError(e, e.Message);
                 return new IpCountryWithAccess(clientIp, e.Message)
                 {
-                    //發生例外不阻擋，避免前台無法進入
+                    //發生其他例外不阻擋，避免前台無法進入
                     Forbidden = false
                 };
             }
-        }
-
-        public async Task<bool> CheckBlockIp(string clientIp)
-        {
-            return await _cacheHelper.KeyExistsAsync($"BlockIp:{clientIp}", RedisDataBase.IP);
         }
     }
 }
