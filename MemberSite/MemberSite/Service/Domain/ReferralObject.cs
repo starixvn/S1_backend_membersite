@@ -1,5 +1,4 @@
-﻿using MemberSite.Service.Model.enums;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace MemberSite.Service.Domain
 {

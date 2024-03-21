@@ -1,5 +1,4 @@
-﻿using MemberSite.Service.Model.enums;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace MemberSite.Service.Model
 {
@@ -64,8 +63,8 @@ namespace MemberSite.Service.Model
         {
             get
             {
-                return string.IsNullOrWhiteSpace(Currency) ? 
-                    null:
+                return string.IsNullOrWhiteSpace(Currency) ?
+                    null :
                     JsonConvert.DeserializeObject<IEnumerable<int>>(Currency);
             }
         }

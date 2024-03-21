@@ -1,9 +1,9 @@
 using Amazon.S3.Model;
+
 using MemberSite.Extensions;
 using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Library;
-using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.BLL;
 
@@ -18,7 +18,7 @@ public class CustPhotoIdBLL : ICustPhotoIdBLL
     private readonly string _backOfficeBucketName;
 
     public CustPhotoIdBLL(ImageEditorBLL imageEditorBll,
-        ICustPhotoIdService custPhotoIdService, 
+        ICustPhotoIdService custPhotoIdService,
         AWSS3Helper s3Helper,
         ServerInfoBll serverInfoBll,
         IWebHostEnvironment env,
@@ -39,7 +39,7 @@ public class CustPhotoIdBLL : ICustPhotoIdBLL
         await using var fileStream = photo.OpenReadStream();
         using var uploadedImage = await SixLabors.ImageSharp.Image.LoadAsync(fileStream);
         var fileBytes = await _imageEditorBll.Resize(uploadedImage);
-        
+
         var sq = await _custPhotoIdService.SetCustPhotoId(custId, siteId);
         if (sq <= 0)
         {
