@@ -54,13 +54,21 @@ namespace MemberSite.Extensions.Middlewares
         {
             try
             {
-                if (!context.Request.Path.Value.Contains("/api/Site/GetIpCountry", StringComparison.OrdinalIgnoreCase) &&
-                    await IsForbidden(context))
+                var check = true;
+                var path = context.Request.Path.Value;
+                // 不檢查api黑名單的路徑
+                if (path.Contains("/api/Site/GetIpCountry", StringComparison.OrdinalIgnoreCase) || 
+                    path.Contains("/health", StringComparison.OrdinalIgnoreCase))
+                {
+                    check = false;
+                }
+                           
+                if (check && await IsForbidden(context)) 
                 {
                     context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
                     return;
                 }
-                else if (IsGetMethod(context) && IsSupportContentType(context))
+                else if(IsGetMethod(context) && IsSupportContentType(context))
                 {
                     var host = context.Request.Host.Host;
                     if (!IPAddress.TryParse(host, out var pAddress) && _supportH5 != null && _tools.IsMobile() && _supportH5.Any(x => x == _serverInfoBll.GetServerInfo().SiteId) && !host.StartsWith("m.", StringComparison.OrdinalIgnoreCase) && !host.StartsWith("mrelease.", StringComparison.OrdinalIgnoreCase))
