@@ -2,9 +2,10 @@
 {
     public enum DataBase
     {
-        Main, 
+        Main,
         Report,
         Log,
         ReportBackupDB,
+        ReportIPTable,
     }
 }

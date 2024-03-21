@@ -5,8 +5,6 @@ using Dapper;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
-using static MongoDB.Driver.WriteConcern;
-using System.Drawing.Printing;
 
 namespace MemberSite.Service.DAL
 {

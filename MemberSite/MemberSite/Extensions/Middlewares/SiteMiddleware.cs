@@ -1,10 +1,11 @@
 ﻿using System.Net;
-using MemberSite.Service.Library;
-using MemberSite.Service.Model;
-using Microsoft.AspNetCore.Routing.Template;
-using Microsoft.Extensions.Caching.Memory;
 
-namespace MemberSite.Service.BLL
+using MemberSite.Service.BLL;
+using MemberSite.Service.Library;
+
+using Microsoft.AspNetCore.Routing.Template;
+
+namespace MemberSite.Extensions.Middlewares
 {
     public class SiteMiddleware
     {
@@ -12,9 +13,9 @@ namespace MemberSite.Service.BLL
         private readonly SelLangBLL _selLangBll;
         private readonly Tools _tools;
         private readonly ServerInfoBll _serverInfoBll;
-        private readonly IPBLL _iPBLL;
-        private readonly CacheHelper _cacheHelper;
         private readonly int[] _supportH5;
+        private readonly CheckIpBLL _checkIpBll;
+
 
         public SiteMiddleware(IServiceProvider provider, RequestDelegate next)
         {
@@ -22,11 +23,11 @@ namespace MemberSite.Service.BLL
             _selLangBll = provider.GetRequiredService<SelLangBLL>();
             _tools = provider.GetRequiredService<Tools>();
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
-            _iPBLL = provider.GetRequiredService<IPBLL>();
-            _cacheHelper = provider.GetRequiredService<CacheHelper>();
             var configBll = provider.GetRequiredService<ConfigBLL>();
             _supportH5 = configBll.GetConfigValue<int[]>("SupportH5");
+            _checkIpBll = provider.GetRequiredService<CheckIpBLL>();
         }
+
         public RouteValueDictionary Match(string routeTemplate, string requestPath)
         {
             var template = TemplateParser.Parse(routeTemplate);
@@ -35,6 +36,7 @@ namespace MemberSite.Service.BLL
             matcher.TryMatch(requestPath, values);
             return values;
         }
+
         private RouteValueDictionary GetDefaults(RouteTemplate parsedTemplate)
         {
             var result = new RouteValueDictionary();
@@ -47,16 +49,26 @@ namespace MemberSite.Service.BLL
             }
             return result;
         }
+
         public async Task Invoke(HttpContext context)
         {
             try
             {
-                if (IsBlockIP(context))
+                var check = true;
+                var path = context.Request.Path.Value;
+                // 不檢查api黑名單的路徑
+                if (path.Contains("/api/Site/GetIpCountry", StringComparison.OrdinalIgnoreCase) || 
+                    path.Contains("/health", StringComparison.OrdinalIgnoreCase))
+                {
+                    check = false;
+                }
+                           
+                if (check && await IsForbidden(context)) 
                 {
                     context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
                     return;
                 }
-                else if (IsGetMethod(context) && IsSupportContentType(context))
+                else if(IsGetMethod(context) && IsSupportContentType(context))
                 {
                     var host = context.Request.Host.Host;
                     if (!IPAddress.TryParse(host, out var pAddress) && _supportH5 != null && _tools.IsMobile() && _supportH5.Any(x => x == _serverInfoBll.GetServerInfo().SiteId) && !host.StartsWith("m.", StringComparison.OrdinalIgnoreCase) && !host.StartsWith("mrelease.", StringComparison.OrdinalIgnoreCase))
@@ -75,9 +87,9 @@ namespace MemberSite.Service.BLL
                             host = host.Substring(dotIndex + 1);
                         }
 
-                        if ((controller != null && controller.ToString().Equals("Home", StringComparison.OrdinalIgnoreCase)) || (controller1 != null && controller1.ToString().Equals("Home", StringComparison.OrdinalIgnoreCase)))
+                        if (controller != null && controller.ToString().Equals("Home", StringComparison.OrdinalIgnoreCase) || controller1 != null && controller1.ToString().Equals("Home", StringComparison.OrdinalIgnoreCase))
                         {
-                            if ((action != null && action.ToString().Equals("Register", StringComparison.OrdinalIgnoreCase)) || (action1 != null && action1.ToString().Equals("Register", StringComparison.OrdinalIgnoreCase)))
+                            if (action != null && action.ToString().Equals("Register", StringComparison.OrdinalIgnoreCase) || action1 != null && action1.ToString().Equals("Register", StringComparison.OrdinalIgnoreCase))
                             {
                                 context.Response.Redirect($"{context.Request.Scheme}://m.{host}/join{context.Request.QueryString.Value}");
                             }
@@ -108,34 +120,28 @@ namespace MemberSite.Service.BLL
                 {
                     await _next.Invoke(context);
                 }
-
             }
-            catch (Exception)
+            catch
             {
-                throw;
+                await _next.Invoke(context);
             }
         }
+
         private bool IsGetMethod(HttpContext context)
         {
             return string.Equals("GET", context.Request.Method, StringComparison.OrdinalIgnoreCase);
         }
+
         private bool IsSupportContentType(HttpContext context)
         {
             return true;
         }
-        private bool IsBlockIP(HttpContext context)
-        {
-            var key = $"GetBlockIP";
-            var _blockIp = _cacheHelper.TryGetOrCreate(key,
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)),
-                i => _iPBLL.GetBlockIp<BlockIP>());
-            if (_blockIp == null || !_blockIp.Any())
-            {
-                return false;
-            }
 
+        private async Task<bool> IsForbidden(HttpContext context)
+        {
             var clientIp = _tools.GetClientIP(context);
-            return _blockIp.Any(x => x.IP == clientIp);
+            var ipCountry = await _checkIpBll.CheckIp(clientIp);
+            return ipCountry.Forbidden;
         }
     }
 }

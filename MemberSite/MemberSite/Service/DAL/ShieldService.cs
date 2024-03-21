@@ -1,6 +1,8 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
+
 using Dapper;
+
 using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
@@ -16,7 +18,7 @@ public class ShieldService
     private readonly MySqlClient _mainDbClient;
     private readonly MySqlClient _reportDbClient;
 
-    
+
     public ShieldService(IServiceProvider provider)
     {
         _courierAdapter = provider.GetRequiredService<CourierAdapter>();

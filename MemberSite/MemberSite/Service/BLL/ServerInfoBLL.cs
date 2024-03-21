@@ -6,7 +6,6 @@ using MemberSite.Service.Model;
 
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Hosting;
 
 using Newtonsoft.Json;
 

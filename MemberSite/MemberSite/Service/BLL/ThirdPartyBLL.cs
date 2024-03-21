@@ -1,7 +1,9 @@
 ﻿using System.Collections.Concurrent;
+
 using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
+
 using Microsoft.Extensions.Caching.Memory;
 
 namespace MemberSite.Service.BLL
@@ -25,7 +27,7 @@ namespace MemberSite.Service.BLL
             _thirdPartyModelContainer = new ConcurrentDictionary<string, ThirdPartyModel>();
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _courierAdapter = provider.GetRequiredService<CourierAdapter>();
-            
+
             var configBll = provider.GetRequiredService<ConfigBLL>();
             _tpServiceApiUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost").TpService;
             _cacheHelper = provider.GetRequiredService<CacheHelper>();

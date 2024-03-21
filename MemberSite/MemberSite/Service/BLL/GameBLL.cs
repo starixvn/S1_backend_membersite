@@ -65,7 +65,7 @@ namespace MemberSite.Service.BLL
             }
         }
 
-        public async Task<IEnumerable<GameProvider>> GetGameProviderByCategory(int siteId, int currencyId, TpCategory tpCategory , Dictionary<string, string> changeGameImgName)
+        public async Task<IEnumerable<GameProvider>> GetGameProviderByCategory(int siteId, int currencyId, TpCategory tpCategory, Dictionary<string, string> changeGameImgName)
         {
             return await _cacheHelper.TryGetOrCreateAsync($"GetGameProviderByCategory:{currencyId}:{siteId}:{tpCategory}",
                 TimeSpan.FromMinutes(10),

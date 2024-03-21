@@ -1,10 +1,12 @@
 ﻿using System.Security.Claims;
+
 using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Game;
 using MemberSite.Service.Model.Lobby;
+
 using Newtonsoft.Json;
 
 namespace MemberSite.Service.BLL
@@ -76,7 +78,7 @@ namespace MemberSite.Service.BLL
 
             // 取得SlotGame相關資料
             var providerList = await GetSlotGameProviderList(siteId, currencyId, TpCategory.Casino);
-            var slotGameList = await GetSlotGameList(siteId, currencyId, request.DeviceType);   
+            var slotGameList = await GetSlotGameList(siteId, currencyId, request.DeviceType);
             var lobbyCategorySequence = await _lobbyCategoryBll.GetLobbyCategorySequenceByLobbyCategoryId(siteId, currencyId, LobbyCategory.Slots);
             var slotGameTopRanking = await GetSlotGameTopRanking(siteId, currencyId);
 
@@ -232,7 +234,7 @@ namespace MemberSite.Service.BLL
             {
                 detail.ImgTpName = _changeGameImgName.TryGetValue(detail.ImgTpName, out var changeName) ? changeName : detail.ImgTpName;
             }
-            
+
             foreach (var item in data)
             {
                 var isMaintain = false;
@@ -341,7 +343,8 @@ namespace MemberSite.Service.BLL
         {
             // 遊戲組入排序欄位
             return slotGameList
-               .Select(sgl => {
+               .Select(sgl =>
+               {
                    // 不分TpId排序參數 (TpId = 0的設定資料)
                    sgl.Top = slotGameTopRanking.Find(x => x.NoneTpId == 0 && x.SlotGameId == sgl.SlotGameId)?.Sort ?? 99999;
                    // 指定TpId排序參數 (TpId > 0的設定資料)

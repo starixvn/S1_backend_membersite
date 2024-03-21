@@ -1,12 +1,14 @@
 ﻿using Amazon.S3.Model;
+
 using MemberSite.Service.BLL;
 using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
+
 using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
@@ -43,13 +45,13 @@ namespace MemberSite.Controllers.Api
             _paymentBll = provider.GetRequiredService<PaymentBLL>();
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _bankInfoBll = provider.GetRequiredService<BankInfoBLL>();
-            
+
             _selLangBll = provider.GetRequiredService<SelLangBLL>();
             _walletBll = provider.GetRequiredService<WalletBLL>();
             _iovationBll = provider.GetRequiredService<IovationBLL>();
             _cryptoPayInfoBll = provider.GetRequiredService<CryptoPayInfoBll>();
             _loadCardPayInfoBll = provider.GetRequiredService<LoadCardPayInfoBLL>();
-            
+
             _payInfoBll = provider.GetRequiredService<PayInfoBLL>();
             _promotionBll = provider.GetRequiredService<PromotionBll>();
             _custInfoService = provider.GetRequiredService<CustInfoService>();
@@ -213,7 +215,7 @@ namespace MemberSite.Controllers.Api
             }
 
             var apiResult = await DepositByLocalBankAsync(authData.CustId, req);
-            
+
             return apiResult;
         }
 
@@ -296,16 +298,16 @@ namespace MemberSite.Controllers.Api
                     RawMessage = checkResult.Message
                 };
             }
-            
+
             var custId = authData.CustId;
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var result = DepositByLocalPayment(custId, req.GroupId, req.Amount);
 
-            if (result.ErrorCode != (int) ErrorCode.Success)
+            if (result.ErrorCode != (int)ErrorCode.Success)
                 return result;
-            
+
             var transId = result.Data.TransId;
-            
+
             if (hasPromotion)
             {
                 if (!_promotionBll.SetDepositPromotionQueue(
@@ -321,7 +323,7 @@ namespace MemberSite.Controllers.Api
                     _logger.LogError($"TransId:{transId} SetDepositPromotionQueue Failed");
                 }
             }
-            
+
             return result;
         }
 
@@ -519,24 +521,24 @@ namespace MemberSite.Controllers.Api
             }
 
             switch (result)
-                {
-                    case 0:
-                    case 2:
-                        apiResult.ErrorCode = result;
-                        apiResult.Message = _selLangBll.GetMsg("msg_WithdrawalSuccessful");
-                        break;
-                    case -1:
+            {
+                case 0:
+                case 2:
+                    apiResult.ErrorCode = result;
+                    apiResult.Message = _selLangBll.GetMsg("msg_WithdrawalSuccessful");
+                    break;
+                case -1:
+                    apiResult.ErrorCode = 9000;
+                    apiResult.Message = _selLangBll.GetMsg("msg_MustInteger");
+                    break;
+                default:
+                    {
                         apiResult.ErrorCode = 9000;
-                        apiResult.Message = _selLangBll.GetMsg("msg_MustInteger");
+                        apiResult.Message = _selLangBll.GetMsg("msg_WithdrawalFailed");
                         break;
-                    default:
-                        {
-                            apiResult.ErrorCode = 9000;
-                            apiResult.Message = _selLangBll.GetMsg("msg_WithdrawalFailed");
-                            break;
-                        }
-                }
-           
+                    }
+            }
+
             return apiResult;
         }
 
@@ -870,7 +872,7 @@ namespace MemberSite.Controllers.Api
 
                     var putRequest = new PutObjectRequest();
                     var key = $"deposit/{depositReceipt.TransId}_{receiptNo}.png";
-                    putRequest.BucketName =  _paymentBucketName; // Your bucket name
+                    putRequest.BucketName = _paymentBucketName; // Your bucket name
                     putRequest.ContentType = "image/png";
                     putRequest.InputStream = stream;
                     putRequest.Key = key;
@@ -1037,7 +1039,7 @@ namespace MemberSite.Controllers.Api
 
             return result;
         }
-        
+
         /// <summary>
         /// </summary>
         /// For Ivorysport PAGCOR
@@ -1609,7 +1611,7 @@ namespace MemberSite.Controllers.Api
             #endregion
             return DoWithdrawal(apiResult, authData, custInfo, withdrawalReqModel, custBankInfo, WithdrawalTypeStatus.EWallet, null);
         }
-        
+
         [HttpPost]
         public ApiResult<IEnumerable<WithdrawalBlockSetting>> GetWithdrawalBlockSetting()
         {
@@ -1623,13 +1625,13 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
 
-            var custInfo =  _custInfoBll.GetCustInfoWithCache(authData.CustId);
-            var data = 
+            var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+            var data =
                 _payInfoBll.GetWithdrawalBlockSettingWithCache(custInfo.SiteId, custInfo.CurrencyId);
 
             apiResult.Data = data;
             apiResult.ErrorCode = 0;
-            
+
             return apiResult;
         }
 
@@ -1645,14 +1647,14 @@ namespace MemberSite.Controllers.Api
                     Message = _selLangBll.GetMsg("msg_ForceLogedout")
                 };
             }
-            
+
             return new ApiResult<IDictionary<string, PayMethod>>
             {
                 Data = _payInfoBll.GetPayInfoListAll(authData.CustId),
                 ErrorCode = 0
             };
         }
-        
+
         /// <summary>
         /// 舊的site沒有改用GetPayInfoListAll，等都轉移去新平台再一起拔掉
         /// </summary>
@@ -1667,29 +1669,29 @@ namespace MemberSite.Controllers.Api
                     Message = _selLangBll.GetMsg("msg_ForceLogedout")
                 };
             }
-            
+
             return new ApiResult<IDictionary<string, PayMethod>>
             {
                 Data = _payInfoBll.GetOnlineBankMethods(
-                    new []{ DepositType.QuickTransfer }, authData.CustId),
-                
+                    new[] { DepositType.QuickTransfer }, authData.CustId),
+
                 ErrorCode = 0
             };
         }
-        
+
         public class DepositReqLocalPaymentReq : ILocalBankReq
         {
             public int ChannelId { set; get; }
             public decimal Amount { set; get; }
             public string BonusCode { set; get; }
             public DepositType DepositType { set; get; }
-            
+
             // LOCAL BANK
             public int SysId { set; get; }
             public int BankId { set; get; }
             public string Code { set; get; }
         }
-        
+
         private interface ILocalBankReq
         {
             public decimal Amount { set; get; }
@@ -1697,7 +1699,7 @@ namespace MemberSite.Controllers.Api
             public int BankId { set; get; }
             public string Code { set; get; }
         }
-        
+
         [HttpPost]
         public async Task<ApiResult<object>> DepositReqLocalPaymentAsync(DepositReqLocalPaymentReq req)
         {
@@ -1719,7 +1721,7 @@ namespace MemberSite.Controllers.Api
                     RawMessage = checkResult.Message
                 };
             }
-            
+
             var custId = authData.CustId;
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
             string transId;
@@ -1733,10 +1735,10 @@ namespace MemberSite.Controllers.Api
 
                     result = new ApiResult<object>(localBankResult.ErrorCode,
                         localBankResult.Message,
-                        new {TransId = transId, localBankResult.Data?.Code});
-                    
+                        new { TransId = transId, localBankResult.Data?.Code });
+
                     break;
-                
+
                 case DepositType.CryptoWallet:
                     var cryptoWalletResult = await DepositByCryptoWalletAsync(authData.CustId, req.ChannelId * -1, req.Amount);
                     transId = cryptoWalletResult.Data?.ThirdId;
@@ -1744,9 +1746,9 @@ namespace MemberSite.Controllers.Api
                     result = new ApiResult<object>(cryptoWalletResult.ErrorCode,
                         cryptoWalletResult.Message,
                         cryptoWalletResult.Data);
-                    
+
                     break;
-                
+
                 default:
                     var localPaymentResult = DepositByLocalPayment(custId, req.ChannelId * -1, req.Amount);
                     transId = localPaymentResult.Data?.TransId;
@@ -1754,7 +1756,7 @@ namespace MemberSite.Controllers.Api
                     result = new ApiResult<object>(localPaymentResult.ErrorCode,
                         localPaymentResult.Message,
                         localPaymentResult.Data);
-                    
+
                     break;
             }
 
@@ -1776,7 +1778,7 @@ namespace MemberSite.Controllers.Api
                     _logger.LogError($"TransId:{transId} SetDepositPromotionQueue Failed");
                 }
             }
-            
+
             return result;
         }
 
@@ -1906,7 +1908,7 @@ namespace MemberSite.Controllers.Api
             if (errorCode != (int)ErrorCode.Success)
             {
                 _logger.LogError($"({errorCode}) {message}");
-                
+
             }
 
             return new ApiResult<PayResult>
@@ -1915,7 +1917,7 @@ namespace MemberSite.Controllers.Api
                 ErrorCode = errorCode
             };
         }
-        
+
         private async Task<ApiResult<DepositRep3>> DepositByLocalBankAsync(int custId, ILocalBankReq req)
         {
             var key = $"Deposit:LocalBank:{custId}:{req.SysId}";
@@ -1931,7 +1933,7 @@ namespace MemberSite.Controllers.Api
                     Message = "Duplicate request."
                 };
             }
-            
+
             if (_bankInfoOffBll.GetCustOffDepositSysId(custId).Contains(req.SysId))
             {
                 return new ApiResult<DepositRep3>
@@ -1940,16 +1942,16 @@ namespace MemberSite.Controllers.Api
                     Message = "A deposit with the same bank already exists. Please complete it before trying again."
                 };
             }
-            
+
             var errorCode = _paymentBll.DepositReqLocalBank(
                 custId,
                 req.SysId,
-                req.BankId, 
+                req.BankId,
                 req.Amount,
                 string.Empty,
                 req.Code,
                 out var depositRep);
-            
+
             return new ApiResult<DepositRep3>
             {
                 ErrorCode = errorCode,
