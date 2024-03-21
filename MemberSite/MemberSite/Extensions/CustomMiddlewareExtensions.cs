@@ -10,7 +10,7 @@ namespace MemberSite.Extensions
         public static IApplicationBuilder UseResponseLogMiddleware(this IApplicationBuilder builder)
             => builder.UseMiddleware<ResponseLogMiddleware>();
 
-        public static IApplicationBuilder UseSiteMiddleware(this IApplicationBuilder builder)
-            => builder.UseMiddleware<SiteMiddleware>();
+        public static IApplicationBuilder UseBlockMiddleware(this IApplicationBuilder builder)
+            => builder.UseMiddleware<BlockMiddleware>();
     }
 }
