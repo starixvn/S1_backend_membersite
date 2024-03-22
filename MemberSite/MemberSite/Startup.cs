@@ -112,7 +112,7 @@ namespace MemberSite
             services.AddSingleton<DeepLinkService>();
             services.AddSingleton<IVerificationRewardService, VerificationRewardService>();
             services.AddSingleton<ICustPhotoIdService, CustPhotoIdService>();
-            services.AddTransient<WorldCupPredictionService>();
+            services.AddTransient<CupEventService>();
             services.AddTransient<RecaptchaService>();
             services.AddSingleton<PartitionService>();
             services.AddTransient<CurrencyService>();
@@ -175,10 +175,9 @@ namespace MemberSite
             services.AddSingleton<PayInfoBLL>();
             services.AddSingleton<LineLoginBLL>();
             services.AddSingleton<SiteBll>();
-            services.AddTransient<WorldCupPredictionBLL>();
             services.AddSingleton<IPBLL>();
             services.AddSingleton<ShieldBLL>();
-            services.AddTransient<WorldCupPredictionBLL>();
+            services.AddTransient<CupEventBLL>();
             services.AddSingleton<SlotGameBLL>();
             services.AddTransient<IHotGameBLL, HotGameBLL>();
             services.AddTransient<RecaptchaBLL>();

@@ -1,0 +1,128 @@
+﻿using System.Data;
+using Dapper;
+using MemberSite.Service.Library;
+using MemberSite.Service.Model;
+using MemberSite.Service.Model.enums;
+using MySql.Data.MySqlClient;
+
+namespace MemberSite.Service.DAL
+{
+    public class CupEventService
+    {
+        private readonly MySqlClient _mainDbClient;
+
+        public CupEventService(IServiceProvider provider)
+        {
+            _mainDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Main); ;
+        }
+
+        #region 隊伍設定
+
+        /// <summary>
+        /// 取得後台使用者設定的世界盃設定
+        /// </summary>
+        /// <param name="langId">語系Id，看前端傳什語系</param>
+        /// <returns></returns>
+        public IEnumerable<CupEventPredictionSettingDto> GetCupEventPredictionSetting(string langId)
+        {
+            var p = new DynamicParameters();
+            p.Add("LangId", langId, dbType: DbType.String);
+            return _mainDbClient.Query<CupEventPredictionSettingDto>("Admin_CupEventPredictionSetting_Get", p);
+        }
+
+        /// <summary>
+        /// 取得世界盃所有國家 Id 與英文名稱
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<CupEventPredictionOptionsDto> GetCupEventPredictionOptions()
+        {
+            return _mainDbClient.Query<CupEventPredictionOptionsDto>("Admin_CupEventPredictionOptions_Get");
+        }
+
+        #endregion
+
+        #region 充值 & 發票
+
+        /// <summary>
+        /// 取得玩家活動內存款清單
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<MemberDepositDto> GetMemberDeposit(int siteId, int custId ,int currencyId)
+        {
+            var p = new DynamicParameters();
+            p.Add("_CustId", custId, dbType: DbType.Int64);
+            p.Add("_SiteId", siteId, dbType: DbType.Int64);
+            p.Add("_CurrencyId", currencyId, dbType: DbType.Int64);
+            return _mainDbClient.Query<MemberDepositDto>("Service_CupEventPromotionMissionDeposit_Get", p);
+        }
+
+        /// <summary>
+        /// 取得玩家的流水總額
+        /// </summary>
+        /// <param name="custId"></param>
+        /// <param name="siteId"></param>
+        /// <param name="currencyId"></param>
+        /// <param name="tpCategoryId"></param>
+        /// <returns></returns>
+        public decimal GetCupEventPromotionMissionTurnover(int siteId,int custId,int currencyId,int tpCategoryId)
+        {
+            var p = new DynamicParameters();
+            p.Add("_CustId", custId, dbType: DbType.Int64);
+            p.Add("_SiteId", siteId, dbType: DbType.Int64);
+            p.Add("_CurrencyId", currencyId, dbType: DbType.Int64);
+            p.Add("_TpCategoryId", tpCategoryId, dbType: DbType.Int64);
+            return _mainDbClient.QueryFirst<decimal>("Service_CupEventPromotionMissionTurnover_Get", p);
+        }
+        
+        /// <summary>
+        /// 新增玩家票券
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public Task<int> InsertCupEventMemberTicket(CustTicketInfoDto data)
+        {
+            return _mainDbClient.ExecuteAsync("Service_CupEventMemberTicketInfo_Ins", new
+            {
+                _SiteId = data.SiteId,
+                _CustId = data.CustId,
+                _CurrencyId = data.CurrencyId,
+                _TicketType = data.TicketType,
+                _TicketStatus = data.TicketStatus,
+                _TransId = data.TransId
+            });
+        }
+        
+        /// <summary>
+        /// 取得玩家的票券
+        /// </summary>
+        /// <param name="custId"></param>
+        /// <returns></returns>
+        public IEnumerable<CupEventMemberTicketInfoDto> GetCupEventMemberTicketInfo(int custId)
+        {
+            var p = new DynamicParameters();
+            p.Add("_CustId", custId, dbType: DbType.Int64);
+            return _mainDbClient.Query<CupEventMemberTicketInfoDto>("Member_CupEventMemberTicketInfo_Get", p);
+        }
+
+        /// <summary>
+        /// 取得世界盃充值，投票設定時間
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<CupEventDateSettingDto> GetCupEventDateSetting()
+        {
+            return _mainDbClient.Query<CupEventDateSettingDto>("Service_CupEventDateSetting_Get");
+        }
+
+        public Task<int> UserPollTicketAsync(int custId, UserPollTicketRequest request , MySqlTransaction trans)
+        {
+            var p = new DynamicParameters();
+            p.Add("_CustId", custId, dbType: DbType.Int64);
+            p.Add("_TicketType", request.TicketType, dbType: DbType.Byte);
+            p.Add("_TeamId", request.CountryId, dbType: DbType.Int64);
+
+            return _mainDbClient.ExecuteAsync("Member_PollTicketInfo_Set",trans, p);
+        }
+
+        #endregion
+    }
+}

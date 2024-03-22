@@ -6,7 +6,7 @@ namespace MemberSite.Service.Model
 {
     #region 隊伍設定
 
-    public class WorldCupPredictionSettingRequest
+    public class CupEventPredictionSettingRequest
     {
         /// <summary>
         /// 語系 Id
@@ -14,44 +14,44 @@ namespace MemberSite.Service.Model
         public string LangId { get; set; }
     }
 
-    public class WorldCupPredictionSettingResponse
+    public class CupEventPredictionSettingResponse
     {
         /// <summary>
         /// 32強
         /// </summary>
-        [JsonPropertyName("top32Team")]
-        public IEnumerable<WorldCupEventSetting> Top32Team { get; set; }
+        [JsonPropertyName("top24Team")]
+        public IEnumerable<CupEventSetting> Top24Team { get; set; }
 
         /// <summary>
         /// 16 強
         /// </summary>
         [JsonPropertyName("roundOf16")]
-        public IEnumerable<WorldCupEventSetting> RoundOf16 { get; set; }
+        public IEnumerable<CupEventSetting> RoundOf16 { get; set; }
 
         /// <summary>
         /// 8強
         /// </summary>
         [JsonPropertyName("quarterFinals")]
-        public IEnumerable<WorldCupEventSetting> QuarterFinals { get; set; }
+        public IEnumerable<CupEventSetting> QuarterFinals { get; set; }
 
 
         /// <summary>
         /// 4強
         /// </summary>
         [JsonPropertyName("semiFinals")]
-        public IEnumerable<WorldCupEventSetting> SemiFinals { get; set; }
+        public IEnumerable<CupEventSetting> SemiFinals { get; set; }
 
         /// <summary>
         /// 季軍戰爭奪隊伍
         /// </summary>
         [JsonPropertyName("3rdPlace")]
-        public IEnumerable<WorldCupEventSetting> ThirdRdPlace { get; set; }
+        public IEnumerable<CupEventSetting> ThirdRdPlace { get; set; }
 
         /// <summary>
         /// 冠軍戰爭奪隊伍
         /// </summary>
         [JsonPropertyName("final")]
-        public IEnumerable<WorldCupEventSetting> Final { get; set; }
+        public IEnumerable<CupEventSetting> Final { get; set; }
 
         /// <summary>
         /// 16 強之後所有比賽時間
@@ -66,7 +66,7 @@ namespace MemberSite.Service.Model
         public SelectOptions SelectOptions { get; set; }
     }
 
-    public class WorldCupPredictionCountry
+    public class CupEventPredictionCountry
     {
         /// <summary>
         /// 國家Id
@@ -81,7 +81,7 @@ namespace MemberSite.Service.Model
         public string CountryName { get; set; }
     }
 
-    public class WorldCupEventSetting
+    public class CupEventSetting
     {
         /// <summary>
         /// 國家名稱
@@ -102,7 +102,7 @@ namespace MemberSite.Service.Model
         public int Sort { get; set; }
     }
 
-    public class WorldCupPredictionOptionsDto
+    public class CupEventPredictionOptionsDto
     {
         /// <summary>
         /// 隊伍Id
@@ -115,7 +115,7 @@ namespace MemberSite.Service.Model
         public string TeamName { get; set; }
     }
 
-    public class WorldCupPredictionSettingDto
+    public class CupEventPredictionSettingDto
     {
         /// <summary>
         /// 隊伍Id
@@ -150,7 +150,8 @@ namespace MemberSite.Service.Model
     #endregion
 
     #region 充值 & 發票
-
+    
+    
     public class MemberDepositTicketInfoResponse
     {
         /// <summary>
@@ -158,18 +159,16 @@ namespace MemberSite.Service.Model
         /// </summary>
         [JsonPropertyName("userName")]
         public string UserName { get; set; }
-
+        
         /// <summary>
-        /// 票券門檻，第一張到第三張分別需要達標金額
+        /// 活動任務
         /// </summary>
-        [JsonPropertyName("ticketLimit")]
-        public List<int> TicketLimit { get; set; }
-
+        public IEnumerable<PromotionMission> PromotionMission { get; set; }
+        
         /// <summary>
-        /// 玩家期間內累積充值金額 2022/08/01 ~ 2022/10/31
+        /// 活動進度
         /// </summary>
-        [JsonPropertyName("DepositAmount")]
-        public decimal DepositAmount { get; set; }
+        public CupEventPromotionMissionProgress CupEventPromotionMissionProgress { get; set; }
 
         /// <summary>
         /// 玩家有幾張票可以用
@@ -182,6 +181,12 @@ namespace MemberSite.Service.Model
         /// </summary>
         [JsonPropertyName("usedTickets")]
         public int UsedTickets { get; set; }
+        
+        /// <summary>
+        /// 玩家未使用的票數
+        /// </summary>
+        [JsonPropertyName("unUsedTickets")]
+        public int UnUsedTickets { get; set; }
 
         /// <summary>
         /// 玩家投票紀錄
@@ -194,6 +199,8 @@ namespace MemberSite.Service.Model
         /// </summary>
         [JsonPropertyName("selectOptions")]
         public SelectOptions SelectOptions { get; set; }
+        
+        public int ErrorCode { get; set; }
     }
 
     public class GroupSelect
@@ -237,15 +244,16 @@ namespace MemberSite.Service.Model
         [JsonPropertyName("groupF")]
         public List<GroupSelect> GroupF { get; set; }
 
-        [JsonPropertyName("groupG")]
-        public List<GroupSelect> GroupG { get; set; }
-
-        [JsonPropertyName("groupH")]
-        public List<GroupSelect> GroupH { get; set; }
+        // [JsonPropertyName("groupG")]
+        // public List<GroupSelect> GroupG { get; set; }
+        //
+        // [JsonPropertyName("groupH")]
+        // public List<GroupSelect> GroupH { get; set; }
     }
 
     public class UserTicket
     {
+        public int TicketType { get; set; }
         /// <summary>
         /// 國家Id
         /// </summary>
@@ -255,61 +263,79 @@ namespace MemberSite.Service.Model
         /// <summary>
         /// 票券狀態 1:Active 可用
         /// 票券狀態 2:Finished 已選
-        /// 票券狀態 3:Unstated 為選
+        /// 票券狀態 3:Unstated 未選
         /// </summary>
         [JsonPropertyName("ticketStatus")]
-        public WorldCupUserTicketStatus TicketStatus { get; set; }
+        public CupEventUserTicketStatus TicketStatus { get; set; }
     }
 
+    public class GroupCountryTicket
+    {
+        /// <summary>
+        /// 國家Id
+        /// </summary>
+        [JsonPropertyName("countryId")]
+        public int? CountryId { get; set; }
+
+        /// <summary>
+        /// Group By CountryId 的票數
+        /// </summary>
+        [JsonPropertyName("count")]
+        public int Count { get; set; }
+    }
+    
     public class UserTicketResult
     {
-        [JsonPropertyName("ticket1")]
-        public UserTicket Ticket1 { get; set; }
-
-        [JsonPropertyName("ticket2")]
-        public UserTicket Ticket2 { get; set; }
-
-        [JsonPropertyName("ticket3")]
-        public UserTicket Ticket3 { get; set; }
+        public List<UserTicket> TicketList { get; set; }
+        public List<GroupCountryTicket> GroupCountryTicket { get; set; }
     }
 
-    public class MemberDepositAmountDailyDto
+    public class MemberDepositDto
     {
+        /// <summary>
+        /// 存款單
+        /// </summary>
+        public string TransId { get; set; }
+        
         /// <summary>
         /// 充值金額
         /// </summary>
         public decimal DepositAmount { get; set; }
 
         /// <summary>
-        /// 歸帳日期
+        /// 存款日期
         /// </summary>
-        public DateTime AccountDate { get; set; }
+        public DateTime StatementTime { get; set; }
     }
 
-    public class DepositAmountSettingDto
+    
+    public class CustTicketInfoDto
     {
         public int SiteId { get; set; }
 
+        public int CustId { get; set; }
+
         public int CurrencyId { get; set; }
 
-        /// <summary>
-        /// 累積存款標準
-        /// </summary>
-        public decimal Amount { get; set; }
-
-        /// <summary>
-        /// 票券類型 Ticket1:1;Ticket2:2;Ticket3:3
-        /// </summary>
         public int TicketType { get; set; }
-    }
 
-    public class WorldCupMemberTicketInfoDto
+        public byte TicketStatus { get; set; }
+        public string TransId { get; set; }
+    }
+    
+    public class CupEventMemberTicketInfoDto
     {
+        public int SQ { get; set; }
         public int TicketType { get; set; }
         public int? TeamId { get; set; }
+        
+        /// <summary>
+        /// 使用綁定的存款單
+        /// </summary>
+        public string TransId { get; set; }
     }
 
-    public class WorldCupDateSettingDto
+    public class CupEventDateSettingDto
     {
         public int SiteId { get; set; }
 
@@ -340,5 +366,11 @@ namespace MemberSite.Service.Model
         public int CountryId { get; set; }
     }
 
+    public class MultiUserPollTicketRequest
+    {
+        public UserPollTicketRequest UserPollTicket { get; set; }
+        public int Count { get; set; }
+    }
+    
     #endregion
 }
