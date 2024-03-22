@@ -290,10 +290,10 @@ namespace MemberSite
             app.UseCors("LeaderBoard");
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseBlockMiddleware();
+            
             app.UseRequestLogMiddleware();
             app.UseResponseLogMiddleware();
-
+            app.UseBlockMiddleware();
 
             app.UseEndpoints(endpoints =>
             {
