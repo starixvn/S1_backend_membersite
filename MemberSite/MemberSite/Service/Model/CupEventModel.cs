@@ -1,5 +1,5 @@
 ﻿using System.Text.Json.Serialization;
-
+using MemberSite.Extensions;
 using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.Model
@@ -151,7 +151,6 @@ namespace MemberSite.Service.Model
 
     #region 充值 & 發票
     
-    
     public class MemberDepositTicketInfoResponse
     {
         /// <summary>
@@ -284,6 +283,33 @@ namespace MemberSite.Service.Model
         public int Count { get; set; }
     }
     
+    public class CupEventTicketSummaryResponse
+    {
+        /// <summary>
+        /// 國家Id
+        /// </summary>
+        [JsonPropertyName("countryId")]
+        public int? CountryId { get; set; }
+        
+        /// <summary>
+        /// 國家名稱
+        /// </summary>
+        [JsonPropertyName("countryName")]
+        public string CountryName { get; set; }
+
+        /// <summary>
+        ///  圖片名稱
+        /// </summary>
+        [JsonPropertyName("imageName")]
+        public string ImageName { get; set; }
+
+        /// <summary>
+        /// 總票%數
+        /// </summary>
+        [JsonPropertyName("percentage")]
+        public decimal Percentage { get; set; }
+    }
+    
     public class UserTicketResult
     {
         public List<UserTicket> TicketList { get; set; }
@@ -301,11 +327,23 @@ namespace MemberSite.Service.Model
         /// 充值金額
         /// </summary>
         public decimal DepositAmount { get; set; }
-
+        
+        /// <summary>
+        /// CupEventCurrency 時區
+        /// </summary>
+        [JsonIgnore]
+        public string CupEventTimeZone { get; set; }
+        
         /// <summary>
         /// 存款日期
         /// </summary>
-        public DateTime StatementTime { get; set; }
+        public DateTimeOffset StatementTime
+        {
+            get => _statementTime.ToDateTimeOffset(CupEventTimeZone);
+            set => _statementTime = value.DateTime;
+        }
+        private DateTime _statementTime { get; set; }
+        
     }
 
     

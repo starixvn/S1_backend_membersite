@@ -77,6 +77,51 @@ namespace MemberSite.Controllers.Api
         
         [HttpPost]
         [Authorize]
+        public ApiResult<IEnumerable<MemberDepositDto>> GetMemberDeposit()
+        {
+            var apiResult = new ApiResult<IEnumerable<MemberDepositDto>>();
+
+            try
+            {
+                var authData = _authorizeBll.GetAuthData();
+                var serverInfo = _serverInfoBll.GetServerInfo();
+                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                
+                var responseData = _cupEventBll.GetMemberDeposit(serverInfo.SiteId, authData.CustId, custInfo.CurrencyId);
+                
+                apiResult.Data = responseData;
+                apiResult.ErrorCode = 0;
+            }
+            catch (Exception ex)
+            {
+                apiResult.Message = ex.Message;
+            }
+
+            return apiResult;
+        }
+        
+        [HttpPost]
+        public ApiResult<IEnumerable<CupEventTicketSummaryResponse>> GetCupEventTicketSummary()
+        {
+            var apiResult = new ApiResult<IEnumerable<CupEventTicketSummaryResponse>>();
+
+            try
+            {
+                var responseData = _cupEventBll.GetCupEventTicketSummary();
+                
+                apiResult.Data = responseData;
+                apiResult.ErrorCode = 0;
+            }
+            catch (Exception ex)
+            {
+                apiResult.Message = ex.Message;
+            }
+
+            return apiResult;
+        }
+        
+        [HttpPost]
+        [Authorize]
         public async Task<ApiResult> UserPollTickets(UserPollTicketRequest request)
         {
             var apiResult = new ApiResult();
