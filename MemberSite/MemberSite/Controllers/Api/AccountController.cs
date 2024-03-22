@@ -170,6 +170,13 @@ namespace MemberSite.Controllers.Api
                 apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
                 return apiResult;
             }
+
+            // 舊語系一律使用en
+            if (languageModel.LangId.Contains("_"))
+            {
+                languageModel.LangId = "en";
+            }
+
             var result = _custInfoBll.SetLanguage(authData.CustId, languageModel.LangId);
 
             if (result == -1)
