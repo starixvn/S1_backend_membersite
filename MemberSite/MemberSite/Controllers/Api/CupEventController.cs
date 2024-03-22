@@ -122,7 +122,7 @@ namespace MemberSite.Controllers.Api
         
         [HttpPost]
         [Authorize]
-        public async Task<ApiResult> UserPollTickets(UserPollTicketRequest request)
+        public async Task<ApiResult> UserPollTickets(List<UserPollTicketRequest> request)
         {
             var apiResult = new ApiResult();
             try

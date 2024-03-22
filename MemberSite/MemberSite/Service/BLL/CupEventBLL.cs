@@ -209,7 +209,7 @@ namespace MemberSite.Service.BLL
             return responseData;
         }
         
-        public async Task UserPollTicket(int custId, int siteId, int currencyId, UserPollTicketRequest request)
+        public async Task UserPollTicket(int custId, int siteId, int currencyId, List<UserPollTicketRequest> request)
         {
             CheckCupEventTicket(siteId,custId, currencyId, 1);
 
@@ -217,9 +217,19 @@ namespace MemberSite.Service.BLL
             await conn.OpenAsync();
             await using var trans = await conn.BeginTransactionAsync();
             
+            var executeCount = 0;
+            
             // 發票
-            var result = await _cupEventPredictionService.UserPollTicketAsync(custId, request ,trans);
-            if (result > 0)
+            foreach (var model in request)
+            {
+                var result = await _cupEventPredictionService.UserPollTicketAsync(custId, model ,trans);
+                if (result > 0)
+                {
+                    executeCount += 1;
+                }
+            }
+            
+            if (executeCount == request.Count)
             {
                 MySqlClient.CommitAndDisposeConnection(conn, trans);
             }
