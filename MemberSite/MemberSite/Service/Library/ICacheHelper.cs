@@ -33,4 +33,8 @@ public interface ICacheHelper
     Task<bool> TryCreateLockAsync(RedisKey lockKey, RedisValue lockValue, TimeSpan? expiry, RedisDataBase redisDataBase = RedisDataBase.Member);
 
     Task<bool> UnLockAsync(RedisKey lockKey, RedisValue lockValue, RedisDataBase redisDataBase = RedisDataBase.Member);
+
+    bool TryGetValue<TItem>(string key, out TItem value, RedisDataBase redisDataBase = RedisDataBase.Member);
+
+    bool Create<TItem>(string key, TItem value, TimeSpan timeSpan, RedisDataBase redisDataBase = RedisDataBase.Member);
 }

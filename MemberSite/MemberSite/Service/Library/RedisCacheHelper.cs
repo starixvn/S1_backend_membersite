@@ -1,5 +1,7 @@
 ﻿using MemberSite.Service.Model.enums;
 
+using MySqlX.XDevAPI.Common;
+
 using Newtonsoft.Json;
 
 using StackExchange.Redis;
@@ -301,6 +303,49 @@ namespace MemberSite.Service.Library
                 var db = _multiplexer.GetDatabase((int)redisDataBase);
                 var result = await db.ScriptEvaluateAsync(script, new RedisKey[] { key }, new RedisValue[] { lockValue });
                 return result.ToString() == "1";
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"{key} | {ex.Message}");
+                return false;
+            }
+        }
+
+        public bool TryGetValue<TItem>(string key, out TItem value, RedisDataBase redisDataBase = RedisDataBase.Member)
+        {
+            key = $"{redisDataBase}:{RemoveSpecialChars(key)}";
+            value = default;
+            try
+            {
+                var db = _multiplexer.GetDatabase((int)redisDataBase);
+                if (!db.KeyExists(key))
+                {
+                    return false;
+                }
+
+                var json = db.StringGet(key);
+                if (!json.HasValue)
+                {
+                    return false;
+                }
+
+                value = JsonConvert.DeserializeObject<TItem>(json);
+                return true;              
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"{key} | {ex.Message}");
+                return false;
+            }
+        }
+
+        public bool Create<TItem>(string key, TItem value, TimeSpan timeSpan, RedisDataBase redisDataBase = RedisDataBase.Member)
+        {
+            key = $"{redisDataBase}:{RemoveSpecialChars(key)}";
+            try
+            {
+                var db = _multiplexer.GetDatabase((int)redisDataBase);
+                return db.StringSet(key, JsonConvert.SerializeObject(value), timeSpan);
             }
             catch (Exception ex)
             {
