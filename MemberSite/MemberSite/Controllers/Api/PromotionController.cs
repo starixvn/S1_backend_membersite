@@ -211,7 +211,7 @@ namespace MemberSite.Controllers.Api
                 var result = await _courierAdapter.MyPostAsync<List<CustPromotion>, CustPromotionRequest>(apiUrl, request);
 
                 // 新增未登入快取
-                if (!isLogin)
+                if (!isLogin && result.Data != null)
                 {
                     _cacheHelper.Create(key, result.Data, TimeSpan.FromMinutes(5));
                 }
@@ -278,7 +278,7 @@ namespace MemberSite.Controllers.Api
                 var result = await _courierAdapter.MyPostAsync<CustPromotion, PromotionDetailRequest>(apiUrl, request);
 
                 // 新增未登入快取
-                if (!isLogin)
+                if (!isLogin && result.Data != null)
                 {
                     _cacheHelper.Create(key, result.Data, TimeSpan.FromMinutes(5));
                 }
@@ -525,7 +525,7 @@ namespace MemberSite.Controllers.Api
                 var result = await _courierAdapter.MyPostAsync<IEnumerable<RebateExcludeGameDetail>, GetRebateExcludeGameListRequest>(apiUrl, request);
 
                 // 新增未登入快取
-                if (!isLogin)
+                if (!isLogin && result.Data != null)
                 {
                     _cacheHelper.Create(key, result.Data, TimeSpan.FromMinutes(5));
                 }
