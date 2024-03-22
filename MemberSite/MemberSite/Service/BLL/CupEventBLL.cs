@@ -85,9 +85,7 @@ namespace MemberSite.Service.BLL
             return result;
         }
 
-        private IEnumerable<CupEventSetting> FilterData(IEnumerable<CupEventPredictionSettingDto> sourceData,
-            IEnumerable<CupEventPredictionCountry> teamEnglishNames,
-            string levelName)
+        private IEnumerable<CupEventSetting> FilterData(IEnumerable<CupEventPredictionSettingDto> sourceData, IEnumerable<CupEventPredictionCountry> teamEnglishNames, string levelName)
         {
             return sourceData.Where(r => r.LevelName == levelName)
                 .OrderBy(c => c.Sort)
@@ -185,6 +183,32 @@ namespace MemberSite.Service.BLL
             return responseData;
         }
         
+        public IEnumerable<CupEventTicketSummaryResponse> GetCupEventTicketSummary()
+        {
+            var responseData = new List<CupEventTicketSummaryResponse>();
+            
+            var usedTickets = _cupEventPredictionService.GetCupEventMemberTicketInfo(0).Where(x=>x.TeamId is not null).ToList(); //已投票
+
+            if (usedTickets.Any())
+            {
+                var enCountry = GetCupEventPredictionCountry(); // 取得英文的國家名稱給圖片名稱用
+                if (enCountry == null) throw new Exception("enCountry not found");
+                
+                var userTicketsAll = usedTickets.Count; //總票數
+                
+                responseData = usedTickets.GroupBy(x=>x.TeamId)
+                    .Select(x => new CupEventTicketSummaryResponse
+                    {
+                        CountryId = x.Key,
+                        CountryName = enCountry.First(r => r.CountryId == x.Key).CountryName,
+                        ImageName = $"{enCountry.First(r => r.CountryId == x.Key).CountryName.ToLower()}.jpg",
+                        Percentage = Math.Round(x.Count() / (decimal)userTicketsAll * 100, 2)
+                    }).ToList();
+            }
+            
+            return responseData;
+        }
+        
         public async Task UserPollTicket(int custId, int siteId, int currencyId, UserPollTicketRequest request)
         {
             CheckCupEventTicket(siteId,custId, currencyId, 1);
@@ -235,6 +259,13 @@ namespace MemberSite.Service.BLL
             }
         }
         
+        public IEnumerable<MemberDepositDto> GetMemberDeposit(int siteId, int custId,int currencyId)
+        {
+            var custDepositList = _cupEventPredictionService.GetMemberDeposit(siteId ,custId, currencyId);
+            
+            return custDepositList;
+        }
+        
         #region private
         
         /// <summary>
@@ -266,30 +297,27 @@ namespace MemberSite.Service.BLL
             };
             finishedCount = 0;
             
-            if (tickets != null && !tickets.Any()) return userTicketResult;
+            if (!tickets.Any()) return userTicketResult;
             
-            foreach (var ticket in tickets)
+            if (siteId is 1 or 3)
             {
-                if (ticket.TeamId is not null)
+                foreach (var ticket in tickets)
                 {
-                    finishedCount += 1;
-                }
+                    if (ticket.TeamId is not null)
+                    {
+                        finishedCount += 1;
+                    }
                 
-                var ticketModel = new UserTicket()
-                {
-                    TicketType = ticket.TicketType,
-                    CountryId = ticket.TeamId,
-                    TicketStatus = GetTicketStatus(ticket, siteId, custId)
-                };
-                
-                // goal 給group by 資料
-                if (siteId != 2)
-                {
+                    var ticketModel = new UserTicket()
+                    {
+                        TicketType = ticket.TicketType,
+                        CountryId = ticket.TeamId,
+                        TicketStatus = GetTicketStatus(ticket, siteId, custId)
+                    };
                     userTicketResult.TicketList.Add(ticketModel);
                 }
             }
-
-            if (siteId == 2)
+            else
             {
                 var groupData = tickets.Where(x => x.TeamId is not null)
                     .GroupBy(x => x.TeamId)
@@ -579,6 +607,5 @@ namespace MemberSite.Service.BLL
         #endregion
         
         #endregion
-
     }
 }
