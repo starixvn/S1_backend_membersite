@@ -505,7 +505,8 @@ namespace MemberSite.Service.BLL
                     CustId = custId,
                     CurrencyId = currencyId,
                     TicketStatus = 1,
-                    TicketType = mission.MissionNo
+                    TicketType = mission.MissionNo,
+                    TransId = ""
                 };
 
                 if (mission.DepositFlag && depositSum > mission.DepositAmount)
