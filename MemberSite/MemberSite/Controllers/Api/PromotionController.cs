@@ -2,8 +2,11 @@
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
+using MemberSite.Service.Model.Interfaces;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
@@ -22,6 +25,7 @@ namespace MemberSite.Controllers.Api
         private readonly CourierAdapter _courierAdapter;
         private readonly ILogger<PromotionController> _logger;
         private readonly Tools _tools;
+        private readonly ICacheHelper _cacheHelper;
 
         public PromotionController(IServiceProvider provider)
         {
@@ -36,6 +40,7 @@ namespace MemberSite.Controllers.Api
             _courierAdapter = provider.GetRequiredService<CourierAdapter>();
             _logger = provider.GetRequiredService<ILogger<PromotionController>>();
             _tools = provider.GetRequiredService<Tools>();
+            _cacheHelper = provider.GetRequiredService<ICacheHelper>();
         }
 
         public class PromotionReq
@@ -54,7 +59,7 @@ namespace MemberSite.Controllers.Api
             public int DeviceType { set; get; }
         }
 
-        public class CustPromotionRequest
+        public class CustPromotionRequest : IRedisKey
         {
             public int SiteId { set; get; }
             public int CustId { set; get; }
@@ -66,7 +71,7 @@ namespace MemberSite.Controllers.Api
             public int PromotionType { set; get; }
         }
 
-        public class PromotionDetailRequest : CustPromotionRequest
+        public class PromotionDetailRequest : CustPromotionRequest, IRedisKey
         {
             public string BonusCode { set; get; }
         }
@@ -132,7 +137,7 @@ namespace MemberSite.Controllers.Api
 
                     apiResult = await _courierAdapter.MyPostAsync<ApiResult, PromotionRequest>(apiUrl, req);
 
-                    if (custInfo.SiteId != (int)SiteId.Nova88)
+                    if (custInfo.SiteId is 2 or 3) // bwing and goal
                     {
                         _ = Task.Run(() =>
                         {
@@ -155,101 +160,135 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult<List<CustPromotion>> GetPromotionListV3(PromotionDeviceReq promotionDeviceReq)
+        public async Task<ApiResult<List<CustPromotion>>> GetPromotionListV3(PromotionDeviceReq input)
         {
-            var result = new ApiResult<List<CustPromotion>>();
             try
             {
+                CustPromotionRequest request;
                 var serverInfo = _serverInfoBll.GetServerInfo();
                 var authData = _authorizeBll.GetAuthData();
                 var isLogin = authData is { CustId: > 0 };
-                var custId = 0;
-                int currencyId;
                 if (isLogin)
                 {
                     var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-                    custId = authData.CustId;
-                    currencyId = custInfo.CurrencyId;
+                    request = new CustPromotionRequest
+                    {
+                        SiteId = serverInfo.SiteId,
+                        CustId = authData.CustId,
+                        CurrencyId = custInfo.CurrencyId,
+                        DeviceType = input.DeviceType,
+                        IsLogin = isLogin,
+                        LangId = _selLangBll.GetLangId(),
+                        DefLang = serverInfo.DefLang
+                    };
                 }
                 else
                 {
-                    currencyId = _selLangBll.GetPreferCurrencyId();
-
-                    if (promotionDeviceReq.CurrencyId.HasValue)
+                    request = new CustPromotionRequest
                     {
-                        currencyId = promotionDeviceReq.CurrencyId.Value;
-                    }
+                        SiteId = serverInfo.SiteId,
+                        CustId = 0,
+                        CurrencyId = input.CurrencyId.HasValue ? input.CurrencyId.Value : _selLangBll.GetPreferCurrencyId(),
+                        DeviceType = input.DeviceType,
+                        IsLogin = isLogin,
+                        LangId = _selLangBll.GetLangId(),
+                        DefLang = serverInfo.DefLang
+                    };
+                }
+
+                // 未登入檢查是否有Cache
+                var key = $"GetPromotionListV3:{((IRedisKey)request).GetRedisKey()}";
+                if (!isLogin && _cacheHelper.TryGetValue(key, out List<CustPromotion> custPromotionList))
+                {
+                    return new ApiResult<List<CustPromotion>>
+                    {
+                        ErrorCode = (int)ErrorCode.Success,
+                        Data = custPromotionList
+                    };
                 }
 
                 var apiUrl = $"{_bonusServiceUrl}GetPromotionListV3";
-                var req = new CustPromotionRequest
-                {
-                    SiteId = serverInfo.SiteId,
-                    CustId = custId,
-                    CurrencyId = currencyId,
-                    DeviceType = promotionDeviceReq.DeviceType,
-                    IsLogin = isLogin,
-                    LangId = _selLangBll.GetLangId(),
-                    DefLang = serverInfo.DefLang
-                };
+                var result = await _courierAdapter.MyPostAsync<List<CustPromotion>, CustPromotionRequest>(apiUrl, request);
 
-                result = _courierAdapter.MyPostAsync<List<CustPromotion>, CustPromotionRequest>(apiUrl, req).Result;
+                // 新增未登入快取
+                if (!isLogin && result.Data != null)
+                {
+                    _cacheHelper.Create(key, result.Data, TimeSpan.FromMinutes(5));
+                }
+                return result;
             }
             catch (Exception e)
             {
-                _logger.LogError(e, GetCurrentMethod());
+                _logger.LogError(e, e.Message);
+                return new ApiResult<List<CustPromotion>>();
             }
-
-            return result;
         }
 
         [HttpPost]
-        public ApiResult<CustPromotion> GetPromotionDetail(PromotionDetailReq data)
+        public async Task<ApiResult<CustPromotion>> GetPromotionDetail(PromotionDetailReq input)
         {
-            var result = new ApiResult<CustPromotion>();
             try
             {
+                PromotionDetailRequest request;
                 var serverInfo = _serverInfoBll.GetServerInfo();
                 var authData = _authorizeBll.GetAuthData();
                 var isLogin = authData is { CustId: > 0 };
-                var custId = 0;
-                int currencyId;
                 if (isLogin)
                 {
                     var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-                    custId = authData.CustId;
-                    currencyId = custInfo.CurrencyId;
+                    request = new PromotionDetailRequest
+                    {
+                        SiteId = serverInfo.SiteId,
+                        CustId = authData.CustId,
+                        CurrencyId = custInfo.CurrencyId,
+                        DeviceType = input.DeviceType,
+                        IsLogin = isLogin,
+                        LangId = _selLangBll.GetLangId(),
+                        DefLang = serverInfo.DefLang,
+                        BonusCode = input.BonusCode
+                    };
                 }
                 else
                 {
-                    currencyId = _selLangBll.GetPreferCurrencyId();
-                    if (data.CurrencyId.HasValue)
+                    request = new PromotionDetailRequest
                     {
-                        currencyId = data.CurrencyId.Value;
-                    }
+                        SiteId = serverInfo.SiteId,
+                        CustId = 0,
+                        CurrencyId = input.CurrencyId.HasValue ? input.CurrencyId.Value : _selLangBll.GetPreferCurrencyId(),
+                        DeviceType = input.DeviceType,
+                        IsLogin = isLogin,
+                        LangId = _selLangBll.GetLangId(),
+                        DefLang = serverInfo.DefLang,
+                        BonusCode = input.BonusCode
+                    };
+                }
+
+                // 未登入檢查是否有Cache
+                var key = $"GetPromotionDetail:{((IRedisKey)request).GetRedisKey()}";
+                if (!isLogin && _cacheHelper.TryGetValue(key, out CustPromotion custPromotion))
+                {
+                    return new ApiResult<CustPromotion>
+                    {
+                        ErrorCode = (int)ErrorCode.Success,
+                        Data = custPromotion
+                    };
                 }
 
                 var apiUrl = $"{_bonusServiceUrl}GetPromotionDetail";
-                var req = new PromotionDetailRequest
-                {
-                    SiteId = serverInfo.SiteId,
-                    CustId = custId,
-                    CurrencyId = currencyId,
-                    DeviceType = data.DeviceType,
-                    IsLogin = isLogin,
-                    LangId = _selLangBll.GetLangId(),
-                    DefLang = serverInfo.DefLang,
-                    BonusCode = data.BonusCode
-                };
+                var result = await _courierAdapter.MyPostAsync<CustPromotion, PromotionDetailRequest>(apiUrl, request);
 
-                result = _courierAdapter.MyPostAsync<CustPromotion, PromotionDetailRequest>(apiUrl, req).Result;
+                // 新增未登入快取
+                if (!isLogin && result.Data != null)
+                {
+                    _cacheHelper.Create(key, result.Data, TimeSpan.FromMinutes(5));
+                }
+                return result;
             }
             catch (Exception e)
             {
-                _logger.LogError(e, GetCurrentMethod());
+                _logger.LogError(e, e.Message);
+                return new ApiResult<CustPromotion>();
             }
-
-            return result;
         }
 
         [Authorize]
@@ -431,49 +470,72 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public async Task<ApiResult<IEnumerable<RebateExcludeGameDetail>>> GetRebateExcludeGameListAsync(GetRebateExcludeGameListReq request, [FromRoute] string langId = "en")
+        public async Task<ApiResult<IEnumerable<RebateExcludeGameDetail>>> GetRebateExcludeGameListAsync(GetRebateExcludeGameListReq input, [FromRoute] string langId = "en")
         {
-            var result = new ApiResult<IEnumerable<RebateExcludeGameDetail>>();
             try
             {
+                GetRebateExcludeGameListRequest request;
                 var serverInfo = _serverInfoBll.GetServerInfo();
-
-                if (!serverInfo.ICurrencyList.Contains(request.CurrencyId))
+                if (!serverInfo.ICurrencyList.Contains(input.CurrencyId))
+                {
                     return new ApiResult<IEnumerable<RebateExcludeGameDetail>>()
                     {
                         Data = new List<RebateExcludeGameDetail>(),
                         ErrorCode = 0
                     };
+                }
 
                 var authData = _authorizeBll.GetAuthData();
                 var isLogin = authData is { CustId: > 0 };
-                int currencyId = request.CurrencyId;
-                int userLevel = 1;
+
                 if (isLogin)
                 {
                     var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-                    currencyId = custInfo.CurrencyId;
-                    userLevel = custInfo.UserLevel;
+                    request = new GetRebateExcludeGameListRequest
+                    {
+                        SiteId = serverInfo.SiteId,
+                        CurrencyId = custInfo.CurrencyId,
+                        VipLevel = custInfo.UserLevel,
+                        LangId = langId
+                    };
+                }
+                else
+                {
+                    request = new GetRebateExcludeGameListRequest
+                    {
+                        SiteId = serverInfo.SiteId,
+                        CurrencyId = input.CurrencyId,
+                        VipLevel = 0,
+                        LangId = langId
+                    };
+                }
+
+                // 未登入檢查是否有Cache
+                var key = $"GetRebateExcludeGameList:{((IRedisKey)request).GetRedisKey()}";
+                if (!isLogin && _cacheHelper.TryGetValue(key, out IEnumerable<RebateExcludeGameDetail> rebateExcludeGameDetailList))
+                {
+                    return new ApiResult<IEnumerable<RebateExcludeGameDetail>>
+                    {
+                        ErrorCode = (int)ErrorCode.Success,
+                        Data = rebateExcludeGameDetailList
+                    };
                 }
 
                 var apiUrl = $"{_bonusServiceUrl}GetRebateExcludeGameList";
-                var req = new GetRebateExcludeGameListRequest
-                {
-                    SiteId = serverInfo.SiteId,
-                    CurrencyId = currencyId,
-                    VipLevel = userLevel,
-                    LangId = langId
-                };
+                var result = await _courierAdapter.MyPostAsync<IEnumerable<RebateExcludeGameDetail>, GetRebateExcludeGameListRequest>(apiUrl, request);
 
-                result = await _courierAdapter.MyPostAsync<IEnumerable<RebateExcludeGameDetail>, GetRebateExcludeGameListRequest>(apiUrl, req);
+                // 新增未登入快取
+                if (!isLogin && result.Data != null)
+                {
+                    _cacheHelper.Create(key, result.Data, TimeSpan.FromMinutes(5));
+                }
+                return result;
             }
             catch (Exception e)
             {
-                _logger.LogError(e, GetCurrentMethod());
-                result.RawMessage = e.Message;
+                _logger.LogError(e, e.Message);
+                return new ApiResult<IEnumerable<RebateExcludeGameDetail>>();
             }
-            return result;
-
         }
 
         [Authorize]
@@ -483,7 +545,7 @@ namespace MemberSite.Controllers.Api
             var result = new ApiResult<PopUpPromotion>();
             try
             {
-                
+
                 var authData = _authorizeBll.GetAuthData();
                 if (authData is { CustId: > 0 })
                 {

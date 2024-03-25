@@ -1,31 +1,37 @@
 ﻿namespace MemberSite.Service.Model
 {
-    public class IpCountryModel
+    public class IPCountry
     {
+        public uint IpFrom { get; set; }
+        public uint IpTo { get; set; }
         public string Code { get; set; }
-        public bool Forbidden { get; set; }
-        public string Message { get; set; }
-        public string RemoteIpAddress { get; set; }
+        public string Country { get; set; }
     }
 
-    public class IpCountry
+    public class IpCountryWithAccess
     {
-        public string Code { get; set; }
-        public bool Forbidden { get; set; }
-        public string Message { get; set; }
-    }
-
-    public class IpCountryWithAccess : IpCountryModel
-    {
-        public bool IsAccess { get; set; } = false;
-
-        public IpCountryWithAccess(bool isAccess, IpCountry ipCountry, bool isReturnClientIp, string clientIpAddress)
+        public bool IsAccess
         {
-            IsAccess = isAccess;
-            Code = ipCountry.Code;
-            Forbidden = ipCountry.Forbidden;
-            Message = ipCountry.Message;
-            RemoteIpAddress = isReturnClientIp is true ? clientIpAddress : string.Empty;
+            get
+            {
+                return !Forbidden;
+            }
+        }
+
+        public string Code { get; set; }
+
+        public bool Forbidden { get; set; }
+
+        public string Message { get; set; }
+
+        public string RemoteIpAddress { get; set; }
+
+        public IpCountryWithAccess(string ip, string message)
+        {
+            RemoteIpAddress = ip;
+            Code = string.Empty;
+            Forbidden = true;
+            Message = $"[{ip}] {message}";
         }
     }
 }

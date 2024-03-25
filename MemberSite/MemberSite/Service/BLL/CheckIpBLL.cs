@@ -1,53 +1,99 @@
-﻿using MemberSite.Service.BLL.Interface;
-using Newtonsoft.Json;
+﻿using MemberSite.Exceptions;
+using MemberSite.Service.Library;
 using MemberSite.Service.Model;
-using MongoDB.Bson.IO;
+using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.BLL
 {
-    public class CheckIpBLL : ICheckIpBLL
+    public class CheckIpBLL
     {
+        private readonly Tools _tools;
         private readonly ILogger<CheckIpBLL> _logger;
-        private readonly IGeoIpApi _geoIpApi;
-        private readonly IEnumerable<string> _blockCountries;
-        private readonly IEnumerable<string> _officeIps;
-        private readonly IEnumerable<string> _blockIps;
+        private readonly Dictionary<string, string> _forbiddenCountries;
+        private readonly List<IPCountry> _IPCountryList;
+        private readonly ICacheHelper _cacheHelper;
 
         public CheckIpBLL(IServiceProvider provider)
         {
+            _tools = provider.GetRequiredService<Tools>();
             _logger = provider.GetRequiredService<ILogger<CheckIpBLL>>();
-            _geoIpApi = provider.GetRequiredService<IGeoIpApi>();
-            var configBll = provider.GetRequiredService<ConfigBLL>();
-            var ipBll = provider.GetRequiredService<IPBLL>();
-            _blockCountries = configBll.GetConfigValue<IEnumerable<string>>("BlockCountry");
-            _officeIps = configBll.GetConfigValueByEnvironment<IEnumerable<string>>("OfficeIP");
-            _blockIps = ipBll.GetBlockIp<BlockIPForUpload>(false).Select(i => i.IP);
+            _IPCountryList = provider.GetRequiredService<IEnumerable<IPCountry>>().ToList();
+            _forbiddenCountries = provider.GetRequiredService<ConfigBLL>()
+                .GetConfigValue<List<string>>("BlockCountry").ToDictionary(i => i, i => i);
+            _cacheHelper = provider.GetRequiredService<ICacheHelper>();
         }
 
-        public async Task<IpCountryWithAccess> CheckIp(string clientIp, bool isReturnClientIp = false)
+        public async Task<IpCountryWithAccess> CheckIp(string clientIp)
         {
-            var country = await _geoIpApi.CheckIp(clientIp);
-            isReturnClientIp = true; //for debug
-            _logger.LogInformation($"GeoCheckIp={Newtonsoft.Json.JsonConvert.SerializeObject(country)}.");
-            //判斷的規則順序：
-            //1.是否為白名單IP=>是則 return true, 不是則繼續下一個判斷
-            if (_officeIps.Any(x => x == clientIp))
+            try
             {
-                return new IpCountryWithAccess(true, country, isReturnClientIp, clientIp);
-            }
-            //2.是否為黑名單國家IP=>是則 return false, 不是則繼續下一個判斷
-            if (_blockCountries.Contains(country.Code))
-            {
-                return new IpCountryWithAccess(false, country, isReturnClientIp, clientIp);
-            }
-            _logger.LogInformation($"BlockIpList={Newtonsoft.Json.JsonConvert.SerializeObject(_blockIps)}.");
-            //3.是否為黑名單IP=>是則 return false, 不是則return true
-            if (_blockIps.Contains(clientIp))
-            {
-                return new IpCountryWithAccess(false, country, isReturnClientIp, clientIp);
-            }
+                var uip = _tools.GetIpToLong(clientIp);
+                var ipCountry = _IPCountryList.Find(x => x.IpFrom < uip && x.IpTo > uip);
 
-            return new IpCountryWithAccess(true, country, isReturnClientIp, clientIp);
+                // ip異常找不到國家回傳block
+                if (ipCountry == null)
+                {
+                    return new IpCountryWithAccess(clientIp, "not found in IPCountryList");
+                }
+
+                // 1.檢查白名單
+                if (await _cacheHelper.KeyExistsAsync($"AllowedIp:{clientIp}", RedisDataBase.IP))
+                {
+                    return new IpCountryWithAccess(clientIp, "in allow ip list.")
+                    {
+                        Code = ipCountry.Code,
+                        Forbidden = false //access
+                    };
+                }
+
+                // 2.檢查黑名單
+                if (await CheckBlockIp(clientIp))
+                {
+                    return new IpCountryWithAccess(clientIp, "in block ip list.")
+                    {
+                        Code = ipCountry.Code,
+                        Forbidden = true //block
+                    };
+                }
+
+                // 3.檢查黑名單國家
+                if (string.IsNullOrWhiteSpace(ipCountry.Code) || _forbiddenCountries.TryGetValue(ipCountry.Code.Trim(), out _))
+                {
+                    return new IpCountryWithAccess(clientIp, $"CountryCode: [{ipCountry.Code}] is in block country list or can't recognize country code.")
+                    {
+                        Code = ipCountry.Code,
+                        Forbidden = true //block
+                    };
+                }
+
+                return new IpCountryWithAccess(clientIp, "Succeed")
+                {
+                    Code = ipCountry.Code,
+                    Forbidden = false
+                };
+            }
+            catch (IPFormatException e)
+            {
+                _logger.LogError(e, e.Message);
+                return new IpCountryWithAccess(clientIp, e.Message);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, e.Message);
+                return new IpCountryWithAccess(clientIp, e.Message)
+                {
+                    //發生其他例外不阻擋，避免前台無法進入
+                    Forbidden = false
+                };
+            }
         }
+
+        public async Task<bool> CheckBlockIp(string clientIp)
+        {
+            return await _cacheHelper.KeyExistsAsync($"BlockIp:{clientIp}", RedisDataBase.IP);
+        }
+
+
+
     }
 }

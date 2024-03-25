@@ -21,6 +21,6 @@ public class CustomException : Exception
     {
         Code = code;
     }
-    
+
     public int Code { get; set; } = 9000;
 }

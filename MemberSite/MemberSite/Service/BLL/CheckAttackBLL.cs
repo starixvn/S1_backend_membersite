@@ -1,4 +1,5 @@
 ﻿using Amazon.S3.Model;
+
 using MemberSite.Controllers.Api;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
@@ -42,7 +43,7 @@ namespace MemberSite.Service.BLL
         public bool CheckAttack(RrofileReq req, HttpRequest Request)
         {
             var clientIp = _tools.GetClientIP();
-            if (_ipHelper.IpInRange(clientIp))
+            if (_ipHelper.IpInRange(clientIp) || clientIp == "18.139.199.197")
             {
                 return false;
             }
@@ -89,7 +90,7 @@ namespace MemberSite.Service.BLL
         public bool CheckAttackForSignIn(SiteController.LoginModel req, bool checkReferer, HttpRequest Request)
         {
             var clientIp = _tools.GetClientIP();
-            if (_ipHelper.IpInRange(clientIp))
+            if (_ipHelper.IpInRange(clientIp) || clientIp == "18.139.199.197")
             {
                 return false;
             }
@@ -140,7 +141,7 @@ namespace MemberSite.Service.BLL
         public bool CheckAttackForSignup()
         {
             var clientIp = _tools.GetClientIP();
-            if (_ipHelper.IpInRange(clientIp))
+            if (_ipHelper.IpInRange(clientIp) || clientIp == "18.139.199.197")
             {
                 return false;
             }

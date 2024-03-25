@@ -1,8 +1,11 @@
 ﻿using System.Text.RegularExpressions;
+
 using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
+
 using Microsoft.Extensions.Caching.Memory;
+
 using Newtonsoft.Json;
 
 namespace MemberSite.Service.BLL
@@ -97,8 +100,8 @@ namespace MemberSite.Service.BLL
 
             return (0, 0);
         }
-        
-        
+
+
         public IEnumerable<Prize> CheckDrawPrize(ref int eventId, int custId, int currencyId, out int prizeId, out int result)
         {
             return _eventsService.CheckDrawPrize(ref eventId, custId, currencyId, out prizeId, out result);
@@ -188,13 +191,13 @@ namespace MemberSite.Service.BLL
             var list = _eventsService.GetLeaderboardPointCalculation(siteId, date);
             return list;
         }
-        
-        public IEnumerable<LeaderboardRankingBonus> GetLeaderboardRankingBonus(int siteId,int currencyId)
+
+        public IEnumerable<LeaderboardRankingBonus> GetLeaderboardRankingBonus(int siteId, int currencyId)
         {
-            var list = _eventsService.GetLeaderboardRankingBonus(siteId,currencyId);
+            var list = _eventsService.GetLeaderboardRankingBonus(siteId, currencyId);
             return list;
         }
-        
+
     }
 }
 

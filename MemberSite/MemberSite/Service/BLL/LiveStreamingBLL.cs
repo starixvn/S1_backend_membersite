@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 
 using MemberSite.Service.DAL;
-using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 
@@ -97,7 +96,7 @@ namespace MemberSite.Service.BLL
             var sportTeamsInfo = await _hotEventBLL.GetSportTeamsInfo();
             var sportLeaguesInfo = await _hotEventBLL.GetSportLeaguesInfo();
 
-            var response = sportLiveStreamingList.Where(x=> x.ICurrencyList.Any(y => y == currencyId)).Select(r => new SportLiveStreamingResponse
+            var response = sportLiveStreamingList.Where(x => x.ICurrencyList.Any(y => y == currencyId)).Select(r => new SportLiveStreamingResponse
             {
                 SportLeaguesTitle = r.SportLeaguesTitle,
                 MatchId = r.MatchId,

@@ -16,7 +16,7 @@ namespace MemberSite.Service.DAL
         {
             return _reportDbClient.Query<PayInfo>("Service_PayInfo_Get_V2", new { _SiteId = siteId, _DepositType = DepositType.CryptoPayment });
         }
-        
+
         public IEnumerable<PayInfo> GetPayInfo(int siteId, DepositType? depositType)
         {
             return _reportDbClient.Query<PayInfo>("Service_PayInfo_Get_V2", new { _SiteId = siteId, _DepositType = (int?)depositType ?? 0 });
@@ -31,12 +31,12 @@ namespace MemberSite.Service.DAL
         {
             return _reportDbClient.Query<PayGroupInfo>("Service_PayGroup_Get");
         }
-        
+
         public IEnumerable<PayChannelInfo> GetPayChannel()
         {
             return _reportDbClient.Query<PayChannelInfo>("Service_PayChannel_Get");
         }
-        
+
         public IEnumerable<WithdrawalBlockSetting> GetWithdrawalBlockSettingList(int siteId)
         {
             return _reportDbClient.Query<WithdrawalBlockSetting>("Service_WithdrawalBlockSetting_Get", new { _SiteId = siteId });

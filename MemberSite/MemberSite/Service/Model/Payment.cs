@@ -59,8 +59,8 @@ namespace MemberSite.Service.Model
         public decimal MinAmount { get; set; }
         public decimal MaxAmount { get; set; }
     }
-    
-    public interface IPayInfo: IPaymentLimit
+
+    public interface IPayInfo : IPaymentLimit
     {
         public int PayId { get; set; }
         public string PayName { get; set; }
@@ -104,7 +104,7 @@ namespace MemberSite.Service.Model
 
     public class PayGroup : IPaymentLimit
     {
-        
+
         public int GroupId { get; set; }
         public string GroupName { get; set; }
         public int GSort { get; set; }
@@ -113,10 +113,10 @@ namespace MemberSite.Service.Model
         public decimal MinAmount { get; set; }
         public decimal MaxAmount { get; set; }
     }
-    
+
     public class PayGroupV2 : IPaymentLimit
     {
-        
+
         public int GroupId { get; set; }
         public string GroupName { get; set; }
         public int GSort { get; set; }
@@ -133,7 +133,7 @@ namespace MemberSite.Service.Model
         public DepositType Type { get; set; }
         public int Sort { get; set; }
     }
-    
+
     public class PayChannelInfo
     {
         public int ChannelId { get; set; }

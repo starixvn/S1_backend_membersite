@@ -19,7 +19,7 @@ namespace MemberSite.Service.DAL.Interface
         Task ResetPrize(int eventId, int currencyId);
         Task<IEnumerable<AngPowTicket>> GetTickets(int custId, int currencyId);
         Task<Prize> GetCustPrizeOnToday(int eventId, int custId, int currencyId);
-        Task<int> PayoutPrize(int eventId, int prizeId, string prizeName, int siteId, int custId, string userName, int currencyId, decimal prizeAmount, int ticketNo, int prizeType, bool isUsed , bool isBigPrize);
+        Task<int> PayoutPrize(int eventId, int prizeId, string prizeName, int siteId, int custId, string userName, int currencyId, decimal prizeAmount, int ticketNo, int prizeType, bool isUsed, bool isBigPrize);
 
         #region PromotionMission
 

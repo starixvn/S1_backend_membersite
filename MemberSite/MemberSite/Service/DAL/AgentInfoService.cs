@@ -5,8 +5,6 @@ using Dapper;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
-using static MongoDB.Driver.WriteConcern;
-using System.Drawing.Printing;
 
 namespace MemberSite.Service.DAL
 {
@@ -81,7 +79,7 @@ namespace MemberSite.Service.DAL
             props.Add("StartDate", StartDate);
             props.Add("EndDate", EndDate);
 
-            var result = _reportDb.Query<ReferralFriend>(SpName, props, commandType: CommandType.StoredProcedure);
+            var result = _reportDb.Query<ReferralFriend>(SpName, props);
             PageNumber = props.Get<int?>("PageNumber") ?? 0;
             TotalPages = props.Get<int?>("TotalPages") ?? 0;
             RowCount = props.Get<int?>("RowCount") ?? 0;
@@ -100,7 +98,7 @@ namespace MemberSite.Service.DAL
             props.Add("_StartDate", startDate);
             props.Add("_EndDate", endDate);
 
-            var result = _reportDb.Query<DepositReferralDao>(SpName, props, commandType: CommandType.StoredProcedure);
+            var result = _reportDb.Query<DepositReferralDao>(SpName, props);
             totalPages = props.Get<int?>("_TotalPages") ?? 0;
             rowCount = props.Get<int?>("_RowCount") ?? 0;
 
@@ -118,7 +116,7 @@ namespace MemberSite.Service.DAL
             props.Add("_StartDate", startDate);
             props.Add("_EndDate", endDate);
 
-            var result = _reportDb.Query<DepositReferralDao>(SpName, props, commandType: CommandType.StoredProcedure);
+            var result = _reportDb.Query<DepositReferralDao>(SpName, props);
             totalPages = props.Get<int?>("_TotalPages") ?? 0;
             rowCount = props.Get<int?>("_RowCount") ?? 0;
 
