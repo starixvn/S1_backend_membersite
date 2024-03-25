@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+<resheader name="resmimetype"><value>text/microsoft-resx</value></resheader><resheader name="version"><value>1.3</value></resheader><resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader><resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader><data name="Code_10"><value>[10] Este jogo está em manutenção, tente novamente mais tarde</value></data>
+  <data name="Code_2000"><value>[2000] Erro no sistema, entre em contato com o Departamento de Suporte ao Cliente</value></data>
+  <data name="Code_2002"><value>[2002] Erro no sistema, entre em contato com o Departamento de Suporte ao Cliente</value></data>
+  <data name="Code_1204"><value>[1204] Erro no sistema, entre em contato com o Departamento de Suporte ao Cliente</value></data>
+  <data name="Code_1205"><value>[1205] Erro no sistema, entre em contato com o Departamento de Suporte ao Cliente</value></data>
+  <data name="Code_1200"><value>[1200] Falha na transferência, tente novamente</value></data>
+  <data name="Code_1201"><value>[1201] Falha na transferência, favor verificar o valor da transferência</value></data>
+  <data name="Code_1202"><value>[1202] ID de transferência duplicado, entre em contato com o Departamento de Suporte ao Cliente</value></data>
+  <data name="Code_1203"><value>[1203] Valor da transferência fora do limite, favor verificar</value></data>
+  <data name="Code_1105"><value>[1105] Erro no sistema, entre em contato com o Departamento de Suporte ao Cliente</value></data>
+  <data name="Code_1104"><value>[1104] A conexão foi encerrada, devido a um login duplicado</value></data>
+  <data name="Code_1103"><value>[1103] O usuário ainda não fez o login, faça-o primeiro</value></data>
+  <data name="Code_1102"><value>[1102] O usuário foi bloqueado, entre em contato com o Departamento de Suporte ao Cliente</value></data>
+  <data name="Code_1101"><value>[1101] O ID do usuário não existe, entre em contato com o Departamento de Suporte ao Cliente</value></data>
+  <data name="Code_1999"><value>[1999] Erro no sistema, entre em contato com o Departamento de Suporte ao Cliente</value></data>
+  <data name="Code_9000"><value>[9000] Erro no sistema, entre em contato com o Departamento de Suporte ao Cliente</value></data>
+  </root>
