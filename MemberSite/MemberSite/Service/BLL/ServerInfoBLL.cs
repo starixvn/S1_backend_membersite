@@ -104,14 +104,14 @@ namespace MemberSite.Service.BLL
             // 先拿Header的origin-host
             if (_httpContextAccessor.HttpContext.Request.Headers.TryGetValue("origin-host", out var originHost))
             {
-                _logger.LogInformation($"GetDomain-origin-host={new Uri(originHost).Host}");
+                //_logger.LogInformation($"GetDomain-origin-host={new Uri(originHost).Host}");
                 return new Uri(originHost).Host;
             }
 
             // 先拿Header的ai-host
             if (_httpContextAccessor.HttpContext.Request.Headers.TryGetValue("ai-host", out var aiHost))
             {
-                _logger.LogInformation($"GetDomain-ai-host={new Uri(originHost).Host}");
+                //_logger.LogInformation($"GetDomain-ai-host={new Uri(originHost).Host}");
                 return new Uri(aiHost).Host;
             }
 
@@ -119,12 +119,12 @@ namespace MemberSite.Service.BLL
             {
                 if (referer.Contains("localhost"))
                 {
-                    _logger.LogInformation($"GetDomain-Host={new Uri(originHost).Host}");
+                    //_logger.LogInformation($"GetDomain-Host={new Uri(originHost).Host}");
                     return _httpContextAccessor.HttpContext.Request.Host.Host;
                 }
                 else
                 {
-                    _logger.LogInformation($"GetDomain-referer={new Uri(originHost).Host}");
+                    //_logger.LogInformation($"GetDomain-referer={new Uri(originHost).Host}");
                     return new Uri(referer).Host;
                 }
             }
