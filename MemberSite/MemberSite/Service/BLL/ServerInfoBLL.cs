@@ -117,7 +117,7 @@ namespace MemberSite.Service.BLL
 
             if (_httpContextAccessor.HttpContext.Request.Headers.TryGetValue("Referer", out var referer))
             {
-                if (referer.Contains("localhost"))
+                if (new Uri(referer).Host.Contains("localhost"))
                 {
                     _logger.LogInformation($"GetDomain-Host={_httpContextAccessor.HttpContext.Request.Host.Host}");
                     return _httpContextAccessor.HttpContext.Request.Host.Host;
