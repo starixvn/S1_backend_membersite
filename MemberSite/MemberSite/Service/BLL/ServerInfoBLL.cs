@@ -24,6 +24,7 @@ namespace MemberSite.Service.BLL
         private readonly List<string> _seoDomain = new List<string>() { };
         private readonly string[] _appHost = { "app.n17881788.com", "app.bwing.com", "app.goal123.com" };
         private readonly Dictionary<int, Dictionary<string, string>> _socialChannelLogoLinks;
+        private readonly ILogger<ServerInfoBll> _logger;
 
         public ServerInfoBll(IServiceProvider provider)
         {
@@ -36,6 +37,7 @@ namespace MemberSite.Service.BLL
             var configBll = provider.GetRequiredService<ConfigBLL>();
             _fixSiteId = configBll.GetConfigValue<int>("FixSiteId");
             _socialChannelLogoLinks = configBll.GetConfigValuesBySiteId<Dictionary<string, string>>("SocialChannelLogoLink");
+            _logger = provider.GetRequiredService<ILogger<ServerInfoBll>>();
         }
 
         public ServerInfo GetServerInfo()
@@ -102,21 +104,29 @@ namespace MemberSite.Service.BLL
             // 先拿Header的origin-host
             if (_httpContextAccessor.HttpContext.Request.Headers.TryGetValue("origin-host", out var originHost))
             {
+                _logger.LogInformation($"GetDomain-origin-host={new Uri(originHost).Host}");
                 return new Uri(originHost).Host;
             }
 
             // 先拿Header的ai-host
             if (_httpContextAccessor.HttpContext.Request.Headers.TryGetValue("ai-host", out var aiHost))
             {
+                _logger.LogInformation($"GetDomain-ai-host={new Uri(originHost).Host}");
                 return new Uri(aiHost).Host;
             }
 
             if (_httpContextAccessor.HttpContext.Request.Headers.TryGetValue("Referer", out var referer))
             {
                 if (referer.Contains("localhost"))
+                {
+                    _logger.LogInformation($"GetDomain-Host={new Uri(originHost).Host}");
                     return _httpContextAccessor.HttpContext.Request.Host.Host;
+                }
                 else
+                {
+                    _logger.LogInformation($"GetDomain-referer={new Uri(originHost).Host}");
                     return new Uri(referer).Host;
+                }
             }
 
             // 都拿不到直接用Request的Host
@@ -131,6 +141,7 @@ namespace MemberSite.Service.BLL
         public string GetMainDomain()
         {
             var host = GetDomain();
+            _logger.LogInformation($"host={host}.");
             var dotIndex = host.IndexOf(".");
             if (dotIndex > -1)
             {
@@ -143,6 +154,7 @@ namespace MemberSite.Service.BLL
         public string GetSubDomain()
         {
             var host = GetDomain();
+            _logger.LogInformation($"host={host}.");
             var dotIndex = host.IndexOf(".");
             if (dotIndex > -1)
             {
