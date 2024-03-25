@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+<resheader name="resmimetype"><value>text/microsoft-resx</value></resheader><resheader name="version"><value>1.3</value></resheader><resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader><resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader><data name="Code_10"><value>[10] 이 게임은 점 중입니다. 나중에 다시 시도하시기 바랍니다.</value></data>
+  <data name="Code_2000"><value>[2000] 시스템 오류, 고객센터에 문의 하시기 바랍니다.</value></data>
+  <data name="Code_2002"><value>[2002] 시스템 오류, 고객센터에 문의 하시기 바랍니다.</value></data>
+  <data name="Code_1204"><value>[1204] 시스템 오류, 고객센터에 문의 하시기 바랍니다.</value></data>
+  <data name="Code_1205"><value>[1205] 시스템 오류, 고객센터에 문의 하시기 바랍니다.</value></data>
+  <data name="Code_1200"><value>[1200] 전송 실패, 나중에 다시 시도하시기 바랍니다.</value></data>
+  <data name="Code_1201"><value>[1201] 송금 실패, 송금 금액을 확인 하시기 바랍니다.</value></data>
+  <data name="Code_1202"><value>[1202] 중복 TransID, 고객센터에 문의 하시기 바랍니다.</value></data>
+  <data name="Code_1203"><value>[1203] 송금 금액 외, 확인 하시기 바랍니다.</value></data>
+  <data name="Code_1105"><value>[1105] 시스템 오류, CSD에 문의 하시기 바랍니다.</value></data>
+  <data name="Code_1104"><value>[1104] 중복 로그인으로 인해 연결이 종료되었습니다.</value></data>
+  <data name="Code_1103"><value>[1103] 사용자가 아직 로그인하지 않았습니다. 먼저 로그인 하시기 바랍니다.</value></data>
+  <data name="Code_1102"><value>[1102] 사용자가 잠겼으니 CSD에 문의 하시기 바랍니다.</value></data>
+  <data name="Code_1101"><value>[1101] 사용자 ID가 존재하 않습니다. CSD에 문의 하시기 바랍니다.</value></data>
+  <data name="Code_1999"><value>[1999] 시스템 오류, 고객센터에 문의 하시기 바랍니다.</value></data>
+  <data name="Code_9000"><value>[9000] 시스템 오류, 고객센터에 문의 하시기 바랍니다.</value></data>
+  </root>

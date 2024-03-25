@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+<resheader name="resmimetype"><value>text/microsoft-resx</value></resheader><resheader name="version"><value>1.3</value></resheader><resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader><resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader><data name="msg_TransferAlert"><value>現在のスポーツブックウォレットは ： &lt;span class="popup-span Js-3RdWallet-Balance"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;今すぐメインウォレットからスポーツブックウォレットへ入金・移動して、ゲームやサービスをお楽しみください。</value></data>
+  <data name="msg_SubmitDepositTime"><value>入金時間を入力してください。</value></data>
+  <data name="msg_ClaimCashBackBonus"><value>おめでとうございます、キャッシュバック{0}がアカウントに入金されました！</value></data>
+  <data name="msg_BirthdayIsRequired"><value>生年月日をご記入ください</value></data>
+  <data name="msg_UsernameReq"><value>ユーザー名は必須です。</value></data>
+  <data name="msg_ApiServerError"><value>APIサーバーエラー</value></data>
+  <data name="msg_MustInteger"><value>完全な数字を入力してください。小数点以下の数字は使用できません。</value></data>
+  <data name="msg_LoginToAccess"><value>ゲームにアクセスするにはログインしてください。</value></data>
+  <data name="msg_WithdrawalAccountNumberIncorrect_Detail"><value>出金口座番号が正しくありません。お引出し口座番号をご確認ください。</value></data>
+  <data name="msg_CreditSignUp"><value>親愛なるお客様 &lt;br /&gt;&lt;br /&gt;&lt;a href="https://{0}" target="_new"&gt;{0}&lt;/a&gt;へようこそ！ご登録後、上記のリンクにアクセスしてゲームをお楽しみください。</value></data>
+  <data name="msg_WrongAmountSubmitted_Detail"><value>入金額が入金伝票の申請額と一致しません。再度ご確認いただくか、カスタマーサポートまでお問い合わせください。</value></data>
+  <data name="msg_BankAccountDuplicate"><value>銀行口座番号の重複は許可されていません。別の口座番号をお試しください。</value></data>
+  <data name="msg_WithdrawalNoFund"><value>残高不足のため、出金リクエストは失敗しました！</value></data>
+  <data name="msg_EmailFormatVerify"><value>電子メールアドレスの形式が間違っています</value></data>
+  <data name="msg_loggedout"><value>ログアウトに成功しました</value></data>
+  <data name="msg_PhoneFormatVerify"><value>入力した電話番号は間違っています。{0} 桁以内にする必要があります</value></data>
+  <data name="msg_PhoneWrongFormat"><value>電話番号が違います。</value></data>
+  <data name="msg_Updatesuccessful"><value>更新成功</value></data>
+  <data name="msg_WithdrawalFailed"><value>出金リクエストは失敗しました。詳しくはCSDにお問い合わせください。</value></data>
+  <data name="msg_CryptoWalletDuplicate"><value>暗号化ウォレットのアドレスが使用されました</value></data>
+  <data name="msg_WithdrawalExists"><value>あなたの取引要求は保留中です。保留中の取引が完了するまで、再度お試しください。</value></data>
+  <data name="msg_LessThanWithdrawalMin"><value>出金額は{0}より大きくなければなりません。</value></data>
+  <data name="msg_ReferenceNumber"><value>参照番号</value></data>
+  <data name="mag_AffiliateNotExist"><value>アフィリエイトコードが無効です。もう一度確認してください！</value></data>
+  <data name="msg_Congratulations"><value>登録が完了したら、すぐにログインして入金し、ベットを開始することができます。</value></data>
+  <data name="msg_PaymentNotReceived"><value>未入金</value></data>
+  <data name="msg_DepositHint"><value>今すぐ入金してゲームやサービスをお楽しみください。</value></data>
+  <data name="msg_WrongAmount"><value>誤った金額</value></data>
+  <data name="msg_WithdrawalAccountsNameUnmatch"><value>出金口座名の不一致</value></data>
+  <data name="msg_PasswordValidate"><value>パスワードは半角英数字6～15文字で入力してください。</value></data>
+  <data name="msg_WrongAmountSubmitted"><value>入金額の誤り</value></data>
+  <data name="msg_UsernameNotAvailable"><value>ユーザー名は使用できなくなりました。</value></data>
+  <data name="msg_WithdrawalAccountsNameUnmatch_Detail"><value>出金口座名義が登録名義と一致しません。カスタマーサービスまでお問い合わせください。</value></data>
+  <data name="msg_NeedAccountName"><value>アカウント名が必要</value></data>
+  <data name="msg_DrawPrizeTital"><value>アンパオプレゼント</value></data>
+  <data name="msg_UsernameLength"><value>ユーザー名は6文字以上18文字以下で入力してください。</value></data>
+  <data name="msg_DepositSlipRequired_Detail"><value>お取引の処理時間を短縮するため、振込票を添付してください。</value></data>
+  <data name="msg_NeedAccountNo"><value>口座番号が必要</value></data>
+  <data name="msg_DrawPrize"><value>おめでとうございます！お客様のアカウントにAng Pow {0}が入金されました！</value></data>
+  <data name="msg_SpecialCodeErrorForCheck"><value>プロモコードが正しくありません。</value></data>
+  <data name="msg_InvalidOldPassword"><value>古いパスワードが無効です！</value></data>
+  <data name="msg_WithdrawalAccountAannotReceiveMoney_Detail"><value>出金口座が資金を受け取ることができません。再度ご確認いただくか、カスタマーサポートまでお問い合わせください。</value></data>
+  <data name="msg_PasswordLength"><value>パスワードは6文字以上18文字以下で入力してください。</value></data>
+  <data name="msg_GreaterThanWithdrawalMax"><value>一日の限度額に達しました。</value></data>
+  <data name="msg_MailWrongFormat"><value>メール形式が正しくありません。</value></data>
+  <data name="msg_NotInLimit"><value>制限なし</value></data>
+  <data name="msg_UsernameValidate"><value>6～18文字の英数字（A～Z、a～z、0～9）のみ。</value></data>
+  <data name="msg_WrongBankSubmitted_Detail"><value>選択された預金口座が正しくありません。再度ご確認いただくか、カスタマーサポートまでお問い合わせください。</value></data>
+  <data name="msg_DepositSlipRequired"><value>入金伝票が必要</value></data>
+  <data name="msg_OTPEnterCode"><value>受信した認証番号を以下に入力してください。</value></data>
+  <data name="msg_UpdateFailed"><value>更新失敗</value></data>
+  <data name="msg_EnterRealName"><value>本名を入力してください。</value></data>
+  <data name="msg_SelectBirthDay"><value>誕生日を選択してください。</value></data>
+  <data name="msg_RequiredAmountInsufficient"><value>ボーナスの対象となるには、少なくとも{0}を入金してください。</value></data>
+  <data name="msg_DepositProcessLogin_LoginFailed"><value>ログインに失敗しました。ユーザー名/パスワードが間違っているか、ユーザー名が存在しません。</value></data>
+  <data name="msg_SelectFile"><value>ファイルを選択</value></data>
+  <data name="msg_DepositProcessLogin_ACLocked"><value>あなたのアカウントはロックされています。 24時間年中無休のカスタマーサービスにご連絡ください、ありがとう！</value></data>
+  <data name="msg_InactiveBankAccountSubmission"><value>アクセス不可</value></data>
+  <data name="msg_ConfirmRealNameAlert"><value>すべての取引が正しいことを確認するため、あなたの本名が銀行口座名と同じであることを確認してください。</value></data>
+  <data name="msg_MustDeposit"><value>出金前に入金を完了してください。</value></data>
+  <data name="msg_GoToDepositPage"><value>入金ページへ？</value></data>
+  <data name="msg_PromoCodeHasBeenUsed"><value>プロモコードが使用されました</value></data>
+  <data name="msg_PaymentNotReceived_Detail"><value>銀行振り込みはまだ受け付けておりませんので、しばらくお待ちください。</value></data>
+  <data name="msg_DrawPrize1"><value>おめでとうございます！{0}のボーナス{1}{2}がアカウントに加算されました。</value></data>
+  <data name="msg_BalanceHint"><value>現在の残高は</value></data>
+  <data name="msg_HasExist"><value>すでに存在しています。</value></data>
+  <data name="msg_InsufficientFund"><value>資金不足！</value></data>
+  <data name="msg_DepositRefunded_Detail"><value>預金金額は返金されています。銀行口座をご覧ください。</value></data>
+  <data name="msg_LockedAmountInsufficient"><value>メインウォレットの残高が{0}より少なくなってはいけません。</value></data>
+  <data name="msg_OTPSendCode"><value>ご登録の携帯電話に認証コードを送信しました。携帯電話をご確認の上、認証コードを入力してください。</value></data>
+  <data name="msg_InactiveBankAccountSubmission_Detail"><value>入金先口座が変更になりましたので、お取引の前に最新の入金先口座をご確認ください。</value></data>
+  <data name="msg_WithdrawalAccountAannotReceiveMoney"><value>出金口座が資金を受け取ることができません</value></data>
+  <data name="msg_SamePassword"><value>旧パスワードと新パスワードは同じです</value></data>
+  <data name="msg_BeneficiarysAccountMaintenance_Detail"><value>現在、銀行はメンテナンス中であり、出金申請は銀行のメンテナンス完了後に処理されます。</value></data>
+  <data name="msg_DepositorsNameUnmatch_Detail"><value>登録名が銀行口座名と一致しない場合は、カスタマーサポートまでお問い合わせください。</value></data>
+  <data name="msg_WithdrawalAccountNumberIncorrect"><value>引き出し口座番号の誤り</value></data>
+  <data name="msg_DepositAlert"><value>メインウォレットの残高は： &lt;span class="popup-span Js-MainWallet-Balance"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;今すぐご入金いただくか、スポーツブックウォレットからメインウォレットへ移動して、ゲームやサービスをお楽しみください。</value></data>
+  <data name="msg_ForceLogedoutHint"><value>このIDは、別のブラウザウィンドウまたはデバイスから既にログインしています。このセッションからは強制的にログアウトされます。</value></data>
+  <data name="msg_WithdrawalSuccessful"><value>お引き出しは成功しました。完了しましたらお知らせいたします。</value></data>
+  <data name="msg_EnterPhoneNumber"><value>電話番号を入力してください。</value></data>
+  <data name="msg_PasswordReq"><value>パスワードが必要です。</value></data>
+  <data name="msg_NoData"><value>データなし</value></data>
+  <data name="msg_ThisCurrencyNotSupport"><value>あなたの通貨はサポートしていません。</value></data>
+  <data name="msg_InvalidCryptoWalletAddress"><value>無効な暗号ウォレットアドレスです。</value></data>
+  <data name="msg_DrawPrizeTital1"><value>{0} ミステリーボックス</value></data>
+  <data name="ForgetPwdSuccess"><value>新しいパスワードがご登録のメールアドレスに送信されました。</value></data>
+  <data name="msg_BankAccountExists"><value>あなたはすでにこの情報を保存しています。</value></data>
+  <data name="msg_Ineligible"><value>このプロモーションの対象外です。詳しくはサポートまでお問い合わせください。</value></data>
+  <data name="msg_CreditSignUpHint_1"><value>お客様各位</value></data>
+  <data name="msg_CreditSignUpHint_2"><value>{0}へようこそ、ご登録の上、上記のリンクにアクセスし、ゲームをお楽しみください。</value></data>
+  <data name="ResetPwdSuccess"><value>パスワードは正常にリセットされました！</value></data>
+  <data name="msg_DepositorsNameUnmatch"><value>入金者名不一致</value></data>
+  <data name="msg_PromoCodeIncorrect"><value>プロモーションコードが正しくありません。</value></data>
+  <data name="msg_SpecialCodeErr"><value>プロモコードが正しくありません。</value></data>
+  <data name="msg_IneligibleAngPow"><value>このプロモーションの参加資格を得るために、ご入金ください。</value></data>
+  <data name="msg_MailReq"><value>Eメールは送信後に変更できません。</value></data>
+  <data name="msg_ForceLogedout"><value>ログアウトしました! もう一度ログインしてください</value></data>
+  <data name="msg_WrongBankSubmitted"><value>間違った入金口座が選択されました</value></data>
+  <data name="msg_BeneficiarysAccountMaintenance"><value>受益者口座メンテナンス</value></data>
+  <data name="ForgetPwdFail"><value>このメールアドレスは無効です！</value></data>
+  <data name="msg_OTPHint"><value>プロフィールを記入し、電話番号を確認してください。</value></data>
+  <data name="msg_MailExisted"><value>メールはすでに存在します。</value></data>
+  <data name="msg_SpecialCodeVipLevelsOrBlockTagInvalid"><value>本キャンペーンに参加できない場合は、カスタマーサービスまでお問い合わせください。</value></data>
+  <data name="msg_AffCodeValidate"><value>アフィリエイトIDは5-20の数字のみ使用可能です。</value></data>
+  <data name="msg_OTPHint2"><value>今すぐ電話を認証しますか？</value></data>
+  <data name="msg_OTPHint1"><value>私たちの完全な製品とサービスを楽しみたいですか？</value></data>
+  <data name="msg_DepositRefunded"><value>入金払い戻し</value></data>
+  <data name="msg_DecimalOutOfRange"><value>小数が2桁を超えたため、転送に失敗しました。</value></data>
+  <data name="msg_RedemptionLimitOverLimit"><value>申し訳ございません。新しい月にもう一度お試しください。</value></data>
+  <data name="msg_times_chance"><value>まだ{0}回のチャンスが残っています。</value></data>
+  <data name="msg_congratulation_event_reward"><value>おめでとうございます！ {0}の金額をゲット</value></data>
+  <data name="msg_ProfileOrPhoneNotFinish"><value>アカウント情報が入力されていません。</value></data>
+  <data name="msg_EWalletIsMaintenance"><value>E-Walletはメンテナンス中ですので、他の出金方法をご利用ください。</value></data>
+  <data name="msg_turnover_not_enough"><value>有効なベットが完了していないため、参加不可</value></data>
+  <data name="msg_ResubmitWithdrawal"><value>出金申請を再送信してください</value></data>
+  <data name="msg_Event_has_not_started"><value>イベントはまだ始まっていません</value></data>
+  <data name="msg_limit_has_been_reached"><value>本日の制限に達しました</value></data>
+  <data name="msg_InsufficientPoint"><value>申し訳ございません！88リワードポイントが不足しています。</value></data>
+  <data name="msg_keep_up"><value>次のシェイクも頑張ってください</value></data>
+  <data name="msg_EWalletDuplicate"><value>E-walletアカウント番号の重複は許可されていません。別のEウォレット口座番号をお試しください。</value></data>
+  <data name="msg_CompletePhoneNumber"><value>携帯電話(OTP)認証を完了してください。</value></data>
+  <data name="msg_LineAccountAlreadyBind"><value>このLINEアカウントは使用済みですので、別のアカウントをご利用ください。</value></data>
+  <data name="msg_RealNameWrongFormat"><value>本名には数字や特殊文字は使用できません。</value></data>
+  <data name="msg_OTPDailyLimit"><value>OTPが制限に達しましたので、ライブチャットサポートまでご連絡ください。</value></data>
+  <data name="msg_SystemUnstable"><value>システムが詳細を取得できません。</value></data>
+  <data name="msg_SystemUnstable_Detail"><value>現在、銀行のシステムがお取引の詳細を取得できず、お客様の入金を処理することができません</value></data>
+  <data name="msg_BankUnderMaintenance_Detail"><value>現在、銀行のシステムはメンテナンス中で、お客様の入金を処理することができません。</value></data>
+  <data name="msg_AffCodeNotFound"><value>アフィリエイトIDが見つかりません</value></data>
+  </root>
