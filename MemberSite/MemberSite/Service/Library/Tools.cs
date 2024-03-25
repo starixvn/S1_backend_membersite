@@ -219,9 +219,10 @@ namespace MemberSite.Service.Library
             {
                 fromUrl = httpContextAccessor.HttpContext.Request.Headers["Referer"].ToString();
             }
-            else
+
+            if (string.IsNullOrWhiteSpace(fromUrl) || fromUrl.Contains("localhost"))
             {
-                fromUrl = httpContextAccessor.HttpContext.Request.Host.Host.ToString();
+                fromUrl = httpContextAccessor.HttpContext.Request.Host.Host;
             }
 
             return fromUrl;

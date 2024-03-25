@@ -113,7 +113,10 @@ namespace MemberSite.Service.BLL
 
             if (_httpContextAccessor.HttpContext.Request.Headers.TryGetValue("Referer", out var referer))
             {
-                return new Uri(referer).Host;
+                if (referer.Contains("localhost"))
+                    return _httpContextAccessor.HttpContext.Request.Host.Host;
+                else
+                    return new Uri(referer).Host;
             }
 
             // 都拿不到直接用Request的Host
@@ -169,6 +172,9 @@ namespace MemberSite.Service.BLL
             {
                 host = new Uri(referer).Host;
             }
+
+            if (host.Contains("localhost"))
+                host = _httpContextAccessor.HttpContext.Request.Host.Host;
 
             if (_appHost.Any(a => a == host))
                 host = $"m{host[host.IndexOf('.')..]}";
