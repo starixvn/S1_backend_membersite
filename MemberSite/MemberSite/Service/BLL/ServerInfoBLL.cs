@@ -24,6 +24,7 @@ namespace MemberSite.Service.BLL
         private readonly List<string> _seoDomain = new List<string>() { };
         private readonly string[] _appHost = { "app.n17881788.com", "app.bwing.com", "app.goal123.com" };
         private readonly Dictionary<int, Dictionary<string, string>> _socialChannelLogoLinks;
+        private readonly ILogger<ServerInfoBll> _logger;
 
         public ServerInfoBll(IServiceProvider provider)
         {
@@ -36,6 +37,7 @@ namespace MemberSite.Service.BLL
             var configBll = provider.GetRequiredService<ConfigBLL>();
             _fixSiteId = configBll.GetConfigValue<int>("FixSiteId");
             _socialChannelLogoLinks = configBll.GetConfigValuesBySiteId<Dictionary<string, string>>("SocialChannelLogoLink");
+            _logger = provider.GetRequiredService<ILogger<ServerInfoBll>>();
         }
 
         public ServerInfo GetServerInfo()
@@ -131,6 +133,7 @@ namespace MemberSite.Service.BLL
         public string GetMainDomain()
         {
             var host = GetDomain();
+            _logger.LogInformation($"host={host}.");
             var dotIndex = host.IndexOf(".");
             if (dotIndex > -1)
             {
@@ -143,6 +146,7 @@ namespace MemberSite.Service.BLL
         public string GetSubDomain()
         {
             var host = GetDomain();
+            _logger.LogInformation($"host={host}.");
             var dotIndex = host.IndexOf(".");
             if (dotIndex > -1)
             {
