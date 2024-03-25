@@ -12,7 +12,7 @@ namespace MemberSite.Service.Model
         public decimal WTurnover { get; set; }
         public int Status { get; set; }
     }
-    
+
     public class LeaderboardCustRank
     {
         public int CustRank { get; set; }
@@ -41,7 +41,7 @@ namespace MemberSite.Service.Model
         public string EventCode { get; set; }
         public DateTime SelectDays { get; set; }
     }
-    
+
     public class GetLeaderboardListMonthReq
     {
         public int LBCategoryId { get; set; }
@@ -49,13 +49,13 @@ namespace MemberSite.Service.Model
         public int TopNum { get; set; }
         public DateTime SelectDays { get; set; }
     }
-    
+
     public class LeaderboardSetting
     {
         public LeaderboardPointCalculation LeaderboardPointCalculation { get; set; }
         public IEnumerable<LeaderboardRankingBonus> LeaderboardRankingBonus { get; set; }
     }
-    
+
     public class LeaderboardPointCalculation
     {
         public string Date { get; set; }
@@ -65,7 +65,7 @@ namespace MemberSite.Service.Model
         public decimal SlotTurnover { get; set; }
         public decimal LiveCasinoTurnover { get; set; }
     }
-    
+
     public class LeaderboardRankingBonus
     {
         public int SiteId { get; set; }
@@ -76,15 +76,15 @@ namespace MemberSite.Service.Model
         public decimal MinPoint { get; set; }
         public decimal Bonus { get; set; }
     }
-    
+
     public class GetLeaderboardSettingReq
     {
         public int SiteId { get; set; }
         public int CurrencyId { get; set; }
     }
-    
+
     #endregion
-    
+
     #region DrawPrize
 
     public class Prize
@@ -109,7 +109,7 @@ namespace MemberSite.Service.Model
         public int TicketCount { get; set; }
         public DrawPrizeTypeEnum DrawPrizeType { get; set; }
     }
-    
+
     public class CustGiftList
     {
         public DateTime EventDate { get; set; }
@@ -118,7 +118,7 @@ namespace MemberSite.Service.Model
         public decimal Amount { get; set; }
         public DateTime DrawTime { get; set; }
     }
-    
+
     public class PrizeList
     {
         public int PrizeIndex { get; set; }
@@ -126,7 +126,7 @@ namespace MemberSite.Service.Model
         public string PrizeName { get; set; }
         public int PrizeType { get; set; }
     }
-    
+
     public class PrizeDisPlayList
     {
         public int EventId { get; set; }
@@ -135,7 +135,7 @@ namespace MemberSite.Service.Model
         public int PrizeId { get; set; }
         public string PrizeName { get; set; }
     }
-    
+
     public class DrawPrizeMessage
     {
         public string Tital { get; set; }
@@ -147,7 +147,7 @@ namespace MemberSite.Service.Model
         public string EventName { get; set; }
         public string ConditionSp { get; set; }
     }
-    
+
     public class AngPowTicket
     {
         public int CustId { get; set; }
@@ -172,8 +172,8 @@ namespace MemberSite.Service.Model
         /// <summary>
         /// ex:2024-02-07
         /// </summary>
-        public DateTime Date { get; set; }  
-        
+        public DateTime Date { get; set; }
+
     }
 
     #endregion
@@ -194,14 +194,14 @@ namespace MemberSite.Service.Model
         public int EggCount { get; set; }
         public bool IsCompleted { get; set; }
     }
-    
+
     public class PromotionMissionProgress
     {
         public decimal UnUsedDepositAmount { get; set; }
         public decimal TurnoverSum { get; set; }
         public int AffCount { get; set; }
     }
-    
+
     public class PromotionMissionMessage
     {
         public int Type { get; set; }
@@ -215,7 +215,7 @@ namespace MemberSite.Service.Model
         public string MissionDate { get; set; }
         public int MissionNo { get; set; }
     }
-    
+
     public class NewYearMission2024
     {
         public string MissionDate { get; set; }
@@ -234,7 +234,7 @@ namespace MemberSite.Service.Model
         public bool IsCompleted { get; set; }
         public PromotionMissionTypeEnum Type { get; set; }
     }
-    
+
     public class CheckPromotionMissionResponse
     {
         public IEnumerable<NewYearMission2024> NewYearMission2024 { get; set; }
@@ -243,7 +243,7 @@ namespace MemberSite.Service.Model
         /// </summary>
         public int EggTicket { get; set; }
     }
-    
+
     public class CustBlessingsStickerResponse
     {
         public bool IsClaimedBigPrize { get; set; }
@@ -251,5 +251,5 @@ namespace MemberSite.Service.Model
     }
 
     #endregion
-    
+
 }

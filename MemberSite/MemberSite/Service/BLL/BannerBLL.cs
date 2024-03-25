@@ -1,7 +1,7 @@
-﻿using MemberSite.Controllers.Api;
-using MemberSite.Service.DAL.Interface;
+﻿using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
+
 using Newtonsoft.Json;
 
 namespace MemberSite.Service.BLL
@@ -93,7 +93,7 @@ namespace MemberSite.Service.BLL
                 if (bannerDetail.Details != null && bannerDetail.BannerType != 2)
                 {
                     try
-                    {               
+                    {
                         var details = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(bannerDetail.Details);
                         if (!details.ContainsKey(langId)) continue;
                         var settings = details[langId];

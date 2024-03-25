@@ -79,7 +79,7 @@ namespace MemberSite.Service.BLL
                 .Select(x => new OfflineBankInfoFront(x, !custDepositSysIds.Contains(x.SysId)));
             return result;
         }
-        
+
         public int LocalBankinfo(int custId, int sysId, string memo, out DepositRep3 depositRep3)
         {
             depositRep3 = new DepositRep3();
@@ -219,7 +219,7 @@ namespace MemberSite.Service.BLL
                             && x.SupportChannel.Contains(OfflineBankAccountSupportChannelEnum.LocalBank))
                 .ToList();
 
-            if (siteId == (int)SiteId.Nova88
+            if (siteId == 1
                 && currencyId == (int)CurrencyId.THB) // Nova88 泰國銀行名稱支援多語系
             {
                 BankNameLocalization(localBankList, lang);

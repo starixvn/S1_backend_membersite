@@ -75,7 +75,7 @@ namespace MemberSite.Service.BLL
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var pointLevel = _custInfoBll.GetPointLevelWithCache(custId);
-            
+
             var depositLimitInfo = _depositLimitBll.GetDepositLimitInfo(custId, depositType);
 
             if (depositLimitInfo?.DepositStatus == 0)

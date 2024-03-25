@@ -391,11 +391,11 @@
   <data name="msg_AffCodeNotFound" xml:space="preserve">
     <value>ID afiliasi tidak dapat ditemukan</value>
   </data>
-  <data name="msg_SystemUnstable" xml:space="preserve">
-    <value>Sistem tidak dapat mengambil rincian.</value>
+  <data name="msg_BankSystemUnstable" xml:space="preserve">
+    <value>Sistem Bank Tidak Stabil</value>
   </data>
-  <data name="msg_SystemUnstable_Detail" xml:space="preserve">
-    <value>Sistem bank saat ini tidak dapat mengambil rincian transaksi, dan tidak dapat memproses deposit Anda saat ini.</value>
+  <data name="msg_BankSystemUnstable_Detail" xml:space="preserve">
+    <value>Sistem Bank tidak dapat mengambil rinciannya.</value>
   </data>
   <data name="msg_BankUnderMaintenance" xml:space="preserve">
     <value>Pemeliharaan Bank</value>
@@ -408,5 +408,17 @@
   </data>
   <data name="msg_NeedNationality" xml:space="preserve">
     <value>tidak terisi Kebangsaan</value>
+  </data>
+  <data name="msg_DepositRemarkReminder" xml:space="preserve">
+    <value>Pengingat Catatan Setoran</value>
+  </data>
+  <data name="msg_DepositRemarkReminder_Detail" xml:space="preserve">
+    <value>Transaksi Anda telah disetujui. Namun, terdapat kesalahan dalam catatan yang diberikan. Sebelum mengirimkan di situs kami, pastikan Anda memasukkan detail bank dan catatan yang benar langsung ke dalam sistem perbankan Anda.</value>
+  </data>
+  <data name="msg_FillUpRemarkReminder" xml:space="preserve">
+    <value>Isi Catatan Pengingat</value>
+  </data>
+  <data name="msg_FillUpRemarkReminder_Detail" xml:space="preserve">
+    <value>Untuk mempercepat verifikasi dan pemrosesan permintaan deposit Anda, pastikan untuk memasukkan nomor catatan yang disediakan pada halaman deposit saat melakukan transfer.</value>
   </data>
 </root>

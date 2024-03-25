@@ -42,7 +42,7 @@ namespace MemberSite.Service.Model.Game
         public List<SlotGameInfo> Megaways { get; set; } = new List<SlotGameInfo>();
         public List<SlotGameInfo> MyFavorite { get; set; } = new List<SlotGameInfo>();
         public List<SlotGameInfo> Mini { get; set; } = new List<SlotGameInfo>();
-       
+
         public GetSlotGamePageResponse()
         {
 
@@ -135,8 +135,8 @@ namespace MemberSite.Service.Model.Game
                     }
 
                     // Jackpot
-                    if (returnAllCategory && category == (int)SlotGameCategory.Jackpot) 
-                    {             
+                    if (returnAllCategory && category == (int)SlotGameCategory.Jackpot)
+                    {
                         Jackpot.Add(game);
                     }
                     if (category == (int)SlotGameCategory.Jackpot && slotGameCategoryList.Contains(category))
@@ -207,7 +207,7 @@ namespace MemberSite.Service.Model.Game
             {
                 Jackpot = homePageJackpot;
             }
-           
+
         }
 
         private List<SlotGameInfo> GetRandom(List<SlotGameInfo> slotGameList)

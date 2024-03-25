@@ -1,21 +1,23 @@
-﻿using System.Globalization;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Net.Sockets;
 using System.Security.Claims;
 using System.Text.RegularExpressions;
+
 using MemberSite.Attributes;
 using MemberSite.Service.BLL;
-using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
+
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+
 using Newtonsoft.Json;
+
 using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
@@ -43,8 +45,7 @@ namespace MemberSite.Controllers.Api
         private readonly ILogger<SiteController> _logger;
         private readonly CheckAttackBLL _checkAttackBll;
         private readonly StringVaildHelper _stringVaildHelper;
-        private readonly IGeoIpApi _geoIpApi;
-        private readonly ICheckIpBLL _checkIpBll;
+        private readonly CheckIpBLL _checkIpBll;
         private readonly FPSBLL _FPSBll;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly CommonBLL _commonBll;
@@ -67,11 +68,9 @@ namespace MemberSite.Controllers.Api
             _logger = provider.GetRequiredService<ILogger<SiteController>>();
             _checkAttackBll = provider.GetRequiredService<CheckAttackBLL>();
             _stringVaildHelper = provider.GetRequiredService<StringVaildHelper>();
-            _geoIpApi = provider.GetRequiredService<IGeoIpApi>();
-            _checkIpBll = provider.GetRequiredService<ICheckIpBLL>();
+            _checkIpBll = provider.GetRequiredService<CheckIpBLL>();
             _checkAttackBll = provider.GetRequiredService<CheckAttackBLL>();
             _stringVaildHelper = provider.GetRequiredService<StringVaildHelper>();
-            _geoIpApi = provider.GetRequiredService<IGeoIpApi>();
             _FPSBll = provider.GetRequiredService<FPSBLL>();
             _httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
             _commonBll = provider.GetRequiredService<CommonBLL>();
@@ -193,7 +192,7 @@ namespace MemberSite.Controllers.Api
             }
 
             #endregion
-            
+
             await _cacheHelper.StringFireAndForgetSetAsync(customer.CustId.ToString(), token, TimeSpan.FromMinutes(30), RedisDataBase.Token);
 
             Response.Cookies.Delete($"Initialization{User.Identity?.Name}");
@@ -339,6 +338,7 @@ namespace MemberSite.Controllers.Api
             public string City { get; set; }
             public string PostCode { get; set; }
             public string LineFirst { get; set; }
+            public IFormFile PhotoId { get; set; }
         }
 
         [HttpPost]
@@ -424,10 +424,16 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
 
+        private readonly Dictionary<string, System.Drawing.Imaging.ImageFormat> _contentTypesCheck = new Dictionary<string, System.Drawing.Imaging.ImageFormat>(comparer: StringComparer.OrdinalIgnoreCase)
+        {
+            {"image/png",System.Drawing.Imaging.ImageFormat.Png},
+            {"image/jpeg",System.Drawing.Imaging.ImageFormat.Jpeg},
+            { "image/gif",System.Drawing.Imaging.ImageFormat.Gif}
+        };
 
         [HttpPost]
         //只給Ivorysport使用
-        public async Task<ApiResult> IvorysportSignupAsync(IvorysportSignupModel signupModel)
+        public async Task<ApiResult> IvorysportSignupAsync([FromForm] IvorysportSignupModel signupModel)
         {
             var apiResult = new ApiResult(_selLangBll);
             var isAuthenticated = User.Identity is { IsAuthenticated: true };
@@ -438,6 +444,12 @@ namespace MemberSite.Controllers.Api
                 apiResult.Message = $"{_selLangBll.GetMsg("msg_RealNameWrongFormat")}";
                 return apiResult;
             }
+
+            if (!_contentTypesCheck.ContainsKey(signupModel.PhotoId.ContentType))
+            {
+                return new ApiResult { ErrorCode = -1, Message = _selLangBll.GetMsg("msg_UpdateFailed") };
+            }
+
             var customer = _siteBll.IvorysportSignup(signupModel, apiResult, isAuthenticated, Request.Host.Host,
                 Request.Headers["User-Agent"], true);
             if (apiResult.ErrorCode == (int)ErrorCode.Attack)
@@ -513,34 +525,34 @@ namespace MemberSite.Controllers.Api
                 Customer custInfo = null;
 
                 string resetPasswordUrl;
-
+                var host = _serverInfoBll.GetDomain();
                 if (forgetPwdReq.flag == 1)
                 {
-                    resetPasswordUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://{Url.ActionContext.HttpContext.Request.Host.Host}/{_selLangBll.GetLangId()}/resetPassword";
+                    resetPasswordUrl = $"https://{host}/{_selLangBll.GetLangId()}/resetPassword";
                 }
                 else if (forgetPwdReq.flag == 2)
                 {
-                    if (Url.ActionContext.HttpContext.Request.Host.Host == "app.n17881788.com")
+                    if (host == "app.n17881788.com")
                     {
-                        resetPasswordUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://m.n17881788.com/{_selLangBll.GetLangId()}/resetPassword";
+                        resetPasswordUrl = $"https://m.n17881788.com/{_selLangBll.GetLangId()}/resetPassword";
                     }
-                    else if (Url.ActionContext.HttpContext.Request.Host.Host == "app.bwing.com")
+                    else if (host == "app.bwing.com")
                     {
-                        resetPasswordUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://m.bwing.com/{_selLangBll.GetLangId()}/resetPassword";
+                        resetPasswordUrl = $"https://m.bwing.com/{_selLangBll.GetLangId()}/resetPassword";
                     }
-                    else if (Url.ActionContext.HttpContext.Request.Host.Host == "app.goal123.com")
+                    else if (host == "app.goal123.com")
                     {
-                        resetPasswordUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://m.goal123.com/{_selLangBll.GetLangId()}/resetPassword";
+                        resetPasswordUrl = $"https://m.goal123.com/{_selLangBll.GetLangId()}/resetPassword";
                     }
                     else
                     {
                         //H5
-                        resetPasswordUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://{Url.ActionContext.HttpContext.Request.Host.Host}/resetPassword";
+                        resetPasswordUrl = $"https://{host}/resetPassword";
                     }
                 }
                 else
                 {
-                    resetPasswordUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://{Url.ActionContext.HttpContext.Request.Host.Host}/resetPassword";
+                    resetPasswordUrl = $"https://{host}/resetPassword";
                 }
 
                 if (!string.IsNullOrEmpty(forgetPwdReq.Username))
@@ -600,7 +612,7 @@ namespace MemberSite.Controllers.Api
             public string PhoneNo { get; set; }
             public string Username { get; set; }
         }
-        
+
         [HttpPost]
         public async Task<ApiResult<SendOTPSMSResult>> ReSetPwdByOTPAsync(ReSetPwdByOTPReq reSetPwdByOtpReq)
         {
@@ -613,17 +625,17 @@ namespace MemberSite.Controllers.Api
                     AreaCode = reSetPwdByOtpReq.AreaCode,
                     PhoneNo = reSetPwdByOtpReq.PhoneNo
                 };
-                
+
                 if (_checkAttackBll.CheckAttack(checkValue, Request))
                 {
                     Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
                     return null;
                 }
-                
+
                 if (long.TryParse(reSetPwdByOtpReq.PhoneNo, out var phoneNo))
                 {
                     var serverInfo = _serverInfoBll.GetServerInfo();
-                    
+
                     reSetPwdByOtpReq.PhoneNo = phoneNo.ToString();
                     if (_custInfoBll.ExistsPhoneNoAndUserName(reSetPwdByOtpReq.Username, reSetPwdByOtpReq.AreaCode,
                             reSetPwdByOtpReq.PhoneNo, serverInfo.SiteId))
@@ -656,13 +668,13 @@ namespace MemberSite.Controllers.Api
             public string InputOTPcode { set; get; }
             public string NewPassword { set; get; }
         }
-        
+
         [HttpPost]
         public async Task<ApiResult> ReSetPwdVerifyOTPAsync(ReSetPwdVerifyOTPReq req)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
             var custInfoProfile = _custInfoBll.GetCustInfoProfileByUserName(serverInfo.SiteId, req.Username);
-            
+
             var apiResult = await _custInfoBll.ReSetPwdVerifyOTPAsync(custInfoProfile.CustId, req.InputOTPcode);
 
             if (apiResult.ErrorCode == 0)
@@ -683,10 +695,10 @@ namespace MemberSite.Controllers.Api
                 apiResult.ErrorCode = -1;
                 apiResult.Message = _selLangBll.GetMsg("msg_OTP_SendOTPSMS_Fail");
             }
-            
+
             return apiResult;
         }
-        
+
         [HttpPost]
         public ApiResult<Dictionary<string, string>> GetTranslationData(string[] keys)
         {
@@ -1063,7 +1075,9 @@ namespace MemberSite.Controllers.Api
                 "REMOTE_ADDR",
                 "HTTP_X_FORWARDED_FOR",
                 "HTTP_X_FORWARDED_PROTO",
-                "SERVER_NAME"
+                "SERVER_NAME",
+                "X-Client-IP",
+                "X-Real-IP"
             };
 
                 foreach (var head in Request.Headers)
@@ -1405,5 +1419,15 @@ namespace MemberSite.Controllers.Api
                 Data = await _checkIpBll.CheckIp(_tools.GetClientIP())
             };
         }
+
+        //[HttpPost]
+        //public async Task<ApiResult<bool>> ReCaptchaV3Test()
+        //{
+        //    _recaptchaBll.CreateAssessment();
+        //    return new ApiResult<bool>()
+        //    {
+        //        ErrorCode = (int)ErrorCode.Success
+        //    };
+        //}
     }
 }

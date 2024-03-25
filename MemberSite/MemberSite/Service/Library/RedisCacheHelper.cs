@@ -1,5 +1,7 @@
 ﻿using MemberSite.Service.Model.enums;
 
+using MySqlX.XDevAPI.Common;
+
 using Newtonsoft.Json;
 
 using StackExchange.Redis;
@@ -18,8 +20,7 @@ namespace MemberSite.Service.Library
             _logger = logger;
         }
 
-        public TItem TryGetOrCreate<TItem>(string key, TimeSpan timeSpan, Func<TItem> factory,
-            RedisDataBase redisDataBase = RedisDataBase.Member)
+        public TItem TryGetOrCreate<TItem>(string key, TimeSpan timeSpan, Func<TItem> factory, RedisDataBase redisDataBase = RedisDataBase.Member)
         {
             key = $"{redisDataBase}:{RemoveSpecialChars(key)}";
             try
@@ -47,8 +48,7 @@ namespace MemberSite.Service.Library
             }
         }
 
-        public async Task<TItem> TryGetOrCreateAsync<TItem>(string key, TimeSpan? timeSpan, Func<Task<TItem>> factory,
-            RedisDataBase redisDataBase = RedisDataBase.Member)
+        public async Task<TItem> TryGetOrCreateAsync<TItem>(string key, TimeSpan? timeSpan, Func<Task<TItem>> factory, RedisDataBase redisDataBase = RedisDataBase.Member)
         {
             key = $"{redisDataBase}:{RemoveSpecialChars(key)}";
             try
@@ -76,8 +76,7 @@ namespace MemberSite.Service.Library
             }
         }
 
-        public async Task<bool> StringFireAndForgetSetAsync(string key, RedisValue value, TimeSpan? timeSpan,
-            RedisDataBase redisDataBase = RedisDataBase.Member)
+        public async Task<bool> StringFireAndForgetSetAsync(string key, RedisValue value, TimeSpan? timeSpan, RedisDataBase redisDataBase = RedisDataBase.Member)
         {
             key = $"{redisDataBase}:{RemoveSpecialChars(key)}";
             try
@@ -92,8 +91,7 @@ namespace MemberSite.Service.Library
             }
         }
 
-        public bool StringSet(string key, RedisValue value, TimeSpan? timeSpan,
-            RedisDataBase redisDataBase = RedisDataBase.Member)
+        public bool StringSet(string key, RedisValue value, TimeSpan? timeSpan, RedisDataBase redisDataBase = RedisDataBase.Member)
         {
             key = $"{redisDataBase}:{RemoveSpecialChars(key)}";
             try
@@ -123,8 +121,7 @@ namespace MemberSite.Service.Library
             }
         }
 
-        public async Task<long> StringIncrementAsync(string key, TimeSpan? timeSpan,
-            RedisDataBase redisDataBase = RedisDataBase.Member)
+        public async Task<long> StringIncrementAsync(string key, TimeSpan? timeSpan, RedisDataBase redisDataBase = RedisDataBase.Member)
         {
             key = $"{redisDataBase}:{RemoveSpecialChars(key)}";
             try
@@ -156,82 +153,22 @@ namespace MemberSite.Service.Library
             }
         }
 
-        public async Task<TItem> StringGetAsync<TItem>(string key, RedisDataBase redisDataBase = RedisDataBase.Member)
+        public async Task<bool> KeyExistsAsync(string key, RedisDataBase redisDataBase = RedisDataBase.Member)
         {
             key = $"{redisDataBase}:{RemoveSpecialChars(key)}";
             try
             {
                 var db = _multiplexer.GetDatabase((int)redisDataBase);
-                var json = await db.StringGetAsync(key);
-                return JsonConvert.DeserializeObject<TItem>(json);
+                return await db.KeyExistsAsync(key);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"{key} | {ex.Message}");
-                return default;
+                return false;
             }
         }
 
-        public List<TItem> GetCacheList<TItem>(IEnumerable<string> keys, RedisDataBase redisDataBase = RedisDataBase.Member)
-        {
-            try
-            {
-                var taskList = new List<Task<RedisValue>>();
-                var db = _multiplexer.GetDatabase((int)redisDataBase);
-                var trans = db.CreateTransaction();
-                foreach (var key in keys)
-                {
-                    var rediskey = $"{redisDataBase}:{RemoveSpecialChars(key)}";
-                    var task = db.StringGetAsync(rediskey);
-                    taskList.Add(task);
-                }
-
-                trans.Execute();
-
-                var reslstList = new List<TItem>();
-                foreach (var task in taskList)
-                {
-                    if (task.Result.HasValue)
-                    {
-                        var data = JsonConvert.DeserializeObject<TItem>(task.Result);
-                        reslstList.Add(data);
-                    }
-                }
-                return reslstList;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"{keys} | {ex.Message}");
-                return default;
-            }
-        }
-
-        public bool SetCacheList<TItem>(Dictionary<string, TItem> dataList, TimeSpan? timeSpan,
-            RedisDataBase redisDataBase = RedisDataBase.Member)
-        {
-            try
-            {
-                var taskList = new List<Task<bool>>();
-                var db = _multiplexer.GetDatabase((int)redisDataBase);
-                var trans = db.CreateTransaction();
-                foreach (var data in dataList)
-                {
-                    var key = $"{redisDataBase}:{RemoveSpecialChars(data.Key)}";
-                    var task = db.StringSetAsync(key, JsonConvert.SerializeObject(data.Value), timeSpan);
-                    taskList.Add(task);
-                }
-
-                return trans.Execute();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"{dataList.Keys} | {ex.Message}");
-                return default;
-            }
-        }
-
-        public bool InsertList<TItem>(string key, TimeSpan? timeSpan, IEnumerable<TItem> list,
-            RedisDataBase redisDataBase = RedisDataBase.Member)
+        public bool InsertList<TItem>(string key, TimeSpan? timeSpan, IEnumerable<TItem> list, RedisDataBase redisDataBase = RedisDataBase.Member)
         {
             try
             {
@@ -261,8 +198,7 @@ namespace MemberSite.Service.Library
             }
         }
 
-        public List<TItem> GetListByRange<TItem>(string key, long startIndex, long endIndex,
-            RedisDataBase redisDataBase = RedisDataBase.Member)
+        public List<TItem> GetListByRange<TItem>(string key, long startIndex, long endIndex, RedisDataBase redisDataBase = RedisDataBase.Member)
         {
             try
             {
@@ -375,6 +311,48 @@ namespace MemberSite.Service.Library
             }
         }
 
+        public bool TryGetValue<TItem>(string key, out TItem value, RedisDataBase redisDataBase = RedisDataBase.Member)
+        {
+            key = $"{redisDataBase}:{RemoveSpecialChars(key)}";
+            value = default;
+            try
+            {
+                var db = _multiplexer.GetDatabase((int)redisDataBase);
+                if (!db.KeyExists(key))
+                {
+                    return false;
+                }
+
+                var json = db.StringGet(key);
+                if (!json.HasValue)
+                {
+                    return false;
+                }
+
+                value = JsonConvert.DeserializeObject<TItem>(json);
+                return true;              
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"{key} | {ex.Message}");
+                return false;
+            }
+        }
+
+        public bool Create<TItem>(string key, TItem value, TimeSpan timeSpan, RedisDataBase redisDataBase = RedisDataBase.Member)
+        {
+            key = $"{redisDataBase}:{RemoveSpecialChars(key)}";
+            try
+            {
+                var db = _multiplexer.GetDatabase((int)redisDataBase);
+                return db.StringSet(key, JsonConvert.SerializeObject(value), timeSpan);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"{key} | {ex.Message}");
+                return false;
+            }
+        }
 
         private string RemoveSpecialChars(string key)
         {
