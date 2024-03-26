@@ -309,15 +309,12 @@ namespace MemberSite.Service.BLL
             
             if (!tickets.Any()) return userTicketResult;
             
+            finishedCount = tickets.Count(x => x.TeamId is not null);
+            
             if (siteId is 1 or 3)
             {
                 foreach (var ticket in tickets)
                 {
-                    if (ticket.TeamId is not null)
-                    {
-                        finishedCount += 1;
-                    }
-                
                     var ticketModel = new UserTicket()
                     {
                         TicketType = ticket.TicketType,
