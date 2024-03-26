@@ -75,42 +75,39 @@ namespace MemberSite.Extensions.Middlewares
                     LogContext.PushProperty("UserName", authData?.UserName);
                     LogContext.PushProperty("SiteId", serverInfo?.SiteId);
                     LogContext.PushProperty("ClientIp", _tools.GetClientIP());
-                    using (LogContext.PushProperty("Domain", context.Request.Host.ToString()))
-                    using (LogContext.PushProperty("ClientAgent", context.Request.Headers["User-Agent"].ToString()))
-                    using (LogContext.PushProperty("Referer", context.Request.Headers["Referer"].ToString()))
-                    {
-                        // log需將登入密碼隱碼
-                        if (path.Contains("/api/Site/SignIn", StringComparison.OrdinalIgnoreCase) ||
-                            path.Contains("/api/Site/SignInApp", StringComparison.OrdinalIgnoreCase) ||
-                            path.Contains("/api/Site/Signup", StringComparison.OrdinalIgnoreCase) ||
-                            path.Contains("/api/Site/SignupApp", StringComparison.OrdinalIgnoreCase) ||
-                            path.Contains("/api/Extra/Signup", StringComparison.OrdinalIgnoreCase) ||
-                            path.Contains("/api/Account/ChangePassword", StringComparison.OrdinalIgnoreCase))
-                        {
-                            var jbody = JObject.Parse(content);
-                            if (jbody.TryGetValue("Userpwd", StringComparison.OrdinalIgnoreCase, out var pwd)
-                                && !string.IsNullOrEmpty(pwd.ToString()))
-                            {
-                                jbody["Userpwd"] = "********";
-                            }
-                            if (jbody.TryGetValue("OldPassword", StringComparison.OrdinalIgnoreCase, out var opwd)
-                               && !string.IsNullOrEmpty(opwd.ToString()))
-                            {
-                                jbody["OldPassword"] = "********";
-                            }
-                            if (jbody.TryGetValue("NewPassword", StringComparison.OrdinalIgnoreCase, out var npwd)
-                               && !string.IsNullOrEmpty(npwd.ToString()))
-                            {
-                                jbody["NewPassword"] = "********";
-                            }
-                            content = jbody.ToString();
-                        }
 
-                        var log = new StringBuilder();
-                        log.AppendLine($"REQUEST URL: {url}, Method: {context.Request.Method}, CodePage: {codePage},");
-                        log.AppendLine($"REQUEST BODY: {content}");
-                        _logger.LogInformation(log.ToString());
+                    // log需將登入密碼隱碼
+                    if (path.Contains("/api/Site/SignIn", StringComparison.OrdinalIgnoreCase) ||
+                        path.Contains("/api/Site/SignInApp", StringComparison.OrdinalIgnoreCase) ||
+                        path.Contains("/api/Site/Signup", StringComparison.OrdinalIgnoreCase) ||
+                        path.Contains("/api/Site/SignupApp", StringComparison.OrdinalIgnoreCase) ||
+                        path.Contains("/api/Extra/Signup", StringComparison.OrdinalIgnoreCase) ||
+                        path.Contains("/api/Account/ChangePassword", StringComparison.OrdinalIgnoreCase))
+                    {
+                        var jbody = JObject.Parse(content);
+                        if (jbody.TryGetValue("Userpwd", StringComparison.OrdinalIgnoreCase, out var pwd)
+                            && !string.IsNullOrEmpty(pwd.ToString()))
+                        {
+                            jbody["Userpwd"] = "********";
+                        }
+                        if (jbody.TryGetValue("OldPassword", StringComparison.OrdinalIgnoreCase, out var opwd)
+                            && !string.IsNullOrEmpty(opwd.ToString()))
+                        {
+                            jbody["OldPassword"] = "********";
+                        }
+                        if (jbody.TryGetValue("NewPassword", StringComparison.OrdinalIgnoreCase, out var npwd)
+                            && !string.IsNullOrEmpty(npwd.ToString()))
+                        {
+                            jbody["NewPassword"] = "********";
+                        }
+                        content = jbody.ToString();
                     }
+
+                    var log = new StringBuilder();
+                    log.AppendLine($"REQUEST URL: {url}, Method: {context.Request.Method}, CodePage: {codePage},");
+                    log.AppendLine($"REQUEST BODY: {content}");
+                    _logger.LogInformation(log.ToString());
+                    
                 }
 
                 requestBodyStream.Seek(0, SeekOrigin.Begin);
