@@ -10,13 +10,11 @@ namespace MemberSite.Service.DAL
     {
         private readonly Tools tools;
         private readonly MySqlClient _mainDbClient;
-        private readonly MySqlClient _reportDbClient;
 
         public AuthenticateService(IServiceProvider provider)
         {
             tools = provider.GetRequiredService<Tools>();
             _mainDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Main);
-            _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
         }
 
         public void AddUserLoginLog(int custId, string userName, int siteId, string loginIp, string fromUrl, string userAgent)
