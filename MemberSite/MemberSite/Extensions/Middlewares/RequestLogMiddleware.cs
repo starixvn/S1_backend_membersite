@@ -76,7 +76,7 @@ namespace MemberSite.Extensions.Middlewares
                     LogContext.PushProperty("SiteId", serverInfo?.SiteId);
                     LogContext.PushProperty("ClientIp", _tools.GetClientIP());
 
-                    // log需將登入密碼隱碼
+                    // log需將登入密碼隱碼api/Site/SignIn
                     if (path.Contains("/api/Site/SignIn", StringComparison.OrdinalIgnoreCase) ||
                         path.Contains("/api/Site/SignInApp", StringComparison.OrdinalIgnoreCase) ||
                         path.Contains("/api/Site/Signup", StringComparison.OrdinalIgnoreCase) ||
@@ -90,11 +90,19 @@ namespace MemberSite.Extensions.Middlewares
                         {
                             jbody["Userpwd"] = "********";
                         }
+
+                        if (jbody.TryGetValue("userpwd", StringComparison.OrdinalIgnoreCase, out var userpwd)
+                            && !string.IsNullOrEmpty(userpwd.ToString()))
+                        {
+                            jbody["userpwd"] = "********";
+                        }
+
                         if (jbody.TryGetValue("OldPassword", StringComparison.OrdinalIgnoreCase, out var opwd)
                             && !string.IsNullOrEmpty(opwd.ToString()))
                         {
                             jbody["OldPassword"] = "********";
                         }
+
                         if (jbody.TryGetValue("NewPassword", StringComparison.OrdinalIgnoreCase, out var npwd)
                             && !string.IsNullOrEmpty(npwd.ToString()))
                         {
