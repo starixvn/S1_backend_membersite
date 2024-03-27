@@ -60,8 +60,8 @@ namespace MemberSite.Controllers.Api
                 var responseData = _cupEventBll.GetCupEventTicket(serverInfo.SiteId, authData.CustId, authData.UserName, authData.LangId, custInfo.CurrencyId).Result;
                 
                 apiResult.Data = responseData;
-                apiResult.ErrorCode = responseData.ErrorCode;
-                apiResult.Message = apiResult.ErrorCode switch
+                apiResult.ErrorCode = 0;
+                apiResult.Message = responseData.ErrorCode switch
                 {
                     104 => _selLangBll.GetMsg("msg_ProfileOrPhoneNotFinish"),
                     _ => ""
