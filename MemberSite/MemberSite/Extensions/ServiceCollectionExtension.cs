@@ -1,9 +1,11 @@
-﻿using MemberSite.Service.BLL;
+﻿using System.Text;
+
+using MemberSite.Service.BLL;
 using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
-using System.Text;
+
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -43,26 +45,18 @@ namespace MemberSite.Extensions
                 services.AddSingleton(provider => new MySqlClient(provider, DataBase.Report, reportDBConn));
             }
 
-            services.AddSingleton(provider => new MySqlClient(provider, DataBase.Main, config.GetConnectionString($"{serviceType}_MainDB")));            
+            services.AddSingleton(provider => new MySqlClient(provider, DataBase.Main, config.GetConnectionString($"{serviceType}_MainDB")));
             services.AddSingleton(provider => new MySqlClient(provider, DataBase.Log, config.GetConnectionString($"{serviceType}_LogDB")));
+            services.AddSingleton(provider => new MySqlClient(provider, DataBase.ReportIPTable, config.GetConnectionString($"{serviceType}_ReportIPTable")));
             return services;
         }
 
-        public static IServiceCollection AddOptionListByDB<T>(this IServiceCollection services, string sql, object parameters = null)
+        public static IServiceCollection AddOptionListByDB<T>(this IServiceCollection services, string sql, object parameters = null, DataBase dataBase = DataBase.Report)
         {
             var provider = services.BuildServiceProvider();
             var configService = provider.GetRequiredService<ConfigService>();
-            var option = configService.Query<T>(sql, parameters);
+            var option = configService.Query<T>(sql, parameters, dataBase);
             services.AddSingleton(typeof(IEnumerable<T>), p => option);
-            return services;
-        }
-
-        public static IServiceCollection AddOptionByDB<T>(this IServiceCollection services, string sql, object parameters = null)
-        {
-            var provider = services.BuildServiceProvider();
-            var configService = provider.GetRequiredService<ConfigService>();
-            var option = configService.Query<T>(sql, parameters).FirstOrDefault();
-            services.AddSingleton(typeof(T), p => option);
             return services;
         }
 

@@ -1,6 +1,8 @@
-﻿namespace MemberSite.Service.Model;
+﻿using MemberSite.Service.Model.Interfaces;
 
-public class GetRebateExcludeGameListRequest
+namespace MemberSite.Service.Model;
+
+public class GetRebateExcludeGameListRequest : IRedisKey
 {
 
     public int SiteId { get; set; }

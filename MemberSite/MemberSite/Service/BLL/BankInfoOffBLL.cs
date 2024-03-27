@@ -79,7 +79,7 @@ namespace MemberSite.Service.BLL
                 .Select(x => new OfflineBankInfoFront(x, !custDepositSysIds.Contains(x.SysId)));
             return result;
         }
-        
+
         public int LocalBankinfo(int custId, int sysId, string memo, out DepositRep3 depositRep3)
         {
             depositRep3 = new DepositRep3();
