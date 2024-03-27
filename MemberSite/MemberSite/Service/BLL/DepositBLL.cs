@@ -106,8 +106,8 @@ public class DepositBLL
 
 
     private static readonly IEnumerable<int> NoExchangeInfoPay
-        = new List<int> { (int)PayEnum.Coin2Pay };
-
+        = new List<int> {(int)PayEnum.Coin2Pay, (int)PayEnum.SDSPay};
+    
     private async Task<(IPayInfo, Dictionary<string, string>)> GetCryptoPayInfo(Customer custInfo, int channelId, int vipLevel, decimal amount)
     {
         var payInfo = _payInfoBll.GetPayInfoListWithCache(custInfo.SiteId, DepositType.CryptoPayment)
