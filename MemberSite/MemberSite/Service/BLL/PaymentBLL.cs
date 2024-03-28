@@ -870,30 +870,30 @@ namespace MemberSite.Service.BLL
         private WithdrawalInfoAutoWayEnum GetWithdrawalVerifyWay(string transId, Customer custInfo, decimal withdrawalAmount)
         {
             var setting = withdrawalService.GetAutoPaymentRuleSetting(custInfo.SiteId, custInfo.CurrencyId, 0, AutoType.AutoVerify);
-            _logger.LogInformation("setp 31.");
             if (setting is null)
                 return WithdrawalInfoAutoWayEnum.Manual; //沒有該幣別的設定就是手動
 
             // 不看卡號 只看提款成功次數
             var withdrawalSuccessCount = withdrawalService.GetAllAccountWithdrawalSuccessCounterByCustId(custInfo.CustId);
-            _logger.LogInformation("setp 32.");
             if (custInfo.SiteId == 1)
             {
                 // Iovation
                 var custIovation = _iovationService.GetCustIovation(custInfo.CustId);
                 _logger.LogInformation("setp 33.");
+                _logger.LogInformation($"setting.device={setting.DeviceLevelStr}");
+                _logger.LogInformation($"custIovation.Iovation={custIovation.Iovation}");
                 if (!setting.DeviceLevel.Contains(custIovation.Iovation))
                 {
                     _logger.LogInformation($"{transId} WithdrawalVerifyWay Manual, custIovation : {custIovation} , Setting :{JsonConvert.SerializeObject(setting.DeviceLevel)} ");
                     return WithdrawalInfoAutoWayEnum.Manual;
                 }
+                _logger.LogInformation("setp 34.");
             }
             else
             {
                 // shieldScores
                 var context = _httpContextAccessor.HttpContext;
                 var strDeviceScore = context.Request.Cookies["device_score"];
-                _logger.LogInformation("setp 34.");
                 var deviceScore = -1;
                 if (strDeviceScore != null)
                 {
@@ -902,7 +902,6 @@ namespace MemberSite.Service.BLL
                 else
                 {
                     var shieldInfo = _shieldService.GetCustShieldRiskInfoList(custInfo.CustId);
-                    _logger.LogInformation("setp 35.");
                     if (shieldInfo is not null)
                     {
                         deviceScore = shieldInfo.DeviceScore;
@@ -916,9 +915,8 @@ namespace MemberSite.Service.BLL
                     return WithdrawalInfoAutoWayEnum.Manual;
                 }
             }
-            _logger.LogInformation("setp 36.");
             var check = CheckAutoPaymentRuleSetting(setting, custInfo.TagList, custInfo.UserLevel, withdrawalAmount, withdrawalSuccessCount);
-            _logger.LogInformation("setp 37.");
+            _logger.LogInformation("setp 35.");
             return check;
         }
 
