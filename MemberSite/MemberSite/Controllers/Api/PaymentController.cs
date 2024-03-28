@@ -385,7 +385,7 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
             #endregion
-
+            _logger.LogInformation("setp 1.");
             #region - Check WithdrawalLimit -
             var withdrawalLimitInfo = _paymentBll.GetWithdrawalLimitInfo(new WithdrawalLimitInfoInput
             { SiteId = custInfo.SiteId, CurrencyId = custInfo.CurrencyId, VipLevel = custInfo.UserLevel });
@@ -396,7 +396,7 @@ namespace MemberSite.Controllers.Api
                 apiResult.ErrorCode = -5;
                 return apiResult;
             }
-
+            _logger.LogInformation("setp 2.");
             if (withdrawalLimitInfo != null && withdrawalLimitInfo.TotalWithdrawalMax != 0 &&
                 dailyCustomerWithdrawalInfo.Amount + withdrawalReqModel.Amount > withdrawalLimitInfo.TotalWithdrawalMax)
             {
@@ -404,7 +404,7 @@ namespace MemberSite.Controllers.Api
                 apiResult.ErrorCode = -6;
                 return apiResult;
             }
-
+            _logger.LogInformation("setp 3.");
             if (withdrawalLimitInfo != null
                 && withdrawalLimitInfo.Times != 0
                 && dailyCustomerWithdrawalInfo.Count >= withdrawalLimitInfo.Times)
@@ -413,11 +413,12 @@ namespace MemberSite.Controllers.Api
                 apiResult.ErrorCode = -7;
                 return apiResult;
             }
-
+            _logger.LogInformation("setp 4.");
             #endregion
 
             #region - Check CustBankInfo -
             var custBankInfo = _custInfoBll.GetCustBankInfo(authData.CustId);
+            _logger.LogInformation("setp 5.");
             if (custInfo.CurrencyId == (int)CurrencyId.USDT)
             {
                 if (custBankInfo?.usdtDetail == null
@@ -440,7 +441,7 @@ namespace MemberSite.Controllers.Api
                 }
             }
             #endregion
-
+            _logger.LogInformation("setp 6.");
             return DoWithdrawal(apiResult, authData, custInfo, withdrawalReqModel, custBankInfo, WithdrawalTypeStatus.LocalBank, null);
         }
 
@@ -1918,7 +1919,7 @@ namespace MemberSite.Controllers.Api
             const int sec = 5;
             if (!await _cacheHelper.SetNxAsync(key, "", TimeSpan.FromSeconds(sec)))
             {
-                _logger.LogError($"Duplicate request within {sec} sec, UserName={custInfo.UserName}");
+                _logger.LogInformation($"Duplicate request within {sec} sec, UserName={custInfo.UserName}");
 
                 return new ApiResult<DepositRep3>
                 {

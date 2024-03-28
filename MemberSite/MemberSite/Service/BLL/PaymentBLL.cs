@@ -153,7 +153,7 @@ namespace MemberSite.Service.BLL
 
             if (amount <= 0)
             {
-                _logger.LogError("Incorrect request amount: " + amount);
+                _logger.LogInformation("Incorrect request amount: " + amount);
                 return -1;
             }
 
@@ -175,7 +175,7 @@ namespace MemberSite.Service.BLL
 
             if (depositLimitInfo?.DepositStatus == 0)
             {
-                _logger.LogError("Local bank channel disabled.");
+                _logger.LogInformation("Local bank channel disabled.");
                 return -4;
             }
 
@@ -195,7 +195,7 @@ namespace MemberSite.Service.BLL
 
             if (info == null)
             {
-                _logger.LogError($"No available bank card, bankId: {bankId}, amount: {amount}");
+                _logger.LogInformation($"No available bank card, bankId: {bankId}, amount: {amount}");
                 return -3;
             }
 
