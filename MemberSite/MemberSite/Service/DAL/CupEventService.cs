@@ -105,6 +105,24 @@ namespace MemberSite.Service.DAL
         }
 
         /// <summary>
+        /// 取得符合規定賽事的下注單
+        /// </summary>
+        /// <param name="siteId"></param>
+        /// <param name="custId"></param>
+        /// <param name="currencyId"></param>
+        /// <param name="betAmountLimit"></param>
+        /// <returns></returns>
+        public IEnumerable<CupEventSportBet> GetCupEventSportBet(int siteId, int custId ,int currencyId , decimal betAmountLimit)
+        {
+            var p = new DynamicParameters();
+            p.Add("_SiteId", siteId, dbType: DbType.Int64);
+            p.Add("_CustId", custId, dbType: DbType.Int64);
+            p.Add("_CurrencyId", currencyId, dbType: DbType.Int64);
+            p.Add("_BetAmountLimit", betAmountLimit, dbType: DbType.Int64);
+            return _mainDbClient.Query<CupEventSportBet>("Service_CupEventSportBetCheck_Get", p);
+        }
+        
+        /// <summary>
         /// 取得世界盃充值，投票設定時間
         /// </summary>
         /// <returns></returns>
@@ -123,6 +141,17 @@ namespace MemberSite.Service.DAL
             return _mainDbClient.ExecuteAsync("Member_PollTicketInfo_Set",trans, p);
         }
 
+        public IEnumerable<CupEventAffInfo> GetCupEventAffInfo(int siteId, int custId, int currencyId)
+        {
+            var p = new DynamicParameters();
+            p.Add("_SiteId", siteId, dbType: DbType.Int64);
+            p.Add("_CustId", custId, dbType: DbType.Int64);
+            p.Add("_CurrencyId", currencyId, dbType: DbType.Int64);
+            return _mainDbClient.Query<CupEventAffInfo>("Service_CupEventAffInfo_Get" ,p);
+        }
+        
         #endregion
+        
+        
     }
 }

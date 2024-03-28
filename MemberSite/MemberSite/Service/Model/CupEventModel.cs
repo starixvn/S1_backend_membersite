@@ -411,4 +411,25 @@ namespace MemberSite.Service.Model
     }
     
     #endregion
+    
+    public class CupEventAffInfo
+    {
+        public int CustId { get; set; }
+        public string AccountName { get; set; }
+        public string SignupIp { get; set; }
+    }
+    
+    public class CupEventAffResponse
+    {
+        public string AccountName { get; set; }
+        public bool Mission1 { get; set; }
+        public bool Mission2 { get; set; }
+    }
+    
+    public class CupEventSportBet
+    {
+        public string TransId { get; set; }
+        public decimal Stake { get; set; }
+        public DateTime TransTime { get; set; }
+    }
 }

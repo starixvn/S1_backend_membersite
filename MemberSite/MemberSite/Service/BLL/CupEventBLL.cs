@@ -2,13 +2,14 @@
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
+using Newtonsoft.Json;
 
 namespace MemberSite.Service.BLL
 {
     public class CupEventBLL
     {
         private readonly CustInfoBll _custInfoBll;
-        private readonly CupEventService _cupEventPredictionService;
+        private readonly CupEventService _cupEventService;
         private readonly EventsService _eventsService;
         private readonly MySqlClient _mainDbClient;
         private readonly ICacheHelper _redisHelper;
@@ -16,7 +17,7 @@ namespace MemberSite.Service.BLL
         public CupEventBLL(IServiceProvider provider)
         {
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
-            _cupEventPredictionService = provider.GetRequiredService<CupEventService>();
+            _cupEventService = provider.GetRequiredService<CupEventService>();
             _eventsService = provider.GetRequiredService<EventsService>();
             _mainDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Main);
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
@@ -68,13 +69,13 @@ namespace MemberSite.Service.BLL
         {
             var cupEventPredictionSettingKey = $"CupEventPredictionSetting:{langId}";
             var dbData = _redisHelper.TryGetOrCreate(cupEventPredictionSettingKey, TimeSpan.FromMinutes(1),
-                () => _cupEventPredictionService.GetCupEventPredictionSetting(langId).ToList());
+                () => _cupEventService.GetCupEventPredictionSetting(langId).ToList());
             return dbData;
         }
 
         private IEnumerable<CupEventPredictionCountry> GetCupEventPredictionSelectOptions()
         {
-            var dbData = _cupEventPredictionService.GetCupEventPredictionOptions();
+            var dbData = _cupEventService.GetCupEventPredictionOptions();
 
             var result = dbData.Select(r => new CupEventPredictionCountry
             {
@@ -92,7 +93,7 @@ namespace MemberSite.Service.BLL
                 .Select(x => new CupEventSetting
                 {
                     CountryName = x.TeamName,
-                    ImageName = $"{teamEnglishNames.FirstOrDefault(r => r.CountryId == x.TeamId)?.CountryName.ToLower()}.png",
+                    ImageName = $"{teamEnglishNames.FirstOrDefault(r => r.CountryId == x.TeamId)?.CountryName}.png",
                     Sort = x.Sort,
                 }).ToList();
         }
@@ -133,10 +134,12 @@ namespace MemberSite.Service.BLL
         {
             var responseData = new MemberDepositTicketInfoResponse();
             
+            var custInfoProfile = _custInfoBll.GetCustInfoProfile(custId);
             var cupEventName = CupEventNameEnum.EuroCup2024.ToString();
             var promotionMission = GetPromotionMission(siteId, currencyId, cupEventName).ToList();
-            var custTurnover = _cupEventPredictionService.GetCupEventPromotionMissionTurnover(siteId , custId , currencyId, 0);
-            var custDepositList = _cupEventPredictionService.GetMemberDeposit(siteId ,custId, currencyId).ToList();
+            
+            var custTurnover = _cupEventService.GetCupEventPromotionMissionTurnover(siteId , custId , currencyId, 0);
+            var custDepositList = _cupEventService.GetMemberDeposit(siteId ,custId, currencyId).ToList();
             var depositSum = custDepositList.Sum(x => x.DepositAmount);
           
             // 未驗證前給的資料
@@ -150,7 +153,7 @@ namespace MemberSite.Service.BLL
             responseData.SelectOptions = GetSelectOptions(langId);// 取得32強分組選單
             
             // 檢查驗證
-            if (!CheckCustVerifyStatus(siteId, custId))
+            if (!CheckCustVerifyStatus(siteId, custInfoProfile))
             {
                 responseData.ErrorCode = 104;
                 return responseData;
@@ -168,9 +171,18 @@ namespace MemberSite.Service.BLL
                     case 2:
                         await TicketProcessGoal123(siteId, custId, currencyId, promotionMission.FirstOrDefault(), custDepositList);
                         break;
+                    case 3:
+                        var affList = GetCupEventAffInfo(siteId, custInfoProfile).ToList();
+                        TicketProcessBwing(siteId, custId, currencyId, promotionMission, custDepositList ,affList , out var depositProgress , out var completedBetProgress);
+                        
+                        responseData.CupEventPromotionMissionProgress.AffList = affList;
+                        responseData.CupEventPromotionMissionProgress.DepositAmount = depositProgress;
+                        responseData.CupEventPromotionMissionProgress.CompletedBetCount = completedBetProgress;
+                        break;
                 }
             }
-            var userTickets = _cupEventPredictionService.GetCupEventMemberTicketInfo(custId).ToList();// 取得User總共的票
+            
+            var userTickets = _cupEventService.GetCupEventMemberTicketInfo(custId).ToList();// 取得User總共的票
             var userTicketResult = MapToUserTicketResult(userTickets, siteId, currencyId , out var finishedCount); // Mapping 成 Api 需要的格式
             
             responseData.UserTicketResult = userTicketResult;
@@ -187,7 +199,7 @@ namespace MemberSite.Service.BLL
         {
             var responseData = new List<CupEventTicketSummaryResponse>();
             
-            var usedTickets = _cupEventPredictionService.GetCupEventMemberTicketInfo(0).Where(x=>x.TeamId is not null).ToList(); //已投票
+            var usedTickets = _cupEventService.GetCupEventMemberTicketInfo(0).Where(x=>x.TeamId is not null).ToList(); //已投票
 
             if (usedTickets.Any())
             {
@@ -201,7 +213,7 @@ namespace MemberSite.Service.BLL
                     {
                         CountryId = x.Key,
                         CountryName = enCountry.First(r => r.CountryId == x.Key).CountryName,
-                        ImageName = $"{enCountry.First(r => r.CountryId == x.Key).CountryName.ToLower()}.png",
+                        ImageName = $"{enCountry.First(r => r.CountryId == x.Key).CountryName}.png",
                         Percentage = Math.Round(x.Count() / (decimal)userTicketsAll * 100, 2)
                     }).ToList();
             }
@@ -222,7 +234,7 @@ namespace MemberSite.Service.BLL
             // 發票
             foreach (var model in request)
             {
-                var result = await _cupEventPredictionService.UserPollTicketAsync(custId, model ,trans);
+                var result = await _cupEventService.UserPollTicketAsync(custId, model ,trans);
                 if (result > 0)
                 {
                     executeCount += 1;
@@ -252,7 +264,7 @@ namespace MemberSite.Service.BLL
                 
             for (var i = 1; i <= request.Count; i++)
             {
-                var result = await _cupEventPredictionService.UserPollTicketAsync(custId, request.UserPollTicket, trans);
+                var result = await _cupEventService.UserPollTicketAsync(custId, request.UserPollTicket, trans);
                 if (result > 0)
                 {
                     executeCount += 1;
@@ -271,7 +283,7 @@ namespace MemberSite.Service.BLL
         
         public IEnumerable<MemberDepositDto> GetMemberDeposit(int siteId, int custId,int currencyId)
         {
-            var custDepositList = _cupEventPredictionService.GetMemberDeposit(siteId ,custId, currencyId);
+            var custDepositList = _cupEventService.GetMemberDeposit(siteId ,custId, currencyId);
             
             return custDepositList;
         }
@@ -296,10 +308,10 @@ namespace MemberSite.Service.BLL
         /// </summary>
         /// <param name="tickets"></param>
         /// <param name="siteId"></param>
-        /// <param name="custId"></param>
+        /// <param name="currencyId"></param>
         /// <param name="finishedCount"></param>
         /// <returns></returns>
-        private UserTicketResult MapToUserTicketResult(List<CupEventMemberTicketInfoDto> tickets, int siteId, int custId , out int finishedCount)
+        private UserTicketResult MapToUserTicketResult(List<CupEventMemberTicketInfoDto> tickets, int siteId, int currencyId , out int finishedCount)
         {
             var userTicketResult = new UserTicketResult
             {
@@ -313,13 +325,14 @@ namespace MemberSite.Service.BLL
             
             if (siteId is 1 or 3)
             {
+                var cupEventDateSetting = GetCupEventDateSetting().First(r => r.SiteId == siteId && r.CurrencyId == currencyId);
                 foreach (var ticket in tickets)
                 {
                     var ticketModel = new UserTicket()
                     {
                         TicketType = ticket.TicketType,
                         CountryId = ticket.TeamId,
-                        TicketStatus = GetTicketStatus(ticket, siteId, custId)
+                        TicketStatus = GetTicketStatus(ticket, cupEventDateSetting)
                     };
                     userTicketResult.TicketList.Add(ticketModel);
                 }
@@ -340,9 +353,8 @@ namespace MemberSite.Service.BLL
             return userTicketResult;
         }
 
-        private CupEventUserTicketStatus GetTicketStatus(CupEventMemberTicketInfoDto ticket, int siteId, int currencyId)
+        private CupEventUserTicketStatus GetTicketStatus(CupEventMemberTicketInfoDto ticket, CupEventDateSettingDto cupEventDateSetting)
         {
-            var cupEventDateSetting = GetCupEventDateSetting().First(r => r.SiteId == siteId && r.CurrencyId == currencyId);
             var userCurrentTime = GetUserCurrentTime();
 
             if (userCurrentTime < cupEventDateSetting.TicketOpenTime) //投票時間還沒開始
@@ -371,7 +383,7 @@ namespace MemberSite.Service.BLL
         {
             var cupEventDateSettingKey = "CupEventDateSetting";
             var cupEbentDateSetting = _redisHelper.TryGetOrCreate(cupEventDateSettingKey, TimeSpan.FromDays(60),
-                () => _cupEventPredictionService.GetCupEventDateSetting().ToList());
+                () => _cupEventService.GetCupEventDateSetting().ToList());
 
             return cupEbentDateSetting;
         }
@@ -400,7 +412,7 @@ namespace MemberSite.Service.BLL
                      {
                          CountryId = x.TeamId,
                          CountryName = x.TeamName,
-                         ImageName = $"{enCountry.First(r => r.CountryId == x.TeamId).CountryName.ToLower()}.png"
+                         ImageName = $"{enCountry.First(r => r.CountryId == x.TeamId).CountryName}.png"
                      }).ToList(),
 
                 GroupB = top24Team.Where(r => r.Sort is >= 5 and <= 8)
@@ -408,7 +420,7 @@ namespace MemberSite.Service.BLL
                      {
                          CountryId = x.TeamId,
                          CountryName = x.TeamName,
-                         ImageName = $"{enCountry.First(r => r.CountryId == x.TeamId).CountryName.ToLower()}.png"
+                         ImageName = $"{enCountry.First(r => r.CountryId == x.TeamId).CountryName}.png"
                      }).ToList(),
 
                 GroupC = top24Team.Where(r => r.Sort is >= 9 and <= 12)
@@ -416,7 +428,7 @@ namespace MemberSite.Service.BLL
                      {
                          CountryId = x.TeamId,
                          CountryName = x.TeamName,
-                         ImageName = $"{enCountry.First(r => r.CountryId == x.TeamId).CountryName.ToLower()}.png"
+                         ImageName = $"{enCountry.First(r => r.CountryId == x.TeamId).CountryName}.png"
                      }).ToList(),
 
                 GroupD = top24Team.Where(r => r.Sort is >= 13 and <= 16)
@@ -424,7 +436,7 @@ namespace MemberSite.Service.BLL
                      {
                          CountryId = x.TeamId,
                          CountryName = x.TeamName,
-                         ImageName = $"{enCountry.First(r => r.CountryId == x.TeamId).CountryName.ToLower()}.png"
+                         ImageName = $"{enCountry.First(r => r.CountryId == x.TeamId).CountryName}.png"
                      }).ToList(),
 
                 GroupE = top24Team.Where(r => r.Sort is >= 17 and <= 20)
@@ -432,7 +444,7 @@ namespace MemberSite.Service.BLL
                      {
                          CountryId = x.TeamId,
                          CountryName = x.TeamName,
-                         ImageName = $"{enCountry.First(r => r.CountryId == x.TeamId).CountryName.ToLower()}.png"
+                         ImageName = $"{enCountry.First(r => r.CountryId == x.TeamId).CountryName}.png"
                      }).ToList(),
 
                 GroupF = top24Team.Where(r => r.Sort is >= 21 and <= 24)
@@ -440,7 +452,7 @@ namespace MemberSite.Service.BLL
                      {
                          CountryId = x.TeamId,
                          CountryName = x.TeamName,
-                         ImageName = $"{enCountry.First(r => r.CountryId == x.TeamId).CountryName.ToLower()}.png"
+                         ImageName = $"{enCountry.First(r => r.CountryId == x.TeamId).CountryName}.png"
                      }).ToList(),
 
                 // GroupG = top24Team.Where(r => r.Sort is >= 13 and <= 16)
@@ -448,7 +460,7 @@ namespace MemberSite.Service.BLL
                 //      {
                 //          CountryId = x.TeamId,
                 //          CountryName = x.TeamName,
-                //          ImageName = $"{enCountry.First(r => r.CountryId == x.TeamId).CountryName.ToLower()}.png"
+                //          ImageName = $"{enCountry.First(r => r.CountryId == x.TeamId).CountryName}.png"
                 //      }).ToList(),
                 //
                 // GroupH = top24Team.Where(r => r.Sort is >= 29 and <= 32)
@@ -456,7 +468,7 @@ namespace MemberSite.Service.BLL
                 //      {
                 //          CountryId = x.TeamId,
                 //          CountryName = x.TeamName,
-                //          ImageName = $"{enCountry.First(r => r.CountryId == x.TeamId).CountryName.ToLower()}.png"
+                //          ImageName = $"{enCountry.First(r => r.CountryId == x.TeamId).CountryName}.png"
                 //      }).ToList()
             };
 
@@ -474,7 +486,7 @@ namespace MemberSite.Service.BLL
         /// <param name="custTurnover"></param>
         private async Task TicketProcessNova88(int siteId, int custId, int currencyId ,List<PromotionMission> promotionMission , decimal depositSum , decimal custTurnover)
         {
-            var userTickets = _cupEventPredictionService.GetCupEventMemberTicketInfo(custId).ToList();
+            var userTickets = _cupEventService.GetCupEventMemberTicketInfo(custId).ToList();
             if (userTickets.Count >= 4)
             {
                 //票滿了 不往下檢查
@@ -484,16 +496,8 @@ namespace MemberSite.Service.BLL
             
             var insertTickets = new List<CustTicketInfoDto>();
             
-            // 已領取的票
-            var used = userTickets.Select(t => t.TicketType).ToList();
-            
-            // Set IsCompleted
-            var completedMission = promotionMission.Where(m => used.Contains(m.MissionNo)).ToList();
-            SetPromotionMissionCompleted(completedMission);
-            
-            // 排除已領過的missionNo
-            promotionMission = promotionMission.Where(m => !used.Contains(m.MissionNo)).ToList();
-            foreach (var mission in promotionMission)
+            var missions = RemoveClaimedPromotionMission(promotionMission, userTickets);
+            foreach (var mission in missions)
             {
                 var isInsert = false;
                 var ticketInit = new CustTicketInfoDto
@@ -503,7 +507,7 @@ namespace MemberSite.Service.BLL
                     CurrencyId = currencyId,
                     TicketStatus = 1,
                     TicketType = mission.MissionNo,
-                    TransId = ""
+                    TransId = string.Empty
                 };
 
                 if (mission.DepositFlag && depositSum > mission.DepositAmount)
@@ -524,7 +528,7 @@ namespace MemberSite.Service.BLL
                 
             // 發票
             var tasks = new List<Task<int>>();
-            if (insertTickets.Count > 0) tasks.AddRange(insertTickets.Select(item => Task.Run(() => _cupEventPredictionService.InsertCupEventMemberTicket(item))));
+            if (insertTickets.Count > 0) tasks.AddRange(insertTickets.Select(item => Task.Run(() => _cupEventService.InsertCupEventMemberTicket(item))));
             if (tasks.Count > 0) await Task.WhenAll(tasks);
             
         }
@@ -539,16 +543,13 @@ namespace MemberSite.Service.BLL
         /// <param name="depositList"></param>
         private async Task TicketProcessGoal123(int siteId, int custId, int currencyId ,PromotionMission promotionMission , IEnumerable<MemberDepositDto> depositList )
         {
-            var userTickets = _cupEventPredictionService.GetCupEventMemberTicketInfo(custId).ToList();
+            var userTickets = _cupEventService.GetCupEventMemberTicketInfo(custId).ToList();
 
             // 存款有達標的存款單
             depositList = depositList.Where(x => x.DepositAmount >= promotionMission.DepositAmount);
             
-            // 已領取的存款單
-            var used = userTickets.Select(t => t.TransId).ToList();
-            
-            // 排除已領過的存款單
-            depositList = depositList.Where(m => !used.Contains(m.TransId)).ToList();
+            // 排除使用過存款單
+            depositList = RemoveClaimedDepositList(depositList, userTickets);
             
             var insertTickets = depositList.Select( x => 
                 new CustTicketInfoDto {
@@ -561,9 +562,132 @@ namespace MemberSite.Service.BLL
             
             // 發票
             var tasks = new List<Task<int>>();
-            if (insertTickets.Count > 0) tasks.AddRange(insertTickets.Select(item => Task.Run(() => _cupEventPredictionService.InsertCupEventMemberTicket(item))));
+            if (insertTickets.Count > 0) tasks.AddRange(insertTickets.Select(item => Task.Run(() => _cupEventService.InsertCupEventMemberTicket(item))));
             if (tasks.Count > 0) await Task.WhenAll(tasks);
             
+        }
+
+        /// <summary>
+        /// Bwing 發票任務邏輯
+        /// </summary>
+        /// <param name="siteId"></param>
+        /// <param name="custId"></param>
+        /// <param name="currencyId"></param>
+        /// <param name="promotionMission"></param>
+        /// <param name="depositList"></param>
+        /// <param name="affList"></param>
+        /// <param name="depositProgress"></param>
+        /// <param name="completedBetProgress"></param>
+        private void TicketProcessBwing(int siteId, int custId, int currencyId, List<PromotionMission> promotionMission , List<MemberDepositDto> depositList,
+            IReadOnlyCollection<CupEventAffResponse> affList , out decimal depositProgress, out int completedBetProgress )
+        {
+            depositProgress = 0;
+            completedBetProgress = 0;
+            var userTickets = _cupEventService.GetCupEventMemberTicketInfo(custId).ToList();
+            if (userTickets.Count >= 10)
+            {
+                //票滿了 不往下檢查
+                SetPromotionMissionCompleted(promotionMission);
+                return;
+            }
+            
+            var insertTickets = new List<CustTicketInfoDto>();
+            
+            //排除掉已完成的任務
+            var missions = RemoveClaimedPromotionMission(promotionMission, userTickets);
+            
+            // 排除使用過存款單
+            depositList = RemoveClaimedDepositList(depositList, userTickets).OrderBy(x=>x.StatementTime).ToList();
+            
+            foreach (var mission in missions)
+            {
+                var isInsert = false;
+                var insertCount = 0;
+                var ticket = new CustTicketInfoDto
+                {
+                    SiteId = siteId,
+                    CustId = custId,
+                    CurrencyId = currencyId,
+                    TicketStatus = 1,
+                    TicketType = mission.MissionNo,
+                    TransId = string.Empty
+                };
+
+                //處理 ticketType 2 and 3 and 4
+                if (mission.DepositFlag)
+                { 
+                    var unUsedDepositSum = (decimal)0.00;
+                    var useDepositList = new List<string>();
+                    
+                    foreach (var deposit in depositList)
+                    {
+                        unUsedDepositSum += deposit.DepositAmount;
+                        depositProgress += deposit.DepositAmount;
+                        
+                        depositList = depositList.Where(m => m.TransId != deposit.TransId).ToList();
+                        useDepositList.Add(deposit.TransId);
+                        
+                        if (unUsedDepositSum >= mission.DepositAmount)
+                        {
+                            isInsert = true;
+                            insertCount += mission.TicketCount;
+                            ticket.TransId = JsonConvert.SerializeObject(useDepositList);
+                            depositProgress = 0;
+                            break;
+                        }
+                    }
+                }
+                //處理 ticketType 4
+                else if (mission.AffFlag)
+                {
+                    if (affList.Count >= 3)
+                    {
+                        if (affList.Any(aff => aff.Mission1 && aff.Mission2))
+                        {
+                            isInsert = true;
+                            insertCount = mission.TicketCount;
+                        }
+                    }
+                }
+                //處理 ticketType 5
+                else if (mission.TurnoverFlag)
+                {
+                    // 檢查下注
+                    var betList = _cupEventService.GetCupEventSportBet(siteId, custId, currencyId, mission.TurnoverAmount).ToList();
+                    if (betList.Count >= 20 )
+                    {
+                        isInsert = true;
+                        insertCount = mission.TicketCount;
+                    }
+                    else
+                    {
+                        completedBetProgress = betList.Count;
+                    }
+                }
+                //處理 ticketType 1
+                else
+                {
+                    if (CheckCustVerifyStatusBwing(custId))
+                    {
+                        isInsert = true;
+                        insertCount = mission.TicketCount;
+                    }
+                }
+                
+                if (isInsert)
+                {
+                    for (var i = 1; i <= insertCount; i++)
+                    {
+                        insertTickets.Add(ticket);
+                    }
+                    mission.IsCompleted = true;
+                }
+            }
+            
+            // 發票
+            var tasks = new List<Task<int>>();
+            if (insertTickets.Count > 0) tasks.AddRange(insertTickets.Select(item => Task.Run(() => _cupEventService.InsertCupEventMemberTicket(item))));
+            if (tasks.Count > 0) Task.WhenAll(tasks);
         }
         
         private void SetPromotionMissionCompleted(List<PromotionMission> promotionMission)
@@ -574,19 +698,31 @@ namespace MemberSite.Service.BLL
             }
         }
 
-        private bool CheckCustVerifyStatus(int siteId ,int custId)
+        private bool CheckCustVerifyStatus(int siteId, CustInfoProfile custInfo)
         {
-            var custInfoProfile = _custInfoBll.GetCustInfoProfile(custId);
-
             var status = false;
             switch (siteId)
             {
                 case 1 or 2:
-                    if (custInfoProfile.PhoneVerified && custInfoProfile.EmailVerified) status = true;
+                    if (custInfo.PhoneVerified && custInfo.EmailVerified) status = true;
                    break;
+                case 3:
+                    status = true;
+                    break;
             }
             
             return status;
+        }
+        
+        private bool CheckCustVerifyStatusBwing(int custId)
+        {
+            var custInfoProfile = _custInfoBll.GetCustInfoProfile(custId);
+
+            if (custInfoProfile.PhoneVerified)
+            {
+                return true;
+            };
+            return false;
         }
         
         private void CheckCupEventTicket(int siteId, int custId, int currencyId, int count)
@@ -605,11 +741,84 @@ namespace MemberSite.Service.BLL
             }
             
             // 檢查預測數量
-            var userTickets = _cupEventPredictionService.GetCupEventMemberTicketInfo(custId).Where(x=>x.TeamId is null);// 取得User尚未預測的票
+            var userTickets = _cupEventService.GetCupEventMemberTicketInfo(custId).Where(x=>x.TeamId is null);// 取得User尚未預測的票
             if (userTickets.Count() < count)
             {
                 throw new Exception("not enough tickets");
             }
+        }
+
+        /// <summary>
+        /// 排除掉已領取過的任務
+        /// </summary>
+        /// <param name="promotionMission"></param>
+        /// <param name="userTickets"></param>
+        /// <returns></returns>
+        private IEnumerable<PromotionMission> RemoveClaimedPromotionMission(IReadOnlyCollection<PromotionMission> promotionMission ,IEnumerable<CupEventMemberTicketInfoDto> userTickets)
+        {
+            // 已領取的票
+            var used = userTickets.Select(t => t.TicketType).ToList();
+            
+            // Set IsCompleted
+            var completedMission = promotionMission.Where(m => used.Contains(m.MissionNo)).ToList();
+            SetPromotionMissionCompleted(completedMission);
+            
+            // 排除已領過的missionNo
+            var result = promotionMission.Where(m => !used.Contains(m.MissionNo)).ToList();
+
+            return result;
+        }
+
+        /// <summary>
+        /// 排除掉已使用過的存款單
+        /// </summary>
+        /// <param name="depositList"></param>
+        /// <param name="userTickets"></param>
+        /// <returns></returns>
+        private IEnumerable<MemberDepositDto> RemoveClaimedDepositList(IEnumerable<MemberDepositDto> depositList ,IEnumerable<CupEventMemberTicketInfoDto> userTickets)
+        {
+            var usedDepositList = new List<string>();
+            // 已領取的存款單
+            foreach (var model in userTickets)
+            {
+                if (!string.IsNullOrEmpty(model.TransId))
+                {
+                    var transIds = JsonConvert.DeserializeObject<List<string>>(model.TransId);
+                    usedDepositList.AddRange(transIds);
+                }
+            }
+            
+            // 排除已領過的存款單
+            var result = depositList.Where(m => !usedDepositList.Contains(m.TransId)).ToList();
+
+            return result;
+        }
+
+        /// <summary>
+        /// 取得用戶推薦名單
+        /// </summary>
+        /// <param name="siteId"></param>
+        /// <param name="custInfo"></param>
+        /// <returns></returns>
+        private IEnumerable<CupEventAffResponse> GetCupEventAffInfo(int siteId, CustInfoProfile custInfo)
+        {
+            var response = new List<CupEventAffResponse>();
+            
+            var affList = _cupEventService.GetCupEventAffInfo(siteId ,custInfo.CustId, custInfo.CurrencyId);
+            affList = affList.Where(x => x.AccountName != custInfo.AccountName && x.SignupIp != custInfo.SignupIp).ToList();
+            foreach (var aff in affList)
+            {
+                var affTickets = _cupEventService.GetCupEventMemberTicketInfo(aff.CustId).ToList();
+                var affInfo = new CupEventAffResponse
+                {
+                    AccountName = aff.AccountName,
+                    Mission1 = affTickets.Any(x => x.TicketType == 1),
+                    Mission2 = affTickets.Any(x => x.TicketType == 2)
+                };
+                response.Add(affInfo);
+            }
+            
+            return response;
         }
         
         #endregion
