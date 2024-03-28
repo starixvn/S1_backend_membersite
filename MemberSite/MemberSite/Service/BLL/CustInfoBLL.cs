@@ -239,6 +239,9 @@ namespace MemberSite.Service.BLL
                 });
             }
 
+            if (userAgent.Length > 255)
+                userAgent = userAgent.Substring(0, 255);
+
             _authenticateService.AddLoginRecord(customer.CustId, customer.SiteId, ip, deviceType, out token);
             _authenticateService.AddUserLoginLog(customer.CustId, customer.UserName, customer.SiteId, ip, fromUrl, userAgent);
             return 0;
