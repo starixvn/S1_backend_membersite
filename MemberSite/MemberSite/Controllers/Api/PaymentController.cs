@@ -395,7 +395,6 @@ namespace MemberSite.Controllers.Api
                 apiResult.ErrorCode = -5;
                 return apiResult;
             }
-
             if (withdrawalLimitInfo != null && withdrawalLimitInfo.TotalWithdrawalMax != 0 &&
                 dailyCustomerWithdrawalInfo.Amount + withdrawalReqModel.Amount > withdrawalLimitInfo.TotalWithdrawalMax)
             {
@@ -403,7 +402,6 @@ namespace MemberSite.Controllers.Api
                 apiResult.ErrorCode = -6;
                 return apiResult;
             }
-
             if (withdrawalLimitInfo != null
                 && withdrawalLimitInfo.Times != 0
                 && dailyCustomerWithdrawalInfo.Count >= withdrawalLimitInfo.Times)
@@ -412,7 +410,6 @@ namespace MemberSite.Controllers.Api
                 apiResult.ErrorCode = -7;
                 return apiResult;
             }
-
             #endregion
 
             #region - Check CustBankInfo -
@@ -439,7 +436,6 @@ namespace MemberSite.Controllers.Api
                 }
             }
             #endregion
-
             return DoWithdrawal(apiResult, authData, custInfo, withdrawalReqModel, custBankInfo, WithdrawalTypeStatus.LocalBank, null);
         }
 
@@ -458,7 +454,6 @@ namespace MemberSite.Controllers.Api
             /*Temp will be Removed*/
             var balance = _walletBll.GetBalance(authData.CustId);
             var withdrawalAvailableBalance = _paymentBll.GetWithdrawalAvailableBalance(authData.CustId);
-
             if (withdrawalAvailableBalance < withdrawalReqModel.Amount)
             {
                 apiResult.Message = $"{(withdrawalAvailableBalance < 0 ? 0 : withdrawalAvailableBalance)}";
@@ -472,7 +467,6 @@ namespace MemberSite.Controllers.Api
                 apiResult.ErrorCode = -2;
                 return apiResult;
             }
-
             if (withdrawalReqModel.Blackbox != null)
             {
                 _ = Task.Run(async () =>
@@ -483,7 +477,6 @@ namespace MemberSite.Controllers.Api
 
                 });
             }
-
             decimal afterAmount;
             string transId;
             switch (withdrawalType)
@@ -1925,7 +1918,7 @@ namespace MemberSite.Controllers.Api
             const int sec = 5;
             if (!await _cacheHelper.SetNxAsync(key, "", TimeSpan.FromSeconds(sec)))
             {
-                _logger.LogError($"Duplicate request within {sec} sec, UserName={custInfo.UserName}");
+                _logger.LogInformation($"Duplicate request within {sec} sec, UserName={custInfo.UserName}");
 
                 return new ApiResult<DepositRep3>
                 {
