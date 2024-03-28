@@ -455,7 +455,6 @@ namespace MemberSite.Controllers.Api
             /*Temp will be Removed*/
             var balance = _walletBll.GetBalance(authData.CustId);
             var withdrawalAvailableBalance = _paymentBll.GetWithdrawalAvailableBalance(authData.CustId);
-            _logger.LogInformation("setp 11.");
             if (withdrawalAvailableBalance < withdrawalReqModel.Amount)
             {
                 apiResult.Message = $"{(withdrawalAvailableBalance < 0 ? 0 : withdrawalAvailableBalance)}";
@@ -469,7 +468,6 @@ namespace MemberSite.Controllers.Api
                 apiResult.ErrorCode = -2;
                 return apiResult;
             }
-            _logger.LogInformation("setp 12.");
             if (withdrawalReqModel.Blackbox != null)
             {
                 _ = Task.Run(async () =>
@@ -480,7 +478,6 @@ namespace MemberSite.Controllers.Api
 
                 });
             }
-            _logger.LogInformation("setp 13.");
             decimal afterAmount;
             string transId;
             switch (withdrawalType)

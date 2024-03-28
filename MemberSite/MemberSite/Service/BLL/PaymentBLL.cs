@@ -325,6 +325,7 @@ namespace MemberSite.Service.BLL
 
             var withdrawalInfo = new WithdrawalInfo();
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
+            _logger.LogInformation("setp 21.");
             var checkAmount = amount;
             if (_custInfoBll.IsConvertRequired(custInfo.CurrencyId))
             {
@@ -340,8 +341,9 @@ namespace MemberSite.Service.BLL
             withdrawalInfo.AccountNo = accountNo;
             withdrawalInfo.SysId = sysId;
             withdrawalInfo.IFSCCode = iFSCCode;
+            _logger.LogInformation("setp 22.");
             var withdrawalProcessWay = GetWithdrawalProcessWay(custInfo, accountNo, amount, WithdrawalAccountTypeEnum.BankCard);
-
+            _logger.LogInformation("setp 23.");
             var result = withdrawalService.WithdrawalReq(custId, custInfo.UserName, custInfo.CurrencyId, custInfo.SiteId, amount, memo, JsonConvert.SerializeObject(withdrawalInfo), withdrawalProcessWay, out afterAmount, out transId);
 
             SetAutoVerifyWay(transId, custInfo, amount);
