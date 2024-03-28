@@ -93,7 +93,7 @@ namespace MemberSite.Service.BLL
                 .Select(x => new CupEventSetting
                 {
                     CountryName = x.TeamName,
-                    ImageName = $"{teamEnglishNames.FirstOrDefault(r => r.CountryId == x.TeamId)?.CountryName.ToLower()}.png",
+                    ImageName = $"{teamEnglishNames.FirstOrDefault(r => r.CountryId == x.TeamId)?.CountryName}.png",
                     Sort = x.Sort,
                 }).ToList();
         }
@@ -213,7 +213,7 @@ namespace MemberSite.Service.BLL
                     {
                         CountryId = x.Key,
                         CountryName = enCountry.First(r => r.CountryId == x.Key).CountryName,
-                        ImageName = $"{enCountry.First(r => r.CountryId == x.Key).CountryName.ToLower()}.png",
+                        ImageName = $"{enCountry.First(r => r.CountryId == x.Key).CountryName}.png",
                         Percentage = Math.Round(x.Count() / (decimal)userTicketsAll * 100, 2)
                     }).ToList();
             }
@@ -412,7 +412,7 @@ namespace MemberSite.Service.BLL
                      {
                          CountryId = x.TeamId,
                          CountryName = x.TeamName,
-                         ImageName = $"{enCountry.First(r => r.CountryId == x.TeamId).CountryName.ToLower()}.png"
+                         ImageName = $"{enCountry.First(r => r.CountryId == x.TeamId).CountryName}.png"
                      }).ToList(),
 
                 GroupB = top24Team.Where(r => r.Sort is >= 5 and <= 8)
@@ -420,7 +420,7 @@ namespace MemberSite.Service.BLL
                      {
                          CountryId = x.TeamId,
                          CountryName = x.TeamName,
-                         ImageName = $"{enCountry.First(r => r.CountryId == x.TeamId).CountryName.ToLower()}.png"
+                         ImageName = $"{enCountry.First(r => r.CountryId == x.TeamId).CountryName}.png"
                      }).ToList(),
 
                 GroupC = top24Team.Where(r => r.Sort is >= 9 and <= 12)
@@ -428,7 +428,7 @@ namespace MemberSite.Service.BLL
                      {
                          CountryId = x.TeamId,
                          CountryName = x.TeamName,
-                         ImageName = $"{enCountry.First(r => r.CountryId == x.TeamId).CountryName.ToLower()}.png"
+                         ImageName = $"{enCountry.First(r => r.CountryId == x.TeamId).CountryName}.png"
                      }).ToList(),
 
                 GroupD = top24Team.Where(r => r.Sort is >= 13 and <= 16)
@@ -436,7 +436,7 @@ namespace MemberSite.Service.BLL
                      {
                          CountryId = x.TeamId,
                          CountryName = x.TeamName,
-                         ImageName = $"{enCountry.First(r => r.CountryId == x.TeamId).CountryName.ToLower()}.png"
+                         ImageName = $"{enCountry.First(r => r.CountryId == x.TeamId).CountryName}.png"
                      }).ToList(),
 
                 GroupE = top24Team.Where(r => r.Sort is >= 17 and <= 20)
@@ -444,7 +444,7 @@ namespace MemberSite.Service.BLL
                      {
                          CountryId = x.TeamId,
                          CountryName = x.TeamName,
-                         ImageName = $"{enCountry.First(r => r.CountryId == x.TeamId).CountryName.ToLower()}.png"
+                         ImageName = $"{enCountry.First(r => r.CountryId == x.TeamId).CountryName}.png"
                      }).ToList(),
 
                 GroupF = top24Team.Where(r => r.Sort is >= 21 and <= 24)
@@ -452,7 +452,7 @@ namespace MemberSite.Service.BLL
                      {
                          CountryId = x.TeamId,
                          CountryName = x.TeamName,
-                         ImageName = $"{enCountry.First(r => r.CountryId == x.TeamId).CountryName.ToLower()}.png"
+                         ImageName = $"{enCountry.First(r => r.CountryId == x.TeamId).CountryName}.png"
                      }).ToList(),
 
                 // GroupG = top24Team.Where(r => r.Sort is >= 13 and <= 16)
@@ -460,7 +460,7 @@ namespace MemberSite.Service.BLL
                 //      {
                 //          CountryId = x.TeamId,
                 //          CountryName = x.TeamName,
-                //          ImageName = $"{enCountry.First(r => r.CountryId == x.TeamId).CountryName.ToLower()}.png"
+                //          ImageName = $"{enCountry.First(r => r.CountryId == x.TeamId).CountryName}.png"
                 //      }).ToList(),
                 //
                 // GroupH = top24Team.Where(r => r.Sort is >= 29 and <= 32)
@@ -468,7 +468,7 @@ namespace MemberSite.Service.BLL
                 //      {
                 //          CountryId = x.TeamId,
                 //          CountryName = x.TeamName,
-                //          ImageName = $"{enCountry.First(r => r.CountryId == x.TeamId).CountryName.ToLower()}.png"
+                //          ImageName = $"{enCountry.First(r => r.CountryId == x.TeamId).CountryName}.png"
                 //      }).ToList()
             };
 
