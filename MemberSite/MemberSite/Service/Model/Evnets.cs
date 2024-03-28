@@ -206,7 +206,8 @@ namespace MemberSite.Service.Model
     {
         public decimal DepositAmount { get; set; }
         public decimal TurnoverSum { get; set; }
-        public int AffCount { get; set; }
+        public IEnumerable<CupEventAffResponse> AffList { get; set; }
+        public int CompletedBetCount { get; set; }
     }
     
     public class PromotionMissionMessage
