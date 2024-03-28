@@ -4,7 +4,6 @@ using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 
-using Microsoft.AspNetCore.Routing.Template;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace MemberSite.Extensions.Middlewares
@@ -30,7 +29,16 @@ namespace MemberSite.Extensions.Middlewares
         public async Task Invoke(HttpContext context)
         {
             try
-            {                          
+            {
+                var path = context.Request.Path.Value;
+
+                // 排除檢查BlockIp的路徑
+                if (path.Contains("/health", StringComparison.OrdinalIgnoreCase) ||
+                    path.Contains("/metrics", StringComparison.OrdinalIgnoreCase))
+                {
+                    await _next(context);
+                }
+
                 if (await IsBlockIP(context)) 
                 {
                     context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
