@@ -385,7 +385,7 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
             #endregion
-            _logger.LogInformation("setp 1.");
+
             #region - Check WithdrawalLimit -
             var withdrawalLimitInfo = _paymentBll.GetWithdrawalLimitInfo(new WithdrawalLimitInfoInput
             { SiteId = custInfo.SiteId, CurrencyId = custInfo.CurrencyId, VipLevel = custInfo.UserLevel });
@@ -396,7 +396,6 @@ namespace MemberSite.Controllers.Api
                 apiResult.ErrorCode = -5;
                 return apiResult;
             }
-            _logger.LogInformation("setp 2.");
             if (withdrawalLimitInfo != null && withdrawalLimitInfo.TotalWithdrawalMax != 0 &&
                 dailyCustomerWithdrawalInfo.Amount + withdrawalReqModel.Amount > withdrawalLimitInfo.TotalWithdrawalMax)
             {
@@ -404,7 +403,6 @@ namespace MemberSite.Controllers.Api
                 apiResult.ErrorCode = -6;
                 return apiResult;
             }
-            _logger.LogInformation("setp 3.");
             if (withdrawalLimitInfo != null
                 && withdrawalLimitInfo.Times != 0
                 && dailyCustomerWithdrawalInfo.Count >= withdrawalLimitInfo.Times)
@@ -413,12 +411,10 @@ namespace MemberSite.Controllers.Api
                 apiResult.ErrorCode = -7;
                 return apiResult;
             }
-            _logger.LogInformation("setp 4.");
             #endregion
 
             #region - Check CustBankInfo -
             var custBankInfo = _custInfoBll.GetCustBankInfo(authData.CustId);
-            _logger.LogInformation("setp 5.");
             if (custInfo.CurrencyId == (int)CurrencyId.USDT)
             {
                 if (custBankInfo?.usdtDetail == null
@@ -441,7 +437,6 @@ namespace MemberSite.Controllers.Api
                 }
             }
             #endregion
-            _logger.LogInformation("setp 6.");
             return DoWithdrawal(apiResult, authData, custInfo, withdrawalReqModel, custBankInfo, WithdrawalTypeStatus.LocalBank, null);
         }
 
@@ -460,7 +455,7 @@ namespace MemberSite.Controllers.Api
             /*Temp will be Removed*/
             var balance = _walletBll.GetBalance(authData.CustId);
             var withdrawalAvailableBalance = _paymentBll.GetWithdrawalAvailableBalance(authData.CustId);
-
+            _logger.LogInformation("setp 11.");
             if (withdrawalAvailableBalance < withdrawalReqModel.Amount)
             {
                 apiResult.Message = $"{(withdrawalAvailableBalance < 0 ? 0 : withdrawalAvailableBalance)}";
@@ -474,7 +469,7 @@ namespace MemberSite.Controllers.Api
                 apiResult.ErrorCode = -2;
                 return apiResult;
             }
-
+            _logger.LogInformation("setp 12.");
             if (withdrawalReqModel.Blackbox != null)
             {
                 _ = Task.Run(async () =>
@@ -485,7 +480,7 @@ namespace MemberSite.Controllers.Api
 
                 });
             }
-
+            _logger.LogInformation("setp 13.");
             decimal afterAmount;
             string transId;
             switch (withdrawalType)
