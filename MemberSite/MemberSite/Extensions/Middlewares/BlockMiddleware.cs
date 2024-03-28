@@ -38,14 +38,16 @@ namespace MemberSite.Extensions.Middlewares
                 {
                     await _next(context);
                 }
-
-                if (await IsBlockIP(context)) 
+                else
                 {
-                    context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
-                    return;
-                }
+                    if (await IsBlockIP(context))
+                    {
+                        context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                        return;
+                    }
 
-                await _next(context);            
+                    await _next(context);
+                }                
             }
             catch
             {
