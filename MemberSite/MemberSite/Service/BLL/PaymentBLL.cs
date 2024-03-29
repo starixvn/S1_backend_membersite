@@ -873,15 +873,11 @@ namespace MemberSite.Service.BLL
             {
                 // Iovation
                 var custIovation = _iovationService.GetCustIovation(custInfo.CustId);
-                _logger.LogInformation("setp 33.");
-                _logger.LogInformation($"setting.device={setting.DeviceLevelStr}");
-                _logger.LogInformation($"custIovation.Iovation={custIovation.Iovation}");
-                if (!setting.DeviceLevel.Contains(custIovation.Iovation))
+                if (custIovation is null || !setting.DeviceLevel.Contains(custIovation.Iovation))
                 {
                     _logger.LogInformation($"{transId} WithdrawalVerifyWay Manual, custIovation : {custIovation} , Setting :{JsonConvert.SerializeObject(setting.DeviceLevel)} ");
                     return WithdrawalInfoAutoWayEnum.Manual;
                 }
-                _logger.LogInformation("setp 331.");
             }
             else
             {
@@ -909,9 +905,7 @@ namespace MemberSite.Service.BLL
                     return WithdrawalInfoAutoWayEnum.Manual;
                 }
             }
-            _logger.LogInformation("setp 36.");
             var check = CheckAutoPaymentRuleSetting(setting, custInfo.TagList, custInfo.UserLevel, withdrawalAmount, withdrawalSuccessCount);
-            _logger.LogInformation("setp 37.");
             return check;
         }
 
