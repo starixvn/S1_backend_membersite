@@ -10,10 +10,12 @@ namespace MemberSite.Service.DAL
     public class CupEventService
     {
         private readonly MySqlClient _mainDbClient;
+        private readonly MySqlClient _reportDbClient;
 
         public CupEventService(IServiceProvider provider)
         {
-            _mainDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Main); ;
+            _mainDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Main);
+            _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
         }
 
         #region 隊伍設定
@@ -53,7 +55,7 @@ namespace MemberSite.Service.DAL
             p.Add("_CustId", custId, dbType: DbType.Int64);
             p.Add("_SiteId", siteId, dbType: DbType.Int64);
             p.Add("_CurrencyId", currencyId, dbType: DbType.Int64);
-            return _mainDbClient.Query<MemberDepositDto>("Service_CupEventPromotionMissionDeposit_Get", p);
+            return _reportDbClient.Query<MemberDepositDto>("Service_CupEventPromotionMissionDeposit_Get", p);
         }
 
         /// <summary>
@@ -71,7 +73,7 @@ namespace MemberSite.Service.DAL
             p.Add("_SiteId", siteId, dbType: DbType.Int64);
             p.Add("_CurrencyId", currencyId, dbType: DbType.Int64);
             p.Add("_TpCategoryId", tpCategoryId, dbType: DbType.Int64);
-            return _mainDbClient.QueryFirst<decimal>("Service_CupEventPromotionMissionTurnover_Get", p);
+            return _reportDbClient.QueryFirst<decimal>("Service_CupEventPromotionMissionTurnover_Get", p);
         }
         
         /// <summary>
@@ -101,7 +103,7 @@ namespace MemberSite.Service.DAL
         {
             var p = new DynamicParameters();
             p.Add("_CustId", custId, dbType: DbType.Int64);
-            return _mainDbClient.Query<CupEventMemberTicketInfoDto>("Member_CupEventMemberTicketInfo_Get", p);
+            return _reportDbClient.Query<CupEventMemberTicketInfoDto>("Member_CupEventMemberTicketInfo_Get", p);
         }
 
         /// <summary>
@@ -119,7 +121,7 @@ namespace MemberSite.Service.DAL
             p.Add("_CustId", custId, dbType: DbType.Int64);
             p.Add("_CurrencyId", currencyId, dbType: DbType.Int64);
             p.Add("_BetAmountLimit", betAmountLimit, dbType: DbType.Int64);
-            return _mainDbClient.Query<CupEventSportBet>("Service_CupEventSportBetCheck_Get", p);
+            return _reportDbClient.Query<CupEventSportBet>("Service_CupEventSportBetCheck_Get", p);
         }
         
         /// <summary>
@@ -128,7 +130,7 @@ namespace MemberSite.Service.DAL
         /// <returns></returns>
         public IEnumerable<CupEventDateSettingDto> GetCupEventDateSetting()
         {
-            return _mainDbClient.Query<CupEventDateSettingDto>("Service_CupEventDateSetting_Get");
+            return _reportDbClient.Query<CupEventDateSettingDto>("Service_CupEventDateSetting_Get");
         }
 
         public Task<int> UserPollTicketAsync(int custId, UserPollTicketRequest request , MySqlTransaction trans)
@@ -147,7 +149,7 @@ namespace MemberSite.Service.DAL
             p.Add("_SiteId", siteId, dbType: DbType.Int64);
             p.Add("_CustId", custId, dbType: DbType.Int64);
             p.Add("_CurrencyId", currencyId, dbType: DbType.Int64);
-            return _mainDbClient.Query<CupEventAffInfo>("Service_CupEventAffInfo_Get" ,p);
+            return _reportDbClient.Query<CupEventAffInfo>("Service_CupEventAffInfo_Get" ,p);
         }
         
         #endregion
