@@ -1464,6 +1464,10 @@ namespace MemberSite.Controllers.Api
             return result;
         }
 
+        /// <summary>
+        /// Goal & Bwing
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         public ApiResult<IEnumerable<SysBankInfoFront>> GetAutoChannelBankGroupList()
         {
@@ -1474,17 +1478,37 @@ namespace MemberSite.Controllers.Api
                 apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
                 return apiResult;
             }
+            var result = _bankInfoBll.GetAutoSelectChannelBankGroupList(authData.CustId);
 
+            apiResult.Data = result;
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+        
+        [HttpPost]
+        public ApiResult<IEnumerable<OnlineBankChannel>> GetAutoDepositGroupList()
+        {
+            var apiResult = new ApiResult<IEnumerable<OnlineBankChannel>>();
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
+                return apiResult;
+            }
+            var result = _payInfoBll.GetOnlineBankChannelList(authData.CustId, DepositType.BankAutoChannel);
+            
             var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-            var vipLevel = _custInfoBll.GetPointLevelWithCache(authData.CustId);
-            var result = _bankInfoBll.GetAutoChannelBankGroupList(custInfo, vipLevel).ToList();
             if (custInfo.SiteId == 1 && custInfo.CurrencyId == (int)CurrencyId.THB) // Nova88 泰國銀行名稱支援多語系
             {
-                _bankInfoBll.BankNameLocalization(result, authData.LangId);
+                foreach (var item in result)
+                {
+                    _bankInfoBll.BankNameLocalization(item.SupportBanks, authData.LangId);
+                }
             }
 
             apiResult.Data = result;
             apiResult.ErrorCode = 0;
+            
             return apiResult;
         }
 
