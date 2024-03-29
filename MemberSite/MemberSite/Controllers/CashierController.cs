@@ -231,7 +231,7 @@ namespace MemberSite.Controllers
 
             try
             {
-                return await DepositBankAutoChannelAsync(authData.CustId, sysId, Amount, BonusCode, ErrorUrl);
+                return await DepositBankAutoSelectChannelAsync(authData.CustId, sysId, Amount, BonusCode, ErrorUrl);
             }
             catch (CustomException ex)
             {
@@ -260,7 +260,7 @@ namespace MemberSite.Controllers
             {
                 if (channelId == 0 && sysId > 0)
                 {
-                    return await DepositBankAutoChannelAsync(authData.CustId, sysId, amount, bonusCode, errorUrl);
+                    return await DepositBankAutoSelectChannelAsync(authData.CustId, sysId, amount, bonusCode, errorUrl);
                 }
 
                 var channels = _payInfoBll.GetPayChannelWithCache();
@@ -282,6 +282,7 @@ namespace MemberSite.Controllers
 
                 switch (channel.Type)
                 {
+                    case DepositType.BankAutoChannel:
                     case DepositType.OnlineBanking:
                     case DepositType.QuickTransfer:
                         return await DepositOnlineBankingAsync(authData.CustId, sysId, channelId, amount, bonusCode, errorUrl, channel.Type);
@@ -370,20 +371,20 @@ namespace MemberSite.Controllers
                 ? actionResult : RedirectErrorPage(errorUrl, new ErrorData());
         }
 
-        private async Task<IActionResult> DepositBankAutoChannelAsync(int custId, int sysId, decimal amount, string bonusCode, string errorUrl)
+        private async Task<IActionResult> DepositBankAutoSelectChannelAsync(int custId, int sysId, decimal amount, string bonusCode, string errorUrl)
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
-            var depositType = _bankInfoBll.GetAutoChannelDepositType(custInfo.SiteId);
             var transId = string.Empty;
+            const DepositType type = DepositType.OnlineBanking;
 
             //取得可用銀行列表
-            var bankList = _bankInfoBll.GetAutoChannelBankList(custInfo, vipLevel)
+            var bankList = _bankInfoBll.GetSelectBankBankList(custInfo, vipLevel, type)
                 .Where(i => i.SysId == sysId && amount <= i.MaxAmount && amount >= i.MinAmount);
 
             foreach (var bank in bankList.OrderBy(i => i.SSort))
             {
-                var result = _paymentBll.DepositReqOnlineBanking(custId, sysId, bank.ChannelId, amount, depositType, out transId);
+                var result = _paymentBll.DepositReqOnlineBanking(custId, sysId, bank.ChannelId, amount, type, out transId);
                 if (result != (int)ErrorCode.Success)
                 {
                     continue;

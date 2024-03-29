@@ -248,10 +248,8 @@ namespace MemberSite.Service.BLL
 
                 var depositLimitInfoList = _depositService.GetDepositLimitInfoList();
                 var pointLevel = _custInfoBll.GetPointLevelWithCache(custId);
-                var onlineBankList = depositType == DepositType.BankAutoChannel
-                    ? bankInfoBLL.GetAutoChannelBankInfoList(custInfo.SiteId, depositType)
-                    : bankInfoBLL.GetOnlineBankList(custInfo.SiteId, depositType);
-
+                var onlineBankList = bankInfoBLL.GetOnlineBankList(custInfo.SiteId, depositType);
+                
                 var onlineBank = onlineBankList
                     .FirstOrDefault(x => pointLevel >= x.PointLevel
                                          && x.ChannelId == channelId

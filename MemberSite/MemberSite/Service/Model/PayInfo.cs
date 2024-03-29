@@ -14,7 +14,7 @@ namespace MemberSite.Service.Model
         public string Link { get; set; }
     }
 
-    public class BankInfo
+    public class BankInfo : IBankNameLocalization
     {
         public int SysId { get; set; }
         public string BankName { get; set; }

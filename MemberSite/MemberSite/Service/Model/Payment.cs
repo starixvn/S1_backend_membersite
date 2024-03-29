@@ -59,6 +59,12 @@ namespace MemberSite.Service.Model
         public decimal MinAmount { get; set; }
         public decimal MaxAmount { get; set; }
     }
+    
+    public interface IBankNameLocalization
+    {
+        public int SysId { get; set; }
+        public string BankName { get; set; }
+    }
 
     public interface IPayInfo : IPaymentLimit
     {
