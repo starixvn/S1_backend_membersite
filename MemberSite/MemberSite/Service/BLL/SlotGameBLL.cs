@@ -150,24 +150,23 @@ namespace MemberSite.Service.BLL
         /// </summary>
         private (int SiteId, int CurrencyId, int CustId) GetUserInfo(int? inputCurrencyId, ClaimsPrincipal user, ServerInfo serverInfo)
         {
-            _logger.LogInformation("step 11");
+
             if (user?.Identity is { IsAuthenticated: true })
             {
-                _logger.LogInformation("step 12");
+
                 var authData = _authorizeBll.GetAuthData();
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                 _logger.LogInformation("step 13");
+                _logger.LogInformation($"custInfo.SiteId={custInfo.SiteId}. custInfo.CurrencyId={custInfo.CurrencyId}. authData.CustId={authData.CustId}");
                 return (custInfo.SiteId, custInfo.CurrencyId, authData.CustId);
             }
             else
             {
-                _logger.LogInformation("step 14");
                 var currencyId = _selLangBll.GetPreferCurrencyId();
                 if (inputCurrencyId.HasValue)
                 {
                     currencyId = inputCurrencyId.Value;
                 }
-                _logger.LogInformation("step 15");
                 return (serverInfo.SiteId, currencyId, 0);
             }
         }
@@ -217,7 +216,7 @@ namespace MemberSite.Service.BLL
             {
                 return new RecentlyViewedResponse(imgUrl, bannerUrl, recentlyViewedInfo);
             }
-           
+
             var data = await _custInfoBll.GetCustRecentlyViewed(custId);
             if (data == null || !data.Any())
             {
