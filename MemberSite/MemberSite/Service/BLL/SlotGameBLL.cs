@@ -75,24 +75,24 @@ namespace MemberSite.Service.BLL
             var serverInfo = _serverInfoBll.GetServerInfo();
             var (siteId, currencyId, custId) = GetUserInfo(request.CurrencyId, user, serverInfo);
             var imgUrl = _siteCloudFrontImageInfo[serverInfo.SiteName].OldImageUrl;
-
+            _logger.LogInformation("step 1");
             // 取得SlotGame相關資料
             var providerList = await GetSlotGameProviderList(siteId, currencyId, TpCategory.Casino);
             var slotGameList = await GetSlotGameList(siteId, currencyId, request.DeviceType);
             var lobbyCategorySequence = await _lobbyCategoryBll.GetLobbyCategorySequenceByLobbyCategoryId(siteId, currencyId, LobbyCategory.Slots);
             var slotGameTopRanking = await GetSlotGameTopRanking(siteId, currencyId);
-
+            _logger.LogInformation("step 2");
             // 整理資料與排序
             var slotGameProviderDict = slotGameList.GroupBy(i => i.TpId).ToDictionary(i => i.Key, i => i.Key);
             providerList = FilterAndSortProviderList(providerList, slotGameProviderDict, lobbyCategorySequence);
             slotGameList = SortSlotGameList(slotGameList, slotGameTopRanking);
-
+            _logger.LogInformation("step 3");
             // 未登入狀態直接回傳
             if (custId == 0)
             {
                 return new GetSlotGamePageResponse(imgUrl, providerList, slotGameList, request.SlotGameCategoryList);
             }
-
+            _logger.LogInformation("step 4");
             //取得User的SlotGame相關資料         
             var disableGame = await GetDisableGameList(custId);
             var favoriteAndRecentlyPlayed = await GetFavoriteAndRecentlyPlayed(custId);
@@ -210,19 +210,19 @@ namespace MemberSite.Service.BLL
             var bannerUrl = _siteCloudFrontImageInfo[serverInfo.SiteName].BannerImageUrl;
             var deviceType = request.DeviceType;
             var devicePath = deviceType == (int)HotGameDeviceType.Pc ? "desktop" : "h5";
-
+            _logger.LogInformation("step 1");
             // 未登入狀態直接回傳
             if (custId == 0)
             {
                 return new RecentlyViewedResponse(imgUrl, bannerUrl, recentlyViewedInfo);
             }
-
+           
             var data = await _custInfoBll.GetCustRecentlyViewed(custId);
             if (data == null || !data.Any())
             {
                 return new RecentlyViewedResponse(imgUrl, bannerUrl, recentlyViewedInfo);
             }
-
+            _logger.LogInformation("step 2");
             // 取出有byCurrency跟Site設定的遊戲資訊
             var tpIds = _casinoBll.GetProviderIdByCurrency(currencyId, serverInfo.SiteId);
             // 取出Slot的遊戲資訊
@@ -234,7 +234,7 @@ namespace MemberSite.Service.BLL
             {
                 detail.ImgTpName = _changeGameImgName.TryGetValue(detail.ImgTpName, out var changeName) ? changeName : detail.ImgTpName;
             }
-
+            _logger.LogInformation("step 3");
             foreach (var item in data)
             {
                 var isMaintain = false;
@@ -314,7 +314,7 @@ namespace MemberSite.Service.BLL
                     IsMaintain = isMaintain,
                 });
             }
-
+            _logger.LogInformation("step 4");
             return new RecentlyViewedResponse(imgUrl, bannerUrl, recentlyViewedInfo);
         }
 
