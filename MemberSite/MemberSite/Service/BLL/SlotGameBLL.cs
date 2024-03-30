@@ -157,7 +157,7 @@ namespace MemberSite.Service.BLL
                 var authData = _authorizeBll.GetAuthData();
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                 _logger.LogInformation("step 13");
-                _logger.LogInformation($"custInfo.SiteId={custInfo.SiteId}. custInfo.CurrencyId={custInfo.CurrencyId}. authData.CustId={authData.CustId}");
+                _logger.LogInformation($"custInfo={custInfo}. authData.CustId={authData.CustId}");
                 return (custInfo.SiteId, custInfo.CurrencyId, authData.CustId);
             }
             else
