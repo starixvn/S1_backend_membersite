@@ -36,6 +36,7 @@ namespace MemberSite.Service.BLL
         private readonly VIPService _vIPService;
         private readonly DepositService _depositService;
         private readonly ICustPhotoIdBLL _custPhoto;
+        private readonly ILogger<CustInfoBll> _logger;
 
         public CustInfoBll(IServiceProvider provider)
         {
@@ -55,6 +56,7 @@ namespace MemberSite.Service.BLL
             _vIPService = provider.GetRequiredService<VIPService>();
             _depositService = provider.GetRequiredService<DepositService>();
             _custPhoto = provider.GetRequiredService<ICustPhotoIdBLL>();
+            _logger = provider.GetRequiredService<ILogger<CustInfoBll>>();
         }
         public string GetCountryNameByAreaCode(string areaCode)
         {
@@ -822,11 +824,14 @@ namespace MemberSite.Service.BLL
 
         public CustVIPProgress GetCustVIPProgress(int custId)
         {
+
+            _logger.LogInformation($"step 1, custId={custId}");
             CustVIPProgress result = new CustVIPProgress();
             var customer = _custInfoService.GetCustInfo(custId);
+            _logger.LogInformation($"step 2, customer={customer}");
             result.CurrentVipLevel = customer.UserLevel;
             var vipSystem = _vIPService.GetVipSystem(customer.SiteId).Where(x => x.CurrencyId == customer.CurrencyId).ToList();
-
+            _logger.LogInformation($"step 3, vipSystem={vipSystem}");
             if (vipSystem != null)
             {
                 var upGradeData = vipSystem.Find(x => x.Level == customer.UserLevel + 1);
@@ -839,8 +844,9 @@ namespace MemberSite.Service.BLL
                     result.DownDeposit = downGradeData.DownDeposit;
                     result.DownTurnover = downGradeData.DownTurnover;
                 }
-
+                _logger.LogInformation($"step 4");
                 result.ActualDeposit = GetActualDeposit(customer.SiteId, custId);
+                _logger.LogInformation($"step 5");
             }
             return result;
         }

@@ -209,7 +209,6 @@ namespace MemberSite.Service.BLL
             var bannerUrl = _siteCloudFrontImageInfo[serverInfo.SiteName].BannerImageUrl;
             var deviceType = request.DeviceType;
             var devicePath = deviceType == (int)HotGameDeviceType.Pc ? "desktop" : "h5";
-            _logger.LogInformation("step 1");
             // 未登入狀態直接回傳
             if (custId == 0)
             {
@@ -221,7 +220,6 @@ namespace MemberSite.Service.BLL
             {
                 return new RecentlyViewedResponse(imgUrl, bannerUrl, recentlyViewedInfo);
             }
-            _logger.LogInformation("step 2");
             // 取出有byCurrency跟Site設定的遊戲資訊
             var tpIds = _casinoBll.GetProviderIdByCurrency(currencyId, serverInfo.SiteId);
             // 取出Slot的遊戲資訊
@@ -233,7 +231,6 @@ namespace MemberSite.Service.BLL
             {
                 detail.ImgTpName = _changeGameImgName.TryGetValue(detail.ImgTpName, out var changeName) ? changeName : detail.ImgTpName;
             }
-            _logger.LogInformation("step 3");
             foreach (var item in data)
             {
                 var isMaintain = false;
@@ -313,7 +310,6 @@ namespace MemberSite.Service.BLL
                     IsMaintain = isMaintain,
                 });
             }
-            _logger.LogInformation("step 4");
             return new RecentlyViewedResponse(imgUrl, bannerUrl, recentlyViewedInfo);
         }
 
