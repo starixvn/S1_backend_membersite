@@ -155,20 +155,19 @@ namespace MemberSite.Service.BLL
             {
 
                 var authData = _authorizeBll.GetAuthData();
-                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-                _logger.LogInformation("step 13");
-                _logger.LogInformation($"custInfo={custInfo}. authData.CustId={authData.CustId}");
-                return (custInfo.SiteId, custInfo.CurrencyId, authData.CustId);
-            }
-            else
-            {
-                var currencyId = _selLangBll.GetPreferCurrencyId();
-                if (inputCurrencyId.HasValue)
+                if (authData != null && authData.CustId != 0)
                 {
-                    currencyId = inputCurrencyId.Value;
+                    var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                    return (custInfo.SiteId, custInfo.CurrencyId, authData.CustId);
                 }
-                return (serverInfo.SiteId, currencyId, 0);
             }
+            var currencyId = _selLangBll.GetPreferCurrencyId();
+            if (inputCurrencyId.HasValue)
+            {
+                currencyId = inputCurrencyId.Value;
+            }
+            return (serverInfo.SiteId, currencyId, 0);
+
         }
 
         public async Task<IEnumerable<DisableTpGame>> GetDisableGameList(int custId)
