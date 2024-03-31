@@ -275,19 +275,23 @@ namespace MemberSite.Service.BLL
                 }
                 else
                 {
+                    _logger.LogInformation("step 1");
+                    _logger.LogInformation($"tpGameIdList={tpGameIdList}");
+                    _logger.LogInformation($"tpGameIdList,tpId={tpId},tpGameType={tpGameType},GameId={gameId},BetType={betType}");
                     var tpGameIdListDetail = tpGameIdList.FirstOrDefault(i => i.TpId == tpId && i.TpGameType == tpGameType && i.GameId == gameId && i.BetType == betType);
+                    _logger.LogInformation($"tpGameIdListDetail={tpGameIdListDetail}");
                     if (tpGameIdListDetail == null)
                     {
                         _logger.LogWarning($"GetRecentlyViewed tpGameIdListDetail null : {tpId} - {tpGameType} - {gameId} - {betType}");
                         continue;
                     }
-
+                    _logger.LogInformation("step 2");
                     if (tpGameIdListDetail.TpGameIdStatus != 1)
                     {
                         _logger.LogWarning($"GetRecentlyViewed TpGameIdStatus disable : {tpId} - {tpGameType} - {gameId} - {betType}");
                         continue;
                     }
-
+                    _logger.LogInformation("step 3");
                     gameName = tpGameIdListDetail.GameName;
                     gameLogo.Add("en", $"{bannerUrl}/{devicePath}/img/productimg/{tpGameIdListDetail.ImgTpName}/{tpGameIdListDetail.LobbyCategoryName}/{tpGameIdListDetail.ImgName}");
                     tpGameIdNo = tpGameIdListDetail.TpGameIdNo;
