@@ -1,4 +1,5 @@
-﻿using MemberSite.Service.BLL.Interface;
+﻿using Google.Protobuf.WellKnownTypes;
+using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.DAL;
 using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Domain;
@@ -10,6 +11,7 @@ using MemberSite.Service.Model.Mapping;
 using Microsoft.Extensions.Caching.Memory;
 
 using Newtonsoft.Json;
+using System.Text.RegularExpressions;
 
 namespace MemberSite.Service.BLL
 {
@@ -630,6 +632,8 @@ namespace MemberSite.Service.BLL
             var serverInfo = _serverInfoBll.GetServerInfo();
             if (!string.IsNullOrEmpty(affId))
             {
+                if (!IsVaild(affId))
+                    return -9;
                 var agent = _agentInfoService.GetAffiliateAgent(affId, serverInfo.SiteId);
 
                 if (agent == null)
@@ -642,6 +646,11 @@ namespace MemberSite.Service.BLL
 
             return -1;
 
+        }
+
+        private bool IsVaild(string value)
+        {
+            return Regex.IsMatch(value, @"^[a-z0-9]{8}$");
         }
 
         public int AffiliateAndReferralCheck(string affCode, out int currencyId)
@@ -788,7 +797,7 @@ namespace MemberSite.Service.BLL
         public async Task<IEnumerable<CustTpGameTypeSetting>> GetCustTpGameTypeSetting(int custId)
         {
             var result = new List<CustTpGameTypeSetting>();
-            var types = (CustTpGameTypeSettingType[])Enum.GetValues(typeof(CustTpGameTypeSettingType));
+            var types = (CustTpGameTypeSettingType[])System.Enum.GetValues(typeof(CustTpGameTypeSettingType));
             var key = $"GetCustTpGameTypeSetting:{custId}";
             var typeResult = await _redisHelper.TryGetOrCreateAsync(key,
                 TimeSpan.FromMinutes(10),
