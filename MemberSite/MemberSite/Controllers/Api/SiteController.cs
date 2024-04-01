@@ -1129,6 +1129,10 @@ namespace MemberSite.Controllers.Api
                     apiResult.ErrorCode = result;
                     apiResult.Message = _selLangBll.GetMsg("mag_AffiliateNotExist");
                     break;
+                case -9:
+                    apiResult.ErrorCode = result;
+                    apiResult.Message = _selLangBll.GetMsg("mag_AffiliateNotExist");
+                    break;
                 default:
                     apiResult.ErrorCode = result;
                     break;
