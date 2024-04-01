@@ -824,14 +824,10 @@ namespace MemberSite.Service.BLL
 
         public CustVIPProgress GetCustVIPProgress(int custId)
         {
-
-            _logger.LogInformation($"step 1, custId={custId}");
             CustVIPProgress result = new CustVIPProgress();
             var customer = GetCustInfoWithCache(custId, true);
-            _logger.LogInformation($"step 2, customer.UserLevel={customer.UserLevel}");
             result.CurrentVipLevel = customer.UserLevel;
             var vipSystem = _vIPService.GetVipSystem(customer.SiteId).Where(x => x.CurrencyId == customer.CurrencyId).ToList();
-            _logger.LogInformation($"step 3, vipSystem={vipSystem}");
             if (vipSystem != null)
             {
                 var upGradeData = vipSystem.Find(x => x.Level == customer.UserLevel + 1);
@@ -844,9 +840,7 @@ namespace MemberSite.Service.BLL
                     result.DownDeposit = downGradeData.DownDeposit;
                     result.DownTurnover = downGradeData.DownTurnover;
                 }
-                _logger.LogInformation($"step 4");
                 result.ActualDeposit = GetActualDeposit(customer.SiteId, custId);
-                _logger.LogInformation($"step 5");
             }
             return result;
         }
