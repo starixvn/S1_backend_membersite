@@ -222,10 +222,13 @@ namespace MemberSite.Service.BLL
             }
             // 取出有byCurrency跟Site設定的遊戲資訊
             var tpIds = _casinoBll.GetProviderIdByCurrency(currencyId, serverInfo.SiteId);
+            _logger.LogInformation("step 1");
             // 取出Slot的遊戲資訊
             var slotGameList = await GetSlotGameList(siteId, currencyId, request.DeviceType);
+            _logger.LogInformation("step 2");
             // 取出其他大廳的遊戲資訊
             var tpGameIdList = await _gameBll.GetTpGameIdList();
+            _logger.LogInformation("step 3");
 
             foreach (var detail in tpGameIdList)
             {
