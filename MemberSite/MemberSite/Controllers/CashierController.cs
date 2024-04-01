@@ -60,7 +60,7 @@ namespace MemberSite.Controllers
 
             try
             {
-                return await DepositOnlineBankingAsync(authData.CustId, sysId, ChannelId, Amount, ErrorUrl, BonusCode);
+                return await DepositOnlineBankingAsync(authData.CustId, sysId, ChannelId, Amount, BonusCode, null, ErrorUrl);
             }
             catch (CustomException ex)
             {
@@ -284,7 +284,10 @@ namespace MemberSite.Controllers
                     case DepositType.BankAutoChannel:
                     case DepositType.OnlineBanking:
                     case DepositType.QuickTransfer:
-                        return await DepositOnlineBankingAsync(authData.CustId, sysId, channelId, amount, bonusCode, errorUrl, channel.Type);
+                        return await DepositOnlineBankingAsync(authData.CustId, sysId, channelId, amount, bonusCode, new Dictionary<string, string>
+                        {
+                            {"PayAccount", payAccount}
+                        }, errorUrl, channel.Type);
 
                     case DepositType.MobilePayment:
                         p.ExtraData = new Dictionary<string, string>
@@ -383,7 +386,7 @@ namespace MemberSite.Controllers
 
             foreach (var bank in bankList.OrderBy(i => i.SSort))
             {
-                var result = _paymentBll.DepositReqOnlineBanking(custId, sysId, bank.ChannelId, amount, type, out transId);
+                var result = _paymentBll.DepositReqOnlineBanking(custId, sysId, bank.ChannelId, amount, type, null, out transId);
                 if (result != (int)ErrorCode.Success)
                 {
                     continue;
@@ -399,9 +402,10 @@ namespace MemberSite.Controllers
         }
 
         private async Task<IActionResult> DepositOnlineBankingAsync(
-            int custId, int sysId, int channelId, decimal amount, string bonusCode, string errorUrl, DepositType depositType = DepositType.OnlineBanking)
+            int custId, int sysId, int channelId, decimal amount, string bonusCode,
+            IDictionary<string, string> extraData, string errorUrl, DepositType depositType = DepositType.OnlineBanking)
         {
-            var result = _paymentBll.DepositReqOnlineBanking(custId, sysId, channelId, amount, depositType,
+            var result = _paymentBll.DepositReqOnlineBanking(custId, sysId, channelId, amount, depositType, extraData, 
                 out var transId);
 
             if (result != (int)ErrorCode.Success)
