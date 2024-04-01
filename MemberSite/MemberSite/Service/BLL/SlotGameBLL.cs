@@ -75,24 +75,20 @@ namespace MemberSite.Service.BLL
             var serverInfo = _serverInfoBll.GetServerInfo();
             var (siteId, currencyId, custId) = GetUserInfo(request.CurrencyId, user, serverInfo);
             var imgUrl = _siteCloudFrontImageInfo[serverInfo.SiteName].OldImageUrl;
-
             // 取得SlotGame相關資料
             var providerList = await GetSlotGameProviderList(siteId, currencyId, TpCategory.Casino);
             var slotGameList = await GetSlotGameList(siteId, currencyId, request.DeviceType);
             var lobbyCategorySequence = await _lobbyCategoryBll.GetLobbyCategorySequenceByLobbyCategoryId(siteId, currencyId, LobbyCategory.Slots);
             var slotGameTopRanking = await GetSlotGameTopRanking(siteId, currencyId);
-
             // 整理資料與排序
             var slotGameProviderDict = slotGameList.GroupBy(i => i.TpId).ToDictionary(i => i.Key, i => i.Key);
             providerList = FilterAndSortProviderList(providerList, slotGameProviderDict, lobbyCategorySequence);
             slotGameList = SortSlotGameList(slotGameList, slotGameTopRanking);
-
             // 未登入狀態直接回傳
             if (custId == 0)
             {
                 return new GetSlotGamePageResponse(imgUrl, providerList, slotGameList, request.SlotGameCategoryList);
             }
-
             //取得User的SlotGame相關資料         
             var disableGame = await GetDisableGameList(custId);
             var favoriteAndRecentlyPlayed = await GetFavoriteAndRecentlyPlayed(custId);
@@ -154,21 +150,24 @@ namespace MemberSite.Service.BLL
         /// </summary>
         private (int SiteId, int CurrencyId, int CustId) GetUserInfo(int? inputCurrencyId, ClaimsPrincipal user, ServerInfo serverInfo)
         {
+
             if (user?.Identity is { IsAuthenticated: true })
             {
+
                 var authData = _authorizeBll.GetAuthData();
-                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-                return (custInfo.SiteId, custInfo.CurrencyId, authData.CustId);
-            }
-            else
-            {
-                var currencyId = _selLangBll.GetPreferCurrencyId();
-                if (inputCurrencyId.HasValue)
+                if (authData != null && authData.CustId != 0)
                 {
-                    currencyId = inputCurrencyId.Value;
+                    var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                    return (custInfo.SiteId, custInfo.CurrencyId, authData.CustId);
                 }
-                return (serverInfo.SiteId, currencyId, 0);
             }
+            var currencyId = _selLangBll.GetPreferCurrencyId();
+            if (inputCurrencyId.HasValue)
+            {
+                currencyId = inputCurrencyId.Value;
+            }
+            return (serverInfo.SiteId, currencyId, 0);
+
         }
 
         public async Task<IEnumerable<DisableTpGame>> GetDisableGameList(int custId)
@@ -210,7 +209,6 @@ namespace MemberSite.Service.BLL
             var bannerUrl = _siteCloudFrontImageInfo[serverInfo.SiteName].BannerImageUrl;
             var deviceType = request.DeviceType;
             var devicePath = deviceType == (int)HotGameDeviceType.Pc ? "desktop" : "h5";
-
             // 未登入狀態直接回傳
             if (custId == 0)
             {
@@ -222,19 +220,20 @@ namespace MemberSite.Service.BLL
             {
                 return new RecentlyViewedResponse(imgUrl, bannerUrl, recentlyViewedInfo);
             }
-
             // 取出有byCurrency跟Site設定的遊戲資訊
             var tpIds = _casinoBll.GetProviderIdByCurrency(currencyId, serverInfo.SiteId);
+            _logger.LogInformation("step 1");
             // 取出Slot的遊戲資訊
             var slotGameList = await GetSlotGameList(siteId, currencyId, request.DeviceType);
+            _logger.LogInformation("step 2");
             // 取出其他大廳的遊戲資訊
             var tpGameIdList = await _gameBll.GetTpGameIdList();
+            _logger.LogInformation("step 3");
 
             foreach (var detail in tpGameIdList)
             {
                 detail.ImgTpName = _changeGameImgName.TryGetValue(detail.ImgTpName, out var changeName) ? changeName : detail.ImgTpName;
             }
-
             foreach (var item in data)
             {
                 var isMaintain = false;
@@ -285,13 +284,11 @@ namespace MemberSite.Service.BLL
                         _logger.LogWarning($"GetRecentlyViewed tpGameIdListDetail null : {tpId} - {tpGameType} - {gameId} - {betType}");
                         continue;
                     }
-
                     if (tpGameIdListDetail.TpGameIdStatus != 1)
                     {
                         _logger.LogWarning($"GetRecentlyViewed TpGameIdStatus disable : {tpId} - {tpGameType} - {gameId} - {betType}");
                         continue;
                     }
-
                     gameName = tpGameIdListDetail.GameName;
                     gameLogo.Add("en", $"{bannerUrl}/{devicePath}/img/productimg/{tpGameIdListDetail.ImgTpName}/{tpGameIdListDetail.LobbyCategoryName}/{tpGameIdListDetail.ImgName}");
                     tpGameIdNo = tpGameIdListDetail.TpGameIdNo;
@@ -314,7 +311,6 @@ namespace MemberSite.Service.BLL
                     IsMaintain = isMaintain,
                 });
             }
-
             return new RecentlyViewedResponse(imgUrl, bannerUrl, recentlyViewedInfo);
         }
 

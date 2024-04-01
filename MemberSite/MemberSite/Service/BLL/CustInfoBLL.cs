@@ -1,4 +1,5 @@
-﻿using MemberSite.Service.BLL.Interface;
+﻿using Google.Protobuf.WellKnownTypes;
+using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.DAL;
 using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Domain;
@@ -10,6 +11,7 @@ using MemberSite.Service.Model.Mapping;
 using Microsoft.Extensions.Caching.Memory;
 
 using Newtonsoft.Json;
+using System.Text.RegularExpressions;
 
 namespace MemberSite.Service.BLL
 {
@@ -36,6 +38,7 @@ namespace MemberSite.Service.BLL
         private readonly VIPService _vIPService;
         private readonly DepositService _depositService;
         private readonly ICustPhotoIdBLL _custPhoto;
+        private readonly ILogger<CustInfoBll> _logger;
 
         public CustInfoBll(IServiceProvider provider)
         {
@@ -55,6 +58,7 @@ namespace MemberSite.Service.BLL
             _vIPService = provider.GetRequiredService<VIPService>();
             _depositService = provider.GetRequiredService<DepositService>();
             _custPhoto = provider.GetRequiredService<ICustPhotoIdBLL>();
+            _logger = provider.GetRequiredService<ILogger<CustInfoBll>>();
         }
         public string GetCountryNameByAreaCode(string areaCode)
         {
@@ -628,6 +632,8 @@ namespace MemberSite.Service.BLL
             var serverInfo = _serverInfoBll.GetServerInfo();
             if (!string.IsNullOrEmpty(affId))
             {
+                if (!IsVaild(affId))
+                    return -9;
                 var agent = _agentInfoService.GetAffiliateAgent(affId, serverInfo.SiteId);
 
                 if (agent == null)
@@ -640,6 +646,11 @@ namespace MemberSite.Service.BLL
 
             return -1;
 
+        }
+
+        private bool IsVaild(string value)
+        {
+            return Regex.IsMatch(value, @"^[a-z0-9]{8}$");
         }
 
         public int AffiliateAndReferralCheck(string affCode, out int currencyId)
@@ -787,7 +798,7 @@ namespace MemberSite.Service.BLL
         public async Task<IEnumerable<CustTpGameTypeSetting>> GetCustTpGameTypeSetting(int custId)
         {
             var result = new List<CustTpGameTypeSetting>();
-            var types = (CustTpGameTypeSettingType[])Enum.GetValues(typeof(CustTpGameTypeSettingType));
+            var types = (CustTpGameTypeSettingType[])System.Enum.GetValues(typeof(CustTpGameTypeSettingType));
             var key = $"GetCustTpGameTypeSetting:{custId}";
             var typeResult = await _redisHelper.TryGetOrCreateAsync(key,
                 TimeSpan.FromMinutes(10),
@@ -824,11 +835,14 @@ namespace MemberSite.Service.BLL
 
         public CustVIPProgress GetCustVIPProgress(int custId)
         {
+
+            _logger.LogInformation($"step 1, custId={custId}");
             CustVIPProgress result = new CustVIPProgress();
-            var customer = _custInfoService.GetCustInfo(custId);
+            var customer = GetCustInfoWithCache(custId, true);
+            _logger.LogInformation($"step 2, customer.UserLevel={customer.UserLevel}");
             result.CurrentVipLevel = customer.UserLevel;
             var vipSystem = _vIPService.GetVipSystem(customer.SiteId).Where(x => x.CurrencyId == customer.CurrencyId).ToList();
-
+            _logger.LogInformation($"step 3, vipSystem={vipSystem}");
             if (vipSystem != null)
             {
                 var upGradeData = vipSystem.Find(x => x.Level == customer.UserLevel + 1);
@@ -841,8 +855,9 @@ namespace MemberSite.Service.BLL
                     result.DownDeposit = downGradeData.DownDeposit;
                     result.DownTurnover = downGradeData.DownTurnover;
                 }
-
+                _logger.LogInformation($"step 4");
                 result.ActualDeposit = GetActualDeposit(customer.SiteId, custId);
+                _logger.LogInformation($"step 5");
             }
             return result;
         }

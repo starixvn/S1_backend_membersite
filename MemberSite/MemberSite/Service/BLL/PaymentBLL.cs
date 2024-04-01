@@ -604,7 +604,8 @@ namespace MemberSite.Service.BLL
             var datas = new List<Statement>();
             try
             {
-                datas = list.GetRange(index, count);
+                if (count > 0)
+                    datas = list.GetRange(index, count);
             }
             catch (Exception ex)
             {
