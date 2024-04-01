@@ -827,8 +827,8 @@ namespace MemberSite.Service.BLL
 
             _logger.LogInformation($"step 1, custId={custId}");
             CustVIPProgress result = new CustVIPProgress();
-            var customer = _custInfoService.GetCustInfo(custId);
-            _logger.LogInformation($"step 2, customer={customer}");
+            var customer = GetCustInfoWithCache(custId, true);
+            _logger.LogInformation($"step 2, customer.UserLevel={customer.UserLevel}");
             result.CurrentVipLevel = customer.UserLevel;
             var vipSystem = _vIPService.GetVipSystem(customer.SiteId).Where(x => x.CurrencyId == customer.CurrencyId).ToList();
             _logger.LogInformation($"step 3, vipSystem={vipSystem}");
