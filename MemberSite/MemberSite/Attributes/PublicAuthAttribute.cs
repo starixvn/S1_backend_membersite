@@ -1,5 +1,4 @@
 ﻿using System.Text;
-
 using MemberSite.Service.BLL;
 
 using Microsoft.AspNetCore.Http.Extensions;
@@ -15,10 +14,12 @@ namespace MemberSite.Attributes;
 public class PublicAuthAttribute : Attribute, IAuthorizationFilter
 {
     private readonly AuthBLL _authBll;
+    private readonly ILogger<PublicAuthAttribute> _logger;
 
-    public PublicAuthAttribute(AuthBLL authBll)
+    public PublicAuthAttribute(AuthBLL authBll, ILogger<PublicAuthAttribute> logger)
     {
         _authBll = authBll;
+        _logger = logger;
     }
 
     public void OnAuthorization(AuthorizationFilterContext context)
@@ -32,10 +33,10 @@ public class PublicAuthAttribute : Attribute, IAuthorizationFilter
             var formData = context.HttpContext.Request.ReadFormAsync().Result;
             content = JsonConvert.SerializeObject(formData);
         }
-
+        _logger.LogInformation($"context 1={context}");
         context.HttpContext.Request.Body.CopyTo(requestBodyStream);
         requestBodyStream.Seek(0, SeekOrigin.Begin);
-
+        _logger.LogInformation($"context 2={context}");
         using (var requestBody = new StreamReader(requestBodyStream, Encoding.UTF8, true, 1024, true))
         {
             var codePage = requestBody.CurrentEncoding.CodePage;
@@ -45,7 +46,7 @@ public class PublicAuthAttribute : Attribute, IAuthorizationFilter
                 ? requestBody.ReadToEnd()
                 : content;
         }
-
+        _logger.LogInformation($"context 3={context}");
         if (!_authBll.RequestAuth(content))
         {
             if (IsJsonResult(context.HttpContext.Request.ContentType))
