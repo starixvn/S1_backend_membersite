@@ -593,7 +593,7 @@ namespace MemberSite.Service.BLL
                     CustId = custId,
                     CurrencyId = currencyId, 
                     TicketStatus = 1,
-                    TransId = x.TransId
+                    TransId = JsonConvert.SerializeObject(new List<string>{x.TransId})
                 }).ToList();
             
             // 發票
