@@ -2,7 +2,8 @@ using Elastic.Apm.SerilogEnricher;
 
 using MemberSite;
 using MemberSite.Extensions;
-
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using Serilog;
 using Serilog.Exceptions;
 using Serilog.Formatting.Json;
@@ -12,6 +13,28 @@ var builder = WebApplication.CreateBuilder(args);
 var remoteUrls = builder.Configuration.GetSection("ConfigService").Get<string[]>();
 remoteUrls = builder.Configuration.CheckLocalConfig(builder.Environment, args, remoteUrls);
 builder.Configuration.AddRemoteJsonConfig(remoteUrls);
+
+
+var openTelemetry = builder.Services.AddOpenTelemetry();
+
+openTelemetry.WithTracing(tracing =>
+{
+    tracing.SetResourceBuilder(ResourceBuilder.CreateDefault().AddService("MemberSite"));
+    tracing.AddConnectorNet();
+    tracing.AddAspNetCoreInstrumentation();
+    tracing.AddHttpClientInstrumentation();
+    tracing.AddRedisInstrumentation();
+    tracing.AddOtlpExporter(otlpOptions =>
+    {
+        otlpOptions.Endpoint = new Uri("http://localhost:4317/");
+    });
+    tracing.AddZipkinExporter(option =>
+    {
+        option.Endpoint = new Uri("http://localhost:9411/api/v2/spans");
+    });
+    tracing.AddConsoleExporter();
+});
+
 
 var excludesMessage = builder.Configuration.GetSection("ExcludesMessage").Get<string[]>();
 var excludesApiEndpoints = builder.Configuration.GetSection("ExcludesApiEndpoint").Get<string[]>();

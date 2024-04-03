@@ -20,10 +20,11 @@ using MemberSite.Service.Model.Options;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.WebEncoders;
-
+using OpenTelemetry.Metrics;
 using Prometheus;
 
 using StackExchange.Redis;
+using OpenTelemetry.Trace;
 
 namespace MemberSite
 {
