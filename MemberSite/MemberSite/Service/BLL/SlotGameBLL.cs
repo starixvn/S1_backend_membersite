@@ -1,5 +1,4 @@
 ﻿using System.Security.Claims;
-
 using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
@@ -226,13 +225,14 @@ namespace MemberSite.Service.BLL
             var slotGameList = await GetSlotGameList(siteId, currencyId, request.DeviceType);
             // 取出其他大廳的遊戲資訊
             var tpGameIdList = await _gameBll.GetTpGameIdList();
-            _logger.LogInformation($"tpGameIdList.Count={tpGameIdList.Count()}");
 
             foreach (var detail in tpGameIdList)
             {
                 detail.ImgTpName = _changeGameImgName.TryGetValue(detail.ImgTpName, out var changeName) ? changeName : detail.ImgTpName;
             }
-            _logger.LogInformation($"data.Count={data.Count()}");
+
+            _logger.LogInformation($"data={string.Join("!!!", data.Select(item => item.RecentlyViewed))}");
+
             foreach (var item in data)
             {
                 var isMaintain = false;
