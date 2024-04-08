@@ -358,7 +358,7 @@ namespace MemberSite.Service.BLL
             
             finishedCount = tickets.Count(x => x.TeamId is not null);
             
-            if (siteId is 1 or 3)
+            if (siteId is 1)
             {
                 var cupEventDateSetting = GetCupEventDateSetting().First(r => r.SiteId == siteId && r.CurrencyId == currencyId);
                 foreach (var ticket in tickets)
@@ -372,6 +372,7 @@ namespace MemberSite.Service.BLL
                     userTicketResult.TicketList.Add(ticketModel);
                 }
             }
+            // siteId = 2,3
             else
             {
                 var groupData = tickets.Where(x => x.TeamId is not null)
@@ -644,7 +645,7 @@ namespace MemberSite.Service.BLL
                     TransId = string.Empty
                 };
 
-                //處理 ticketType 2 and 3 and 4
+                //處理 ticketType 2 and 3
                 if (mission.DepositFlag)
                 { 
                     var unUsedDepositSum = (decimal)0.00;
@@ -712,6 +713,10 @@ namespace MemberSite.Service.BLL
                         insertTickets.Add(ticket);
                     }
                     mission.IsCompleted = true;
+                }
+                else
+                {
+                    break;
                 }
             }
             
@@ -795,7 +800,7 @@ namespace MemberSite.Service.BLL
             SetPromotionMissionCompleted(completedMission);
             
             // 排除已領過的missionNo
-            var result = promotionMission.Where(m => !used.Contains(m.MissionNo)).ToList();
+            var result = promotionMission.Where(m => !used.Contains(m.MissionNo)).OrderBy(x=>x.MissionNo).ToList();
 
             return result;
         }
