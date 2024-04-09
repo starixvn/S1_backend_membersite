@@ -27,7 +27,7 @@ namespace MemberSite.Service.BLL
 
         public CupEventPredictionSettingResponse GetCupEventPredictionSettingResponse(string langId)
         {
-            var allTeamEnglishName = GetCupEventPredictionCountry();
+            var allTeamEnglishName = GetCupEventPredictionCountry("en");
             var dbData = GetCupEventPredictionSetting(langId);
             var selectOption = GetSelectOptions(langId);
 
@@ -52,12 +52,12 @@ namespace MemberSite.Service.BLL
         /// 如果Redis 沒有，就從db撈，之後塞到 Redis cache 1 天
         /// </summary>
         /// <returns></returns>
-        private List<CupEventPredictionCountry> GetCupEventPredictionCountry()
+        private List<CupEventPredictionCountry> GetCupEventPredictionCountry(string langId)
         {
-            const string countryKey = "CupEventPredictionCountryList";
-            var allTeamEnglishName = _redisHelper.TryGetOrCreate(countryKey, TimeSpan.FromDays(1),
-                () => GetCupEventPredictionSelectOptions().ToList());
-            return allTeamEnglishName;
+            var countryKey = $"CupEventPredictionCountryList:{langId}";
+            var allTeamName = _redisHelper.TryGetOrCreate(countryKey, TimeSpan.FromDays(1),
+                () => GetCupEventPredictionSelectOptions(langId).ToList());
+            return allTeamName;
         }
 
         /// <summary>
@@ -73,14 +73,15 @@ namespace MemberSite.Service.BLL
             return dbData;
         }
 
-        private IEnumerable<CupEventPredictionCountry> GetCupEventPredictionSelectOptions()
+        private IEnumerable<CupEventPredictionCountry> GetCupEventPredictionSelectOptions(string langId)
         {
-            var dbData = _cupEventService.GetCupEventPredictionOptions();
+            var dbData = _cupEventService.GetCupEventPredictionOptions(langId);
 
             var result = dbData.Select(r => new CupEventPredictionCountry
             {
                 CountryId = r.TeamId,
-                CountryName = r.TeamName
+                CountryName = r.TeamName,
+                EnCountryName = r.EnTeamName
             });
 
             return result;
@@ -185,7 +186,7 @@ namespace MemberSite.Service.BLL
             return responseData;
         }
         
-        public IEnumerable<CupEventTicketSummaryResponse> GetCupEventTicketSummary()
+        public IEnumerable<CupEventTicketSummaryResponse> GetCupEventTicketSummary(string langId)
         {
             var responseData = new List<CupEventTicketSummaryResponse>();
             
@@ -193,8 +194,8 @@ namespace MemberSite.Service.BLL
 
             if (usedTickets.Any())
             {
-                var enCountry = GetCupEventPredictionCountry(); // 取得英文的國家名稱給圖片名稱用
-                if (enCountry == null) throw new Exception("enCountry not found");
+                var countryList = GetCupEventPredictionCountry(langId);
+                if (countryList == null) throw new Exception("enCountry not found");
                 
                 var userTicketsAll = usedTickets.Count; //總票數
                 
@@ -202,8 +203,8 @@ namespace MemberSite.Service.BLL
                     .Select(x => new CupEventTicketSummaryResponse
                     {
                         CountryId = x.Key,
-                        CountryName = enCountry.First(r => r.CountryId == x.Key).CountryName,
-                        ImageName = $"{enCountry.First(r => r.CountryId == x.Key).CountryName}.png",
+                        CountryName = countryList.First(r => r.CountryId == x.Key).CountryName,
+                        ImageName = $"{countryList.First(r => r.CountryId == x.Key).EnCountryName}.png",
                         Percentage = Math.Round(x.Count() / (decimal)userTicketsAll * 100, 2)
                     }).ToList();
             }
@@ -438,7 +439,7 @@ namespace MemberSite.Service.BLL
             var top24Team = countrySetting.Where(r => r.LevelName == "top24Team").OrderBy(x => x.Sort).ToList();
             if (top24Team.Count < 24) throw new Exception("countrySetting top24Team less than 24 Team");
 
-            var enCountry = GetCupEventPredictionCountry(); // 取得英文的國家名稱給圖片名稱用
+            var enCountry = GetCupEventPredictionCountry("en"); // 取得英文的國家名稱給圖片名稱用
             if (enCountry == null) throw new Exception("enCountry not found");
 
             var selectOptions = new SelectOptions()

@@ -101,13 +101,13 @@ namespace MemberSite.Controllers.Api
         }
         
         [HttpPost]
-        public ApiResult<IEnumerable<CupEventTicketSummaryResponse>> GetCupEventTicketSummary()
+        public ApiResult<IEnumerable<CupEventTicketSummaryResponse>> GetCupEventTicketSummary(GetCupEventTicketSummaryRequest request)
         {
             var apiResult = new ApiResult<IEnumerable<CupEventTicketSummaryResponse>>();
 
             try
             {
-                var responseData = _cupEventBll.GetCupEventTicketSummary();
+                var responseData = _cupEventBll.GetCupEventTicketSummary(request.LangId);
                 
                 apiResult.Data = responseData;
                 apiResult.ErrorCode = 0;

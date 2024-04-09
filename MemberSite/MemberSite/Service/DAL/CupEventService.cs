@@ -33,12 +33,14 @@ namespace MemberSite.Service.DAL
         }
 
         /// <summary>
-        /// 取得世界盃所有國家 Id 與英文名稱
+        /// 取得世界盃所有國家 Id 與名稱
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<CupEventPredictionOptionsDto> GetCupEventPredictionOptions()
+        public IEnumerable<CupEventPredictionOptionsDto> GetCupEventPredictionOptions(string langId)
         {
-            return _mainDbClient.Query<CupEventPredictionOptionsDto>("Admin_CupEventPredictionOptions_Get");
+            var p = new DynamicParameters();
+            p.Add("LangId", langId, dbType: DbType.String);
+            return _mainDbClient.Query<CupEventPredictionOptionsDto>("Admin_CupEventPredictionOptions_Get", p);
         }
 
         #endregion
