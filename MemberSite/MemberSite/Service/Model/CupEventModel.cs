@@ -79,6 +79,7 @@ namespace MemberSite.Service.Model
         /// </summary>
         [JsonPropertyName("countryName")]
         public string CountryName { get; set; }
+        public string EnCountryName { get; set; }
     }
 
     public class CupEventSetting
@@ -113,6 +114,10 @@ namespace MemberSite.Service.Model
         /// 隊伍名稱
         /// </summary>
         public string TeamName { get; set; }
+        /// <summary>
+        /// 英文隊伍名稱
+        /// </summary>
+        public string EnTeamName { get; set; }
     }
 
     public class CupEventPredictionSettingDto
@@ -281,6 +286,14 @@ namespace MemberSite.Service.Model
         /// </summary>
         [JsonPropertyName("count")]
         public int Count { get; set; }
+    }
+    
+    public class GetCupEventTicketSummaryRequest
+    {
+        /// <summary>
+        /// 語系 Id
+        /// </summary>
+        public string LangId { get; set; }
     }
     
     public class CupEventTicketSummaryResponse
