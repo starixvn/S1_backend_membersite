@@ -358,7 +358,6 @@ namespace MemberSite.Service.Model
         private DateTime _statementTime { get; set; }
         
     }
-
     
     public class CustTicketInfoDto
     {
@@ -406,8 +405,7 @@ namespace MemberSite.Service.Model
         public string TimeZone { get; set; }
 
     }
-
-
+    
     public class UserPollTicketRequest
     {
         [JsonPropertyName("ticketType")]
@@ -444,5 +442,17 @@ namespace MemberSite.Service.Model
         public string TransId { get; set; }
         public decimal Stake { get; set; }
         public DateTime TransTime { get; set; }
+    }
+    
+    public class PredictCupEventScoreRequest
+    {
+        public int HomeTeamScore { get; set; }
+        public int AwayTeamScore { get; set; }
+    }
+    
+    public class CupEventPredictScore
+    {
+        public int HomeTeamScore { get; set; }
+        public int AwayTeamScore { get; set; }
     }
 }

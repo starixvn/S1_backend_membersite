@@ -279,6 +279,23 @@ namespace MemberSite.Service.BLL
             return custDepositList;
         }
         
+        public async Task<bool> PredictCupEventScore(int siteId, int custId,int currencyId, PredictCupEventScoreRequest request)
+        {
+            var result = await _cupEventService.PredictCupEventScore(siteId, custId ,currencyId ,request);
+            if (result > 0)
+            {
+                return true;
+            }
+
+            return false;
+        }
+        
+        public CupEventPredictScore GetCupEventPredictScore(int custId)
+        {
+            var result = _cupEventService.GetCupEventPredictScore(custId);
+            return result;
+        }
+        
         #region private
         
         /// <summary>
