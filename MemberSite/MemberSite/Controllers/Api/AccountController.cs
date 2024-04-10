@@ -1,7 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Security.Claims;
-
+using System.Text.RegularExpressions;
 using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
@@ -44,6 +44,7 @@ namespace MemberSite.Controllers.Api
         private readonly ICacheHelper _cacheHelper;
         private readonly ServerInfoBll _serverInfoBll;
         private readonly JwtConfig _jwtConfig;
+        private readonly Regex _regexPhoneNo = new(@"^\d+$");
 
         public AccountController(IServiceProvider provider)
         {
@@ -945,9 +946,8 @@ namespace MemberSite.Controllers.Api
                     return apiResult;
                 }
 
-                if (long.TryParse(rrofileReq.PhoneNo, out var phoneNo))
+                if (_regexPhoneNo.IsMatch(rrofileReq.PhoneNo))
                 {
-                    rrofileReq.PhoneNo = phoneNo.ToString();
                     apiResult.Data = _custInfoBll.ExistsPhoneNo(authData.CustId, rrofileReq.AreaCode, rrofileReq.PhoneNo);
                 }
                 else

@@ -38,7 +38,8 @@ namespace MemberSite.Controllers.Api
         private readonly ILogger<AccountStrictController> _logger;
         private readonly ICustPhotoIdBLL _custPhoto;
         private readonly Regex _regexEmail = new(@"^\w+((-\w+)|(\.\w+))*@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$");
-
+        private readonly Regex _regexPhoneNo = new(@"^\d+$");
+        
         public AccountStrictController(IServiceProvider provider)
         {
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
@@ -459,9 +460,9 @@ namespace MemberSite.Controllers.Api
                     string AreaCode = custProfile[nameof(AreaCode)];
                     string PhoneNo = custProfile[nameof(PhoneNo)];
 
-                    if (long.TryParse(PhoneNo, out var phoneNo))
+                    if (_regexPhoneNo.IsMatch(PhoneNo))
                     {
-                        custProfile["PhoneNo"] = phoneNo.ToString();
+                        custProfile["PhoneNo"] = PhoneNo;
                     }
                     else
                     {
@@ -589,9 +590,9 @@ namespace MemberSite.Controllers.Api
                         string AreaCode = custProfile[nameof(AreaCode)];
                         string PhoneNo = custProfile[nameof(PhoneNo)];
 
-                        if (long.TryParse(PhoneNo, out var phoneNo))
+                        if (_regexPhoneNo.IsMatch(PhoneNo))
                         {
-                            custProfile["PhoneNo"] = phoneNo.ToString();
+                            custProfile["PhoneNo"] = PhoneNo;
                         }
                         else
                         {
