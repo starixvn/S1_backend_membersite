@@ -1,4 +1,6 @@
-﻿namespace MemberSite.Service.Model
+﻿using MemberSite.Service.Model.enums;
+
+namespace MemberSite.Service.Model
 {
     public class BankInfoPay : IPaymentLimit
     {
@@ -17,6 +19,7 @@
         public int PointLevel { get; set; }
         public string PayName { get; set; }
         public string PayCode { get; set; }
+        public int ExtraDataType { get; set; }
         public int MSort { get; set; }
         public int SSort { get; set; }
         public bool SelBank { get; set; }

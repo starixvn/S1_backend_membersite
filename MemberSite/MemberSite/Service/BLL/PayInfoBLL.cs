@@ -205,6 +205,7 @@ namespace MemberSite.Service.BLL
                         PayId = x.PayId,
                         PayName = x.PayName,
                         Mode = x.Mode,
+                        ExtraDataType = x.ExtraDataType,
                         MaxAmount = x.MaxAmount,
                         MinAmount = x.MinAmount,
                         AmountRule = x.AmountRule,
