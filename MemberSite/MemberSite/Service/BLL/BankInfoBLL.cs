@@ -93,6 +93,7 @@ namespace MemberSite.Service.BLL
                         ChannelId = item.ChannelId,
                         SelBank = item.SelBank,
                         Mode = item.Mode,
+                        ExtraDataType = item.ExtraDataType,
                         MaxAmount = item.MaxAmount,
                         MinAmount = item.MinAmount,
                         BankList = item.SelBank ?
