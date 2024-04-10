@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Newtonsoft.Json;
 
 using static MemberSite.Extensions.MethodExtension;
@@ -35,6 +35,7 @@ namespace MemberSite.Controllers.Api
         private readonly string _tpServiceApiUrl;
         private readonly MessageBll _messageBll;
         private readonly PaymentBLL _paymentBll;
+        private readonly PayInfoBLL _payInfoBll;
         private readonly ThirdPartyBll _thirdPartyBll;
         private readonly CasinoBll _casinoBll;
         private readonly BonusWalletBLL _bonusWalletBll;
@@ -61,6 +62,7 @@ namespace MemberSite.Controllers.Api
             _jwtConfig = configBll.GetConfigValueByEnvironment<JwtConfig>("JwtSettings");
             _messageBll = provider.GetRequiredService<MessageBll>();
             _paymentBll = provider.GetRequiredService<PaymentBLL>();
+            _payInfoBll = provider.GetRequiredService<PayInfoBLL>();
             _thirdPartyBll = provider.GetRequiredService<ThirdPartyBll>();
             _casinoBll = provider.GetRequiredService<CasinoBll>();
             _bonusWalletBll = provider.GetRequiredService<BonusWalletBLL>();
@@ -355,9 +357,14 @@ namespace MemberSite.Controllers.Api
 
             return data.ErrorCode == 0;
         }
+        
+        public class GetCustBankInfoReq
+        {
+            public int ChannelId { set; get; }
+        }
 
         [HttpPost]
-        public ApiResult<CustBankInfoRep> GetCustBankInfo()
+        public ApiResult<CustBankInfoRep> GetCustBankInfo([FromBody(EmptyBodyBehavior = EmptyBodyBehavior.Allow)]GetCustBankInfoReq req)
         {
             var apiResult = new ApiResult<CustBankInfoRep>(_selLangBll);
             var authData = _authorizeBll.GetAuthData();
@@ -368,9 +375,36 @@ namespace MemberSite.Controllers.Api
             }
             var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
             var bankInfoSysList = _bankInfoBll.GetBankInfoSysListByCurrency(custInfo.CurrencyId).ToList();
+            var hasChannelInfo = req != null;
 
-            if (custInfo.SiteId == 1
-                && custInfo.CurrencyId == (int)CurrencyId.THB) // Nova88 泰國銀行名稱支援多語系
+            if (hasChannelInfo)
+            {
+                var channels = _payInfoBll.GetPayChannelWithCache();
+                var channel = channels.FirstOrDefault(x => x.ChannelId == req.ChannelId);
+
+                if (channel == null)
+                {
+                    hasChannelInfo = false;
+                    _logger.LogError("No channel data, channelId=" + req.ChannelId);
+                }
+                else
+                {
+                    var payBankList = _bankInfoBll.GetOnlineBankList(custInfo.SiteId, channel.Type)
+                        .Where(x => x.ChannelId == req.ChannelId);
+
+                    bankInfoSysList
+                        .ForEach(x =>
+                        {
+                            if (x.Status == GeneralStatusEnum.Disable)
+                                return;
+                            
+                            if (!payBankList.Any(p => !p.SelBank || p.SysId == x.SysId))
+                                x.Status = GeneralStatusEnum.Disable;
+                        });
+                }
+            }
+
+            if (custInfo.CurrencyId == (int)CurrencyId.THB) // 泰國銀行名稱支援多語系
             {
                 _bankInfoBll.BankNameLocalization(bankInfoSysList, authData.LangId);
             }
@@ -379,6 +413,17 @@ namespace MemberSite.Controllers.Api
 
             if (custBankInfo is { bankInfoDetail: { } } && custBankInfo.bankInfoDetail.Any())
             {
+                var enableBanks = bankInfoSysList
+                    .Where(x => x.Status == GeneralStatusEnum.Enable)
+                    .Select(x => x.SysId);
+                
+                // 當是channel的資料時過濾掉disabled的資料
+                if (hasChannelInfo)
+                {
+                    custBankInfo.bankInfoDetail = custBankInfo.bankInfoDetail
+                        .Where(x => enableBanks.Contains(x.SysId));
+                }
+                
                 foreach (var bankInfo in custBankInfo.bankInfoDetail)
                 {
                     var refBankInfo = bankInfoSysList.FirstOrDefault(x => x.SysId == bankInfo.SysId);
@@ -420,6 +465,8 @@ namespace MemberSite.Controllers.Api
                             crypto.Disabled = true;
                     }
                 }
+                
+                
             }
 
             apiResult.Data = custBankInfo;
