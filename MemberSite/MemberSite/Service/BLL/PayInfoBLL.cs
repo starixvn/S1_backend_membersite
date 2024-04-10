@@ -133,6 +133,7 @@ namespace MemberSite.Service.BLL
                     PayName = x.PayName,
                     SelectBank = x.SelBank,
                     Mode = x.Mode,
+                    ExtraDataType = x.ExtraDataType,
                     MaxAmount = x.MaxAmount,
                     MinAmount = x.MinAmount,
                     AmountRule = 1,

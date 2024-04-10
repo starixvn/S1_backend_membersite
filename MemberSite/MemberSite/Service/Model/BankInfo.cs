@@ -21,6 +21,7 @@ namespace MemberSite.Service.Model
         public int ChannelId { get; set; }
         public string PayName { get; set; }
         public bool SelBank { get; set; }
+        public int ExtraDataType { get; set; }
         public decimal MinAmount { get; set; }
         public decimal MaxAmount { get; set; }
         public int Mode { get; set; }
