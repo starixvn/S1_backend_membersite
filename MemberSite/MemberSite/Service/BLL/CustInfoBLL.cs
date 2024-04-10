@@ -10,6 +10,7 @@ using MemberSite.Service.Model.Mapping;
 using Microsoft.Extensions.Caching.Memory;
 
 using Newtonsoft.Json;
+using System.Text;
 
 namespace MemberSite.Service.BLL
 {
@@ -36,6 +37,7 @@ namespace MemberSite.Service.BLL
         private readonly VIPService _vIPService;
         private readonly DepositService _depositService;
         private readonly ICustPhotoIdBLL _custPhoto;
+        private readonly ILogger<CustInfoBll> _logger;
 
         public CustInfoBll(IServiceProvider provider)
         {
@@ -55,6 +57,7 @@ namespace MemberSite.Service.BLL
             _vIPService = provider.GetRequiredService<VIPService>();
             _depositService = provider.GetRequiredService<DepositService>();
             _custPhoto = provider.GetRequiredService<ICustPhotoIdBLL>();
+            _logger = provider.GetRequiredService<ILogger<CustInfoBll>>();
         }
         public string GetCountryNameByAreaCode(string areaCode)
         {
@@ -239,8 +242,22 @@ namespace MemberSite.Service.BLL
                 });
             }
 
-            if (userAgent.Length > 255)
-                userAgent = userAgent.Substring(0, 255);
+            try
+            {
+                byte[] userAgentBytes = Encoding.ASCII.GetBytes(userAgent);
+                if (userAgentBytes.Length > 255)
+                {
+                    byte[] truncatedBytes = new byte[255];
+                    Array.Copy(userAgentBytes, truncatedBytes, 255);
+                    userAgent = Encoding.ASCII.GetString(truncatedBytes);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"UserAgent ASCII Error.Message={ex.Message}.");
+                if (userAgent.Length > 250)
+                    userAgent = userAgent.Substring(0, 250);
+            }
 
             _authenticateService.AddLoginRecord(customer.CustId, customer.SiteId, ip, deviceType, out token);
             _authenticateService.AddUserLoginLog(customer.CustId, customer.UserName, customer.SiteId, ip, fromUrl, userAgent);
