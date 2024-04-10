@@ -292,6 +292,7 @@ namespace MemberSite.Controllers
                     case DepositType.MobilePayment:
                         p.ExtraData = new Dictionary<string, string>
                         {
+                            {"SysId", sysId.ToString()},
                             {"PayAccount", payAccount}
                         };
                         break;
