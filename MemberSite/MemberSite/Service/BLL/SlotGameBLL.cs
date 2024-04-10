@@ -1,5 +1,4 @@
 ﻿using System.Security.Claims;
-
 using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
@@ -220,96 +219,112 @@ namespace MemberSite.Service.BLL
             {
                 return new RecentlyViewedResponse(imgUrl, bannerUrl, recentlyViewedInfo);
             }
+
             // 取出有byCurrency跟Site設定的遊戲資訊
             var tpIds = _casinoBll.GetProviderIdByCurrency(currencyId, serverInfo.SiteId);
-            _logger.LogInformation("step 1");
             // 取出Slot的遊戲資訊
             var slotGameList = await GetSlotGameList(siteId, currencyId, request.DeviceType);
-            _logger.LogInformation("step 2");
             // 取出其他大廳的遊戲資訊
             var tpGameIdList = await _gameBll.GetTpGameIdList();
-            _logger.LogInformation("step 3");
 
             foreach (var detail in tpGameIdList)
             {
                 detail.ImgTpName = _changeGameImgName.TryGetValue(detail.ImgTpName, out var changeName) ? changeName : detail.ImgTpName;
             }
+
             foreach (var item in data)
             {
-                var isMaintain = false;
-                var gameName = new Dictionary<string, string>();
-                var gameLogo = new Dictionary<string, string>();
-                string[] parts = item.RecentlyViewed.Split(':');
-                var type = int.Parse(parts[0]);
-                var tpId = int.Parse(parts[1]);
-                var tpGameType = int.Parse(parts[2]);
-                var categoryId = int.Parse(parts[3]);
-                var gameId = parts[4];
-                var betType = (parts[5] == "0") ? "" : parts[5];
-                var imgTpName = tpGameIdList.FirstOrDefault(r => r.TpId == tpId)?.ImgTpName;
-                var tpGameIdNo = 0;
-
-                // TP 關閉資料
-                if (!tpIds.Contains(tpId))
+                try
                 {
-                    _logger.LogWarning($"GetRecentlyViewed tpIds disable : {tpId}");
+                    var isMaintain = false;
+                    var gameName = new Dictionary<string, string>();
+                    var gameLogo = new Dictionary<string, string>();
+                    string[] parts = item.RecentlyViewed.Split(':');
+                    var type = int.Parse(parts[0]);
+                    var tpId = int.Parse(parts[1]);
+                    var tpGameType = int.Parse(parts[2]);
+                    var categoryId = int.Parse(parts[3]);
+                    var gameId = parts[4];
+                    var betType = (parts[5] == "0") ? "" : parts[5];
+                    var imgTpName = tpGameIdList.FirstOrDefault(r => r.TpId == tpId)?.ImgTpName;
+                    var tpGameIdNo = 0;
+
+                    // TP 關閉資料
+                    if (!tpIds.Contains(tpId))
+                    {
+                        _logger.LogWarning($"GetRecentlyViewed tpIds disable : {tpId}");
+                        continue;
+                    }
+
+                    // 檢查維護
+                    if (_gameBll.IsMaintain(siteId, tpId, tpGameType.ToString(), out var tpMaintain))
+                    {
+                        isMaintain = true;
+                    }
+
+                    if (categoryId == (int)TpCategory.Casino && type == (int)RecentlyViewedTypeEnum.GameName)
+                    {
+                        var gameSlotDetail = slotGameList.FirstOrDefault(i => i.TpId == tpId && (i.GameId == gameId || i.AppId == gameId));
+                        if (gameSlotDetail == null)
+                        {
+                            _logger.LogWarning($"GetRecentlyViewed gameSlotDetail null : {tpId} - {gameId}");
+                            continue;
+                        }
+
+                        var tpGameIdListDetail = tpGameIdList.FirstOrDefault(i => i.TpId == tpId && i.TpGameType == tpGameType);
+                        gameName = gameSlotDetail.GameName;
+                        gameLogo = gameSlotDetail.ImgName.ToDictionary(item => item.Key, item => $"{imgUrl}/{imgTpName}/{item.Value}");
+                        tpGameIdNo = (int)(tpGameIdListDetail?.TpGameIdNo);
+                    }
+                    else
+                    {
+                        var tpGameIdListDetail = tpGameIdList.FirstOrDefault(i => i.TpId == tpId && i.TpGameType == tpGameType && i.GameId == gameId && i.BetType == betType);
+                        if (tpGameIdListDetail == null)
+                        {
+                            _logger.LogWarning($"GetRecentlyViewed tpGameIdListDetail null : {tpId} - {tpGameType} - {gameId} - {betType}");
+                            continue;
+                        }
+                        if (tpGameIdListDetail.TpGameIdStatus != 1)
+                        {
+                            _logger.LogWarning($"GetRecentlyViewed TpGameIdStatus disable : {tpId} - {tpGameType} - {gameId} - {betType}");
+                            continue;
+                        }
+                        gameName = tpGameIdListDetail.GameName;
+                        gameLogo.Add("en", $"{bannerUrl}/{devicePath}/img/productimg/{tpGameIdListDetail.ImgTpName}/{tpGameIdListDetail.LobbyCategoryName}/{tpGameIdListDetail.ImgName}");
+                        tpGameIdNo = tpGameIdListDetail.TpGameIdNo;
+                    }
+
+                    string venderLogoTpId = _specialVenderLogoTp.ContainsKey(tpGameIdNo) && _specialVenderLogoTp.ContainsValue(tpId) ? $"{tpId}-{tpGameIdNo}" : tpId.ToString();
+
+                    recentlyViewedInfo.Add(new RecentlyViewedInfo()
+                    {
+                        TpId = tpId,
+                        TpGameType = tpGameType,
+                        CategoryId = categoryId,
+                        GameId = gameId,
+                        BetType = betType,
+                        TpName = imgTpName,
+                        GameName = gameName,
+                        GameLogo = gameLogo,
+                        TpLogo = $"{bannerUrl}/{devicePath}/img/venderlogo/{venderLogoTpId}.png",
+                        TpGameIdNo = tpGameIdNo,
+                        IsMaintain = isMaintain,
+                    });
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError($"Message={ex.Message}. custid={custId}, item={item}");
+                    string[] parts = item.RecentlyViewed.Split(':');
+                    var type = int.Parse(parts[0]);
+                    var tpId = int.Parse(parts[1]);
+                    var tpGameType = int.Parse(parts[2]);
+                    var categoryId = int.Parse(parts[3]);
+                    var gameId = parts[4];
+                    var betType = (parts[5] == "0") ? "" : parts[5];
+                    var imgTpName = tpGameIdList.FirstOrDefault(r => r.TpId == tpId)?.ImgTpName;
+                    _logger.LogError($"type={type}. tpId={tpId}, tpGameType={tpGameType},  categoryId={categoryId}, gameId={gameId}, betType={betType}, imgTpName={imgTpName}");
                     continue;
                 }
-
-                // 檢查維護
-                if (_gameBll.IsMaintain(siteId, tpId, tpGameType.ToString(), out var tpMaintain))
-                {
-                    isMaintain = true;
-                }
-
-                if (categoryId == (int)TpCategory.Casino && type == (int)RecentlyViewedTypeEnum.GameName)
-                {
-                    var gameSlotDetail = slotGameList.FirstOrDefault(i => i.TpId == tpId && (i.GameId == gameId || i.AppId == gameId));
-                    if (gameSlotDetail == null)
-                    {
-                        _logger.LogWarning($"GetRecentlyViewed gameSlotDetail null : {tpId} - {gameId}");
-                        continue;
-                    }
-
-                    var tpGameIdListDetail = tpGameIdList.FirstOrDefault(i => i.TpId == tpId && i.TpGameType == tpGameType);
-                    gameName = gameSlotDetail.GameName;
-                    gameLogo = gameSlotDetail.ImgName.ToDictionary(item => item.Key, item => $"{imgUrl}/{imgTpName}/{item.Value}");
-                    tpGameIdNo = (int)(tpGameIdListDetail?.TpGameIdNo);
-                }
-                else
-                {
-                    var tpGameIdListDetail = tpGameIdList.FirstOrDefault(i => i.TpId == tpId && i.TpGameType == tpGameType && i.GameId == gameId && i.BetType == betType);
-                    if (tpGameIdListDetail == null)
-                    {
-                        _logger.LogWarning($"GetRecentlyViewed tpGameIdListDetail null : {tpId} - {tpGameType} - {gameId} - {betType}");
-                        continue;
-                    }
-                    if (tpGameIdListDetail.TpGameIdStatus != 1)
-                    {
-                        _logger.LogWarning($"GetRecentlyViewed TpGameIdStatus disable : {tpId} - {tpGameType} - {gameId} - {betType}");
-                        continue;
-                    }
-                    gameName = tpGameIdListDetail.GameName;
-                    gameLogo.Add("en", $"{bannerUrl}/{devicePath}/img/productimg/{tpGameIdListDetail.ImgTpName}/{tpGameIdListDetail.LobbyCategoryName}/{tpGameIdListDetail.ImgName}");
-                    tpGameIdNo = tpGameIdListDetail.TpGameIdNo;
-                }
-
-                string venderLogoTpId = _specialVenderLogoTp.ContainsKey(tpGameIdNo) && _specialVenderLogoTp.ContainsValue(tpId) ? $"{tpId}-{tpGameIdNo}" : tpId.ToString();
-
-                recentlyViewedInfo.Add(new RecentlyViewedInfo()
-                {
-                    TpId = tpId,
-                    TpGameType = tpGameType,
-                    CategoryId = categoryId,
-                    GameId = gameId,
-                    BetType = betType,
-                    TpName = imgTpName,
-                    GameName = gameName,
-                    GameLogo = gameLogo,
-                    TpLogo = $"{bannerUrl}/{devicePath}/img/venderlogo/{venderLogoTpId}.png",
-                    TpGameIdNo = tpGameIdNo,
-                    IsMaintain = isMaintain,
-                });
             }
             return new RecentlyViewedResponse(imgUrl, bannerUrl, recentlyViewedInfo);
         }
