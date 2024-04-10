@@ -154,6 +154,26 @@ namespace MemberSite.Service.DAL
             return _reportDbClient.Query<CupEventAffInfo>("Service_CupEventAffInfo_Get" ,p);
         }
         
+        public Task<int> PredictCupEventScore(int siteId, int custId ,int currencyId, PredictCupEventScoreRequest request)
+        {
+            var p = new DynamicParameters();
+            p.Add("_SiteId", siteId, dbType: DbType.Int64);
+            p.Add("_CurrencyId", currencyId, dbType: DbType.Int64);
+            p.Add("_CustId", custId, dbType: DbType.Int64);
+            p.Add("_HomeTeamScore", request.HomeTeamScore, dbType: DbType.Int64);
+            p.Add("_AwayTeamScore", request.AwayTeamScore, dbType: DbType.Int64);
+
+            return _mainDbClient.ExecuteAsync("Service_CupEventPredictScore_Ins", p);
+        }
+        
+        public CupEventPredictScore GetCupEventPredictScore(int custId)
+        {
+            var p = new DynamicParameters();
+            p.Add("_CustId", custId, dbType: DbType.Int64);
+
+            return _reportDbClient.QueryFirst<CupEventPredictScore>("Service_CupEventPredictScore_Get", p);
+        }
+        
         #endregion
         
         

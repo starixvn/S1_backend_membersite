@@ -179,5 +179,56 @@ namespace MemberSite.Controllers.Api
 
             return apiResult;
         }
+        
+        [HttpPost]
+        [Authorize]
+        public async Task<ApiResult> PredictCupEventScore(PredictCupEventScoreRequest request)
+        {
+            var apiResult = new ApiResult();
+            try
+            {
+                var authData = _authorizeBll.GetAuthData();
+                var serverInfo = _serverInfoBll.GetServerInfo();
+                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                
+                var lockKey = $"PredictCupEventScore:{custInfo.CustId}";
+                var lockValue = Guid.NewGuid().ToString(); // 每次取鎖使用唯一值，確保為同一個執行序所執行
+                var lockExpiry = TimeSpan.FromSeconds(30); //lock 30 sec        
+                
+                if (await _redisHelper.TryCreateLockAsync(lockKey, lockValue, lockExpiry))
+                {
+                    await _cupEventBll.PredictCupEventScore(serverInfo.SiteId , authData.CustId, custInfo.CurrencyId, request);
+                    await _redisHelper.UnLockAsync(lockKey, lockValue);
+                    apiResult.ErrorCode = 0;
+                }                 
+            }
+            catch (Exception ex)
+            {
+                apiResult.Message = ex.Message;
+            }
+
+            return apiResult;
+        }
+        
+        [HttpPost]
+        [Authorize]
+        public ApiResult<CupEventPredictScore> GetCupEventPredictScore()
+        {
+            var apiResult = new ApiResult<CupEventPredictScore>();
+            try
+            {
+                var authData = _authorizeBll.GetAuthData();
+                 var data = _cupEventBll.GetCupEventPredictScore(authData.CustId);
+                 
+                 apiResult.Data = data;
+                 apiResult.ErrorCode = 0;
+            }
+            catch (Exception ex)
+            {
+                apiResult.Message = ex.Message;
+            }
+
+            return apiResult;
+        }
     }
 }
