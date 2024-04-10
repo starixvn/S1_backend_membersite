@@ -707,8 +707,7 @@ namespace MemberSite.Controllers.Api
             var result = _bankInfoBll.GetOnlineBankInfoSysList(custInfo.CustId, payment.payId)
                 .ToList();
 
-            if (custInfo.SiteId == 1
-                && custInfo.CurrencyId == (int)CurrencyId.THB) // Nova88 泰國銀行名稱支援多語系
+            if (custInfo.CurrencyId == (int)CurrencyId.THB) // 泰國銀行名稱支援多語系
             {
                 _bankInfoBll.BankNameLocalization(result, authData.LangId);
             }
@@ -1498,7 +1497,7 @@ namespace MemberSite.Controllers.Api
             var result = _payInfoBll.GetOnlineBankChannelList(authData.CustId, DepositType.BankAutoChannel);
             
             var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-            if (custInfo.SiteId == 1 && custInfo.CurrencyId == (int)CurrencyId.THB) // Nova88 泰國銀行名稱支援多語系
+            if (custInfo.CurrencyId == (int)CurrencyId.THB) // 泰國銀行名稱支援多語系
             {
                 foreach (var item in result)
                 {
