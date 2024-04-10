@@ -74,7 +74,6 @@ namespace MemberSite.Service.Model
     {
         public string BankName { set; get; }
         public string BankLogo { set; get; }
-        public string BankSite { set; get; }
         public bool Disabled { set; get; }
     }
 

@@ -8,7 +8,7 @@ using MemberSite.Service.Model.enums;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
+using Newtonsoft.Json;
 using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
@@ -1818,6 +1818,87 @@ namespace MemberSite.Controllers.Api
                 ErrorCode = 0
             };
         }
+        
+        public class GetCustBankInfoReq
+        {
+            public int ChannelId { set; get; }
+        }
+        
+        [HttpPost]
+        public ApiResult<IEnumerable<BankInfoDetailRep>> GetCustBankInfo(GetCustBankInfoReq req)
+        {
+            var apiResult = new ApiResult<IEnumerable<BankInfoDetailRep>>(_selLangBll);
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
+                return apiResult;
+            }
+            
+            var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+            var bankInfoSysList = _bankInfoBll.GetBankInfoSysListByCurrency(custInfo.CurrencyId).ToList();
+            
+            var channels = _payInfoBll.GetPayChannelWithCache();
+            var channel = channels.FirstOrDefault(x => x.ChannelId == req.ChannelId);
+
+            if (channel == null)
+            {
+                _logger.LogError("No channel data, channelId=" + req.ChannelId);
+            }
+            else
+            {
+                var payBankList = _bankInfoBll.GetOnlineBankList(custInfo.SiteId, channel.Type)
+                    .Where(x => x.ChannelId == req.ChannelId);
+
+                bankInfoSysList
+                    .ForEach(x =>
+                    {
+                        if (x.Status == GeneralStatusEnum.Disable)
+                            return;
+                        
+                        if (!payBankList.Any(p => !p.SelBank || p.SysId == x.SysId))
+                            x.Status = GeneralStatusEnum.Disable;
+                    });
+            }
+          
+            if (custInfo.CurrencyId == (int)CurrencyId.THB) // 泰國銀行名稱支援多語系
+            {
+                _bankInfoBll.BankNameLocalization(bankInfoSysList, authData.LangId);
+            }
+
+            var custBankInfo = _custInfoBll.GetCustBankDetail(authData.CustId);
+            var result = new List<BankInfoDetailRep>();
+            
+            if (custBankInfo.Any())
+            {
+                var enableBanks = bankInfoSysList
+                    .Where(x => x.Status == GeneralStatusEnum.Enable)
+                    .Select(x => x.SysId);
+                
+                foreach (var bankInfo in custBankInfo)
+                {
+                    if (!enableBanks.Contains(bankInfo.SysId))
+                        continue;
+                    
+                    var sysInfo = bankInfoSysList.FirstOrDefault(x => x.SysId == bankInfo.SysId);
+                    result.Add(new BankInfoDetailRep
+                    {
+                        SysId = bankInfo.SysId,
+                        AccountNo = bankInfo.AccountNo,
+                        BankLogo = sysInfo?.BankLogo,
+                        BankName = sysInfo?.BankName,
+                        IFSCCode = bankInfo.IFSCCode
+                    });
+                }
+            }
+
+
+            apiResult.Data = result;
+            apiResult.ErrorCode = 0;
+
+            return apiResult;
+        }
+        
         private ApiResult<LocalPayResp> DepositByLocalPayment(int custId, int groupId, decimal amount)
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
