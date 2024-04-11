@@ -182,7 +182,7 @@ namespace MemberSite.Service.Model
 
     public class PromotionMission
     {
-        public string MissionDate { get; set; }
+        public string MissionName { get; set; }
         public int MissionNo { get; set; }
         public bool DepositFlag { get; set; }
         public decimal DepositAmount { get; set; }
@@ -191,7 +191,7 @@ namespace MemberSite.Service.Model
         public int TpCategoryId { get; set; }
         public bool AffFlag { get; set; }
         public int AffCount { get; set; }
-        public int EggCount { get; set; }
+        public int TicketCount { get; set; }
         public bool IsCompleted { get; set; }
     }
 
@@ -202,6 +202,15 @@ namespace MemberSite.Service.Model
         public int AffCount { get; set; }
     }
 
+    
+    public class CupEventPromotionMissionProgress
+    {
+        public decimal DepositAmount { get; set; }
+        public decimal TurnoverSum { get; set; }
+        public IEnumerable<CupEventAffResponse> AffList { get; set; }
+        public int CompletedBetCount { get; set; }
+    }
+    
     public class PromotionMissionMessage
     {
         public int Type { get; set; }
