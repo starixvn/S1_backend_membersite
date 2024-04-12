@@ -100,12 +100,12 @@ public class NewYear2024BLL
 
             var model = new NewYearMission2024
             {
-                MissionDate = mission.MissionDate,
+                MissionDate = mission.MissionName,
                 MissionName = missionName,
                 MissionNo = mission.MissionNo,
                 GoalAmount = goalAmount,
                 ProgressAmount = progressAmount,
-                EggCount = mission.EggCount,
+                EggCount = mission.TicketCount,
                 IsCompleted = mission.IsCompleted,
                 Type = type,
                 TpCategoryId = mission.TpCategoryId
