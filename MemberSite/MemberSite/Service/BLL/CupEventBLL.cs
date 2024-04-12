@@ -209,7 +209,7 @@ namespace MemberSite.Service.BLL
                     CountryId = x.Key.TeamId,
                     CountryName = x.Key.TeamName,
                     ImageName = $"{countryList.FirstOrDefault(y=>y.CountryId == x.Key.TeamId)?.EnCountryName}.png",
-                    Percentage = Math.Round(usedTickets.Count(r => r.TeamId == x.Key.TeamId) / (decimal)userTicketsAll * 100, 2)
+                    Percentage = usedTickets.Any() ? Math.Round(usedTickets.Count(r => r.TeamId == x.Key.TeamId) / (decimal)userTicketsAll * 100, 2) : 0
                 }).ToList().OrderByDescending(x => x.Percentage);
             
             return responseData;
