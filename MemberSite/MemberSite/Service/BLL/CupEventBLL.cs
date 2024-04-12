@@ -188,26 +188,29 @@ namespace MemberSite.Service.BLL
         
         public IEnumerable<CupEventTicketSummaryResponse> GetCupEventTicketSummary(string langId)
         {
-            var responseData = new List<CupEventTicketSummaryResponse>();
+            var countrySetting = GetCupEventPredictionSetting(langId);
+            if (!countrySetting.Any()) throw new Exception("not found countrySetting");
+            var top24Team = countrySetting.Where(r => r.LevelName == "top24Team").OrderBy(x => x.Sort).ToList();
             
-            var usedTickets = _cupEventService.GetCupEventMemberTicketInfo(0).Where(x=>x.TeamId is not null).ToList(); //已投票
-
+            var countryList = GetCupEventPredictionCountry("en"); // 圖片名稱要用的
+            if (countryList == null) throw new Exception("enCountry not found");
+            
+            var userTicketsAll = 0;
+            var usedTickets = _cupEventService.GetCupEventMemberTicketInfo(0).ToList();
             if (usedTickets.Any())
             {
-                var countryList = GetCupEventPredictionCountry(langId);
-                if (countryList == null) throw new Exception("enCountry not found");
-                
-                var userTicketsAll = usedTickets.Count; //總票數
-                
-                responseData = usedTickets.GroupBy(x=>x.TeamId)
-                    .Select(x => new CupEventTicketSummaryResponse
-                    {
-                        CountryId = x.Key,
-                        CountryName = countryList.First(r => r.CountryId == x.Key).CountryName,
-                        ImageName = $"{countryList.First(r => r.CountryId == x.Key).EnCountryName}.png",
-                        Percentage = Math.Round(x.Count() / (decimal)userTicketsAll * 100, 2)
-                    }).ToList();
+                usedTickets = usedTickets.Where(x=>x.TeamId is not null).ToList(); //已投票
+                userTicketsAll = usedTickets.Count ; //總票數
             }
+            
+            var responseData = top24Team.GroupBy(x => new { x.TeamId, x.TeamName })
+                .Select(x => new CupEventTicketSummaryResponse
+                {
+                    CountryId = x.Key.TeamId,
+                    CountryName = x.Key.TeamName,
+                    ImageName = $"{countryList.FirstOrDefault(y=>y.CountryId == x.Key.TeamId)?.EnCountryName}.png",
+                    Percentage = Math.Round(usedTickets.Count(r => r.TeamId == x.Key.TeamId) / (decimal)userTicketsAll * 100, 2)
+                }).ToList().OrderByDescending(x => x.Percentage);
             
             return responseData;
         }
