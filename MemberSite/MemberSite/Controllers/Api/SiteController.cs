@@ -50,6 +50,7 @@ namespace MemberSite.Controllers.Api
         private readonly FPSBLL _FPSBll;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly CommonBLL _commonBll;
+        
 
         public SiteController(IServiceProvider provider)
         {
@@ -75,6 +76,7 @@ namespace MemberSite.Controllers.Api
             _FPSBll = provider.GetRequiredService<FPSBLL>();
             _httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
             _commonBll = provider.GetRequiredService<CommonBLL>();
+            
         }
 
         public class LoginModel
@@ -362,7 +364,7 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
 
-            var customer = _siteBll.Signup(signupModel, apiResult, isAuthenticated, Request.Host.Host,
+            var customer = _siteBll.Signup(signupModel, apiResult, isAuthenticated, _tools.GetFromUrl(),
                 Request.Headers["User-Agent"], true);
             if (apiResult.ErrorCode == (int)ErrorCode.Attack)
             {
@@ -401,7 +403,7 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
 
-            var customer = _siteBll.Signup(signupModel, apiResult, isAuthenticated, Request.Host.Host,
+            var customer = _siteBll.Signup(signupModel, apiResult, isAuthenticated, _tools.GetFromUrl(),
                 Request.Headers["User-Agent"], false);
 
             if (apiResult.ErrorCode != 0 || customer == null) return apiResult;

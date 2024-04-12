@@ -15,6 +15,7 @@ namespace MemberSite.Service.BLL
         private readonly GameBLL _gameBll;
         private readonly ServerInfoBll _serverInfoBll;
         private readonly Dictionary<int, int> _specialVenderLogoTp;
+        private readonly Dictionary<string, string> _changeGameImgName;
 
         public HotGameBLL(IHotGameService hotGameService, ICacheHelper redisHelper, IServiceProvider provider)
         {
@@ -30,6 +31,13 @@ namespace MemberSite.Service.BLL
                 { 67, 30 },
                 { 109, 52},
                 { 110, 52},
+            };
+            _changeGameImgName = new Dictionary<string, string>()
+            {
+              {"Iconic","AT" },
+              {"Kiss918","918Kiss" },
+              {"END","ES" },
+              {"EBet","WE" },
             };
         }
 
@@ -79,6 +87,7 @@ namespace MemberSite.Service.BLL
                     }
 
                     var imgTpName = tpGameIdList.FirstOrDefault(r => r.TpId == tpId)?.ImgTpName;
+                    imgTpName = _changeGameImgName.TryGetValue(imgTpName, out var changeName) ? changeName : imgTpName;
                     //沒有符合的langId就用en
                     var imgName = gameSlotDetail.ImgName.ContainsKey(langId) ? gameSlotDetail.ImgName[langId] : gameSlotDetail.ImgName["en"];
                     gameLogo = $"{imgUrl}/{imgTpName}/{imgName}";
@@ -90,8 +99,8 @@ namespace MemberSite.Service.BLL
                     {
                         return gameLogo;
                     }
-
-                    gameLogo = $"{bannerUrl}/{devicePath}/img/productimg/{tpGameIdListDetail.ImgTpName}/{tpGameIdListDetail.LobbyCategoryName}/{tpGameIdListDetail.ImgName}";
+                    var imgTpName = _changeGameImgName.TryGetValue(tpGameIdListDetail.ImgTpName, out var changeName) ? changeName : tpGameIdListDetail.ImgTpName;
+                    gameLogo = $"{bannerUrl}/{devicePath}/img/productimg/{imgTpName}/{tpGameIdListDetail.LobbyCategoryName}/{tpGameIdListDetail.ImgName}";
                 }
 
                 return gameLogo;
