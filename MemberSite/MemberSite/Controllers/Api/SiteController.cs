@@ -366,7 +366,7 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
 
-            var customer = _siteBll.Signup(signupModel, apiResult, isAuthenticated, Request.Host.Host,
+            var customer = _siteBll.Signup(signupModel, apiResult, isAuthenticated, _tools.GetFromUrl(),
                 Request.Headers["User-Agent"], true);
             if (apiResult.ErrorCode == (int)ErrorCode.Attack)
             {
@@ -405,7 +405,7 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
 
-            var customer = _siteBll.Signup(signupModel, apiResult, isAuthenticated, Request.Host.Host,
+            var customer = _siteBll.Signup(signupModel, apiResult, isAuthenticated, _tools.GetFromUrl(),
                 Request.Headers["User-Agent"], false);
 
             if (apiResult.ErrorCode != 0 || customer == null) return apiResult;
