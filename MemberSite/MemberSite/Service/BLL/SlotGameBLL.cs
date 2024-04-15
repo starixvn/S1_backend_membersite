@@ -75,12 +75,19 @@ namespace MemberSite.Service.BLL
             var serverInfo = _serverInfoBll.GetServerInfo();
             var (siteId, currencyId, custId) = GetUserInfo(request.CurrencyId, user, serverInfo);
             var imgUrl = _siteCloudFrontImageInfo[serverInfo.SiteName].OldImageUrl;
+             
+            // 取得SlotGame相關資料，同時執行所有需要的非同步操作
+            var providerTask = GetSlotGameProviderList(siteId, currencyId, TpCategory.Casino);
+            var gameListTask = GetSlotGameList(siteId, currencyId, request.DeviceType);
+            var categorySequenceTask = _lobbyCategoryBll.GetLobbyCategorySequenceByLobbyCategoryId(siteId, currencyId, LobbyCategory.Slots);
+            var topRankingTask = GetSlotGameTopRanking(siteId, currencyId);
 
-            // 取得SlotGame相關資料
-            var providerList = await GetSlotGameProviderList(siteId, currencyId, TpCategory.Casino);
-            var slotGameList = await GetSlotGameList(siteId, currencyId, request.DeviceType);
-            var lobbyCategorySequence = await _lobbyCategoryBll.GetLobbyCategorySequenceByLobbyCategoryId(siteId, currencyId, LobbyCategory.Slots);
-            var slotGameTopRanking = await GetSlotGameTopRanking(siteId, currencyId);
+            await Task.WhenAll(providerTask, gameListTask, categorySequenceTask, topRankingTask);
+            var providerList = await providerTask;
+            var slotGameList = await gameListTask;
+            var lobbyCategorySequence = await categorySequenceTask;
+            var slotGameTopRanking = await topRankingTask;
+
 
             // 整理資料與排序
             var slotGameProviderDict = slotGameList.GroupBy(i => i.TpId).ToDictionary(i => i.Key, i => i.Key);
@@ -93,9 +100,14 @@ namespace MemberSite.Service.BLL
                 return new GetSlotGamePageResponse(imgUrl, providerList, slotGameList, request.SlotGameCategoryList);
             }
 
-            //取得User的SlotGame相關資料         
-            var disableGame = await GetDisableGameList(custId);
-            var favoriteAndRecentlyPlayed = await GetFavoriteAndRecentlyPlayed(custId);
+            // 取得用戶的SlotGame相關資料
+            var disableGameTask = GetDisableGameList(custId);
+            var favoriteAndRecentlyPlayedTask = GetFavoriteAndRecentlyPlayed(custId);
+            await Task.WhenAll(disableGameTask, favoriteAndRecentlyPlayedTask);
+
+            var disableGame = await disableGameTask;
+            var favoriteAndRecentlyPlayed = await favoriteAndRecentlyPlayedTask;
+
 
             return new GetSlotGamePageResponse(
                 imgUrl: imgUrl,
@@ -118,11 +130,12 @@ namespace MemberSite.Service.BLL
                 statusList.Add(3);
             }
 
-            var key = $"GetSlotGameList:{_isStage}:{currencyId}:{siteId}:{deviceType}";
+            var key = $"GetSlotGameListV2:{_isStage}:{currencyId}:{siteId}:{deviceType}";
             var result = await _cacheHelper.TryGetOrCreateAsync(key,
-                TimeSpan.FromMinutes(10),
+                null, //設定為不過期，改由Hangfire更新
                 async () =>
                 {
+                    // Cache更新由Hangfire處理，此部分預防Redis異常
                     var result = await _reportDbClient.QueryAsync<SlotGameInfo>("Service_SlotGame_Get", new
                     {
                         CurrencyId = currencyId,
