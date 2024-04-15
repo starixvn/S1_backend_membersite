@@ -169,6 +169,7 @@ namespace MemberSite.Service.BLL
                         break;
                     case 3:
                         await TicketProcessBwing(siteId, custId, currencyId, userTicketsBefore ,promotionMission , responseData.CupEventPromotionMissionProgress);
+                        responseData.AvailablePredict = promotionMission.All(x => x.IsCompleted);
                         break;
                 }
             }
@@ -293,9 +294,46 @@ namespace MemberSite.Service.BLL
             return false;
         }
         
-        public CupEventPredictScore GetCupEventPredictScore(int custId)
+        public List<CupEventPredictScoreResponse> GetCupEventPredictScore(int custId , string langId)
         {
-            var result = _cupEventService.GetCupEventPredictScore(custId);
+            var dbData = GetCupEventPredictionSetting(langId);
+            var allTeamEnglishName = GetCupEventPredictionCountry("en");
+            var finalData = FilterData(dbData, allTeamEnglishName, "final").ToList();
+
+            var result = new List<CupEventPredictScoreResponse>();
+            if (finalData.Count == 2)
+            {
+                var scoreList = _cupEventService.GetCupEventPredictScore(custId);
+                var homeTeam = finalData.First(x => x.Sort == 1);
+                var awayTeam = finalData.First(x => x.Sort == 2); 
+                
+                result = new List<CupEventPredictScoreResponse>
+                {
+                    new()
+                    {
+                        Team = "Home",
+                        TeamDetail = new CupEventSetting
+                        {
+                            CountryName = homeTeam.CountryName,
+                            ImageName = homeTeam.ImageName,
+                            Sort = homeTeam.Sort
+                        },
+                        Score = scoreList?.HomeTeamScore ?? 0 
+                    },
+                    new()
+                    {
+                        Team = "Away",
+                        TeamDetail = new CupEventSetting
+                        {
+                            CountryName = awayTeam.CountryName,
+                            ImageName = awayTeam.ImageName,
+                            Sort = awayTeam.Sort
+                        },
+                        Score = scoreList?.AwayTeamScore ?? 0 
+                    }
+                };
+            }
+            
             return result;
         }
         
