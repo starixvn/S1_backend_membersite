@@ -164,6 +164,7 @@ namespace MemberSite.Controllers.Api
 
             try
             {
+                req.CurrencyId = req.CurrencyId == 0 ? _selLangBll.GetPreferCurrencyId() : req.CurrencyId;
                 var time = _dateTimeHelper.ToCurrencyZone(DateTime.UtcNow, req.CurrencyId).Result;
                 var date = time.ToString("yyyyMM");
 
