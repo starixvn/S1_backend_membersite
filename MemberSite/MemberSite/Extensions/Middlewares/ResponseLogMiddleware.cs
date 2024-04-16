@@ -41,7 +41,7 @@ namespace MemberSite.Extensions.Middlewares
                 // GetSlotGamePage回傳內容太長會超過ELK限制，Log擷取前面1000字元
                 if (path.Contains("api/Game/GetSlotGamePage", StringComparison.OrdinalIgnoreCase))
                 {
-                    recordContent = $"{recordContent.Substring(1000)} || api/Game/GetSlotGamePage Content exceeds the length limit.";
+                    recordContent = $"{recordContent[..1000]} || api/Game/GetSlotGamePage Content exceeds the length limit.";
                 }
 
                 using (LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds))
