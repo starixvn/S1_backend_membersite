@@ -1877,9 +1877,6 @@ namespace MemberSite.Controllers.Api
                 
                 foreach (var bankInfo in custBankInfo)
                 {
-                    if (!enableBanks.Contains(bankInfo.SysId))
-                        continue;
-                    
                     var sysInfo = bankInfoSysList.FirstOrDefault(x => x.SysId == bankInfo.SysId);
                     result.Add(new BankInfoDetailRep
                     {
@@ -1887,7 +1884,8 @@ namespace MemberSite.Controllers.Api
                         AccountNo = bankInfo.AccountNo,
                         BankLogo = sysInfo?.BankLogo,
                         BankName = sysInfo?.BankName,
-                        IFSCCode = bankInfo.IFSCCode
+                        IFSCCode = bankInfo.IFSCCode,
+                        Disabled = !enableBanks.Contains(bankInfo.SysId)
                     });
                 }
             }
