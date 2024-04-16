@@ -36,12 +36,12 @@ namespace MemberSite.Extensions.Middlewares
 
                 responseBodyStream.Seek(0, SeekOrigin.Begin);
 
-                var recordContent = new StreamReader(responseBodyStream, Encoding.UTF8, true, 1024, true).ReadToEnd();
+                var recordContent = await new StreamReader(responseBodyStream, Encoding.UTF8, true, 1024, true).ReadToEndAsync();
 
-                // GetSlotGamePage回傳內容太長會超過ELK限制，Log擷取前面1000字元
+                // GetSlotGamePage回傳內容太長會超過ELK限制，Log擷取前面5000字元
                 if (path.Contains("api/Game/GetSlotGamePage", StringComparison.OrdinalIgnoreCase))
                 {
-                    recordContent = $"{recordContent[..1000]} || api/Game/GetSlotGamePage Content exceeds the length limit.";
+                    recordContent = $"{recordContent[..5000]} || api/Game/GetSlotGamePage Content exceeds the length limit.";
                 }
 
                 using (LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds))
