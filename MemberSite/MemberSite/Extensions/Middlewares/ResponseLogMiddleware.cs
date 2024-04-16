@@ -35,14 +35,10 @@ namespace MemberSite.Extensions.Middlewares
                 await _next(context);
 
                 responseBodyStream.Seek(0, SeekOrigin.Begin);
-                var recordContent = await new StreamReader(responseBodyStream, Encoding.UTF8, true, 1024, true).ReadToEndAsync();
+                var ignore = path.Contains("api/Game/GetSlotGamePage", StringComparison.OrdinalIgnoreCase);
+                var recordContent = ignore ? "Content exceeds the length limit." :
+                    await new StreamReader(responseBodyStream, Encoding.UTF8, true, 1024, true).ReadToEndAsync();
 
-                // GetSlotGamePage回傳內容太長會超過ELK限制，Log擷取前面1000字元
-                if (path.Contains("api/Game/GetSlotGamePage", StringComparison.OrdinalIgnoreCase))
-                {
-                    recordContent = $"{recordContent.Substring(1000)} || api/Game/GetSlotGamePage Content exceeds the length limit.";
-                }
-                    
                 using (LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds))
                 {
                     _logger.LogInformation($"StatusCode: {context.Response.StatusCode}, RESPONSE: {recordContent}");
