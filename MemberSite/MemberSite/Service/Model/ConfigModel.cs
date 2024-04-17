@@ -50,4 +50,11 @@
         public string StoreService { get; set; }
         public string BackendService { get; set; }
     }
+
+    public class ReCaptchaEnterpriseSetting
+    {
+        public string ProjectId { get; set; }
+
+        public decimal RiskLimit { get; set; }
+    }
 }

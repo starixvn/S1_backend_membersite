@@ -51,6 +51,7 @@ namespace MemberSite.Controllers.Api
         private readonly CommonBLL _commonBll;
         private readonly CheckIpBLL _checkIpBll;
 
+
         public SiteController(IServiceProvider provider)
         {
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
@@ -319,6 +320,7 @@ namespace MemberSite.Controllers.Api
             public string blackbox { get; set; }
             public string LineUserId { get; set; }
             public string ReCaptchaToken { get; set; }
+            public string ReCaptchaAction { get; set; }
         }
 
         public class SignupModel : RegisteredModel
@@ -640,7 +642,7 @@ namespace MemberSite.Controllers.Api
                 if (_regexPhoneNo.IsMatch(reSetPwdByOtpReq.PhoneNo))
                 {
                     var serverInfo = _serverInfoBll.GetServerInfo();
-                    
+
                     if (_custInfoBll.ExistsPhoneNoAndUserName(reSetPwdByOtpReq.Username, reSetPwdByOtpReq.AreaCode,
                             reSetPwdByOtpReq.PhoneNo, serverInfo.SiteId))
                     {
