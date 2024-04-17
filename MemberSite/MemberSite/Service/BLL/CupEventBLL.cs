@@ -700,6 +700,7 @@ namespace MemberSite.Service.BLL
                     CustId = custId,
                     CurrencyId = currencyId,
                     TicketStatus = 1,
+                    TicketType = mission.MissionNo,
                     TransId = string.Empty
                 };
 
