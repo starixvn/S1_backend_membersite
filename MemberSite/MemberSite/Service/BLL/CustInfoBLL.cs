@@ -1,4 +1,6 @@
-﻿using MemberSite.Service.DAL;
+﻿using Google.Protobuf.WellKnownTypes;
+using MemberSite.Service.BLL.Interface;
+using MemberSite.Service.DAL;
 using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Domain;
 using MemberSite.Service.Library;
@@ -9,10 +11,8 @@ using MemberSite.Service.Model.Mapping;
 using Microsoft.Extensions.Caching.Memory;
 
 using Newtonsoft.Json;
-using static MemberSite.Controllers.Api.SiteController;
-
-using Org.BouncyCastle.Asn1.Tsp;
-using MemberSite.Service.BLL.Interface;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace MemberSite.Service.BLL
 {
@@ -39,6 +39,7 @@ namespace MemberSite.Service.BLL
         private readonly VIPService _vIPService;
         private readonly DepositService _depositService;
         private readonly ICustPhotoIdBLL _custPhoto;
+        private readonly ILogger<CustInfoBll> _logger;
 
         public CustInfoBll(IServiceProvider provider)
         {
@@ -58,6 +59,7 @@ namespace MemberSite.Service.BLL
             _vIPService = provider.GetRequiredService<VIPService>();
             _depositService = provider.GetRequiredService<DepositService>();
             _custPhoto = provider.GetRequiredService<ICustPhotoIdBLL>();
+            _logger = provider.GetRequiredService<ILogger<CustInfoBll>>();
         }
         public string GetCountryNameByAreaCode(string areaCode)
         {
@@ -160,7 +162,7 @@ namespace MemberSite.Service.BLL
             var result = _custInfoService.AddCustInfo(regCustInfo, Email, lineUserId, deviceType, out custId, signupUrl, referralUrl, PhoneNo, AreaCode,
                 RealName, promoCode, Birth_d, Birth_m, Birth_y, signupIp);
 
-            if (result == 0 && regCustInfo.SiteId is 2 or 3 ) // goal and bwing
+            if (result == 0 && regCustInfo.SiteId is 2 or 3) // goal and bwing
             {
                 regCustInfo.CustId = custId;
                 _ = Task.Run(() =>
@@ -240,6 +242,23 @@ namespace MemberSite.Service.BLL
                     };
                     var result = await _shieldBll.SendShieldAttributes(request);
                 });
+            }
+
+            try
+            {
+                byte[] userAgentBytes = Encoding.ASCII.GetBytes(userAgent);
+                if (userAgentBytes.Length > 255)
+                {
+                    byte[] truncatedBytes = new byte[255];
+                    Array.Copy(userAgentBytes, truncatedBytes, 255);
+                    userAgent = Encoding.ASCII.GetString(truncatedBytes);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"UserAgent ASCII Error.Message={ex.Message}.");
+                if (userAgent.Length > 250)
+                    userAgent = userAgent.Substring(0, 250);
             }
 
             _authenticateService.AddLoginRecord(customer.CustId, customer.SiteId, ip, deviceType, out token);
@@ -356,7 +375,7 @@ namespace MemberSite.Service.BLL
         {
             var check = _tools.CheckUserInputPassword(newPassword);
             if (!check) return false;
-            
+
             var md5NewPassword = _tools.MD5Encrypt(newPassword);
             return _custInfoService.SetResetPwd(custId, md5NewPassword);
         }
@@ -441,8 +460,8 @@ namespace MemberSite.Service.BLL
 
             return _custInfoService.ExistsEmail(custId, email, siteId);
         }
-        
-        public bool ExistsPhoneNoAndUserName(string userName, string areaCode, string phoneNo , int siteId)
+
+        public bool ExistsPhoneNoAndUserName(string userName, string areaCode, string phoneNo, int siteId)
         {
             return _custInfoService.ExistsPhoneNoAndUserName(userName, areaCode, phoneNo, siteId);
         }
@@ -473,19 +492,19 @@ namespace MemberSite.Service.BLL
                 () => GetCustInfoProfile(custId));
         }
 
-        public CustInfoProfile GetCustInfoProfileByUserName(int siteId , string userName)
+        public CustInfoProfile GetCustInfoProfileByUserName(int siteId, string userName)
         {
             return _redisHelper.TryGetOrCreate(
                 $"CustInfoProfile:{siteId}:{userName}",
                 TimeSpan.FromMinutes(1),
-                () => _custInfoService.GetCustInfoProfileByUserName(siteId,userName,null));
+                () => _custInfoService.GetCustInfoProfileByUserName(siteId, userName, null));
         }
-        
+
         public int SubmittedCustPhotoId(int custId)
         {
             var custInfo = GetCustInfoWithCache(custId);
             return _redisHelper.TryGetOrCreate(
-                $"SubmittedCustPhotoId:{custId}", 
+                $"SubmittedCustPhotoId:{custId}",
                 TimeSpan.FromSeconds(5),
                 () => _custInfoService.SubmittedCustPhotoId(custId, custInfo.SiteId, custInfo.CurrencyId));
         }
@@ -493,11 +512,11 @@ namespace MemberSite.Service.BLL
         public int GetCustPhotoIdToKYC(int custId)
         {
             return _redisHelper.TryGetOrCreate(
-                $"CustPhotoIdToKYC:{custId}", 
+                $"CustPhotoIdToKYC:{custId}",
                 TimeSpan.FromSeconds(5),
                 () => _custInfoService.GetCustPhotoIdToKYC(custId));
         }
-        
+
         public async Task<ApiResult> ForgetPwd1Async(int custId, string resetPasswordUrl)
         {
             var result = await _commonBll.SendResetPwdMailAsync(custId, resetPasswordUrl);
@@ -539,11 +558,11 @@ namespace MemberSite.Service.BLL
             }
             return apiResult;
         }
-        
+
         public async Task<ApiResult> ReSetPwdVerifyOTPAsync(int custId, string inputOTP)
         {
             var apiResult = await _commonBll.VerifyOTPAsync(custId, inputOTP);
-            
+
             return apiResult;
         }
 
@@ -628,6 +647,8 @@ namespace MemberSite.Service.BLL
             var serverInfo = _serverInfoBll.GetServerInfo();
             if (!string.IsNullOrEmpty(affId))
             {
+                if (!IsVaild(affId))
+                    return -9;
                 var agent = _agentInfoService.GetAffiliateAgent(affId, serverInfo.SiteId);
 
                 if (agent == null)
@@ -640,6 +661,11 @@ namespace MemberSite.Service.BLL
 
             return -1;
 
+        }
+
+        private bool IsVaild(string value)
+        {
+            return Regex.IsMatch(value, @"^[a-z0-9]{8}$");
         }
 
         public int AffiliateAndReferralCheck(string affCode, out int currencyId)
@@ -786,7 +812,7 @@ namespace MemberSite.Service.BLL
         public async Task<IEnumerable<CustTpGameTypeSetting>> GetCustTpGameTypeSetting(int custId)
         {
             var result = new List<CustTpGameTypeSetting>();
-            var types = (CustTpGameTypeSettingType[])Enum.GetValues(typeof(CustTpGameTypeSettingType));
+            var types = (CustTpGameTypeSettingType[])System.Enum.GetValues(typeof(CustTpGameTypeSettingType));
             var key = $"GetCustTpGameTypeSetting:{custId}";
             var typeResult = await _redisHelper.TryGetOrCreateAsync(key,
                 TimeSpan.FromMinutes(10),
@@ -823,10 +849,9 @@ namespace MemberSite.Service.BLL
         public CustVIPProgress GetCustVIPProgress(int custId)
         {
             CustVIPProgress result = new CustVIPProgress();
-            var customer = _custInfoService.GetCustInfo(custId);
+            var customer = GetCustInfoWithCache(custId, true);
             result.CurrentVipLevel = customer.UserLevel;
             var vipSystem = _vIPService.GetVipSystem(customer.SiteId).Where(x => x.CurrencyId == customer.CurrencyId).ToList();
-
             if (vipSystem != null)
             {
                 var upGradeData = vipSystem.Find(x => x.Level == customer.UserLevel + 1);
@@ -839,7 +864,6 @@ namespace MemberSite.Service.BLL
                     result.DownDeposit = downGradeData.DownDeposit;
                     result.DownTurnover = downGradeData.DownTurnover;
                 }
-
                 result.ActualDeposit = GetActualDeposit(customer.SiteId, custId);
             }
             return result;
@@ -860,7 +884,7 @@ namespace MemberSite.Service.BLL
         public int IvorysportAddCustInfo(string UserName, string Userpwd, string Email, int CurrencyId, string UserLang,
             string refId, string affId, string aff, AffCodeObject affCode, string lineUserId, int deviceType, IFormFile photoId, out int custId, string signupUrl = null,
             string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null,
-            int Birth_d = 0, int Birth_m = 0, int Birth_y = 0, string signupIp = null, 
+            int Birth_d = 0, int Birth_m = 0, int Birth_y = 0, string signupIp = null,
             string nationality = null, int cccupation = 0, int sourceOfIncome = 0, string country = null, string city = null, string postCode = null, string lineFirst = null)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
@@ -964,7 +988,7 @@ namespace MemberSite.Service.BLL
                 });
             }
 
-            if(result == 0)
+            if (result == 0)
             {
                 _ = _custPhoto.UploadPhotoIdAsync(custId, regCustInfo.SiteId, photoId);
             }

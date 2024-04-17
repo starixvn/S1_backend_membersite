@@ -11,16 +11,16 @@ namespace MemberSite.Service.BLL
         private readonly RecaptchaSetting _recaptcha;
         private readonly RecaptchaService _recaptchaSvc;
         private readonly ServerInfoBll _serverInfoBll;
-        private readonly IGeoIpApi _geoIpApi;
         private readonly IRecaptchaApi _recaptchaApi;
+        private readonly CheckIpBLL _checkIpBll;
 
-        public RecaptchaBLL(RecaptchaSetting reCaptcha, RecaptchaService recaptchaSvc, IGeoIpApi geoIpApi, IRecaptchaApi recaptchaApi, ServerInfoBll serverInfoBll)
+        public RecaptchaBLL(IServiceProvider provider)
         {
-            _recaptcha = reCaptcha;
-            _recaptchaSvc = recaptchaSvc;
-            _geoIpApi = geoIpApi;
-            _recaptchaApi = recaptchaApi;
-            _serverInfoBll = serverInfoBll;
+            _recaptcha = provider.GetRequiredService<RecaptchaSetting>();
+            _recaptchaSvc = provider.GetRequiredService<RecaptchaService>();
+            _recaptchaApi = provider.GetRequiredService<IRecaptchaApi>();
+            _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
+            _checkIpBll = provider.GetRequiredService<CheckIpBLL>();
         }
 
         public RecaptchaResponse Verify(string token)
@@ -38,7 +38,7 @@ namespace MemberSite.Service.BLL
             var name = await _recaptchaSvc.GetGroup(domain);
             var setting = _recaptcha.Groups[name];
 
-            var country = await _geoIpApi.CheckIp(clientIp);
+            var country = await _checkIpBll.CheckIp(clientIp);
             return new RecaptchaSiteInfo()
             {
                 Country = country.Code,

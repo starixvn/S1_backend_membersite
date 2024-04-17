@@ -14,7 +14,7 @@ namespace MemberSite.Service.Model
         //tk
         public string Token { get; set; }
     }
-    
+
     public class FPSApiRequest
     {
         public string Account { get; set; }

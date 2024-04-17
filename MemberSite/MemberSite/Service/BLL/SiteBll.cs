@@ -1,11 +1,9 @@
 ﻿using System.Text.RegularExpressions;
 
 using MemberSite.Controllers.Api;
-using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.Domain;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
-using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.BLL;
 
@@ -20,8 +18,8 @@ public class SiteBll
     private readonly Regex _regexUserName = new(@"^[a-zA-Z0-9]{6,18}$");
     private readonly Regex _regexPhoneNumber = new(@"^\+60[0-9]{9,10}$|\+62[0-9]{10,13}$|\+86[0-9]{10,11}$|\+91[0-9]{10}$|\+66[0-9]{9}$|\+880[0-9]{10}$|\+855[0-9]{8,10}$|\+84[0-9]{9}$");
     private readonly Regex _regexEmail = new(@"^\w+((-\w+)|(\.\w+))*@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$");
+    private readonly Regex _regexPhoneNo = new(@"^\d+$");
     private readonly RecaptchaBLL _recaptcha;
-    private readonly IGeoIpApi _geoIpApi;
     private readonly ServerInfoBll _serverInfoBll;
 
     public SiteBll(IServiceProvider provider)
@@ -33,7 +31,6 @@ public class SiteBll
         _tools = provider.GetRequiredService<Tools>();
         _ShieldBll = provider.GetRequiredService<ShieldBLL>();
         _recaptcha = provider.GetRequiredService<RecaptchaBLL>();
-        _geoIpApi = provider.GetRequiredService<IGeoIpApi>();
         _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
     }
 
@@ -101,9 +98,8 @@ public class SiteBll
             }
         }
 
-        if (long.TryParse(signupModel.PhoneNo, out var phoneNo))
+        if (_regexPhoneNo.IsMatch(signupModel.PhoneNo))
         {
-            signupModel.PhoneNo = phoneNo.ToString();
             if (_custInfoBLL.ExistsPhoneNo(0, signupModel.AreaCode, signupModel.PhoneNo))
             {
                 apiResult.ErrorCode = -6;
@@ -391,10 +387,9 @@ public class SiteBll
                 return customer;
             }
         }
-
-        if (long.TryParse(signupModel.PhoneNo, out var phoneNo))
+        
+        if(_regexPhoneNo.IsMatch(signupModel.PhoneNo))
         {
-            signupModel.PhoneNo = phoneNo.ToString();
             if (_custInfoBLL.ExistsPhoneNo(0, signupModel.AreaCode, signupModel.PhoneNo))
             {
                 apiResult.ErrorCode = -6;

@@ -436,11 +436,11 @@
   <data name="msg_AffCodeNotFound" xml:space="preserve">
     <value>Affiliate ID cant be found</value>
   </data>
-  <data name="msg_SystemUnstable" xml:space="preserve">
-    <value>System is unable to retrieve details.</value>
+  <data name="msg_BankSystemUnstable" xml:space="preserve">
+    <value>Bank System Unstable.</value>
   </data>
-  <data name="msg_SystemUnstable_Detail" xml:space="preserve">
-    <value>Bank's system is currently unable to retrieve the transaction details, and unable to process your deposit at the moment.</value>
+  <data name="msg_BankSystemUnstable_Detail" xml:space="preserve">
+    <value>Bank's system is unable to retrieve details.</value>
   </data>
   <data name="msg_BankUnderMaintenance" xml:space="preserve">
     <value>Bank Maintenance</value>
@@ -456,5 +456,23 @@
   </data>
   <data name="msg_OTP_SendOTPSMS_Fail" xml:space="preserve">
     <value>Invalid OTP Code</value>
+  </data>
+  <data name="msg_DepositRemarkReminder" xml:space="preserve">
+    <value>Deposit Remark Reminder</value>
+  </data>
+  <data name="msg_DepositRemarkReminder_Detail" xml:space="preserve">
+    <value>Your transaction has been approved.However, there appears to be an error in the remarks provided. Prior to submission on our site, kindly ensure that you input the correct bank details and remarks directly into your banking system.</value>
+  </data>
+  <data name="msg_FillUpRemarkReminder" xml:space="preserve">
+    <value>Fill up Remark Reminder</value>
+  </data>
+  <data name="msg_FillUpRemarkReminder_Detail" xml:space="preserve">
+    <value>To expedite the verification and processing of your deposit request, please be sure to input the remark number provided on the deposit page when making the transfer.</value>
+  </data>
+  <data name="msg_WithdrawalLimitExceededINR" xml:space="preserve">
+    <value>Withdrawal amount exceeded</value>
+  </data>
+  <data name="msg_WithdrawalLimitExceededINR_Detail" xml:space="preserve">
+    <value>Due to the current payment system's maximum limit of INR 50,000 per transaction, we regret to inform you that we are unable to process your payment request. Kindly resubmit a withdrawal request below INR 50,000.</value>
   </data>
 </root>
