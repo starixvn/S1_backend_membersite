@@ -50,7 +50,7 @@ namespace MemberSite.Controllers.Api
         private readonly FPSBLL _FPSBll;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly CommonBLL _commonBll;
-        
+
 
         public SiteController(IServiceProvider provider)
         {
@@ -76,7 +76,7 @@ namespace MemberSite.Controllers.Api
             _FPSBll = provider.GetRequiredService<FPSBLL>();
             _httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
             _commonBll = provider.GetRequiredService<CommonBLL>();
-            
+
         }
 
         public class LoginModel
@@ -317,6 +317,7 @@ namespace MemberSite.Controllers.Api
             public string blackbox { get; set; }
             public string LineUserId { get; set; }
             public string ReCaptchaToken { get; set; }
+            public string ReCaptchaAction { get; set; }
         }
 
         public class SignupModel : RegisteredModel
@@ -638,7 +639,7 @@ namespace MemberSite.Controllers.Api
                 if (_regexPhoneNo.IsMatch(reSetPwdByOtpReq.PhoneNo))
                 {
                     var serverInfo = _serverInfoBll.GetServerInfo();
-                    
+
                     if (_custInfoBll.ExistsPhoneNoAndUserName(reSetPwdByOtpReq.Username, reSetPwdByOtpReq.AreaCode,
                             reSetPwdByOtpReq.PhoneNo, serverInfo.SiteId))
                     {

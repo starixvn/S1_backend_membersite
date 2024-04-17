@@ -1,8 +1,10 @@
 using Google.Api.Gax.ResourceNames;
+using Google.Apis.Auth.OAuth2;
 using Google.Cloud.RecaptchaEnterprise.V1;
 using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.DAL;
 using MemberSite.Service.Model;
+using Newtonsoft.Json.Linq;
 
 namespace MemberSite.Service.BLL
 {
@@ -13,6 +15,10 @@ namespace MemberSite.Service.BLL
         private readonly ServerInfoBll _serverInfoBll;
         private readonly IRecaptchaApi _recaptchaApi;
         private readonly CheckIpBLL _checkIpBll;
+        private readonly ILogger<RecaptchaBLL> _logger;
+
+        private readonly GoogleCredential _credential;
+        private readonly ReCaptchaEnterpriseSetting _reCaptchaEnterpriseSetting;
 
         public RecaptchaBLL(IServiceProvider provider)
         {
@@ -21,7 +27,15 @@ namespace MemberSite.Service.BLL
             _recaptchaApi = provider.GetRequiredService<IRecaptchaApi>();
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
             _checkIpBll = provider.GetRequiredService<CheckIpBLL>();
+            _logger = provider.GetRequiredService<ILogger<RecaptchaBLL>>();
+
+            var configBll = provider.GetRequiredService<ConfigBLL>();
+
+            _credential = GoogleCredential.FromJson(JObject.Parse(configBll.GetConfigValue<string>("ReCaptchaEnterprise")).ToString());
+            _reCaptchaEnterpriseSetting = configBll.GetConfigValue<ReCaptchaEnterpriseSetting>("ReCaptchaEnterpriseSetting");
         }
+
+        #region ReCaptcha Free Policy
 
         public RecaptchaResponse Verify(string token)
         {
@@ -34,9 +48,7 @@ namespace MemberSite.Service.BLL
 
         public async Task<RecaptchaSiteInfo> GetInfo(string clientIp)
         {
-            var domain = _serverInfoBll.GetMainDomain();
-            var name = await _recaptchaSvc.GetGroup(domain);
-            var setting = _recaptcha.Groups[name];
+            var setting = await GetRecaptchaSetting();
 
             var country = await _checkIpBll.CheckIp(clientIp);
             return new RecaptchaSiteInfo()
@@ -46,66 +58,77 @@ namespace MemberSite.Service.BLL
             };
         }
 
-        #region reCaptcha Test Code
+        #endregion
 
-        // 建立評估作業，分析 UI 動作的風險。
-        // projectID: 您的 Google Cloud 專案 ID。
-        // recaptchaKey: 與網站/應用程式相關聯的 reCAPTCHA 金鑰
-        // token: 系統產生的權杖 (從用戶端取得)。
-        // recaptchaAction: 權杖對應的動作名稱。
-        public void createAssessment(string projectID = "massive-cirrus-365808", string recaptchaKey = "6LdwM5cpAAAAADugVdg6OTjWp_VhlvOnATIRKFoG", string token = "action-token", string recaptchaAction = "action-name")
+        private async Task<RecaptchaGroup> GetRecaptchaSetting()
         {
-            // 建立 reCAPTCHA 用戶端。
-            // 任務：先快取產生用戶端的程式碼 (建議做法) 或呼叫 client.close()，再結束方法。
-            RecaptchaEnterpriseServiceClient client = RecaptchaEnterpriseServiceClient.Create();
+            var domain = _serverInfoBll.GetMainDomain();
+            var name = await _recaptchaSvc.GetGroup(domain);
+            return _recaptcha.Groups[name];
+        }
 
-            ProjectName projectName = new ProjectName(projectID);
-
-            // 建立評估要求。
-            CreateAssessmentRequest createAssessmentRequest = new CreateAssessmentRequest()
+        #region ReCaptcha Enterprise
+        public async Task<AssessmentResult> CreateAssessmentAsync(AssessmentRequest request)
+        {
+            var message = string.Empty;
+            Assessment response = null;
+            try
             {
-                Assessment = new Assessment()
+                var setting = await GetRecaptchaSetting();
+                var client = new RecaptchaEnterpriseServiceClientBuilder
                 {
-                    // 設定要追蹤的事件屬性。
-                    Event = new Event()
+                    Credential = _credential
+                }.Build();
+
+                ProjectName projectName = new ProjectName(_reCaptchaEnterpriseSetting.ProjectId);
+
+                CreateAssessmentRequest createAssessmentRequest = new CreateAssessmentRequest()
+                {
+                    Assessment = new Assessment()
                     {
-                        SiteKey = recaptchaKey,
-                        Token = token,
-                        ExpectedAction = recaptchaAction
+                        Event = new Event()
+                        {
+                            SiteKey = setting.SiteKey,
+                            Token = request.Token,
+                            ExpectedAction = request.Action
+                        },
                     },
-                },
-                ParentAsProjectName = projectName
-            };
+                    ParentAsProjectName = projectName
+                };
 
-            Assessment response = client.CreateAssessment(createAssessmentRequest);
+                response = await client.CreateAssessmentAsync(createAssessmentRequest);
+            }
+            catch (Exception ex)
+            {
+                message = $"Exception happen: {ex.Message}";
+                _logger.LogError(message);
+                return new AssessmentResult(false, false, ex.Message);
+            }
 
-            // 確認權杖是否有效。
             if (response.TokenProperties.Valid == false)
             {
-                System.Console.WriteLine("The CreateAssessment call failed because the token was: " +
-                    response.TokenProperties.InvalidReason.ToString());
-                return;
+                message = $"The CreateAssessment call failed because the token was: {response.TokenProperties.InvalidReason.ToString()}";
+
+                _logger.LogInformation(message);
+                return new AssessmentResult(false, message: "Token Valid Fail.");
             }
 
-            // 確認是否已執行預期的動作。
-            if (response.TokenProperties.Action != recaptchaAction)
+            if (response.TokenProperties.Action != request.Action)
             {
-                System.Console.WriteLine("The action attribute in reCAPTCHA tag is: " +
-                    response.TokenProperties.Action.ToString());
-                System.Console.WriteLine("The action attribute in the reCAPTCHA tag does not " +
-                    "match the action you are expecting to score");
-                return;
+                message = $"The action attribute in reCAPTCHA tag is: {response.TokenProperties.Action}\n" +
+                    $"The action attribute in the reCAPTCHA tag does not match the action you are expecting to score.\n" +
+                    $"InvalidReason = {response.TokenProperties.InvalidReason.ToString()}";
+
+                _logger.LogInformation(message);
+                return new AssessmentResult(false, message: "Action Valid Fail.");
             }
 
-            // 取得風險分數和原因。
-            // 如要進一步瞭解如何解讀評估結果，請參閱：
-            // https://cloud.google.com/recaptcha-enterprise/docs/interpret-assessment
-            System.Console.WriteLine("The reCAPTCHA score is: " + ((decimal)response.RiskAnalysis.Score));
+            message = $"The reCAPTCHA score is: {(decimal)response.RiskAnalysis.Score}\n" +
+                    $"InvalidReason = {response.TokenProperties.InvalidReason.ToString()}\n" +
+                    $"RiskAnalysisReasons = {string.Join("/", response.RiskAnalysis.Reasons.Select(x => x.ToString()))}";
 
-            foreach (RiskAnalysis.Types.ClassificationReason reason in response.RiskAnalysis.Reasons)
-            {
-                System.Console.WriteLine(reason.ToString());
-            }
+            _logger.LogInformation(message);
+            return new AssessmentResult((decimal)response.RiskAnalysis.Score, _reCaptchaEnterpriseSetting.RiskLimit);
         }
 
         #endregion

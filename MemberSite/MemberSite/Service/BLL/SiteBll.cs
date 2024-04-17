@@ -89,7 +89,11 @@ public class SiteBll
 
         if (checkReCaptchaToken && !string.IsNullOrEmpty(signupModel.ReCaptchaToken))
         {
-            var verifyResult = _recaptcha.Verify(signupModel.ReCaptchaToken);
+            //Recaptcha Free Policy
+            //var verifyResult = _recaptcha.Verify(signupModel.ReCaptchaToken);
+            //Recaptcha Enterprise
+            var verifyResult = _recaptcha.CreateAssessmentAsync(new AssessmentRequest(signupModel.ReCaptchaToken, signupModel.ReCaptchaAction)).Result;
+
             if (!verifyResult.success)
             {
                 apiResult.ErrorCode = -97;
@@ -379,7 +383,11 @@ public class SiteBll
 
         if (checkReCaptchaToken && !string.IsNullOrEmpty(signupModel.ReCaptchaToken))
         {
-            var verifyResult = _recaptcha.Verify(signupModel.ReCaptchaToken);
+            //Recaptcha Free Policy
+            //var verifyResult = _recaptcha.Verify(signupModel.ReCaptchaToken);
+            //Recaptcha Enterprise
+            var verifyResult = _recaptcha.CreateAssessmentAsync(new AssessmentRequest(signupModel.ReCaptchaToken, signupModel.ReCaptchaAction)).Result;
+
             if (!verifyResult.success)
             {
                 apiResult.ErrorCode = -97;
@@ -387,8 +395,8 @@ public class SiteBll
                 return customer;
             }
         }
-        
-        if(_regexPhoneNo.IsMatch(signupModel.PhoneNo))
+
+        if (_regexPhoneNo.IsMatch(signupModel.PhoneNo))
         {
             if (_custInfoBLL.ExistsPhoneNo(0, signupModel.AreaCode, signupModel.PhoneNo))
             {
