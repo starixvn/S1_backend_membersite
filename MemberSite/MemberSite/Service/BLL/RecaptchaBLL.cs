@@ -31,7 +31,7 @@ namespace MemberSite.Service.BLL
 
             var configBll = provider.GetRequiredService<ConfigBLL>();
 
-            _credential = GoogleCredential.FromJson(JObject.Parse(configBll.GetConfigValue<string>("ReCaptchaEnterprise")).ToString());
+            //_credential = GoogleCredential.FromJson(JObject.Parse(configBll.GetConfigValue<string>("ReCaptchaEnterprise")).ToString());
             _reCaptchaEnterpriseSetting = configBll.GetConfigValue<ReCaptchaEnterpriseSetting>("ReCaptchaEnterpriseSetting");
         }
 
