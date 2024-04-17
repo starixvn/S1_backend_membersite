@@ -460,10 +460,16 @@ namespace MemberSite.Service.Model
         public int HomeTeamScore { get; set; }
         public int AwayTeamScore { get; set; }
     }
-    public class CupEventPredictScoreResponse
+    public class CupEventPredictScoreDto
     {
         public string Team { get; set; }
         public CupEventSetting TeamDetail { get; set; }
         public int Score { get; set; }
+    }
+    
+    public class CupEventPredictScoreResponse
+    {
+        public List<CupEventPredictScoreDto> Data { get; set; }
+        public bool IsPredict { get; set; }
     }
 }

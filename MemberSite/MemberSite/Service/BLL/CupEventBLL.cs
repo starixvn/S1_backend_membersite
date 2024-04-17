@@ -294,20 +294,21 @@ namespace MemberSite.Service.BLL
             return false;
         }
         
-        public List<CupEventPredictScoreResponse> GetCupEventPredictScore(int custId , string langId)
+        public CupEventPredictScoreResponse GetCupEventPredictScore(int custId , string langId)
         {
             var dbData = GetCupEventPredictionSetting(langId);
             var allTeamEnglishName = GetCupEventPredictionCountry("en");
             var finalData = FilterData(dbData, allTeamEnglishName, "final").ToList();
 
-            var result = new List<CupEventPredictScoreResponse>();
+            var result = new CupEventPredictScoreResponse();
             if (finalData.Count == 2)
             {
                 var scoreList = _cupEventService.GetCupEventPredictScore(custId);
+                
                 var homeTeam = finalData.First(x => x.Sort == 1);
                 var awayTeam = finalData.First(x => x.Sort == 2); 
-                
-                result = new List<CupEventPredictScoreResponse>
+            
+                result.Data = new List<CupEventPredictScoreDto>
                 {
                     new()
                     {
@@ -332,6 +333,11 @@ namespace MemberSite.Service.BLL
                         Score = scoreList?.AwayTeamScore ?? 0 
                     }
                 };
+                
+                if (scoreList is not null)
+                {
+                    result.IsPredict = true;
+                }
             }
             
             return result;
