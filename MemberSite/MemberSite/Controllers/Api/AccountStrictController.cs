@@ -837,7 +837,8 @@ namespace MemberSite.Controllers.Api
                         custInfo.CurrentAddress,
                         Nationality = nationality,
                         custInfo.Occupation,
-                        custInfo.SourceOfIncome
+                        custInfo.SourceOfIncome,
+                        custInfo.CustId,
                     };
                     
                     
