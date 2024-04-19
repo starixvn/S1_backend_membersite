@@ -230,9 +230,9 @@ namespace MemberSite.Controllers.Api
         
         [HttpPost]
         [Authorize]
-        public ApiResult<List<CupEventPredictScoreResponse>> GetCupEventPredictScore()
+        public ApiResult<CupEventPredictScoreResponse> GetCupEventPredictScore()
         {
-            var apiResult = new ApiResult<List<CupEventPredictScoreResponse>>();
+            var apiResult = new ApiResult<CupEventPredictScoreResponse>();
             try
             {
                 var authData = _authorizeBll.GetAuthData();
