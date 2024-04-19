@@ -30,7 +30,7 @@ namespace MemberSite.Service.BLL
             _logger = provider.GetRequiredService<ILogger<RecaptchaBLL>>();
 
             var configBll = provider.GetRequiredService<ConfigBLL>();
-            _credential = GoogleCredential.FromJson(configBll.GetConfigValue<JObject>("ReCaptchaEnterprise").ToString());
+            _credential = GoogleCredential.FromJson(configBll.GetConfigValue("ReCaptchaEnterprise"));
             _reCaptchaEnterpriseSetting = configBll.GetConfigValue<ReCaptchaEnterpriseSetting>("ReCaptchaEnterpriseSetting");
         }
 
