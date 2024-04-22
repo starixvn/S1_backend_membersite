@@ -825,61 +825,6 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
 
-        [HttpPost]
-        public ApiResult<IEnumerable<BannerSettingItem>> GetBanner([FromForm] string FolderName, [FromForm] string refId, [FromForm] bool filterHideInHome)
-        {
-            var result = new ApiResult<IEnumerable<BannerSettingItem>>();
-
-            var serverInfo = _serverInfoBll.GetServerInfo();
-            var dataPath = Path.Combine(_environment.WebRootPath, $"datas/{serverInfo.SiteName}_bannerSetting.json");
-            var bannerSetting = new BannerSetting();
-            if (System.IO.File.Exists(dataPath))
-            {
-                bannerSetting = JsonConvert.DeserializeObject<BannerSetting>(System.IO.File.ReadAllText(dataPath));
-            }
-
-            var perferCurr = 0;
-            var beforeLogin = true;
-            var authData = _authorizeBll.GetAuthData();
-            if (authData is { CustId: > 0 })
-            {
-                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-                perferCurr = custInfo.CurrencyId;
-                beforeLogin = false;
-            }
-            else
-            {
-                perferCurr = _selLangBll.GetPreferCurrencyId();
-            }
-
-            if (FolderName == "Promotion")
-            {
-                var bannerFromJSON = bannerSetting.Promotion.Where(x => x.currencyId == null || beforeLogin || x.currencyId.Any(y => y == perferCurr));
-                result.Data = bannerFromJSON;
-
-                if (filterHideInHome)
-                {
-                    result.Data = result.Data.Where(x => !x.hideInHome);
-                }
-            }
-            else if (FolderName == "Casino")
-            {
-                result.Data = bannerSetting.Casino.Where(x => x.currencyId == null || beforeLogin || x.currencyId.Any(y => y == perferCurr));
-            }
-            else if (FolderName == "Sports")
-            {
-                result.Data = bannerSetting.Sports.Where(x => x.currencyId == null || beforeLogin || x.currencyId.Any(y => y == perferCurr));
-            }
-
-            if (!string.IsNullOrEmpty(refId))
-            {
-                result.Data = result.Data.Where(x => x.refId != null && x.refId.Any(r => string.Equals(r, refId, StringComparison.OrdinalIgnoreCase)));
-            }
-
-            result.ErrorCode = 0;
-            return result;
-        }
-
         public class BannerReq
         {
             public int BannerType { get; set; }

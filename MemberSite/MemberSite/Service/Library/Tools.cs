@@ -206,31 +206,27 @@ namespace MemberSite.Service.Library
             // 先拿Header的origin-host
             if (string.IsNullOrWhiteSpace(fromUrl) && httpContextAccessor.HttpContext.Request.Headers.TryGetValue("origin-host", out var originHost))
             {
-                fromUrl = new Uri(originHost).Host.ToString();
+                fromUrl = new Uri(originHost).Host;
             }
 
             // 先拿Header的ai-host
             if (string.IsNullOrWhiteSpace(fromUrl) && httpContextAccessor.HttpContext.Request.Headers.TryGetValue("ai-host", out var aiHost))
             {
-                fromUrl = new Uri(aiHost).Host.ToString();
+                fromUrl = new Uri(aiHost).Host;
             }
 
-            if (string.IsNullOrWhiteSpace(fromUrl) && httpContextAccessor.HttpContext.Request.Headers.ContainsKey("Referer"))
+            if (string.IsNullOrWhiteSpace(fromUrl) && httpContextAccessor.HttpContext.Request.Headers.TryGetValue("Referer", out var referer))
             {
-                fromUrl = httpContextAccessor.HttpContext.Request.Headers["Referer"].ToString();
+                fromUrl = new Uri(referer).Host;
             }
-            else
+
+            if (string.IsNullOrWhiteSpace(fromUrl) || fromUrl.Contains("localhost"))
             {
-                fromUrl = httpContextAccessor.HttpContext.Request.Host.Host.ToString();
+                fromUrl = httpContextAccessor.HttpContext.Request.Host.Host;
             }
 
             return fromUrl;
         }
-
-        //public string GetDomainUrl()
-        //{
-        //    return httpContextAccessor.HttpContext.Request.Host.Host.ToString();
-        //}
 
 
         /// <summary>
