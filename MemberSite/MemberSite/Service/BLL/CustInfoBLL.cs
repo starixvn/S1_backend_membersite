@@ -426,6 +426,12 @@ namespace MemberSite.Service.BLL
 
             return custBankInfo;
         }
+        
+        public IEnumerable<BankInfoDetail> GetCustBankDetail(int custId)
+        {
+            return _custInfoService.GetCustBankDetail(custId);
+        }
+        
         public string GetDefAccountNo(int custId)
         {
             var custInfo = GetCustInfoWithCache(custId);

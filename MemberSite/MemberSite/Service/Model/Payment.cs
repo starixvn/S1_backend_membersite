@@ -59,6 +59,12 @@ namespace MemberSite.Service.Model
         public decimal MinAmount { get; set; }
         public decimal MaxAmount { get; set; }
     }
+    
+    public interface IBankNameLocalization
+    {
+        public int SysId { get; set; }
+        public string BankName { get; set; }
+    }
 
     public interface IPayInfo : IPaymentLimit
     {
@@ -83,6 +89,7 @@ namespace MemberSite.Service.Model
         public string ChannelName { get; set; }
         public int Mode { get; set; }
         public DepositType DepositType { get; set; }
+        public int ExtraDataType { get; set; }
         public int PointLevel { get; set; }
         public string PayCode { get; set; }
         public int CurrencyId { get; set; }
@@ -114,17 +121,6 @@ namespace MemberSite.Service.Model
         public decimal MaxAmount { get; set; }
     }
 
-    public class PayGroupV2 : IPaymentLimit
-    {
-
-        public int GroupId { get; set; }
-        public string GroupName { get; set; }
-        public int GSort { get; set; }
-        public int Mode { get; set; }
-        public string ChannelName { get; set; }
-        public decimal MinAmount { get; set; }
-        public decimal MaxAmount { get; set; }
-    }
 
     public class PayGroupInfo
     {
@@ -143,6 +139,7 @@ namespace MemberSite.Service.Model
         public DepositType Type { get; set; }
         public PayChannelMethod Method { get; set; }
         public PayModeEnum Mode { get; set; }
+        public ExtraDataTypeEnum ExtraDataType { get; set; }
     }
 
     public class LineChannel
