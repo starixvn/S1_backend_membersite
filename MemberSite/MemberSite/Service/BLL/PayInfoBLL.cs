@@ -50,7 +50,6 @@ namespace MemberSite.Service.BLL
         public IDictionary<string, PayMethod> GetPayInfoListAll(int custId)
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
-            var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
             var result = new Dictionary<string, PayMethod>();
 
             var code = CommonExtension.GenerateRandomNumber();
@@ -79,32 +78,14 @@ namespace MemberSite.Service.BLL
             var depositTypes = new[]
             {
                 DepositType.OnlineBanking,
-                DepositType.QuickTransfer
+                DepositType.QuickTransfer,
+                DepositType.BankAutoChannel
             };
 
             result.AddRange(GetOnlineBankMethods(depositTypes, custId));
 
             var line = _bankInfoBll.GetLineChannel(custInfo.SiteId, custInfo.CurrencyId);
             result.Add("LinePay", new PayMethod(new LinePay(line?.Link)));
-
-            var autoChannelData = _bankInfoBll.GetAutoChannelBankList(custInfo, vipLevel)
-                .GroupBy(x => x.SysId)
-                .Select(x =>
-                {
-                    var bank = x.First();
-                    return new AutoChannelBankInfo
-                    {
-                        BankLogo = bank.BankLogo,
-                        BankCode = bank.BankCode,
-                        BankName = bank.BankName,
-                        SysId = bank.SysId,
-                        MaxAmount = x.Max(y => y.MaxAmount),
-                        MinAmount = x.Min(y => y.MinAmount),
-                        DepositType = DepositType.BankAutoChannel
-                    };
-                });
-
-            result.Add(DepositType.BankAutoChannel.GetDescription(), new PayMethod(autoChannelData));
 
             depositTypes = new[]
                 {
@@ -119,42 +100,73 @@ namespace MemberSite.Service.BLL
             return result;
         }
 
+        private readonly IEnumerable<int> _onlineBankingAutoSelectChannel =
+            new[] {(int) SiteEnum.Bwing, (int) SiteEnum.Goal123};
+
+        private bool IsAutoSelectChannel(int siteId, DepositType type)
+            => _onlineBankingAutoSelectChannel.Contains(siteId) && type == DepositType.OnlineBanking;
+
         public IDictionary<string, PayMethod> GetOnlineBankMethods(IEnumerable<DepositType> depositTypes, int custId)
         {
+            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var result = new Dictionary<string, PayMethod>();
 
             foreach (var depositType in depositTypes)
             {
-                var data = _bankInfoBll.GetOnlinePaymentList(custId, depositType)
-                    .Select(x => new OnlineBankChannel
-                    {
-                        ChannelId = x.ChannelId,
-                        ChannelName = x.PayName,
-                        PayId = x.PayId,
-                        PayName = x.PayName,
-                        SelectBank = x.SelBank,
-                        Mode = x.Mode,
-                        MaxAmount = x.MaxAmount,
-                        MinAmount = x.MinAmount,
-                        AmountRule = 1,
-                        AmountList = Array.Empty<decimal>(),
-                        SupportBanks = x.BankList.Select(y => new BankInfo
-                        {
-                            BankLogo = y.BankLogo,
-                            BankCode = y.BankCode,
-                            BankName = y.BankName,
-                            SysId = y.SysId,
-                            MaxAmount = x.MaxAmount,
-                            MinAmount = x.MinAmount
-                        }),
-                        DepositType = depositType
-                    });
+                object data = IsAutoSelectChannel(custInfo.SiteId, depositType)
+                    ? GetAutoSelectChannelList(custId)
+                    : GetOnlineBankChannelList(custId, depositType);
 
                 result.Add(depositType.GetDescription(), new PayMethod(data));
             }
 
             return result;
         }
+
+        public IEnumerable<OnlineBankChannel> GetOnlineBankChannelList(int custId, DepositType depositType)
+            => _bankInfoBll.GetOnlinePaymentList(custId, depositType)
+                .Select(x => new OnlineBankChannel
+                {
+                    ChannelId = x.ChannelId,
+                    ChannelName = x.PayName,
+                    PayId = x.PayId,
+                    PayName = x.PayName,
+                    SelectBank = x.SelBank,
+                    Mode = x.Mode,
+                    ExtraDataType = x.ExtraDataType,
+                    MaxAmount = x.MaxAmount,
+                    MinAmount = x.MinAmount,
+                    AmountRule = 1,
+                    AmountList = Array.Empty<decimal>(),
+                    SupportBanks = x.BankList.Select(y => new BankInfo
+                    {
+                        BankLogo = y.BankLogo,
+                        BankCode = y.BankCode,
+                        BankName = y.BankName,
+                        SysId = y.SysId,
+                        MaxAmount = x.MaxAmount,
+                        MinAmount = x.MinAmount
+                    }),
+                    DepositType = depositType
+                });
+        
+        private IEnumerable<AutoChannelBankInfo> GetAutoSelectChannelList(int custId)
+            => _bankInfoBll.GetAutoSelectChannelBankGroupList(custId)
+                .GroupBy(x => x.SysId)
+                .Select(x =>
+                {
+                    var bank = x.First();
+                    return new AutoChannelBankInfo
+                    {
+                        BankLogo = bank.BankLogo,
+                        BankCode = bank.BankCode,
+                        BankName = bank.BankName,
+                        SysId = bank.SysId,
+                        MaxAmount = x.Max(y => y.MaxAmount),
+                        MinAmount = x.Min(y => y.MinAmount),
+                        DepositType = DepositType.OnlineBanking
+                    };
+                });
 
         public IDictionary<string, PayMethod> GetGenericPayMethods(IEnumerable<DepositType> depositTypes, int custId)
         {
@@ -194,6 +206,7 @@ namespace MemberSite.Service.BLL
                         PayId = x.PayId,
                         PayName = x.PayName,
                         Mode = x.Mode,
+                        ExtraDataType = x.ExtraDataType,
                         MaxAmount = x.MaxAmount,
                         MinAmount = x.MinAmount,
                         AmountRule = x.AmountRule,

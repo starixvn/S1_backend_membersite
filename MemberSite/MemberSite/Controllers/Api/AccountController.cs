@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
 using Newtonsoft.Json;
 
 using static MemberSite.Extensions.MethodExtension;
@@ -34,6 +33,7 @@ namespace MemberSite.Controllers.Api
         private readonly string _tpServiceApiUrl;
         private readonly MessageBll _messageBll;
         private readonly PaymentBLL _paymentBll;
+        private readonly PayInfoBLL _payInfoBll;
         private readonly ThirdPartyBll _thirdPartyBll;
         private readonly CasinoBll _casinoBll;
         private readonly BonusWalletBLL _bonusWalletBll;
@@ -60,6 +60,7 @@ namespace MemberSite.Controllers.Api
             _jwtConfig = configBll.GetConfigValueByEnvironment<JwtConfig>("JwtSettings");
             _messageBll = provider.GetRequiredService<MessageBll>();
             _paymentBll = provider.GetRequiredService<PaymentBLL>();
+            _payInfoBll = provider.GetRequiredService<PayInfoBLL>();
             _thirdPartyBll = provider.GetRequiredService<ThirdPartyBll>();
             _casinoBll = provider.GetRequiredService<CasinoBll>();
             _bonusWalletBll = provider.GetRequiredService<BonusWalletBLL>();
@@ -368,8 +369,7 @@ namespace MemberSite.Controllers.Api
             var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
             var bankInfoSysList = _bankInfoBll.GetBankInfoSysListByCurrency(custInfo.CurrencyId).ToList();
 
-            if (custInfo.SiteId == 1
-                && custInfo.CurrencyId == (int)CurrencyId.THB) // Nova88 泰國銀行名稱支援多語系
+            if (custInfo.CurrencyId == (int)CurrencyId.THB) // 泰國銀行名稱支援多語系
             {
                 _bankInfoBll.BankNameLocalization(bankInfoSysList, authData.LangId);
             }
@@ -385,7 +385,6 @@ namespace MemberSite.Controllers.Api
                     {
                         bankInfo.BankName = refBankInfo.BankName;
                         bankInfo.BankLogo = refBankInfo.BankLogo;
-                        bankInfo.BankSite = refBankInfo.BankSite;
                         bankInfo.Disabled = refBankInfo.Status != GeneralStatusEnum.Enable;
                     }
 
@@ -419,6 +418,8 @@ namespace MemberSite.Controllers.Api
                             crypto.Disabled = true;
                     }
                 }
+                
+                
             }
 
             apiResult.Data = custBankInfo;

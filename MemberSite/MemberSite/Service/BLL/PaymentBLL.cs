@@ -235,7 +235,8 @@ namespace MemberSite.Service.BLL
             return 0;
         }
 
-        public int DepositReqOnlineBanking(int custId, int sysId, int channelId, decimal amount, DepositType depositType, out string transId)
+        public int DepositReqOnlineBanking(int custId, int sysId, int channelId, decimal amount,
+            DepositType depositType, IDictionary<string, string> extraData, out string transId)
         {
             transId = null;
 
@@ -249,10 +250,8 @@ namespace MemberSite.Service.BLL
 
                 var depositLimitInfoList = _depositService.GetDepositLimitInfoList();
                 var pointLevel = _custInfoBll.GetPointLevelWithCache(custId);
-                var onlineBankList = depositType == DepositType.BankAutoChannel
-                    ? bankInfoBLL.GetAutoChannelBankInfoList(custInfo.SiteId, depositType)
-                    : bankInfoBLL.GetOnlineBankList(custInfo.SiteId, depositType);
-
+                var onlineBankList = bankInfoBLL.GetOnlineBankList(custInfo.SiteId, depositType);
+                
                 var onlineBank = onlineBankList
                     .FirstOrDefault(x => pointLevel >= x.PointLevel
                                          && x.ChannelId == channelId
@@ -293,6 +292,9 @@ namespace MemberSite.Service.BLL
                     onlineBank.BankName = "";
                 }
 
+                var depositInfo = JsonConvert.SerializeObject(onlineBank)
+                    .AddOrSetExtraData(extraData);
+
                 var depositDetailInfo = new DepositDetailInfo
                 {
                     Amount = amount,
@@ -302,7 +304,7 @@ namespace MemberSite.Service.BLL
                     SiteId = custInfo.SiteId,
                     UserName = custInfo.UserName,
                     CurrencyId = custInfo.CurrencyId,
-                    DepositInfo = JsonConvert.SerializeObject(onlineBank)
+                    DepositInfo = depositInfo
                 };
 
                 _depositService.DepositReq(depositDetailInfo, out transId, out _);

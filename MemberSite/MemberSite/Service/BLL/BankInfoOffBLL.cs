@@ -219,8 +219,7 @@ namespace MemberSite.Service.BLL
                             && x.SupportChannel.Contains(OfflineBankAccountSupportChannelEnum.LocalBank))
                 .ToList();
 
-            if (siteId == 1
-                && currencyId == (int)CurrencyId.THB) // Nova88 泰國銀行名稱支援多語系
+            if (currencyId == (int)CurrencyId.THB) // 泰國銀行名稱支援多語系
             {
                 BankNameLocalization(localBankList, lang);
             }
