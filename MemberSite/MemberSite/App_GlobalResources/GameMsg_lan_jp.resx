@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+<resheader name="resmimetype"><value>text/microsoft-resx</value></resheader><resheader name="version"><value>1.3</value></resheader><resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader><resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader><data name="Code_10"><value>[10] このゲームは現在メンテナンス中です。後ほどもう一度お試しください。</value></data>
+  <data name="Code_2000"><value>[2000] システムエラー、CSDに連絡してください。</value></data>
+  <data name="Code_2002"><value>[2002] システムエラー、CSDに連絡してください。</value></data>
+  <data name="Code_1204"><value>[1204] システムエラー、CSDに連絡してください。</value></data>
+  <data name="Code_1205"><value>[1205] システムエラー、CSDに連絡してください。</value></data>
+  <data name="Code_1200"><value>[1200] 転送失敗、再試行してください</value></data>
+  <data name="Code_1201"><value>[1201] 転送に失敗しました、転送量を確認してください</value></data>
+  <data name="Code_1202"><value>[1202] TransIDが重複しているため、CSDまでご連絡ください。</value></data>
+  <data name="Code_1203"><value>[1203] 振込金額不足、ご確認ください</value></data>
+  <data name="Code_1105"><value>[1105] システムエラー、CSDに連絡してください</value></data>
+  <data name="Code_1104"><value>[1104] ログインが重複したため、接続が切断されました。</value></data>
+  <data name="Code_1103"><value>[1103] ログインしていません。ログインしてください。</value></data>
+  <data name="Code_1102"><value>[1102] ユーザーがロックされました。CSDに連絡してください。</value></data>
+  <data name="Code_1101"><value>[1101]ユーザーIDが存在しません、CSDに連絡してください</value></data>
+  <data name="Code_1999"><value>[1999] システムエラー、CSDに連絡してください。</value></data>
+  <data name="Code_9000"><value>[9000] システムエラー、CSDに連絡してください。</value></data>
+  </root>
