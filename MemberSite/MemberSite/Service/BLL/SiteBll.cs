@@ -16,7 +16,7 @@ public class SiteBll
     private readonly Tools _tools;
     private readonly ShieldBLL _ShieldBll;
     private readonly Regex _regexUserName = new(@"^[a-zA-Z0-9]{6,18}$");
-    private readonly Regex _regexPhoneNumber = new(@"^\+60[0-9]{9,10}$|\+62[0-9]{10,13}$|\+86[0-9]{10,11}$|\+91[0-9]{10}$|\+66[0-9]{9}$|\+880[0-9]{10}$|\+855[0-9]{8,10}$|\+84[0-9]{9}$");
+    private readonly Regex _regexPhoneNumber = new(@"^\+60[0-9]{9,10}$|\+62[0-9]{10,13}$|\+86[0-9]{10,11}$|\+91[0-9]{10}$|\+66[0-9]{9}$|\+880[0-9]{10}$|\+855[0-9]{8,10}$|\+84[0-9]{9}|\+82[0-9]{10}|\+81[0-9]{10}|\+55[0-9]{9}$");
     private readonly Regex _regexEmail = new(@"^\w+((-\w+)|(\.\w+))*@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$");
     private readonly Regex _regexPhoneNo = new(@"^\d+$");
     private readonly RecaptchaBLL _recaptcha;
@@ -58,6 +58,9 @@ public class SiteBll
                 case "+880":
                 case "+855":
                 case "+84":
+                case "+82":
+                case "+81":
+                case "+55":
                     if (!_regexPhoneNumber.IsMatch(signupModel.AreaCode + signupModel.PhoneNo))
                     {
                         var message = signupModel.AreaCode switch
@@ -70,6 +73,9 @@ public class SiteBll
                             "+880" => "10",
                             "+855" => "8-10",
                             "+84" => "9",
+                            "+82" => "10",
+                            "+81" => "10",
+                            "+55" => "9",
                             _ => ""
                         };
                         apiResult.ErrorCode = -20;

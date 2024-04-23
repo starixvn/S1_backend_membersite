@@ -65,10 +65,13 @@ namespace MemberSite.Controllers.Api
             {4,"Thailand" },
             {13,"China" },
             {15,"Indonesia" },
+            {32,"Japan" },
+            {45,"Republic of Korea" },
             {51,"Viet Nam" },
             {61,"India" },
             {72,"Cambodia" },
             {74,"Bangladesh" },
+            {82,"Brasil" }
         };
 
 
