@@ -51,23 +51,17 @@ namespace MemberSite.Service.BLL
             return dbData;
         }
 
-        public void BankNameLocalization(in List<BankInfoSys> list, string lang)
+        public void BankNameLocalization<T>(in IEnumerable<T> list, string lang) where T : class, IBankNameLocalization
         {
             var bankNameList = GetBankInfoName(lang);
-            if (bankNameList.Any())
-            {
-                list.ForEach(x => x.BankName =
-                    bankNameList.FirstOrDefault(y => y.SysId == x.SysId)?.BankName ?? x.BankName);
-            }
-        }
 
-        public void BankNameLocalization(in List<SysBankInfoFront> list, string lang)
-        {
-            var bankNameList = GetBankInfoName(lang);
-            if (bankNameList.Any())
+            if (!bankNameList.Any())
+                return;
+            
+            foreach (var item in list)
             {
-                list.ForEach(x => x.BankName =
-                    bankNameList.FirstOrDefault(y => y.SysId == x.SysId)?.BankName ?? x.BankName);
+                item.BankName = bankNameList.FirstOrDefault(y => y.SysId == item.SysId)
+                    ?.BankName ?? item.BankName;
             }
         }
 
@@ -99,6 +93,7 @@ namespace MemberSite.Service.BLL
                         ChannelId = item.ChannelId,
                         SelBank = item.SelBank,
                         Mode = item.Mode,
+                        ExtraDataType = item.ExtraDataType,
                         MaxAmount = item.MaxAmount,
                         MinAmount = item.MinAmount,
                         BankList = item.SelBank ?
@@ -197,14 +192,11 @@ namespace MemberSite.Service.BLL
                     return p;
                 })
                 .Where(x => x.MaxAmount >= 0)
-                .OrderByDescending(x => x.SysId)
-                .FirstOrDefault();
+                .MaxBy(x => x.SysId);
 
             return bankInfo;
         }
-        #region China Pay
-
-        #endregion
+        
         public IEnumerable<BankInfoPay> GetOnlineBankList(int siteId, DepositType depositType)
         {
             var key = $"PaySetting:OnlineBanking:{siteId}:{depositType}";
@@ -213,40 +205,31 @@ namespace MemberSite.Service.BLL
                 RedisDataBase.Shared);
             return dbData;
         }
-        public IEnumerable<SysBankInfoFront> GetAutoChannelBankGroupList(Customer customer, int vipLevel)
+        
+        public IEnumerable<SysBankInfoFront> GetAutoSelectChannelBankGroupList(int custId)
         {
-            return GetAutoChannelBankList(customer, vipLevel)
+            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
+            var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
+            
+            return GetSelectBankBankList(custInfo, vipLevel, DepositType.OnlineBanking)
                     .GroupBy(bank => bank.SysId)
-                    .Select(reuslt => new SysBankInfoFront
+                    .Select(r => new SysBankInfoFront
                     {
-                        SysId = reuslt.Key,
-                        BankCode = reuslt.First().SysBankCode,
-                        BankLogo = reuslt.First().BankLogo,
-                        BankName = reuslt.First().SysBankName,
-                        MaxAmount = reuslt.Max(i => i.MaxAmount),
-                        MinAmount = reuslt.Min(i => i.MinAmount),
+                        SysId = r.Key,
+                        BankCode = r.First().SysBankCode,
+                        BankLogo = r.First().BankLogo,
+                        BankName = r.First().SysBankName,
+                        MaxAmount = r.Max(i => i.MaxAmount),
+                        MinAmount = r.Min(i => i.MinAmount),
                     });
         }
 
-        public IEnumerable<BankInfoPay> GetAutoChannelBankList(Customer customer, int vipLevel)
+        public IEnumerable<BankInfoPay> GetSelectBankBankList(Customer customer, int vipLevel, DepositType type)
         {
-            return GetAutoChannelBankInfoList(customer.SiteId, GetAutoChannelDepositType(customer.SiteId))
-                    .Where(i => vipLevel >= i.PointLevel && i.CurrencyId == customer.CurrencyId && i.SelBank);
-        }
-
-        public DepositType GetAutoChannelDepositType(int siteId)
-        {
-            //nova88使用新的DepositType，Bwing&goal123調整OnlineBanking
-            return siteId == 1 ? DepositType.BankAutoChannel : DepositType.OnlineBanking;
-        }
-
-        public IEnumerable<BankInfoPay> GetAutoChannelBankInfoList(int siteId, DepositType depositType)
-        {
-            var key = $"PaySetting:OnlineBanking:{siteId}:{depositType}";
-            var dbData = _redisHelper.TryGetOrCreate(key, TimeSpan.FromMinutes(5),
-                () => _bankInfoService.GetBankInfoPayList(siteId, depositType),
-                RedisDataBase.Shared);
-            return dbData;
+            return GetOnlineBankList(customer.SiteId, type).Where(i =>
+                vipLevel >= i.PointLevel
+                && i.CurrencyId == customer.CurrencyId
+                && i.SelBank);
         }
 
         public LineChannel? GetLineChannel(int siteId, int currencyId)

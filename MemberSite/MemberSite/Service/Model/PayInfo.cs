@@ -14,7 +14,7 @@ namespace MemberSite.Service.Model
         public string Link { get; set; }
     }
 
-    public class BankInfo
+    public class BankInfo : IBankNameLocalization
     {
         public int SysId { get; set; }
         public string BankName { get; set; }
@@ -71,6 +71,7 @@ namespace MemberSite.Service.Model
         public int ChannelId { get; set; }
         public string ChannelName { get; set; }
         public int Mode { get; set; }
+        public int ExtraDataType { get; set; }
         public decimal MinAmount { get; set; }
         public decimal MaxAmount { get; set; }
         public int AmountRule { get; set; }

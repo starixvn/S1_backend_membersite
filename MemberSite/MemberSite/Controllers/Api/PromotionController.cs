@@ -505,7 +505,7 @@ namespace MemberSite.Controllers.Api
                     {
                         SiteId = serverInfo.SiteId,
                         CurrencyId = input.CurrencyId,
-                        VipLevel = 0,
+                        VipLevel = 1,
                         LangId = langId
                     };
                 }

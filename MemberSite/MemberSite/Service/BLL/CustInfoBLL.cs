@@ -1,4 +1,5 @@
-﻿using MemberSite.Service.BLL.Interface;
+﻿using Google.Protobuf.WellKnownTypes;
+using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.DAL;
 using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Domain;
@@ -10,6 +11,8 @@ using MemberSite.Service.Model.Mapping;
 using Microsoft.Extensions.Caching.Memory;
 
 using Newtonsoft.Json;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace MemberSite.Service.BLL
 {
@@ -36,6 +39,7 @@ namespace MemberSite.Service.BLL
         private readonly VIPService _vIPService;
         private readonly DepositService _depositService;
         private readonly ICustPhotoIdBLL _custPhoto;
+        private readonly ILogger<CustInfoBll> _logger;
 
         public CustInfoBll(IServiceProvider provider)
         {
@@ -55,6 +59,7 @@ namespace MemberSite.Service.BLL
             _vIPService = provider.GetRequiredService<VIPService>();
             _depositService = provider.GetRequiredService<DepositService>();
             _custPhoto = provider.GetRequiredService<ICustPhotoIdBLL>();
+            _logger = provider.GetRequiredService<ILogger<CustInfoBll>>();
         }
         public string GetCountryNameByAreaCode(string areaCode)
         {
@@ -239,6 +244,23 @@ namespace MemberSite.Service.BLL
                 });
             }
 
+            try
+            {
+                byte[] userAgentBytes = Encoding.ASCII.GetBytes(userAgent);
+                if (userAgentBytes.Length > 255)
+                {
+                    byte[] truncatedBytes = new byte[255];
+                    Array.Copy(userAgentBytes, truncatedBytes, 255);
+                    userAgent = Encoding.ASCII.GetString(truncatedBytes);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"UserAgent ASCII Error.Message={ex.Message}.");
+                if (userAgent.Length > 250)
+                    userAgent = userAgent.Substring(0, 250);
+            }
+
             _authenticateService.AddLoginRecord(customer.CustId, customer.SiteId, ip, deviceType, out token);
             _authenticateService.AddUserLoginLog(customer.CustId, customer.UserName, customer.SiteId, ip, fromUrl, userAgent);
             return 0;
@@ -406,6 +428,12 @@ namespace MemberSite.Service.BLL
 
             return custBankInfo;
         }
+        
+        public IEnumerable<BankInfoDetail> GetCustBankDetail(int custId)
+        {
+            return _custInfoService.GetCustBankDetail(custId);
+        }
+        
         public string GetDefAccountNo(int custId)
         {
             var custInfo = GetCustInfoWithCache(custId);
@@ -625,6 +653,8 @@ namespace MemberSite.Service.BLL
             var serverInfo = _serverInfoBll.GetServerInfo();
             if (!string.IsNullOrEmpty(affId))
             {
+                if (!IsVaild(affId))
+                    return -9;
                 var agent = _agentInfoService.GetAffiliateAgent(affId, serverInfo.SiteId);
 
                 if (agent == null)
@@ -637,6 +667,11 @@ namespace MemberSite.Service.BLL
 
             return -1;
 
+        }
+
+        private bool IsVaild(string value)
+        {
+            return Regex.IsMatch(value, @"^[a-z0-9]{8}$");
         }
 
         public int AffiliateAndReferralCheck(string affCode, out int currencyId)
@@ -783,7 +818,7 @@ namespace MemberSite.Service.BLL
         public async Task<IEnumerable<CustTpGameTypeSetting>> GetCustTpGameTypeSetting(int custId)
         {
             var result = new List<CustTpGameTypeSetting>();
-            var types = (CustTpGameTypeSettingType[])Enum.GetValues(typeof(CustTpGameTypeSettingType));
+            var types = (CustTpGameTypeSettingType[])System.Enum.GetValues(typeof(CustTpGameTypeSettingType));
             var key = $"GetCustTpGameTypeSetting:{custId}";
             var typeResult = await _redisHelper.TryGetOrCreateAsync(key,
                 TimeSpan.FromMinutes(10),
@@ -820,10 +855,9 @@ namespace MemberSite.Service.BLL
         public CustVIPProgress GetCustVIPProgress(int custId)
         {
             CustVIPProgress result = new CustVIPProgress();
-            var customer = _custInfoService.GetCustInfo(custId);
+            var customer = GetCustInfoWithCache(custId, true);
             result.CurrentVipLevel = customer.UserLevel;
             var vipSystem = _vIPService.GetVipSystem(customer.SiteId).Where(x => x.CurrencyId == customer.CurrencyId).ToList();
-
             if (vipSystem != null)
             {
                 var upGradeData = vipSystem.Find(x => x.Level == customer.UserLevel + 1);
@@ -836,7 +870,6 @@ namespace MemberSite.Service.BLL
                     result.DownDeposit = downGradeData.DownDeposit;
                     result.DownTurnover = downGradeData.DownTurnover;
                 }
-
                 result.ActualDeposit = GetActualDeposit(customer.SiteId, custId);
             }
             return result;

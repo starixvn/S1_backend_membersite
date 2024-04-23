@@ -1,4 +1,4 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Net.Sockets;
 using System.Security.Claims;
@@ -38,6 +38,7 @@ namespace MemberSite.Controllers.Api
         private readonly BannerBLL _bannerBll;
         private readonly AuthBLL _authBll;
         private readonly Regex _regexUserName = new(@"^[a-zA-Z0-9]{6,18}$");
+        private readonly Regex _regexPhoneNo = new(@"^\d+$");
         private readonly ThirdPartyBll _thirdPartyBll;
         private readonly SiteBll _siteBll;
         private readonly ICacheHelper _cacheHelper;
@@ -49,6 +50,7 @@ namespace MemberSite.Controllers.Api
         private readonly FPSBLL _FPSBll;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly CommonBLL _commonBll;
+        
 
         public SiteController(IServiceProvider provider)
         {
@@ -74,6 +76,7 @@ namespace MemberSite.Controllers.Api
             _FPSBll = provider.GetRequiredService<FPSBLL>();
             _httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
             _commonBll = provider.GetRequiredService<CommonBLL>();
+            
         }
 
         public class LoginModel
@@ -93,10 +96,14 @@ namespace MemberSite.Controllers.Api
         public async Task<ApiResult> SignIn(LoginModel loginModel)
         {
             var apiResult = new ApiResult(_selLangBll);
-            if (_checkAttackBll.CheckAttackForSignIn(loginModel, true, Request))
+            
+            if (!_environment.EnvironmentName.Equals("Local", StringComparison.OrdinalIgnoreCase))
             {
-                Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
-                return null;
+                if (_checkAttackBll.CheckAttackForSignIn(loginModel, true, Request))
+                {
+                    Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                    return null;
+                }
             }
 
             if (!_regexUserName.IsMatch(loginModel.UserName))
@@ -361,7 +368,7 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
 
-            var customer = _siteBll.Signup(signupModel, apiResult, isAuthenticated, Request.Host.Host,
+            var customer = _siteBll.Signup(signupModel, apiResult, isAuthenticated, _tools.GetFromUrl(),
                 Request.Headers["User-Agent"], true);
             if (apiResult.ErrorCode == (int)ErrorCode.Attack)
             {
@@ -400,7 +407,7 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
 
-            var customer = _siteBll.Signup(signupModel, apiResult, isAuthenticated, Request.Host.Host,
+            var customer = _siteBll.Signup(signupModel, apiResult, isAuthenticated, _tools.GetFromUrl(),
                 Request.Headers["User-Agent"], false);
 
             if (apiResult.ErrorCode != 0 || customer == null) return apiResult;
@@ -632,11 +639,10 @@ namespace MemberSite.Controllers.Api
                     return null;
                 }
 
-                if (long.TryParse(reSetPwdByOtpReq.PhoneNo, out var phoneNo))
+                if (_regexPhoneNo.IsMatch(reSetPwdByOtpReq.PhoneNo))
                 {
                     var serverInfo = _serverInfoBll.GetServerInfo();
-
-                    reSetPwdByOtpReq.PhoneNo = phoneNo.ToString();
+                    
                     if (_custInfoBll.ExistsPhoneNoAndUserName(reSetPwdByOtpReq.Username, reSetPwdByOtpReq.AreaCode,
                             reSetPwdByOtpReq.PhoneNo, serverInfo.SiteId))
                     {
@@ -819,61 +825,6 @@ namespace MemberSite.Controllers.Api
 
             apiResult.ErrorCode = 0;
             return apiResult;
-        }
-
-        [HttpPost]
-        public ApiResult<IEnumerable<BannerSettingItem>> GetBanner([FromForm] string FolderName, [FromForm] string refId, [FromForm] bool filterHideInHome)
-        {
-            var result = new ApiResult<IEnumerable<BannerSettingItem>>();
-
-            var serverInfo = _serverInfoBll.GetServerInfo();
-            var dataPath = Path.Combine(_environment.WebRootPath, $"datas/{serverInfo.SiteName}_bannerSetting.json");
-            var bannerSetting = new BannerSetting();
-            if (System.IO.File.Exists(dataPath))
-            {
-                bannerSetting = JsonConvert.DeserializeObject<BannerSetting>(System.IO.File.ReadAllText(dataPath));
-            }
-
-            var perferCurr = 0;
-            var beforeLogin = true;
-            var authData = _authorizeBll.GetAuthData();
-            if (authData is { CustId: > 0 })
-            {
-                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-                perferCurr = custInfo.CurrencyId;
-                beforeLogin = false;
-            }
-            else
-            {
-                perferCurr = _selLangBll.GetPreferCurrencyId();
-            }
-
-            if (FolderName == "Promotion")
-            {
-                var bannerFromJSON = bannerSetting.Promotion.Where(x => x.currencyId == null || beforeLogin || x.currencyId.Any(y => y == perferCurr));
-                result.Data = bannerFromJSON;
-
-                if (filterHideInHome)
-                {
-                    result.Data = result.Data.Where(x => !x.hideInHome);
-                }
-            }
-            else if (FolderName == "Casino")
-            {
-                result.Data = bannerSetting.Casino.Where(x => x.currencyId == null || beforeLogin || x.currencyId.Any(y => y == perferCurr));
-            }
-            else if (FolderName == "Sports")
-            {
-                result.Data = bannerSetting.Sports.Where(x => x.currencyId == null || beforeLogin || x.currencyId.Any(y => y == perferCurr));
-            }
-
-            if (!string.IsNullOrEmpty(refId))
-            {
-                result.Data = result.Data.Where(x => x.refId != null && x.refId.Any(r => string.Equals(r, refId, StringComparison.OrdinalIgnoreCase)));
-            }
-
-            result.ErrorCode = 0;
-            return result;
         }
 
         public class BannerReq
@@ -1181,6 +1132,10 @@ namespace MemberSite.Controllers.Api
                     apiResult.Data.CurrencyId = result;
                     break;
                 case -19:
+                    apiResult.ErrorCode = result;
+                    apiResult.Message = _selLangBll.GetMsg("mag_AffiliateNotExist");
+                    break;
+                case -9:
                     apiResult.ErrorCode = result;
                     apiResult.Message = _selLangBll.GetMsg("mag_AffiliateNotExist");
                     break;
