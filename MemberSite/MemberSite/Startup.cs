@@ -119,6 +119,7 @@ namespace MemberSite
             services.AddTransient<IAffiliateService, AffiliateService>();
             services.AddTransient<GameService>();
             services.AddTransient<QueueJobService>();
+            services.AddTransient<RedemptionService>();
 
             services.AddSingleton<IPService>();
             services.AddSingleton<ShieldService>();
