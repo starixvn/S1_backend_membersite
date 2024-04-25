@@ -122,8 +122,7 @@ namespace MemberSite.Extensions.Middlewares
                 if (string.IsNullOrEmpty(realKey))
                     continue;
                 
-                if (jObj.TryGetValue(key, StringComparison.OrdinalIgnoreCase, out var pwd)
-                    && !string.IsNullOrEmpty(pwd.ToString()))
+                if (!string.IsNullOrEmpty(jObj[realKey]?.ToString()))
                 {
                     jObj[realKey] = "********";
                 }
