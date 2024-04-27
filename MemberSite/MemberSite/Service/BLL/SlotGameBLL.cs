@@ -132,10 +132,11 @@ namespace MemberSite.Service.BLL
 
             var key = $"GetSlotGameListV2:{_isStage}:{currencyId}:{siteId}:{deviceType}";
             var result = await _cacheHelper.TryGetOrCreateAsync(key,
-                null, //設定為不過期，改由Hangfire更新
+                TimeSpan.FromMinutes(15), //設定過期15分鐘，
                 async () =>
                 {
-                    // Cache更新由Hangfire處理，此部分預防Redis異常
+                    // PRD環境由Hangfire每五分鐘定期更新
+                    // 此部分預防Redis異常，與處理RLS環境的快取
                     var result = await _reportDbClient.QueryAsync<SlotGameInfo>("Service_SlotGame_Get", new
                     {
                         CurrencyId = currencyId,
