@@ -185,7 +185,7 @@ namespace MemberSite.Service.BLL
                             }).OrderBy(x => x.Sort) // 排序遊戲清單
                         };
                         return response;
-                    }).OrderBy(r => sequence.IndexOf(r.LobbyCategoryId));  // 排序header Category
+                    }).OrderBy(r => sequence.IndexOf(r.LobbyCategoryId)).ToList();  // 排序header Category
                     return result; 
                 });
             
