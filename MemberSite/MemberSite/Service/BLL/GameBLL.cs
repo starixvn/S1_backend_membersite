@@ -136,60 +136,67 @@ namespace MemberSite.Service.BLL
                 TimeSpan.FromMinutes(10),
                 async () =>
                 {
-                    var statusList = new List<int> { 1 };
-                    if (_isStage == 1)
-                    {
-                        statusList.Add(3);
-                    }
-                    
-                    var resultData = await _gameService.GetLobbyHeader(req ,statusList);
-                    
-                    var sequence = new List<int>();
-                    var headerSequence = await _gameService.GetLobbyHeaderSequence(req);
-                    if (headerSequence is not null)
-                    {
-                        sequence = JsonConvert.DeserializeObject<List<int>>(headerSequence.LobbyCategoryList);
-                    }
-                    
-                    var imgDomain = _siteCloudFrontImageInfo[serverInfo.SiteName].BannerImageUrl;
-                    
-                    var groupedData = resultData.GroupBy(item => item.LobbyCategoryId);
-                    var result = groupedData.Select(group => 
-                    {
-                        var response = new LobbyHeaderResponse
-                        {
-                            LobbyCategoryId = group.Key,
-                            Data = group.Select(item =>
-                            {
-                                item.TpName = _changeTpName.TryGetValue(item.TpName, out var changeName) ? changeName : item.TpName;
-                                var responseDetail = new LobbyHeaderDetail
-                                {
-                                    LobbyCategory = item.LobbyCategory,
-                                    TpId = item.TpId,
-                                    TpName = item.TpName,
-                                    ProductName = item.ProductName,
-                                    TpGameIdNo = item.TpGameIdNo,
-                                    GameId = item.GameId,
-                                    TpGameType = item.TpGameType,
-                                    IconType = item.IconType,
-                                    IconStartTime = item.IconStartTime,
-                                    IconEndTime = item.IconEndTime,
-                                    CurrencyGameName = string.IsNullOrEmpty(item.CurrencyGameName) ? null : JsonConvert.DeserializeObject<Dictionary<string, string>>(item.CurrencyGameName),
-                                    PcHeaderPicUrl = JsonConvert.SerializeObject(new List<string> {$"{imgDomain}/desktop/img/Header/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.png"}),
-                                    PcLobbyPicUrl = JsonConvert.SerializeObject(new List<string> {$"{imgDomain}/desktop/img/LobbyHeader/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.png"}),
-                                    MobileHeaderPicUrl = JsonConvert.SerializeObject(new List<string> {$"{imgDomain}/h5/img/Header/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.png"}),
-                                    MobileLobbyPicUrl = JsonConvert.SerializeObject(new List<string> {$"{imgDomain}/h5/img/LobbyHeader/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.png"}),
-                                    Sort = item.Sort
-                                };
-                                return responseDetail;
-                            }).OrderBy(x => x.Sort) // 排序遊戲清單
-                        };
-                        return response;
-                    }).OrderBy(r => sequence.IndexOf(r.LobbyCategoryId)).ToList();  // 排序header Category
-                    return result; 
+                    var result = await GetLobbyHeaderDetail(req, serverInfo);
+                    return result;
                 });
             
             return result;
+        }
+        
+        private async Task<IEnumerable<LobbyHeaderResponse>> GetLobbyHeaderDetail(GetLobbyHeaderRequest req ,ServerInfo serverInfo)
+        {
+            var statusList = new List<int> { 1 };
+            if (_isStage == 1)
+            {
+                statusList.Add(3);
+            }
+            
+            var resultData = await _gameService.GetLobbyHeader(req ,statusList);
+            
+            var sequence = new List<int>();
+            var headerSequence = await _gameService.GetLobbyHeaderSequence(req);
+            if (headerSequence is not null)
+            {
+                sequence = JsonConvert.DeserializeObject<List<int>>(headerSequence.LobbyCategoryList);
+            }
+            
+            var imgDomain = _siteCloudFrontImageInfo[serverInfo.SiteName].BannerImageUrl;
+            
+            var groupedData = resultData.GroupBy(item => item.LobbyCategoryId);
+            var result = groupedData.Select(group => 
+            {
+                var response = new LobbyHeaderResponse
+                {
+                    LobbyCategoryId = group.Key,
+                    Data = group.Select(item =>
+                    {
+                        item.TpName = _changeTpName.TryGetValue(item.TpName, out var changeName) ? changeName : item.TpName;
+                        var responseDetail = new LobbyHeaderDetail
+                        {
+                            LobbyCategory = item.LobbyCategory,
+                            TpId = item.TpId,
+                            TpName = item.TpName,
+                            ProductName = item.ProductName,
+                            TpGameIdNo = item.TpGameIdNo,
+                            GameId = item.GameId,
+                            TpGameType = item.TpGameType,
+                            IconType = item.IconType,
+                            IconStartTime = item.IconStartTime,
+                            IconEndTime = item.IconEndTime,
+                            CurrencyGameName = string.IsNullOrEmpty(item.CurrencyGameName) ? null : JsonConvert.DeserializeObject<Dictionary<string, string>>(item.CurrencyGameName),
+                            PcHeaderPicUrl = JsonConvert.SerializeObject(new List<string> {$"{imgDomain}/desktop/img/Header/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.png"}),
+                            PcLobbyPicUrl = JsonConvert.SerializeObject(new List<string> {$"{imgDomain}/desktop/img/LobbyHeader/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.png"}),
+                            MobileHeaderPicUrl = JsonConvert.SerializeObject(new List<string> {$"{imgDomain}/h5/img/Header/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.png"}),
+                            MobileLobbyPicUrl = JsonConvert.SerializeObject(new List<string> {$"{imgDomain}/h5/img/LobbyHeader/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.png"}),
+                            Sort = item.Sort
+                        };
+                        return responseDetail;
+                    }).OrderBy(x => x.Sort) // 排序遊戲清單
+                };
+                return response;
+            }).OrderBy(r => sequence.IndexOf(r.LobbyCategoryId));  // 排序header Category
+            
+            return result; 
         }
     }
 }
