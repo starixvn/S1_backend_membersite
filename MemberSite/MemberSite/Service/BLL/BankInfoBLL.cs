@@ -23,47 +23,19 @@ namespace MemberSite.Service.BLL
             _depositLimitBll = provider.GetRequiredService<DepositLimitBLL>();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
         }
-        public IEnumerable<BankInfoSys> GetBankInfoSysListByCurrency(int currencyId)
+        public IEnumerable<BankInfoSys> GetBankInfoSysListByCurrency(int currencyId, string lang)
         {
-            var serverInfo = _serverInfoBll.GetServerInfo();
-
-            var key = $"BankInfoSysList:{serverInfo.SiteId}";
-            var dbData = _redisHelper.TryGetOrCreate(key, TimeSpan.FromMinutes(5),
-                () => _bankInfoService.GetBankInfoSysList(serverInfo.SiteId));
-            return dbData?.Where(x => x.CurrencyId == currencyId);
-        }
-
-        public IEnumerable<BankInfoSys> GetBankInfoSysListByCurrencyForCtrl(int currencyId)
-        {
-            var serverInfo = _serverInfoBll.GetServerInfo();
-
-            var key = $"BankInfoSysListForCtrl:{serverInfo.SiteId}";
-            var dbData = _redisHelper.TryGetOrCreate(key, TimeSpan.FromMinutes(1), // BankInfoSys後台不能開關
-                () => _bankInfoService.GetBankInfoSysListForCtrl(serverInfo.SiteId));
-            return dbData?.Where(x => x.CurrencyId == currencyId);
-        }
-
-        public IEnumerable<BankInfoName> GetBankInfoName(string lang)
-        {
-            var key = $"BankInfoNameList:{lang}";
-            var dbData = _redisHelper.TryGetOrCreate(key, TimeSpan.FromMinutes(5),
-                () => _bankInfoService.GetBankInfoNameList(lang));
+            var key = $"BankInfoSysList:{currencyId}:{lang}";
+            var dbData = _redisHelper.TryGetOrCreate(key, TimeSpan.FromMinutes(10),
+                () => _bankInfoService.GetBankInfoSysList(currencyId, lang));
+            
             return dbData;
         }
 
-        public void BankNameLocalization<T>(in IEnumerable<T> list, string lang) where T : class, IBankNameLocalization
-        {
-            var bankNameList = GetBankInfoName(lang);
-
-            if (!bankNameList.Any())
-                return;
-            
-            foreach (var item in list)
-            {
-                item.BankName = bankNameList.FirstOrDefault(y => y.SysId == item.SysId)
-                    ?.BankName ?? item.BankName;
-            }
-        }
+        public IEnumerable<BankInfoSys> GetBankInfoSysListByCurrencyForCtrl(int currencyId, string lang = "")
+            => GetBankInfoSysListByCurrency(currencyId, lang)
+                .Where(x => x.Status == GeneralStatusEnum.Enable);
+        
 
         public IEnumerable<PaymentFront> GetOnlinePaymentList(int custId, DepositType depositType)
         {
