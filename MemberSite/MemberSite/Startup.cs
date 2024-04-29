@@ -1,11 +1,5 @@
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
-
-using Elastic.Apm.AspNetCore;
-using Elastic.Apm.DiagnosticSource;
-using Elastic.Apm.SqlClient;
-using Elastic.Apm.StackExchange.Redis;
-
 using MemberSite.Extensions;
 using MemberSite.Service.BLL;
 using MemberSite.Service.BLL.Interface;
@@ -62,7 +56,6 @@ namespace MemberSite
             services.AddDatabaseConnection(_configuration);
 
             var redisConnection = ConnectionMultiplexer.Connect(_configuration.GetValue<string>("RedisConnection"));
-            redisConnection.UseElasticApm();
             services.AddSingleton<IConnectionMultiplexer>(redisConnection);
             services.AddSingleton<ICacheHelper, RedisCacheHelper>();
 
@@ -271,12 +264,6 @@ namespace MemberSite
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseHttpsRedirection();
-            if (!env.IsEnvironment("Local"))
-            {
-                app.UseElasticApm(_configuration,
-                    new HttpDiagnosticsSubscriber(),
-                    new SqlClientDiagnosticSubscriber());
-            }
             app.UseStaticFiles();
 
             app.UseRouting();
