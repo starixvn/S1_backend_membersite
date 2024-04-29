@@ -101,7 +101,7 @@ namespace MemberSite.Service.BLL
                 return (-3, "Amount must be greater than 0");
 
             var custInfo = _custInfoBll.GetCustInfoWithCache(req.CustId);
-            var bankCardInfo = bankInfoOffBLL.GetOfflineBankAccount(custInfo.SiteId)
+            var bankCardInfo = bankInfoOffBLL.GetOfflineBankAccount(custInfo.SiteId, custInfo.CurrencyId)
                 .FirstOrDefault(x => x.BankId == req.BankId);
 
             if (bankCardInfo == null)
@@ -158,10 +158,9 @@ namespace MemberSite.Service.BLL
 
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var pointLevel = _custInfoBll.GetPointLevelWithCache(custId);
-            var localBankList = bankInfoOffBLL.GetOfflineBankAccount(custInfo.SiteId)
+            var localBankList = bankInfoOffBLL.GetOfflineBankAccount(custInfo.SiteId, custInfo.CurrencyId)
                 .Where(x =>
-                    x.CurrencyId == custInfo.CurrencyId
-                    && (custInfo.UserLevel > pointLevel || pointLevel == 8 || x.PointLevels.Contains(pointLevel))
+                    (custInfo.UserLevel > pointLevel || pointLevel == 8 || x.PointLevels.Contains(pointLevel))
                     && x.VipLevels.Contains(custInfo.UserLevel)
                     && x.SysId == sysId).ToList();
 
@@ -189,8 +188,7 @@ namespace MemberSite.Service.BLL
             var info = localBankList.FirstOrDefault(x => bankId != 0 && x.BankId == bankId) ??
                        localBankList
                            .Where(x => (x.MinAmount == 0 && x.MaxAmount == 0) || (amount >= x.MinAmount && amount <= x.MaxAmount))
-                           .OrderBy(x => x.BSort)
-                           .FirstOrDefault();
+                           .MinBy(x => x.BSort);
 
             if (info == null)
             {
@@ -434,7 +432,6 @@ namespace MemberSite.Service.BLL
                 {
                     depositInfo.DepositRep = JsonConvert.DeserializeObject<DepositInfo3_1>(depositInfo.DepositInfo);
                     var depositInfoRef = (DepositInfo3_1)depositInfo.DepositRep;
-                    depositInfo.BankInfo = bankInfoBLL.GetBankInfoSysListByCurrency(CustInfo.CurrencyId).FirstOrDefault(x => x.SysId == depositInfoRef.SysId);
                 }
 
                 if (!string.IsNullOrEmpty(depositInfo.Memo) && depositInfo.Memo.StartsWith("LocalPayment"))
@@ -505,9 +502,8 @@ namespace MemberSite.Service.BLL
             {
                 if (depositInfo.DepositType == (int)DepositType.LocalBank)
                 {
-                    depositInfo.DepositRep = Newtonsoft.Json.JsonConvert.DeserializeObject<DepositInfo3_1>(depositInfo.DepositInfo);
+                    depositInfo.DepositRep = JsonConvert.DeserializeObject<DepositInfo3_1>(depositInfo.DepositInfo);
                     var depositInfoRef = (DepositInfo3_1)depositInfo.DepositRep;
-                    depositInfo.BankInfo = bankInfoBLL.GetBankInfoSysListByCurrency(CustInfo.CurrencyId).FirstOrDefault(x => x.SysId == depositInfoRef.SysId);
                 }
                 List<DepositMessageDetail> depositMessageDetails = new List<DepositMessageDetail>();
                 if (depositInfo.DepositMessage != null)

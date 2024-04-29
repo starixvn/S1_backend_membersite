@@ -368,13 +368,7 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
             var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-            var bankInfoSysList = _bankInfoBll.GetBankInfoSysListByCurrency(custInfo.CurrencyId).ToList();
-
-            if (custInfo.CurrencyId == (int)CurrencyId.THB) // 泰國銀行名稱支援多語系
-            {
-                _bankInfoBll.BankNameLocalization(bankInfoSysList, authData.LangId);
-            }
-
+            var bankInfoSysList = _bankInfoBll.GetBankInfoSysListByCurrency(custInfo.CurrencyId, authData.LangId).ToList();
             var custBankInfo = JsonConvert.DeserializeObject<CustBankInfoRep>(JsonConvert.SerializeObject(_custInfoBll.GetCustBankInfo(authData.CustId)));
 
             if (custBankInfo is { bankInfoDetail: { } } && custBankInfo.bankInfoDetail.Any())
