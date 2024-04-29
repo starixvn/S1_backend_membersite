@@ -107,7 +107,7 @@ namespace MemberSite.Service.BLL
                         SysId = d.SysId,
                         BankCode = d.SysBankCode,
                         BankLogo = d.BankLogo,
-                        BankName = d.SysBankName,
+                        BankName = d.BankName,
                         MaxAmount = d.MaxAmount,
                         MinAmount = d.MinAmount
                     };
