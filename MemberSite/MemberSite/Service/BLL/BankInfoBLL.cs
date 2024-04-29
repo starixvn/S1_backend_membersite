@@ -192,17 +192,19 @@ namespace MemberSite.Service.BLL
         private IEnumerable<BankInfoPay> GetOnlineBankListLocalization(Customer custInfo, string lang, DepositType depositType)
         {
             var sysBankList = GetBankInfoSysListByCurrency(custInfo.CurrencyId, lang);
-            var onlineBankList = GetOnlineBankList(custInfo.SiteId, depositType);
-            
-            return onlineBankList
-                .Join(sysBankList,
-                    ob => ob.SysId,
-                    sb => sb.SysId,
-                    (ob, sb) =>
-                    {
-                        ob.BankName = sb.BankName;
-                        return ob;
-                    });
+            var onlineBankList = GetOnlineBankList(custInfo.SiteId, depositType)
+                .Where(x => x.CurrencyId == custInfo.CurrencyId)
+                .Select(x =>
+                {
+                    var sys = sysBankList.FirstOrDefault(s => s.SysId == x.SysId);
+
+                    if (sys != null)
+                        x.BankName = sys.BankName;
+
+                    return x;
+                });
+
+            return onlineBankList;
         }
         
         public IEnumerable<SysBankInfoFront> GetAutoSelectChannelBankGroupList(int custId)
