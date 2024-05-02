@@ -78,7 +78,8 @@ public class RedemptionBLL
                 Comment = "auto",
                 ActualCost = giftInfo.PriceWorth,
                 ReceiptUrls = Enumerable.Empty<string>(),
-                Operator = "System"
+                Operator = "System",
+                BonusCode = bonusCode,
             };
             var storeUrl = _storeSiteUrl + "Redemption/SetRedemptionInfo";
             var storeResult = await _courierAdapter.MyPostAsync<object, SetRedemptionInfoRequest>(storeUrl, setRedemptionInfoRequest);
