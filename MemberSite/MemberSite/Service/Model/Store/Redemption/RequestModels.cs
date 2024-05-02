@@ -48,4 +48,5 @@ public class SetRedemptionInfoRequest
     public decimal? ActualCost { get; set; }
     public IEnumerable<string> ReceiptUrls { get; set; }
     public string Operator { get; set; }
+    public string BonusCode { get; set; }
 }
