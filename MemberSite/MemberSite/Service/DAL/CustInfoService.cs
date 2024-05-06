@@ -1081,5 +1081,11 @@ namespace MemberSite.Service.DAL
                 TpId = tpId
             }));
         }
+        
+        public async Task<IEnumerable<CustRealNameChangeLog>> GetCustRealNameChangeLogAsync(int custId)
+        {
+            var p = new DynamicParameters(new { CustId = custId });
+            return await _reportDbClient.QueryAsync<CustRealNameChangeLog>("Admin_CustRealNameChangeLog_Get", p);
+        }
     }
 }

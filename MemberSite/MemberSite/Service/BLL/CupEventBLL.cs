@@ -285,6 +285,11 @@ namespace MemberSite.Service.BLL
         
         public async Task<bool> PredictCupEventScore(int siteId, int custId,int currencyId, PredictCupEventScoreRequest request)
         {
+            if (request.AwayTeamScore < 0 || request.HomeTeamScore < 0)
+            {
+                return false;
+            }
+            
             var result = await _cupEventService.PredictCupEventScore(siteId, custId ,currencyId ,request);
             if (result > 0)
             {
@@ -906,9 +911,22 @@ namespace MemberSite.Service.BLL
             var response = new List<CupEventAffResponse>();
             
             var affList = _cupEventService.GetCupEventAffInfo(siteId ,custInfo.CustId, custInfo.CurrencyId);
-            affList = affList.Where(x => x.AccountName != custInfo.AccountName && x.SignupIp != custInfo.SignupIp).ToList();
+            var beforeNameLog = _custInfoBll.GetCustRealNameChangeLogAsync(custInfo.CustId).Result.ToList();
+            
             foreach (var aff in affList)
             {
+                var checkName = !(string.Equals(aff.AccountName, custInfo.AccountName, StringComparison.CurrentCultureIgnoreCase) || aff.SignupIp == custInfo.SignupIp);
+                
+                if (beforeNameLog.Any(log => string.Equals(log.BeforeName, aff.AccountName, StringComparison.CurrentCultureIgnoreCase)))
+                {
+                    checkName = false;
+                }
+
+                if (!checkName)
+                {
+                    continue;
+                }
+                
                 var affTickets = _cupEventService.GetCupEventMemberTicketInfo(aff.CustId).ToList();
                 var affInfo = new CupEventAffResponse
                 {

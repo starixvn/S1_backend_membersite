@@ -1014,5 +1014,10 @@ namespace MemberSite.Service.BLL
         {
             return _custInfoService.GetTpCustInfo(custId, tpId);
         }
+        
+        public async Task<IEnumerable<CustRealNameChangeLog>> GetCustRealNameChangeLogAsync(int custId)
+        {
+            return await _custInfoService.GetCustRealNameChangeLogAsync(custId);
+        }
     }
 }

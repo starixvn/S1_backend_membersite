@@ -382,4 +382,12 @@ namespace MemberSite.Service.Model
         public int SiteId { get; set; }
         public string TpUserName { get; set; }
     }
+    
+    public class CustRealNameChangeLog
+    {
+        public string BeforeName { get; set; }
+        public string AfterName { get; set; }
+        public DateTimeOffset UpdateTime { get; set; }
+        public string Operator { get; set; }
+    }
 }
