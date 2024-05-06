@@ -215,9 +215,18 @@ namespace MemberSite.Controllers.Api
                 
                 if (await _redisHelper.TryCreateLockAsync(lockKey, lockValue, lockExpiry))
                 {
-                    await _cupEventBll.PredictCupEventScore(serverInfo.SiteId , authData.CustId, custInfo.CurrencyId, request);
+                    var result = await _cupEventBll.PredictCupEventScore(serverInfo.SiteId , authData.CustId, custInfo.CurrencyId, request);
                     await _redisHelper.UnLockAsync(lockKey, lockValue);
-                    apiResult.ErrorCode = 0;
+
+                    if (result)
+                    {
+                        apiResult.ErrorCode = 0;
+                    }
+                    else
+                    {
+                        apiResult.ErrorCode = -1;
+                        apiResult.Message = "Score can't less than 0.";
+                    }
                 }                 
             }
             catch (Exception ex)
