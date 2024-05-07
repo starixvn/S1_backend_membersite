@@ -169,6 +169,7 @@ namespace MemberSite.Service.BLL
                         break;
                     case 3:
                         await TicketProcessBwing(siteId, custId, currencyId, userTicketsBefore ,promotionMission , responseData.CupEventPromotionMissionProgress);
+                        responseData.AvailablePredict = promotionMission.All(x => x.IsCompleted);
                         break;
                 }
             }
@@ -284,6 +285,11 @@ namespace MemberSite.Service.BLL
         
         public async Task<bool> PredictCupEventScore(int siteId, int custId,int currencyId, PredictCupEventScoreRequest request)
         {
+            if (request.AwayTeamScore < 0 || request.HomeTeamScore < 0)
+            {
+                return false;
+            }
+            
             var result = await _cupEventService.PredictCupEventScore(siteId, custId ,currencyId ,request);
             if (result > 0)
             {
@@ -293,9 +299,52 @@ namespace MemberSite.Service.BLL
             return false;
         }
         
-        public CupEventPredictScore GetCupEventPredictScore(int custId)
+        public CupEventPredictScoreResponse GetCupEventPredictScore(int custId , string langId)
         {
-            var result = _cupEventService.GetCupEventPredictScore(custId);
+            var dbData = GetCupEventPredictionSetting(langId);
+            var allTeamEnglishName = GetCupEventPredictionCountry("en");
+            var finalData = FilterData(dbData, allTeamEnglishName, "final").ToList();
+
+            var result = new CupEventPredictScoreResponse();
+            if (finalData.Count == 2)
+            {
+                var scoreList = _cupEventService.GetCupEventPredictScore(custId);
+                
+                var homeTeam = finalData.First(x => x.Sort == 1);
+                var awayTeam = finalData.First(x => x.Sort == 2); 
+            
+                result.Data = new List<CupEventPredictScoreDto>
+                {
+                    new()
+                    {
+                        Team = "Home",
+                        TeamDetail = new CupEventSetting
+                        {
+                            CountryName = homeTeam.CountryName,
+                            ImageName = homeTeam.ImageName,
+                            Sort = homeTeam.Sort
+                        },
+                        Score = scoreList?.HomeTeamScore ?? 0 
+                    },
+                    new()
+                    {
+                        Team = "Away",
+                        TeamDetail = new CupEventSetting
+                        {
+                            CountryName = awayTeam.CountryName,
+                            ImageName = awayTeam.ImageName,
+                            Sort = awayTeam.Sort
+                        },
+                        Score = scoreList?.AwayTeamScore ?? 0 
+                    }
+                };
+                
+                if (scoreList is not null)
+                {
+                    result.IsPredict = true;
+                }
+            }
+            
             return result;
         }
         
@@ -862,9 +911,22 @@ namespace MemberSite.Service.BLL
             var response = new List<CupEventAffResponse>();
             
             var affList = _cupEventService.GetCupEventAffInfo(siteId ,custInfo.CustId, custInfo.CurrencyId);
-            affList = affList.Where(x => x.AccountName != custInfo.AccountName && x.SignupIp != custInfo.SignupIp).ToList();
+            var beforeNameLog = _custInfoBll.GetCustRealNameChangeLogAsync(custInfo.CustId).Result.ToList();
+            
             foreach (var aff in affList)
             {
+                var checkName = !(string.Equals(aff.AccountName, custInfo.AccountName, StringComparison.CurrentCultureIgnoreCase) || aff.SignupIp == custInfo.SignupIp);
+                
+                if (beforeNameLog.Any(log => string.Equals(log.BeforeName, aff.AccountName, StringComparison.CurrentCultureIgnoreCase)))
+                {
+                    checkName = false;
+                }
+
+                if (!checkName)
+                {
+                    continue;
+                }
+                
                 var affTickets = _cupEventService.GetCupEventMemberTicketInfo(aff.CustId).ToList();
                 var affInfo = new CupEventAffResponse
                 {

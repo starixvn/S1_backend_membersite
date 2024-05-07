@@ -1,4 +1,5 @@
-﻿using MemberSite.Service.BLL;
+﻿using MemberSite.Extensions;
+using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using Microsoft.AspNetCore.Authorization;
@@ -15,7 +16,10 @@ namespace MemberSite.Controllers.Api
         private readonly AuthorizeBLL _authorizeBll;
         private readonly CustInfoBll _custInfoBll;
         private readonly SelLangBLL _selLangBll;
+        private readonly DateTimeHelper _dateTimeHelper;
         private readonly ICacheHelper _redisHelper;
+        private readonly IWebHostEnvironment _environment;
+
 
         public CupEventController(IServiceProvider provider)
         {
@@ -24,7 +28,9 @@ namespace MemberSite.Controllers.Api
             _authorizeBll = provider.GetRequiredService<AuthorizeBLL>();
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _selLangBll = provider.GetRequiredService<SelLangBLL>();
+            _dateTimeHelper = provider.GetRequiredService<DateTimeHelper>();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
+            _environment = provider.GetRequiredService<IWebHostEnvironment>();
         }
 
         [HttpPost]
@@ -190,6 +196,18 @@ namespace MemberSite.Controllers.Api
                 var authData = _authorizeBll.GetAuthData();
                 var serverInfo = _serverInfoBll.GetServerInfo();
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+
+                if (_environment.IsPrd())
+                {
+                    var now = DateTime.UtcNow;
+                    var startTimeTimeZone = await _dateTimeHelper.ToCurrencyZone(new DateTime(2024,07,11), custInfo.CurrencyId);
+                    var endTimeTimeZone = await _dateTimeHelper.ToCurrencyZone(new DateTime(2024,07,14,23,59,59), custInfo.CurrencyId);
+                    if (now < startTimeTimeZone || now > endTimeTimeZone)
+                    {
+                        apiResult.ErrorCode = -1;
+                        apiResult.Message = "PredictCupEventScore not yet started";
+                    }
+                }
                 
                 var lockKey = $"PredictCupEventScore:{custInfo.CustId}";
                 var lockValue = Guid.NewGuid().ToString(); // 每次取鎖使用唯一值，確保為同一個執行序所執行
@@ -197,9 +215,18 @@ namespace MemberSite.Controllers.Api
                 
                 if (await _redisHelper.TryCreateLockAsync(lockKey, lockValue, lockExpiry))
                 {
-                    await _cupEventBll.PredictCupEventScore(serverInfo.SiteId , authData.CustId, custInfo.CurrencyId, request);
+                    var result = await _cupEventBll.PredictCupEventScore(serverInfo.SiteId , authData.CustId, custInfo.CurrencyId, request);
                     await _redisHelper.UnLockAsync(lockKey, lockValue);
-                    apiResult.ErrorCode = 0;
+
+                    if (result)
+                    {
+                        apiResult.ErrorCode = 0;
+                    }
+                    else
+                    {
+                        apiResult.ErrorCode = -1;
+                        apiResult.Message = "Score can't less than 0.";
+                    }
                 }                 
             }
             catch (Exception ex)
@@ -212,13 +239,13 @@ namespace MemberSite.Controllers.Api
         
         [HttpPost]
         [Authorize]
-        public ApiResult<CupEventPredictScore> GetCupEventPredictScore()
+        public ApiResult<CupEventPredictScoreResponse> GetCupEventPredictScore()
         {
-            var apiResult = new ApiResult<CupEventPredictScore>();
+            var apiResult = new ApiResult<CupEventPredictScoreResponse>();
             try
             {
                 var authData = _authorizeBll.GetAuthData();
-                 var data = _cupEventBll.GetCupEventPredictScore(authData.CustId);
+                 var data = _cupEventBll.GetCupEventPredictScore(authData.CustId , authData.LangId);
                  
                  apiResult.Data = data;
                  apiResult.ErrorCode = 0;
