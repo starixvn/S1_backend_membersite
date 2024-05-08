@@ -21,6 +21,7 @@ public class SiteBll
     private readonly Regex _regexPhoneNo = new(@"^\d+$");
     private readonly RecaptchaBLL _recaptcha;
     private readonly ServerInfoBll _serverInfoBll;
+    private readonly ILogger<SiteBll> _logger;
 
     public SiteBll(IServiceProvider provider)
     {
@@ -32,6 +33,7 @@ public class SiteBll
         _ShieldBll = provider.GetRequiredService<ShieldBLL>();
         _recaptcha = provider.GetRequiredService<RecaptchaBLL>();
         _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
+        _logger = provider.GetRequiredService<ILogger<SiteBll>>();
     }
 
     public Customer Signup(SiteController.SignupModel signupModel, ApiResult apiResult, bool isAuthenticated,
@@ -41,6 +43,7 @@ public class SiteBll
         if (isAuthenticated ||
             (string.IsNullOrEmpty(signupModel.AreaCode) && !string.IsNullOrEmpty(signupModel.PhoneNo)))
         {
+            _logger.LogError($"isAuthenticated={isAuthenticated} AreaCode={signupModel.AreaCode} PhoneNo={signupModel.PhoneNo}");
             apiResult.ErrorCode = 9000;
             return customer;
         }
@@ -289,6 +292,7 @@ public class SiteBll
                                 {
                                     if (userLoginResult != 0)
                                     {
+                                        _logger.LogError($"userLoginResult={userLoginResult}");
                                         apiResult.ErrorCode = 9000;
                                     }
                                     else
