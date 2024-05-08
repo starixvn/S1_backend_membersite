@@ -19,7 +19,7 @@ namespace MemberSite.Service.Model
         public int PointLevel { get; set; }
         public string PayName { get; set; }
         public string PayCode { get; set; }
-        public int ExtraDataType { get; set; }
+        public ExtraDataTypeEnum ExtraDataType { get; set; }
         public int MSort { get; set; }
         public int SSort { get; set; }
         public bool SelBank { get; set; }
