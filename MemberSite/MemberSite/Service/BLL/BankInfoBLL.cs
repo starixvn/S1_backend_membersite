@@ -86,17 +86,18 @@ namespace MemberSite.Service.BLL
                 .Select(x =>
                 {
                     var item = x.First();
+                    var selBank = item.SelBank && item.ExtraDataType == ExtraDataTypeEnum.None;
                     var p = new PaymentFront
                     {
                         PayName = item.PayName,
                         PayId = item.PayId,
                         ChannelId = item.ChannelId,
-                        SelBank = item.SelBank,
+                        SelBank = selBank,
                         Mode = item.Mode,
-                        ExtraDataType = item.ExtraDataType,
+                        ExtraDataType = (int)item.ExtraDataType,
                         MaxAmount = item.MaxAmount,
                         MinAmount = item.MinAmount,
-                        BankList = item.SelBank ?
+                        BankList = selBank ?
                             x.Select(y => new BankInfoSys
                             {
                                 BankLogo = y.BankLogo,
