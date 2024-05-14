@@ -1001,5 +1001,10 @@ namespace MemberSite.Service.BLL
 
             return result != 0 ? result : 0;
         }
+        
+        public async Task<IEnumerable<CustRealNameChangeLog>> GetCustRealNameChangeLogAsync(int custId)
+        {
+            return await _custInfoService.GetCustRealNameChangeLogAsync(custId);
+        }
     }
 }
