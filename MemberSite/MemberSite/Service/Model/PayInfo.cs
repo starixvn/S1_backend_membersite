@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+
 using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.Model
@@ -9,11 +10,11 @@ namespace MemberSite.Service.Model
         {
             Link = link;
         }
-        
+
         public string Link { get; set; }
     }
-    
-    public class BankInfo
+
+    public class BankInfo : IBankNameLocalization
     {
         public int SysId { get; set; }
         public string BankName { get; set; }
@@ -27,14 +28,14 @@ namespace MemberSite.Service.Model
     {
         public DepositType DepositType { get; set; }
     }
-    
+
     public class OfflineBankInfo : BankInfo
     {
         public bool CanSubmit { get; set; }
         public DepositType DepositType { get; set; }
         public OfflineBankAccount BankAccountInfo { get; set; }
     }
-    
+
     public class OfflineBankAccount
     {
         public int BankId { get; set; }
@@ -49,7 +50,7 @@ namespace MemberSite.Service.Model
         public bool SelectBank { get; set; }
         public IEnumerable<BankInfo> SupportBanks { get; set; }
     }
-    
+
     public class GenericPayGroup : IPaymentLimit
     {
         public int GroupId { get; set; }
@@ -60,7 +61,7 @@ namespace MemberSite.Service.Model
         public int Sort { get; set; }
         public IEnumerable<GenericPayChannel> SupportChannels { get; set; }
     }
-    
+
     public class GenericPayChannel : IPayInfo
     {
         public int PayId { get; set; }
@@ -70,6 +71,7 @@ namespace MemberSite.Service.Model
         public int ChannelId { get; set; }
         public string ChannelName { get; set; }
         public int Mode { get; set; }
+        public int ExtraDataType { get; set; }
         public decimal MinAmount { get; set; }
         public decimal MaxAmount { get; set; }
         public int AmountRule { get; set; }
@@ -80,14 +82,14 @@ namespace MemberSite.Service.Model
         public int ChannelSort { get; set; }
         public DepositType DepositType { get; set; }
     }
-    
+
     public class PayMethod
     {
         public PayMethod(object data)
         {
             Data = data;
         }
-        
+
         public object Data { get; set; }
     }
 }

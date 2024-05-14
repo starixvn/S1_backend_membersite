@@ -6,7 +6,6 @@ using MemberSite.Service.Model;
 
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Hosting;
 
 using Newtonsoft.Json;
 
@@ -112,6 +111,18 @@ namespace MemberSite.Service.BLL
                 return new Uri(aiHost).Host;
             }
 
+            if (_httpContextAccessor.HttpContext.Request.Headers.TryGetValue("Referer", out var referer))
+            {
+                if (new Uri(referer).Host.Contains("localhost"))
+                {
+                    return _httpContextAccessor.HttpContext.Request.Host.Host;
+                }
+                else
+                {
+                    return new Uri(referer).Host;
+                }
+            }
+
             // 都拿不到直接用Request的Host
             return _httpContextAccessor.HttpContext.Request.Host.Host;
         }
@@ -147,13 +158,32 @@ namespace MemberSite.Service.BLL
 
         public string GetHttpDomain()
         {
-            var http = _httpContextAccessor.HttpContext.Request.Scheme;
-            var host = _httpContextAccessor.HttpContext.Request.Host.Host;
+            var host = string.Empty;
+
+            // 先拿Header的origin-host
+            if (string.IsNullOrWhiteSpace(host) && _httpContextAccessor.HttpContext.Request.Headers.TryGetValue("origin-host", out var originHost))
+            {
+                host = new Uri(originHost).Host;
+            }
+
+            // 先拿Header的ai-host
+            if (string.IsNullOrWhiteSpace(host) && _httpContextAccessor.HttpContext.Request.Headers.TryGetValue("ai-host", out var aiHost))
+            {
+                host = new Uri(aiHost).Host;
+            }
+
+            if (string.IsNullOrWhiteSpace(host) && _httpContextAccessor.HttpContext.Request.Headers.TryGetValue("Referer", out var referer))
+            {
+                host = new Uri(referer).Host;
+            }
+
+            if (host.Contains("localhost"))
+                host = _httpContextAccessor.HttpContext.Request.Host.Host;
 
             if (_appHost.Any(a => a == host))
                 host = $"m{host[host.IndexOf('.')..]}";
 
-            return $"{http}://{host}";
+            return $"https://{host}";
         }
 
         public IEnumerable<Domainlist> GetSupportDomainList(int siteId, int currencyId)

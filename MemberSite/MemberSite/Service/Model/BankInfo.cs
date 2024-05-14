@@ -1,9 +1,10 @@
 ﻿using MemberSite.Service.Model.enums;
+
 using Newtonsoft.Json;
 
 namespace MemberSite.Service.Model
 {
-    public class BankInfoSys
+    public class BankInfoSys : IBankNameLocalization
     {
         public int SysId { set; get; }
         public int CurrencyId { set; get; }
@@ -20,6 +21,7 @@ namespace MemberSite.Service.Model
         public int ChannelId { get; set; }
         public string PayName { get; set; }
         public bool SelBank { get; set; }
+        public int ExtraDataType { get; set; }
         public decimal MinAmount { get; set; }
         public decimal MaxAmount { get; set; }
         public int Mode { get; set; }
@@ -29,7 +31,7 @@ namespace MemberSite.Service.Model
         public IEnumerable<BankInfoSys> BankList { get; set; }
     }
 
-    public class SysBankInfoFront : IPaymentLimit
+    public class SysBankInfoFront : IPaymentLimit, IBankNameLocalization
     {
         public int BankId { get; set; }
         public int SysId { get; set; }

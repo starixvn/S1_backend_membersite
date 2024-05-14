@@ -74,7 +74,6 @@ namespace MemberSite.Service.Model
     {
         public string BankName { set; get; }
         public string BankLogo { set; get; }
-        public string BankSite { set; get; }
         public bool Disabled { set; get; }
     }
 
@@ -147,6 +146,7 @@ namespace MemberSite.Service.Model
         public string AddressLineSecond { get; set; }
         public bool IsResetPwd { get; set; }
         public MemberTypeEnum MemberType { get; set; }
+        public string SignupIp { get; set; }
         public string CurrentAddress { get; set; }
         public int Occupation { get; set; }
         public int SourceOfIncome { get; set; }

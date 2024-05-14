@@ -1,13 +1,15 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
+
+using MemberSite.Exceptions;
 using MemberSite.Service.BLL;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 namespace MemberSite.Service.Library
@@ -88,7 +90,32 @@ namespace MemberSite.Service.Library
             return GuidString;
         }
 
-        #region GetClientIP
+        #region IP
+
+        public uint GetIpToLong(string ipAddress)
+        {
+            if (ipAddress.IndexOf(".", StringComparison.Ordinal) > 0)
+            {
+                try
+                {
+                    var b = IPAddress.Parse(ipAddress).GetAddressBytes();
+                    Array.Reverse(b);
+                    return BitConverter.ToUInt32(b, 0);
+                }
+                catch (Exception e)
+                {
+                    throw new IPFormatException("ipv4 format error");
+                }
+            }
+            else if (ipAddress.IndexOf(":", StringComparison.Ordinal) > 0)
+            {
+                throw new IPFormatException("no support ipv6");
+            }
+            else
+            {
+                throw new IPFormatException("ip format error");
+            }
+        }
 
         /// <summary>
         /// 获取客户端IP
@@ -101,7 +128,7 @@ namespace MemberSite.Service.Library
         }
         public string GetClientIP(HttpContext httpContext)
         {
-            var HeaderNames = new string[] { "X-Forwarded-For", "HTTP_X_FORWARDED_FOR", "HTTP_INCAP_CLIENT_IP", "HTTP_TRUE_CLIENT_IP", "HTTP_X_REAL_IP", "REMOTE_ADDR" };
+            var HeaderNames = new string[] { "X-Client-IP", "X-Forwarded-For", "HTTP_X_FORWARDED_FOR", "HTTP_INCAP_CLIENT_IP", "HTTP_TRUE_CLIENT_IP", "HTTP_X_REAL_IP", "REMOTE_ADDR" };
 
             foreach (var Header in HeaderNames)
             {
@@ -176,22 +203,30 @@ namespace MemberSite.Service.Library
         public string GetFromUrl()
         {
             var fromUrl = "";
-            if (httpContextAccessor.HttpContext.Request.Headers.ContainsKey("Referer"))
+            // 先拿Header的origin-host
+            if (string.IsNullOrWhiteSpace(fromUrl) && httpContextAccessor.HttpContext.Request.Headers.TryGetValue("origin-host", out var originHost))
             {
-                fromUrl = httpContextAccessor.HttpContext.Request.Headers["Referer"].ToString();
+                fromUrl = new Uri(originHost).Host;
             }
-            else
+
+            // 先拿Header的ai-host
+            if (string.IsNullOrWhiteSpace(fromUrl) && httpContextAccessor.HttpContext.Request.Headers.TryGetValue("ai-host", out var aiHost))
             {
-                fromUrl = httpContextAccessor.HttpContext.Request.Host.Host.ToString();
+                fromUrl = new Uri(aiHost).Host;
+            }
+
+            if (string.IsNullOrWhiteSpace(fromUrl) && httpContextAccessor.HttpContext.Request.Headers.TryGetValue("Referer", out var referer))
+            {
+                fromUrl = new Uri(referer).Host;
+            }
+
+            if (string.IsNullOrWhiteSpace(fromUrl) || fromUrl.Contains("localhost"))
+            {
+                fromUrl = httpContextAccessor.HttpContext.Request.Host.Host;
             }
 
             return fromUrl;
         }
-
-        //public string GetDomainUrl()
-        //{
-        //    return httpContextAccessor.HttpContext.Request.Host.Host.ToString();
-        //}
 
 
         /// <summary>
@@ -282,5 +317,7 @@ namespace MemberSite.Service.Library
         {
             return MD5Encrypt($"{para}{_backEndKey}");
         }
+
+
     }
 }

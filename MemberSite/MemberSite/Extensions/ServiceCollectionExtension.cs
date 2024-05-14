@@ -1,9 +1,11 @@
-﻿using MemberSite.Service.BLL;
+﻿using System.Text;
+
+using MemberSite.Service.BLL;
 using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
-using System.Text;
+
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -14,44 +16,47 @@ namespace MemberSite.Extensions
     {
         public static IServiceCollection AddDatabaseConnection(this IServiceCollection services, IConfiguration config)
         {
-            var provider = services.BuildServiceProvider();
-            var logger = provider.GetRequiredService<ILogger<MySqlClient>>();
             var serviceType = Environment.GetEnvironmentVariable("ServiceType") ?? config.GetValue<string>("ServiceType");
+            var reportDBConn = config.GetConnectionString($"{serviceType}_ReportDB");
+            var reportBackupDB1 = config.GetConnectionString($"{serviceType}_ReportBackupDB1");
+            var reportBackupDB2 = config.GetConnectionString($"{serviceType}_ReportBackupDB2");
 
-            return services
-               .AddSingleton(param => new MySqlClient(config.GetConnectionString($"{serviceType}_MainDB"), logger)
-               {
-                   DataBase = DataBase.Main
-               })
-               .AddSingleton(param => new MySqlClient(config.GetConnectionString($"{serviceType}_ReportDB"), logger)
-               {
-                   DataBase = DataBase.Report
-               })
-               .AddSingleton(param => new MySqlClient(config.GetConnectionString($"{serviceType}_WagerDB"), logger)
-               {
-                   DataBase = DataBase.Wager
-               })
-               .AddSingleton(param => new MySqlClient(config.GetConnectionString($"{serviceType}_LogDB"), logger)
-               {
-                   DataBase = DataBase.Log
-               });
-        }
+            //檢查是否有BackupDB連線字串
+            if (!string.IsNullOrEmpty(reportBackupDB1) && !string.IsNullOrEmpty(reportBackupDB2))
+            {
+                // 設定ReportDB連線順序
+                services.AddSingleton(provider => new MySqlClient(provider, DataBase.Report, reportDBConn, new List<string>()
+                {
+                    reportDBConn,   //1b
+                    reportBackupDB1,//1c
+                    reportBackupDB2,//1a
+                }));
 
-        public static IServiceCollection AddOptionListByDB<T>(this IServiceCollection services, string sql, object parameters = null)
-        {
-            var provider = services.BuildServiceProvider();
-            var configService = provider.GetRequiredService<ConfigService>();
-            var option = configService.Query<T>(sql, parameters);
-            services.AddSingleton(typeof(IEnumerable<T>), p => option);
+                // 設定ReportBackupDB連線順序
+                services.AddSingleton(provider => new MySqlClient(provider, DataBase.ReportBackupDB, reportBackupDB1, new List<string>()
+                {
+                    reportBackupDB1,//1c
+                    reportDBConn,   //1b
+                    reportBackupDB2,//1a
+                }));
+            }
+            else
+            {
+                services.AddSingleton(provider => new MySqlClient(provider, DataBase.Report, reportDBConn));
+            }
+
+            services.AddSingleton(provider => new MySqlClient(provider, DataBase.Main, config.GetConnectionString($"{serviceType}_MainDB")));
+            services.AddSingleton(provider => new MySqlClient(provider, DataBase.Log, config.GetConnectionString($"{serviceType}_LogDB")));
+            services.AddSingleton(provider => new MySqlClient(provider, DataBase.ReportIPTable, config.GetConnectionString($"{serviceType}_ReportIPTable")));
             return services;
         }
 
-        public static IServiceCollection AddOptionByDB<T>(this IServiceCollection services, string sql, object parameters = null)
+        public static IServiceCollection AddOptionListByDB<T>(this IServiceCollection services, string sql, object parameters = null, DataBase dataBase = DataBase.Report)
         {
             var provider = services.BuildServiceProvider();
             var configService = provider.GetRequiredService<ConfigService>();
-            var option = configService.Query<T>(sql, parameters).FirstOrDefault();
-            services.AddSingleton(typeof(T), p => option);
+            var option = configService.Query<T>(sql, parameters, dataBase);
+            services.AddSingleton(typeof(IEnumerable<T>), p => option);
             return services;
         }
 

@@ -35,7 +35,7 @@ public class ShieldBLL
         request.Platform = context.Request.Cookies["platform"];
 
         var timestamp = DateTimeOffset.Now.ToUnixTimeSeconds().ToString();
-        var sign = _shieldService.GetShieldSignature(timestamp, request.SiteId);
+        var sign = _shieldService.GetShieldSignature(timestamp);
         var endpoint = await GetEndpoint(request.SiteId);
 
         if (!string.IsNullOrEmpty(endpoint.Endpoint) &&
@@ -54,7 +54,7 @@ public class ShieldBLL
 
         var result = _cacheHelper.TryGetOrCreate(key,
             new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)),
-            i => _shieldService.GetEndpoint(siteId));
+            i => _shieldService.GetEndpoint());
 
         return result;
     }

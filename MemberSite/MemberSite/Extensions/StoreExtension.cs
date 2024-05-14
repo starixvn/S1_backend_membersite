@@ -6,7 +6,7 @@ public static class StoreExtension
 {
     private static IEnumerable<int> _supportStoreSiteIds = new[]
     {
-        (int) SiteId.Nova88
+        1
     };
 
     private static IEnumerable<int> _supportStoreCurrencyIds = new[]

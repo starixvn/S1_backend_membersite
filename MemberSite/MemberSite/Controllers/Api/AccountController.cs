@@ -1,15 +1,18 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Security.Claims;
+using System.Text.RegularExpressions;
 using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
+
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+
 using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
@@ -30,6 +33,7 @@ namespace MemberSite.Controllers.Api
         private readonly string _tpServiceApiUrl;
         private readonly MessageBll _messageBll;
         private readonly PaymentBLL _paymentBll;
+        private readonly PayInfoBLL _payInfoBll;
         private readonly ThirdPartyBll _thirdPartyBll;
         private readonly CasinoBll _casinoBll;
         private readonly BonusWalletBLL _bonusWalletBll;
@@ -39,6 +43,7 @@ namespace MemberSite.Controllers.Api
         private readonly CheckAttackBLL _checkAttackBll;
         private readonly ServerInfoBll _serverInfoBll;
         private readonly JwtConfig _jwtConfig;
+        private readonly Regex _regexPhoneNo = new(@"^\d+$");
 
         public AccountController(IServiceProvider provider)
         {
@@ -49,12 +54,13 @@ namespace MemberSite.Controllers.Api
             _bankInfoBll = provider.GetRequiredService<BankInfoBLL>();
             _walletBll = provider.GetRequiredService<WalletBLL>();
             _courierAdapter = provider.GetRequiredService<CourierAdapter>();
-            
+
             var configBll = provider.GetRequiredService<ConfigBLL>();
             _tpServiceApiUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost").TpService;
             _jwtConfig = configBll.GetConfigValueByEnvironment<JwtConfig>("JwtSettings");
             _messageBll = provider.GetRequiredService<MessageBll>();
             _paymentBll = provider.GetRequiredService<PaymentBLL>();
+            _payInfoBll = provider.GetRequiredService<PayInfoBLL>();
             _thirdPartyBll = provider.GetRequiredService<ThirdPartyBll>();
             _casinoBll = provider.GetRequiredService<CasinoBll>();
             _bonusWalletBll = provider.GetRequiredService<BonusWalletBLL>();
@@ -165,6 +171,13 @@ namespace MemberSite.Controllers.Api
                 apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
                 return apiResult;
             }
+
+            // 舊語系一律使用en
+            if (languageModel.LangId.Contains("_"))
+            {
+                languageModel.LangId = "en";
+            }
+
             var result = _custInfoBll.SetLanguage(authData.CustId, languageModel.LangId);
 
             if (result == -1)
@@ -356,8 +369,7 @@ namespace MemberSite.Controllers.Api
             var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
             var bankInfoSysList = _bankInfoBll.GetBankInfoSysListByCurrency(custInfo.CurrencyId).ToList();
 
-            if (custInfo.SiteId == (int)SiteId.Nova88
-                && custInfo.CurrencyId == (int)CurrencyId.THB) // Nova88 泰國銀行名稱支援多語系
+            if (custInfo.CurrencyId == (int)CurrencyId.THB) // 泰國銀行名稱支援多語系
             {
                 _bankInfoBll.BankNameLocalization(bankInfoSysList, authData.LangId);
             }
@@ -373,7 +385,6 @@ namespace MemberSite.Controllers.Api
                     {
                         bankInfo.BankName = refBankInfo.BankName;
                         bankInfo.BankLogo = refBankInfo.BankLogo;
-                        bankInfo.BankSite = refBankInfo.BankSite;
                         bankInfo.Disabled = refBankInfo.Status != GeneralStatusEnum.Enable;
                     }
 
@@ -407,6 +418,8 @@ namespace MemberSite.Controllers.Api
                             crypto.Disabled = true;
                     }
                 }
+                
+                
             }
 
             apiResult.Data = custBankInfo;
@@ -933,9 +946,8 @@ namespace MemberSite.Controllers.Api
                     return apiResult;
                 }
 
-                if (long.TryParse(rrofileReq.PhoneNo, out var phoneNo))
+                if (_regexPhoneNo.IsMatch(rrofileReq.PhoneNo))
                 {
-                    rrofileReq.PhoneNo = phoneNo.ToString();
                     apiResult.Data = _custInfoBll.ExistsPhoneNo(authData.CustId, rrofileReq.AreaCode, rrofileReq.PhoneNo);
                 }
                 else

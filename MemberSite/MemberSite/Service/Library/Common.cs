@@ -8,7 +8,7 @@
         {
             this._environment = environment;
         }
-        
+
         public string GetEnv()
         {
             switch (_environment.EnvironmentName)

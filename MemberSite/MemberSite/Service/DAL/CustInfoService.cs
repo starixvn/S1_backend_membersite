@@ -1,4 +1,5 @@
 ﻿using System.Data;
+
 using Dapper;
 
 using MemberSite.Service.Library;
@@ -42,16 +43,16 @@ namespace MemberSite.Service.DAL
             return _reportDbClient.ExecuteScalar<int>("Member_ExistsEmail_Get", new { CustId = custId, Email = email, SiteId = siteId }) != 0;
         }
 
-        public bool ExistsPhoneNoAndUserName(string userName, string areaCode, string phoneNo ,int siteId)
+        public bool ExistsPhoneNoAndUserName(string userName, string areaCode, string phoneNo, int siteId)
         {
             return _reportDbClient.ExecuteScalar<int>("Member_ExistsPhoneNoAndUserName_Get", new { _UserName = userName, _AreaCode = areaCode, _PhoneNo = phoneNo, _SiteId = siteId }) != 0;
         }
-        
-        public CustInfoProfile GetCustInfoProfileByUserName(int siteId , string userName, int? custId)
+
+        public CustInfoProfile GetCustInfoProfileByUserName(int siteId, string userName, int? custId)
         {
-            return _reportDbClient.QueryFirst<CustInfoProfile>("Service_CustProfileByUserName_Get_V2", new {  _SiteId = siteId, _UserName = userName, _CustId = custId });
+            return _reportDbClient.QueryFirst<CustInfoProfile>("Service_CustProfileByUserName_Get_V2", new { _SiteId = siteId, _UserName = userName, _CustId = custId });
         }
-        
+
         public int AddCustInfo(Customer customer, string Email, string lineUserId, int deviceType, out int custId, string signupUrl = null, string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null, int Birth_d = 0, int Birth_m = 0, int Birth_y = 0, string signupIp = null)
         {
             using var conn = _mainDbClient.GetMySqlConnection();
@@ -560,7 +561,7 @@ namespace MemberSite.Service.DAL
         {
             return _reportDbClient.ExecuteScalar<int>("Member_SubmittedCustPhotoId_GetV2", new { CustId = custId, SiteId = siteId, CurrencyId = currencyId });
         }
-        
+
         public int GetCustPhotoIdToKYC(int custId)
         {
             return _reportDbClient.ExecuteScalar<int>("Member_CustPhotoIdToKYC_Get", new { CustId = custId });
@@ -968,7 +969,7 @@ namespace MemberSite.Service.DAL
                         profiler.Add("Occupation", cccupation.ToString());
                     }
 
-                    if(sourceOfIncome != 0)
+                    if (sourceOfIncome != 0)
                     {
                         profiler.Add("SourceOfIncome", sourceOfIncome.ToString());
                     }
@@ -1038,10 +1039,11 @@ namespace MemberSite.Service.DAL
                     }
                 }
 
-                if(result > 0 && address != null)
+                if (result > 0 && address != null)
                 {
                     result = _mainDbClient.Execute("Member_CustProfile_Address_Set", trans,
-                        new DynamicParameters(new {
+                        new DynamicParameters(new
+                        {
                             CustId = custId,
                             SiteId = customer.SiteId,
                             Address = address
