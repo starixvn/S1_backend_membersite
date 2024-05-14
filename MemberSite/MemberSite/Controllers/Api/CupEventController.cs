@@ -238,14 +238,16 @@ namespace MemberSite.Controllers.Api
         }
         
         [HttpPost]
-        [Authorize]
         public ApiResult<CupEventPredictScoreResponse> GetCupEventPredictScore()
         {
             var apiResult = new ApiResult<CupEventPredictScoreResponse>();
             try
             {
                 var authData = _authorizeBll.GetAuthData();
-                 var data = _cupEventBll.GetCupEventPredictScore(authData.CustId , authData.LangId);
+                var custId = authData?.CustId ?? 0;
+                var landId = authData?.LangId ?? "en";
+                
+                 var data = _cupEventBll.GetCupEventPredictScore(custId , landId);
                  
                  apiResult.Data = data;
                  apiResult.ErrorCode = 0;
