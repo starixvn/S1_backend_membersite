@@ -34,7 +34,7 @@ public class RedemptionBLL
         //申請完後自動發放
         if (result.ErrorCode == 0 && giftInfo.GiftType == 2)
         {
-            await AutoApportion(req, giftInfo);
+            //await AutoApportion(req, giftInfo);
         }
         return result;
     }
