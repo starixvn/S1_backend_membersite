@@ -1,5 +1,3 @@
-using Elastic.Apm.SerilogEnricher;
-
 using MemberSite;
 using MemberSite.Extensions;
 
@@ -19,7 +17,6 @@ builder.Host.UseSerilog((context, Configuration) =>
 {
     Configuration
         .ReadFrom.Configuration(builder.Configuration)
-        .Enrich.WithElasticApmCorrelationInfo()
         .Enrich.FromLogContext()
         .Filter.ByExcluding(c =>
             c.Properties.Any(p =>

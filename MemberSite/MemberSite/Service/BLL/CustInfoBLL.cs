@@ -428,6 +428,12 @@ namespace MemberSite.Service.BLL
 
             return custBankInfo;
         }
+        
+        public IEnumerable<BankInfoDetail> GetCustBankDetail(int custId)
+        {
+            return _custInfoService.GetCustBankDetail(custId);
+        }
+        
         public string GetDefAccountNo(int custId)
         {
             var custInfo = GetCustInfoWithCache(custId);
@@ -994,6 +1000,11 @@ namespace MemberSite.Service.BLL
             }
 
             return result != 0 ? result : 0;
+        }
+        
+        public async Task<IEnumerable<CustRealNameChangeLog>> GetCustRealNameChangeLogAsync(int custId)
+        {
+            return await _custInfoService.GetCustRealNameChangeLogAsync(custId);
         }
     }
 }
