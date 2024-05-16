@@ -34,7 +34,7 @@ public class RedemptionBLL
         //申請完後自動發放
         if (result.ErrorCode == 0 && giftInfo.GiftType == 2)
         {
-            //await AutoApportion(req, giftInfo);
+            await AutoApportion(req, giftInfo);
         }
         return result;
     }
@@ -90,7 +90,8 @@ public class RedemptionBLL
 
     private static string BonusCodeRule(GiftInfo giftInfo, string siteName)
     {
-        var bonusCode = $"PPFREESPIN{giftInfo.Round}FOR{siteName.ToUpper()}{DateTime.UtcNow.ToString("yyyyMMdd")}";
+        //BonusCode規則。ex.PP2FREESPIN100FORNOVA8820240306
+        var bonusCode = $"PP{giftInfo.CurrencyId}FREESPIN{giftInfo.Round}FOR{siteName.ToUpper()}{DateTime.UtcNow.ToString("yyyyMMdd")}";
         return bonusCode;
     }
 }
