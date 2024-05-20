@@ -8,7 +8,7 @@ namespace MemberSite.Service.BLL
     public class BankInfoBLL
     {
         private readonly BankInfoService _bankInfoService;
-        private readonly ServerInfoBll _serverInfoBll;
+        private readonly AuthorizeBLL _authorizeBll;
         private readonly CustInfoBll _custInfoBll;
         private readonly PayService _payService;
         private readonly DepositLimitBLL _depositLimitBll;
@@ -17,53 +17,25 @@ namespace MemberSite.Service.BLL
         public BankInfoBLL(IServiceProvider provider)
         {
             _bankInfoService = provider.GetRequiredService<BankInfoService>();
-            _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
+            _authorizeBll = provider.GetRequiredService<AuthorizeBLL>();
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _payService = provider.GetRequiredService<PayService>();
             _depositLimitBll = provider.GetRequiredService<DepositLimitBLL>();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
         }
-        public IEnumerable<BankInfoSys> GetBankInfoSysListByCurrency(int currencyId)
+        public IEnumerable<BankInfoSys> GetBankInfoSysListByCurrency(int currencyId, string lang)
         {
-            var serverInfo = _serverInfoBll.GetServerInfo();
-
-            var key = $"BankInfoSysList:{serverInfo.SiteId}";
-            var dbData = _redisHelper.TryGetOrCreate(key, TimeSpan.FromMinutes(5),
-                () => _bankInfoService.GetBankInfoSysList(serverInfo.SiteId));
-            return dbData?.Where(x => x.CurrencyId == currencyId);
-        }
-
-        public IEnumerable<BankInfoSys> GetBankInfoSysListByCurrencyForCtrl(int currencyId)
-        {
-            var serverInfo = _serverInfoBll.GetServerInfo();
-
-            var key = $"BankInfoSysListForCtrl:{serverInfo.SiteId}";
-            var dbData = _redisHelper.TryGetOrCreate(key, TimeSpan.FromMinutes(1), // BankInfoSys後台不能開關
-                () => _bankInfoService.GetBankInfoSysListForCtrl(serverInfo.SiteId));
-            return dbData?.Where(x => x.CurrencyId == currencyId);
-        }
-
-        public IEnumerable<BankInfoName> GetBankInfoName(string lang)
-        {
-            var key = $"BankInfoNameList:{lang}";
-            var dbData = _redisHelper.TryGetOrCreate(key, TimeSpan.FromMinutes(5),
-                () => _bankInfoService.GetBankInfoNameList(lang));
+            var key = $"BankInfoSysList:{currencyId}:{lang}";
+            var dbData = _redisHelper.TryGetOrCreate(key, TimeSpan.FromMinutes(10),
+                () => _bankInfoService.GetBankInfoSysList(currencyId, lang));
+            
             return dbData;
         }
 
-        public void BankNameLocalization<T>(in IEnumerable<T> list, string lang) where T : class, IBankNameLocalization
-        {
-            var bankNameList = GetBankInfoName(lang);
-
-            if (!bankNameList.Any())
-                return;
-            
-            foreach (var item in list)
-            {
-                item.BankName = bankNameList.FirstOrDefault(y => y.SysId == item.SysId)
-                    ?.BankName ?? item.BankName;
-            }
-        }
+        public IEnumerable<BankInfoSys> GetBankInfoSysListByCurrencyForCtrl(int currencyId, string lang = "")
+            => GetBankInfoSysListByCurrency(currencyId, lang)
+                .Where(x => x.Status == GeneralStatusEnum.Enable);
+        
 
         public IEnumerable<PaymentFront> GetOnlinePaymentList(int custId, DepositType depositType)
         {
@@ -77,7 +49,7 @@ namespace MemberSite.Service.BLL
                 return Array.Empty<PaymentFront>();
             }
 
-            var bankInfoPayList = GetOnlineBankList(custInfo.SiteId, depositType)
+            var bankInfoPayList = GetOnlineBankListLocalizationWithCache(custInfo, depositType)
                 .Where(x => pointLevel >= x.PointLevel
                     && (x.CurrencyId == custInfo.CurrencyId || x.CurrencyId == 0));
 
@@ -86,17 +58,18 @@ namespace MemberSite.Service.BLL
                 .Select(x =>
                 {
                     var item = x.First();
+                    var selBank = item.SelBank && item.ExtraDataType == ExtraDataTypeEnum.None;
                     var p = new PaymentFront
                     {
                         PayName = item.PayName,
                         PayId = item.PayId,
                         ChannelId = item.ChannelId,
-                        SelBank = item.SelBank,
+                        SelBank = selBank,
                         Mode = item.Mode,
-                        ExtraDataType = item.ExtraDataType,
+                        ExtraDataType = (int)item.ExtraDataType,
                         MaxAmount = item.MaxAmount,
                         MinAmount = item.MinAmount,
-                        BankList = item.SelBank ?
+                        BankList = selBank ?
                             x.Select(y => new BankInfoSys
                             {
                                 BankLogo = y.BankLogo,
@@ -120,9 +93,8 @@ namespace MemberSite.Service.BLL
         public IEnumerable<SysBankInfoFront> GetOnlineBankInfoSysList(int custId, int payId)
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
-            var pointLevel = _custInfoBll.GetPointLevelWithCache(custId);
             var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
-            var bankInfoPayList = GetOnlineBankList(custInfo.SiteId, DepositType.OnlineBanking);
+            var bankInfoPayList = GetOnlineBankListLocalizationWithCache(custInfo, DepositType.OnlineBanking);
             var depositLimitInfo = _depositLimitBll.GetDepositLimitInfo(custId, DepositType.OnlineBanking);
 
             var bankInfoList = bankInfoPayList
@@ -136,7 +108,7 @@ namespace MemberSite.Service.BLL
                         SysId = d.SysId,
                         BankCode = d.SysBankCode,
                         BankLogo = d.BankLogo,
-                        BankName = d.SysBankName,
+                        BankName = d.BankName,
                         MaxAmount = d.MaxAmount,
                         MinAmount = d.MinAmount
                     };
@@ -163,7 +135,7 @@ namespace MemberSite.Service.BLL
                 return null;
             }
 
-            var bankInfoPayList = GetOnlineBankList(custInfo.SiteId, DepositType.OnlineBanking)
+            var bankInfoPayList = GetOnlineBankListLocalizationWithCache(custInfo, DepositType.OnlineBanking)
                 .Where(x => pointLevel >= x.PointLevel
                             && x.CurrencyId == custInfo.CurrencyId
                             && x.SysId == sysId
@@ -206,6 +178,36 @@ namespace MemberSite.Service.BLL
             return dbData;
         }
         
+        private IEnumerable<BankInfoPay> GetOnlineBankListLocalizationWithCache(Customer custInfo, DepositType depositType)
+        {
+            var authData = _authorizeBll.GetAuthData();
+            var key = $"PaySetting:OnlineBanking:{custInfo.SiteId}:{custInfo.CurrencyId}:{authData.LangId}:{depositType}";
+            
+            var dbData = _redisHelper.TryGetOrCreate<IEnumerable<BankInfoPay>>(key, TimeSpan.FromMinutes(5),
+                () =>GetOnlineBankListLocalization(custInfo, authData.LangId, depositType).OrderBy(x => x.MSort).ThenBy(x => x.SSort),
+                RedisDataBase.Shared);
+            
+            return dbData;
+        }
+        
+        private IEnumerable<BankInfoPay> GetOnlineBankListLocalization(Customer custInfo, string lang, DepositType depositType)
+        {
+            var sysBankList = GetBankInfoSysListByCurrency(custInfo.CurrencyId, lang);
+            var onlineBankList = GetOnlineBankList(custInfo.SiteId, depositType)
+                .Where(x => x.CurrencyId == custInfo.CurrencyId)
+                .Select(x =>
+                {
+                    var sys = sysBankList.FirstOrDefault(s => s.SysId == x.SysId);
+
+                    if (sys != null)
+                        x.BankName = sys.BankName;
+
+                    return x;
+                });
+
+            return onlineBankList;
+        }
+        
         public IEnumerable<SysBankInfoFront> GetAutoSelectChannelBankGroupList(int custId)
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
@@ -226,7 +228,7 @@ namespace MemberSite.Service.BLL
 
         public IEnumerable<BankInfoPay> GetSelectBankBankList(Customer customer, int vipLevel, DepositType type)
         {
-            return GetOnlineBankList(customer.SiteId, type).Where(i =>
+            return GetOnlineBankListLocalizationWithCache(customer, type).Where(i =>
                 vipLevel >= i.PointLevel
                 && i.CurrencyId == customer.CurrencyId
                 && i.SelBank);
