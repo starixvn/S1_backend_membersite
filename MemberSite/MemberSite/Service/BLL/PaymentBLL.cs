@@ -927,6 +927,7 @@ namespace MemberSite.Service.BLL
             {
                 if (!customerTags.Intersect(setting.Tags).Any())
                 {
+                    _logger.LogInformation("No matching tags");
                     return WithdrawalInfoAutoWayEnum.Manual;
                 }
             }
@@ -936,6 +937,7 @@ namespace MemberSite.Service.BLL
             {
                 if (setting.VipLevels.All(x => x != customerVip))
                 {
+                    _logger.LogInformation("No matching vip level");
                     return WithdrawalInfoAutoWayEnum.Manual;
                 }
             }
@@ -943,12 +945,14 @@ namespace MemberSite.Service.BLL
             // withdrawal Amount check
             if (withdrawalAmount > setting.WithdrawalAmount)
             {
+                _logger.LogInformation($"Withdrawal amount:{withdrawalAmount} exceeds the rule setting:{setting.WithdrawalAmount}");
                 return WithdrawalInfoAutoWayEnum.Manual;
             }
 
             // withdrawal SuccessCounter check
             if (withdrawalSuccessCount < setting.AccountWithdrawalCount)
             {
+                _logger.LogInformation($"Withdrawal success count:{withdrawalSuccessCount} does not reach the rule setting:{setting.AccountWithdrawalCount}");
                 return WithdrawalInfoAutoWayEnum.Manual;
             }
 
