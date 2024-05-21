@@ -14,39 +14,11 @@ namespace MemberSite.Service.Model
         public string Message { get; set; }
     }
 
-    public class CryptoPayInfo : IPayInfo
-    {
-        public int PayId { get; set; }
-        public string PayName { get; set; }
-        public int GroupId { get; set; }
-        public string GroupName { get; set; }
-        public int ChannelId { get; set; }
-        public string ChannelName { get; set; }
-        public string CurrencyName => ChannelName?.Split('-').FirstOrDefault();
-        public int Mode { get; set; }
-        public int PointLevel { get; set; }
-        public int CurrencyId { get; set; }
-        public string PayCurrencyId { get; set; }
-        public decimal MinAmount { get; set; }
-        public decimal MaxAmount { get; set; }
-        [DicIgnore]
-        public int AmountRule { get; set; }
-        [DicIgnore]
-        [System.Text.Json.Serialization.JsonIgnore]
-        public string AmountShow { get; set; }
-        [DicIgnore]
-        public IEnumerable<decimal> AmountList => AmountShow == null ? null : JsonConvert.DeserializeObject<IEnumerable<decimal>>(AmountShow);
-        public string PayCode { get; set; }
-        [DicIgnore]
-        public int GSort { get; set; }
-        [DicIgnore]
-        public int SSort { get; set; }
-    }
-
     public class LoadCardPayGroup : IPaymentLimit
     {
         public int GroupId { get; set; }
         public string GroupName { get; set; }
+        public string DisplayGroupName { get; set; }
         public int GSort { get; set; }
         public string PayName { get; internal set; }
         public int Mode { get; set; }
@@ -72,8 +44,10 @@ namespace MemberSite.Service.Model
         public string PayName { get; set; }
         public int GroupId { get; set; }
         public string GroupName { get; set; }
+        public string DisplayGroupName { get; set; }
         public int ChannelId { get; set; }
         public string ChannelName { get; set; }
+        public string DisplayChannelName { get; set; }
         public int Mode { get; set; }
         public int AmountRule { get; set; }
         public IEnumerable<decimal> AmountList { get; }
@@ -85,8 +59,10 @@ namespace MemberSite.Service.Model
         public string PayName { get; set; }
         public int GroupId { get; set; }
         public string GroupName { get; set; }
+        public string DisplayGroupName { get; set; }
         public int ChannelId { get; set; }
         public string ChannelName { get; set; }
+        public string DisplayChannelName { get; set; }
         public int Mode { get; set; }
         public DepositType DepositType { get; set; }
         public int ExtraDataType { get; set; }
@@ -114,6 +90,7 @@ namespace MemberSite.Service.Model
 
         public int GroupId { get; set; }
         public string GroupName { get; set; }
+        public string DisplayGroupName { get; set; }
         public int GSort { get; set; }
         public int Mode { get; set; }
         public string ChannelName { get; set; }
@@ -126,6 +103,7 @@ namespace MemberSite.Service.Model
     {
         public int GroupId { get; set; }
         public string GroupName { get; set; }
+        public string DisplayGroupName { get; set; }
         public DepositType Type { get; set; }
         public int Sort { get; set; }
     }

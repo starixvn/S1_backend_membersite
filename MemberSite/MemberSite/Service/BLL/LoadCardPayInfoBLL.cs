@@ -10,7 +10,7 @@ namespace MemberSite.Service.BLL
         private readonly CustInfoBll _custInfoBll;
         private readonly DepositLimitBLL _depositLimitBll;
         private readonly PayService _payService;
-        private readonly DepositService _depositService;
+        private readonly AuthorizeBLL _authorizeBll;
         private readonly ICacheHelper _redisHelper;
 
         public LoadCardPayInfoBLL(IServiceProvider provider)
@@ -18,7 +18,6 @@ namespace MemberSite.Service.BLL
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _depositLimitBll = provider.GetRequiredService<DepositLimitBLL>();
             _payService = provider.GetRequiredService<PayService>();
-            _depositService = provider.GetRequiredService<DepositService>();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
         }
 
@@ -54,6 +53,7 @@ namespace MemberSite.Service.BLL
                     {
                         GroupId = d.GroupId,
                         GroupName = d.GroupName,
+                        DisplayGroupName = d.DisplayGroupName,
                         PayName = d.PayName,
                         GSort = d.GSort,
                         Mode = d.Mode,

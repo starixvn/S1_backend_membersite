@@ -13,12 +13,14 @@ namespace MemberSite.Service.BLL
         private readonly BankInfoOffBLL _bankInfoOffBll;
         private readonly BankInfoBLL _bankInfoBll;
         private readonly CustInfoBll _custInfoBll;
+        private readonly AuthorizeBLL _authorizeBll;
         private readonly ICacheHelper _redisHelper;
 
         public PayInfoBLL(IServiceProvider provider)
         {
             _payService = provider.GetRequiredService<PayService>();
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
+            _authorizeBll = provider.GetRequiredService<AuthorizeBLL>();
             _depositLimitBll = provider.GetRequiredService<DepositLimitBLL>();
             _bankInfoOffBll = provider.GetRequiredService<BankInfoOffBLL>();
             _bankInfoBll = provider.GetRequiredService<BankInfoBLL>();
@@ -27,8 +29,11 @@ namespace MemberSite.Service.BLL
 
         private IEnumerable<PayGroupInfo> GetPayGroupWithCache()
         {
-            var dbData = _redisHelper.TryGetOrCreate("PayGroupInfoList", TimeSpan.FromMinutes(5),
-                () => _payService.GetPayGroup(), RedisDataBase.Shared);
+            var authData = _authorizeBll.GetAuthData();
+            var lang = authData.LangId;
+            
+            var dbData = _redisHelper.TryGetOrCreate("PayGroupInfoList:" + lang, TimeSpan.FromMinutes(5),
+                () => _payService.GetPayGroup(lang), RedisDataBase.Shared);
             return dbData;
         }
 
@@ -203,6 +208,7 @@ namespace MemberSite.Service.BLL
                     {
                         ChannelId = x.ChannelId,
                         ChannelName = x.PayName,
+                        DisplayChannelName = x.DisplayChannelName,
                         PayId = x.PayId,
                         PayName = x.PayName,
                         Mode = x.Mode,
@@ -213,6 +219,7 @@ namespace MemberSite.Service.BLL
                         AmountList = x.AmountList,
                         GroupId = x.GroupId,
                         GroupName = x.GroupName,
+                        DisplayGroupName = x.DisplayGroupName,
                         GroupSort = x.GSort,
                         ChannelSort = x.SSort,
                         DepositType = depositType
@@ -229,10 +236,12 @@ namespace MemberSite.Service.BLL
                     var localCryptoList = _bankInfoOffBll.GetFilteredOfflineCryptoPayInfo(custId)
                         .GroupBy(x => x.ChannelName)
                         .Select(g =>
-                            new GenericPayChannel
+                        {
+                            return new GenericPayChannel
                             {
                                 ChannelId = -1 * (int)g.First().CryptoCurrencyId,
                                 ChannelName = g.Key,
+                                DisplayChannelName = g.Key,
                                 Mode = (int)PayModeEnum.QrCode,
                                 MaxAmount = g.Any(x => x.MaxAmount == 0)
                                     ? 0
@@ -242,11 +251,13 @@ namespace MemberSite.Service.BLL
                                 AmountList = Array.Empty<decimal>(),
                                 GroupId = -1,
                                 GroupName = "LetsPay",
+                                DisplayGroupName = "LetsPay",
                                 PayName = "LetsPay",
                                 ChannelSort = -1,
                                 GroupSort = -1,
                                 DepositType = DepositType.CryptoWallet
-                            });
+                            };
+                        });
 
                     payChannels.AddRange(localCryptoList);
                 }
@@ -310,6 +321,7 @@ namespace MemberSite.Service.BLL
                         {
                             GroupId = f.GroupId,
                             GroupName = f.GroupName,
+                            DisplayGroupName = f.DisplayGroupName,
                             Sort = f.GroupSort,
                             MaxAmount = x.Max(y => y.MaxAmount),
                             MinAmount = x.Min(y => y.MinAmount),
@@ -346,6 +358,7 @@ namespace MemberSite.Service.BLL
                 {
                     GroupId = x.GroupId,
                     GroupName = x.GroupName,
+                    DisplayGroupName = x.DisplayGroupName,
                     ChannelName = x.ChannelName,
                     GSort = x.GSort,
                     Mode = x.Mode,
@@ -441,11 +454,13 @@ namespace MemberSite.Service.BLL
                 {
                     ChannelId = -1,
                     ChannelName = groupInfo.GroupName,
+                    DisplayChannelName = groupInfo.DisplayGroupName,
                     GSort = groupInfo.Sort,
                     SSort = -1,
                     Mode = (int)PayModeEnum.Redirect,
                     GroupId = groupId,
                     GroupName = groupInfo.GroupName,
+                    DisplayGroupName = groupInfo.DisplayGroupName,
                     MinAmount = bankCards.Min(x => x.MinAmount),
                     MaxAmount = bankCards.Max(x => x.MaxAmount)
                 };
@@ -468,9 +483,11 @@ namespace MemberSite.Service.BLL
 
         public IEnumerable<PayInfo> GetPayInfoListWithCache(int siteId, DepositType? depositType = null)
         {
-            var key = $"PaySetting:{siteId}:{depositType}";
+            var authData = _authorizeBll.GetAuthData();
+            var lang = authData.LangId;
+            var key = $"PaySetting:{siteId}:{depositType}:{lang}";
             var dbData = _redisHelper.TryGetOrCreate<IEnumerable<PayInfo>>(key, TimeSpan.FromMinutes(5),
-                () => _payService.GetPayInfo(siteId, depositType).OrderBy(x => x.GSort).ThenBy(x => x.SSort),
+                () => _payService.GetPayInfo(siteId, depositType, lang).OrderBy(x => x.GSort).ThenBy(x => x.SSort),
                 RedisDataBase.Shared);
             return dbData;
         }
