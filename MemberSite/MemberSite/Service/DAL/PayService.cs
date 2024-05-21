@@ -12,14 +12,15 @@ namespace MemberSite.Service.DAL
         {
             _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
         }
-        public IEnumerable<PayInfo> GetCryptoPayInfo(int siteId)
-        {
-            return _reportDbClient.Query<PayInfo>("Service_PayInfo_Get_V2", new { _SiteId = siteId, _DepositType = DepositType.CryptoPayment });
-        }
 
-        public IEnumerable<PayInfo> GetPayInfo(int siteId, DepositType? depositType)
+        public IEnumerable<PayInfo> GetPayInfo(int siteId, DepositType? depositType, string lang = "")
         {
-            return _reportDbClient.Query<PayInfo>("Service_PayInfo_Get_V2", new { _SiteId = siteId, _DepositType = (int?)depositType ?? 0 });
+            return _reportDbClient.Query<PayInfo>("Service_PayInfo_Get_V3", new
+            {
+                _SiteId = siteId,
+                _DepositType = (int?)depositType ?? 0,
+                _Lang = lang
+            });
         }
 
         public LineChannel? GetLineChannel(int siteId, int currencyId)
@@ -27,9 +28,12 @@ namespace MemberSite.Service.DAL
             return _reportDbClient.QueryFirst<LineChannel?>("Member_LineChannel_Get", new { _SiteId = siteId, _CurrencyId = currencyId });
         }
 
-        public IEnumerable<PayGroupInfo> GetPayGroup()
+        public IEnumerable<PayGroupInfo> GetPayGroup(string lang)
         {
-            return _reportDbClient.Query<PayGroupInfo>("Service_PayGroup_Get");
+            return _reportDbClient.Query<PayGroupInfo>("Service_PayGroup_Get_V2", new
+            {
+                _Lang = lang
+            });
         }
 
         public IEnumerable<PayChannelInfo> GetPayChannel()
