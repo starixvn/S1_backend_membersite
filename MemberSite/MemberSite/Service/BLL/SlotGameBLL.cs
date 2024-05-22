@@ -54,6 +54,7 @@ namespace MemberSite.Service.BLL
                 { 67, 30 },
                 { 109, 52},
                 { 110, 52},
+                { 132, 16},
             };
             _excludeTp = new List<int>
             {
