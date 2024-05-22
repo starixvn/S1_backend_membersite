@@ -50,7 +50,7 @@ namespace MemberSite.Service.BLL
         {
             var key = $"PaySetting:Crypto:{siteId}";
             var dbData = _redisHelper.TryGetOrCreate<IEnumerable<PayInfo>>(key, TimeSpan.FromMinutes(5),
-                () => _payService.GetCryptoPayInfo(siteId).OrderBy(x => x.GSort).ThenBy(x => x.SSort),
+                () => _payService.GetPayInfo(siteId, DepositType.CryptoPayment).OrderBy(x => x.GSort).ThenBy(x => x.SSort),
                 RedisDataBase.Shared);
             return dbData;
         }
