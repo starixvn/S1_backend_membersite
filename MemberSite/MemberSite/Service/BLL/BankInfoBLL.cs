@@ -55,8 +55,6 @@ namespace MemberSite.Service.BLL
                 .Where(x => pointLevel >= x.PointLevel
                     && (x.CurrencyId == custInfo.CurrencyId || x.CurrencyId == 0));
 
-            var channelNames = _payInfoLocalizeBll.GetPayChannelNameWithCache();
-
             var onlinePaymentList = bankInfoPayList
                 .GroupBy(x => x.ChannelId)
                 .Select(x =>
@@ -68,8 +66,11 @@ namespace MemberSite.Service.BLL
                         PayName = item.PayName,
                         PayId = item.PayId,
                         ChannelId = item.ChannelId,
-                        DisplayChannelName = channelNames
-                            .FirstOrDefault(y => y.ChannelId == item.ChannelId)?.ChannelName ?? item.PayName,
+                        ChannelName = item.ChannelName,
+                        DisplayChannelName = item.DisplayChannelName,
+                        GroupId = item.GroupId,
+                        GroupName = item.GroupName,
+                        DisplayGroupName = item.DisplayGroupName,
                         SelBank = item.SelBank,
                         Mode = item.Mode,
                         ExtraDataType = (int)item.ExtraDataType,
@@ -181,6 +182,7 @@ namespace MemberSite.Service.BLL
             var dbData = _redisHelper.TryGetOrCreate<IEnumerable<BankInfoPay>>(key, TimeSpan.FromMinutes(5),
                 () => _bankInfoService.GetBankInfoPayList(siteId, depositType).OrderBy(x => x.MSort).ThenBy(x => x.SSort),
                 RedisDataBase.Shared);
+
             return dbData;
         }
         
@@ -193,6 +195,9 @@ namespace MemberSite.Service.BLL
                 () =>GetOnlineBankListLocalization(custInfo, authData.LangId, depositType).OrderBy(x => x.MSort).ThenBy(x => x.SSort),
                 RedisDataBase.Shared);
             
+            dbData = _payInfoLocalizeBll.PayGroupNameLocalization(dbData, authData.LangId);
+            dbData = _payInfoLocalizeBll.PayChannelNameLocalization(dbData, authData.LangId);
+
             return dbData;
         }
         
