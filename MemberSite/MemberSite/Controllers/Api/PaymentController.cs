@@ -467,16 +467,17 @@ namespace MemberSite.Controllers.Api
                 apiResult.ErrorCode = -2;
                 return apiResult;
             }
-            if (withdrawalReqModel.Blackbox != null)
-            {
-                _ = Task.Run(async () =>
-                {
-                    var apiResultIovation = await _iovationBll.IovationChecks(authData.CustId, custInfo.CurrencyId, custInfo.UserName, withdrawalReqModel.Blackbox, IovationType.withdrawal);
-                    if (apiResultIovation.ErrorCode == 0 && apiResultIovation.Data != null)
-                        _iovationBll.SetIovation(authData.CustId, IovationType.withdrawal, apiResultIovation.Data);
+            // 提款移除Iovation檢查
+            //if (withdrawalReqModel.Blackbox != null)
+            //{
+            //    _ = Task.Run(async () =>
+            //    {
+            //        var apiResultIovation = await _iovationBll.IovationChecks(authData.CustId, custInfo.CurrencyId, custInfo.UserName, withdrawalReqModel.Blackbox, IovationType.withdrawal);
+            //        if (apiResultIovation.ErrorCode == 0 && apiResultIovation.Data != null)
+            //            _iovationBll.SetIovation(authData.CustId, IovationType.withdrawal, apiResultIovation.Data);
 
-                });
-            }
+            //    });
+            //}
             decimal afterAmount;
             string transId;
             switch (withdrawalType)
