@@ -13,13 +13,12 @@ namespace MemberSite.Service.DAL
             _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
         }
 
-        public IEnumerable<PayInfo> GetPayInfo(int siteId, DepositType? depositType, string lang = "")
+        public IEnumerable<PayInfo> GetPayInfo(int siteId, DepositType? depositType)
         {
-            return _reportDbClient.Query<PayInfo>("Service_PayInfo_Get_V3", new
+            return _reportDbClient.Query<PayInfo>("Service_PayInfo_Get_V2", new
             {
                 _SiteId = siteId,
-                _DepositType = (int?)depositType ?? 0,
-                _Lang = lang
+                _DepositType = (int?)depositType ?? 0
             });
         }
 
@@ -28,17 +27,24 @@ namespace MemberSite.Service.DAL
             return _reportDbClient.QueryFirst<LineChannel?>("Member_LineChannel_Get", new { _SiteId = siteId, _CurrencyId = currencyId });
         }
 
-        public IEnumerable<PayGroupInfo> GetPayGroup(string lang)
+        public IEnumerable<PayGroupInfo> GetPayGroup()
         {
-            return _reportDbClient.Query<PayGroupInfo>("Service_PayGroup_Get_V2", new
-            {
-                _Lang = lang
-            });
+            return _reportDbClient.Query<PayGroupInfo>("Service_PayGroup_Get_V2");
         }
 
         public IEnumerable<PayChannelInfo> GetPayChannel()
         {
             return _reportDbClient.Query<PayChannelInfo>("Service_PayChannel_Get");
+        }
+        
+        public IEnumerable<PayGroupName> GetPayGroupName()
+        {
+            return _reportDbClient.Query<PayGroupName>("Member_PayGroupName_Get");
+        }
+
+        public IEnumerable<PayChannelName> GetPayChannelName()
+        {
+            return _reportDbClient.Query<PayChannelName>("Member_PayChannelName_Get");
         }
 
         public IEnumerable<WithdrawalBlockSetting> GetWithdrawalBlockSettingList(int siteId)

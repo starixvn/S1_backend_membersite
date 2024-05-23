@@ -13,6 +13,7 @@ namespace MemberSite.Service.BLL
         private readonly PayService _payService;
         private readonly DepositLimitBLL _depositLimitBll;
         private readonly ICacheHelper _redisHelper;
+        private readonly PayInfoLocalizeBLL _payInfoLocalizeBll;
 
         public BankInfoBLL(IServiceProvider provider)
         {
@@ -22,6 +23,7 @@ namespace MemberSite.Service.BLL
             _payService = provider.GetRequiredService<PayService>();
             _depositLimitBll = provider.GetRequiredService<DepositLimitBLL>();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
+            _payInfoLocalizeBll = provider.GetRequiredService<PayInfoLocalizeBLL>();
         }
         public IEnumerable<BankInfoSys> GetBankInfoSysListByCurrency(int currencyId, string lang)
         {
@@ -53,6 +55,8 @@ namespace MemberSite.Service.BLL
                 .Where(x => pointLevel >= x.PointLevel
                     && (x.CurrencyId == custInfo.CurrencyId || x.CurrencyId == 0));
 
+            var channelNames = _payInfoLocalizeBll.GetPayChannelNameWithCache();
+
             var onlinePaymentList = bankInfoPayList
                 .GroupBy(x => x.ChannelId)
                 .Select(x =>
@@ -64,7 +68,9 @@ namespace MemberSite.Service.BLL
                         PayName = item.PayName,
                         PayId = item.PayId,
                         ChannelId = item.ChannelId,
-                        SelBank = selBank,
+                        DisplayChannelName = channelNames
+                            .FirstOrDefault(y => y.ChannelId == item.ChannelId)?.ChannelName ?? item.PayName,
+                        SelBank = item.SelBank,
                         Mode = item.Mode,
                         ExtraDataType = (int)item.ExtraDataType,
                         MaxAmount = item.MaxAmount,

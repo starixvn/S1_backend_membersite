@@ -20,6 +20,7 @@ namespace MemberSite.Service.Model
         public int PayId { get; set; }
         public int ChannelId { get; set; }
         public string PayName { get; set; }
+        public string DisplayChannelName { get; set; }
         public bool SelBank { get; set; }
         public int ExtraDataType { get; set; }
         public decimal MinAmount { get; set; }

@@ -47,7 +47,7 @@ namespace MemberSite.Service.Model
         public IEnumerable<decimal> AmountList { get; }
     }
 
-    public class PayInfo : IPayInfo
+    public class PayInfo : IPayInfo, IPayChannelName, IPayGroupName
     {
         public int PayId { get; set; }
         public string PayName { get; set; }
@@ -93,7 +93,7 @@ namespace MemberSite.Service.Model
     }
 
 
-    public class PayGroupInfo
+    public class PayGroupInfo : IPayGroupName
     {
         public int GroupId { get; set; }
         public string GroupName { get; set; }
@@ -101,17 +101,46 @@ namespace MemberSite.Service.Model
         public DepositType Type { get; set; }
         public int Sort { get; set; }
     }
-
-    public class PayChannelInfo
+    
+    public class PayGroupName
+    {
+        public int GroupId { get; set; }
+        public string GroupName { get; set; }
+        public string Lang { get; set; }
+    }
+    
+    public interface IPayGroupName
+    {
+        public string DisplayGroupName { get; set; }
+        public int GroupId { get; set; }
+        public string GroupName { get; set; }
+    }
+    
+    public interface IPayChannelName
+    {
+        public string DisplayChannelName { get; set; }
+        public int ChannelId { get; set; }
+        public string ChannelName { get; set; }
+    }
+    
+    public class PayChannelInfo : IPayChannelName
     {
         public int ChannelId { get; set; }
         public int PayId { get; set; }
         public int GroupId { get; set; }
+        public string DisplayChannelName { get; set; }
         public string ChannelName { get; set; }
         public DepositType Type { get; set; }
         public PayChannelMethod Method { get; set; }
         public PayModeEnum Mode { get; set; }
         public ExtraDataTypeEnum ExtraDataType { get; set; }
+    }
+    
+    public class PayChannelName
+    {
+        public int ChannelId { get; set; }
+        public string ChannelName { get; set; }
+        public string Lang { get; set; }
     }
 
     public class LineChannel

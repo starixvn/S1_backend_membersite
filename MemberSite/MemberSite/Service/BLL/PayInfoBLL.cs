@@ -15,6 +15,7 @@ namespace MemberSite.Service.BLL
         private readonly CustInfoBll _custInfoBll;
         private readonly AuthorizeBLL _authorizeBll;
         private readonly ICacheHelper _redisHelper;
+        private readonly PayInfoLocalizeBLL _payInfoLocalizeBll;
 
         public PayInfoBLL(IServiceProvider provider)
         {
@@ -25,6 +26,7 @@ namespace MemberSite.Service.BLL
             _bankInfoOffBll = provider.GetRequiredService<BankInfoOffBLL>();
             _bankInfoBll = provider.GetRequiredService<BankInfoBLL>();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
+            _payInfoLocalizeBll = provider.GetRequiredService<PayInfoLocalizeBLL>();
         }
 
         private IEnumerable<PayGroupInfo> GetPayGroupWithCache()
@@ -32,18 +34,23 @@ namespace MemberSite.Service.BLL
             var authData = _authorizeBll.GetAuthData();
             var lang = authData.LangId;
             
-            var dbData = _redisHelper.TryGetOrCreate("PayGroupInfoList:" + lang, TimeSpan.FromMinutes(5),
-                () => _payService.GetPayGroup(lang), RedisDataBase.Shared);
-            return dbData;
+            var dbData = _redisHelper.TryGetOrCreate("PayGroupInfoList", TimeSpan.FromMinutes(5),
+                () => _payService.GetPayGroup(), RedisDataBase.Shared);
+            
+            return _payInfoLocalizeBll.PayGroupNameLocalization(dbData, lang);
         }
 
         public IEnumerable<PayChannelInfo> GetPayChannelWithCache()
         {
+            var authData = _authorizeBll.GetAuthData();
+            var lang = authData.LangId;
+            
             var dbData = _redisHelper.TryGetOrCreate("PayChannelInfoList", TimeSpan.FromMinutes(5),
                 () => _payService.GetPayChannel(), RedisDataBase.Shared);
-            return dbData;
+            
+            return _payInfoLocalizeBll.PayChannelNameLocalization(dbData, lang);
         }
-
+        
         private readonly Dictionary<DepositType, OfflineBankAccountSupportChannelEnum> _dicSupportChannelMapper
             = new()
             {
@@ -134,6 +141,7 @@ namespace MemberSite.Service.BLL
                 {
                     ChannelId = x.ChannelId,
                     ChannelName = x.PayName,
+                    DisplayChannelName = x.DisplayChannelName,
                     PayId = x.PayId,
                     PayName = x.PayName,
                     SelectBank = x.SelBank,
@@ -286,6 +294,7 @@ namespace MemberSite.Service.BLL
                                 {
                                     ChannelId = bankCard.GroupId * -1,
                                     ChannelName = groupInfo.GroupName,
+                                    DisplayChannelName = groupInfo.DisplayGroupName,
                                     Mode = (int)PayModeEnum.Redirect,
                                     MaxAmount = localPayInfos.Max(y => y.MaxAmount),
                                     MinAmount = localPayInfos.Min(y => y.MinAmount),
@@ -293,6 +302,7 @@ namespace MemberSite.Service.BLL
                                     AmountList = Array.Empty<decimal>(),
                                     GroupId = bankCard.GroupId,
                                     GroupName = groupInfo.GroupName,
+                                    DisplayGroupName = groupInfo.DisplayGroupName,
                                     GroupSort = groupInfo.Sort,
                                     ChannelSort = -1,
                                     DepositType = depositType
@@ -485,10 +495,15 @@ namespace MemberSite.Service.BLL
         {
             var authData = _authorizeBll.GetAuthData();
             var lang = authData.LangId;
-            var key = $"PaySetting:{siteId}:{depositType}:{lang}";
+            var key = $"PaySetting:{siteId}:{depositType}";
+            
             var dbData = _redisHelper.TryGetOrCreate<IEnumerable<PayInfo>>(key, TimeSpan.FromMinutes(5),
-                () => _payService.GetPayInfo(siteId, depositType, lang).OrderBy(x => x.GSort).ThenBy(x => x.SSort),
+                () => _payService.GetPayInfo(siteId, depositType).OrderBy(x => x.GSort).ThenBy(x => x.SSort),
                 RedisDataBase.Shared);
+
+            dbData = _payInfoLocalizeBll.PayChannelNameLocalization(dbData, lang);
+            dbData = _payInfoLocalizeBll.PayGroupNameLocalization(dbData, lang);
+            
             return dbData;
         }
 
