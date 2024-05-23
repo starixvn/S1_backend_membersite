@@ -91,7 +91,8 @@ namespace MemberSite.Service.BLL
             {
                 DepositType.OnlineBanking,
                 DepositType.QuickTransfer,
-                DepositType.BankAutoChannel
+                DepositType.BankAutoChannel,
+                DepositType.ChatTransfer
             };
 
             result.AddRange(GetOnlineBankMethods(depositTypes, custId));
@@ -142,6 +143,9 @@ namespace MemberSite.Service.BLL
                     ChannelId = x.ChannelId,
                     ChannelName = x.PayName,
                     DisplayChannelName = x.DisplayChannelName,
+                    GroupId = x.GroupId,
+                    GroupName = x.GroupName,
+                    DisplayGroupName = x.DisplayGroupName,
                     PayId = x.PayId,
                     PayName = x.PayName,
                     SelectBank = x.SelBank,
@@ -215,7 +219,7 @@ namespace MemberSite.Service.BLL
                     var onlineChannels = payInfos.Select(x => new GenericPayChannel
                     {
                         ChannelId = x.ChannelId,
-                        ChannelName = x.PayName,
+                        ChannelName = x.ChannelName,
                         DisplayChannelName = x.DisplayChannelName,
                         PayId = x.PayId,
                         PayName = x.PayName,
