@@ -15,7 +15,7 @@ namespace MemberSite.Service.DAL
 
         public IEnumerable<PayInfo> GetPayInfo(int siteId, DepositType? depositType)
         {
-            return _reportDbClient.Query<PayInfo>("Service_PayInfo_Get_V3", new
+            return _reportDbClient.Query<PayInfo>("Service_PayInfo_Get_V2", new
             {
                 _SiteId = siteId,
                 _DepositType = (int?)depositType ?? 0
