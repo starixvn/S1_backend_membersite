@@ -13,9 +13,15 @@ namespace MemberSite.Service.DAL
             _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
         }
 
-        public IEnumerable<OfflineBankAccountInfo> GetOfflineBankAccount(int siteId)
+        public IEnumerable<OfflineBankAccountInfo> GetOfflineBankAccount(int siteId, int currencyId, string lang)
         {
-            return _reportDbClient.Query<OfflineBankAccountInfo>("Member_OfflineBankAccount_Get_V2", new { _SiteId = siteId });
+            return _reportDbClient.Query<OfflineBankAccountInfo>("Member_OfflineBankAccount_Get_V4", 
+                new
+                {
+                    _SiteId = siteId,
+                    _CurrencyId = currencyId,
+                    _Lang = lang
+                });
         }
 
         public IEnumerable<int> GetCustOffDepositSysId(int custId)

@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace MemberSite.Service.Model
 {
-    public class BankInfoSys : IBankNameLocalization
+    public class BankInfoSys
     {
         public int SysId { set; get; }
         public int CurrencyId { set; get; }
@@ -32,7 +32,7 @@ namespace MemberSite.Service.Model
         public IEnumerable<BankInfoSys> BankList { get; set; }
     }
 
-    public class SysBankInfoFront : IPaymentLimit, IBankNameLocalization
+    public class SysBankInfoFront : IPaymentLimit
     {
         public int BankId { get; set; }
         public int SysId { get; set; }
