@@ -165,6 +165,7 @@ namespace MemberSite
             services.AddSingleton<VerificationRewardBLL>();
             services.AddTransient<DeepLinkBLL>();
             services.AddSingleton<PayInfoBLL>();
+            services.AddSingleton<PayInfoLocalizeBLL>();
             services.AddSingleton<LineLoginBLL>();
             services.AddSingleton<SiteBll>();
             services.AddSingleton<IPBLL>();
