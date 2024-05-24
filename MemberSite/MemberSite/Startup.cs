@@ -113,6 +113,7 @@ namespace MemberSite
             services.AddTransient<GameService>();
             services.AddTransient<QueueJobService>();
             services.AddTransient<RedemptionService>();
+            services.AddTransient<QustionnaireService>();
 
             services.AddSingleton<IPService>();
             services.AddSingleton<ShieldService>();
@@ -184,6 +185,7 @@ namespace MemberSite
             services.AddTransient<QueueJobBLL>();
             services.AddSingleton<CheckIpBLL>();
             services.AddSingleton<CryptoHelper>();
+            services.AddSingleton<QuestionnaireBLL>();
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();
 
