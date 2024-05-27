@@ -155,4 +155,5 @@
   <data name="msg_SystemUnstable_Detail"><value>現在、銀行のシステムがお取引の詳細を取得できず、お客様の入金を処理することができません</value></data>
   <data name="msg_BankUnderMaintenance_Detail"><value>現在、銀行のシステムはメンテナンス中で、お客様の入金を処理することができません。</value></data>
   <data name="msg_AffCodeNotFound"><value>アフィリエイトIDが見つかりません</value></data>
+  <data name="msg_WrongAmountFormat"><value>エラー &gt; 金額の形式が間違っています</value></data>
   </root>
