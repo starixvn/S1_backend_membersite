@@ -204,6 +204,11 @@ namespace MemberSite.Service.Model
         [JsonPropertyName("selectOptions")]
         public SelectOptions SelectOptions { get; set; }
         
+        /// <summary>
+        /// 玩家是否可以預測比分
+        /// </summary>
+        [JsonPropertyName("availablePredict")]
+        public bool AvailablePredict { get; set; }
         public int ErrorCode { get; set; }
     }
 
@@ -454,5 +459,17 @@ namespace MemberSite.Service.Model
     {
         public int HomeTeamScore { get; set; }
         public int AwayTeamScore { get; set; }
+    }
+    public class CupEventPredictScoreDto
+    {
+        public string Team { get; set; }
+        public CupEventSetting TeamDetail { get; set; }
+        public int Score { get; set; }
+    }
+    
+    public class CupEventPredictScoreResponse
+    {
+        public List<CupEventPredictScoreDto> Data { get; set; }
+        public bool IsPredict { get; set; }
     }
 }

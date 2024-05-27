@@ -468,16 +468,17 @@ namespace MemberSite.Controllers.Api
                 apiResult.ErrorCode = -2;
                 return apiResult;
             }
-            if (withdrawalReqModel.Blackbox != null)
-            {
-                _ = Task.Run(async () =>
-                {
-                    var apiResultIovation = await _iovationBll.IovationChecks(authData.CustId, custInfo.CurrencyId, custInfo.UserName, withdrawalReqModel.Blackbox, IovationType.withdrawal);
-                    if (apiResultIovation.ErrorCode == 0 && apiResultIovation.Data != null)
-                        _iovationBll.SetIovation(authData.CustId, IovationType.withdrawal, apiResultIovation.Data);
+            // 提款移除Iovation檢查
+            //if (withdrawalReqModel.Blackbox != null)
+            //{
+            //    _ = Task.Run(async () =>
+            //    {
+            //        var apiResultIovation = await _iovationBll.IovationChecks(authData.CustId, custInfo.CurrencyId, custInfo.UserName, withdrawalReqModel.Blackbox, IovationType.withdrawal);
+            //        if (apiResultIovation.ErrorCode == 0 && apiResultIovation.Data != null)
+            //            _iovationBll.SetIovation(authData.CustId, IovationType.withdrawal, apiResultIovation.Data);
 
-                });
-            }
+            //    });
+            //}
             decimal afterAmount;
             string transId;
             switch (withdrawalType)
@@ -668,14 +669,8 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
             var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-            var result = _bankInfoBll.GetBankInfoSysListByCurrencyForCtrl(custInfo.CurrencyId)
+            var result = _bankInfoBll.GetBankInfoSysListByCurrencyForCtrl(custInfo.CurrencyId, authData.LangId)
                 .ToList();
-
-            if (custInfo.SiteId == 1
-                && custInfo.CurrencyId == (int)CurrencyId.THB) // Nova88 泰國銀行名稱支援多語系
-            {
-                _bankInfoBll.BankNameLocalization(result, authData.LangId);
-            }
 
             apiResult.Data = result;
             apiResult.ErrorCode = 0;
@@ -699,11 +694,6 @@ namespace MemberSite.Controllers.Api
             var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
             var result = _bankInfoBll.GetOnlineBankInfoSysList(custInfo.CustId, payment.payId)
                 .ToList();
-
-            if (custInfo.CurrencyId == (int)CurrencyId.THB) // 泰國銀行名稱支援多語系
-            {
-                _bankInfoBll.BankNameLocalization(result, authData.LangId);
-            }
 
             apiResult.Data = result;
             apiResult.ErrorCode = 0;
@@ -1488,15 +1478,6 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
             var result = _payInfoBll.GetOnlineBankChannelList(authData.CustId, DepositType.BankAutoChannel);
-            
-            var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-            if (custInfo.CurrencyId == (int)CurrencyId.THB) // 泰國銀行名稱支援多語系
-            {
-                foreach (var item in result)
-                {
-                    _bankInfoBll.BankNameLocalization(item.SupportBanks, authData.LangId);
-                }
-            }
 
             apiResult.Data = result;
             apiResult.ErrorCode = 0;
@@ -1829,7 +1810,7 @@ namespace MemberSite.Controllers.Api
             }
             
             var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-            var bankInfoSysList = _bankInfoBll.GetBankInfoSysListByCurrency(custInfo.CurrencyId).ToList();
+            var bankInfoSysList = _bankInfoBll.GetBankInfoSysListByCurrency(custInfo.CurrencyId, authData.LangId).ToList();
             
             var channels = _payInfoBll.GetPayChannelWithCache();
             var channel = channels.FirstOrDefault(x => x.ChannelId == req.ChannelId);
@@ -1837,28 +1818,21 @@ namespace MemberSite.Controllers.Api
             if (channel == null)
             {
                 _logger.LogError("No channel data, channelId=" + req.ChannelId);
+                return apiResult;
             }
-            else
-            {
-                var payBankList = _bankInfoBll.GetOnlineBankList(custInfo.SiteId, channel.Type)
-                    .Where(x => x.ChannelId == req.ChannelId);
+            var payBankList = _bankInfoBll.GetOnlineBankList(custInfo.SiteId, channel.Type)
+                .Where(x => x.ChannelId == req.ChannelId);
 
-                bankInfoSysList
-                    .ForEach(x =>
-                    {
-                        if (x.Status == GeneralStatusEnum.Disable)
-                            return;
-                        
-                        if (!payBankList.Any(p => !p.SelBank || p.SysId == x.SysId))
-                            x.Status = GeneralStatusEnum.Disable;
-                    });
-            }
+            bankInfoSysList
+                .ForEach(x =>
+                {
+                    if (x.Status == GeneralStatusEnum.Disable)
+                        return;
+                    
+                    if (!payBankList.Any(p => !p.SelBank || p.SysId == x.SysId))
+                        x.Status = GeneralStatusEnum.Disable;
+                });
           
-            if (custInfo.CurrencyId == (int)CurrencyId.THB) // 泰國銀行名稱支援多語系
-            {
-                _bankInfoBll.BankNameLocalization(bankInfoSysList, authData.LangId);
-            }
-
             var custBankInfo = _custInfoBll.GetCustBankDetail(authData.CustId);
             var result = new List<BankInfoDetailRep>();
             
