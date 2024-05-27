@@ -6,7 +6,7 @@ using MemberSite.Service.Model.Interfaces;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
+using Newtonsoft.Json;
 using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
@@ -486,6 +486,7 @@ namespace MemberSite.Controllers.Api
                 }
 
                 var authData = _authorizeBll.GetAuthData();
+                _logger.LogInformation($"authData={JsonConvert.SerializeObject(authData)}.");
                 var isLogin = authData is { CustId: > 0 };
 
                 if (isLogin)

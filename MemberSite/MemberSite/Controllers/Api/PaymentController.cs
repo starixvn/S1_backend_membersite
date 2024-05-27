@@ -248,7 +248,7 @@ namespace MemberSite.Controllers.Api
                 return new ApiResult
                 {
                     ErrorCode = -5,
-                    Message = "Amount format is wrong."
+                    Message = _selLangBll.GetMsg("msg_WrongAmountFormat")
                 };
             }
 
