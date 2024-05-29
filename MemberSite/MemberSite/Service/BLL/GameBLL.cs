@@ -19,7 +19,8 @@ namespace MemberSite.Service.BLL
         private readonly Dictionary<string, SiteCloudFrontImageInfo> _siteCloudFrontImageInfo;
         private readonly Dictionary<string, string> _changeTpName;
         private readonly int _isStage;
-        
+        private readonly Tools _tools;
+
         public GameBLL(IServiceProvider provider)
         {
             _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
@@ -39,6 +40,7 @@ namespace MemberSite.Service.BLL
                 {"EBet","WE" },
             };
             _isStage = configBll.GetConfigValueByEnvironment<int>("IsStage");
+            _tools = provider.GetRequiredService<Tools>();
         }
 
         public bool IsMaintain(int siteId, int tpId, string tpGameType, out TpMaintain result)
@@ -152,7 +154,14 @@ namespace MemberSite.Service.BLL
             }
             
             var resultData = await _gameService.GetLobbyHeader(req ,statusList);
-            
+
+            // app的wrapper無法開啟PlayTech，後端寫死移除PlayTech的Casino
+            var deviceType = _tools.GetDeviceId(_tools.GetFromUrl());
+            if (deviceType == DeviceId.APP)
+            {
+                resultData = resultData.Where(i => i.TpId != 51 && i.LobbyCategoryId != 3);
+            }
+
             var sequence = new List<int>();
             var headerSequence = await _gameService.GetLobbyHeaderSequence(req);
             if (headerSequence is not null)

@@ -117,6 +117,18 @@ namespace MemberSite.Controllers.Api
                 var authData = _authorizeBll.GetAuthData();
                 if (authData is { CustId: > 0 })
                 {
+                    var key = $"SetClaimPromotion:{authData.CustId}";
+                    
+                    if (!await _cacheHelper.SetNxAsync(key, string.Empty, TimeSpan.FromSeconds(5)))
+                    {
+                        apiResult.ErrorCode = -100;
+                        apiResult.Message = _selLangBll.GetMsg("msg_Ineligible");
+                        
+                        _logger.LogInformation("Block duplicate claim bonus");
+                        
+                        return apiResult;
+                    }
+                    
                     var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                     var deviceType = (int)PromotionDeviceType.All;
                     if (promotionReq.DeviceType != null)
