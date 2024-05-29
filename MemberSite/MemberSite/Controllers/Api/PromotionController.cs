@@ -119,7 +119,7 @@ namespace MemberSite.Controllers.Api
                 {
                     var key = $"SetClaimPromotion:{authData.CustId}";
                     
-                    if (!await _cacheHelper.SetNxAsync(key, string.Empty, TimeSpan.FromMinutes(1)))
+                    if (!await _cacheHelper.SetNxAsync(key, string.Empty, TimeSpan.FromSeconds(5)))
                     {
                         apiResult.ErrorCode = -100;
                         apiResult.Message = _selLangBll.GetMsg("msg_Ineligible");
