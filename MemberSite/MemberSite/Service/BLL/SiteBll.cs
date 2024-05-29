@@ -1,11 +1,9 @@
 ﻿using System.Text.RegularExpressions;
 
 using MemberSite.Controllers.Api;
-using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.Domain;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
-using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.BLL;
 
@@ -18,11 +16,12 @@ public class SiteBll
     private readonly Tools _tools;
     private readonly ShieldBLL _ShieldBll;
     private readonly Regex _regexUserName = new(@"^[a-zA-Z0-9]{6,18}$");
-    private readonly Regex _regexPhoneNumber = new(@"^\+60[0-9]{9,10}$|\+62[0-9]{10,13}$|\+86[0-9]{10,11}$|\+91[0-9]{10}$|\+66[0-9]{9}$|\+880[0-9]{10}$|\+855[0-9]{8,10}$|\+84[0-9]{9}$");
+    private readonly Regex _regexPhoneNumber = new(@"^\+60[0-9]{9,10}$|\+62[0-9]{10,13}$|\+86[0-9]{10,11}$|\+91[0-9]{10}$|\+66[0-9]{9}$|\+880[0-9]{10}$|\+855[0-9]{8,10}$|\+84[0-9]{9}|\+82[0-9]{9,10}|\+81[0-9]{10}|\+55[0-9]{10,11}$");
     private readonly Regex _regexEmail = new(@"^\w+((-\w+)|(\.\w+))*@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$");
+    private readonly Regex _regexPhoneNo = new(@"^\d+$");
     private readonly RecaptchaBLL _recaptcha;
-    private readonly IGeoIpApi _geoIpApi;
     private readonly ServerInfoBll _serverInfoBll;
+    private readonly ILogger<SiteBll> _logger;
 
     public SiteBll(IServiceProvider provider)
     {
@@ -33,8 +32,8 @@ public class SiteBll
         _tools = provider.GetRequiredService<Tools>();
         _ShieldBll = provider.GetRequiredService<ShieldBLL>();
         _recaptcha = provider.GetRequiredService<RecaptchaBLL>();
-        _geoIpApi = provider.GetRequiredService<IGeoIpApi>();
         _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
+        _logger = provider.GetRequiredService<ILogger<SiteBll>>();
     }
 
     public Customer Signup(SiteController.SignupModel signupModel, ApiResult apiResult, bool isAuthenticated,
@@ -44,12 +43,13 @@ public class SiteBll
         if (isAuthenticated ||
             (string.IsNullOrEmpty(signupModel.AreaCode) && !string.IsNullOrEmpty(signupModel.PhoneNo)))
         {
+            _logger.LogError($"isAuthenticated={isAuthenticated} AreaCode={signupModel.AreaCode} PhoneNo={signupModel.PhoneNo}");
             apiResult.ErrorCode = 9000;
             return customer;
         }
 
         var serverInfo = _serverInfoBll.GetServerInfo();
-        if (serverInfo.SiteId == (int)SiteId.Nova88)
+        if (serverInfo.SiteId == 1)
         {
             switch (signupModel.AreaCode)
             {
@@ -61,6 +61,9 @@ public class SiteBll
                 case "+880":
                 case "+855":
                 case "+84":
+                case "+82":
+                case "+81":
+                case "+55":
                     if (!_regexPhoneNumber.IsMatch(signupModel.AreaCode + signupModel.PhoneNo))
                     {
                         var message = signupModel.AreaCode switch
@@ -73,6 +76,9 @@ public class SiteBll
                             "+880" => "10",
                             "+855" => "8-10",
                             "+84" => "9",
+                            "+82" => "9-10",
+                            "+81" => "10",
+                            "+55" => "10-11",
                             _ => ""
                         };
                         apiResult.ErrorCode = -20;
@@ -101,9 +107,8 @@ public class SiteBll
             }
         }
 
-        if (long.TryParse(signupModel.PhoneNo, out var phoneNo))
+        if (_regexPhoneNo.IsMatch(signupModel.PhoneNo))
         {
-            signupModel.PhoneNo = phoneNo.ToString();
             if (_custInfoBLL.ExistsPhoneNo(0, signupModel.AreaCode, signupModel.PhoneNo))
             {
                 apiResult.ErrorCode = -6;
@@ -287,6 +292,7 @@ public class SiteBll
                                 {
                                     if (userLoginResult != 0)
                                     {
+                                        _logger.LogError($"userLoginResult={userLoginResult}");
                                         apiResult.ErrorCode = 9000;
                                     }
                                     else
@@ -391,10 +397,9 @@ public class SiteBll
                 return customer;
             }
         }
-
-        if (long.TryParse(signupModel.PhoneNo, out var phoneNo))
+        
+        if(_regexPhoneNo.IsMatch(signupModel.PhoneNo))
         {
-            signupModel.PhoneNo = phoneNo.ToString();
             if (_custInfoBLL.ExistsPhoneNo(0, signupModel.AreaCode, signupModel.PhoneNo))
             {
                 apiResult.ErrorCode = -6;
@@ -439,7 +444,7 @@ public class SiteBll
 
         var result = _custInfoBLL.IvorysportAddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email,
             signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff,
-            affCodeObj, signupModel.LineUserId, deviceType, out var custId, signupModel.SignupUrl, signupModel.ReferralUrl, signupModel.PhoneNo,
+            affCodeObj, signupModel.LineUserId, deviceType, signupModel.PhotoId, out var custId, signupModel.SignupUrl, signupModel.ReferralUrl, signupModel.PhoneNo,
             signupModel.AreaCode, signupModel.RealName, signupModel.PromoCode, signupModel.Birth_d,
             signupModel.Birth_m,
             signupModel.Birth_y, signupIp, signupModel.Nationality, signupModel.Occupation, signupModel.SourceOfIncome, signupModel.Country, signupModel.City, signupModel.PostCode, signupModel.LineFirst);

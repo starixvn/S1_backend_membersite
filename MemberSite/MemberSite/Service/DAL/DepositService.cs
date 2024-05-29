@@ -46,14 +46,14 @@ namespace MemberSite.Service.DAL
                 depositDetailInfo.Memo,
                 Prefix = $"D{_common.GetEnv()}"
             });
-            
+
             p.Add("vPostScript", dbType: DbType.String, direction: ParameterDirection.Output);
             p.Add("vTransId", dbType: DbType.String, direction: ParameterDirection.Output);
 
             var result = _mainDbClient.Execute("DepositInfoWithFrom_Ins", trans, p);
             trans.Commit();
 
-            if (depositDetailInfo.SiteId != (int)SiteId.Nova88)
+            if (depositDetailInfo.SiteId is 2 or 3) // goal and bwing
             {
                 _ = Task.Run(() =>
                 {

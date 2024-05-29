@@ -1,17 +1,37 @@
 ﻿namespace MemberSite.Service.Model
 {
-    public class IpCountryModel
+    public class IPCountry
     {
+        public uint IpFrom { get; set; }
+        public uint IpTo { get; set; }
         public string Code { get; set; }
-        public bool Forbidden { get; set; }
-        public string Message { get; set; }
-        public string RemoteIpAddress { get; set; }
+        public string Country { get; set; }
     }
 
-    public class IpCountry
+    public class IpCountryWithAccess
     {
+        public bool IsAccess
+        {
+            get
+            {
+                return !Forbidden;
+            }
+        }
+
         public string Code { get; set; }
+
         public bool Forbidden { get; set; }
+
         public string Message { get; set; }
+
+        public string RemoteIpAddress { get; set; }
+
+        public IpCountryWithAccess(string ip, string message)
+        {
+            RemoteIpAddress = ip;
+            Code = string.Empty;
+            Forbidden = true;
+            Message = $"[{ip}] {message}";
+        }
     }
 }

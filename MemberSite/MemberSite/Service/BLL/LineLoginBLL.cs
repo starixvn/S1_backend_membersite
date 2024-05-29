@@ -1,8 +1,10 @@
 ﻿using System.Net.Http.Headers;
+
 using MemberSite.Service.DAL;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Line;
+
 using Newtonsoft.Json;
 
 namespace MemberSite.Service.BLL

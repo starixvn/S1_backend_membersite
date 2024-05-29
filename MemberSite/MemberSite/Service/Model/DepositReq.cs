@@ -2,7 +2,7 @@ using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.Model;
 
-    
+
 public class DepositReqParams
 {
     public int CustId { get; set; }

@@ -31,7 +31,7 @@ namespace MemberSite.Service.BLL
                 () => _payService.GetPayGroup(), RedisDataBase.Shared);
             return dbData;
         }
-        
+
         public IEnumerable<PayChannelInfo> GetPayChannelWithCache()
         {
             var dbData = _redisHelper.TryGetOrCreate("PayChannelInfoList", TimeSpan.FromMinutes(5),
@@ -50,9 +50,9 @@ namespace MemberSite.Service.BLL
         public IDictionary<string, PayMethod> GetPayInfoListAll(int custId)
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
-            var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
             var result = new Dictionary<string, PayMethod>();
 
+            var code = CommonExtension.GenerateRandomNumber();
             var bankTransferData = _bankInfoOffBll.GetBankInfoOffListWithCache(custInfo.CustId)
                 .Select(x => new OfflineBankInfo
                 {
@@ -68,16 +68,18 @@ namespace MemberSite.Service.BLL
                         BankId = x.BankId,
                         AccountNo = x.AccountNo,
                         AccountName = x.AccountName,
-                        QrCodeUrl = x.QRCodeUrl
+                        QrCodeUrl = x.QRCodeUrl,
+                        Code = code
                     },
                     DepositType = DepositType.LocalBank
                 });
             result.Add("BankTransfer", new PayMethod(bankTransferData));
-            
-            var depositTypes = new []
+
+            var depositTypes = new[]
             {
                 DepositType.OnlineBanking,
-                DepositType.QuickTransfer
+                DepositType.QuickTransfer,
+                DepositType.BankAutoChannel
             };
 
             result.AddRange(GetOnlineBankMethods(depositTypes, custId));
@@ -85,26 +87,7 @@ namespace MemberSite.Service.BLL
             var line = _bankInfoBll.GetLineChannel(custInfo.SiteId, custInfo.CurrencyId);
             result.Add("LinePay", new PayMethod(new LinePay(line?.Link)));
 
-            var autoChannelData = _bankInfoBll.GetAutoChannelBankList(custInfo, vipLevel)
-                .GroupBy(x => x.SysId)
-                .Select(x =>
-                {
-                    var bank = x.First();
-                    return new AutoChannelBankInfo
-                    {
-                        BankLogo = bank.BankLogo,
-                        BankCode = bank.BankCode,
-                        BankName = bank.BankName,
-                        SysId = bank.SysId,
-                        MaxAmount = x.Max(y => y.MaxAmount),
-                        MinAmount = x.Min(y => y.MinAmount),
-                        DepositType = DepositType.BankAutoChannel
-                    };
-                });
-
-            result.Add(DepositType.BankAutoChannel.GetDescription(), new PayMethod(autoChannelData));
-            
-            depositTypes = new []
+            depositTypes = new[]
                 {
                     DepositType.MobilePayment,
                     DepositType.LoadCardPayment,
@@ -117,42 +100,73 @@ namespace MemberSite.Service.BLL
             return result;
         }
 
+        private readonly IEnumerable<int> _onlineBankingAutoSelectChannel =
+            new[] {(int) SiteEnum.Bwing, (int) SiteEnum.Goal123};
+
+        private bool IsAutoSelectChannel(int siteId, DepositType type)
+            => _onlineBankingAutoSelectChannel.Contains(siteId) && type == DepositType.OnlineBanking;
+
         public IDictionary<string, PayMethod> GetOnlineBankMethods(IEnumerable<DepositType> depositTypes, int custId)
         {
+            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var result = new Dictionary<string, PayMethod>();
-            
+
             foreach (var depositType in depositTypes)
             {
-                var data = _bankInfoBll.GetOnlinePaymentList(custId, depositType)
-                    .Select(x => new OnlineBankChannel
-                    {
-                        ChannelId = x.ChannelId,
-                        ChannelName = x.PayName,
-                        PayId = x.PayId,
-                        PayName = x.PayName,
-                        SelectBank = x.SelBank,
-                        Mode = x.Mode,
-                        MaxAmount = x.MaxAmount,
-                        MinAmount = x.MinAmount,
-                        AmountRule = 1,
-                        AmountList = Array.Empty<decimal>(),
-                        SupportBanks = x.BankList.Select(y => new BankInfo
-                        {
-                            BankLogo = y.BankLogo,
-                            BankCode = y.BankCode,
-                            BankName = y.BankName,
-                            SysId = y.SysId,
-                            MaxAmount = x.MaxAmount,
-                            MinAmount = x.MinAmount
-                        }),
-                        DepositType = depositType
-                    });
-                
+                object data = IsAutoSelectChannel(custInfo.SiteId, depositType)
+                    ? GetAutoSelectChannelList(custId)
+                    : GetOnlineBankChannelList(custId, depositType);
+
                 result.Add(depositType.GetDescription(), new PayMethod(data));
             }
 
             return result;
         }
+
+        public IEnumerable<OnlineBankChannel> GetOnlineBankChannelList(int custId, DepositType depositType)
+            => _bankInfoBll.GetOnlinePaymentList(custId, depositType)
+                .Select(x => new OnlineBankChannel
+                {
+                    ChannelId = x.ChannelId,
+                    ChannelName = x.PayName,
+                    PayId = x.PayId,
+                    PayName = x.PayName,
+                    SelectBank = x.SelBank,
+                    Mode = x.Mode,
+                    ExtraDataType = x.ExtraDataType,
+                    MaxAmount = x.MaxAmount,
+                    MinAmount = x.MinAmount,
+                    AmountRule = 1,
+                    AmountList = Array.Empty<decimal>(),
+                    SupportBanks = x.BankList.Select(y => new BankInfo
+                    {
+                        BankLogo = y.BankLogo,
+                        BankCode = y.BankCode,
+                        BankName = y.BankName,
+                        SysId = y.SysId,
+                        MaxAmount = x.MaxAmount,
+                        MinAmount = x.MinAmount
+                    }),
+                    DepositType = depositType
+                });
+        
+        private IEnumerable<AutoChannelBankInfo> GetAutoSelectChannelList(int custId)
+            => _bankInfoBll.GetAutoSelectChannelBankGroupList(custId)
+                .GroupBy(x => x.SysId)
+                .Select(x =>
+                {
+                    var bank = x.First();
+                    return new AutoChannelBankInfo
+                    {
+                        BankLogo = bank.BankLogo,
+                        BankCode = bank.BankCode,
+                        BankName = bank.BankName,
+                        SysId = bank.SysId,
+                        MaxAmount = x.Max(y => y.MaxAmount),
+                        MinAmount = x.Min(y => y.MinAmount),
+                        DepositType = DepositType.OnlineBanking
+                    };
+                });
 
         public IDictionary<string, PayMethod> GetGenericPayMethods(IEnumerable<DepositType> depositTypes, int custId)
         {
@@ -160,20 +174,20 @@ namespace MemberSite.Service.BLL
             var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
             var payInfoList = GetPayInfoListWithCache(custInfo.SiteId)
                 .Where(info => vipLevel >= info.PointLevel && info.CurrencyId == custInfo.CurrencyId);
-            
+
             var depositLimitInfoList = _depositLimitBll.GetDepositLimitInfoListWithCache(custInfo.SiteId)
                 ?.Where(x =>
                     x.SiteId == custInfo.SiteId &&
                     x.VipLevel == vipLevel &&
                     x.CurrencyId == custInfo.CurrencyId);
-            
+
             var bankCards = _bankInfoOffBll.GetOfflineBankCardListWithCache(custId);
-            
+
             var result = new Dictionary<string, PayMethod>();
             foreach (var depositType in depositTypes)
             {
                 var limitInfo = depositLimitInfoList.FirstOrDefault(x => x.DepositType == depositType);
-                
+
                 if (limitInfo?.DepositStatus == 0)
                 {
                     result.Add(depositType.GetDescription(), new PayMethod(Array.Empty<GenericPayGroup>()));
@@ -192,6 +206,7 @@ namespace MemberSite.Service.BLL
                         PayId = x.PayId,
                         PayName = x.PayName,
                         Mode = x.Mode,
+                        ExtraDataType = x.ExtraDataType,
                         MaxAmount = x.MaxAmount,
                         MinAmount = x.MinAmount,
                         AmountRule = x.AmountRule,
@@ -204,7 +219,7 @@ namespace MemberSite.Service.BLL
                     });
                     payChannels.AddRange(onlineChannels);
                 }
-                
+
                 var payGroupInfos = GetPayGroupWithCache();
 
                 #region Add LOCAL PAYMENT
@@ -216,9 +231,9 @@ namespace MemberSite.Service.BLL
                         .Select(g =>
                             new GenericPayChannel
                             {
-                                ChannelId = -1 * (int) g.First().CryptoCurrencyId,
+                                ChannelId = -1 * (int)g.First().CryptoCurrencyId,
                                 ChannelName = g.Key,
-                                Mode = (int) PayModeEnum.QrCode,
+                                Mode = (int)PayModeEnum.QrCode,
                                 MaxAmount = g.Any(x => x.MaxAmount == 0)
                                     ? 0
                                     : g.Max(x => x.MaxAmount),
@@ -232,7 +247,7 @@ namespace MemberSite.Service.BLL
                                 GroupSort = -1,
                                 DepositType = DepositType.CryptoWallet
                             });
-                    
+
                     payChannels.AddRange(localCryptoList);
                 }
                 else
@@ -240,7 +255,7 @@ namespace MemberSite.Service.BLL
                     var localPayInfos = bankCards.Where(x =>
                         _dicSupportChannelMapper.ContainsKey(depositType)
                         && x.SupportChannel.Contains(_dicSupportChannelMapper[depositType]));
-                
+
                     if (localPayInfos.Any())
                     {
                         var localPayChannels = localPayInfos.SelectMany(b => b.GroupIds,
@@ -260,7 +275,7 @@ namespace MemberSite.Service.BLL
                                 {
                                     ChannelId = bankCard.GroupId * -1,
                                     ChannelName = groupInfo.GroupName,
-                                    Mode = (int) PayModeEnum.Redirect,
+                                    Mode = (int)PayModeEnum.Redirect,
                                     MaxAmount = localPayInfos.Max(y => y.MaxAmount),
                                     MinAmount = localPayInfos.Min(y => y.MinAmount),
                                     AmountRule = 1,
@@ -302,7 +317,7 @@ namespace MemberSite.Service.BLL
                                 .OrderBy(y => y.ChannelSort)
                         };
                     }).OrderBy(x => x.Sort);
-                
+
                 result.Add(depositType.GetDescription(), new PayMethod(payGroups));
             }
 
@@ -459,16 +474,16 @@ namespace MemberSite.Service.BLL
                 RedisDataBase.Shared);
             return dbData;
         }
-        
+
         public IEnumerable<WithdrawalBlockSetting> GetWithdrawalBlockSettingWithCache(int siteId, int currencyId)
         {
             var key = $"PaySetting:WithdrawalBlock:{siteId}";
-            
+
             var dbData = _redisHelper.TryGetOrCreate<IEnumerable<WithdrawalBlockSetting>>(key, TimeSpan.FromMinutes(5),
                 () => _payService.GetWithdrawalBlockSettingList(siteId));
-            
+
             return dbData.Where(x => x.CurrencyId == currencyId);
         }
-        
+
     }
 }

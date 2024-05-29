@@ -3,9 +3,11 @@ using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+
 using Newtonsoft.Json;
 
 namespace MemberSite.Controllers.Api
@@ -43,9 +45,9 @@ namespace MemberSite.Controllers.Api
             _newYear2024Bll = provider.GetRequiredService<NewYear2024BLL>();
             _queueJobBll = provider.GetRequiredService<QueueJobBLL>();
         }
-        
+
         #region Leaderboard
-        
+
         //[Authorize]
         [HttpPost]
         public ApiResult<IEnumerable<Leaderboard>> GetLeaderboardList(GetLeaderboardListReq getLeaderboardListV2Req)
@@ -55,7 +57,7 @@ namespace MemberSite.Controllers.Api
             int currencyId;
 
             var authData = _authorizeBll.GetAuthData();
-            if (authData is {CustId: > 0})
+            if (authData is { CustId: > 0 })
             {
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                 siteId = custInfo.SiteId;
@@ -75,7 +77,7 @@ namespace MemberSite.Controllers.Api
                 getLeaderboardListV2Req.TopNum,
                 getLeaderboardListV2Req.BeforeDays);
 
-            if (authData is {CustId: > 0})
+            if (authData is { CustId: > 0 })
             {
                 foreach (var L in apiResult.Data)
                 {
@@ -106,13 +108,15 @@ namespace MemberSite.Controllers.Api
             int siteId;
             int currencyId;
 
-            if (getLeaderboardListMonthReq.SelectDays.Month <= DateTime.UtcNow.AddMonths(-2).Month)
+            var nowMonth = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, 1);
+            var dateDifference = nowMonth - getLeaderboardListMonthReq.SelectDays;
+            if (dateDifference.TotalDays > 60)
             {
                 return apiResult;
             }
 
             var authData = _authorizeBll.GetAuthData();
-            if (authData is {CustId: > 0})
+            if (authData is { CustId: > 0 })
             {
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                 siteId = custInfo.SiteId;
@@ -132,7 +136,7 @@ namespace MemberSite.Controllers.Api
                 getLeaderboardListMonthReq.TopNum,
                 getLeaderboardListMonthReq.SelectDays);
 
-            if (authData is {CustId: > 0})
+            if (authData is { CustId: > 0 })
             {
                 foreach (var L in apiResult.Data)
                 {
@@ -157,14 +161,15 @@ namespace MemberSite.Controllers.Api
         public ApiResult<LeaderboardSetting> GetLeaderboardSetting(GetLeaderboardSettingReq req)
         {
             var result = new ApiResult<LeaderboardSetting>();
-            
+
             try
             {
+                req.CurrencyId = req.CurrencyId == 0 ? _selLangBll.GetPreferCurrencyId() : req.CurrencyId;
                 var time = _dateTimeHelper.ToCurrencyZone(DateTime.UtcNow, req.CurrencyId).Result;
                 var date = time.ToString("yyyyMM");
-                
-                var calculation = _eventsBll.GetLeaderboardPointCalculation(req.SiteId, date).FirstOrDefault(x=>x.CurrencyId == req.CurrencyId);
-                var rankingBonus = _eventsBll.GetLeaderboardRankingBonus(req.SiteId,req.CurrencyId);
+
+                var calculation = _eventsBll.GetLeaderboardPointCalculation(req.SiteId, date).FirstOrDefault(x => x.CurrencyId == req.CurrencyId);
+                var rankingBonus = _eventsBll.GetLeaderboardRankingBonus(req.SiteId, req.CurrencyId);
 
                 var data = new LeaderboardSetting
                 {
@@ -173,7 +178,7 @@ namespace MemberSite.Controllers.Api
                 };
                 result.ErrorCode = 0;
                 result.Data = data;
-                
+
                 return result;
             }
             catch (Exception e)
@@ -187,7 +192,7 @@ namespace MemberSite.Controllers.Api
             }
 
         }
-        
+
         [Authorize]
         [HttpPost]
         public ApiResult<LeaderboardCustRank> GetCustRank(GetCustRankReq input)
@@ -197,7 +202,7 @@ namespace MemberSite.Controllers.Api
                 Data = new LeaderboardCustRank()
             };
             var authData = _authorizeBll.GetAuthData();
-            if (authData is {CustId: > 0})
+            if (authData is { CustId: > 0 })
             {
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                 apiResult.Data = _eventsBll.GetCustRank(input.LBCategoryId, custInfo.SiteId, custInfo.CurrencyId, authData.CustId, input.BeforeDays);
@@ -216,7 +221,7 @@ namespace MemberSite.Controllers.Api
                 Data = new LeaderboardCustRank()
             };
             var authData = _authorizeBll.GetAuthData();
-            if (authData is {CustId: > 0})
+            if (authData is { CustId: > 0 })
             {
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
 
@@ -229,11 +234,11 @@ namespace MemberSite.Controllers.Api
 
             return apiResult;
         }
-        
+
         #endregion
 
         #region DrawPrize
-        
+
         [Authorize]
         [HttpPost]
         public async Task<ApiResult<CustGift>> CheckDrawPrize(DrawPrizeReq drawPrizeReq)
@@ -245,7 +250,7 @@ namespace MemberSite.Controllers.Api
             var authData = _authorizeBll.GetAuthData();
             var eventId = drawPrizeReq.EventId;
 
-            if (authData is {CustId: > 0})
+            if (authData is { CustId: > 0 })
             {
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                 if (eventId is 12 or 13 or 14)
@@ -304,7 +309,7 @@ namespace MemberSite.Controllers.Api
                 Data = new CustGift()
             };
             var authData = _authorizeBll.GetAuthData();
-            if (authData is {CustId: > 0})
+            if (authData is { CustId: > 0 })
             {
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                 var serverInfo = _serverInfoBll.GetServerInfo();
@@ -387,11 +392,11 @@ namespace MemberSite.Controllers.Api
                         var lockKey = $"DrawPrizeLock:{custInfo.CustId}";
                         var lockValue = Guid.NewGuid().ToString(); // 每次取鎖使用唯一值，確保為同一個執行序所執行
                         var lockExpiry = TimeSpan.FromSeconds(15); //lock 15 sec        
-                        
+
                         if (await _redisHelper.TryCreateLockAsync(lockKey, lockValue, lockExpiry))
                         {
                             var (error, prizeList) = await _newYear2024Bll.DrawPrize(eventId, custInfo, 1);
-                        
+
                             if (prizeList is not null)
                             {
                                 prize = prizeList.FirstOrDefault();
@@ -408,12 +413,12 @@ namespace MemberSite.Controllers.Api
                                 errorCode = error;
                             }
                             await _redisHelper.UnLockAsync(lockKey, lockValue);
-                        }                          
-                        
-                        apiResult.ErrorCode = errorCode is > 100 or -1 ? errorCode : (int) ErrorCode.Success;
+                        }
+
+                        apiResult.ErrorCode = errorCode is > 100 or -1 ? errorCode : (int)ErrorCode.Success;
                         apiResult.Message = errorCode switch
                         {
-                            0 => string.Format(_selLangBll.GetMsg("msg_congratulation_event_reward"), prize.Amount.ToString("#,##0.##") ),
+                            0 => string.Format(_selLangBll.GetMsg("msg_congratulation_event_reward"), prize.Amount.ToString("#,##0.##")),
                             1 => _selLangBll.GetMsg("msg_keep_up"),
                             2 => prize.PrizeName,
                             104 => _selLangBll.GetMsg("msg_ProfileOrPhoneNotFinish"),
@@ -431,8 +436,8 @@ namespace MemberSite.Controllers.Api
                 {
                     var eventDrawInfo = _eventsBll.GetEventDrawInfoWithCache(eventId);
 
-                    if ((custInfo.Status != (int) CustStatus.Running ||
-                         custInfo.ActStatus != (int) CustActStatus.Depoisted) && (eventId < 6))
+                    if ((custInfo.Status != (int)CustStatus.Running ||
+                         custInfo.ActStatus != (int)CustActStatus.Depoisted) && (eventId < 6))
                     {
                         apiResult.ErrorCode = 102;
                         apiResult.Message = _selLangBll.GetMsg("msg_Ineligible");
@@ -453,50 +458,59 @@ namespace MemberSite.Controllers.Api
                     }
                     else
                     {
-                        _eventsBll.DrawPrize(ref eventId, custInfo.CustId, custInfo.CurrencyId, custInfo.UserName,
+
+                        var lockKey = $"DrawPrizeLock:{custInfo.CustId}";
+                        var lockValue = Guid.NewGuid().ToString(); // 每次取鎖使用唯一值，確保為同一個執行序所執行
+                        var lockExpiry = TimeSpan.FromSeconds(15); //lock 15 sec        
+
+                        if (await _redisHelper.TryCreateLockAsync(lockKey, lockValue, lockExpiry))
+                        {
+                            _eventsBll.DrawPrize(ref eventId, custInfo.CustId, custInfo.CurrencyId, custInfo.UserName,
                             custInfo.SiteId, out var result, out var prize);
-                        if (result == 100 || result == 0)
-                        {
-                            apiResult.Data.PrizeId = prize.PrizeId;
-                            apiResult.Data.PrizeName = prize.PrizeName;
-                            apiResult.Data.Jackpot = prize.Jackpot;
-                        }
-
-                        if (result == 0)
-                        {
-                            var currencyName = Enum.GetName(typeof(CurrencyId), custInfo.CurrencyId);
-                            var dAmount = prize.Amount.ToString("#,##0.##");
-                            if (_custInfoBll.IsConvertRequired(custInfo.CurrencyId))
+                            if (result == 100 || result == 0)
                             {
-                                dAmount = $"{prize.Amount / 1000:#,##0.##}";
+                                apiResult.Data.PrizeId = prize.PrizeId;
+                                apiResult.Data.PrizeName = prize.PrizeName;
+                                apiResult.Data.Jackpot = prize.Jackpot;
                             }
 
-                            var Tital = string.Format(_selLangBll.GetMsg("msg_DrawPrizeTital1"), serverInfo.SiteName);
-
-                            var msg = string.Format(_selLangBll.GetMsg("msg_DrawPrize1"), Tital, currencyName, dAmount);
-
-                            if (eventId > 8) //得獎訊息抽出到db設定
+                            if (result == 0)
                             {
-                                var Message = _eventsBll.GetDrawPrizeMessageWithCache(eventId, _selLangBll.GetLangId());
-                                if (!string.IsNullOrEmpty(Message.Tital) && !string.IsNullOrEmpty(Message.Message))
+                                var currencyName = Enum.GetName(typeof(CurrencyId), custInfo.CurrencyId);
+                                var dAmount = prize.Amount.ToString("#,##0.##");
+                                if (_custInfoBll.IsConvertRequired(custInfo.CurrencyId))
                                 {
-                                    var prizeName = $"{currencyName} {dAmount}";
-                                    if (_selLangBll.GetLangId() == "vn")
-                                        prizeName = $"{dAmount} {currencyName}";
-                                    Tital = Message.Tital;
-                                    msg = string.Format(Message.Message, prizeName);
+                                    dAmount = $"{prize.Amount / 1000:#,##0.##}";
                                 }
+
+                                var Tital = string.Format(_selLangBll.GetMsg("msg_DrawPrizeTital1"), serverInfo.SiteName);
+
+                                var msg = string.Format(_selLangBll.GetMsg("msg_DrawPrize1"), Tital, currencyName, dAmount);
+
+                                if (eventId > 8) //得獎訊息抽出到db設定
+                                {
+                                    var Message = _eventsBll.GetDrawPrizeMessageWithCache(eventId, _selLangBll.GetLangId());
+                                    if (!string.IsNullOrEmpty(Message.Tital) && !string.IsNullOrEmpty(Message.Message))
+                                    {
+                                        var prizeName = $"{currencyName} {dAmount}";
+                                        if (_selLangBll.GetLangId() == "vn")
+                                            prizeName = $"{dAmount} {currencyName}";
+                                        Tital = Message.Tital;
+                                        msg = string.Format(Message.Message, prizeName);
+                                    }
+                                }
+
+                                await _messageBll.SendMessage(new Message("System", custInfo.CustId, custInfo.UserLang,
+                                    Tital, msg));
+                            }
+                            else
+                            {
+                                apiResult.Message = _selLangBll.GetMsg("msg_Ineligible");
                             }
 
-                            await _messageBll.SendMessage(new Message("System", custInfo.CustId, custInfo.UserLang,
-                                Tital, msg));
+                            apiResult.ErrorCode = result;
+                            await _redisHelper.UnLockAsync(lockKey, lockValue);
                         }
-                        else
-                        {
-                            apiResult.Message = _selLangBll.GetMsg("msg_Ineligible");
-                        }
-
-                        apiResult.ErrorCode = result;
                     }
                 }
             }
@@ -514,7 +528,7 @@ namespace MemberSite.Controllers.Api
             };
 
             var authData = _authorizeBll.GetAuthData();
-            if (authData is {CustId: > 0})
+            if (authData is { CustId: > 0 })
             {
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                 var eventId = drawPrizeReq.EventId;
@@ -535,12 +549,12 @@ namespace MemberSite.Controllers.Api
                             {
                                 errorCode = error;
                             }
-                            else if (error is >= 0 and < 100) 
+                            else if (error is >= 0 and < 100)
                             {
                                 foreach (var prize in prizeList)
                                 {
                                     DealDrawPrize(custInfo, prize);
-                              
+
                                     var prizeData = new CustGift
                                     {
                                         PrizeId = prize.PrizeId,
@@ -553,7 +567,7 @@ namespace MemberSite.Controllers.Api
                                 errorCode = 0;
                             }
 
-                            apiResult.ErrorCode = errorCode == (int)ErrorCode.Success ? (int)ErrorCode.Success : errorCode ;
+                            apiResult.ErrorCode = errorCode == (int)ErrorCode.Success ? (int)ErrorCode.Success : errorCode;
                             apiResult.Message = errorCode switch
                             {
                                 0 => "Success",
@@ -570,7 +584,7 @@ namespace MemberSite.Controllers.Api
                     }
 
                     await _redisHelper.UnLockAsync(lockKey, lockValue);
-                }   
+                }
             }
 
             return apiResult;
@@ -582,7 +596,7 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<IEnumerable<CustGiftList>>();
             var authData = _authorizeBll.GetAuthData();
-            if (authData is {CustId: > 0})
+            if (authData is { CustId: > 0 })
             {
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                 var eventId = drawPrizeReq.EventId;
@@ -619,7 +633,7 @@ namespace MemberSite.Controllers.Api
             {
                 var currencyId = 0;
                 var authData = _authorizeBll.GetAuthData();
-                if (authData is {CustId: > 0})
+                if (authData is { CustId: > 0 })
                 {
                     var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                     currencyId = custInfo.CurrencyId;
@@ -647,7 +661,7 @@ namespace MemberSite.Controllers.Api
             }
 
         }
-        
+
         [Authorize]
         [HttpPost]
         public async Task<ApiResult<CheckPromotionMissionResponse>> CheckPromotionMission()
@@ -656,7 +670,7 @@ namespace MemberSite.Controllers.Api
 
             var authData = _authorizeBll.GetAuthData();
 
-            if (authData is {CustId: > 0})
+            if (authData is { CustId: > 0 })
             {
                 var data = new CheckPromotionMissionResponse();
 
@@ -681,7 +695,46 @@ namespace MemberSite.Controllers.Api
                     apiResult.Message = _selLangBll.GetMsg("msg_Ineligible");
                 }
 
-                apiResult.ErrorCode = (int) ErrorCode.Success;
+                apiResult.ErrorCode = (int)ErrorCode.Success;
+            }
+
+            return apiResult;
+        }
+
+        [HttpPost]
+        public async Task<ApiResult<CheckPromotionMissionResponse>> ReCheckPromotionMission(ReCheckPromotionReq request)
+        {
+            var apiResult = new ApiResult<CheckPromotionMissionResponse>();
+
+            var key = _newYear2024Bll.CheckKey();
+            if (!key) return apiResult;
+            var custInfo = _custInfoBll.GetCustInfoWithCache(request.CustId);
+
+            if (custInfo is { CustId: > 0 })
+            {
+                var data = new CheckPromotionMissionResponse();
+
+                var custPromotionMission = await _newYear2024Bll.CheckCustPromotionMission(custInfo, request.Date);
+                var eggTicket = await _newYear2024Bll.GetEggTicket(custInfo.CustId);
+
+                if (custPromotionMission is not null)
+                {
+                    var claimMission = custPromotionMission.Where(x => x.IsCompleted);
+                    if (claimMission.Any())
+                    {
+                        eggTicket = _newYear2024Bll.ClaimPromotionMission(custInfo, claimMission, eggTicket);
+                    }
+
+                    data.EggTicket = eggTicket;
+                    data.NewYearMission2024 = custPromotionMission;
+                    apiResult.Data = data;
+                }
+                else
+                {
+                    apiResult.Message = _selLangBll.GetMsg("msg_Ineligible");
+                }
+
+                apiResult.ErrorCode = (int)ErrorCode.Success;
             }
 
             return apiResult;
@@ -694,40 +747,40 @@ namespace MemberSite.Controllers.Api
             var apiResult = new ApiResult();
 
             var authData = _authorizeBll.GetAuthData();
-            if (authData is {CustId: > 0})
+            if (authData is { CustId: > 0 })
             {
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-                
+
                 var lockKey = $"ClaimNewYearBigPrizeLock:{custInfo.CustId}";
                 var lockValue = Guid.NewGuid().ToString(); // 每次取鎖使用唯一值，確保為同一個執行序所執行
                 var lockExpiry = TimeSpan.FromSeconds(15); //lock 15 sec        
                 if (await _redisHelper.TryCreateLockAsync(lockKey, lockValue, lockExpiry))
                 {
-                    var (result,prize) = await _newYear2024Bll.ClaimNewYearBigPrize(custInfo, req.EventId);
-                
+                    var (result, prize) = await _newYear2024Bll.ClaimNewYearBigPrize(custInfo, req.EventId);
+
                     switch (result)
                     {
                         case >= 0:
                             SendDrawPrizeMessage(req.EventId, custInfo, prize);
-                            apiResult.ErrorCode = (int) ErrorCode.Success;
+                            apiResult.ErrorCode = (int)ErrorCode.Success;
                             break;
-                    
+
                         case -1:
                             apiResult.Message = _selLangBll.GetMsg("msg_Ineligible");
                             break;
-                    
+
                         case -2:
                             apiResult.Message = "Already Claimed";
                             break;
                     }
 
                     await _redisHelper.UnLockAsync(lockKey, lockValue);
-                }            
+                }
             }
 
             return apiResult;
         }
-        
+
         [Authorize]
         [HttpPost]
         public async Task<ApiResult<CustBlessingsStickerResponse>> GetCustBlessingsSticker(DrawPrizeReq req)
@@ -739,15 +792,15 @@ namespace MemberSite.Controllers.Api
 
             var authData = _authorizeBll.GetAuthData();
 
-            if (authData is {CustId: > 0})
+            if (authData is { CustId: > 0 })
             {
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                 var sticker = await _newYear2024Bll.GetCustBlessingsSticker(custInfo.CustId);
                 var isClaimed = _newYear2024Bll.CheckNewYearBigPrize(custInfo, req.EventId);
-                
+
                 apiResult.Data.Stickers = sticker;
                 apiResult.Data.IsClaimedBigPrize = isClaimed;
-                apiResult.ErrorCode = (int) ErrorCode.Success;
+                apiResult.ErrorCode = (int)ErrorCode.Success;
             }
 
             return apiResult;
@@ -758,7 +811,7 @@ namespace MemberSite.Controllers.Api
         private int DealDrawPrize(Customer custInfo, Prize prize)
         {
             var errorCode = -1;
-            
+
             if (prize.Amount > 0)
             {
                 errorCode = 0;
@@ -772,31 +825,31 @@ namespace MemberSite.Controllers.Api
                     prize.DrawPrizeType = DrawPrizeTypeEnum.NoPrize;
                     errorCode = 1;
                     break;
-                
+
                 // 物件類型的獎品
                 case 2 when prize.PrizeName != "Blessings Sticker":
-                {
-                    prize.DrawPrizeType = DrawPrizeTypeEnum.NormalPrize;
-                    
-                    // 進Queue Worker
-                    var data = new DrawPrizeQueueJob()
                     {
-                        PrizeId = prize.PrizeId,
-                        PrizeName = prize.PrizeName
-                    };
-                    _queueJobBll.InsertQueueJob(custInfo.CustId, QueueJob.DrawPrize, JsonConvert.SerializeObject(data));
-                    errorCode = 2;
-                    break;
-                }
+                        prize.DrawPrizeType = DrawPrizeTypeEnum.NormalPrize;
+
+                        // 進Queue Worker
+                        var data = new DrawPrizeQueueJob()
+                        {
+                            PrizeId = prize.PrizeId,
+                            PrizeName = prize.PrizeName
+                        };
+                        _queueJobBll.InsertQueueJob(custInfo.CustId, QueueJob.DrawPrize, JsonConvert.SerializeObject(data));
+                        errorCode = 2;
+                        break;
+                    }
 
                 case 2 when prize.PrizeName == "Blessings Sticker":
-                {
-                    prize.DrawPrizeType = DrawPrizeTypeEnum.BlessingsSticker;
-                    errorCode = 2;
-                    break;
-                }
+                    {
+                        prize.DrawPrizeType = DrawPrizeTypeEnum.BlessingsSticker;
+                        errorCode = 2;
+                        break;
+                    }
             }
-            
+
             return errorCode;
         }
 
@@ -813,12 +866,12 @@ namespace MemberSite.Controllers.Api
         private string AlterDisplayPrizeName(Prize prize)
         {
             return prize.PrizeName.Contains("Advant Play Free Bet")
-                ? string.Concat(prize.PrizeName, $" {(int) prize.Amount}")
+                ? string.Concat(prize.PrizeName, $" {(int)prize.Amount}")
                 : prize.PrizeName;
         }
-        
+
         #endregion
-        
+
         #endregion
     }
 }

@@ -8,6 +8,7 @@
         Bonus = 3,
         Admin = 4,
         Payment = 5,
-        Token = 6
+        Token = 6,
+        IP = 7,
     }
 }

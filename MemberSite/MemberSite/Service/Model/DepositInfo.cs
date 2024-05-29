@@ -55,6 +55,7 @@ namespace MemberSite.Service.Model
         public string PostScript { get; set; }
         public decimal MinAmount { get; set; }
         public decimal MaxAmount { get; set; }
+        public string Code { get; set; }
     }
 
     public class LocalPayResp
@@ -92,7 +93,7 @@ namespace MemberSite.Service.Model
         [JsonIgnore]
         public string Memo { get; set; }
         public dynamic DepositRep { get; set; }
-        public BankInfoSys BankInfo { get; set; }
+        //public BankInfoSys BankInfo { get; set; }
         public string ThirdId { get; set; }
         public string RefId { get; set; }
         public DateTimeOffset? DepositTime

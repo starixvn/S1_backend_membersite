@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+<resheader name="resmimetype"><value>text/microsoft-resx</value></resheader><resheader name="version"><value>1.3</value></resheader><resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader><resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader><data name="msg_TransferAlert"><value>Sua carteira de apostas esportivas atual é: &lt;span class="popup-span Js-CarteiraPrincipal-Saldo"&gt;{0} {1}&lt;/span&gt;&lt;br &gt; Deposite e transfira da Carteira Principal para a Carteira de apostas esportivas agora mesmo para aproveitar nossos jogos e serviços.</value></data>
+  <data name="msg_SubmitDepositTime"><value>Por favor, indique a hora do depósito.</value></data>
+  <data name="msg_ClaimCashBackBonus"><value>Parabéns, seu REEMBOLSO {0} foi creditado em sua conta!</value></data>
+  <data name="msg_BirthdayIsRequired"><value>Por favor, preencha a data de nascimento</value></data>
+  <data name="msg_UsernameReq"><value>O nome de usuário é obrigatório.</value></data>
+  <data name="msg_ApiServerError"><value>Erro do servidor da API.</value></data>
+  <data name="msg_MustInteger"><value>Por favor, preencha o valor completo, não são permitidos dígitos decimais.</value></data>
+  <data name="msg_LoginToAccess"><value>Faça login para acessar o jogo.</value></data>
+  <data name="msg_WithdrawalAccountNumberIncorrect_Detail"><value>O número da conta de saque está incorreto. Por favor, verifique o número de sua conta de saque.</value></data>
+  <data name="msg_CreditSignUp"><value>Prezado cliente, &lt;br /&gt;&lt;br /&gt;Bem-vindo a &lt;a href="https://{0}" target="_new"&gt;{0}&lt;/a&gt; , após o registro, visite o link mencionado e divirta-se com nossos jogos.</value></data>
+  <data name="msg_WrongAmountSubmitted_Detail"><value>O valor do depósito não corresponde ao valor da solicitação do comprovante de depósito. Por favor, verifique novamente ou entre em contato com o Suporte ao Cliente para obter mais assistência.</value></data>
+  <data name="msg_BankAccountDuplicate"><value>Não é permitido duplicar o número da conta bancária. Por favor, tente outro número de conta.</value></data>
+  <data name="msg_WithdrawalNoFund"><value>Sua solicitação de saque falhou devido a saldo insuficiente!</value></data>
+  <data name="msg_EmailFormatVerify"><value>Formato incorreto do endereço de e-mail</value></data>
+  <data name="msg_loggedout"><value>Você efetuou o logout com sucesso!</value></data>
+  <data name="msg_PhoneFormatVerify"><value>O número de telefone inserido está incorreto, deve ter entre {0} dígitos</value></data>
+  <data name="msg_PhoneWrongFormat"><value>O formato do telefone está incorreto.</value></data>
+  <data name="msg_Updatesuccessful"><value>Atualização bem-sucedida</value></data>
+  <data name="msg_WithdrawalFailed"><value>Sua solicitação de retirada falhou. Verifique com o CSD para obter mais informações.</value></data>
+  <data name="msg_CryptoWalletDuplicate"><value>O endereço da carteira criptografada foi usado</value></data>
+  <data name="msg_WithdrawalExists"><value>Sua solicitação de transação está pendente. Tente novamente enquanto a transação pendente estiver concluída.</value></data>
+  <data name="msg_LessThanWithdrawalMin"><value>O valor da retirada deve ser maior que {0}</value></data>
+  <data name="msg_ReferenceNumber"><value>Número de referência</value></data>
+  <data name="mag_AffiliateNotExist"><value>Seu código de afiliado é inválido. Por favor, verifique novamente!</value></data>
+  <data name="msg_Congratulations"><value>Seu registro foi concluído; você pode fazer o login imediatamente, depositar e começar a fazer apostas.</value></data>
+  <data name="msg_PaymentNotReceived"><value>Pagamento não recebido</value></data>
+  <data name="msg_DepositHint"><value>Deposite agora e aproveite nossos jogos e serviços.</value></data>
+  <data name="msg_WrongAmount"><value>Valor incorreto</value></data>
+  <data name="msg_WithdrawalAccountsNameUnmatch"><value>Retirada O nome da conta não corresponde</value></data>
+  <data name="msg_PasswordValidate"><value>A senha deve ter de 6 a 15 caracteres e conter caracteres alfanuméricos.</value></data>
+  <data name="msg_WrongAmountSubmitted"><value>Valor do depósito incorreto</value></data>
+  <data name="msg_UsernameNotAvailable"><value>O nome de usuário não está mais disponível.</value></data>
+  <data name="msg_WithdrawalAccountsNameUnmatch_Detail"><value>O nome da conta de saque não corresponde ao nome registrado. Entre em contato com o atendimento ao cliente para obter assistência.</value></data>
+  <data name="msg_NeedAccountName"><value>Preciso do nome da conta</value></data>
+  <data name="msg_DrawPrizeTital"><value>Sorteio de Ang Pao</value></data>
+  <data name="msg_UsernameLength"><value>O nome de usuário deve ter entre 6 e 18 caracteres.</value></data>
+  <data name="msg_DepositSlipRequired_Detail"><value>Por favor, anexe o comprovante de transferência para acelerar o tempo de processamento da transação.</value></data>
+  <data name="msg_NeedAccountNo"><value>Necessita do número da conta</value></data>
+  <data name="msg_DrawPrize"><value>Parabéns, seu Ang Pow {0} foi creditado em sua conta!</value></data>
+  <data name="msg_SpecialCodeErrorForCheck"><value>O código promocional está incorreto, verifique novamente</value></data>
+  <data name="msg_InvalidOldPassword"><value>Senha antiga inválida!</value></data>
+  <data name="msg_WithdrawalAccountAannotReceiveMoney_Detail"><value>A conta de saque não pode receber fundos. Verifique novamente ou entre em contato com o Suporte ao Cliente para obter mais assistência.</value></data>
+  <data name="msg_PasswordLength"><value>A senha deve ter entre 6 e 18 caracteres.</value></data>
+  <data name="msg_GreaterThanWithdrawalMax"><value>Seu limite diário foi atingido.</value></data>
+  <data name="msg_MailWrongFormat"><value>O formato do e-mail está errado.</value></data>
+  <data name="msg_NotInLimit"><value>Não está no limite</value></data>
+  <data name="msg_UsernameValidate"><value>6-18 caracteres alfanuméricos (A-Z, a-z, 0-9) apenas.</value></data>
+  <data name="msg_WrongBankSubmitted_Detail"><value>A conta de depósito selecionada está incorreta. Por favor, verifique novamente ou entre em contato com o Suporte ao Cliente para obter mais assistência.</value></data>
+  <data name="msg_DepositSlipRequired"><value>É necessário o comprovante de depósito</value></data>
+  <data name="msg_OTPEnterCode"><value>Digite o número de verificação que você recebeu abaixo.</value></data>
+  <data name="msg_UpdateFailed"><value>Falha na atualização</value></data>
+  <data name="msg_EnterRealName"><value>Digite seu nome verdadeiro.</value></data>
+  <data name="msg_SelectBirthDay"><value>Selecione sua data de nascimento.</value></data>
+  <data name="msg_RequiredAmountInsufficient"><value>Deposite pelo menos {0} para ter direito ao bônus</value></data>
+  <data name="msg_DepositProcessLogin_LoginFailed"><value>Falha no login, o nome de usuário/senha está incorreto ou o nome de usuário não existe.</value></data>
+  <data name="msg_SelectFile"><value>Selecionar arquivo</value></data>
+  <data name="msg_DepositProcessLogin_ACLocked"><value>Sua conta está bloqueada; entre em contato com o atendimento ao cliente 24/7, obrigado!</value></data>
+  <data name="msg_InactiveBankAccountSubmission"><value>Envio de conta bancária inativa</value></data>
+  <data name="msg_ConfirmRealNameAlert"><value>Para garantir que todas as transações estejam corretas, certifique-se de que seu nome real seja igual ao nome da sua conta bancária</value></data>
+  <data name="msg_MustDeposit"><value>Por favor, complete o depósito antes de enviar o saque</value></data>
+  <data name="msg_GoToDepositPage"><value>Ir para a página de depósito?</value></data>
+  <data name="msg_PromoCodeHasBeenUsed"><value>O código promocional foi usado</value></data>
+  <data name="msg_PaymentNotReceived_Detail"><value>O pagamento ainda não foi recebido pelo banco, por favor, aguarde pacientemente.</value></data>
+  <data name="msg_DrawPrize1"><value>Parabéns! Seu bônus {0} de {1} {2} foi creditado em sua conta.</value></data>
+  <data name="msg_BalanceHint"><value>Seu saldo atual é</value></data>
+  <data name="msg_HasExist"><value>já existe.</value></data>
+  <data name="msg_InsufficientFund"><value>Saldo insuficiente!</value></data>
+  <data name="msg_DepositRefunded_Detail"><value>O valor do depósito foi reembolsado. Por favor, verifique sua conta bancária.</value></data>
+  <data name="msg_LockedAmountInsufficient"><value>O saldo da carteira principal não deve ser inferior a {0}.</value></data>
+  <data name="msg_OTPSendCode"><value>Enviamos o código de verificação para o seu celular registrado. Verifique seu celular e digite o código de verificação abaixo.</value></data>
+  <data name="msg_InactiveBankAccountSubmission_Detail"><value>A conta de depósito foi alterada. Verifique a conta de recebimento mais recente antes de fazer uma transação.</value></data>
+  <data name="msg_WithdrawalAccountAannotReceiveMoney"><value>A conta de saque não pode receber fundos</value></data>
+  <data name="msg_SamePassword"><value>A senha antiga e a nova senha são as mesmas!</value></data>
+  <data name="msg_BeneficiarysAccountMaintenance_Detail"><value>O banco está em manutenção no momento, sua solicitação de saque será processada após a conclusão da manutenção do banco.</value></data>
+  <data name="msg_DepositorsNameUnmatch_Detail"><value>O nome registrado não corresponde ao nome da conta bancária. Entre em contato com o Suporte ao Cliente para obter mais assistência.</value></data>
+  <data name="msg_WithdrawalAccountNumberIncorrect"><value>Número da conta de saque incorreto</value></data>
+  <data name="msg_DepositAlert"><value>Sua carteira de apostas esportivas atual é: &lt;span class="popup-span Js-CarteiraPrincipal-Saldo"&gt;{0} {1}&lt;/span&gt;&lt;br &gt; Deposite e transfira da Carteira Principal para a Carteira de apostas esportivas agora mesmo para aproveitar nossos jogos e serviços.</value></data>
+  <data name="msg_ForceLogedoutHint"><value>Este ID já efetuou login em outra janela do navegador ou dispositivo. Você será forçado a fazer logout desta sessão.</value></data>
+  <data name="msg_WithdrawalSuccessful"><value>Sua solicitação de saque foi bem-sucedida. Nós o notificaremos assim que isso for feito.</value></data>
+  <data name="msg_EnterPhoneNumber"><value>Digite o número de telefone.</value></data>
+  <data name="msg_PasswordReq"><value>A senha é obrigatória.</value></data>
+  <data name="msg_NoData"><value>Sem dados</value></data>
+  <data name="msg_ThisCurrencyNotSupport"><value>Sua moeda não é compatível.</value></data>
+  <data name="msg_InvalidCryptoWalletAddress"><value>Endereço de carteira de criptografia inválido.</value></data>
+  <data name="msg_DrawPrizeTital1"><value>{Caixa Misteriosa</value></data>
+  <data name="ForgetPwdSuccess"><value>Sua nova senha foi enviada para seu endereço de e-mail registrado.</value></data>
+  <data name="msg_BankAccountExists"><value>Você já armazenou essas informações.</value></data>
+  <data name="msg_Ineligible"><value>Você não é elegível para essa promoção. Entre em contato com nosso suporte para obter mais detalhes.</value></data>
+  <data name="msg_CreditSignUpHint_1"><value>Prezado cliente</value></data>
+  <data name="msg_CreditSignUpHint_2"><value>Bem-vindo ao {0}, após o registro, visite o link mencionado e divirta-se com nossos jogos.</value></data>
+  <data name="ResetPwdSuccess"><value>Sua senha foi redefinida com sucesso!</value></data>
+  <data name="msg_DepositorsNameUnmatch"><value>Nome do depositante incompatível</value></data>
+  <data name="msg_PromoCodeIncorrect"><value>O código promocional está incorreto.</value></data>
+  <data name="msg_SpecialCodeErr"><value>O código promocional está incorreto, verifique novamente</value></data>
+  <data name="msg_IneligibleAngPow"><value>Faça seu depósito para ter direito a esta promoção</value></data>
+  <data name="msg_MailReq"><value>O e-mail não pode ser alterado após o envio</value></data>
+  <data name="msg_ForceLogedout"><value>Você efetuou o logout! Faça login e tente novamente!</value></data>
+  <data name="msg_WrongBankSubmitted"><value>Conta de depósito incorreta selecionada</value></data>
+  <data name="msg_BeneficiarysAccountMaintenance"><value>Manutenção da conta do beneficiário</value></data>
+  <data name="ForgetPwdFail"><value>Este endereço de e-mail é inválido!</value></data>
+  <data name="msg_OTPHint"><value>Preencha seu perfil e verifique seu número de telefone para aproveitar nossas promoções.</value></data>
+  <data name="msg_MailExisted"><value>O e-mail já existe.</value></data>
+  <data name="msg_SpecialCodeVipLevelsOrBlockTagInvalid"><value>Não é possível participar dessa promoção, entre em contato com o atendimento ao cliente para obter informações</value></data>
+  <data name="msg_AffCodeValidate"><value>A ID de afiliado permite apenas números de 5 a 20.</value></data>
+  <data name="msg_OTPHint2"><value>Verificar seu telefone agora?</value></data>
+  <data name="msg_OTPHint1"><value>Deseja aproveitar nossos produtos e serviços completos?</value></data>
+  <data name="msg_DepositRefunded"><value>Depósito reembolsado</value></data>
+  <data name="msg_DecimalOutOfRange"><value>Falha na transferência devido a decimal maior que 2 dígitos</value></data>
+  <data name="msg_RedemptionLimitOverLimit"><value>Desculpe, seu limite de resgate foi atingido. Tente novamente no novo mês do calendário.</value></data>
+  <data name="msg_times_chance"><value>Ainda restam {0} chances</value></data>
+  <data name="msg_congratulation_event_reward"><value>Parabéns! Receba {0} quantia</value></data>
+  <data name="msg_ProfileOrPhoneNotFinish"><value>As informações da conta não foram preenchidas, verifique as informações da conta</value></data>
+  <data name="msg_EWalletIsMaintenance"><value>O E-Wallet está em manutenção, por favor, use outros métodos de saque</value></data>
+  <data name="msg_turnover_not_enough"><value>Ainda não completou a aposta válida exigida, não pode participar</value></data>
+  <data name="msg_ResubmitWithdrawal"><value>Favor submeta novamente uma solicitação de saque</value></data>
+  <data name="msg_Event_has_not_started"><value>O evento ainda não começou</value></data>
+  <data name="msg_limit_has_been_reached"><value>O limite de hoje foi atingido</value></data>
+  <data name="msg_InsufficientPoint"><value>Desculpe! Você não tem 88 pontos de recompensa suficientes.</value></data>
+  <data name="msg_keep_up"><value>Boa sorte em seu próximo sorteio</value></data>
+  <data name="msg_EWalletDuplicate"><value>Não é permitido duplicar o número da conta da carteira eletrônica. Tente usar outro número de conta de carteira eletrônica.</value></data>
+  <data name="msg_CompletePhoneNumber"><value>Complete a verificação do seu telefone celular (OTP).</value></data>
+  <data name="msg_LineAccountAlreadyBind"><value>Esta conta LINE já foi usada, por favor, use outra conta.</value></data>
+  <data name="msg_RealNameWrongFormat"><value>O NomeReal não permite números ou caracteres especiais.</value></data>
+  <data name="msg_OTPDailyLimit"><value>O OTP atingiu o limite, entre em contato com o suporte do bate-papo</value></data>
+  <data name="msg_SystemUnstable"><value>O sistema não consegue recuperar os detalhes.</value></data>
+  <data name="msg_SystemUnstable_Detail"><value>O sistema do banco não está conseguindo recuperar os detalhes da transação e não pode processar seu depósito no momento.</value></data>
+  <data name="msg_BankUnderMaintenance"><value>Manutenção do banco</value></data>
+  <data name="msg_BankUnderMaintenance_Detail"><value>O sistema do banco está em manutenção e não é possível processar seu depósito no momento.</value></data>
+  <data name="msg_AffCodeNotFound"><value>O ID do afiliado não pode ser encontrado</value></data>
+  <data name="msg_WrongAmountFormat"><value>Erro &gt; O formato do valor está incorreto</value></data>
+  </root>
