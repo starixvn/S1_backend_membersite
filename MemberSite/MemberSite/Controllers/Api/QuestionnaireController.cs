@@ -38,20 +38,31 @@ namespace MemberSite.Controllers.Api
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                 if (authData is not { CustId: > 0 })
                 {
-                    apiResult.Message = "not login";
+                    apiResult.Message = "Not Login";
                     return apiResult;
                 }
 
-                var result = _questionnaireBll.Set(request, custInfo);
+                if (request.Content.Length > 2000)
+                {
+                    apiResult.Message = "Content cannot be larger than 2000";
+                    return apiResult;
+                }
+
+                var result =await _questionnaireBll.Set(request, custInfo);
                 if (result == 1)
                 {
                     apiResult.Message = "Success";
-                    apiResult.ErrorCode = 0; 
+                    apiResult.ErrorCode = 0;
                 }
-                else 
+                else if (result == -1)
                 {
                     apiResult.Message = "You have reached the maximum feedback submissions for today.";
-                    apiResult.ErrorCode = 9000; 
+                    apiResult.ErrorCode = 9000;
+                }
+                else
+                {
+                    apiResult.Message = "Fail";
+                    apiResult.ErrorCode = 9000;
                 }
             }
             catch (Exception e)

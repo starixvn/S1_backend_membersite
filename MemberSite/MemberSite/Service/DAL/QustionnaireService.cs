@@ -26,7 +26,7 @@ namespace MemberSite.Service.DAL
             p.Add("_Content",content);
             p.Add("_ContactInfo", contactInfo);
 
-            var result =  _mainDbClient.QueryFirst<int>("Member_Questionnaire_Set", p);
+            var result =  _mainDbClient.Execute("Member_Questionnaire_Set", p);
 
             return result;
         }
