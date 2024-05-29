@@ -156,4 +156,5 @@
   <data name="msg_BankUnderMaintenance"><value>Manutenção do banco</value></data>
   <data name="msg_BankUnderMaintenance_Detail"><value>O sistema do banco está em manutenção e não é possível processar seu depósito no momento.</value></data>
   <data name="msg_AffCodeNotFound"><value>O ID do afiliado não pode ser encontrado</value></data>
+  <data name="msg_WrongAmountFormat"><value>Erro &gt; O formato do valor está incorreto</value></data>
   </root>

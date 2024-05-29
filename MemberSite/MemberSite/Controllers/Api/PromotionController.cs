@@ -6,7 +6,7 @@ using MemberSite.Service.Model.Interfaces;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
+using Newtonsoft.Json;
 using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
@@ -117,6 +117,18 @@ namespace MemberSite.Controllers.Api
                 var authData = _authorizeBll.GetAuthData();
                 if (authData is { CustId: > 0 })
                 {
+                    var key = $"SetClaimPromotion:{authData.CustId}";
+                    
+                    if (!await _cacheHelper.SetNxAsync(key, string.Empty, TimeSpan.FromMinutes(1)))
+                    {
+                        apiResult.ErrorCode = -100;
+                        apiResult.Message = _selLangBll.GetMsg("msg_Ineligible");
+                        
+                        _logger.LogInformation("Block duplicate claim bonus");
+                        
+                        return apiResult;
+                    }
+                    
                     var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                     var deviceType = (int)PromotionDeviceType.All;
                     if (promotionReq.DeviceType != null)
@@ -486,6 +498,7 @@ namespace MemberSite.Controllers.Api
                 }
 
                 var authData = _authorizeBll.GetAuthData();
+                _logger.LogInformation($"authData={JsonConvert.SerializeObject(authData)}.");
                 var isLogin = authData is { CustId: > 0 };
 
                 if (isLogin)
