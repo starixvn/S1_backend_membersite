@@ -156,11 +156,11 @@ namespace MemberSite.Service.BLL
             }
             
             var resultData = await _gameService.GetLobbyHeader(req ,statusList);
-
+            
             // app的wrapper無法開啟PlayTech，後端寫死移除PlayTech的Casino
             if (deviceType == DeviceId.APP)
             {
-                resultData.ToList().RemoveAll(i => i.TpId == 51 && i.LobbyCategoryId == 3);
+                resultData = resultData.Where(i =>!( i.TpId == 51 && i.LobbyCategoryId == 3) ).ToList();
             }
 
             var sequence = new List<int>();
