@@ -87,6 +87,45 @@ namespace MemberSite.Service.BLL
             return false;
         }
 
+        public bool CheckAttackIp(HttpRequest Request)
+        {
+            var clientIp = _tools.GetClientIP();
+            if (_ipHelper.IpInRange(clientIp) || clientIp == "18.139.199.197")
+            {
+                return false;
+            }
+            var checkCountForShortTime = _cacheHelper.StringIncrementAsync($"IP:{clientIp}", TimeSpan.FromMinutes(1)).Result;
+            // var checkCountForLongTime = _cacheHelper.StringIncrementAsync($"IP:10:{clientIp}", TimeSpan.FromMinutes(20)).Result;
+            // var checkCountForBlock = _cacheHelper.StringIncrementAsync($"IP:hour:{clientIp}", TimeSpan.FromMinutes(30)).Result;
+            if (checkCountForShortTime >= 50 )
+            {
+                _cacheHelper.StringFireAndForgetSetAsync($"block:{clientIp}", string.Empty, TimeSpan.FromHours(1));
+            }
+
+            var isDart = Request.Headers["User-Agent"].ToString().Contains("Dart");
+
+            if (isDart)
+            {
+                var reason = "agent use Dart";
+                var memo = $"Auto Deny (/Site/ExistsPhoneNo) - Attack: get user phone number, reason is {reason}";
+                var setResult = _iPBll.SetBlockIp(new BlockIpRequest { IP = clientIp, Memo = memo, Operator = "System" });
+                if (setResult > 0 && !_cacheHelper.KeyExists($"AutoDeny:{clientIp}"))
+                {
+                    _cacheHelper.StringFireAndForgetSetAsync($"AutoDeny:{clientIp}", string.Empty, TimeSpan.FromMinutes(1));
+                    _ = Task.Run(async () => { _ = await Upload(); });
+                }
+            }
+
+            if (isDart || checkCountForShortTime >= 50
+                       || _cacheHelper.KeyExists($"block:{clientIp}"))
+            {
+                _logger.LogInformation($"IP: {Request.Headers["X-Forwarded-For"]}, {Request.Headers["HTTP_X_FORWARDED_FOR"]}, {Request.Headers["HTTP_INCAP_CLIENT_IP"]}, {Request.Headers["HTTP_TRUE_CLIENT_IP"]}, {Request.Headers["HTTP_X_REAL_IP"]}, {Request.Headers["REMOTE_ADDR"]}, {Request.HttpContext.Connection.RemoteIpAddress?.MapToIPv4()}");
+                return true;
+            }
+
+            return false;
+        }
+        
         public bool CheckAttackForSignIn(SiteController.LoginModel req, bool checkReferer, HttpRequest Request)
         {
             var clientIp = _tools.GetClientIP();

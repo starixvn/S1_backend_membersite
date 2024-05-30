@@ -1,4 +1,5 @@
-﻿using MemberSite.Service.BLL;
+﻿using System.Net;
+using MemberSite.Service.BLL;
 using MemberSite.Service.Model;
 
 using Microsoft.AspNetCore.Authorization;
@@ -19,6 +20,7 @@ namespace MemberSite.Controllers.Api
         private readonly CustInfoBll _custInfoBll;
         private readonly SelLangBLL _selLangBll;
         private readonly HotEventBLL _hotEventBll;
+        private readonly CheckAttackBLL _checkAttackBll;
         private readonly ILogger<HotEventController> _logger;
 
         public HotEventController(IServiceProvider provider)
@@ -28,6 +30,7 @@ namespace MemberSite.Controllers.Api
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _selLangBll = provider.GetRequiredService<SelLangBLL>();
             _hotEventBll = provider.GetRequiredService<HotEventBLL>();
+            _checkAttackBll = provider.GetRequiredService<CheckAttackBLL>();
             _logger = provider.GetRequiredService<ILogger<HotEventController>>();
         }
 
@@ -36,6 +39,12 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<IEnumerable<HotEventResponse>>();
 
+            if (_checkAttackBll.CheckAttackIp(Request))
+            {
+                Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return null;
+            }
+            
             try
             {
                 var serverInfo = _serverInfoBll.GetServerInfo();
