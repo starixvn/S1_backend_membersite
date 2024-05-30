@@ -838,15 +838,15 @@ namespace MemberSite.Controllers.Api
         public ApiResult<IEnumerable<BannerV3>> GetBannerV3(BannerReq bannerReq, [FromRoute] string langId = null)
         {
             var apiResult = new ApiResult<IEnumerable<BannerV3>>();
-
             int siteId;
             try
             {
                 var serverInfo = _serverInfoBll.GetServerInfo();
                 int perferCurr;
                 var ShowStatus = 1;
-                var authData = _authorizeBll.GetAuthData();
-                if (authData is { CustId: > 0 })
+                var authData = _authorizeBll.GetAuthData();              
+                var isLogin = authData is { CustId: > 0 };
+                if (isLogin)
                 {
                     var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                     siteId = custInfo.SiteId;
@@ -860,17 +860,34 @@ namespace MemberSite.Controllers.Api
                     siteId = serverInfo.SiteId;
                     langId = _selLangBll.CheckLangId(langId) ? langId : _selLangBll.GetLangId();
                 }
-                apiResult.Data = _bannerBll.GetBannerV3(siteId, bannerReq.BannerType, ShowStatus, perferCurr, langId, serverInfo);
 
-                var domain = _serverInfoBll.GetHttpDomain();
-                foreach (var data in apiResult.Data)
+                // 未登入檢查是否有Cache
+                var key = $"GetBannerV3:{siteId}:{bannerReq.BannerType}:{ShowStatus}:{perferCurr}:{langId}";
+                if (!isLogin && _cacheHelper.TryGetValue(key, out IEnumerable<BannerV3> bannerList))
                 {
-                    if (!string.IsNullOrEmpty(data.UrlRouter) && data.ActionMode == 6)
+                    apiResult.Data = bannerList;
+                    apiResult.ErrorCode = (int)ErrorCode.Success;
+                    return apiResult;
+                }
+
+                var bannerV3List = _bannerBll.GetBannerV3(siteId, bannerReq.BannerType, ShowStatus, perferCurr, langId);
+                var domain = _serverInfoBll.GetHttpDomain();
+                foreach (var banner in bannerV3List)
+                {
+                    if (!string.IsNullOrEmpty(banner.UrlRouter) && banner.ActionMode == 6)
                     {
-                        data.BannerLink = $"{domain}/{data.UrlRouter}";
+                        banner.BannerLink = $"{domain}/{banner.UrlRouter}";
                     }
                 }
-                apiResult.ErrorCode = 0;
+
+                apiResult.Data = bannerV3List;
+                apiResult.ErrorCode = (int)ErrorCode.Success;
+
+                // 新增未登入快取
+                if (!isLogin && apiResult.Data != null)
+                {
+                    _cacheHelper.Create(key, apiResult.Data, TimeSpan.FromMinutes(10));
+                }
             }
             catch (Exception e)
             {

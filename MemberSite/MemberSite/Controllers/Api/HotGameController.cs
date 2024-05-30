@@ -1,6 +1,8 @@
 ﻿using MemberSite.Service.BLL;
 using MemberSite.Service.BLL.Interface;
+using MemberSite.Service.Library;
 using MemberSite.Service.Model;
+using MemberSite.Service.Model.enums;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,20 +20,17 @@ namespace MemberSite.Controllers.Api
         private readonly CustInfoBll _customerInfoBll;
         private readonly ServerInfoBll _serverInfoBll;
         private readonly SelLangBLL _selLangBll;
+        private readonly ICacheHelper _cacheHelper;
 
-        public HotGameController(IHotGameBLL hotGameBll,
-            AuthorizeBLL authorizeBll,
-            CustInfoBll customerInfoBll,
-            ServerInfoBll serverInfoBll,
-            SelLangBLL selLangBll)
+        public HotGameController(IServiceProvider provider)
         {
-            this._hotGameBll = hotGameBll;
-            this._authorizeBll = authorizeBll;
-            this._customerInfoBll = customerInfoBll;
-            this._serverInfoBll = serverInfoBll;
-            this._selLangBll = selLangBll;
+            _hotGameBll = provider.GetRequiredService<IHotGameBLL>();
+            _authorizeBll = provider.GetRequiredService<AuthorizeBLL>();
+            _customerInfoBll = provider.GetRequiredService<CustInfoBll>();
+            _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
+            _selLangBll = provider.GetRequiredService<SelLangBLL>();
+            _cacheHelper = provider.GetRequiredService<ICacheHelper>();
         }
-
 
         [HttpPost]
         public async Task<ApiResult<Dictionary<string, IEnumerable<HotGameResponse>>>> GetDataList(GetHotGameDataListRequest request, [FromRoute] string langId = null)
@@ -39,7 +38,8 @@ namespace MemberSite.Controllers.Api
             int currencyId;
             int siteId;
             var authData = _authorizeBll.GetAuthData();
-            if (authData is { CustId: > 0 })
+            var isLogin = authData is { CustId: > 0 };
+            if (isLogin)
             {
                 var customerInfo = _customerInfoBll.GetCustInfoWithCache(authData.CustId);
                 siteId = customerInfo.SiteId;
@@ -55,12 +55,25 @@ namespace MemberSite.Controllers.Api
             }
 
             var apiResult = new ApiResult<Dictionary<string, IEnumerable<HotGameResponse>>>();
+            // 未登入檢查是否有Cache
+            var key = $"HotGame:GetDataList:{siteId}:{currencyId}:{request.DeviceType}:{langId}";
+            if (!isLogin && _cacheHelper.TryGetValue(key, out Dictionary<string, IEnumerable<HotGameResponse>> hotGameList))
+            {
+                apiResult.Data = hotGameList;
+                apiResult.ErrorCode = (int)ErrorCode.Success;
+                return apiResult;
+            }
 
             try
             {
                 var data = await _hotGameBll.GetHotGames(siteId, currencyId, request.DeviceType, langId);
                 apiResult.Data = data;
-                apiResult.ErrorCode = 0;
+                apiResult.ErrorCode = (int)ErrorCode.Success;
+                // 新增未登入快取
+                if (!isLogin && apiResult.Data != null)
+                {
+                    _cacheHelper.Create(key, apiResult.Data, TimeSpan.FromMinutes(10));
+                }
             }
             catch (Exception ex)
             {
