@@ -133,19 +133,21 @@ namespace MemberSite.Service.BLL
         
         public async Task<IEnumerable<LobbyHeaderResponse>> GetLobbyHeader(GetLobbyHeaderRequest req ,ServerInfo serverInfo)
         {
-            var key = $"GetLobbyHeader:{_isStage}:{req.SiteId}:{req.CurrencyId}";
+            var deviceType = _tools.GetDeviceId(_tools.GetFromUrl());
+            
+            var key = $"GetLobbyHeader:{_isStage}:{deviceType}:{req.SiteId}:{req.CurrencyId}";
             var result = await _cacheHelper.TryGetOrCreateAsync(key,
                 TimeSpan.FromMinutes(10),
                 async () =>
                 {
-                    var result = await GetLobbyHeaderDetail(req, serverInfo);
+                    var result = await GetLobbyHeaderDetail(req, serverInfo ,deviceType);
                     return result;
                 });
             
             return result;
         }
         
-        private async Task<IEnumerable<LobbyHeaderResponse>> GetLobbyHeaderDetail(GetLobbyHeaderRequest req ,ServerInfo serverInfo)
+        private async Task<IEnumerable<LobbyHeaderResponse>> GetLobbyHeaderDetail(GetLobbyHeaderRequest req ,ServerInfo serverInfo ,DeviceId deviceType)
         {
             var statusList = new List<int> { 1 };
             if (_isStage == 1)
@@ -156,10 +158,9 @@ namespace MemberSite.Service.BLL
             var resultData = await _gameService.GetLobbyHeader(req ,statusList);
 
             // app的wrapper無法開啟PlayTech，後端寫死移除PlayTech的Casino
-            var deviceType = _tools.GetDeviceId(_tools.GetFromUrl());
             if (deviceType == DeviceId.APP)
             {
-                resultData = resultData.Where(i => i.TpId != 51 && i.LobbyCategoryId != 3);
+                resultData.ToList().RemoveAll(i => i.TpId == 51 && i.LobbyCategoryId == 3);
             }
 
             var sequence = new List<int>();
