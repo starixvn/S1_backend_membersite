@@ -107,7 +107,7 @@ namespace MemberSite.Service.BLL
             if (isDart)
             {
                 var reason = "agent use Dart";
-                var memo = $"Auto Deny (/Site/ExistsPhoneNo) - Attack: get user phone number, reason is {reason}";
+                var memo = $"Auto Deny ({Request.Path}) - Attack: reason is {reason}";
                 var setResult = _iPBll.SetBlockIp(new BlockIpRequest { IP = clientIp, Memo = memo, Operator = "System" });
                 if (setResult > 0 && !_cacheHelper.KeyExists($"AutoDeny:{clientIp}"))
                 {

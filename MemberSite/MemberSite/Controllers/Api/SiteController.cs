@@ -1234,6 +1234,12 @@ namespace MemberSite.Controllers.Api
         [HttpGet, HttpPost]
         public ApiResult<SeoModel> Seo([FromRoute] string? domain)
         {
+            if (_checkAttackBll.CheckAttackIp(Request))
+            {
+                Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return null;
+            }
+            
             if (string.IsNullOrWhiteSpace(domain))
             {
                 domain = _serverInfoBll.GetMainDomain();
