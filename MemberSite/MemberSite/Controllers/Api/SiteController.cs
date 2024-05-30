@@ -838,6 +838,13 @@ namespace MemberSite.Controllers.Api
         public ApiResult<IEnumerable<BannerV3>> GetBannerV3(BannerReq bannerReq, [FromRoute] string langId = null)
         {
             var apiResult = new ApiResult<IEnumerable<BannerV3>>();
+
+            if (_checkAttackBll.CheckAttackIp(Request))
+            {
+                Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return null;
+            }
+            
             int siteId;
             try
             {
@@ -1245,6 +1252,12 @@ namespace MemberSite.Controllers.Api
         [HttpGet, HttpPost]
         public ApiResult<SeoModel> Seo([FromRoute] string? domain)
         {
+            if (_checkAttackBll.CheckAttackIp(Request))
+            {
+                Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return null;
+            }
+            
             if (string.IsNullOrWhiteSpace(domain))
             {
                 domain = _serverInfoBll.GetMainDomain();

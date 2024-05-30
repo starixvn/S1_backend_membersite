@@ -1,4 +1,5 @@
-﻿using MemberSite.Service.BLL;
+﻿using System.Net;
+using MemberSite.Service.BLL;
 using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
@@ -21,6 +22,7 @@ namespace MemberSite.Controllers.Api
         private readonly ServerInfoBll _serverInfoBll;
         private readonly SelLangBLL _selLangBll;
         private readonly ICacheHelper _cacheHelper;
+        private readonly CheckAttackBLL _checkAttackBll;
 
         public HotGameController(IServiceProvider provider)
         {
@@ -30,11 +32,18 @@ namespace MemberSite.Controllers.Api
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
             _selLangBll = provider.GetRequiredService<SelLangBLL>();
             _cacheHelper = provider.GetRequiredService<ICacheHelper>();
+            _checkAttackBll = provider.GetRequiredService<CheckAttackBLL>();
         }
 
         [HttpPost]
         public async Task<ApiResult<Dictionary<string, IEnumerable<HotGameResponse>>>> GetDataList(GetHotGameDataListRequest request, [FromRoute] string langId = null)
         {
+            if (_checkAttackBll.CheckAttackIp(Request))
+            {
+                Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return null;
+            }
+            
             int currencyId;
             int siteId;
             var authData = _authorizeBll.GetAuthData();
