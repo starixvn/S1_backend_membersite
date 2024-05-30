@@ -94,7 +94,7 @@ namespace MemberSite.Service.BLL
             {
                 return false;
             }
-            var checkCountForShortTime = _cacheHelper.StringIncrementAsync($"IP:{clientIp}", TimeSpan.FromMinutes(1)).Result;
+            var checkCountForShortTime = _cacheHelper.StringIncrementAsync($"{Request.Path}:IP:{clientIp}", TimeSpan.FromMinutes(1)).Result;
             // var checkCountForLongTime = _cacheHelper.StringIncrementAsync($"IP:10:{clientIp}", TimeSpan.FromMinutes(20)).Result;
             // var checkCountForBlock = _cacheHelper.StringIncrementAsync($"IP:hour:{clientIp}", TimeSpan.FromMinutes(30)).Result;
             if (checkCountForShortTime >= 50 )
