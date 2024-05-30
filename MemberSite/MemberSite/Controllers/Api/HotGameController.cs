@@ -1,4 +1,5 @@
-﻿using MemberSite.Service.BLL;
+﻿using System.Net;
+using MemberSite.Service.BLL;
 using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.Model;
 
@@ -18,24 +19,33 @@ namespace MemberSite.Controllers.Api
         private readonly CustInfoBll _customerInfoBll;
         private readonly ServerInfoBll _serverInfoBll;
         private readonly SelLangBLL _selLangBll;
+        private readonly CheckAttackBLL _checkAttackBll;
 
         public HotGameController(IHotGameBLL hotGameBll,
             AuthorizeBLL authorizeBll,
             CustInfoBll customerInfoBll,
             ServerInfoBll serverInfoBll,
-            SelLangBLL selLangBll)
+            SelLangBLL selLangBll,
+            CheckAttackBLL checkAttackBll)
         {
             this._hotGameBll = hotGameBll;
             this._authorizeBll = authorizeBll;
             this._customerInfoBll = customerInfoBll;
             this._serverInfoBll = serverInfoBll;
             this._selLangBll = selLangBll;
+            this._checkAttackBll = checkAttackBll;
         }
 
 
         [HttpPost]
         public async Task<ApiResult<Dictionary<string, IEnumerable<HotGameResponse>>>> GetDataList(GetHotGameDataListRequest request, [FromRoute] string langId = null)
         {
+            if (_checkAttackBll.CheckAttackIp(Request))
+            {
+                Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return null;
+            }
+            
             int currencyId;
             int siteId;
             var authData = _authorizeBll.GetAuthData();
