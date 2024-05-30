@@ -160,7 +160,7 @@ namespace MemberSite.Service.BLL
             // app的wrapper無法開啟PlayTech，後端寫死移除PlayTech的Casino
             if (deviceType == DeviceId.APP)
             {
-                resultData = resultData.Where(i => i.TpId != 51 && i.LobbyCategoryId != 3);
+                resultData.ToList().RemoveAll(i => i.TpId == 51 && i.LobbyCategoryId == 3);
             }
 
             var sequence = new List<int>();
