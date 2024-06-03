@@ -1,11 +1,5 @@
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
-
-using Elastic.Apm.AspNetCore;
-using Elastic.Apm.DiagnosticSource;
-using Elastic.Apm.SqlClient;
-using Elastic.Apm.StackExchange.Redis;
-
 using MemberSite.Extensions;
 using MemberSite.Service.BLL;
 using MemberSite.Service.BLL.Interface;
@@ -62,7 +56,6 @@ namespace MemberSite
             services.AddDatabaseConnection(_configuration);
 
             var redisConnection = ConnectionMultiplexer.Connect(_configuration.GetValue<string>("RedisConnection"));
-            redisConnection.UseElasticApm();
             services.AddSingleton<IConnectionMultiplexer>(redisConnection);
             services.AddSingleton<ICacheHelper, RedisCacheHelper>();
 
@@ -112,13 +105,14 @@ namespace MemberSite
             services.AddSingleton<DeepLinkService>();
             services.AddSingleton<IVerificationRewardService, VerificationRewardService>();
             services.AddSingleton<ICustPhotoIdService, CustPhotoIdService>();
-            services.AddTransient<WorldCupPredictionService>();
+            services.AddTransient<CupEventService>();
             services.AddTransient<RecaptchaService>();
             services.AddSingleton<PartitionService>();
             services.AddTransient<CurrencyService>();
             services.AddTransient<IAffiliateService, AffiliateService>();
             services.AddTransient<GameService>();
             services.AddTransient<QueueJobService>();
+            services.AddTransient<RedemptionService>();
 
             services.AddSingleton<IPService>();
             services.AddSingleton<ShieldService>();
@@ -175,7 +169,7 @@ namespace MemberSite
             services.AddSingleton<SiteBll>();
             services.AddSingleton<IPBLL>();
             services.AddSingleton<ShieldBLL>();
-            services.AddTransient<WorldCupPredictionBLL>();
+            services.AddTransient<CupEventBLL>();
             services.AddSingleton<SlotGameBLL>();
             services.AddTransient<RecaptchaBLL>();
             services.AddTransient<CheckAttackBLL>();
@@ -263,12 +257,6 @@ namespace MemberSite
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseHttpsRedirection();
-            if (!env.IsEnvironment("Local"))
-            {
-                app.UseElasticApm(_configuration,
-                    new HttpDiagnosticsSubscriber(),
-                    new SqlClientDiagnosticSubscriber());
-            }
             app.UseStaticFiles();
 
             app.UseRouting();

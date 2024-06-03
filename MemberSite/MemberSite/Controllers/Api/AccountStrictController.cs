@@ -38,7 +38,8 @@ namespace MemberSite.Controllers.Api
         private readonly ILogger<AccountStrictController> _logger;
         private readonly ICustPhotoIdBLL _custPhoto;
         private readonly Regex _regexEmail = new(@"^\w+((-\w+)|(\.\w+))*@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$");
-
+        private readonly Regex _regexPhoneNo = new(@"^\d+$");
+        
         public AccountStrictController(IServiceProvider provider)
         {
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
@@ -64,10 +65,13 @@ namespace MemberSite.Controllers.Api
             {4,"Thailand" },
             {13,"China" },
             {15,"Indonesia" },
+            {32,"Japan" },
+            {45,"Republic of Korea" },
             {51,"Viet Nam" },
             {61,"India" },
             {72,"Cambodia" },
             {74,"Bangladesh" },
+            {82,"Brasil" }
         };
 
 
@@ -456,9 +460,9 @@ namespace MemberSite.Controllers.Api
                     string AreaCode = custProfile[nameof(AreaCode)];
                     string PhoneNo = custProfile[nameof(PhoneNo)];
 
-                    if (long.TryParse(PhoneNo, out var phoneNo))
+                    if (_regexPhoneNo.IsMatch(PhoneNo))
                     {
-                        custProfile["PhoneNo"] = phoneNo.ToString();
+                        custProfile["PhoneNo"] = PhoneNo;
                     }
                     else
                     {
@@ -586,9 +590,9 @@ namespace MemberSite.Controllers.Api
                         string AreaCode = custProfile[nameof(AreaCode)];
                         string PhoneNo = custProfile[nameof(PhoneNo)];
 
-                        if (long.TryParse(PhoneNo, out var phoneNo))
+                        if (_regexPhoneNo.IsMatch(PhoneNo))
                         {
-                            custProfile["PhoneNo"] = phoneNo.ToString();
+                            custProfile["PhoneNo"] = PhoneNo;
                         }
                         else
                         {
@@ -597,7 +601,7 @@ namespace MemberSite.Controllers.Api
                             return apiResult;
                         }
 
-                        if (_custInfoBLL.ExistsPhoneNo(authData.CustId, AreaCode, custProfile["PhoneNo"]))
+                        if (_custInfoBLL.ExistsPhoneNo(authData.CustId, AreaCode, PhoneNo))
                         {
                             apiResult.ErrorCode = 21;
                             apiResult.Message = $"({AreaCode}){PhoneNo} {_selLangBLL.GetMsg("msg_HasExist")}";
@@ -776,8 +780,7 @@ namespace MemberSite.Controllers.Api
 
             try
             {
-                _logger.LogInformation("GetCustProfile, CustId: "+ authData.CustId);
-                if (authData is {CustId: > 0})
+                if (authData is { CustId: > 0 })
                 {
                     var custInfo = _custInfoBLL.GetCustInfoProfile(authData.CustId);
                     var _perCountry = "";
@@ -791,12 +794,9 @@ namespace MemberSite.Controllers.Api
                         {
                             _perCountry = _custInfoBLL.GetCountryNameByAreaCode(custInfo.AreaCode);
                         }
-                        _logger.LogInformation("GetCustProfile, _perCountry: "+ _perCountry);
                     }
 
                     var isLineBinding = _lineLoginBll.GetCustLineProfile(authData.CustId, null) != null;
-              
-                    _logger.LogInformation("GetCustProfile, isLineBinding: "+ isLineBinding);
 
                     var nationality = string.Empty;
                     counrtyDic.TryGetValue(custInfo.CurrencyId, out nationality);
@@ -836,11 +836,9 @@ namespace MemberSite.Controllers.Api
                         custInfo.CurrentAddress,
                         Nationality = nationality,
                         custInfo.Occupation,
-                        custInfo.SourceOfIncome
+                        custInfo.SourceOfIncome,
+                        custInfo.CustId,
                     };
-                    
-                    
-                    _logger.LogInformation("GetCustProfile"+ JsonConvert.SerializeObject(apiResult.Data));
 
                     apiResult.ErrorCode = 0;
                 }

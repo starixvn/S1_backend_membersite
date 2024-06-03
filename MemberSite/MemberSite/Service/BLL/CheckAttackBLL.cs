@@ -3,7 +3,7 @@
 using MemberSite.Controllers.Api;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
-using MemberSite.Service.Model.Mapping;
+using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.BLL
 {
@@ -15,7 +15,6 @@ namespace MemberSite.Service.BLL
         private readonly ServerInfoBll _serverInfoBll;
         private readonly ICacheHelper _cacheHelper;
         private readonly IPBLL _iPBll;
-        private readonly IEnumerable<AreaCodeMap> _areaCodeMap;
         private readonly AWSS3Helper _s3Helper;
         private readonly string _fileName;
         private readonly string _folder;
@@ -30,7 +29,6 @@ namespace MemberSite.Service.BLL
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
             _cacheHelper = provider.GetRequiredService<ICacheHelper>();
             _iPBll = provider.GetRequiredService<IPBLL>();
-            _areaCodeMap = provider.GetRequiredService<IEnumerable<AreaCodeMap>>();
             _s3Helper = provider.GetRequiredService<AWSS3Helper>();
             var env = provider.GetRequiredService<IWebHostEnvironment>();
             _fileName = env.IsProduction() || env.EnvironmentName == "Release" ? "geoblockIp.txt" : "geoblockIp_test.txt";
@@ -87,6 +85,47 @@ namespace MemberSite.Service.BLL
             return false;
         }
 
+        public bool CheckAttackIp(HttpRequest Request)
+        {
+            var clientIp = _tools.GetClientIP();
+            if (_cacheHelper.KeyExists($"AllowedIp:{clientIp}", RedisDataBase.IP))
+            {
+                return false;
+            }
+
+            if (_ipHelper.IpInRange(clientIp) || clientIp == "18.139.199.197")
+            {
+                return false;
+            }
+            var checkCountForShortTime = _cacheHelper.StringIncrementAsync($"{Request.Path}:IP:{clientIp}", TimeSpan.FromMinutes(1)).Result;
+            if (checkCountForShortTime >= 100 )
+            {
+                _cacheHelper.StringFireAndForgetSetAsync($"block:{clientIp}", string.Empty, TimeSpan.FromHours(1));
+            }
+
+            var isDart = Request.Headers["User-Agent"].ToString().Contains("Dart");
+
+            if (isDart)
+            {
+                var reason = "agent use Dart";
+                var memo = $"Auto Deny ({Request.Path}) - Attack: reason is {reason}";
+                var setResult = _iPBll.SetBlockIp(new BlockIpRequest { IP = clientIp, Memo = memo, Operator = "System" });
+                if (setResult > 0 && !_cacheHelper.KeyExists($"AutoDeny:{clientIp}"))
+                {
+                    _cacheHelper.StringFireAndForgetSetAsync($"AutoDeny:{clientIp}", string.Empty, TimeSpan.FromMinutes(1));
+                    _ = Task.Run(async () => { _ = await Upload(); });
+                }
+            }
+
+            if (isDart || checkCountForShortTime >= 100 || _cacheHelper.KeyExists($"block:{clientIp}"))
+            {
+                _logger.LogInformation($"IP: {Request.Headers["X-Forwarded-For"]}, {Request.Headers["HTTP_X_FORWARDED_FOR"]}, {Request.Headers["HTTP_INCAP_CLIENT_IP"]}, {Request.Headers["HTTP_TRUE_CLIENT_IP"]}, {Request.Headers["HTTP_X_REAL_IP"]}, {Request.Headers["REMOTE_ADDR"]}, {Request.HttpContext.Connection.RemoteIpAddress?.MapToIPv4()}");
+                return true;
+            }
+
+            return false;
+        }
+        
         public bool CheckAttackForSignIn(SiteController.LoginModel req, bool checkReferer, HttpRequest Request)
         {
             var clientIp = _tools.GetClientIP();

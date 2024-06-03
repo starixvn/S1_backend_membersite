@@ -278,13 +278,13 @@ namespace MemberSite.Service.DAL
 
         #region PromotionMission
 
-        public IEnumerable<PromotionMission> GetPromotionMission(int siteId, int currencyId, string missionDate)
+        public IEnumerable<PromotionMission> GetPromotionMission(int siteId, int currencyId, string missionName)
         {
             var p = new DynamicParameters(new
             {
                 _SiteId = siteId,
                 _CurrencyId = currencyId,
-                _MissionDate = missionDate
+                _MissionName = missionName
             });
             var result = _reportDbClient.Query<PromotionMission>("Service_PromotionMission_Get", p);
 

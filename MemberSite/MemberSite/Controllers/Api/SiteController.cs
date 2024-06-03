@@ -1,4 +1,4 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Net.Sockets;
 using System.Security.Claims;
@@ -38,6 +38,7 @@ namespace MemberSite.Controllers.Api
         private readonly BannerBLL _bannerBll;
         private readonly AuthBLL _authBll;
         private readonly Regex _regexUserName = new(@"^[a-zA-Z0-9]{6,18}$");
+        private readonly Regex _regexPhoneNo = new(@"^\d+$");
         private readonly ThirdPartyBll _thirdPartyBll;
         private readonly SiteBll _siteBll;
         private readonly ICacheHelper _cacheHelper;
@@ -49,6 +50,7 @@ namespace MemberSite.Controllers.Api
         private readonly FPSBLL _FPSBll;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly CommonBLL _commonBll;
+        
 
         public SiteController(IServiceProvider provider)
         {
@@ -74,6 +76,7 @@ namespace MemberSite.Controllers.Api
             _FPSBll = provider.GetRequiredService<FPSBLL>();
             _httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
             _commonBll = provider.GetRequiredService<CommonBLL>();
+            
         }
 
         public class LoginModel
@@ -93,10 +96,14 @@ namespace MemberSite.Controllers.Api
         public async Task<ApiResult> SignIn(LoginModel loginModel)
         {
             var apiResult = new ApiResult(_selLangBll);
-            if (_checkAttackBll.CheckAttackForSignIn(loginModel, true, Request))
+            
+            if (!_environment.EnvironmentName.Equals("Local", StringComparison.OrdinalIgnoreCase))
             {
-                Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
-                return null;
+                if (_checkAttackBll.CheckAttackForSignIn(loginModel, true, Request))
+                {
+                    Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                    return null;
+                }
             }
 
             if (!_regexUserName.IsMatch(loginModel.UserName))
@@ -361,7 +368,7 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
 
-            var customer = _siteBll.Signup(signupModel, apiResult, isAuthenticated, Request.Host.Host,
+            var customer = _siteBll.Signup(signupModel, apiResult, isAuthenticated, _tools.GetFromUrl(),
                 Request.Headers["User-Agent"], true);
             if (apiResult.ErrorCode == (int)ErrorCode.Attack)
             {
@@ -400,7 +407,7 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
 
-            var customer = _siteBll.Signup(signupModel, apiResult, isAuthenticated, Request.Host.Host,
+            var customer = _siteBll.Signup(signupModel, apiResult, isAuthenticated, _tools.GetFromUrl(),
                 Request.Headers["User-Agent"], false);
 
             if (apiResult.ErrorCode != 0 || customer == null) return apiResult;
@@ -632,11 +639,10 @@ namespace MemberSite.Controllers.Api
                     return null;
                 }
 
-                if (long.TryParse(reSetPwdByOtpReq.PhoneNo, out var phoneNo))
+                if (_regexPhoneNo.IsMatch(reSetPwdByOtpReq.PhoneNo))
                 {
                     var serverInfo = _serverInfoBll.GetServerInfo();
-
-                    reSetPwdByOtpReq.PhoneNo = phoneNo.ToString();
+                    
                     if (_custInfoBll.ExistsPhoneNoAndUserName(reSetPwdByOtpReq.Username, reSetPwdByOtpReq.AreaCode,
                             reSetPwdByOtpReq.PhoneNo, serverInfo.SiteId))
                     {
@@ -833,14 +839,21 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<IEnumerable<BannerV3>>();
 
+            if (_checkAttackBll.CheckAttackIp(Request))
+            {
+                Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return null;
+            }
+            
             int siteId;
             try
             {
                 var serverInfo = _serverInfoBll.GetServerInfo();
                 int perferCurr;
                 var ShowStatus = 1;
-                var authData = _authorizeBll.GetAuthData();
-                if (authData is { CustId: > 0 })
+                var authData = _authorizeBll.GetAuthData();              
+                var isLogin = authData is { CustId: > 0 };
+                if (isLogin)
                 {
                     var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                     siteId = custInfo.SiteId;
@@ -854,17 +867,34 @@ namespace MemberSite.Controllers.Api
                     siteId = serverInfo.SiteId;
                     langId = _selLangBll.CheckLangId(langId) ? langId : _selLangBll.GetLangId();
                 }
-                apiResult.Data = _bannerBll.GetBannerV3(siteId, bannerReq.BannerType, ShowStatus, perferCurr, langId, serverInfo);
 
-                var domain = _serverInfoBll.GetHttpDomain();
-                foreach (var data in apiResult.Data)
+                // 未登入檢查是否有Cache
+                var key = $"GetBannerV3:{siteId}:{bannerReq.BannerType}:{ShowStatus}:{perferCurr}:{langId}";
+                if (!isLogin && _cacheHelper.TryGetValue(key, out IEnumerable<BannerV3> bannerList))
                 {
-                    if (!string.IsNullOrEmpty(data.UrlRouter) && data.ActionMode == 6)
+                    apiResult.Data = bannerList;
+                    apiResult.ErrorCode = (int)ErrorCode.Success;
+                    return apiResult;
+                }
+
+                var bannerV3List = _bannerBll.GetBannerV3(siteId, bannerReq.BannerType, ShowStatus, perferCurr, langId);
+                var domain = _serverInfoBll.GetHttpDomain();
+                foreach (var banner in bannerV3List)
+                {
+                    if (!string.IsNullOrEmpty(banner.UrlRouter) && banner.ActionMode == 6)
                     {
-                        data.BannerLink = $"{domain}/{data.UrlRouter}";
+                        banner.BannerLink = $"{domain}/{banner.UrlRouter}";
                     }
                 }
-                apiResult.ErrorCode = 0;
+
+                apiResult.Data = bannerV3List;
+                apiResult.ErrorCode = (int)ErrorCode.Success;
+
+                // 新增未登入快取
+                if (!isLogin && apiResult.Data != null)
+                {
+                    _cacheHelper.Create(key, apiResult.Data, TimeSpan.FromMinutes(10));
+                }
             }
             catch (Exception e)
             {
@@ -1218,6 +1248,12 @@ namespace MemberSite.Controllers.Api
         [HttpGet, HttpPost]
         public ApiResult<SeoModel> Seo([FromRoute] string? domain)
         {
+            if (_checkAttackBll.CheckAttackIp(Request))
+            {
+                Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return null;
+            }
+            
             if (string.IsNullOrWhiteSpace(domain))
             {
                 domain = _serverInfoBll.GetMainDomain();

@@ -62,10 +62,6 @@
   <ItemGroup>
     <PackageReference Include="AWSSDK.S3" Version="3.7.101.21" />
     <PackageReference Include="Dapper" Version="2.0.123" />
-	  <PackageReference Include="Elastic.Apm.NetCoreAll" Version="1.22.0" />
-	  <PackageReference Include="Elastic.Apm.SerilogEnricher" Version="8.6.0" />
-	  <PackageReference Include="Elastic.Apm.SqlClient" Version="1.22.0" />
-	  <PackageReference Include="Elastic.Apm.StackExchange.Redis" Version="1.22.0" />
     <PackageReference Include="Flurl.Http" Version="2.4.2" />
     <PackageReference Include="LazZiya.ImageResize" Version="4.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.3" />

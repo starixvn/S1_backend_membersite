@@ -8,7 +8,7 @@ using MemberSite.Service.Model.enums;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
+using Newtonsoft.Json;
 using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
@@ -248,7 +248,7 @@ namespace MemberSite.Controllers.Api
                 return new ApiResult
                 {
                     ErrorCode = -5,
-                    Message = "Amount format is wrong."
+                    Message = _selLangBll.GetMsg("msg_WrongAmountFormat")
                 };
             }
 
@@ -467,16 +467,17 @@ namespace MemberSite.Controllers.Api
                 apiResult.ErrorCode = -2;
                 return apiResult;
             }
-            if (withdrawalReqModel.Blackbox != null)
-            {
-                _ = Task.Run(async () =>
-                {
-                    var apiResultIovation = await _iovationBll.IovationChecks(authData.CustId, custInfo.CurrencyId, custInfo.UserName, withdrawalReqModel.Blackbox, IovationType.withdrawal);
-                    if (apiResultIovation.ErrorCode == 0 && apiResultIovation.Data != null)
-                        _iovationBll.SetIovation(authData.CustId, IovationType.withdrawal, apiResultIovation.Data);
+            // 提款移除Iovation檢查
+            //if (withdrawalReqModel.Blackbox != null)
+            //{
+            //    _ = Task.Run(async () =>
+            //    {
+            //        var apiResultIovation = await _iovationBll.IovationChecks(authData.CustId, custInfo.CurrencyId, custInfo.UserName, withdrawalReqModel.Blackbox, IovationType.withdrawal);
+            //        if (apiResultIovation.ErrorCode == 0 && apiResultIovation.Data != null)
+            //            _iovationBll.SetIovation(authData.CustId, IovationType.withdrawal, apiResultIovation.Data);
 
-                });
-            }
+            //    });
+            //}
             decimal afterAmount;
             string transId;
             switch (withdrawalType)
@@ -667,14 +668,8 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
             var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-            var result = _bankInfoBll.GetBankInfoSysListByCurrencyForCtrl(custInfo.CurrencyId)
+            var result = _bankInfoBll.GetBankInfoSysListByCurrencyForCtrl(custInfo.CurrencyId, authData.LangId)
                 .ToList();
-
-            if (custInfo.SiteId == 1
-                && custInfo.CurrencyId == (int)CurrencyId.THB) // Nova88 泰國銀行名稱支援多語系
-            {
-                _bankInfoBll.BankNameLocalization(result, authData.LangId);
-            }
 
             apiResult.Data = result;
             apiResult.ErrorCode = 0;
@@ -698,12 +693,6 @@ namespace MemberSite.Controllers.Api
             var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
             var result = _bankInfoBll.GetOnlineBankInfoSysList(custInfo.CustId, payment.payId)
                 .ToList();
-
-            if (custInfo.SiteId == 1
-                && custInfo.CurrencyId == (int)CurrencyId.THB) // Nova88 泰國銀行名稱支援多語系
-            {
-                _bankInfoBll.BankNameLocalization(result, authData.LangId);
-            }
 
             apiResult.Data = result;
             apiResult.ErrorCode = 0;
@@ -1456,6 +1445,10 @@ namespace MemberSite.Controllers.Api
             return result;
         }
 
+        /// <summary>
+        /// Goal & Bwing
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         public ApiResult<IEnumerable<SysBankInfoFront>> GetAutoChannelBankGroupList()
         {
@@ -1466,17 +1459,28 @@ namespace MemberSite.Controllers.Api
                 apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
                 return apiResult;
             }
-
-            var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-            var vipLevel = _custInfoBll.GetPointLevelWithCache(authData.CustId);
-            var result = _bankInfoBll.GetAutoChannelBankGroupList(custInfo, vipLevel).ToList();
-            if (custInfo.SiteId == 1 && custInfo.CurrencyId == (int)CurrencyId.THB) // Nova88 泰國銀行名稱支援多語系
-            {
-                _bankInfoBll.BankNameLocalization(result, authData.LangId);
-            }
+            var result = _bankInfoBll.GetAutoSelectChannelBankGroupList(authData.CustId);
 
             apiResult.Data = result;
             apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+        
+        [HttpPost]
+        public ApiResult<IEnumerable<OnlineBankChannel>> GetAutoDepositGroupList()
+        {
+            var apiResult = new ApiResult<IEnumerable<OnlineBankChannel>>();
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
+                return apiResult;
+            }
+            var result = _payInfoBll.GetOnlineBankChannelList(authData.CustId, DepositType.BankAutoChannel);
+
+            apiResult.Data = result;
+            apiResult.ErrorCode = 0;
+            
             return apiResult;
         }
 
@@ -1795,6 +1799,78 @@ namespace MemberSite.Controllers.Api
                 ErrorCode = 0
             };
         }
+        
+        public class GetCustBankInfoReq
+        {
+            public int ChannelId { set; get; }
+        }
+        
+        [HttpPost]
+        public ApiResult<IEnumerable<BankInfoDetailRep>> GetCustBankInfo(GetCustBankInfoReq req)
+        {
+            var apiResult = new ApiResult<IEnumerable<BankInfoDetailRep>>(_selLangBll);
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
+                return apiResult;
+            }
+            
+            var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+            var bankInfoSysList = _bankInfoBll.GetBankInfoSysListByCurrency(custInfo.CurrencyId, authData.LangId).ToList();
+            
+            var channels = _payInfoBll.GetPayChannelWithCache();
+            var channel = channels.FirstOrDefault(x => x.ChannelId == req.ChannelId);
+
+            if (channel == null)
+            {
+                _logger.LogError("No channel data, channelId=" + req.ChannelId);
+                return apiResult;
+            }
+            var payBankList = _bankInfoBll.GetOnlineBankList(custInfo.SiteId, channel.Type)
+                .Where(x => x.ChannelId == req.ChannelId);
+
+            bankInfoSysList
+                .ForEach(x =>
+                {
+                    if (x.Status == GeneralStatusEnum.Disable)
+                        return;
+                    
+                    if (!payBankList.Any(p => !p.SelBank || p.SysId == x.SysId))
+                        x.Status = GeneralStatusEnum.Disable;
+                });
+          
+            var custBankInfo = _custInfoBll.GetCustBankDetail(authData.CustId);
+            var result = new List<BankInfoDetailRep>();
+            
+            if (custBankInfo.Any())
+            {
+                var enableBanks = bankInfoSysList
+                    .Where(x => x.Status == GeneralStatusEnum.Enable)
+                    .Select(x => x.SysId);
+                
+                foreach (var bankInfo in custBankInfo)
+                {
+                    var sysInfo = bankInfoSysList.FirstOrDefault(x => x.SysId == bankInfo.SysId);
+                    result.Add(new BankInfoDetailRep
+                    {
+                        SysId = bankInfo.SysId,
+                        AccountNo = bankInfo.AccountNo,
+                        BankLogo = sysInfo?.BankLogo,
+                        BankName = sysInfo?.BankName,
+                        IFSCCode = bankInfo.IFSCCode,
+                        Disabled = !enableBanks.Contains(bankInfo.SysId)
+                    });
+                }
+            }
+
+
+            apiResult.Data = result;
+            apiResult.ErrorCode = 0;
+
+            return apiResult;
+        }
+        
         private ApiResult<LocalPayResp> DepositByLocalPayment(int custId, int groupId, decimal amount)
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
