@@ -137,7 +137,7 @@ namespace MemberSite.Service.BLL
             
             var key = $"GetLobbyHeader:{_isStage}:{deviceType}:{req.SiteId}:{req.CurrencyId}";
             var result = await _cacheHelper.TryGetOrCreateAsync(key,
-                TimeSpan.FromMinutes(10),
+                TimeSpan.FromMinutes(5),
                 async () =>
                 {
                     var result = await GetLobbyHeaderDetail(req, serverInfo ,deviceType);
