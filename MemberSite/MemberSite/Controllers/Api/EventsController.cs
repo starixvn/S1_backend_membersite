@@ -109,7 +109,7 @@ namespace MemberSite.Controllers.Api
 
             var nowMonth = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, 1);
             var dateDifference = nowMonth - getLeaderboardListMonthReq.SelectDays;
-            if (dateDifference.TotalDays > 60)
+            if (dateDifference.TotalDays > 180)
             {
                 return apiResult;
             }
