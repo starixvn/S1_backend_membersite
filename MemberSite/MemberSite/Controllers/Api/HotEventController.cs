@@ -43,9 +43,9 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<IEnumerable<HotEventResponse>>();
 
-            if (_checkAttackBll.CheckAttackIp(Request))
+            if (await _checkAttackBll.CheckAttackIp(Request))
             {
-                Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.TooManyRequests;
                 return null;
             }
             

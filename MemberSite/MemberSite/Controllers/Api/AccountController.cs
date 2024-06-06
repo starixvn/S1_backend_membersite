@@ -921,13 +921,13 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult<bool> ExistsPhoneNo(RrofileReq rrofileReq)
+        public async Task<ApiResult<bool>> ExistsPhoneNo(RrofileReq rrofileReq)
         {
             var apiResult = new ApiResult<bool>(_selLangBll);
 
             try
             {
-                if (_checkAttackBll.CheckAttack(rrofileReq, Request))
+                if (await _checkAttackBll.CheckAttack(rrofileReq, Request))
                 {
                     Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
                     return null;
