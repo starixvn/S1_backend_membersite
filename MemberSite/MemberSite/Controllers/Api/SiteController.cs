@@ -98,7 +98,7 @@ namespace MemberSite.Controllers.Api
             
             if (!_environment.EnvironmentName.Equals("Local", StringComparison.OrdinalIgnoreCase))
             {
-                if (_checkAttackBll.CheckAttackForSignIn(loginModel, true, Request))
+                if (await _checkAttackBll.CheckAttackForSignIn(loginModel, true, Request))
                 {
                     Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
                     return null;
@@ -210,10 +210,10 @@ namespace MemberSite.Controllers.Api
 
         [HttpPost]
         [TypeFilter(typeof(PublicAuthAttribute))]
-        public ApiResult<JwtAuthData> SignInApp(LoginModel loginModel)
+        public async Task<ApiResult<JwtAuthData>> SignInApp(LoginModel loginModel)
         {
             var apiResult = new ApiResult<JwtAuthData>(_selLangBll);
-            if (_checkAttackBll.CheckAttackForSignIn(loginModel, false, Request))
+            if (await _checkAttackBll.CheckAttackForSignIn(loginModel, false, Request))
             {
                 Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
                 return null;
@@ -632,7 +632,7 @@ namespace MemberSite.Controllers.Api
                     PhoneNo = reSetPwdByOtpReq.PhoneNo
                 };
 
-                if (_checkAttackBll.CheckAttack(checkValue, Request))
+                if (await _checkAttackBll.CheckAttack(checkValue, Request))
                 {
                     Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
                     return null;
@@ -835,13 +835,13 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult<IEnumerable<BannerV3>> GetBannerV3(BannerReq bannerReq, [FromRoute] string langId = null)
+        public async Task<ApiResult<IEnumerable<BannerV3>>> GetBannerV3(BannerReq bannerReq, [FromRoute] string langId = null)
         {
             var apiResult = new ApiResult<IEnumerable<BannerV3>>();
 
-            if (_checkAttackBll.CheckAttackIp(Request))
+            if (await _checkAttackBll.CheckAttackIp(Request))
             {
-                Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.TooManyRequests;
                 return null;
             }
             
@@ -1250,11 +1250,11 @@ namespace MemberSite.Controllers.Api
 
         [Route("{domain?}")]
         [HttpGet, HttpPost]
-        public ApiResult<SeoModel> Seo([FromRoute] string? domain)
+        public async Task<ApiResult<SeoModel>> SeoAsync([FromRoute] string? domain)
         {
-            if (_checkAttackBll.CheckAttackIp(Request))
+            if (await _checkAttackBll.CheckAttackIp(Request))
             {
-                Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.TooManyRequests;
                 return null;
             }
             
