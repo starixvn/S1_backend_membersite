@@ -74,7 +74,7 @@ namespace MemberSite.Controllers.Api
                     langId = _selLangBll.CheckLangId(langId) ? langId : _selLangBll.GetLangId();
                 }
                 // 未登入檢查是否有Cache
-                var key = $"LiveStreaming:GetDataList::{siteId}:{currencyId}:{langId}";
+                var key = $"LiveStreaming:GetDataList:{siteId}:{currencyId}:{langId}";
                 if (!isLogin && _cacheHelper.TryGetValue(key, out IEnumerable<SportLiveStreamingResponse> liveStreamingList))
                 {
                     apiResult.Data = liveStreamingList;
