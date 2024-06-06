@@ -857,13 +857,13 @@ namespace MemberSite.Controllers.Api
                 {
                     var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                     siteId = custInfo.SiteId;
-                    preferCurr = custInfo.CurrencyId;
-                    showStatus = 2;
+                    perferCurr = custInfo.CurrencyId;
+                    ShowStatus = 2;
                     langId = _selLangBll.GetLangId();
                 }
                 else
                 {
-                    preferCurr = bannerReq.CurrencyId ?? _selLangBll.GetPreferCurrencyId();
+                    perferCurr = bannerReq.CurrencyId ?? _selLangBll.GetPreferCurrencyId();
                     siteId = serverInfo.SiteId;
                     langId = _selLangBll.CheckLangId(langId) ? langId : _selLangBll.GetLangId();
                 }
