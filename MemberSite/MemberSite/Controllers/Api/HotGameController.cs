@@ -38,9 +38,9 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public async Task<ApiResult<Dictionary<string, IEnumerable<HotGameResponse>>>> GetDataList(GetHotGameDataListRequest request, [FromRoute] string langId = null)
         {
-            if (_checkAttackBll.CheckAttackIp(Request))
+            if (await _checkAttackBll.CheckAttackIp(Request))
             {
-                Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.TooManyRequests;
                 return null;
             }
             
