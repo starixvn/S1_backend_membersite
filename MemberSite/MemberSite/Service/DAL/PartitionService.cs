@@ -2,6 +2,7 @@
 
 using MemberSite.Extensions;
 using MemberSite.Service.Library;
+using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.DAL
@@ -40,6 +41,26 @@ namespace MemberSite.Service.DAL
             {
                 result.AddRange(item.Result);
             }
+            return result;
+        }
+        
+        public IEnumerable<TpBetRecord> GetTpBetRecord(DateTime startTime, DateTime endTime, string spName, object parameters, DataBase dataBase = DataBase.Report)
+        {
+            var result = Enumerable.Empty<TpBetRecord>();
+
+            foreach (var partitionKey in startTime.GetTpBetRecordPartitionRange(endTime))
+            {
+                var p = new DynamicParameters(parameters);
+                p.Add("_YYYYMM", partitionKey);
+                var data = dataBase switch
+                {
+                    DataBase.Report => _reportDbClient.Query<TpBetRecord>(spName, p),
+                    DataBase.Main => _mainDbClient.Query<TpBetRecord>(spName, p),
+                    _ => throw new NotImplementedException(),
+                };
+                result = result.Concat(data);
+            }
+
             return result;
         }
     }

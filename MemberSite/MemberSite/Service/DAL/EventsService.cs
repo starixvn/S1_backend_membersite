@@ -404,6 +404,45 @@ namespace MemberSite.Service.DAL
 
             return stickerCount;
         }
+        
+        public IEnumerable<EggTicketData> GetEggTicketData(int custId)
+        {
+            var p = new DynamicParameters(new
+            {
+                _CustId = custId,
+            });
+            var eggTicket = _reportDbClient.Query<EggTicketData>("Service_CustEggTicket_Data_Get", p);
+
+            return eggTicket;
+        }
+        
+        #endregion
+        
+        #region Olympic
+
+        public IEnumerable<OlympicEventSBSWModel> GetOlympicsEventSportBet(int sq,int custId,string transIdList)
+        {
+            var p = new DynamicParameters();
+            p.Add("SQ", sq, dbType: DbType.Int64);
+            p.Add("CustId", custId, dbType: DbType.Int32);
+            p.Add("transIdList", transIdList, dbType: DbType.String);
+            
+            return _reportDbClient.Query<OlympicEventSBSWModel>("Service_Olympic_SportBetCheck_Get", p);
+        }
+
+        public int OlympicsInertGoldMetal(int custId, int goldMetalCount,string type)
+        {
+            var p = new DynamicParameters();
+            p.Add("_CustId", custId, dbType: DbType.Int32);
+            p.Add("_MissionDate", type, dbType: DbType.String);
+            p.Add("_TicketCount", goldMetalCount, dbType: DbType.Int32);
+            p.Add("_EggTicket", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            
+            var result = _mainDbClient.Execute("Service_CustEggTicket_Ins", p);
+            var eggTicket = p.Get<int>("_EggTicket");
+
+            return eggTicket;
+        }
 
         #endregion
 

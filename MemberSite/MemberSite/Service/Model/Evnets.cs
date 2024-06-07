@@ -258,6 +258,19 @@ namespace MemberSite.Service.Model
         public int Stickers { get; set; }
     }
 
+    public class EggTicketData
+    {
+        public int CustId { get; set; }
+
+        public string MissionDate { get; set; }
+
+        public int IsUsed { get; set; }
+
+        public DateTime CreateTime { get; set; }
+
+        public DateTime UpdateTime { get; set; }
+    }
+
     #endregion
 
 }
