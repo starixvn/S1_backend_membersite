@@ -80,7 +80,7 @@ public class OlympicEventBLL : IOlympicEventBLL
             responseData.OlympicEventPromotionMissionProgress.TurnoverSum = turnoverGoldMetal.Remainder;
         }
 
-        var availableGoldMetal = await CalculateLastGoldMetal(custId, depositNowGoldMetal, turnoverNowGoldMetal);
+        var availableGoldMetal = await CalculateLastGoldMetal(custId, depositNowGoldMetal, turnoverNowGoldMetal,eggTicket);
         
         responseData.AvailableGoldMetals = availableGoldMetal;
             
@@ -255,20 +255,18 @@ public class OlympicEventBLL : IOlympicEventBLL
         };
     }
 
-    private async Task<int> CalculateLastGoldMetal(int custId,int depositGoldMetal, int turnoverGoldMetal)
+    private async Task<int> CalculateLastGoldMetal(int custId,int depositGoldMetal, int turnoverGoldMetal,IEnumerable<EggTicketData> eggTickets)
     {
         if (depositGoldMetal == 0 && turnoverGoldMetal == 0)
         {
-            // 获取现有的数据 (具体实现掠过)
-            var eggTicket = await _newYear2024Bll.GetEggTicketData(custId);
-
+            // var eggTicket = await _newYear2024Bll.GetEggTicketData(custId);
            
             // Deposit GoldMedal
-            var depositNowGoldMedal = eggTicket
+            var depositNowGoldMedal = eggTickets
                 .Count(x => x.MissionDate.Contains("Olympic2024Deposit") && x.IsUsed == 0);
         
             // Turnover GoldMedal
-            var turnOverNowGoldMedal = eggTicket
+            var turnOverNowGoldMedal = eggTickets
                 .Count(x => x.MissionDate.Contains("Olympic2024Turnover") && x.IsUsed == 0);
             
             return depositNowGoldMedal + turnOverNowGoldMedal;
