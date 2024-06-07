@@ -1,0 +1,8 @@
+﻿using MemberSite.Service.Model;
+
+namespace MemberSite.Service.BLL.Interface;
+
+public interface IOlympicEventBLL
+{
+    public Task<OlympicMemberDepositTicketInfoResponse> GetOlympicEventTicket(int siteId, int custId, string userName, string langId, int currencyId);
+}

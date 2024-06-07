@@ -30,6 +30,15 @@ namespace MemberSite.Service.DAL.Interface
         public int ClaimPromotionMission(int custId, int siteId, int currencyId, string missionDate, IEnumerable<NewYearMission2024> mission);
         public int GetEggTicket(int custId);
         public int GetCustBlessingsSticker(int custId);
+        public IEnumerable<EggTicketData> GetEggTicketData(int custId);
+
+        #endregion
+        
+        #region Olympcic
+
+        public IEnumerable<OlympicEventSBSWModel> GetOlympicsEventSportBet(int sq,int custId,string transList);
+
+        public int OlympicsInertGoldMetal(int custId, int goldMetalCount,string type);
 
         #endregion
 

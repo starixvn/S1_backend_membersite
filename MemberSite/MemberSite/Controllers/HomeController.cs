@@ -177,7 +177,7 @@ namespace MemberSite.Controllers
                     };
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
-                    return RedirectToRoute(new { action = "ResetPwd", controller = "Account" });
+                    return RedirectToRoute(new { action = "", controller = "Account" });
                 }
                 else if (userLoginResult == -3)
                 {
