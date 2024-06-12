@@ -7,14 +7,10 @@ public class PixelRequest
     public int CustId { get; set; }
     public string Url { get; set; }
     public int? CurrencyId { get; set; }
-    public List<PixelData> Data { get; set; }
+    public decimal? Value { get; set; }
+    public IEnumerable<FaceBookPixel> PixelEvent { get; set; }
 }
 
-public class PixelData
-{
-    public FaceBookPixel PixelEvent { get; set; }
-    public decimal? Value { get; set; }
-}
 public enum FaceBookPixel
 {
     registerSubmit = 1,

@@ -163,10 +163,10 @@ namespace MemberSite.Service.BLL
 
             var result = _custInfoService.AddCustInfo(regCustInfo, Email, lineUserId, deviceType, out custId, signupUrl, referralUrl, PhoneNo, AreaCode,
                 RealName, promoCode, Birth_d, Birth_m, Birth_y, signupIp);
-
+            regCustInfo.CustId = custId;
+            
             if (result == 0 && regCustInfo.SiteId is 2 or 3) // goal and bwing
             {
-                regCustInfo.CustId = custId;
                 _ = Task.Run(() =>
                 {
                     _ = _shieldBll.CheckCustShieldRisk(
@@ -177,19 +177,17 @@ namespace MemberSite.Service.BLL
             }
 
             #region 埋點
+            
             if (result == 0)
             {
-                var host = $"https://{_serverInfoBll.GetDomain()}";
-                var data = new List<PixelData>
+                _ = Task.Run(() =>
                 {
-                    new PixelData
-                    {
-                        PixelEvent = FaceBookPixel.register,     
-                    }
-                };
-                var pixelRequest = _faceBookPixelBll.CreatePixelRequest(custId, CurrencyId, data, host);
-                _ = Task.Run(() => _faceBookPixelBll.Send(pixelRequest));
+                    var pixelEvent = new List<FaceBookPixel> {FaceBookPixel.register};
+                    var pixelRequest = _faceBookPixelBll.CreatePixelRequest(regCustInfo.CustId, CurrencyId , null ,pixelEvent);
+                    _ = _faceBookPixelBll.Send(pixelRequest);
+                });
             }
+            
             #endregion
             return result != 0 ? result : 0;
         }
