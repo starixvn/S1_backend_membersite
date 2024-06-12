@@ -545,11 +545,11 @@ namespace MemberSite.Controllers.Api
                     }
                     else if (host == "app.bwing.com")
                     {
-                        resetPasswordUrl = $"https://m.bwing.com/{_selLangBll.GetLangId()}/resetPassword";
+                        resetPasswordUrl = $"https://m.bwing.com/resetPassword";
                     }
-                    else if (host == "app.goal123.com")
+                    else if (host is "app.goal123.com" or "app.goodgoal.net")
                     {
-                        resetPasswordUrl = $"https://m.goal123.com/{_selLangBll.GetLangId()}/resetPassword";
+                        resetPasswordUrl = $"https://m.goal123.com/resetPassword";
                     }
                     else
                     {
