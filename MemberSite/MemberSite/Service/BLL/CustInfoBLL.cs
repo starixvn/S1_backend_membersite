@@ -40,6 +40,7 @@ namespace MemberSite.Service.BLL
         private readonly DepositService _depositService;
         private readonly ICustPhotoIdBLL _custPhoto;
         private readonly ILogger<CustInfoBll> _logger;
+        private readonly FaceBookPixelBLL _faceBookPixelBll;
 
         public CustInfoBll(IServiceProvider provider)
         {
@@ -60,6 +61,7 @@ namespace MemberSite.Service.BLL
             _depositService = provider.GetRequiredService<DepositService>();
             _custPhoto = provider.GetRequiredService<ICustPhotoIdBLL>();
             _logger = provider.GetRequiredService<ILogger<CustInfoBll>>();
+            _faceBookPixelBll = provider.GetRequiredService<FaceBookPixelBLL>();
         }
         public string GetCountryNameByAreaCode(string areaCode)
         {
@@ -173,6 +175,22 @@ namespace MemberSite.Service.BLL
                         ShieldRiskTaggedIssue.HighRisk);
                 });
             }
+
+            #region 埋點
+            if (result == 0)
+            {
+                var host = $"https://{_serverInfoBll.GetDomain()}";
+                var data = new List<PixelData>
+                {
+                    new PixelData
+                    {
+                        PixelEvent = FaceBookPixel.register,     
+                    }
+                };
+                var pixelRequest = _faceBookPixelBll.CreatePixelRequest(custId, CurrencyId, data, host);
+                _ = Task.Run(() => _faceBookPixelBll.Send(pixelRequest));
+            }
+            #endregion
             return result != 0 ? result : 0;
         }
 
