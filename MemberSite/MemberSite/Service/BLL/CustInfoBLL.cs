@@ -178,7 +178,7 @@ namespace MemberSite.Service.BLL
 
             #region 埋點
             
-            if (result == 0)
+            if (result == 0 && regCustInfo.SiteId == 1 )
             {
                 _ = Task.Run(() =>
                 {
