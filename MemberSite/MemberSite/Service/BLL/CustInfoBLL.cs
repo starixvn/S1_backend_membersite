@@ -38,6 +38,7 @@ namespace MemberSite.Service.BLL
         private readonly DepositService _depositService;
         private readonly ICustPhotoIdBLL _custPhoto;
         private readonly ILogger<CustInfoBll> _logger;
+        private readonly FaceBookPixelBLL _faceBookPixelBll;
 
         public CustInfoBll(IServiceProvider provider)
         {
@@ -58,6 +59,7 @@ namespace MemberSite.Service.BLL
             _depositService = provider.GetRequiredService<DepositService>();
             _custPhoto = provider.GetRequiredService<ICustPhotoIdBLL>();
             _logger = provider.GetRequiredService<ILogger<CustInfoBll>>();
+            _faceBookPixelBll = provider.GetRequiredService<FaceBookPixelBLL>();
         }
         public string GetCountryNameByAreaCode(string areaCode)
         {
@@ -159,10 +161,10 @@ namespace MemberSite.Service.BLL
 
             var result = _custInfoService.AddCustInfo(regCustInfo, Email, lineUserId, deviceType, out custId, signupUrl, referralUrl, PhoneNo, AreaCode,
                 RealName, promoCode, Birth_d, Birth_m, Birth_y, signupIp);
-
+            regCustInfo.CustId = custId;
+            
             if (result == 0 && regCustInfo.SiteId is 2 or 3) // goal and bwing
             {
-                regCustInfo.CustId = custId;
                 _ = Task.Run(() =>
                 {
                     _ = _shieldBll.CheckCustShieldRisk(
@@ -171,6 +173,20 @@ namespace MemberSite.Service.BLL
                         ShieldRiskTaggedIssue.HighRisk);
                 });
             }
+
+            #region 埋點
+            
+            if (result == 0 && regCustInfo.SiteId == 1 )
+            {
+                _ = Task.Run(() =>
+                {
+                    var pixelEvent = new List<FaceBookPixel> {FaceBookPixel.CompleteRegistration};
+                    var pixelRequest = _faceBookPixelBll.CreatePixelRequest(regCustInfo.CustId, CurrencyId , null ,pixelEvent);
+                    _ = _faceBookPixelBll.Send(pixelRequest);
+                });
+            }
+            
+            #endregion
             return result != 0 ? result : 0;
         }
 

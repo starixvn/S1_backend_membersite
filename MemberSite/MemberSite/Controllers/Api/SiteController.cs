@@ -841,7 +841,7 @@ namespace MemberSite.Controllers.Api
 
             if (await _checkAttackBll.CheckAttackIp(Request))
             {
-                Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.TooManyRequests;
+                Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
                 return null;
             }
             
@@ -1250,7 +1250,7 @@ namespace MemberSite.Controllers.Api
         {
             if (await _checkAttackBll.CheckAttackIp(Request))
             {
-                Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.TooManyRequests;
+                Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
                 return null;
             }
             
