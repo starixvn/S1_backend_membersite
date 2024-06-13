@@ -6,8 +6,8 @@ public class PixelRequest
 {
     public int CustId { get; set; }
     public string Url { get; set; }
-    public int? CurrencyId { get; set; }
-    public decimal? Value { get; set; }
+    public int CurrencyId { get; set; }
+    public decimal Value { get; set; }
     public IEnumerable<FaceBookPixel> PixelEvent { get; set; }
 }
 
