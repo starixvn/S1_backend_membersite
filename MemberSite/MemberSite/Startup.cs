@@ -191,6 +191,7 @@ namespace MemberSite
             services.AddTransient<TelegramBLL>();
             services.AddSingleton<CryptoHelper>();
             services.AddSingleton<QuestionnaireBLL>();
+            services.AddSingleton<FaceBookPixelBLL>();
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();
 
