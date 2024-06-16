@@ -20,7 +20,7 @@ namespace MemberSite.Service.DAL
         }
 
 
-        public string GetRedemptionId(CreateRedemptionRequest req)
+        public async Task<string> GetRedemptionId(CreateRedemptionRequest req)
         {
             var p = new DynamicParameters();
             p.Add("_CustId", req.CustId, DbType.Int32);
@@ -29,7 +29,7 @@ namespace MemberSite.Service.DAL
             p.Add("_GiftId", req.GiftId, DbType.Int32);
             p.Add("_Point", req.Point, DbType.Int32);
 
-            return _reportClient.QueryFirst<string>("Member_RedemptionTransId_Get", p);
+            return await _reportClient.QueryFirstAsync<string>("Member_RedemptionTransId_Get", p);
         }
 
         public GiftInfo GetGiftInfo(CreateRedemptionRequest req)
