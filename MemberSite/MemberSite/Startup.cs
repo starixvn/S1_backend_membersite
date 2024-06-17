@@ -18,7 +18,7 @@ using Microsoft.Extensions.WebEncoders;
 using Prometheus;
 
 using StackExchange.Redis;
- 
+  
 namespace MemberSite
 {
     public class CustomCookieAuthenticationEvents : CookieAuthenticationEvents
