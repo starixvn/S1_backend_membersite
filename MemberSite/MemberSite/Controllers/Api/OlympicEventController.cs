@@ -61,7 +61,7 @@ namespace MemberSite.Controllers.Api
         }
         
         [HttpPost]
-        //[Authorize]
+        [Authorize]
         public ApiResult<OlympicMemberDepositTicketInfoResponse> GetOlympicEventTicket()
         {
             var apiResult = new ApiResult<OlympicMemberDepositTicketInfoResponse>();
