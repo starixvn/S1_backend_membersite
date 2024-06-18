@@ -182,7 +182,7 @@ namespace MemberSite.Service.BLL
             {
                 _ = Task.Run(() =>
                 {
-                    var pixelEvent = new List<FaceBookPixel> {FaceBookPixel.CompleteRegistration};
+                    var pixelEvent = new List<FaceBookPixel> {FaceBookPixel.completeRegistration};
                     var pixelRequest = _faceBookPixelBll.CreatePixelRequest(regCustInfo.CustId, CurrencyId , 0 ,pixelEvent);
                     _ = _faceBookPixelBll.Send(pixelRequest);
                 });
