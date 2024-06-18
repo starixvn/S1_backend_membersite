@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.DAL;
 using MemberSite.Service.DAL.Interface;
@@ -169,7 +169,7 @@ public class OlympicEventBLL : IOlympicEventBLL
         var gameType = "69";
         var sq = 1111;
         //Defaul Result
-        var result = promotionMissionTurnover;
+        var result = 0;
         
         //先寫死 後續看怎拿
         var startTime = DateTime.Parse("2024-05-01 00:00:00");
@@ -185,13 +185,16 @@ public class OlympicEventBLL : IOlympicEventBLL
         };
 
         var getTpBetRecordData = _partitionService.GetTpBetRecord(startTime, endTime, SpName, p);
-        var transIdList = GetTransIdValuesAsStringList(getTpBetRecordData);
-        var joinedTransId = CreateSqlInClause(transIdList);
-        var getSBSWBetData = GetSBSWSportBet(sq, custInfo.CustId, joinedTransId);
-        if (getSBSWBetData.Count() != 0)
+        if (getTpBetRecordData.Count() != 0)
         {
-            var totalValidBet =  CalculateValidBet(getTpBetRecordData, getSBSWBetData);
-            return totalValidBet - (turnoverGoldMedalCount * promotionMissionTurnover);
+            var transIdList = GetTransIdValuesAsStringList(getTpBetRecordData);
+            var joinedTransId = CreateSqlInClause(transIdList);
+            var getSBSWBetData = GetSBSWSportBet(sq, custInfo.CustId, joinedTransId);
+            if (getSBSWBetData.Count() != 0)
+            {
+                var totalValidBet = CalculateValidBet(getTpBetRecordData, getSBSWBetData);
+                return totalValidBet - (turnoverGoldMedalCount * promotionMissionTurnover);
+            }
         }
         
         return result; 
