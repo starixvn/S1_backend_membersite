@@ -145,7 +145,7 @@ public class OlympicEventBLL : IOlympicEventBLL
     private decimal OlympicEventDepositAmountCalculate(IEnumerable<MemberDepositDto> depositList,
         decimal promotionMissionDepositAmount, int depositGoldMedalCount)
     {
-        var resultAmount = 0.00m;
+        decimal resultAmount;
         var depositListAmount = depositList.Sum(x => x.DepositAmount);
         if (depositListAmount != 0)
         {
@@ -153,8 +153,7 @@ public class OlympicEventBLL : IOlympicEventBLL
         }
         else
         {
-            resultAmount = promotionMissionDepositAmount;
-            return resultAmount;
+            resultAmount = promotionMissionDepositAmount;;
         }
         
         return resultAmount;
@@ -185,12 +184,11 @@ public class OlympicEventBLL : IOlympicEventBLL
         };
 
         var getTpBetRecordData = _partitionService.GetTpBetRecord(startTime, endTime, SpName, p);
-        if (getTpBetRecordData.Count() != 0)
+        if (getTpBetRecordData.Any())
         {
-            var transIdList = GetTransIdValuesAsStringList(getTpBetRecordData);
-            var joinedTransId = CreateSqlInClause(transIdList);
+            var joinedTransId = GetTransIdSqlInClause(getTpBetRecordData);
             var getSBSWBetData = GetSBSWSportBet(sq, custInfo.CustId, joinedTransId);
-            if (getSBSWBetData.Count() != 0)
+            if (getSBSWBetData.Any())
             {
                 var totalValidBet = CalculateValidBet(getTpBetRecordData, getSBSWBetData);
                 return totalValidBet - (turnoverGoldMedalCount * promotionMissionTurnover);
@@ -200,45 +198,39 @@ public class OlympicEventBLL : IOlympicEventBLL
         return result; 
     }
     
-    
-    private List<string> GetTransIdValuesAsStringList(IEnumerable<TpBetRecord> tpBetRecords)
+    private string GetTransIdSqlInClause(IEnumerable<TpBetRecord> tpBetRecords)
     {
-        return (from record in tpBetRecords where !string.IsNullOrEmpty(record.TransId) select record.TransId).ToList();
+        var transIdValues = tpBetRecords
+            .Where(record => !string.IsNullOrEmpty(record.TransId))
+            .Select(record => record.TransId);
+
+        return string.Join(",", transIdValues);
     }
-    
-    private string CreateSqlInClause(List<string> values)
-    {
-        var escapedValues = values.Select(value => $"{value}");
-        var joinedString = string.Join(",", escapedValues);
-        return $"{joinedString}";
-    }
+
 
     private IEnumerable<string> GetSBSWSportBet(int sq,int custId ,string transIdList)
     {
         var result = new List<string>();
         var getSportBet = _eventsService.GetOlympicsEventSportBet(sq, custId, transIdList);
-        if (getSportBet.Count() != 0)
+        if (getSportBet.Any())
         {
-            result = getSportBet
+            return getSportBet
                 .Where(bet => bet.leagueName_en.Contains("Olympics Paris 2024"))
-                .Select(bet => bet.txId)
-                .ToList();
+                .Select(bet => bet.txId);
         }
         return result;
     }
 
     private decimal CalculateValidBet(IEnumerable<TpBetRecord> getTpBetRecordData, IEnumerable<string> getSBSWBetData)
     {
-        var result = 0.00m;
         var sbswBetDataSet = new HashSet<string>(getSBSWBetData);
-        
         var totalValidBet = getTpBetRecordData
-            .Where(record => sbswBetDataSet.Contains(record.TransId.ToString()))
+            .Where(record => sbswBetDataSet.Contains(record.TransId))
             //先用Stake 因為都沒辦法結算
             //.Sum(record => record.ValidBet ?? 0);
             .Sum(record => record.Stake);
         
-        return totalValidBet != 0.00m ? totalValidBet : result;
+        return totalValidBet;
     }
     
     private OlympicEventDivisionResult CalculateDivision(decimal total, decimal divisor)
