@@ -43,10 +43,15 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<IEnumerable<HotEventResponse>>();
 
-            if (await _checkAttackBll.CheckAttackIp(Request))
+            if (await _checkAttackBll.CheckAttackIp(Request, 100))
             {
-                Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.TooManyRequests;
-                return null;
+                Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return new ApiResult<IEnumerable<HotEventResponse>>()
+                {
+                    ErrorCode = (int)ErrorCode.Attack,
+                    Data = new List<HotEventResponse>(),
+                    Message = "GetHotEvent request exceeds the limit count."
+                };
             }
             
             try

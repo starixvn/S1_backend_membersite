@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Net.Sockets;
@@ -839,10 +840,15 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<IEnumerable<BannerV3>>();
 
-            if (await _checkAttackBll.CheckAttackIp(Request))
+            if (await _checkAttackBll.CheckAttackIp(Request, 100))
             {
                 Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
-                return null;
+                return new ApiResult<IEnumerable<BannerV3>> 
+                { 
+                    ErrorCode = (int)ErrorCode.Attack,
+                    Data = new List<BannerV3>(),
+                    Message = "GetBannerV3 request exceeds the limit count."
+                };
             }
             
             int siteId;
@@ -1252,10 +1258,15 @@ namespace MemberSite.Controllers.Api
         [HttpGet, HttpPost]
         public async Task<ApiResult<SeoModel>> SeoAsync([FromRoute] string? domain)
         {
-            if (await _checkAttackBll.CheckAttackIp(Request))
+            if (await _checkAttackBll.CheckAttackIp(Request, 100))
             {
                 Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
-                return null;
+                return new ApiResult<SeoModel>()
+                {
+                    ErrorCode = (int)ErrorCode.Attack,
+                    Data = new SeoModel(),
+                    Message = "GetSeo request exceeds the limit count."
+                };
             }
             
             if (string.IsNullOrWhiteSpace(domain))
