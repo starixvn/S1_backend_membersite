@@ -44,7 +44,7 @@ namespace MemberSite.Service.BLL
             var siteId = custInfo.SiteId;
             var currencyId = custInfo.CurrencyId;
 
-            var key = $"PaySetting:LocalBank:LocalPayment:{siteId}:{currencyId}:{pointLevel}:{custInfo.UserLevel}";
+            var key = $"LocalPaySetting:{siteId}:{currencyId}:{pointLevel}:{custInfo.UserLevel}";
             var offBankList = _redisHelper.TryGetOrCreate(key, TimeSpan.FromMinutes(5),
                 () => GetOfflineBankAccountList(siteId, currencyId, pointLevel, custInfo.UserLevel));
 
@@ -68,7 +68,7 @@ namespace MemberSite.Service.BLL
             var currencyId = custInfo.CurrencyId;
             var lang = _authorizeBll.GetAuthData().LangId;
 
-            var key = $"PaySetting:LocalBank:{siteId}:{currencyId}:{pointLevel}:{custInfo.UserLevel}:{lang}";
+            var key = $"LocalPaySetting:{siteId}:{currencyId}:LocalBank:{pointLevel}:{custInfo.UserLevel}:{lang}";
             var offBankList = _redisHelper.TryGetOrCreate(key, TimeSpan.FromMinutes(5),
                 () => GetBankAccountOffList(siteId, currencyId, pointLevel, custInfo.UserLevel, lang));
 
@@ -329,7 +329,7 @@ namespace MemberSite.Service.BLL
             int siteId, int currencyId, IEnumerable<int> bankIds)
         {
             var strBankIds = JsonConvert.SerializeObject(bankIds);
-            var key = $"PaySetting:LocalBank:DailyDeposit:{siteId}:{currencyId}:{strBankIds}";
+            var key = $"LocalPayment:DailyDeposit:{siteId}:{currencyId}:{strBankIds}";
 
             return _redisHelper.TryGetOrCreate(key, TimeSpan.FromMinutes(5),
                 () => _bankInfoService.GetOfflineBankAccountDailyDeposit(siteId, currencyId, strBankIds));
@@ -337,7 +337,7 @@ namespace MemberSite.Service.BLL
 
         public IEnumerable<LocalPaySetting> GetLocalPaymentSettingWithCache()
         {
-            return _redisHelper.TryGetOrCreate("PaySetting:LocalPaymentSetting", TimeSpan.FromMinutes(5),
+            return _redisHelper.TryGetOrCreate("LocalPaySetting:SupportType", TimeSpan.FromMinutes(5),
                 () => _bankInfoService.GetLocalPaySetting());
         }
 
@@ -367,7 +367,7 @@ namespace MemberSite.Service.BLL
 
         private IEnumerable<OfflineCryptoPayInfo> GetOfflineCryptoPayInfoWithCache(int siteId)
         {
-            return _redisHelper.TryGetOrCreate($"PaySetting:OfflineCryptoPayInfo:{siteId}", TimeSpan.FromMinutes(5),
+            return _redisHelper.TryGetOrCreate($"LocalPaySetting:{siteId}:OfflineCryptoPayInfo", TimeSpan.FromMinutes(5),
                 () => _bankInfoService.GetOfflineCryptoPayInfo(siteId));
         }
     }
