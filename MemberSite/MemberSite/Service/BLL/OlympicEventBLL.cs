@@ -153,7 +153,8 @@ public class OlympicEventBLL : IOlympicEventBLL
         }
         else
         {
-            resultAmount = promotionMissionDepositAmount;;
+            //這邊要改成0 要不然會一直加金牌 虧爛
+            resultAmount = 0;
         }
         
         return resultAmount;
