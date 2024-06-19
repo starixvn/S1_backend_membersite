@@ -38,10 +38,15 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public async Task<ApiResult<Dictionary<string, IEnumerable<HotGameResponse>>>> GetDataList(GetHotGameDataListRequest request, [FromRoute] string langId = null)
         {
-            if (await _checkAttackBll.CheckAttackIp(Request))
+            if (await _checkAttackBll.CheckAttackIp(Request, 100))
             {
                 Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
-                return null;
+                return new ApiResult<Dictionary<string, IEnumerable<HotGameResponse>>>()
+                {
+                    ErrorCode = (int)ErrorCode.Attack,
+                    Data = new Dictionary<string, IEnumerable<HotGameResponse>>(),
+                    Message = "GetHotGame request exceeds the limit count."
+                };
             }
             
             int currencyId;

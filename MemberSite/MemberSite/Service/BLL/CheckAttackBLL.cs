@@ -82,7 +82,7 @@ namespace MemberSite.Service.BLL
             return false;
         }
 
-        public async Task<bool> CheckAttackIp(HttpRequest Request)
+        public async Task<bool> CheckAttackIp(HttpRequest Request, int limitCount)
         {
             var clientIp = _tools.GetClientIP();
             if (_cacheHelper.KeyExists($"AllowedIp:{clientIp}", RedisDataBase.IP))
@@ -94,29 +94,18 @@ namespace MemberSite.Service.BLL
             {
                 return false;
             }
-            var checkCountForShortTime = await _cacheHelper.StringIncrementAsync($"{Request.Path}:IP:{clientIp}", TimeSpan.FromMinutes(1));
-            if (checkCountForShortTime >= 100 )
-            {
-                _ = await _cacheHelper.StringFireAndForgetSetAsync($"block:{clientIp}", string.Empty, TimeSpan.FromHours(1));
+
+            // 檢查是否已經被block
+            if (_cacheHelper.KeyExists($"block:{clientIp}"))
+            {                
+                return true;
             }
 
-            var isDart = Request.Headers["User-Agent"].ToString().Contains("Dart");
-
-            if (isDart)
+            // 根據path計算次數
+            var checkCount = await _cacheHelper.StringIncrementAsync($"{Request.Path}:IP:{clientIp}", TimeSpan.FromMinutes(1));
+            if (checkCount >= limitCount)
             {
-                var reason = "agent use Dart";
-                var memo = $"Auto Deny ({Request.Path}) - Attack: reason is {reason}";
-                var setResult = _iPBll.SetBlockIp(new BlockIpRequest { IP = clientIp, Memo = memo, Operator = "System" });
-                if (setResult > 0 && !_cacheHelper.KeyExists($"AutoDeny:{clientIp}"))
-                {
-                    _ = await _cacheHelper.StringFireAndForgetSetAsync($"AutoDeny:{clientIp}", string.Empty, TimeSpan.FromMinutes(1));
-                    _ = await Upload();
-                }
-            }
-
-            if (isDart || checkCountForShortTime >= 100 || _cacheHelper.KeyExists($"block:{clientIp}"))
-            {
-                _logger.LogInformation($"IP: {Request.Headers["X-Forwarded-For"]}, {Request.Headers["HTTP_X_FORWARDED_FOR"]}, {Request.Headers["HTTP_INCAP_CLIENT_IP"]}, {Request.Headers["HTTP_TRUE_CLIENT_IP"]}, {Request.Headers["HTTP_X_REAL_IP"]}, {Request.Headers["REMOTE_ADDR"]}, {Request.HttpContext.Connection.RemoteIpAddress?.MapToIPv4()}");
+                _ = await _cacheHelper.StringFireAndForgetSetAsync($"block:{clientIp}", string.Empty, TimeSpan.FromMinutes(15));
                 return true;
             }
 
