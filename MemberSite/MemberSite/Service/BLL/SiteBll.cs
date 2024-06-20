@@ -63,20 +63,7 @@ public class SiteBll
         string fromUrl, string userAgent, bool checkReCaptchaToken)
     {
         AffCodeObject affCodeObj = null;
-
-        #region OTP
-        
         signupModel.UserName = $"P{signupModel.AreaPhoneNo.Trim('+')}";
-        var verifyResult = _custInfoBll.SignUpVerifyOTPAsync(signupModel.AreaPhoneNo, otpNum).Result;
-        if (verifyResult.ErrorCode != 0)
-        {
-            apiResult.ErrorCode = -11;
-            apiResult.Message = $"Wrong Otp Number";
-            return null;
-            //todo翻譯
-        }
-
-        #endregion
         
         var check = CheckSignUpData(signupModel, apiResult, isAuthenticated, fromUrl, checkReCaptchaToken, affCodeObj , out var agent , out var deviceType ,out var signupIp);
 
@@ -84,6 +71,20 @@ public class SiteBll
         {
             return null;
         }
+        
+        #region OTP
+        
+        // No need anymore
+        // var verifyResult = _custInfoBll.SignUpVerifyOTPAsync(signupModel.AreaPhoneNo, otpNum).Result;
+        // if (verifyResult.ErrorCode != 0)
+        // {
+        //     apiResult.ErrorCode = -11;
+        //     apiResult.Message = $"Wrong Otp Number";
+        //     return null;
+        //     //todo翻譯
+        // }
+
+        #endregion
         
         var result = _custInfoBll.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email, 
             signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff,
@@ -93,10 +94,11 @@ public class SiteBll
         
         AfterSignUp(signupModel, fromUrl, userAgent, deviceType, result, custId, apiResult, out var customer);
 
-        if (apiResult.ErrorCode == 0)
-        {
-            _commonBll.SetOTPLogCustInfo(customer.SiteId, customer.CustId ,customer.CurrencyId ,customer.UserName ,otpNum);
-        }
+        // No need anymore
+        // if (apiResult.ErrorCode == 0)
+        // {
+        //     _commonBll.SetOTPLogCustInfo(customer.SiteId, customer.CustId ,customer.CurrencyId ,customer.UserName ,otpNum);
+        // }
         
         return customer;
     }
