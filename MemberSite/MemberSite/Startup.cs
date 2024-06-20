@@ -114,6 +114,7 @@ namespace MemberSite
             services.AddTransient<QueueJobService>();
             services.AddTransient<RedemptionService>();
             services.AddTransient<QustionnaireService>();
+            services.AddSingleton<CommonService>();
 
             services.AddSingleton<IPService>();
             services.AddSingleton<ShieldService>();
