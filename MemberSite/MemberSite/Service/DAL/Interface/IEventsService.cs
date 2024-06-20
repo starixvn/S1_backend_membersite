@@ -39,6 +39,10 @@ namespace MemberSite.Service.DAL.Interface
         public IEnumerable<OlympicEventSBSWModel> GetOlympicsEventSportBet(int sq,int custId,string transList);
 
         public int OlympicsInertGoldMetal(int custId, int goldMetalCount,string type);
+        public int OlympicsEventGoldMetalSet(int id,int custId ,string goldMetalIdList);
+        public bool CreateAdminAdjustmentInfoLog(CreateAdminAdjustmentInfoLogInput input);
+        public int OlympicsEventDrawLogIns(int eventId, int prizeId, string prizeName, decimal amount, int custId,
+            int currencyId);
 
         #endregion
 

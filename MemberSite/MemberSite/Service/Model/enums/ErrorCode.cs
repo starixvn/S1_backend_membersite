@@ -3,7 +3,8 @@
     public enum ErrorCode
     {
         Success = 0,
-        Attack = -97,
+        Fail = -1,
+        Attack = -96,
         SystemException = 999,
     }
 }
