@@ -65,10 +65,9 @@ public class SiteBll
         AffCodeObject affCodeObj = null;
 
         #region OTP
-
-        var areaPhoneNo = $"{signupModel.AreaCode}{signupModel.PhoneNo}";
-        signupModel.UserName = $"P{areaPhoneNo.Trim('+')}";
-        var verifyResult = _custInfoBll.SignUpVerifyOTPAsync(areaPhoneNo, otpNum).Result;
+        
+        signupModel.UserName = $"P{signupModel.AreaPhoneNo.Trim('+')}";
+        var verifyResult = _custInfoBll.SignUpVerifyOTPAsync(signupModel.AreaPhoneNo, otpNum).Result;
         if (verifyResult.ErrorCode != 0)
         {
             apiResult.ErrorCode = -11;

@@ -77,7 +77,6 @@ namespace MemberSite.Controllers.Api
             _FPSBll = provider.GetRequiredService<FPSBLL>();
             _httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
             _commonBll = provider.GetRequiredService<CommonBLL>();
-            
         }
 
         public class LoginModel
@@ -92,6 +91,13 @@ namespace MemberSite.Controllers.Api
             public FPSRequest FPSRequest { get; set; }
         }
 
+        public class LoginPhoneModel : LoginModel
+        {
+            public string AreaCode { get; set; }
+            public string PhoneNo { get; set; }
+            public string AreaPhoneNo  =>  $"{AreaCode}{PhoneNo}";
+        }
+        
         [HttpPost]
         [TypeFilter(typeof(PublicAuthAttribute))]
         public async Task<ApiResult> SignIn(LoginModel loginModel)
@@ -121,93 +127,8 @@ namespace MemberSite.Controllers.Api
             var userLoginResult = _custInfoBll.UserLogin(false, 0, loginModel.UserName, loginModel.Userpwd, ip, fromUrl,
                 Request.Headers["User-Agent"], deviceType, ref customer, out var token);
 
-            switch (userLoginResult)
-            {
-                case -1:
-                    apiResult.ErrorCode = 1101;
-                    apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_LoginFailed");
-                    break;
-                case -2:
-                    apiResult.ErrorCode = 1001;
-                    apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_LoginFailed");
-                    break;
-                case -3:
-                    apiResult.ErrorCode = 1102;
-                    apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_ACLocked");
-                    break;
-                default:
-                    {
-                        if (userLoginResult != 0)
-                        {
-                            apiResult.ErrorCode = 9000;
-                        }
-
-                        break;
-                    }
-            }
-
-            if (userLoginResult != 0)
-            {
-                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-                return apiResult;
-            }
-
-            var claims = new List<Claim>
-                {
-                    new(ClaimTypes.Name,customer.UserName ),
-                    new(ClaimTypes.NameIdentifier,customer.CustId.ToString() ),
-                    new("Token",token ),
-                    new("LangId",customer.UserLang )
-                };
-
-            var authProperties = new AuthenticationProperties
-            {
-                IsPersistent = false,
-                ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(30)
-            };
-
-            if (_tools.IsMobile())
-            {
-                authProperties = new AuthenticationProperties
-                {
-                    IsPersistent = true,
-                    ExpiresUtc = DateTimeOffset.UtcNow.AddDays(30)
-                };
-            }
-
-            #region FPS
-
-            if (loginModel.FPSRequest != null)
-            {
-                var context = _httpContextAccessor.HttpContext;
-                _ = Task.Run(async () =>
-                {
-                    var request = new FPSApiRequest
-                    {
-                        Account = customer.CustId.ToString(),
-                        DI = loginModel.FPSRequest.DI,
-                        BI = loginModel.FPSRequest.BI,
-                        IP = ip,
-                        UserAgent = Request.Headers["User-Agent"],
-                        DetecasAnalysis = loginModel.FPSRequest.DetecasAnalysis,
-                        AcceptsTypes = context?.Request.Headers["Accept"].ToString(),
-                        SessionKey = loginModel.FPSRequest.SessionKey,
-                        Token = loginModel.FPSRequest.Token,
-                        Url = loginModel.url
-                    };
-                    await _FPSBll.FPSChecksAsync(request);
-                });
-            }
-
-            #endregion
-
-            await _cacheHelper.StringFireAndForgetSetAsync(customer.CustId.ToString(), token, TimeSpan.FromMinutes(30), RedisDataBase.Token);
-
-            Response.Cookies.Delete($"Initialization{User.Identity?.Name}");
-            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
-            apiResult.Message = Url.RouteUrl("desktop", new { action = Request.RouteValues["action"], controller = Request.RouteValues["controller"], LangId = _selLangBll.GetLangId() });
-            apiResult.ErrorCode = 0;
+            await AfterLogin(userLoginResult, loginModel, ip, customer, token, apiResult);
+            
             return apiResult;
         }
 
@@ -308,6 +229,131 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
 
+        [HttpPost]
+        [TypeFilter(typeof(PublicAuthAttribute))]
+        public async Task<ApiResult> SignInPhone(LoginPhoneModel loginModel)
+        {
+            var apiResult = new ApiResult(_selLangBll);
+            
+            if (!_environment.EnvironmentName.Equals("Local", StringComparison.OrdinalIgnoreCase))
+            {
+                if (await _checkAttackBll.CheckAttackForSignIn(loginModel, true, Request))
+                {
+                    Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                    return null;
+                }
+            }
+
+            loginModel.UserName = $"P{loginModel.AreaPhoneNo.Trim('+')}";
+            if (!_regexUserName.IsMatch(loginModel.UserName))
+            {
+                apiResult.ErrorCode = 1103;
+                apiResult.Message = _selLangBll.GetMsg("msg_UsernameValidate");
+                return apiResult;
+            }
+
+            Customer customer = null;
+            var ip = _tools.GetClientIP();
+            var fromUrl = _tools.GetFromUrl();
+            var deviceType = (int)_tools.GetDeviceId(fromUrl);
+            var userLoginResult = _custInfoBll.UserLogin(false, 0, loginModel.UserName, loginModel.Userpwd, ip, fromUrl,
+                Request.Headers["User-Agent"], deviceType, ref customer, out var token);
+
+            await AfterLogin(userLoginResult, loginModel, ip, customer, token, apiResult);
+            
+            return apiResult;
+        }
+
+        private async Task AfterLogin(int userLoginResult, LoginModel loginModel, string ip, Customer customer, string token, ApiResult apiResult)
+        {
+            switch (userLoginResult)
+            {
+                case -1:
+                    apiResult.ErrorCode = 1101;
+                    apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_LoginFailed");
+                    break;
+                case -2:
+                    apiResult.ErrorCode = 1001;
+                    apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_LoginFailed");
+                    break;
+                case -3:
+                    apiResult.ErrorCode = 1102;
+                    apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_ACLocked");
+                    break;
+                default:
+                    {
+                        if (userLoginResult != 0)
+                        {
+                            apiResult.ErrorCode = 9000;
+                        }
+                        break;
+                    }
+            }
+
+            if (userLoginResult != 0)
+            {
+                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                return;
+            }
+
+            var claims = new List<Claim> 
+            {
+                new(ClaimTypes.Name,customer.UserName ),
+                new(ClaimTypes.NameIdentifier,customer.CustId.ToString() ),
+                new("Token",token ),
+                new("LangId",customer.UserLang )
+            };
+
+            var authProperties = new AuthenticationProperties
+            {
+                IsPersistent = false,
+                ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(30)
+            };
+
+            if (_tools.IsMobile())
+            {
+                authProperties = new AuthenticationProperties
+                {
+                    IsPersistent = true,
+                    ExpiresUtc = DateTimeOffset.UtcNow.AddDays(30)
+                };
+            }
+
+            #region FPS
+
+            if (loginModel.FPSRequest != null)
+            {
+                var context = _httpContextAccessor.HttpContext;
+                _ = Task.Run(async () =>
+                {
+                    var request = new FPSApiRequest
+                    {
+                        Account = customer.CustId.ToString(),
+                        DI = loginModel.FPSRequest.DI,
+                        BI = loginModel.FPSRequest.BI,
+                        IP = ip,
+                        UserAgent = Request.Headers["User-Agent"],
+                        DetecasAnalysis = loginModel.FPSRequest.DetecasAnalysis,
+                        AcceptsTypes = context?.Request.Headers["Accept"].ToString(),
+                        SessionKey = loginModel.FPSRequest.SessionKey,
+                        Token = loginModel.FPSRequest.Token,
+                        Url = loginModel.url
+                    };
+                    await _FPSBll.FPSChecksAsync(request);
+                });
+            }
+
+            #endregion
+
+            await _cacheHelper.StringFireAndForgetSetAsync(customer.CustId.ToString(), token, TimeSpan.FromMinutes(30), RedisDataBase.Token);
+
+            Response.Cookies.Delete($"Initialization{User.Identity?.Name}");
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+            apiResult.Message = Url.RouteUrl("desktop", new { action = Request.RouteValues["action"], controller = Request.RouteValues["controller"], LangId = _selLangBll.GetLangId() });
+            apiResult.ErrorCode = 0;
+        }
+        
         public class RegisteredModel
         {
             public string UserName { get; set; }
@@ -330,6 +376,7 @@ namespace MemberSite.Controllers.Api
             public string ReferralUrl { get; set; }
             public string PhoneNo { get; set; }
             public string AreaCode { get; set; }
+            public string AreaPhoneNo  =>  $"{AreaCode}{PhoneNo}";
             public string RealName { get; set; }
             public string PromoCode { get; set; }
             public string RedirectUrl { get; set; }
