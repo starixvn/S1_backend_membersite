@@ -47,11 +47,6 @@ namespace MemberSite.Controllers.Api
         public async Task<ApiResult<IEnumerable<SportLiveStreamingResponse>>> GetDataList(GetDataListReq req, [FromRoute] string langId = null)
         {
             var apiResult = new ApiResult<IEnumerable<SportLiveStreamingResponse>>();
-            //if (await _checkAttackBll.CheckAttackIp(Request))
-            //{
-            //    Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.TooManyRequests;
-            //    return null;
-            //}
 
             try
             {

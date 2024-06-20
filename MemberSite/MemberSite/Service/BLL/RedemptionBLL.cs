@@ -50,7 +50,12 @@ public class RedemptionBLL
     private async Task AutoApportion(CreateRedemptionRequest req, GiftInfo giftInfo)
     {
         var serverInfo = _serverInfoBll.GetServerInfo();
-        var transId = _redemptionService.GetRedemptionId(req);
+        var transId = await _redemptionService.GetRedemptionId(req);
+        if (transId == null)
+        {
+            _logger.LogError("Failed to get TransId");
+            return;
+        }
         var bonusCode = BonusCodeRule(giftInfo, serverInfo.SiteName);
         _logger.LogInformation($"FreeSpinAutoProcess，TransId:{transId}");
         var inputs = new Dictionary<string, string>

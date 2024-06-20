@@ -185,6 +185,7 @@ namespace MemberSite
             services.AddTransient<QueueJobBLL>();
             services.AddSingleton<CheckIpBLL>();
             services.AddSingleton<CryptoHelper>();
+            services.AddSingleton<FaceBookPixelBLL>();
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();
 

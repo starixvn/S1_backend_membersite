@@ -1,4 +1,6 @@
-﻿using MemberSite.Service.BLL;
+﻿using System.Net;
+
+using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
@@ -26,6 +28,7 @@ namespace MemberSite.Controllers.Api
         private readonly ILogger<PromotionController> _logger;
         private readonly Tools _tools;
         private readonly ICacheHelper _cacheHelper;
+        private readonly CheckAttackBLL _checkAttackBll;
 
         public PromotionController(IServiceProvider provider)
         {
@@ -41,6 +44,7 @@ namespace MemberSite.Controllers.Api
             _logger = provider.GetRequiredService<ILogger<PromotionController>>();
             _tools = provider.GetRequiredService<Tools>();
             _cacheHelper = provider.GetRequiredService<ICacheHelper>();
+            _checkAttackBll = provider.GetRequiredService<CheckAttackBLL>();
         }
 
         public class PromotionReq
@@ -176,6 +180,17 @@ namespace MemberSite.Controllers.Api
         {
             try
             {
+                if (await _checkAttackBll.CheckAttackIp(Request, 100))
+                {
+                    Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                    return new ApiResult<List<CustPromotion>>
+                    {
+                        ErrorCode = (int)ErrorCode.Attack,
+                        Data = new List<CustPromotion>(),
+                        Message = "GetPromotionListV3 request exceeds the limit count."
+                    };
+                }
+
                 CustPromotionRequest request;
                 var serverInfo = _serverInfoBll.GetServerInfo();
                 var authData = _authorizeBll.GetAuthData();
