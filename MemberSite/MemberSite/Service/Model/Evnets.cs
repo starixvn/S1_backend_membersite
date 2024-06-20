@@ -261,6 +261,7 @@ namespace MemberSite.Service.Model
 
     public class EggTicketData
     {
+        public int Id { get; set; }
         public int CustId { get; set; }
 
         public string MissionDate { get; set; }

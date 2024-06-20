@@ -89,6 +89,31 @@ namespace MemberSite.Controllers.Api
 
             return apiResult;
         }
+        
+        [HttpPost]
+        [Authorize]
+        public ApiResult<ClaimOlympicEventPrizeResponse> ClaimOlympicEventPrize(ClaimOlympicEventPrizeRequest request)
+        {
+            var apiResult = new ApiResult<ClaimOlympicEventPrizeResponse>();
+
+            try
+            {
+                var authData = _authorizeBll.GetAuthData();
+                var serverInfo = _serverInfoBll.GetServerInfo();
+                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                
+                var responseData = _olympicEventBll.ClaimOlympicEventPrize(serverInfo.SiteId, authData.CustId, authData.UserName,custInfo.CurrencyId,request.UsedGoldMetalCount).Result;
+                
+                apiResult.ErrorCode = responseData.ErrorCode;
+                apiResult.Message = responseData.Message;
+            }
+            catch (Exception ex)
+            {
+                apiResult.Message = ex.Message;
+            }
+
+            return apiResult;
+        }
 
     }
 }

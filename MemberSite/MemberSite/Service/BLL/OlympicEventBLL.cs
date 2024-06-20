@@ -1,10 +1,13 @@
-using System.Reflection;
+﻿using System.Reflection;
+using System.Text.RegularExpressions;
 using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.DAL;
 using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace MemberSite.Service.BLL;
 
@@ -15,6 +18,8 @@ public class OlympicEventBLL : IOlympicEventBLL
     private readonly CupEventBLL _cupEventBLL;
     private readonly IEventsService _eventsService;
     private readonly MySqlClient _mainDbClient;
+    private readonly CourierAdapter _courierAdapter;
+    private readonly string _bonusApiUrl;
     private readonly PartitionService _partitionService;
     private readonly NewYear2024BLL _newYear2024Bll;
     private readonly ICacheHelper _redisHelper;
@@ -27,8 +32,11 @@ public class OlympicEventBLL : IOlympicEventBLL
         _cupEventService = provider.GetRequiredService<CupEventService>();
         _eventsService = provider.GetRequiredService<IEventsService>();
         _mainDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Main);
+        _courierAdapter = provider.GetRequiredService<CourierAdapter>();
         _newYear2024Bll = provider.GetRequiredService<NewYear2024BLL>();
         _redisHelper = provider.GetRequiredService<ICacheHelper>();
+        var configBll = provider.GetRequiredService<ConfigBLL>();
+        _bonusApiUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost").BonusService;
     }
     
     public async Task<OlympicMemberDepositTicketInfoResponse> GetOlympicEventTicket(int siteId, int custId, string userName, string langId,
@@ -88,7 +96,150 @@ public class OlympicEventBLL : IOlympicEventBLL
             
         return responseData;
     }
-    
+
+    public async Task<ClaimOlympicEventPrizeResponse> ClaimOlympicEventPrize(int siteId, int custId, string userName,int currencyId,int usedGoldMetalCount)
+    {
+        var result = new ClaimOlympicEventPrizeResponse();
+        var bonusUrl = $"{_bonusApiUrl}SetAdjustBonus";
+        decimal bonusAmount;
+        string bonusCode;
+        var id = 10000;
+        
+        //獲取紅利金額及BonusCode
+        var currencyBonusAmountList = GetOlympicsBonusAmount();
+        if (!string.IsNullOrEmpty(currencyBonusAmountList))
+        {
+            var getCurrencyAmount = JObject.Parse(currencyBonusAmountList);
+            bonusCode = (string)getCurrencyAmount["olympicsBonusCode"]?[usedGoldMetalCount.ToString()];
+            bonusAmount = (decimal)getCurrencyAmount[currencyId.ToString()]?[usedGoldMetalCount.ToString()];
+        }
+        else
+        {
+            return new ClaimOlympicEventPrizeResponse()
+            {
+                ErrorCode = 999,
+                Message = "Olympic 2024 - Can't Get Redis Setting"
+            };
+        }
+        
+        //金牌數不足不發 前端可能會擋 後端在擋一次
+        var eggTicket = await _newYear2024Bll.GetEggTicketData(custId);
+        var eggTicketCanUse = eggTicket.Where(x => x.IsUsed == 0 && x.MissionDate.Contains("Olympic2024")).ToList();
+        if (eggTicketCanUse.Count <= usedGoldMetalCount)
+        {
+            return new ClaimOlympicEventPrizeResponse()
+            {
+                ErrorCode = 789,
+                Message = "Olympic 2024 - GoldMetal Insufficient"
+            };
+        }
+        
+        
+        //先發紅利及寫Log 有問題至少不會動到金牌數
+        #region Write Insert Log
+        
+        var bonusRequest = new BonusPayoutRequest
+        {
+            CustId = custId,
+            Amount = bonusAmount,
+            BonusCode = bonusCode,
+            RollOver = 5,
+            PromotionType = (int)PromotionType.SpecialBonus,
+            Operator = "System",
+            Memo = $"Olympics2024-BonusPayout",
+            DepositId = ""
+        };
+
+        var detailInfo = new
+        {
+            UserName = userName,
+            BonusCode = bonusCode,
+            Memo = bonusRequest.Memo,
+            Amount = bonusRequest.Amount,
+            PromotionType = bonusRequest.PromotionType.ToString(),
+            bonusRequest.DepositId
+        };
+
+        var logResult =
+            _eventsService.CreateAdminAdjustmentInfoLog(new CreateAdminAdjustmentInfoLogInput
+            {
+                Operator = "Olympic2024System",
+                SiteId = siteId,
+                CurrencyId = currencyId,
+                ActionType = ActionType.Create,
+                MenuEnum = AdminAdjustmentLogMenuEnum.IssueBonusManagement,
+                BeforeDetailInfo = null,
+                AfterDetailInfo = JsonConvert.SerializeObject(detailInfo),
+                RefTransId = string.Empty
+            });
+
+        if (!logResult)
+        {
+            result.ErrorCode = 456;
+            result.Message = "Insert log error.";
+            return result;
+        }
+
+        #endregion
+        
+        #region Payout Bonus
+        
+        var apiOnlineResult = await _courierAdapter.MyPostAsync<ApiResult, BonusPayoutRequest>(bonusUrl, bonusRequest);
+        if (apiOnlineResult.ErrorCode == (int)ErrorCode.Success)
+        {
+            result.ErrorCode = (int)ErrorCode.Success;
+            result.Message = $"Success.";
+        }
+        else
+        {
+            result.ErrorCode = apiOnlineResult.ErrorCode;
+            result.Message = apiOnlineResult.Message;
+            return result;
+        }
+
+        #endregion
+
+        #region Set Used GoldMedal
+        
+        var getGoldMedalIdList = GetGoldMedalIdSqlInClause(eggTicket, usedGoldMetalCount);
+        var setUsedGoldMedal = _eventsService.OlympicsEventGoldMetalSet(id, custId, getGoldMedalIdList);
+        
+        //先塞DrawLog 後續再看怎樣
+        if (setUsedGoldMedal == (int)ErrorCode.Success)
+        {
+            var eventId = siteId switch
+            {
+                1 => 18,
+                2 => 19,
+                3 => 20,
+                _ => 0
+            };
+            var prizesList = await _eventsService.GetPrizes(eventId, currencyId);
+            
+            var targetPrize = prizesList.FirstOrDefault(p => p.Amount == bonusRequest.Amount);
+
+            var insertLog = _eventsService.OlympicsEventDrawLogIns
+            (
+                eventId,
+                targetPrize.PrizeId,
+                targetPrize.PrizeName,
+                targetPrize.Amount,
+                custId,
+                currencyId
+            );
+
+            if (insertLog == 1)
+            {
+                return result;
+            }
+
+        }
+
+        #endregion
+        
+        return result;
+    }
+
     /// <summary>
     /// 取得任務活動，不過期
     /// </summary>
@@ -100,6 +251,13 @@ public class OlympicEventBLL : IOlympicEventBLL
             () => _eventsService.GetPromotionMission(siteId, currencyId, missionName).ToList());
             
         return promotionMission;
+    }
+
+    private string GetOlympicsBonusAmount()
+    {
+        var olympicsBonusAmountKey = $"Olympic2024BonusAmount";
+        var olympicsBonusAmount = _redisHelper.StringGet(olympicsBonusAmountKey);
+        return olympicsBonusAmount;
     }
     
     private bool CheckCustVerifyStatus(int siteId, CustInfoProfile custInfo)
@@ -207,6 +365,17 @@ public class OlympicEventBLL : IOlympicEventBLL
 
         return string.Join(",", transIdValues);
     }
+    
+    private string GetGoldMedalIdSqlInClause(IEnumerable<EggTicketData> eggTicketDatas,int usedGoldMetalCount)
+    {
+        var transIdValues = eggTicketDatas
+            .Where(record => record.IsUsed == 0 && record.MissionDate.Contains("Olympic2024"))
+            .OrderBy(record => record.CreateTime)
+            .Take(usedGoldMetalCount)
+            .Select(record => record.Id);
+
+        return string.Join(",", transIdValues);
+    }
 
 
     private IEnumerable<string> GetSBSWSportBet(int sq,int custId ,string transIdList)
@@ -215,9 +384,10 @@ public class OlympicEventBLL : IOlympicEventBLL
         var getSportBet = _eventsService.GetOlympicsEventSportBet(sq, custId, transIdList);
         if (getSportBet.Any())
         {
-            return getSportBet
-                .Where(bet => bet.leagueName_en.Contains("Olympics Paris 2024"))
-                .Select(bet => bet.txId);
+            //查看注單也有別的關鍵詞 改用Regex匹配 要不然SABA那邊有改會錯
+            result = getSportBet
+                .Where(bet => Regex.IsMatch(bet.leagueName_en, @"\bOlympics\b.*\b2024\b", RegexOptions.IgnoreCase))
+                .Select(bet => bet.txId).ToList();
         }
         return result;
     }

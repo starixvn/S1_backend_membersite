@@ -46,4 +46,16 @@ namespace MemberSite.Service.Model
         public int Count { get; set; }
         public decimal Remainder { get; set; }
     }
+
+    public class ClaimOlympicEventPrizeRequest
+    {
+        public int CustId { get; set; }
+        public int UsedGoldMetalCount { get; set; }
+    }
+
+    public class ClaimOlympicEventPrizeResponse
+    {
+        public int ErrorCode { get; set;}
+        public string Message { get; set;}
+    }
 }
