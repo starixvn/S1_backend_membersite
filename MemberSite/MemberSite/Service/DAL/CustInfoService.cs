@@ -99,8 +99,7 @@ namespace MemberSite.Service.DAL
                     return -5;
                 }
 
-                if ((!string.IsNullOrEmpty(Email) ||
-                     (!string.IsNullOrEmpty(PhoneNo) && !string.IsNullOrEmpty(AreaCode))))
+                if ((!string.IsNullOrEmpty(Email) || (!string.IsNullOrEmpty(PhoneNo) && !string.IsNullOrEmpty(AreaCode))))
                 {
                     if (string.IsNullOrEmpty(Email))
                     {

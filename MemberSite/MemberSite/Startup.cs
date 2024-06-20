@@ -113,6 +113,7 @@ namespace MemberSite
             services.AddTransient<GameService>();
             services.AddTransient<QueueJobService>();
             services.AddTransient<RedemptionService>();
+            services.AddSingleton<CommonService>();
 
             services.AddSingleton<IPService>();
             services.AddSingleton<ShieldService>();
