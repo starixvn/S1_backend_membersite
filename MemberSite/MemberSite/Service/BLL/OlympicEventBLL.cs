@@ -125,7 +125,7 @@ public class OlympicEventBLL : IOlympicEventBLL
         //金牌數不足不發 前端可能會擋 後端在擋一次
         var eggTicket = await _newYear2024Bll.GetEggTicketData(custId);
         var eggTicketCanUse = eggTicket.Where(x => x.IsUsed == 0 && x.MissionDate.Contains("Olympic2024")).ToList();
-        if (eggTicketCanUse.Count <= usedGoldMetalCount)
+        if (eggTicketCanUse.Count < usedGoldMetalCount)
         {
             return new ClaimOlympicEventPrizeResponse()
             {
