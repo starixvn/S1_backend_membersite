@@ -1,4 +1,3 @@
-﻿using System.Reflection;
 using System.Text.RegularExpressions;
 using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.DAL;
@@ -15,27 +14,29 @@ public class OlympicEventBLL : IOlympicEventBLL
 {
     private readonly CustInfoBll _custInfoBll;
     private readonly CupEventService _cupEventService;
-    private readonly CupEventBLL _cupEventBLL;
     private readonly IEventsService _eventsService;
-    private readonly MySqlClient _mainDbClient;
     private readonly CourierAdapter _courierAdapter;
     private readonly string _bonusApiUrl;
     private readonly PartitionService _partitionService;
     private readonly NewYear2024BLL _newYear2024Bll;
+    private readonly Tools _tools;
     private readonly ICacheHelper _redisHelper;
+    private readonly SelLangBLL _selLangBll;
+    private readonly ILogger<OlympicEventBLL> _logger;
         
     public OlympicEventBLL(IServiceProvider provider)
     {
+        _selLangBll = provider.GetRequiredService<SelLangBLL>();
         _custInfoBll = provider.GetRequiredService<CustInfoBll>();
         _partitionService = provider.GetRequiredService<PartitionService>();
-        _cupEventBLL = provider.GetRequiredService<CupEventBLL>();
         _cupEventService = provider.GetRequiredService<CupEventService>();
         _eventsService = provider.GetRequiredService<IEventsService>();
-        _mainDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Main);
         _courierAdapter = provider.GetRequiredService<CourierAdapter>();
         _newYear2024Bll = provider.GetRequiredService<NewYear2024BLL>();
         _redisHelper = provider.GetRequiredService<ICacheHelper>();
+        _logger = provider.GetRequiredService<ILogger<OlympicEventBLL>>();
         var configBll = provider.GetRequiredService<ConfigBLL>();
+        _tools = provider.GetRequiredService<Tools>();
         _bonusApiUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost").BonusService;
     }
     
@@ -101,17 +102,29 @@ public class OlympicEventBLL : IOlympicEventBLL
     {
         var result = new ClaimOlympicEventPrizeResponse();
         var bonusUrl = $"{_bonusApiUrl}SetAdjustBonus";
-        decimal bonusAmount;
+        // var bonusUrl = $"{_bonusApiUrl}SetClaimPromotion";
+        int prizeId;
         string bonusCode;
+        var olympicPrize = new Prize();
         var id = 10000;
         
-        //獲取紅利金額及BonusCode
+        //獲取EventId及BonusCode
         var currencyBonusAmountList = GetOlympicsBonusAmount();
         if (!string.IsNullOrEmpty(currencyBonusAmountList))
         {
             var getCurrencyAmount = JObject.Parse(currencyBonusAmountList);
             bonusCode = (string)getCurrencyAmount["olympicsBonusCode"]?[usedGoldMetalCount.ToString()];
-            bonusAmount = (decimal)getCurrencyAmount[currencyId.ToString()]?[usedGoldMetalCount.ToString()];
+            prizeId = (int)getCurrencyAmount[currencyId.ToString()]?[usedGoldMetalCount.ToString()];
+            
+            var eventId = siteId switch
+            {
+                1 => 18,
+                2 => 19,
+                3 => 20,
+                _ => 0
+            };
+            var prizesList = await _eventsService.GetPrizes(eventId, currencyId);
+            olympicPrize = prizesList.FirstOrDefault(x => x.PrizeId == prizeId);
         }
         else
         {
@@ -138,10 +151,22 @@ public class OlympicEventBLL : IOlympicEventBLL
         //先發紅利及寫Log 有問題至少不會動到金牌數
         #region Write Insert Log
         
+        //原走正常領紅利流程，但CanJoin那邊會不過，先保留用後台調帳Bonus
+        // var deviceType = (int)PromotionDeviceType.All;
+        //
+        // var bonusRequest = new BonusPayoutRequest
+        // {
+        //     CustId = custId,
+        //     LockedAmount = olympicPrize.Amount,
+        //     custIP = _tools.GetClientIP(),
+        //     BonusCode = bonusCode,
+        //     DeviceType = deviceType
+        // };
+        
         var bonusRequest = new BonusPayoutRequest
         {
             CustId = custId,
-            Amount = bonusAmount,
+            Amount = olympicPrize.Amount,
             BonusCode = bonusCode,
             RollOver = 5,
             PromotionType = (int)PromotionType.SpecialBonus,
@@ -207,23 +232,12 @@ public class OlympicEventBLL : IOlympicEventBLL
         //先塞DrawLog 後續再看怎樣
         if (setUsedGoldMedal == (int)ErrorCode.Success)
         {
-            var eventId = siteId switch
-            {
-                1 => 18,
-                2 => 19,
-                3 => 20,
-                _ => 0
-            };
-            var prizesList = await _eventsService.GetPrizes(eventId, currencyId);
-            
-            var targetPrize = prizesList.FirstOrDefault(p => p.Amount == bonusRequest.Amount);
-
             var insertLog = _eventsService.OlympicsEventDrawLogIns
             (
-                eventId,
-                targetPrize.PrizeId,
-                targetPrize.PrizeName,
-                targetPrize.Amount,
+                olympicPrize.EventId,
+                olympicPrize.PrizeId,
+                olympicPrize.PrizeName,
+                olympicPrize.Amount,
                 custId,
                 currencyId
             );

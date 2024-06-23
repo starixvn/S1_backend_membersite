@@ -1,4 +1,4 @@
-﻿using MemberSite.Service.Model.enums;
+using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.Model
 {
@@ -25,5 +25,14 @@ namespace MemberSite.Service.Model
         public int RollOver { get; set; }
         public int PromotionType { get; set; }
         public string DepositId { get; set; }
+    }
+
+    public class BaseBonusPayoutRequest
+    {
+        public string BonusCode { set; get; }
+        public int CustId { set; get; }
+        public string custIP { set; get; }
+        public decimal? LockedAmount { set; get; }
+        public int DeviceType { set; get; }
     }
 }
