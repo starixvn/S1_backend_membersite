@@ -49,7 +49,9 @@ namespace MemberSite.Service.Model
 
     public class ClaimOlympicEventPrizeRequest
     {
+        [JsonPropertyName("custid")]
         public int CustId { get; set; }
+        [JsonPropertyName("usedgoldmetalcount")]
         public int UsedGoldMetalCount { get; set; }
     }
 

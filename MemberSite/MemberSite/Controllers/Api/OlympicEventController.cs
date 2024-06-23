@@ -1,5 +1,4 @@
-﻿using MemberSite.Extensions;
-using MemberSite.Service.BLL;
+﻿using MemberSite.Service.BLL;
 using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
@@ -18,9 +17,9 @@ namespace MemberSite.Controllers.Api
         private readonly AuthorizeBLL _authorizeBll;
         private readonly CustInfoBll _custInfoBll;
         private readonly SelLangBLL _selLangBll;
-        private readonly DateTimeHelper _dateTimeHelper;
+
+        private readonly ILogger<OlympicEventController> _logger;
         private readonly ICacheHelper _redisHelper;
-        private readonly IWebHostEnvironment _environment;
         
         public OlympicEventController(IServiceProvider provider)
         {
@@ -30,9 +29,8 @@ namespace MemberSite.Controllers.Api
             _authorizeBll = provider.GetRequiredService<AuthorizeBLL>();
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _selLangBll = provider.GetRequiredService<SelLangBLL>();
-            _dateTimeHelper = provider.GetRequiredService<DateTimeHelper>();
+            _logger = provider.GetRequiredService<ILogger<OlympicEventController>>();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
-            _environment = provider.GetRequiredService<IWebHostEnvironment>();
         }
         
         [HttpPost]
@@ -92,20 +90,54 @@ namespace MemberSite.Controllers.Api
         
         [HttpPost]
         [Authorize]
-        public ApiResult<ClaimOlympicEventPrizeResponse> ClaimOlympicEventPrize(ClaimOlympicEventPrizeRequest request)
+        public async Task<ApiResult<ClaimOlympicEventPrizeResponse>> ClaimOlympicEventPrize(ClaimOlympicEventPrizeRequest request)
         {
             var apiResult = new ApiResult<ClaimOlympicEventPrizeResponse>();
 
             try
             {
                 var authData = _authorizeBll.GetAuthData();
-                var serverInfo = _serverInfoBll.GetServerInfo();
-                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-                
-                var responseData = _olympicEventBll.ClaimOlympicEventPrize(serverInfo.SiteId, authData.CustId, authData.UserName,custInfo.CurrencyId,request.UsedGoldMetalCount).Result;
-                
-                apiResult.ErrorCode = responseData.ErrorCode;
-                apiResult.Message = responseData.Message;
+                if (authData is { CustId: > 0 })
+                {
+                    
+                    var lockKey = $"OlympicEventClaimLock:{authData.CustId}";
+                    var lockValue = Guid.NewGuid().ToString(); // 每次取鎖使用唯一值，確保為同一個執行序所執行
+                    var lockExpiry = TimeSpan.FromSeconds(5); //lock 5 sec        
+
+                    if (await _redisHelper.TryCreateLockAsync(lockKey, lockValue, lockExpiry))
+                    {
+                        var serverInfo = _serverInfoBll.GetServerInfo();
+                        var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+
+                        var responseData = _olympicEventBll.ClaimOlympicEventPrize(serverInfo.SiteId, authData.CustId,
+                            authData.UserName, custInfo.CurrencyId, request.UsedGoldMetalCount).Result;
+
+                        apiResult.ErrorCode = responseData.ErrorCode;
+                        apiResult.Message = responseData.Message;
+                        
+                        await _redisHelper.UnLockAsync(lockKey, lockValue);
+                    }
+                    //var key = $"SetClaimPromotion:{authData.CustId}";
+                    // if (!await _redisHelper.SetNxAsync(key, string.Empty, TimeSpan.FromSeconds(5)))
+                    // {
+                    //     apiResult.ErrorCode = -100;
+                    //     apiResult.Message = _selLangBll.GetMsg("msg_Ineligible");
+                    //
+                    //     _logger.LogInformation("Block duplicate claim bonus");
+                    //
+                    //     return apiResult;
+                    // }
+                    // if (custInfo.SiteId is 2 or 3) // bwing and goal
+                    // {
+                    //     _ = Task.Run(() =>
+                    //     {
+                    //         _ = _shieldBll.CheckCustShieldRisk(
+                    //             custInfo,
+                    //             ShieldRiskTriggeredPoint.ClaimBonus,
+                    //             ShieldRiskTaggedIssue.HighRisk);
+                    //     });
+                    // }
+                }
             }
             catch (Exception ex)
             {
