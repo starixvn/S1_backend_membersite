@@ -172,7 +172,7 @@ namespace MemberSite.Service.BLL
         public IEnumerable<BankInfoPay> GetOnlineBankList(int siteId, DepositType depositType)
         {
             var key = $"PaySetting:{siteId}:{DepositType.OnlineBanking}:{depositType}";
-            var dbData = _redisHelper.TryGetOrCreate<IEnumerable<BankInfoPay>>(key, TimeSpan.FromMinutes(5),
+            var dbData = _redisHelper.TryGetOrCreate<IEnumerable<BankInfoPay>>(key, TimeSpan.FromSeconds(30),
                 () => _bankInfoService.GetBankInfoPayList(siteId, depositType).OrderBy(x => x.MSort).ThenBy(x => x.SSort),
                 RedisDataBase.Shared);
             return dbData;
@@ -183,7 +183,7 @@ namespace MemberSite.Service.BLL
             var authData = _authorizeBll.GetAuthData();
             var key = $"PaySetting:{custInfo.SiteId}:{DepositType.OnlineBanking}:{custInfo.CurrencyId}:{authData.LangId}:{depositType}";
             
-            var dbData = _redisHelper.TryGetOrCreate<IEnumerable<BankInfoPay>>(key, TimeSpan.FromMinutes(5),
+            var dbData = _redisHelper.TryGetOrCreate<IEnumerable<BankInfoPay>>(key, TimeSpan.FromSeconds(30),
                 () =>GetOnlineBankListLocalization(custInfo, authData.LangId, depositType).OrderBy(x => x.MSort).ThenBy(x => x.SSort),
                 RedisDataBase.Shared);
             
