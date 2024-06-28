@@ -109,7 +109,7 @@ public class OlympicEventBLL : IOlympicEventBLL
         var id = 10000;
         
         //獲取EventId及BonusCode
-        var currencyBonusAmountList = GetOlympicsBonusAmount();
+        var currencyBonusAmountList = GetOlympicsList();
         if (!string.IsNullOrEmpty(currencyBonusAmountList))
         {
             var getCurrencyAmount = JObject.Parse(currencyBonusAmountList);
@@ -267,13 +267,13 @@ public class OlympicEventBLL : IOlympicEventBLL
         return promotionMission;
     }
 
-    private string GetOlympicsBonusAmount()
+    public string GetOlympicsList()
     {
         var olympicsBonusAmountKey = $"Olympic2024BonusAmount";
         var olympicsBonusAmount = _redisHelper.StringGet(olympicsBonusAmountKey);
         return olympicsBonusAmount;
     }
-    
+
     private bool CheckCustVerifyStatus(int siteId, CustInfoProfile custInfo)
     {
         var status = false;
