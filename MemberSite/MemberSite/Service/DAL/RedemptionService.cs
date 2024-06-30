@@ -29,7 +29,7 @@ namespace MemberSite.Service.DAL
             p.Add("_GiftId", req.GiftId, DbType.Int32);
             p.Add("_Point", req.Point, DbType.Int32);
 
-            return await _reportClient.QueryFirstAsync<string>("Member_RedemptionTransId_Get", p);
+            return await _mainDbClient.QueryFirstAsync<string>("Member_RedemptionTransId_Get", p);
         }
 
         public GiftInfo GetGiftInfo(CreateRedemptionRequest req)
