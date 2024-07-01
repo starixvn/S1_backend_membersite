@@ -475,4 +475,7 @@
   <data name="msg_WithdrawalLimitExceededINR_Detail" xml:space="preserve">
     <value>Due to the current payment system's maximum limit of INR 50,000 per transaction, we regret to inform you that we are unable to process your payment request. Kindly resubmit a withdrawal request below INR 50,000.</value>
   </data>
+  <data name="msg_QuestionnaireFailed" xml:space="preserve">
+    <value>You have reached the maximum feedback submissions for today.</value>
+  </data>
 </root>

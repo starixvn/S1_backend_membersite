@@ -421,4 +421,7 @@
   <data name="msg_FillUpRemarkReminder_Detail" xml:space="preserve">
     <value>Untuk mempercepat verifikasi dan pemrosesan permintaan deposit Anda, pastikan untuk memasukkan nomor catatan yang disediakan pada halaman deposit saat melakukan transfer.</value>
   </data>
+  <data name="msg_QuestionnaireFailed" xml:space="preserve">
+    <value>Anda telah mencapai batas maksimal pengajuan umpan balik untuk hari ini</value>
+  </data>
 </root>

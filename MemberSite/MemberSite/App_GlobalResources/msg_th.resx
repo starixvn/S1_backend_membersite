@@ -445,4 +445,7 @@
   <data name="msg_FillUpRemarkReminder_Detail" xml:space="preserve">
     <value>เพื่อส่งเร่งกระบวนการตรวจสอบและประมวลผลคำขอฝากเงินของคุณ โปรดแน่ใจว่าคุณใส่หมายเลขอ้างอิงที่ให้ไว้บนหน้าฝากเงินเมื่อโอนเงิน</value>
   </data>
+  <data name="msg_QuestionnaireFailed" xml:space="preserve">
+    <value>คุณส่งข้อเสนอแนะถึงขีดจำกัดสูงสุดสำหรับวันนี้แล้ว</value>
+  </data>	
 </root>

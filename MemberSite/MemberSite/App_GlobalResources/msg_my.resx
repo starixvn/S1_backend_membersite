@@ -449,4 +449,7 @@
   <data name="msg_FillUpRemarkReminder_Detail" xml:space="preserve">
     <value>Untuk memastikan permohonan deposit anda diproses dengan lebih cepat, sila pastikan untuk memasukkan nombor rujukan yang diberikan pada halaman deposit semasa membuat pindahan.</value>
   </data>
+	<data name="msg_QuestionnaireFailed" xml:space="preserve">
+    <value>Anda telah mencapai penyerahan maklum balas maksimum untuk hari ini.。</value>
+  </data>	
 </root>

@@ -18,6 +18,7 @@ namespace MemberSite.Controllers.Api
         private readonly AuthorizeBLL _authorizeBll;
         private readonly QuestionnaireBLL _questionnaireBll;
         private readonly CustInfoBll _custInfoBll;
+        private readonly SelLangBLL _selLangBll;
 
         public QuestionnaireController(IServiceProvider provider)
         {
@@ -25,6 +26,7 @@ namespace MemberSite.Controllers.Api
             _authorizeBll = provider.GetRequiredService<AuthorizeBLL>();
             _questionnaireBll = provider.GetRequiredService<QuestionnaireBLL>();
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
+            _selLangBll = provider.GetRequiredService<SelLangBLL>();
         }
 
         [HttpPost]
@@ -56,7 +58,7 @@ namespace MemberSite.Controllers.Api
                 }
                 else if (result == -1)
                 {
-                    apiResult.Message = "You have reached the maximum feedback submissions for today.";
+                    apiResult.Message = _selLangBll.GetMsg("msg_QuestionnaireFailed");
                     apiResult.ErrorCode = 9000;
                 }
                 else
