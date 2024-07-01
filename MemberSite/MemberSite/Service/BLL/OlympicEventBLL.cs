@@ -345,7 +345,7 @@ public class OlympicEventBLL : IOlympicEventBLL
         
         //先寫死 後續看怎拿
         var startTime = DateTime.Parse("2024-05-01 00:00:00");
-        var endTime = DateTime.Parse("2024-07-01 00:00:00");
+        var endTime = DateTime.Parse("2024-07-31 00:00:00");
 
         var p = new
         {
