@@ -158,4 +158,5 @@
   <data name="msg_AffCodeNotFound"><value>Affiliate ID cant be found</value></data>
   <data name="msg_WrongPhoneNumberAndUserName"><value>The account or phone number is incorrect, please re-enter it.</value></data>
   <data name="msg_WrongAmountFormat"><value>Amount format is wrong</value></data>
+  <data name="msg_QuestionnaireFailed"><value>You have reached the maximum feedback submissions for today.</value></data>
   </root>
