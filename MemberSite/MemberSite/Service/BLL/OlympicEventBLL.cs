@@ -399,8 +399,10 @@ public class OlympicEventBLL : IOlympicEventBLL
         if (getSportBet.Any())
         {
             //查看注單也有別的關鍵詞 改用Regex匹配 要不然SABA那邊有改會錯
+            //TODO : Dev Add TESTING賽事 RLS前要砍掉
             result = getSportBet
-                .Where(bet => Regex.IsMatch(bet.leagueName_en, @"\bOlympics\b.*\b2024\b", RegexOptions.IgnoreCase))
+                .Where(bet => Regex.IsMatch(bet.leagueName_en, @"\bOlympics\b.*\b2024\b", RegexOptions.IgnoreCase) 
+                              || Regex.IsMatch(bet.leagueName_en, @"\bTESTING\b", RegexOptions.IgnoreCase))
                 .Select(bet => bet.txId).ToList();
         }
         return result;
