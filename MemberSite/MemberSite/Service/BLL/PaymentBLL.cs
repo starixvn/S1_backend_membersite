@@ -795,7 +795,7 @@ namespace MemberSite.Service.BLL
 
         public CryptoInfoData GetSupportCryptoInfoWithCache(int siteId)
         {
-            return _cacheHelper.TryGetOrCreate($"PaySetting:SupportCrypto:{siteId}", TimeSpan.FromMinutes(5),
+            return _cacheHelper.TryGetOrCreate($"PaySetting:SupportCrypto:{siteId}", TimeSpan.FromSeconds(30),
                 () => GetSupportCryptoInfo(siteId));
         }
 

@@ -96,15 +96,15 @@ namespace MemberSite.Controllers.Api
         {
             public string AreaCode { get; set; }
             public string PhoneNo { get; set; }
-            public string AreaPhoneNo  =>  $"{AreaCode}{PhoneNo}";
+            public string AreaPhoneNo => $"{AreaCode}{PhoneNo}";
         }
-        
+
         [HttpPost]
         //[TypeFilter(typeof(PublicAuthAttribute))]
         public async Task<ApiResult> SignIn(LoginModel loginModel)
         {
             var apiResult = new ApiResult(_selLangBll);
-            
+
             if (!_environment.EnvironmentName.Equals("Local", StringComparison.OrdinalIgnoreCase))
             {
                 if (await _checkAttackBll.CheckAttackForSignIn(loginModel, true, Request))
@@ -129,7 +129,7 @@ namespace MemberSite.Controllers.Api
                 Request.Headers["User-Agent"], deviceType, ref customer, out var token);
 
             await AfterLogin(userLoginResult, loginModel, ip, customer, token, apiResult);
-            
+
             return apiResult;
         }
 
@@ -235,7 +235,7 @@ namespace MemberSite.Controllers.Api
         public async Task<ApiResult> SignInPhone(LoginPhoneModel loginModel)
         {
             var apiResult = new ApiResult(_selLangBll);
-            
+
             if (!_environment.EnvironmentName.Equals("Local", StringComparison.OrdinalIgnoreCase))
             {
                 if (await _checkAttackBll.CheckAttackForSignIn(loginModel, true, Request))
@@ -261,7 +261,7 @@ namespace MemberSite.Controllers.Api
                 Request.Headers["User-Agent"], deviceType, ref customer, out var token);
 
             await AfterLogin(userLoginResult, loginModel, ip, customer, token, apiResult);
-            
+
             return apiResult;
         }
 
@@ -297,7 +297,7 @@ namespace MemberSite.Controllers.Api
                 return;
             }
 
-            var claims = new List<Claim> 
+            var claims = new List<Claim>
             {
                 new(ClaimTypes.Name,customer.UserName ),
                 new(ClaimTypes.NameIdentifier,customer.CustId.ToString() ),
@@ -354,7 +354,7 @@ namespace MemberSite.Controllers.Api
             apiResult.Message = Url.RouteUrl("desktop", new { action = Request.RouteValues["action"], controller = Request.RouteValues["controller"], LangId = _selLangBll.GetLangId() });
             apiResult.ErrorCode = 0;
         }
-        
+
         public class RegisteredModel
         {
             public string UserName { get; set; }
@@ -378,7 +378,7 @@ namespace MemberSite.Controllers.Api
             public string ReferralUrl { get; set; }
             public string PhoneNo { get; set; }
             public string AreaCode { get; set; }
-            public string AreaPhoneNo  =>  $"{AreaCode}{PhoneNo}";
+            public string AreaPhoneNo => $"{AreaCode}{PhoneNo}";
             public string RealName { get; set; }
             public string PromoCode { get; set; }
             public string RedirectUrl { get; set; }
@@ -386,7 +386,7 @@ namespace MemberSite.Controllers.Api
             public int Birth_m { get; set; }
             public int Birth_y { get; set; }
         }
-        
+
         public class SignupPhoneModel
         {
             public int CurrencyId { get; set; }
@@ -403,7 +403,7 @@ namespace MemberSite.Controllers.Api
             public string blackbox { get; set; }
             public string ReCaptchaToken { get; set; }
         }
-        
+
         public class IvorysportSignupModel : SignupModel
         {
             public int Occupation { get; set; }
@@ -424,7 +424,7 @@ namespace MemberSite.Controllers.Api
             public string AreaCode { get; set; }
             public string PhoneNo { get; set; }
         }
-        
+
         [HttpPost]
         public async Task<ApiResult> SignupAsync(SignupModel signupModel)
         {
@@ -531,9 +531,9 @@ namespace MemberSite.Controllers.Api
                 Aff = signupRequest.Aff,
                 ReferralUrl = signupRequest.ReferralUrl
             };
-            
-            var customer = _siteBll.SignupPhone(signupRequest.OtpNum ,signupModel, apiResult, isAuthenticated, _tools.GetFromUrl(), Request.Headers["User-Agent"], false);
-            
+
+            var customer = _siteBll.SignupPhone(signupRequest.OtpNum, signupModel, apiResult, isAuthenticated, _tools.GetFromUrl(), Request.Headers["User-Agent"], false);
+
             if (apiResult.ErrorCode == (int)ErrorCode.Attack)
             {
                 Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
@@ -555,7 +555,7 @@ namespace MemberSite.Controllers.Api
             await _cacheHelper.StringFireAndForgetSetAsync(customer.CustId.ToString(), customer.Token, TimeSpan.FromMinutes(30), RedisDataBase.Token);
             return apiResult;
         }
-        
+
         [HttpPost]
         //只給Ivorysport使用
         public async Task<ApiResult> IvorysportSignupAsync([FromForm] IvorysportSignupModel signupModel)
@@ -582,7 +582,7 @@ namespace MemberSite.Controllers.Api
             }
 
             if (apiResult.ErrorCode != 0 || customer == null) return apiResult;
-            
+
             var claims = new List<Claim>
             {
                 new(ClaimTypes.Name, customer.UserName),
@@ -597,15 +597,15 @@ namespace MemberSite.Controllers.Api
             await _cacheHelper.StringFireAndForgetSetAsync(customer.CustId.ToString(), customer.Token, TimeSpan.FromMinutes(30), RedisDataBase.Token);
             return apiResult;
         }
-        
+
         [HttpPost]
         public async Task<ApiResult<SendOTPSMSResult>> SendSignUpOTPSMSAsync(SendSignUpOTPRequest request)
         {
-            var apiResult = await _commonBll.SendSignUpOTPSMSAsync(request.SiteId ,request.CurrencyId ,request.UserLang ,request.AreaCode ,request.PhoneNo);
-            
+            var apiResult = await _commonBll.SendSignUpOTPSMSAsync(request.SiteId, request.CurrencyId, request.UserLang, request.AreaCode, request.PhoneNo);
+
             return apiResult;
         }
-        
+
         [HttpPost]
         public ApiResult<bool> ExistsUserName(RegisteredModel registeredModel)
         {
@@ -764,7 +764,6 @@ namespace MemberSite.Controllers.Api
                 if (long.TryParse(reSetPwdByOtpReq.PhoneNo, out var phoneNo))
                 {
                     var serverInfo = _serverInfoBll.GetServerInfo();
-
                     reSetPwdByOtpReq.PhoneNo = phoneNo.ToString();
                     if (_custInfoBll.ExistsPhoneNoAndUserName(reSetPwdByOtpReq.Username, reSetPwdByOtpReq.AreaCode,
                             reSetPwdByOtpReq.PhoneNo, serverInfo.SiteId))
@@ -965,21 +964,21 @@ namespace MemberSite.Controllers.Api
             if (await _checkAttackBll.CheckAttackIp(Request, 100))
             {
                 Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
-                return new ApiResult<IEnumerable<BannerV3>> 
-                { 
+                return new ApiResult<IEnumerable<BannerV3>>
+                {
                     ErrorCode = (int)ErrorCode.Attack,
                     Data = new List<BannerV3>(),
                     Message = "GetBannerV3 request exceeds the limit count."
                 };
             }
-            
+
             int siteId;
             try
             {
                 var serverInfo = _serverInfoBll.GetServerInfo();
                 int perferCurr;
                 var ShowStatus = 1;
-                var authData = _authorizeBll.GetAuthData();              
+                var authData = _authorizeBll.GetAuthData();
                 var isLogin = authData is { CustId: > 0 };
                 if (isLogin)
                 {
@@ -1203,36 +1202,41 @@ namespace MemberSite.Controllers.Api
             return result;
         }
 
-        // [HttpPost]
-        // public ApiResult<bool> ExistsPhoneNo(RrofileReq req)
-        // {
-        //     var apiResult = new ApiResult<bool>(_selLangBll);
-        //
-        //     try
-        //     {
-        //         if (CheckAttack(req, out var result))
-        //         {
-        //             return result;
-        //         }
-        //
-        //         if (long.TryParse(req.PhoneNo, out var phoneNo))
-        //         {
-        //             req.PhoneNo = phoneNo.ToString();
-        //             apiResult.Data = _custInfoBll.ExistsPhoneNo(0, req.AreaCode, req.PhoneNo);
-        //         }
-        //         else
-        //         {
-        //             apiResult.Data = true;
-        //         }
-        //         apiResult.ErrorCode = 0;
-        //         return apiResult;
-        //     }
-        //     catch (Exception e)
-        //     {
-        //         _logger.LogError(e, GetCurrentMethod());
-        //         return apiResult;
-        //     }
-        // }
+        [HttpPost]
+        public async Task<ApiResult<bool>> ExistsPhoneNoAsync(RrofileReq req)
+        {
+            var apiResult = new ApiResult<bool>(_selLangBll);
+
+            try
+            {
+                if (await _checkAttackBll.CheckAttackIp(Request, 100))
+                {
+                    Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                    return new ApiResult<bool>()
+                    {
+                        ErrorCode = (int)ErrorCode.Attack,
+                        Message = "ExistsPhoneNo request exceeds the limit count."
+                    };
+                }
+
+                if (long.TryParse(req.PhoneNo, out var phoneNo))
+                {
+                    req.PhoneNo = phoneNo.ToString();
+                    apiResult.Data = _custInfoBll.ExistsPhoneNo(0, req.AreaCode, req.PhoneNo);
+                }
+                else
+                {
+                    apiResult.Data = true;
+                }
+                apiResult.ErrorCode = 0;
+                return apiResult;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, GetCurrentMethod());
+                return apiResult;
+            }
+        }
 
         [HttpPost]
         public ApiResult<IEnumerable<Country>> GetCountryList()
@@ -1390,7 +1394,7 @@ namespace MemberSite.Controllers.Api
                     Message = "GetSeo request exceeds the limit count."
                 };
             }
-            
+
             if (string.IsNullOrWhiteSpace(domain))
             {
                 domain = _serverInfoBll.GetMainDomain();
@@ -1537,6 +1541,6 @@ namespace MemberSite.Controllers.Api
                 Data = await _checkIpBll.CheckIp(_tools.GetClientIP())
             };
         }
-        
+
     }
 }
