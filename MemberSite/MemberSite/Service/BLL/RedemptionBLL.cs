@@ -64,7 +64,7 @@ public class RedemptionBLL
         };
         var request = new AddPrize()
         {
-            TpId = 5,
+            TpId = giftInfo.TpId,
             CustId = req.CustId,
             SiteId = req.SiteId,
             inputs = inputs
