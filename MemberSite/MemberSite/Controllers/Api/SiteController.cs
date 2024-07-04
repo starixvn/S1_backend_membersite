@@ -384,8 +384,11 @@ namespace MemberSite.Controllers.Api
             public int Birth_d { get; set; }
             public int Birth_m { get; set; }
             public int Birth_y { get; set; }
+            public string AccountNo { get; set; }
+            public int SysId { get; set; }
+            public string IFSCCode { get; set; }
         }
-        
+
         public class SignupPhoneModel
         {
             public int CurrencyId { get; set; }
@@ -401,8 +404,12 @@ namespace MemberSite.Controllers.Api
             public string RefId { get; set; }
             public string blackbox { get; set; }
             public string ReCaptchaToken { get; set; }
+            public string AccountNo { get; set; }
+            public int SysId { get; set; }
+            public string RealName { get; set; }
+            public string IFSCCode { get; set; } = string.Empty;
         }
-        
+
         public class IvorysportSignupModel : SignupModel
         {
             public int Occupation { get; set; }
@@ -528,7 +535,11 @@ namespace MemberSite.Controllers.Api
                 AffId = signupRequest.AffId,
                 RefId = signupRequest.RefId,
                 Aff = signupRequest.Aff,
-                ReferralUrl = signupRequest.ReferralUrl
+                ReferralUrl = signupRequest.ReferralUrl,
+                RealName = signupRequest.RealName,
+                SysId = signupRequest.SysId,
+                AccountNo = signupRequest.AccountNo,
+                IFSCCode = signupRequest.IFSCCode,
             };
             
             var customer = _siteBll.SignupPhone(signupRequest.OtpNum ,signupModel, apiResult, isAuthenticated, _tools.GetFromUrl(), Request.Headers["User-Agent"], false);
