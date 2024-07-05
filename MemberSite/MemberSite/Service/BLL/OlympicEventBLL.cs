@@ -76,7 +76,7 @@ public class OlympicEventBLL : IOlympicEventBLL
 
         if (depositGoldMetal.Count != 0)
         { 
-            depositNowGoldMetal = _eventsService.OlympicsInertGoldMetal(custId, depositGoldMetal.Count, "Olympic2024Deposit");
+            _eventsService.OlympicsInertGoldMetal(custId, depositGoldMetal.Count, "Olympic2024Deposit");
             responseData.OlympicEventPromotionMissionProgress.DepositAmount = depositGoldMetal.Remainder;
         }
         //在算流水
@@ -85,11 +85,11 @@ public class OlympicEventBLL : IOlympicEventBLL
 
         if (turnoverGoldMetal.Count != 0)
         {
-            turnoverNowGoldMetal = _eventsService.OlympicsInertGoldMetal(custId, turnoverGoldMetal.Count, "Olympic2024Turnover");
+            _eventsService.OlympicsInertGoldMetal(custId, turnoverGoldMetal.Count, "Olympic2024Turnover");
             responseData.OlympicEventPromotionMissionProgress.TurnoverSum = turnoverGoldMetal.Remainder;
         }
 
-        var availableGoldMetal = await CalculateLastGoldMetal(custId, depositNowGoldMetal, turnoverNowGoldMetal,eggTicket);
+        var availableGoldMetal = await CalculateLastGoldMetal(depositGoldMetal.Count, turnoverGoldMetal.Count, eggTicket);
         
         responseData.AvailableGoldMetals = availableGoldMetal;
             
@@ -437,23 +437,12 @@ public class OlympicEventBLL : IOlympicEventBLL
         };
     }
 
-    private async Task<int> CalculateLastGoldMetal(int custId,int depositGoldMetal, int turnoverGoldMetal,IEnumerable<EggTicketData> eggTickets)
+    private async Task<int> CalculateLastGoldMetal(int depositGoldMetal, int turnoverGoldMetal,IEnumerable<EggTicketData> eggTickets)
     {
-        if (depositGoldMetal == 0 && turnoverGoldMetal == 0)
-        {
-            // var eggTicket = await _newYear2024Bll.GetEggTicketData(custId);
-           
-            // Deposit GoldMedal
-            var depositNowGoldMedal = eggTickets
-                .Count(x => x.MissionDate.Contains("Olympic2024Deposit") && x.IsUsed == 0);
-        
-            // Turnover GoldMedal
-            var turnOverNowGoldMedal = eggTickets
-                .Count(x => x.MissionDate.Contains("Olympic2024Turnover") && x.IsUsed == 0);
-            
-            return depositNowGoldMedal + turnOverNowGoldMedal;
-        }
-        
-        return depositGoldMetal + turnoverGoldMetal;
+        var beforeGoldMedal = eggTickets.Count(x => 
+            (x.MissionDate.Contains("Olympic2024Deposit") || x.MissionDate.Contains("Olympic2024Turnover")) 
+            && x.IsUsed == 0 );
+
+        return beforeGoldMedal + depositGoldMetal + turnoverGoldMetal;
     }
 }
