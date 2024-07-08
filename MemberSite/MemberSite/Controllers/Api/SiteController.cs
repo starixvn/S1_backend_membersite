@@ -777,7 +777,7 @@ namespace MemberSite.Controllers.Api
                     var serverInfo = _serverInfoBll.GetServerInfo();
                     if (serverInfo.SiteId == (int)SiteEnum.Tuk555)
                     {
-                        reSetPwdByOtpReq.Username = $"P{reSetPwdByOtpReq.PhoneNo.Trim('+')}";
+                        reSetPwdByOtpReq.Username = $"P{reSetPwdByOtpReq.AreaCode}{reSetPwdByOtpReq.PhoneNo}".Trim('+');
                     }
 
                     if (_custInfoBll.ExistsPhoneNoAndUserName(reSetPwdByOtpReq.Username, reSetPwdByOtpReq.AreaCode,
@@ -845,6 +845,7 @@ namespace MemberSite.Controllers.Api
         public class VerifyOTPReq
         {
             public string PhoneNo { get; set; }
+            public string AreaCode { get; set; }
             public string InputOTPcode { set; get; }
         }
         [HttpPost]
@@ -852,7 +853,7 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult();
             var serverInfo = _serverInfoBll.GetServerInfo();
-            var userName = $"P{req.PhoneNo.Trim('+')}";
+            var userName = $"P{req.AreaCode}{req.PhoneNo}".Trim('+');
             var custInfoProfile = _custInfoBll.GetCustInfoProfileByUserName(serverInfo.SiteId, userName);
             if (custInfoProfile == null)
             {
@@ -878,14 +879,15 @@ namespace MemberSite.Controllers.Api
         public class ReSetPwdByPhoneReq
         {
             public string PhoneNo { get; set; }
+            public string AreaCode { get; set; }
             public string NewPassword { set; get; }
         }
         [HttpPost]
-        public async Task<ApiResult> ReSetPwdByPhoneAsync(ReSetPwdByPhoneReq req)
+        public ApiResult ReSetPwdByPhone(ReSetPwdByPhoneReq req)
         {
             var apiResult = new ApiResult();
             var serverInfo = _serverInfoBll.GetServerInfo();
-            var userName = $"P{req.PhoneNo.Trim('+')}";
+            var userName = $"P{req.AreaCode}{req.PhoneNo}".Trim('+');
             var custInfoProfile = _custInfoBll.GetCustInfoProfileByUserName(serverInfo.SiteId, userName);
 
             if (custInfoProfile != null)
