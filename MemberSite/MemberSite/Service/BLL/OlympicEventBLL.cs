@@ -226,9 +226,8 @@ public class OlympicEventBLL : IOlympicEventBLL
         var sbswBetDataSet = new HashSet<string>(getSBSWBetData);
         var totalValidBet = getTpBetRecordData
             .Where(record => sbswBetDataSet.Contains(record.TransId))
-            //先用Stake 因為都沒辦法結算
-            //.Sum(record => record.ValidBet ?? 0);
-            .Sum(record => record.Stake);
+            .Sum(record => record.ValidBet ?? 0);
+            //.Sum(record => record.Stake);
         
         return totalValidBet;
     }
