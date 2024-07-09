@@ -1,10 +1,13 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Drawing.Drawing2D;
+using System.Text.RegularExpressions;
 using MemberSite.Controllers.Api;
 using MemberSite.Service.DAL;
 using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Domain;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
+using Org.BouncyCastle.Asn1.Tsp;
+using static MemberSite.Controllers.Api.AccountStrictController;
 
 namespace MemberSite.Service.BLL;
 
@@ -13,6 +16,7 @@ public class SiteBll
     private readonly CustInfoBll _custInfoBll;
     private readonly SelLangBLL _selLangBll;
     private readonly CommonBLL _commonBll;
+    private readonly BankInfoBLL _bankInfoBll;
     private readonly Tools _tools;
     private readonly IAffiliateService _affiliateService;
     private readonly AgentInfoService _agentInfoService;
@@ -29,6 +33,7 @@ public class SiteBll
         _custInfoBll = provider.GetRequiredService<CustInfoBll>();
         _selLangBll = provider.GetRequiredService<SelLangBLL>();
         _commonBll = provider.GetRequiredService<CommonBLL>();
+        _bankInfoBll = provider.GetRequiredService<BankInfoBLL>();
         _tools = provider.GetRequiredService<Tools>();
         _affiliateService = provider.GetRequiredService<IAffiliateService>();
         _agentInfoService = provider.GetRequiredService<AgentInfoService>();
@@ -90,7 +95,7 @@ public class SiteBll
             signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff,
             affCodeObj, signupModel.LineUserId, deviceType, agent, out var custId, signupModel.SignupUrl, signupModel.ReferralUrl, signupModel.PhoneNo,
             signupModel.AreaCode, signupModel.RealName, signupModel.PromoCode, signupModel.Birth_d,
-            signupModel.Birth_m, signupModel.Birth_y, signupIp);
+            signupModel.Birth_m, signupModel.Birth_y, signupIp, signupModel.AccountNo, signupModel.IFSCCode, signupModel.SysId);
         
         AfterSignUp(signupModel, fromUrl, userAgent, deviceType, result, custId, apiResult, out var customer);
 
@@ -363,7 +368,7 @@ public class SiteBll
             apiResult.Message = _selLangBll.GetMsg("msg_AffCodeNotFound");
             return false;
         }
-        
+
         //如果從CreditSite註冊，且有輸入邀請碼(Referral)，則該用戶屬於邀請碼下線
         if (!string.IsNullOrEmpty(signupModel.RefId))
         {
@@ -372,7 +377,7 @@ public class SiteBll
             if (agent?.CurrencyId != signupModel.CurrencyId)
             {
                 apiResult.ErrorCode = -19;
-                apiResult.Message = _selLangBll.GetMsg("mag_AffiliateNotExist"); 
+                apiResult.Message = _selLangBll.GetMsg("mag_AffiliateNotExist");
                 return false;
                 /*agent Currency != CurrencyId*/
             }
@@ -388,7 +393,34 @@ public class SiteBll
                 return false;
             }
         }
-      
+
+        //tuk55註冊要帶銀行卡號相關資訊
+        if (!string.IsNullOrEmpty(signupModel.AccountNo) && string.IsNullOrEmpty(signupModel.RealName) && signupModel.SysId != 0)
+        {
+            var bankInfoSysList = _bankInfoBll.GetBankInfoSysListByCurrencyForCtrl(signupModel.CurrencyId);
+            var blockBankAccountList = _bankInfoBll.GetBlockBankAccount(signupModel.SysId, signupModel.AccountNo).ToList();
+            var custBankDetail = _custInfoBll.GetCustBankDetail(signupModel.SysId, signupModel.AccountNo, serverInfo.SiteId).ToList();
+
+            if (bankInfoSysList == null || !bankInfoSysList.Any(x => x.SysId == signupModel.SysId))
+            {
+                apiResult.ErrorCode = -20;
+                return false;
+            }
+
+            if (blockBankAccountList.Count > 0)
+            {
+                apiResult.ErrorCode = -21;
+                return false;
+            }
+
+            if (custBankDetail.Count > 0)
+            {
+                apiResult.ErrorCode = -22;
+                apiResult.Message = _selLangBll.GetMsg("msg_BankAccountDuplicate");
+                return false;
+            }
+        }
+
         agent ??= _agentInfoService.GetSuperAgent(serverInfo.SiteId, signupModel.CurrencyId);
         deviceType = (int)_tools.GetDeviceId(host);
         signupIp = _tools.GetClientIP();

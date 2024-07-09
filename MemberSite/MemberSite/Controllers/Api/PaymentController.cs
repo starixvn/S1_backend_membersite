@@ -1870,7 +1870,26 @@ namespace MemberSite.Controllers.Api
 
             return apiResult;
         }
-        
+
+        public class GetBankInfoSysListByCurrencyIdReq
+        {
+            public int CurrencyId { get; set; }
+            public string LangId { get; set; }
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public ApiResult<IEnumerable<BankInfoSys>> GetBankInfoSysListByCurrencyId(GetBankInfoSysListByCurrencyIdReq req)
+        {
+            var apiResult = new ApiResult<IEnumerable<BankInfoSys>>();
+            var result = _bankInfoBll.GetBankInfoSysListByCurrencyForCtrl(req.CurrencyId, req.LangId)
+                .ToList();
+
+            apiResult.Data = result;
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+
         private ApiResult<LocalPayResp> DepositByLocalPayment(int custId, int groupId, decimal amount)
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);

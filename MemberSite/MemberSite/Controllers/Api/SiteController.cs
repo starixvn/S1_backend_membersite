@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using static MemberSite.Controllers.Api.SiteController;
 using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
@@ -385,6 +386,9 @@ namespace MemberSite.Controllers.Api
             public int Birth_d { get; set; }
             public int Birth_m { get; set; }
             public int Birth_y { get; set; }
+            public string AccountNo { get; set; }
+            public int SysId { get; set; }
+            public string IFSCCode { get; set; }
         }
 
         public class SignupPhoneModel
@@ -402,6 +406,10 @@ namespace MemberSite.Controllers.Api
             public string RefId { get; set; }
             public string blackbox { get; set; }
             public string ReCaptchaToken { get; set; }
+            public string AccountNo { get; set; }
+            public int SysId { get; set; }
+            public string RealName { get; set; }
+            public string IFSCCode { get; set; } = string.Empty;
         }
 
         public class IvorysportSignupModel : SignupModel
@@ -529,7 +537,11 @@ namespace MemberSite.Controllers.Api
                 AffId = signupRequest.AffId,
                 RefId = signupRequest.RefId,
                 Aff = signupRequest.Aff,
-                ReferralUrl = signupRequest.ReferralUrl
+                ReferralUrl = signupRequest.ReferralUrl,
+                RealName = signupRequest.RealName,
+                SysId = signupRequest.SysId,
+                AccountNo = signupRequest.AccountNo,
+                IFSCCode = signupRequest.IFSCCode,
             };
 
             var customer = _siteBll.SignupPhone(signupRequest.OtpNum, signupModel, apiResult, isAuthenticated, _tools.GetFromUrl(), Request.Headers["User-Agent"], false);
@@ -764,6 +776,11 @@ namespace MemberSite.Controllers.Api
                 if (long.TryParse(reSetPwdByOtpReq.PhoneNo, out var phoneNo))
                 {
                     var serverInfo = _serverInfoBll.GetServerInfo();
+                    if (serverInfo.SiteId == (int)SiteEnum.Tuk555)
+                    {
+                        reSetPwdByOtpReq.Username = $"P{reSetPwdByOtpReq.AreaCode.Trim('+')}{reSetPwdByOtpReq.PhoneNo}";
+                    }
+
                     reSetPwdByOtpReq.PhoneNo = phoneNo.ToString();
                     if (_custInfoBll.ExistsPhoneNoAndUserName(reSetPwdByOtpReq.Username, reSetPwdByOtpReq.AreaCode,
                             reSetPwdByOtpReq.PhoneNo, serverInfo.SiteId))
@@ -822,6 +839,76 @@ namespace MemberSite.Controllers.Api
             {
                 apiResult.ErrorCode = -1;
                 apiResult.Message = _selLangBll.GetMsg("msg_OTP_SendOTPSMS_Fail");
+            }
+
+            return apiResult;
+        }
+
+        public class VerifyOTPReq
+        {
+            public string PhoneNo { get; set; }
+            public string AreaCode { get; set; }
+            public string InputOTPcode { set; get; }
+        }
+        [HttpPost]
+        public async Task<ApiResult> VerifyOTPAsync(VerifyOTPReq req)
+        {
+            var apiResult = new ApiResult();
+            var serverInfo = _serverInfoBll.GetServerInfo();
+            var userName = $"P{req.AreaCode.Trim('+')}{req.PhoneNo}";
+            var custInfoProfile = _custInfoBll.GetCustInfoProfileByUserName(serverInfo.SiteId, userName);
+            if (custInfoProfile == null)
+            {
+                apiResult.ErrorCode = -1;
+                apiResult.Message = _selLangBll.GetMsg("msg_PhoneWrongFormat");
+                return apiResult;
+            }
+
+            var verifyResult = await _custInfoBll.ReSetPwdVerifyOTPAsync(custInfoProfile.CustId, req.InputOTPcode);
+
+            if (verifyResult.ErrorCode == 0)
+            {
+                apiResult.ErrorCode = 0;
+            }
+            else
+            {
+                apiResult.ErrorCode = -1;
+                apiResult.Message = _selLangBll.GetMsg("msg_OTP_SendOTPSMS_1000");
+            }
+
+            return apiResult;
+        }
+        public class ReSetPwdByPhoneReq
+        {
+            public string PhoneNo { get; set; }
+            public string AreaCode { get; set; }
+            public string NewPassword { set; get; }
+        }
+        [HttpPost]
+        public ApiResult ReSetPwdByPhone(ReSetPwdByPhoneReq req)
+        {
+            var apiResult = new ApiResult();
+            var serverInfo = _serverInfoBll.GetServerInfo();
+            var userName = $"P{req.AreaCode.Trim('+')}{req.PhoneNo}";
+            var custInfoProfile = _custInfoBll.GetCustInfoProfileByUserName(serverInfo.SiteId, userName);
+
+            if (custInfoProfile != null)
+            {
+                if (_custInfoBll.SetResetPwd(custInfoProfile.CustId, req.NewPassword))
+                {
+                    apiResult.ErrorCode = 0;
+                    apiResult.Message = _selLangBll.GetMsg("ResetPwdSuccess");
+                }
+                else
+                {
+                    apiResult.ErrorCode = -1;
+                    apiResult.Message = _selLangBll.GetMsg("msg_UpdateFailed");
+                }
+            }
+            else
+            {
+                apiResult.ErrorCode = -1;
+                apiResult.Message = _selLangBll.GetMsg("msg_UpdateFailed");
             }
 
             return apiResult;
