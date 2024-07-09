@@ -106,7 +106,8 @@ public class OlympicEventBLL : IOlympicEventBLL
         int prizeId;
         string bonusCode;
         var olympicPrize = new Prize();
-        var id = 10000;
+        var id = 21862;
+        //var id = 10000;
         
         //獲取EventId及BonusCode
         var currencyBonusAmountList = GetOlympicsList();
@@ -114,8 +115,7 @@ public class OlympicEventBLL : IOlympicEventBLL
         {
             var getCurrencyAmount = JObject.Parse(currencyBonusAmountList);
             bonusCode = (string)getCurrencyAmount["olympicsBonusCode"]?[usedGoldMetalCount.ToString()];
-            prizeId = (int)getCurrencyAmount[currencyId.ToString()]?[usedGoldMetalCount.ToString()];
-            
+
             var eventId = siteId switch
             {
                 1 => 18,
@@ -123,8 +123,32 @@ public class OlympicEventBLL : IOlympicEventBLL
                 3 => 20,
                 _ => 0
             };
+
             var prizesList = await _eventsService.GetPrizes(eventId, currencyId);
+
+            var suffix = eventId switch
+            {
+                19 => "G",
+                20 => "B",
+                _ => string.Empty
+            };
+
+            if (!string.IsNullOrEmpty(suffix))
+            {
+                bonusCode += suffix;
+            }
+
+            var sitePrizeId = currencyId + suffix;
+            prizeId = (int)getCurrencyAmount[sitePrizeId]?[usedGoldMetalCount.ToString()];
+            
+            if (!string.IsNullOrEmpty(suffix))
+            {
+                sitePrizeId = currencyId.ToString();
+                prizeId = (int)getCurrencyAmount[sitePrizeId]?[usedGoldMetalCount.ToString()];
+            }
+
             olympicPrize = prizesList.FirstOrDefault(x => x.PrizeId == prizeId);
+            
         }
         else
         {
@@ -339,13 +363,19 @@ public class OlympicEventBLL : IOlympicEventBLL
         var SpName = "Service_Olympic_TpBetRecord_Get";
         var tpId = Tp.SBSW;
         var gameType = "69";
-        var sq = 1111;
+        // PRD
+        var sq = 35184607;
+        //var sq = 1111;
         //Defaul Result
         var result = 0;
         
-        //先寫死 後續看怎拿
-        var startTime = DateTime.Parse("2024-05-01 00:00:00");
-        var endTime = DateTime.Parse("2024-07-31 00:00:00");
+        //奧運時間寫死
+        // PRD
+        var startTime = DateTime.Parse("2024-07-15 00:00:00");
+        var endTime = DateTime.Parse("2024-08-16 00:00:00");
+        // DEV
+        //var startTime = DateTime.Parse("2024-05-01 00:00:00");
+        //var endTime = DateTime.Parse("2024-07-31 00:00:00");
 
         var p = new
         {
@@ -401,8 +431,8 @@ public class OlympicEventBLL : IOlympicEventBLL
             //查看注單也有別的關鍵詞 改用Regex匹配 要不然SABA那邊有改會錯
             //TODO : Dev Add TESTING賽事 RLS前要砍掉
             result = getSportBet
-                .Where(bet => Regex.IsMatch(bet.leagueName_en, @"\bOlympics\b.*\b2024\b", RegexOptions.IgnoreCase) 
-                              || Regex.IsMatch(bet.leagueName_en, @"\bTESTING\b", RegexOptions.IgnoreCase))
+                .Where(bet => Regex.IsMatch(bet.leagueName_en, @"\bOlympics\b.*\b2024\b", RegexOptions.IgnoreCase))
+                              //|| Regex.IsMatch(bet.leagueName_en, @"\bTESTING\b", RegexOptions.IgnoreCase))
                 .Select(bet => bet.txId).ToList();
         }
         return result;
