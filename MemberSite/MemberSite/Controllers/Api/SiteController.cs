@@ -778,7 +778,7 @@ namespace MemberSite.Controllers.Api
                     var serverInfo = _serverInfoBll.GetServerInfo();
                     if (serverInfo.SiteId == (int)SiteEnum.Tuk555)
                     {
-                        reSetPwdByOtpReq.Username = $"P{reSetPwdByOtpReq.AreaCode}{reSetPwdByOtpReq.PhoneNo}".Trim('+');
+                        reSetPwdByOtpReq.Username = $"P{reSetPwdByOtpReq.AreaCode.Trim('+')}{reSetPwdByOtpReq.PhoneNo}";
                     }
 
                     reSetPwdByOtpReq.PhoneNo = phoneNo.ToString();
@@ -855,7 +855,7 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult();
             var serverInfo = _serverInfoBll.GetServerInfo();
-            var userName = $"P{req.AreaCode}{req.PhoneNo}".Trim('+');
+            var userName = $"P{req.AreaCode.Trim('+')}{req.PhoneNo}";
             var custInfoProfile = _custInfoBll.GetCustInfoProfileByUserName(serverInfo.SiteId, userName);
             if (custInfoProfile == null)
             {
@@ -889,7 +889,7 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult();
             var serverInfo = _serverInfoBll.GetServerInfo();
-            var userName = $"P{req.AreaCode}{req.PhoneNo}".Trim('+');
+            var userName = $"P{req.AreaCode.Trim('+')}{req.PhoneNo}";
             var custInfoProfile = _custInfoBll.GetCustInfoProfileByUserName(serverInfo.SiteId, userName);
 
             if (custInfoProfile != null)
