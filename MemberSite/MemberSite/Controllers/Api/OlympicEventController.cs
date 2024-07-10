@@ -73,7 +73,7 @@ namespace MemberSite.Controllers.Api
                  var responseData = _olympicEventBll.GetOlympicEventTicket(serverInfo.SiteId, authData.CustId, authData.UserName, authData.LangId, custInfo.CurrencyId).Result;
                 
                  apiResult.Data = responseData;
-                 apiResult.ErrorCode = 0;
+                 apiResult.ErrorCode = responseData.ErrorCode;
                  apiResult.Message = responseData.ErrorCode switch
                  {
                      104 => _selLangBll.GetMsg("msg_ProfileOrPhoneNotFinish"),
