@@ -106,16 +106,16 @@ public class OlympicEventBLL : IOlympicEventBLL
         int prizeId;
         string bonusCode;
         var olympicPrize = new Prize();
-        var id = 21862;
-        //var id = 10000;
+        int id;
         
         //獲取EventId及BonusCode
         var currencyBonusAmountList = GetOlympicsList();
         if (!string.IsNullOrEmpty(currencyBonusAmountList))
         {
             var getCurrencyAmount = JObject.Parse(currencyBonusAmountList);
-            bonusCode = (string)getCurrencyAmount["olympicsBonusCode"]?[usedGoldMetalCount.ToString()];
-
+            bonusCode = (string)getCurrencyAmount["olympicsBonusCode"]?[siteId.ToString()]?[usedGoldMetalCount.ToString()];
+            id = (int)getCurrencyAmount["olympicsTableSQ"]?["custEggTicket"];
+            
             var eventId = siteId switch
             {
                 1 => 18,
@@ -133,18 +133,15 @@ public class OlympicEventBLL : IOlympicEventBLL
                 _ => string.Empty
             };
 
-            if (!string.IsNullOrEmpty(suffix))
+            if (string.IsNullOrEmpty(suffix))
             {
-                bonusCode += suffix;
+                var sitePrizeId = currencyId.ToString();
+                prizeId = (int?)getCurrencyAmount[sitePrizeId]?[usedGoldMetalCount.ToString()] ?? 0;
             }
-
-            var sitePrizeId = currencyId + suffix;
-            prizeId = (int)getCurrencyAmount[sitePrizeId]?[usedGoldMetalCount.ToString()];
-            
-            if (!string.IsNullOrEmpty(suffix))
+            else
             {
-                sitePrizeId = currencyId.ToString();
-                prizeId = (int)getCurrencyAmount[sitePrizeId]?[usedGoldMetalCount.ToString()];
+                var sitePrizeId = currencyId + suffix;
+                prizeId = (int?)getCurrencyAmount[sitePrizeId]?[usedGoldMetalCount.ToString()] ?? 0;
             }
 
             olympicPrize = prizesList.FirstOrDefault(x => x.PrizeId == prizeId);
@@ -293,23 +290,15 @@ public class OlympicEventBLL : IOlympicEventBLL
 
     public string GetOlympicsList()
     {
-        var olympicsBonusAmountKey = $"Olympic2024BonusAmount";
+        var olympicsBonusAmountKey = $"Olympic2024Information";
         var olympicsBonusAmount = _redisHelper.StringGet(olympicsBonusAmountKey);
         return olympicsBonusAmount;
     }
 
     private bool CheckCustVerifyStatus(int siteId, CustInfoProfile custInfo)
     {
-        var status = false;
-        switch (siteId)
-        {
-            case 1 or 2:
-                if (custInfo.PhoneVerified && custInfo.EmailVerified) status = true;
-                break;
-            case 3:
-                status = true;
-                break;
-        }
+        //全驗證
+        var status = custInfo.PhoneVerified && custInfo.EmailVerified;
         return status;
     }
     
@@ -364,21 +353,23 @@ public class OlympicEventBLL : IOlympicEventBLL
         var tpId = Tp.SBSW;
         var gameType = "69";
         // PRD
+        //var sq = 35250610;
         var sq = 35250610;
-        //var sq = 1111;
         //Defaul Result
         var result = 0;
+        DateTime startTime = default;
+        DateTime endTime = default;
         
-        //奧運時間寫死
-        // PRD
-        //var startTime = DateTime.Parse("2024-07-15 00:00:00");
-        //var endTime = DateTime.Parse("2024-08-16 00:00:00");
-        // RLS
-        var startTime = DateTime.Parse("2024-07-10 00:00:00");
-        var endTime = DateTime.Parse("2024-08-16 00:00:00");
-        // DEV
-        //var startTime = DateTime.Parse("2024-05-01 00:00:00");
-        //var endTime = DateTime.Parse("2024-07-31 00:00:00");
+        //sbswTableSQ & olympicsStartTime
+        var currencyBonusAmountList = GetOlympicsList();
+        if (!string.IsNullOrEmpty(currencyBonusAmountList))
+        {
+            var getCurrencyAmount = JObject.Parse(currencyBonusAmountList);
+            sq = (int)getCurrencyAmount["olympicsTableSQ"]?["sbswBet"];
+            startTime = DateTime.Parse((string)getCurrencyAmount["olympicsTime"]?["olympicsStartTime"] ?? "2024-07-15 00:00:00");
+            endTime = DateTime.Parse((string)getCurrencyAmount["olympicsTime"]?["olympicsEndTime"] ?? "2024-08-16 00:00:00");
+        }
+
 
         var p = new
         {
