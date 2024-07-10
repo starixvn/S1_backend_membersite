@@ -149,7 +149,7 @@ namespace MemberSite.Service.BLL
             }
 
             if (host.Contains("localhost"))
-                host = string.IsNullOrWhiteSpace(aiHost) ? referer : aiHost;
+                host = string.IsNullOrWhiteSpace(aiHost) ? _httpContextAccessor.HttpContext.Request.Host.Host : aiHost;
 
             if (_appHost.Any(a => a == host))
                 host = $"m{host[host.IndexOf('.')..]}";
