@@ -364,14 +364,17 @@ public class OlympicEventBLL : IOlympicEventBLL
         var tpId = Tp.SBSW;
         var gameType = "69";
         // PRD
-        var sq = 35184607;
+        var sq = 35250610;
         //var sq = 1111;
         //Defaul Result
         var result = 0;
         
         //奧運時間寫死
         // PRD
-        var startTime = DateTime.Parse("2024-07-15 00:00:00");
+        //var startTime = DateTime.Parse("2024-07-15 00:00:00");
+        //var endTime = DateTime.Parse("2024-08-16 00:00:00");
+        // RLS
+        var startTime = DateTime.Parse("2024-07-10 00:00:00");
         var endTime = DateTime.Parse("2024-08-16 00:00:00");
         // DEV
         //var startTime = DateTime.Parse("2024-05-01 00:00:00");
@@ -443,7 +446,9 @@ public class OlympicEventBLL : IOlympicEventBLL
         var sbswBetDataSet = new HashSet<string>(getSBSWBetData);
         var totalValidBet = getTpBetRecordData
             .Where(record => sbswBetDataSet.Contains(record.TransId))
+            //PRD
             .Sum(record => record.ValidBet ?? 0);
+            //Dev
             //.Sum(record => record.Stake);
         
         return totalValidBet;
