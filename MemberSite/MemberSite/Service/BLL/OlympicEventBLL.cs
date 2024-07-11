@@ -127,7 +127,7 @@ public class OlympicEventBLL : IOlympicEventBLL
 
             var prizesList = await _eventsService.GetPrizes(eventId, currencyId);
             
-            _logger.LogInformation($"Step 2 : GetPrizes : {prizesList}");
+            _logger.LogInformation($"Step 2 : GetPrizes : {JsonConvert.SerializeObject(prizesList)}");
 
             var suffix = eventId switch
             {
@@ -149,6 +149,8 @@ public class OlympicEventBLL : IOlympicEventBLL
 
             olympicPrize = prizesList.FirstOrDefault(x => x.PrizeId == prizeId);
             
+            _logger.LogInformation($"Step 2.5 : bonusCode : {bonusCode} , id : {id} , prizeId : {prizeId}, ");
+            
         }
         else
         {
@@ -161,9 +163,10 @@ public class OlympicEventBLL : IOlympicEventBLL
         
         //金牌數不足不發 前端可能會擋 後端在擋一次
         var eggTicket = await _newYear2024Bll.GetEggTicketData(custId);
-        _logger.LogInformation($"Step 3 : GetEggTicketData : {eggTicket}");
+        _logger.LogInformation($"Step 3 : GetEggTicketData : {JsonConvert.SerializeObject(eggTicket)}");
         
         var eggTicketCanUse = eggTicket.Where(x => x.IsUsed == 0 && x.MissionDate.Contains("Olympic2024")).ToList();
+        _logger.LogInformation($"Step 4 : eggTicketCanUse : {JsonConvert.SerializeObject(eggTicketCanUse)}");
         if (eggTicketCanUse.Count < usedGoldMetalCount)
         {
             return new ClaimOlympicEventPrizeResponse()
@@ -189,6 +192,7 @@ public class OlympicEventBLL : IOlympicEventBLL
         //     DeviceType = deviceType
         // };
         
+        _logger.LogInformation($"Step 5 : Write Insert Log ");
         var bonusRequest = new BonusPayoutRequest
         {
             CustId = custId,
@@ -223,7 +227,8 @@ public class OlympicEventBLL : IOlympicEventBLL
                 AfterDetailInfo = JsonConvert.SerializeObject(detailInfo),
                 RefTransId = string.Empty
             });
-
+        
+        _logger.LogInformation($"Step 6 : Write Insert Log Success? : {logResult}");
         if (!logResult)
         {
             result.ErrorCode = 456;
@@ -253,7 +258,9 @@ public class OlympicEventBLL : IOlympicEventBLL
         #region Set Used GoldMedal
         
         var getGoldMedalIdList = GetGoldMedalIdSqlInClause(eggTicket, usedGoldMetalCount);
+        _logger.LogInformation($"Step 7 : getGoldMedalIdList : {getGoldMedalIdList}");
         var setUsedGoldMedal = _eventsService.OlympicsEventGoldMetalSet(id, custId, getGoldMedalIdList);
+        _logger.LogInformation($"Step 8 : getGoldMedalIdList : {setUsedGoldMedal}");
         
         //先塞DrawLog 後續再看怎樣
         if (setUsedGoldMedal == (int)ErrorCode.Success)
@@ -267,6 +274,8 @@ public class OlympicEventBLL : IOlympicEventBLL
                 custId,
                 currencyId
             );
+            
+            _logger.LogInformation($"Step 8 : OlympicsEventDrawLogIns : {insertLog}");
 
             if (insertLog == 1)
             {
