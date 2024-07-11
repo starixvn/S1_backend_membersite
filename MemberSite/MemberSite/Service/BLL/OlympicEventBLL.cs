@@ -110,6 +110,7 @@ public class OlympicEventBLL : IOlympicEventBLL
         
         //獲取EventId及BonusCode
         var currencyBonusAmountList = GetOlympicsList();
+        _logger.LogInformation($"Step 1 : GetOlympicsList : {currencyBonusAmountList}");
         if (!string.IsNullOrEmpty(currencyBonusAmountList))
         {
             var getCurrencyAmount = JObject.Parse(currencyBonusAmountList);
@@ -125,6 +126,8 @@ public class OlympicEventBLL : IOlympicEventBLL
             };
 
             var prizesList = await _eventsService.GetPrizes(eventId, currencyId);
+            
+            _logger.LogInformation($"Step 2 : GetPrizes : {prizesList}");
 
             var suffix = eventId switch
             {
@@ -158,6 +161,8 @@ public class OlympicEventBLL : IOlympicEventBLL
         
         //金牌數不足不發 前端可能會擋 後端在擋一次
         var eggTicket = await _newYear2024Bll.GetEggTicketData(custId);
+        _logger.LogInformation($"Step 3 : GetEggTicketData : {eggTicket}");
+        
         var eggTicketCanUse = eggTicket.Where(x => x.IsUsed == 0 && x.MissionDate.Contains("Olympic2024")).ToList();
         if (eggTicketCanUse.Count < usedGoldMetalCount)
         {
