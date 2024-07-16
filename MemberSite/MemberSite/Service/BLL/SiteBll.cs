@@ -372,8 +372,7 @@ public class SiteBll
             return customer;
         }
 
-        if (string.IsNullOrWhiteSpace(signupModel.Country) || string.IsNullOrWhiteSpace(signupModel.City) ||
-            string.IsNullOrWhiteSpace(signupModel.PostCode) || string.IsNullOrWhiteSpace(signupModel.LineFirst))
+        if (string.IsNullOrWhiteSpace(signupModel.Country) || string.IsNullOrWhiteSpace(signupModel.City))
         {
             apiResult.ErrorCode = -31;
             apiResult.Message = _selLangBll.GetMsg("msg_NeedAddress");
