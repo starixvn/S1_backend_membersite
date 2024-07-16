@@ -907,7 +907,7 @@ namespace MemberSite.Service.BLL
             string refId, string affId, string aff, AffCodeObject affCode, string lineUserId, int deviceType, IFormFile photoId, out int custId, string signupUrl = null,
             string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null,
             int Birth_d = 0, int Birth_m = 0, int Birth_y = 0, string signupIp = null,
-            string nationality = null, int cccupation = 0, int sourceOfIncome = 0, string country = null, string city = null, string postCode = null, string lineFirst = null)
+            string nationality = null, int cccupation = 0, int sourceOfIncome = 0, string country = null, string city = null, string postCode = "", string lineFirst = "")
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
             if (string.IsNullOrEmpty(affId) && !serverInfo.ICurrencyList.Contains(CurrencyId))
@@ -985,7 +985,7 @@ namespace MemberSite.Service.BLL
 
             string address = null;
 
-            if (country != null && city != null && postCode != null && lineFirst != null)
+            if (country != null && city != null)
             {
                 Dictionary<string, string> addressDic = new Dictionary<string, string>();
                 addressDic.Add("Country", country);
