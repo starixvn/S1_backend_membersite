@@ -23,5 +23,6 @@ namespace MemberSite.Service.Model.Store.Redemption
 
         public int Round { get; set; }
         public int TpId { get; set; }
+        public string GameId { get; set; }
     }
 }

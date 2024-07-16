@@ -39,6 +39,16 @@ namespace MemberSite.Service.DAL
 
             return _reportClient.QueryFirst<GiftInfo>("Member_GiftList_Get",p);
         }
-        
+
+
+        public async Task<string> GetTpBonusCodeId(string bonusCode,string gameId)
+        {
+            var p = new DynamicParameters();
+            p.Add("_BonusCode", bonusCode);
+            p.Add("_GameId", gameId);
+
+
+            return _reportClient.QueryFirst<string>("Member_TpBonusCodeId_Get", p);
+        }
     }
 }
