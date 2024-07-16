@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Net.Sockets;
@@ -38,7 +39,6 @@ namespace MemberSite.Controllers.Api
         private readonly BannerBLL _bannerBll;
         private readonly AuthBLL _authBll;
         private readonly Regex _regexUserName = new(@"^[a-zA-Z0-9]{6,18}$");
-        private readonly Regex _regexPhoneNo = new(@"^\d+$");
         private readonly ThirdPartyBll _thirdPartyBll;
         private readonly SiteBll _siteBll;
         private readonly ICacheHelper _cacheHelper;
@@ -639,10 +639,11 @@ namespace MemberSite.Controllers.Api
                     return null;
                 }
 
-                if (_regexPhoneNo.IsMatch(reSetPwdByOtpReq.PhoneNo))
+                if (long.TryParse(reSetPwdByOtpReq.PhoneNo, out var phoneNo))
                 {
                     var serverInfo = _serverInfoBll.GetServerInfo();
-                    
+
+                    reSetPwdByOtpReq.PhoneNo = phoneNo.ToString();
                     if (_custInfoBll.ExistsPhoneNoAndUserName(reSetPwdByOtpReq.Username, reSetPwdByOtpReq.AreaCode,
                             reSetPwdByOtpReq.PhoneNo, serverInfo.SiteId))
                     {
@@ -839,10 +840,15 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<IEnumerable<BannerV3>>();
 
-            if (await _checkAttackBll.CheckAttackIp(Request))
+            if (await _checkAttackBll.CheckAttackIp(Request, 100))
             {
-                Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.TooManyRequests;
-                return null;
+                Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return new ApiResult<IEnumerable<BannerV3>> 
+                { 
+                    ErrorCode = (int)ErrorCode.Attack,
+                    Data = new List<BannerV3>(),
+                    Message = "GetBannerV3 request exceeds the limit count."
+                };
             }
             
             int siteId;
@@ -1252,10 +1258,15 @@ namespace MemberSite.Controllers.Api
         [HttpGet, HttpPost]
         public async Task<ApiResult<SeoModel>> SeoAsync([FromRoute] string? domain)
         {
-            if (await _checkAttackBll.CheckAttackIp(Request))
+            if (await _checkAttackBll.CheckAttackIp(Request, 100))
             {
-                Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.TooManyRequests;
-                return null;
+                Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return new ApiResult<SeoModel>()
+                {
+                    ErrorCode = (int)ErrorCode.Attack,
+                    Data = new SeoModel(),
+                    Message = "GetSeo request exceeds the limit count."
+                };
             }
             
             if (string.IsNullOrWhiteSpace(domain))
