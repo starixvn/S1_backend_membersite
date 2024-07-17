@@ -51,20 +51,25 @@ public class RedemptionBLL
     {
         var serverInfo = _serverInfoBll.GetServerInfo();
         var transId = await _redemptionService.GetRedemptionId(req);
+        
         if (transId == null)
         {
             _logger.LogError("Failed to get TransId");
             return;
         }
         var bonusCode = BonusCodeRule(giftInfo, serverInfo.SiteName);
+        var TpBonusCodeId = await _redemptionService.GetTpBonusCodeId(bonusCode, giftInfo.GameId);
         _logger.LogInformation($"FreeSpinAutoProcess，TransId:{transId}");
+
         var inputs = new Dictionary<string, string>
         {
-            { "bonusCode", bonusCode }
+            { "bonusCode", bonusCode },
+            { "GameId", giftInfo.GameId },
+            { "TpBonusCodeId", TpBonusCodeId },
         };
         var request = new AddPrize()
         {
-            TpId = 5,
+            TpId = giftInfo.TpId,
             CustId = req.CustId,
             SiteId = req.SiteId,
             inputs = inputs
@@ -95,8 +100,8 @@ public class RedemptionBLL
 
     private static string BonusCodeRule(GiftInfo giftInfo, string siteName)
     {
-        //BonusCode規則。ex.PP2FREESPIN100FORNOVA8820240306
-        var bonusCode = $"PP{giftInfo.CurrencyId}FREESPIN{giftInfo.Round}FOR{siteName.ToUpper()}{DateTime.UtcNow.ToString("yyyyMMdd")}";
+        //BonusCode規則。ex.52FREESPIN100FORNOVA8820240306
+        var bonusCode = $"{giftInfo.TpId}{giftInfo.CurrencyId}FREESPIN{giftInfo.Round}FOR{siteName.ToUpper()}{DateTime.UtcNow.ToString("yyyyMMdd")}";
         return bonusCode;
     }
 }

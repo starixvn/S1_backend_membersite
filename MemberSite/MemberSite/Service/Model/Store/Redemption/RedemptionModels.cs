@@ -22,5 +22,7 @@ namespace MemberSite.Service.Model.Store.Redemption
         public int GiftType { get; set; }
 
         public int Round { get; set; }
+        public int TpId { get; set; }
+        public string GameId { get; set; }
     }
 }
