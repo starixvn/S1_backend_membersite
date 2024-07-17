@@ -58,7 +58,7 @@ public class RedemptionBLL
             return;
         }
         var bonusCode = BonusCodeRule(giftInfo, serverInfo.SiteName);
-        var TpBonusCodeId = await _redemptionService.GetTpBonusCodeId(bonusCode);
+        var TpBonusCodeId = await _redemptionService.GetTpBonusCodeId(bonusCode, giftInfo.GameId);
         _logger.LogInformation($"FreeSpinAutoProcess，TransId:{transId}");
 
         var inputs = new Dictionary<string, string>
