@@ -883,7 +883,7 @@ namespace MemberSite.Service.BLL
 
             string address = null;
 
-            if (country != null && city != null && postCode != null && lineFirst != null)
+            if (country != null && city != null)
             {
                 Dictionary<string, string> addressDic = new Dictionary<string, string>();
                 addressDic.Add("Country", country);

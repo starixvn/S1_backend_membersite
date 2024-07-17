@@ -90,6 +90,8 @@ namespace MemberSite.Service.Model
     public class Prize
     {
         public int PrizeId { get; set; }
+        public int EventId { get; set; }
+        public int CurrencyId { get; set; }
         public int PrizeType { get; set; }
         public int Jackpot { get; set; }
         public string PrizeName { get; set; }
@@ -257,6 +259,20 @@ namespace MemberSite.Service.Model
     {
         public bool IsClaimedBigPrize { get; set; }
         public int Stickers { get; set; }
+    }
+
+    public class EggTicketData
+    {
+        public int Id { get; set; }
+        public int CustId { get; set; }
+
+        public string MissionDate { get; set; }
+
+        public int IsUsed { get; set; }
+
+        public DateTime CreateTime { get; set; }
+
+        public DateTime UpdateTime { get; set; }
     }
 
     #endregion

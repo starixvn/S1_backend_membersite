@@ -469,7 +469,7 @@ namespace MemberSite.Service.BLL
         public IEnumerable<PayInfo> GetPayInfoListWithCache(int siteId, DepositType? depositType = null)
         {
             var key = $"PaySetting:{siteId}:{depositType}";
-            var dbData = _redisHelper.TryGetOrCreate<IEnumerable<PayInfo>>(key, TimeSpan.FromMinutes(5),
+            var dbData = _redisHelper.TryGetOrCreate<IEnumerable<PayInfo>>(key, TimeSpan.FromSeconds(30),
                 () => _payService.GetPayInfo(siteId, depositType).OrderBy(x => x.GSort).ThenBy(x => x.SSort),
                 RedisDataBase.Shared);
             return dbData;
@@ -479,7 +479,7 @@ namespace MemberSite.Service.BLL
         {
             var key = $"PaySetting:WithdrawalBlock:{siteId}";
 
-            var dbData = _redisHelper.TryGetOrCreate<IEnumerable<WithdrawalBlockSetting>>(key, TimeSpan.FromMinutes(5),
+            var dbData = _redisHelper.TryGetOrCreate(key, TimeSpan.FromSeconds(30),
                 () => _payService.GetWithdrawalBlockSettingList(siteId));
 
             return dbData.Where(x => x.CurrencyId == currencyId);
