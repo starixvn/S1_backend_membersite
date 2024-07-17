@@ -35,7 +35,6 @@ namespace MemberSite.Controllers.Api
         private readonly BannerBLL _bannerBll;
         private readonly AuthBLL _authBll;
         private readonly Regex _regexUserName = new(@"^[a-zA-Z0-9]{6,18}$");
-        private readonly Regex _regexPhoneNo = new(@"^\d+$");
         private readonly ThirdPartyBll _thirdPartyBll;
         private readonly SiteBll _siteBll;
         private readonly ICacheHelper _cacheHelper;
@@ -760,10 +759,11 @@ namespace MemberSite.Controllers.Api
                     return null;
                 }
 
-                if (_regexPhoneNo.IsMatch(reSetPwdByOtpReq.PhoneNo))
+                if (long.TryParse(reSetPwdByOtpReq.PhoneNo, out var phoneNo))
                 {
                     var serverInfo = _serverInfoBll.GetServerInfo();
-                    
+
+                    reSetPwdByOtpReq.PhoneNo = phoneNo.ToString();
                     if (_custInfoBll.ExistsPhoneNoAndUserName(reSetPwdByOtpReq.Username, reSetPwdByOtpReq.AreaCode,
                             reSetPwdByOtpReq.PhoneNo, serverInfo.SiteId))
                     {

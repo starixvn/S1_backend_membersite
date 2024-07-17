@@ -45,7 +45,7 @@ namespace MemberSite.Service.BLL
             var currencyId = custInfo.CurrencyId;
 
             var key = $"LocalPaySetting:{siteId}:{currencyId}:{pointLevel}:{custInfo.UserLevel}";
-            var offBankList = _redisHelper.TryGetOrCreate(key, TimeSpan.FromMinutes(5),
+            var offBankList = _redisHelper.TryGetOrCreate(key, TimeSpan.FromSeconds(30),
                 () => GetOfflineBankAccountList(siteId, currencyId, pointLevel, custInfo.UserLevel));
 
             var custDepositSysIds = _bankInfoService.GetCustOffDepositSysId(custId);
@@ -69,7 +69,7 @@ namespace MemberSite.Service.BLL
             var lang = _authorizeBll.GetAuthData().LangId;
 
             var key = $"LocalPaySetting:{siteId}:{currencyId}:LocalBank:{pointLevel}:{custInfo.UserLevel}:{lang}";
-            var offBankList = _redisHelper.TryGetOrCreate(key, TimeSpan.FromMinutes(5),
+            var offBankList = _redisHelper.TryGetOrCreate(key, TimeSpan.FromSeconds(30),
                 () => GetBankAccountOffList(siteId, currencyId, pointLevel, custInfo.UserLevel, lang));
 
             var custDepositSysIds = _bankInfoService.GetCustOffDepositSysId(custId);
@@ -337,7 +337,7 @@ namespace MemberSite.Service.BLL
 
         public IEnumerable<LocalPaySetting> GetLocalPaymentSettingWithCache()
         {
-            return _redisHelper.TryGetOrCreate("LocalPaySetting:SupportType", TimeSpan.FromMinutes(5),
+            return _redisHelper.TryGetOrCreate("LocalPaySetting:SupportType", TimeSpan.FromSeconds(30),
                 () => _bankInfoService.GetLocalPaySetting());
         }
 
@@ -367,7 +367,7 @@ namespace MemberSite.Service.BLL
 
         private IEnumerable<OfflineCryptoPayInfo> GetOfflineCryptoPayInfoWithCache(int siteId)
         {
-            return _redisHelper.TryGetOrCreate($"LocalPaySetting:{siteId}:OfflineCryptoPayInfo", TimeSpan.FromMinutes(5),
+            return _redisHelper.TryGetOrCreate($"LocalPaySetting:{siteId}:OfflineCryptoPayInfo", TimeSpan.FromSeconds(30),
                 () => _bankInfoService.GetOfflineCryptoPayInfo(siteId));
         }
     }
