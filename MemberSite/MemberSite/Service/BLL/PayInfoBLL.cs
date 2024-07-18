@@ -500,9 +500,7 @@ namespace MemberSite.Service.BLL
             var authData = _authorizeBll.GetAuthData();
             var lang = authData.LangId;
             var key = $"PaySetting:{siteId}:{depositType}";
-            
-            var dbData = _redisHelper.TryGetOrCreate<IEnumerable<PayInfo>>(key, TimeSpan.FromMinutes(5),
-
+            var dbData = _redisHelper.TryGetOrCreate<IEnumerable<PayInfo>>(key, TimeSpan.FromSeconds(30),
                 () => _payService.GetPayInfo(siteId, depositType).OrderBy(x => x.GSort).ThenBy(x => x.SSort),
                 RedisDataBase.Shared);
 
