@@ -24,6 +24,7 @@ namespace MemberSite.Controllers.Api
         private readonly ICacheHelper _redisHelper;
         private readonly CustInfoBll _custInfoBll;
         private readonly NewYear2024BLL _newYear2024Bll;
+        private readonly WalletBLL _walletBll;
         private readonly SelLangBLL _selLangBll;
         private readonly ServerInfoBll _serverInfoBll;
         private readonly MessageBll _messageBll;
@@ -38,6 +39,7 @@ namespace MemberSite.Controllers.Api
             _eventsBll = provider.GetRequiredService<EventsBLL>();
             _angPaoBll = provider.GetRequiredService<IAngPaoBLL>();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
+            _walletBll = provider.GetRequiredService<WalletBLL>();
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _selLangBll = provider.GetRequiredService<SelLangBLL>();
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
@@ -916,6 +918,153 @@ namespace MemberSite.Controllers.Api
         }
 
         #endregion
+
+        #endregion
+
+        #region Lottery
+        
+        [Authorize]
+        [HttpPost]
+        public async Task<ApiResult<GetChineseZodiacStickerResponse>> GetChineseZodiacStickerList()
+        {
+            var apiResult = new ApiResult<GetChineseZodiacStickerResponse>()
+            {
+                Data = new GetChineseZodiacStickerResponse()
+            };
+            var authData = _authorizeBll.GetAuthData();
+
+            if (authData is { CustId: > 0 })
+            {
+                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                var nowTime = DateTime.Now;
+                //取當下時間的抽獎資料
+                var getLotteryDrawSetting = _eventsBll.GetLotteryEventDrawSetting(custInfo.SiteId, nowTime).FirstOrDefault();
+                //檢查是否買過本期貼紙
+                var getCustLotteryTicket = _eventsBll.GetCustLotteryTicket(custInfo.SiteId, getLotteryDrawSetting.RoundId,2);
+
+                if (getCustLotteryTicket == null || !getCustLotteryTicket.Any())
+                {
+                    apiResult.Data.CanBuy = true;
+                    apiResult.Data.StickerId = 0;
+                }
+                else
+                {
+                    var checkBoughtTicket = getCustLotteryTicket.FirstOrDefault(x => x.Type == 2);
+    
+                    if (checkBoughtTicket?.StickerId != 0)
+                    {
+                        apiResult.Data.CanBuy = false;
+                        apiResult.Data.StickerId = checkBoughtTicket.StickerId;
+                    }
+                    else
+                    {
+                        apiResult.Data.CanBuy = true;
+                        apiResult.Data.StickerId = 0;
+                    }
+                }
+                
+                //索取貼紙價格 因為要立即生效 不能放Redis(再討論看看)
+                var result = _eventsBll.GetChineseZodiacStickerList(custInfo.SiteId);
+                var mappingData = 
+                    result.FirstOrDefault(x => x.CurrencyId == custInfo.CurrencyId && x.SiteId == custInfo.SiteId);
+                
+                if (mappingData != null && mappingData.StickerPrize != 0.00m)
+                {
+                    apiResult.Data.StickerPrize = mappingData.StickerPrize;
+                    apiResult.Data.TurnOver = mappingData.TurnOver;
+                }
+                else
+                {
+                    {
+                        apiResult.ErrorCode = 999;
+                        apiResult.Message = _selLangBll.GetMsg("msg_ApiServerError"); 
+                    }
+                }
+
+                apiResult.ErrorCode = 0;
+            }
+
+            return apiResult;
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<ApiResult> BuyChineseZodiacSticker(BuyChineseZodiacStickerReq stickerReq)
+        {
+            var nowTime = DateTime.Now;
+            
+            var apiResult = new ApiResult();
+            var authData = _authorizeBll.GetAuthData();
+
+            if (authData is not { CustId: > 0 }) return apiResult;
+            try
+            {
+                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                //取當期資料
+                var getLotteryDrawSetting = _eventsBll.GetLotteryEventDrawSetting(custInfo.SiteId, nowTime).FirstOrDefault();
+                //取貼紙價格
+                var stickerPrizeList = _eventsBll.GetChineseZodiacStickerList(custInfo.SiteId);
+                var stickerPrize = 
+                    stickerPrizeList.FirstOrDefault(x => x.CurrencyId == custInfo.CurrencyId && x.SiteId == custInfo.SiteId);
+
+                if (stickerPrize == null)
+                {
+                    apiResult.ErrorCode = 9000;
+                    apiResult.Message = _selLangBll.GetMsg("msg_ApiServerError");
+                    return apiResult;
+                }
+                
+                //取用戶當下餘額
+                var custBalance = _walletBll.GetBalance(authData.CustId);
+
+                //餘額不足回傳 3 會依照當下用戶langId回傳相對應訊息
+                var checkBalance = custBalance - Math.Abs(stickerPrize.StickerPrize);
+                if (checkBalance < 0)
+                {
+                    apiResult.ErrorCode = 3;
+                    apiResult.Message = _selLangBll.GetMsg("msg_InsufficientFund");
+                    return apiResult;
+                }
+                
+                //再驗一次票(先寫，可保留)
+                //檢查是否買過本期貼紙
+                var getCustLotteryTicket = _eventsBll.GetCustLotteryTicket(custInfo.SiteId, getLotteryDrawSetting.RoundId,2);
+                if (getCustLotteryTicket == null || !getCustLotteryTicket.Any())
+                {
+                    var checkBoughtTicket = getCustLotteryTicket.Any(x => x.Type == 2);
+                    if (checkBoughtTicket)
+                    {
+                        apiResult.ErrorCode = 123;
+                        apiResult.Message = "The zodiac stickers have already been purchased for this period";
+                        return apiResult;
+                    }
+                }
+
+                var result = await _eventsBll.BuyChineseZodiacSticker(custInfo,getLotteryDrawSetting.RoundId,stickerReq.StickerId,stickerPrize.StickerPrize);
+                
+                apiResult.ErrorCode = result;
+                apiResult.Message = apiResult.ErrorCode switch
+                {
+                    1 => "Success",
+                    997 => "Insert failed, Please contact the operator.",
+                    998 => "Purchase failed, Please contact the operator.",
+                    999 => "Purchase failed, Please contact the operator.",
+                    _ => _selLangBll.GetMsg("msg_ApiServerError"),
+                };
+                return apiResult;
+
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "BuyChineseZodiacSticker");
+                return new ApiResult<BuyChineseZodiacStickerResponse>
+                {
+                    Message = "System Error.",
+                    ErrorCode = 9000
+                };
+            }
+            return apiResult;
+        }
 
         #endregion
     }
