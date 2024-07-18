@@ -17,18 +17,6 @@ namespace MemberSite.Service.BLL
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _depositLimitBll = provider.GetRequiredService<DepositLimitBLL>();
             _payInfoBll = provider.GetRequiredService<PayInfoBLL>();
-            _payService = provider.GetRequiredService<PayService>();
-            _depositService = provider.GetRequiredService<DepositService>();
-            _redisHelper = provider.GetRequiredService<ICacheHelper>();
-        }
-
-        public IEnumerable<PayInfo> GetLoadCardPayInfoList(int siteId)
-        {
-            var key = $"PaySetting:{siteId}:{DepositType.LoadCardPayment}";
-            var dbData = _redisHelper.TryGetOrCreate<IEnumerable<PayInfo>>(key, TimeSpan.FromSeconds(30),
-                () => _payService.GetPayInfo(siteId, DepositType.LoadCardPayment).OrderBy(x => x.GSort).ThenBy(x => x.SSort),
-                RedisDataBase.Shared);
-            return dbData;
         }
 
         public IEnumerable<LoadCardPayGroup> GetLoadCardPayGroupList(int custId)
