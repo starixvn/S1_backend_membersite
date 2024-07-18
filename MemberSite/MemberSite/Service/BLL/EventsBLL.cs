@@ -121,7 +121,6 @@ namespace MemberSite.Service.BLL
 
         public int DrawPrize(ref int eventId, int custId, int currencyId, string userName, int siteId, out int result, out Prize drawPrize)
         {
-
             return _eventsService.DrawPrize(ref eventId, custId, currencyId, userName, siteId, out result, out drawPrize);
         }
 
@@ -198,6 +197,80 @@ namespace MemberSite.Service.BLL
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)),
                 i => GetDrawPrizeMessage(eventId, langId));
         }
+        public IEnumerable<LeaderboardPointCalculation> GetLeaderboardPointCalculation(int siteId, string date)
+        {
+            var list = _eventsService.GetLeaderboardPointCalculation(siteId, date);
+            return list;
+        }
+
+        public IEnumerable<LeaderboardRankingBonus> GetLeaderboardRankingBonus(int siteId, int currencyId)
+        {
+            var list = _eventsService.GetLeaderboardRankingBonus(siteId, currencyId);
+            return list;
+        }
+        
+        #region Lottery
+
+        public IEnumerable<RaffleTicketStickerSetting> GetChineseZodiacStickerList(int siteId)
+        {
+            var list = _eventsService.GetChineseZodiacStickerList(siteId);
+            return list;
+        }
+        
+        public IEnumerable<LotteryEventDraw> GetLotteryEventDrawSetting(int siteId, DateTime nowTime)
+        {
+            var list = _eventsService.GetLotteryEventDrawSetting(siteId, nowTime);
+            return list;
+        }
+        
+        public IEnumerable<CustLotteryTicket> GetCustLotteryTicket(int siteId, int roundId, int type)
+        {
+            var list = _eventsService.GetCustLotteryTicket(siteId, roundId, type);
+            return list;
+        }
+
+        public async Task<int> BuyChineseZodiacSticker(Customer custInfo,int roundId,int stickerId,decimal stickerPrize)
+        {
+            var custLotteryTicketRequest = new CustLotteryTicketInsertRequest
+            {
+                CustId = custInfo.CustId,
+                TicketNo = "",
+                RoundId = roundId,
+                StickerId = stickerId,
+                Type = 2
+            };
+            
+            var insertResult = _eventsService.InsertCustLotteryTicket(custLotteryTicketRequest);
+
+            if (insertResult != 1)
+            {
+                return 997;
+            }
+            
+            var balanceMemo = $"Buy ChineseZodiacSticker - StickerId : {stickerId}, Prize : {stickerPrize:#,##0.##}.";
+
+            var buyStickerRequest = new BuyZodiacStickerRequest
+            {
+                SiteId = custInfo.SiteId,
+                CustId = custInfo.CustId,
+                UserName = custInfo.UserName,
+                StickerPrize = stickerPrize * -1,
+                Memo = balanceMemo
+            };
+            
+
+            var buyResult = await _eventsService.BuyChineseZodiacSticker(buyStickerRequest);
+
+            if (buyResult != 1)
+            {
+                return 998;
+            }
+            
+            return buyResult;
+        }
+        
+        #endregion
+
     }
 }
 

@@ -1,4 +1,5 @@
-﻿using MemberSite.Service.Model.enums;
+﻿using System.Text.Json.Serialization;
+using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.Model
 {
@@ -274,6 +275,90 @@ namespace MemberSite.Service.Model
         public DateTime UpdateTime { get; set; }
     }
 
+    #endregion
+    
+    #region Lottery
+    
+    public class GetChineseZodiacStickerReq
+    {
+        public int CustId { get; set; }
+        public int SiteId { get; set; }
+        public int CurrencyId { get; set; }
+    }
+
+    public class GetChineseZodiacStickerResponse
+    {
+        public int StickerId { get; set; }
+        public decimal StickerPrize { get; set; }
+        public decimal TurnOver { get; set; }
+        public bool CanBuy { get; set; }
+    }
+    
+    public class RaffleTicketStickerSetting
+    {
+        public int SiteId { get; set; }
+        public int CurrencyId { get; set; }
+        public decimal StickerPrize { get; set; }
+        public decimal TurnOver { get; set; }
+        public string Updator { get; set; }
+        public DateTime UpdateTime { get; set; }
+        public DateTime CreateTime { get; set; }
+    }
+
+    public class LotteryEventDraw
+    {
+        public int SQ { get; set; }
+        public int SiteId { get; set; }
+        public int RoundId { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public DateTime DrawDate { get; set; }
+        public int Status { get; set; }
+        public string ExcludeSetting { get; set; }
+        public string Updator { get; set; }
+        public DateTime CreateTime { get; set; }
+        public DateTime UpdateTime { get; set; }
+    }
+
+    public class CustLotteryTicket
+    {
+        public int SQ { get; set; }
+        public int CustId { get; set; }
+        public int RoundId { get; set; }
+        public string TicketNo { get; set; }
+        public int StickerId { get; set; }
+        public int Type { get; set; }
+        public DateTime CreateTime { get; set; }
+    }
+    public class BuyChineseZodiacStickerReq
+    {
+        [JsonPropertyName("stickerid")]
+        public int StickerId { get; set; }
+    }
+    public class BuyChineseZodiacStickerResponse
+    {
+        public int ErrorCode { get; set;}
+        public string Message { get; set;}
+    }
+
+    public class CustLotteryTicketInsertRequest
+    {
+        public int CustId { get; set; }
+        public string TicketNo { get; set; }
+        public int RoundId { get; set; }
+        public int StickerId { get; set; }
+        public int Type { get; set; }
+    }
+
+    public class BuyZodiacStickerRequest
+    {
+        public int SiteId { get; set; }
+        public int CustId { get; set; }
+        public string UserName { get; set; }
+        public decimal StickerPrize { get; set; }
+        public string Memo { get; set; }
+    }
+    
     #endregion
 
 }
