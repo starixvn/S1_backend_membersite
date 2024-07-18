@@ -4,5 +4,6 @@ public enum SiteEnum
 {
     Nova88 = 1,
     Goal123 = 2,
-    Bwing = 3
+    Bwing = 3,
+    Tuk555 = 7
 }

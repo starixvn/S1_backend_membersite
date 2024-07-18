@@ -433,6 +433,7 @@ namespace MemberSite.Service.BLL
                 {
                     depositInfo.DepositRep = JsonConvert.DeserializeObject<DepositInfo3_1>(depositInfo.DepositInfo);
                     var depositInfoRef = (DepositInfo3_1)depositInfo.DepositRep;
+                    depositInfo.BankInfo = bankInfoBLL.GetBankInfoSysListByCurrency(CustInfo.CurrencyId,CustInfo.UserLang).FirstOrDefault(x => x.SysId == depositInfoRef.SysId);
                 }
 
                 if (!string.IsNullOrEmpty(depositInfo.Memo) && depositInfo.Memo.StartsWith("LocalPayment"))
@@ -505,6 +506,7 @@ namespace MemberSite.Service.BLL
                 {
                     depositInfo.DepositRep = JsonConvert.DeserializeObject<DepositInfo3_1>(depositInfo.DepositInfo);
                     var depositInfoRef = (DepositInfo3_1)depositInfo.DepositRep;
+                    depositInfo.BankInfo = bankInfoBLL.GetBankInfoSysListByCurrency(CustInfo.CurrencyId, CustInfo.UserLang).FirstOrDefault(x => x.SysId == depositInfoRef.SysId);
                 }
                 List<DepositMessageDetail> depositMessageDetails = new List<DepositMessageDetail>();
                 if (depositInfo.DepositMessage != null)
@@ -787,7 +789,7 @@ namespace MemberSite.Service.BLL
 
         public CryptoInfoData GetSupportCryptoInfoWithCache(int siteId)
         {
-            return _cacheHelper.TryGetOrCreate($"PaySetting:SupportCrypto:{siteId}", TimeSpan.FromMinutes(5),
+            return _cacheHelper.TryGetOrCreate($"PaySetting:SupportCrypto:{siteId}", TimeSpan.FromSeconds(30),
                 () => GetSupportCryptoInfo(siteId));
         }
 

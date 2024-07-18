@@ -1,4 +1,6 @@
-﻿using MemberSite.Service.BLL;
+﻿using System.Net;
+
+using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
@@ -6,7 +8,7 @@ using MemberSite.Service.Model.Interfaces;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
+using Newtonsoft.Json;
 using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
@@ -26,6 +28,7 @@ namespace MemberSite.Controllers.Api
         private readonly ILogger<PromotionController> _logger;
         private readonly Tools _tools;
         private readonly ICacheHelper _cacheHelper;
+        private readonly CheckAttackBLL _checkAttackBll;
 
         public PromotionController(IServiceProvider provider)
         {
@@ -41,6 +44,7 @@ namespace MemberSite.Controllers.Api
             _logger = provider.GetRequiredService<ILogger<PromotionController>>();
             _tools = provider.GetRequiredService<Tools>();
             _cacheHelper = provider.GetRequiredService<ICacheHelper>();
+            _checkAttackBll = provider.GetRequiredService<CheckAttackBLL>();
         }
 
         public class PromotionReq
@@ -117,6 +121,18 @@ namespace MemberSite.Controllers.Api
                 var authData = _authorizeBll.GetAuthData();
                 if (authData is { CustId: > 0 })
                 {
+                    var key = $"SetClaimPromotion:{authData.CustId}";
+                    
+                    if (!await _cacheHelper.SetNxAsync(key, string.Empty, TimeSpan.FromSeconds(5)))
+                    {
+                        apiResult.ErrorCode = -100;
+                        apiResult.Message = _selLangBll.GetMsg("msg_Ineligible");
+                        
+                        _logger.LogInformation("Block duplicate claim bonus");
+                        
+                        return apiResult;
+                    }
+                    
                     var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                     var deviceType = (int)PromotionDeviceType.All;
                     if (promotionReq.DeviceType != null)
@@ -164,6 +180,17 @@ namespace MemberSite.Controllers.Api
         {
             try
             {
+                if (await _checkAttackBll.CheckAttackIp(Request, 100))
+                {
+                    Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                    return new ApiResult<List<CustPromotion>>
+                    {
+                        ErrorCode = (int)ErrorCode.Attack,
+                        Data = new List<CustPromotion>(),
+                        Message = "GetPromotionListV3 request exceeds the limit count."
+                    };
+                }
+
                 CustPromotionRequest request;
                 var serverInfo = _serverInfoBll.GetServerInfo();
                 var authData = _authorizeBll.GetAuthData();
@@ -486,6 +513,7 @@ namespace MemberSite.Controllers.Api
                 }
 
                 var authData = _authorizeBll.GetAuthData();
+                _logger.LogInformation($"authData={JsonConvert.SerializeObject(authData)}.");
                 var isLogin = authData is { CustId: > 0 };
 
                 if (isLogin)
@@ -555,6 +583,42 @@ namespace MemberSite.Controllers.Api
                     var currencyId = custInfo.CurrencyId;
 
                     var apiUrl = $"{_bonusServiceUrl}GetPopUpPromotion";
+                    var req = new CustPromotionRequest
+                    {
+                        SiteId = serverInfo.SiteId,
+                        CustId = custId,
+                        CurrencyId = currencyId,
+                        DeviceType = data.DeviceType,
+                        LangId = _selLangBll.GetLangId(),
+                        IsLogin = true
+                    };
+
+                    result = _courierAdapter.MyPostAsync<PopUpPromotion, CustPromotionRequest>(apiUrl, req).Result;
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, GetCurrentMethod());
+            }
+            return result;
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ApiResult<PopUpPromotion> GetRetentionPromotion(PromotionDeviceReq data)
+        {
+            var result = new ApiResult<PopUpPromotion>();
+            try
+            {
+                var authData = _authorizeBll.GetAuthData();
+                if (authData is { CustId: > 0 })
+                {
+                    var serverInfo = _serverInfoBll.GetServerInfo();
+                    var custId = authData.CustId;
+                    var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                    var currencyId = custInfo.CurrencyId;
+
+                    var apiUrl = $"{_bonusServiceUrl}GetRetentionPromotion";
                     var req = new CustPromotionRequest
                     {
                         SiteId = serverInfo.SiteId,
