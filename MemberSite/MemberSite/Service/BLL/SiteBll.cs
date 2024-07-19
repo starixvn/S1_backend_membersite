@@ -44,8 +44,7 @@ public class SiteBll
     public Customer Signup(SiteController.SignupModel signupModel, ApiResult apiResult, bool isAuthenticated,
         string fromUrl, string userAgent, bool checkReCaptchaToken)
     {
-        AffCodeObject affCodeObj = null;
-        var check = CheckSignUpData(signupModel, apiResult, isAuthenticated, fromUrl, checkReCaptchaToken, affCodeObj ,out var agent , out var deviceType ,out var signupIp);
+        var check = CheckSignUpData(signupModel, apiResult, isAuthenticated, fromUrl, checkReCaptchaToken, out var affCodeObj ,out var agent , out var deviceType ,out var signupIp);
 
         if (!check)
         {
@@ -66,10 +65,9 @@ public class SiteBll
     public Customer SignupPhone(string otpNum ,SiteController.SignupModel signupModel, ApiResult apiResult, bool isAuthenticated,
         string fromUrl, string userAgent, bool checkReCaptchaToken)
     {
-        AffCodeObject affCodeObj = null;
         signupModel.UserName = $"P{signupModel.AreaPhoneNo.Trim('+')}";
         
-        var check = CheckSignUpData(signupModel, apiResult, isAuthenticated, fromUrl, checkReCaptchaToken, affCodeObj , out var agent , out var deviceType ,out var signupIp);
+        var check = CheckSignUpData(signupModel, apiResult, isAuthenticated, fromUrl, checkReCaptchaToken, out var affCodeObj , out var agent , out var deviceType ,out var signupIp);
 
         if (!check)
         {
@@ -108,20 +106,19 @@ public class SiteBll
     }
     
     /// <summary>
-/// 只給Ivorysport使用
-/// </summary>
-/// <param name="signupModel"></param>
-/// <param name="apiResult"></param>
-/// <param name="isAuthenticated"></param>
-/// <param name="host"></param>
-/// <param name="userAgent"></param>
-/// <param name="checkReCaptchaToken"></param>
-/// <returns></returns>
+    /// 只給Ivorysport使用
+    /// </summary>
+    /// <param name="signupModel"></param>
+    /// <param name="apiResult"></param>
+    /// <param name="isAuthenticated"></param>
+    /// <param name="host"></param>
+    /// <param name="userAgent"></param>
+    /// <param name="checkReCaptchaToken"></param>
+    /// <returns></returns>
     public Customer IvorysportSignup(SiteController.IvorysportSignupModel signupModel, ApiResult apiResult, bool isAuthenticated,
         string host, string userAgent, bool checkReCaptchaToken)
     {
-        AffCodeObject affCodeObj = null;
-        var check = CheckSignUpData(signupModel, apiResult, isAuthenticated, host, checkReCaptchaToken, affCodeObj, out var agent , out var deviceType ,out var signupIp);
+        var check = CheckSignUpData(signupModel, apiResult, isAuthenticated, host, checkReCaptchaToken, out var affCodeObj, out var agent , out var deviceType ,out var signupIp);
         if (!check)
         {
             return null;
@@ -174,12 +171,13 @@ public class SiteBll
         return customer;
     }
     
-    private bool CheckSignUpData(SiteController.SignupModel signupModel, ApiResult apiResult, bool isAuthenticated, string host, bool checkReCaptchaToken,AffCodeObject affCodeObj ,
+    private bool CheckSignUpData(SiteController.SignupModel signupModel, ApiResult apiResult, bool isAuthenticated, string host, bool checkReCaptchaToken, out AffCodeObject affCodeObj ,
         out Customer agent ,out int deviceType,out string signupIp)
     {
         agent = null;
         deviceType = 0;
         signupIp = null;
+        affCodeObj = null;
         
         if (isAuthenticated || (string.IsNullOrEmpty(signupModel.AreaCode) && !string.IsNullOrEmpty(signupModel.PhoneNo)))
         {
