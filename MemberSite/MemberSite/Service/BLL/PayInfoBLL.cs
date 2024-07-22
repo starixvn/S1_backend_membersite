@@ -13,32 +13,44 @@ namespace MemberSite.Service.BLL
         private readonly BankInfoOffBLL _bankInfoOffBll;
         private readonly BankInfoBLL _bankInfoBll;
         private readonly CustInfoBll _custInfoBll;
+        private readonly AuthorizeBLL _authorizeBll;
         private readonly ICacheHelper _redisHelper;
+        private readonly PayInfoLocalizeBLL _payInfoLocalizeBll;
 
         public PayInfoBLL(IServiceProvider provider)
         {
             _payService = provider.GetRequiredService<PayService>();
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
+            _authorizeBll = provider.GetRequiredService<AuthorizeBLL>();
             _depositLimitBll = provider.GetRequiredService<DepositLimitBLL>();
             _bankInfoOffBll = provider.GetRequiredService<BankInfoOffBLL>();
             _bankInfoBll = provider.GetRequiredService<BankInfoBLL>();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
+            _payInfoLocalizeBll = provider.GetRequiredService<PayInfoLocalizeBLL>();
         }
 
         private IEnumerable<PayGroupInfo> GetPayGroupWithCache()
         {
+            var authData = _authorizeBll.GetAuthData();
+            var lang = authData.LangId;
+            
             var dbData = _redisHelper.TryGetOrCreate("PayGroupInfoList", TimeSpan.FromMinutes(5),
                 () => _payService.GetPayGroup(), RedisDataBase.Shared);
-            return dbData;
+            
+            return _payInfoLocalizeBll.PayGroupNameLocalization(dbData, lang);
         }
 
         public IEnumerable<PayChannelInfo> GetPayChannelWithCache()
         {
+            var authData = _authorizeBll.GetAuthData();
+            var lang = authData.LangId;
+            
             var dbData = _redisHelper.TryGetOrCreate("PayChannelInfoList", TimeSpan.FromMinutes(5),
                 () => _payService.GetPayChannel(), RedisDataBase.Shared);
-            return dbData;
+            
+            return _payInfoLocalizeBll.PayChannelNameLocalization(dbData, lang);
         }
-
+        
         private readonly Dictionary<DepositType, OfflineBankAccountSupportChannelEnum> _dicSupportChannelMapper
             = new()
             {
@@ -79,7 +91,8 @@ namespace MemberSite.Service.BLL
             {
                 DepositType.OnlineBanking,
                 DepositType.QuickTransfer,
-                DepositType.BankAutoChannel
+                DepositType.BankAutoChannel,
+                DepositType.ChatTransfer
             };
 
             result.AddRange(GetOnlineBankMethods(depositTypes, custId));
@@ -129,6 +142,10 @@ namespace MemberSite.Service.BLL
                 {
                     ChannelId = x.ChannelId,
                     ChannelName = x.PayName,
+                    DisplayChannelName = x.DisplayChannelName,
+                    GroupId = x.GroupId,
+                    GroupName = x.GroupName,
+                    DisplayGroupName = x.DisplayGroupName,
                     PayId = x.PayId,
                     PayName = x.PayName,
                     SelectBank = x.SelBank,
@@ -202,7 +219,8 @@ namespace MemberSite.Service.BLL
                     var onlineChannels = payInfos.Select(x => new GenericPayChannel
                     {
                         ChannelId = x.ChannelId,
-                        ChannelName = x.PayName,
+                        ChannelName = x.ChannelName,
+                        DisplayChannelName = x.DisplayChannelName,
                         PayId = x.PayId,
                         PayName = x.PayName,
                         Mode = x.Mode,
@@ -213,6 +231,7 @@ namespace MemberSite.Service.BLL
                         AmountList = x.AmountList,
                         GroupId = x.GroupId,
                         GroupName = x.GroupName,
+                        DisplayGroupName = x.DisplayGroupName,
                         GroupSort = x.GSort,
                         ChannelSort = x.SSort,
                         DepositType = depositType
@@ -229,10 +248,12 @@ namespace MemberSite.Service.BLL
                     var localCryptoList = _bankInfoOffBll.GetFilteredOfflineCryptoPayInfo(custId)
                         .GroupBy(x => x.ChannelName)
                         .Select(g =>
-                            new GenericPayChannel
+                        {
+                            return new GenericPayChannel
                             {
                                 ChannelId = -1 * (int)g.First().CryptoCurrencyId,
                                 ChannelName = g.Key,
+                                DisplayChannelName = g.Key,
                                 Mode = (int)PayModeEnum.QrCode,
                                 MaxAmount = g.Any(x => x.MaxAmount == 0)
                                     ? 0
@@ -242,11 +263,13 @@ namespace MemberSite.Service.BLL
                                 AmountList = Array.Empty<decimal>(),
                                 GroupId = -1,
                                 GroupName = "LetsPay",
+                                DisplayGroupName = "LetsPay",
                                 PayName = "LetsPay",
                                 ChannelSort = -1,
                                 GroupSort = -1,
                                 DepositType = DepositType.CryptoWallet
-                            });
+                            };
+                        });
 
                     payChannels.AddRange(localCryptoList);
                 }
@@ -275,6 +298,7 @@ namespace MemberSite.Service.BLL
                                 {
                                     ChannelId = bankCard.GroupId * -1,
                                     ChannelName = groupInfo.GroupName,
+                                    DisplayChannelName = groupInfo.DisplayGroupName,
                                     Mode = (int)PayModeEnum.Redirect,
                                     MaxAmount = localPayInfos.Max(y => y.MaxAmount),
                                     MinAmount = localPayInfos.Min(y => y.MinAmount),
@@ -282,6 +306,7 @@ namespace MemberSite.Service.BLL
                                     AmountList = Array.Empty<decimal>(),
                                     GroupId = bankCard.GroupId,
                                     GroupName = groupInfo.GroupName,
+                                    DisplayGroupName = groupInfo.DisplayGroupName,
                                     GroupSort = groupInfo.Sort,
                                     ChannelSort = -1,
                                     DepositType = depositType
@@ -310,6 +335,7 @@ namespace MemberSite.Service.BLL
                         {
                             GroupId = f.GroupId,
                             GroupName = f.GroupName,
+                            DisplayGroupName = f.DisplayGroupName,
                             Sort = f.GroupSort,
                             MaxAmount = x.Max(y => y.MaxAmount),
                             MinAmount = x.Min(y => y.MinAmount),
@@ -346,6 +372,7 @@ namespace MemberSite.Service.BLL
                 {
                     GroupId = x.GroupId,
                     GroupName = x.GroupName,
+                    DisplayGroupName = x.DisplayGroupName,
                     ChannelName = x.ChannelName,
                     GSort = x.GSort,
                     Mode = x.Mode,
@@ -441,11 +468,13 @@ namespace MemberSite.Service.BLL
                 {
                     ChannelId = -1,
                     ChannelName = groupInfo.GroupName,
+                    DisplayChannelName = groupInfo.DisplayGroupName,
                     GSort = groupInfo.Sort,
                     SSort = -1,
                     Mode = (int)PayModeEnum.Redirect,
                     GroupId = groupId,
                     GroupName = groupInfo.GroupName,
+                    DisplayGroupName = groupInfo.DisplayGroupName,
                     MinAmount = bankCards.Min(x => x.MinAmount),
                     MaxAmount = bankCards.Max(x => x.MaxAmount)
                 };
@@ -468,10 +497,16 @@ namespace MemberSite.Service.BLL
 
         public IEnumerable<PayInfo> GetPayInfoListWithCache(int siteId, DepositType? depositType = null)
         {
+            var authData = _authorizeBll.GetAuthData();
+            var lang = authData.LangId;
             var key = $"PaySetting:{siteId}:{depositType}";
             var dbData = _redisHelper.TryGetOrCreate<IEnumerable<PayInfo>>(key, TimeSpan.FromSeconds(30),
                 () => _payService.GetPayInfo(siteId, depositType).OrderBy(x => x.GSort).ThenBy(x => x.SSort),
                 RedisDataBase.Shared);
+
+            dbData = _payInfoLocalizeBll.PayChannelNameLocalization(dbData, lang);
+            dbData = _payInfoLocalizeBll.PayGroupNameLocalization(dbData, lang);
+            
             return dbData;
         }
 
