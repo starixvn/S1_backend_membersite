@@ -3,7 +3,7 @@
 using MemberSite.Controllers.Api;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
-using MemberSite.Service.Model.Mapping;
+using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.BLL
 {
@@ -15,7 +15,6 @@ namespace MemberSite.Service.BLL
         private readonly ServerInfoBll _serverInfoBll;
         private readonly ICacheHelper _cacheHelper;
         private readonly IPBLL _iPBll;
-        private readonly IEnumerable<AreaCodeMap> _areaCodeMap;
         private readonly AWSS3Helper _s3Helper;
         private readonly string _fileName;
         private readonly string _folder;
@@ -30,7 +29,6 @@ namespace MemberSite.Service.BLL
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
             _cacheHelper = provider.GetRequiredService<ICacheHelper>();
             _iPBll = provider.GetRequiredService<IPBLL>();
-            _areaCodeMap = provider.GetRequiredService<IEnumerable<AreaCodeMap>>();
             _s3Helper = provider.GetRequiredService<AWSS3Helper>();
             var env = provider.GetRequiredService<IWebHostEnvironment>();
             _fileName = env.IsProduction() || env.EnvironmentName == "Release" ? "geoblockIp.txt" : "geoblockIp_test.txt";
@@ -40,7 +38,7 @@ namespace MemberSite.Service.BLL
             _configBucketName = configBll.GetConfigValue("AWSConfigBucketName");
         }
 
-        public bool CheckAttack(RrofileReq req, HttpRequest Request)
+        public async Task<bool> CheckAttack(RrofileReq req, HttpRequest Request)
         {
             var clientIp = _tools.GetClientIP();
             if (_ipHelper.IpInRange(clientIp) || clientIp == "18.139.199.197")
@@ -48,13 +46,12 @@ namespace MemberSite.Service.BLL
                 return false;
             }
 
-            var serverInfo = _serverInfoBll.GetServerInfo();
             var checkCountForShortTime = _cacheHelper.StringIncrementAsync($"IP:{clientIp}", TimeSpan.FromMinutes(1)).Result;
             var checkCountForLongTime = _cacheHelper.StringIncrementAsync($"IP:10:{clientIp}", TimeSpan.FromMinutes(20)).Result;
             var checkCountForBlock = _cacheHelper.StringIncrementAsync($"IP:hour:{clientIp}", TimeSpan.FromMinutes(30)).Result;
             if (checkCountForShortTime >= 5 || checkCountForLongTime >= 15)
             {
-                _cacheHelper.StringFireAndForgetSetAsync($"block:{clientIp}", string.Empty, TimeSpan.FromHours(1));
+               _ = await _cacheHelper.StringFireAndForgetSetAsync($"block:{clientIp}", string.Empty, TimeSpan.FromHours(1));
             }
 
             var isDart = Request.Headers["User-Agent"].ToString().Contains("Dart");
@@ -66,14 +63,12 @@ namespace MemberSite.Service.BLL
                 var setResult = _iPBll.SetBlockIp(new BlockIpRequest { IP = clientIp, Memo = memo, Operator = "System" });
                 if (setResult > 0 && !_cacheHelper.KeyExists($"AutoDeny:{clientIp}"))
                 {
-                    _cacheHelper.StringFireAndForgetSetAsync($"AutoDeny:{clientIp}", string.Empty, TimeSpan.FromMinutes(1));
-                    _ = Task.Run(async () => { _ = await Upload(); });
+                    _ = await _cacheHelper.StringFireAndForgetSetAsync($"AutoDeny:{clientIp}", string.Empty, TimeSpan.FromMinutes(1));
+                    _ = await Upload();
                 }
             }
 
-            if (/*(serverInfo.SiteId is (int)SiteId.Bwing or (int)SiteId.Goal123 && req.AreaCode != "+84")*/
-                isDart
-                //|| _areaCodeMap.All(i => i.AreaCode != req.AreaCode)
+            if (isDart
                 || checkCountForShortTime >= 5
                 || checkCountForLongTime >= 15
                 || checkCountForBlock >= 60
@@ -87,7 +82,37 @@ namespace MemberSite.Service.BLL
             return false;
         }
 
-        public bool CheckAttackForSignIn(SiteController.LoginModel req, bool checkReferer, HttpRequest Request)
+        public async Task<bool> CheckAttackIp(HttpRequest Request, int limitCount)
+        {
+            var clientIp = _tools.GetClientIP();
+            if (_cacheHelper.KeyExists($"AllowedIp:{clientIp}", RedisDataBase.IP))
+            {
+                return false;
+            }
+
+            if (_ipHelper.IpInRange(clientIp) || clientIp == "18.139.199.197")
+            {
+                return false;
+            }
+
+            // 檢查是否已經被block
+            if (_cacheHelper.KeyExists($"block:{clientIp}"))
+            {                
+                return true;
+            }
+
+            // 根據path計算次數
+            var checkCount = await _cacheHelper.StringIncrementAsync($"{Request.Path}:IP:{clientIp}", TimeSpan.FromMinutes(1));
+            if (checkCount >= limitCount)
+            {
+                _ = await _cacheHelper.StringFireAndForgetSetAsync($"block:{clientIp}", string.Empty, TimeSpan.FromMinutes(15));
+                return true;
+            }
+
+            return false;
+        }
+        
+        public async Task<bool> CheckAttackForSignIn(SiteController.LoginModel req, bool checkReferer, HttpRequest Request)
         {
             var clientIp = _tools.GetClientIP();
             if (_ipHelper.IpInRange(clientIp) || clientIp == "18.139.199.197")
@@ -97,13 +122,6 @@ namespace MemberSite.Service.BLL
 
             var checkCountForShortTime = 0;
             var checkCountForBlock = 0;
-            // var checkCountForShortTime = _cacheHelper.StringIncrementAsync($"IP:SignIn:{clientIp}", TimeSpan.FromMinutes(1)).Result;
-            // var checkCountForBlock = _cacheHelper.StringIncrementAsync($"IP:SignIn:long:{clientIp}", TimeSpan.FromMinutes(10)).Result;
-            // if (checkCountForShortTime >= 20)
-            // {
-            //     _cacheHelper.StringFireAndForgetSetAsync($"block:SignIn:{clientIp}", string.Empty, TimeSpan.FromHours(1));
-            // }
-
             var isAttack = string.Compare(req.platform, "x", StringComparison.OrdinalIgnoreCase) == 0 ||
                            string.Compare(req.userAgent, "x", StringComparison.OrdinalIgnoreCase) == 0 ||
                            string.Compare(req.screen, "x", StringComparison.OrdinalIgnoreCase) == 0;
@@ -118,8 +136,8 @@ namespace MemberSite.Service.BLL
                 var setResult = _iPBll.SetBlockIp(new BlockIpRequest { IP = clientIp, Memo = memo, Operator = "System" });
                 if (setResult > 0 && !_cacheHelper.KeyExists($"AutoDeny:SignIn:{clientIp}"))
                 {
-                    _cacheHelper.StringFireAndForgetSetAsync($"AutoDeny:SignIn:{clientIp}", string.Empty, TimeSpan.FromMinutes(1));
-                    _ = Task.Run(async () => { _ = await Upload(); });
+                    _ = await _cacheHelper.StringFireAndForgetSetAsync($"AutoDeny:SignIn:{clientIp}", string.Empty, TimeSpan.FromMinutes(1));
+                    _ = await Upload();
                 }
             }
 

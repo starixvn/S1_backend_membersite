@@ -1,4 +1,5 @@
-﻿using MemberSite.Service.Library;
+﻿using MemberSite.Service.DAL;
+using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 
@@ -6,6 +7,7 @@ namespace MemberSite.Service.BLL
 {
     public class CommonBLL
     {
+        private readonly CommonService _commonService;
         private readonly CourierAdapter _courierAdapter;
         private readonly string _commonServiceUrl;
         private readonly ICacheHelper _redisHelper;
@@ -16,6 +18,7 @@ namespace MemberSite.Service.BLL
         {
             var configBll = provider.GetRequiredService<ConfigBLL>();
             _commonServiceUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost").CommonService;
+            _commonService = provider.GetRequiredService<CommonService>();
             _courierAdapter = provider.GetRequiredService<CourierAdapter>();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
             _dateTimeHelper = provider.GetRequiredService<DateTimeHelper>();
@@ -87,6 +90,38 @@ namespace MemberSite.Service.BLL
 
             return apiResult;
         }
+        
+        public async Task<ApiResult<SendOTPSMSResult>> SendSignUpOTPSMSAsync(int siteId , int currencyId, string userLang , string areaCode, string phoneNo)
+        {
+            var time = await _dateTimeHelper.ToCurrencyZone(DateTime.UtcNow, currencyId);
+            var key = $"SendSignUpOTPSMS:{time:yyyyMMdd}:{areaCode}:{phoneNo}";
+            var cnt = _redisHelper.TryGetOrCreate(key, TimeSpan.FromDays(1), () => 0, RedisDataBase.Shared);
+
+            if (cnt >= 5)
+            {
+                return new ApiResult<SendOTPSMSResult>(-1, _selLangBLL.GetMsg("msg_OTPDailyLimit"), null);
+            }
+
+            var apiUrl = $"{_commonServiceUrl}OTPSMS/SendSignUpOTPSMS";
+
+            var req = new
+            {
+                siteId,
+                currencyId,
+                userLang,
+                areaCode,
+                phoneNo
+            };
+
+            var apiResult = await _courierAdapter.MyPostAsync<SendOTPSMSResult, object>(apiUrl, req);
+            if (apiResult.ErrorCode == (int)ErrorCode.Success)
+            {
+                _redisHelper.StringSet(key, cnt + 1, TimeSpan.FromDays(1), RedisDataBase.Shared);
+            }
+
+            return apiResult;
+        }
+        
         public async Task<ApiResult> VerifyOTPAsync(int custId, string inputOTP)
         {
             var apiUrl = $"{_commonServiceUrl}OTPSMS/VerifyOTP";
@@ -100,6 +135,21 @@ namespace MemberSite.Service.BLL
             ApiResult apiResult = await _courierAdapter.MyPostAsync<bool, dynamic>(apiUrl, req);
             return apiResult;
         }
+        
+        public async Task<ApiResult> SignUpVerifyOTPAsync(string areaPhoneNo, string inputOTP)
+        {
+            var apiUrl = $"{_commonServiceUrl}OTPSMS/SignUpVerifyOTP";
+
+            dynamic req = new
+            {
+                AreaPhoneNo = areaPhoneNo,
+                InputOTP = inputOTP
+            };
+
+            ApiResult apiResult = await _courierAdapter.MyPostAsync<bool, dynamic>(apiUrl, req);
+            return apiResult;
+        }
+        
         public async Task<ApiResult<SendOTPSMSResult>> GetOTPVerifyInfo(int custId)
         {
             var apiUrl = $"{_commonServiceUrl}OTPSMS/GetOTPVerifyInfo";
@@ -139,6 +189,12 @@ namespace MemberSite.Service.BLL
 
             ApiResult apiResult = await _courierAdapter.MyPostAsync<bool, dynamic>(apiUrl, req);
             return apiResult;
+        }
+        public bool SetOTPLogCustInfo(int siteId,int custId,int currencyId,string userName,string otpNum)
+        {
+            var result = _commonService.SetOTPLogCustInfo(siteId, custId, currencyId, userName, otpNum);
+            
+            return result;
         }
     }
 }

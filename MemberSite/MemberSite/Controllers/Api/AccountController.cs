@@ -1,7 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Security.Claims;
-using System.Text.RegularExpressions;
+
 using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
@@ -43,7 +43,6 @@ namespace MemberSite.Controllers.Api
         private readonly CheckAttackBLL _checkAttackBll;
         private readonly ServerInfoBll _serverInfoBll;
         private readonly JwtConfig _jwtConfig;
-        private readonly Regex _regexPhoneNo = new(@"^\d+$");
 
         public AccountController(IServiceProvider provider)
         {
@@ -921,13 +920,13 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult<bool> ExistsPhoneNo(RrofileReq rrofileReq)
+        public async Task<ApiResult<bool>> ExistsPhoneNo(RrofileReq rrofileReq)
         {
             var apiResult = new ApiResult<bool>(_selLangBll);
 
             try
             {
-                if (_checkAttackBll.CheckAttack(rrofileReq, Request))
+                if (await _checkAttackBll.CheckAttack(rrofileReq, Request))
                 {
                     Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
                     return null;
@@ -940,8 +939,9 @@ namespace MemberSite.Controllers.Api
                     return apiResult;
                 }
 
-                if (_regexPhoneNo.IsMatch(rrofileReq.PhoneNo))
+                if (long.TryParse(rrofileReq.PhoneNo, out var phoneNo))
                 {
+                    rrofileReq.PhoneNo = phoneNo.ToString();
                     apiResult.Data = _custInfoBll.ExistsPhoneNo(authData.CustId, rrofileReq.AreaCode, rrofileReq.PhoneNo);
                 }
                 else
