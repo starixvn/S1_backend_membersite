@@ -140,7 +140,7 @@ public class DepositBLL
 
     private (IPayInfo, Dictionary<string, string>) GetLoadCardPayInfo(Customer custInfo, int channelId, int vipLevel)
     {
-        var payInfo = _loadCardPayInfoBll.GetLoadCardPayInfoList(custInfo.SiteId)
+        var payInfo = _payInfoBll.GetPayInfoListWithCache(custInfo.SiteId, DepositType.LoadCardPayment)
             .FirstOrDefault(x => vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.ChannelId == channelId);
 
         if (payInfo == null)

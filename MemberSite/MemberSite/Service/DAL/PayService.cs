@@ -12,14 +12,14 @@ namespace MemberSite.Service.DAL
         {
             _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
         }
-        public IEnumerable<PayInfo> GetCryptoPayInfo(int siteId)
-        {
-            return _reportDbClient.Query<PayInfo>("Service_PayInfo_Get_V2", new { _SiteId = siteId, _DepositType = DepositType.CryptoPayment });
-        }
 
         public IEnumerable<PayInfo> GetPayInfo(int siteId, DepositType? depositType)
         {
-            return _reportDbClient.Query<PayInfo>("Service_PayInfo_Get_V2", new { _SiteId = siteId, _DepositType = (int?)depositType ?? 0 });
+            return _reportDbClient.Query<PayInfo>("Service_PayInfo_Get_V2", new
+            {
+                _SiteId = siteId,
+                _DepositType = (int?)depositType ?? 0
+            });
         }
 
         public LineChannel? GetLineChannel(int siteId, int currencyId)
@@ -35,6 +35,16 @@ namespace MemberSite.Service.DAL
         public IEnumerable<PayChannelInfo> GetPayChannel()
         {
             return _reportDbClient.Query<PayChannelInfo>("Service_PayChannel_Get");
+        }
+        
+        public IEnumerable<PayGroupName> GetPayGroupName()
+        {
+            return _reportDbClient.Query<PayGroupName>("Member_PayGroupName_Get");
+        }
+
+        public IEnumerable<PayChannelName> GetPayChannelName()
+        {
+            return _reportDbClient.Query<PayChannelName>("Member_PayChannelName_Get");
         }
 
         public IEnumerable<WithdrawalBlockSetting> GetWithdrawalBlockSettingList(int siteId)
