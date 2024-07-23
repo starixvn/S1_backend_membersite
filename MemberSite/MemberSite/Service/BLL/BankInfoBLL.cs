@@ -192,11 +192,17 @@ namespace MemberSite.Service.BLL
             var key = $"PaySetting:{custInfo.SiteId}:{DepositType.OnlineBanking}:{custInfo.CurrencyId}:{authData.LangId}:{depositType}";
             
             var dbData = _redisHelper.TryGetOrCreate<IEnumerable<BankInfoPay>>(key, TimeSpan.FromSeconds(30),
-                () =>GetOnlineBankListLocalization(custInfo, authData.LangId, depositType).OrderBy(x => x.MSort).ThenBy(x => x.SSort),
+                () =>
+                {
+                    var data = GetOnlineBankListLocalization(custInfo, authData.LangId, depositType);
+                        
+                    data = _payInfoLocalizeBll.PayGroupNameLocalization(data, authData.LangId);
+                    data = _payInfoLocalizeBll.PayChannelNameLocalization(data, authData.LangId);
+                    
+                    return data.OrderBy(x => x.MSort)
+                        .ThenBy(x => x.SSort);
+                },
                 RedisDataBase.Shared);
-            
-            dbData = _payInfoLocalizeBll.PayGroupNameLocalization(dbData, authData.LangId);
-            dbData = _payInfoLocalizeBll.PayChannelNameLocalization(dbData, authData.LangId);
 
             return dbData;
         }
