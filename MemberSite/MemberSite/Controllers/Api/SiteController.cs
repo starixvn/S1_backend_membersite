@@ -104,16 +104,7 @@ namespace MemberSite.Controllers.Api
         //[TypeFilter(typeof(PublicAuthAttribute))]
         public async Task<ApiResult> SignIn(LoginModel loginModel)
         {
-            var apiResult = new ApiResult(_selLangBll);
-
-            if (!_environment.EnvironmentName.Equals("Local", StringComparison.OrdinalIgnoreCase))
-            {
-                if (await _checkAttackBll.CheckAttackForSignIn(loginModel, true, Request))
-                {
-                    Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
-                    return null;
-                }
-            }
+            var apiResult = new ApiResult(_selLangBll);          
 
             if (!_regexUserName.IsMatch(loginModel.UserName))
             {
@@ -139,11 +130,6 @@ namespace MemberSite.Controllers.Api
         public async Task<ApiResult<JwtAuthData>> SignInApp(LoginModel loginModel)
         {
             var apiResult = new ApiResult<JwtAuthData>(_selLangBll);
-            if (await _checkAttackBll.CheckAttackForSignIn(loginModel, false, Request))
-            {
-                Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
-                return null;
-            }
 
             if (!_regexUserName.IsMatch(loginModel.UserName))
             {
@@ -235,16 +221,7 @@ namespace MemberSite.Controllers.Api
         [TypeFilter(typeof(PublicAuthAttribute))]
         public async Task<ApiResult> SignInPhone(LoginPhoneModel loginModel)
         {
-            var apiResult = new ApiResult(_selLangBll);
-
-            if (!_environment.EnvironmentName.Equals("Local", StringComparison.OrdinalIgnoreCase))
-            {
-                if (await _checkAttackBll.CheckAttackForSignIn(loginModel, true, Request))
-                {
-                    Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
-                    return null;
-                }
-            }
+            var apiResult = new ApiResult(_selLangBll);   
 
             loginModel.UserName = $"P{loginModel.AreaPhoneNo.Trim('+')}";
             if (!_regexUserName.IsMatch(loginModel.UserName))
@@ -436,12 +413,6 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public async Task<ApiResult> SignupAsync(SignupModel signupModel)
         {
-            if (_checkAttackBll.CheckAttackForSignup())
-            {
-                Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
-                return null;
-            }
-
             var apiResult = new ApiResult(_selLangBll);
             var isAuthenticated = User.Identity is { IsAuthenticated: true };
 
@@ -515,12 +486,6 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public async Task<ApiResult> SignupPhoneAsync(SignupPhoneModel signupRequest)
         {
-            if (_checkAttackBll.CheckAttackForSignup())
-            {
-                Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
-                return null;
-            }
-
             var apiResult = new ApiResult(_selLangBll);
             var isAuthenticated = User.Identity is { IsAuthenticated: true };
 
@@ -766,13 +731,6 @@ namespace MemberSite.Controllers.Api
                     AreaCode = reSetPwdByOtpReq.AreaCode,
                     PhoneNo = reSetPwdByOtpReq.PhoneNo
                 };
-
-                if (await _checkAttackBll.CheckAttack(checkValue, Request))
-                {
-                    Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
-                    return null;
-                }
-
                 if (long.TryParse(reSetPwdByOtpReq.PhoneNo, out var phoneNo))
                 {
                     var serverInfo = _serverInfoBll.GetServerInfo();

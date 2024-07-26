@@ -927,12 +927,6 @@ namespace MemberSite.Controllers.Api
 
             try
             {
-                if (await _checkAttackBll.CheckAttack(rrofileReq, Request))
-                {
-                    Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
-                    return null;
-                }
-
                 var authData = _authorizeBll.GetAuthData(checkOnUser: true);
                 if (authData is not { CustId: > 0 })
                 {
