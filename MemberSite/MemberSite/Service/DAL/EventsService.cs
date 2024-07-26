@@ -486,6 +486,55 @@ namespace MemberSite.Service.DAL
 
         #endregion
 
+        #region Lottery
+
+        public LotteryRoundInfo GetLotteryEventDrawSetting(int siteId , DateTime date )
+        {
+            var p = new DynamicParameters();
+            p.Add("_SiteId", siteId);
+            p.Add("_Date", date);
+            var result = _reportDbClient.QueryFirst<LotteryRoundInfo>("Service_LotteryEventDrawSetting_Get", p);
+            
+            return result;
+        }
+
+        public IEnumerable<CustLotteryTicket> GetCustLotteryTicket(int custId ,int roundId ,int type)
+        {
+            var p = new DynamicParameters();
+            p.Add("_CustId", custId);
+            p.Add("_RoundId", roundId);
+            p.Add("_Type", type);
+            var result = _reportDbClient.Query<CustLotteryTicket>("Service_CustLotteryTicket_Get", p);
+            
+            return result;
+        }
+        
+        public IEnumerable<LotteryEventDrawTurnOverSetting> GetLotteryEventDrawTurnOverSetting(int siteId)
+        {
+            var p = new DynamicParameters();
+            p.Add("_SiteId", siteId, dbType: DbType.Int32);
+            return _reportDbClient.Query<LotteryEventDrawTurnOverSetting>("Service_LotteryEventDrawTurnOverSetting_Get" , p);
+        }
+        
+        public decimal GetCustLotteryTurnOverSummary(int custId ,DateTime startTime ,DateTime endTime)
+        {
+            var p = new DynamicParameters();
+            p.Add("_CustId", custId);
+            p.Add("_StartTime", startTime);
+            p.Add("_EndTime", endTime);
+            var result = _reportDbClient.QueryFirst<decimal>("Service_CustLotteryTurnOverSummary_Get", p);
+            return result;
+        }
+        
+        public IEnumerable<RaffleTicketSticker> GetRaffleTicketStickerSetting(int siteId)
+        {
+            var p = new DynamicParameters();
+            p.Add("_SiteId", siteId, dbType: DbType.Int32);
+            return _reportDbClient.Query<RaffleTicketSticker>("Admin_RaffleTicketSticker_Get" , p);
+        }
+
+        
+        #endregion
 
     }
 }

@@ -3,11 +3,9 @@ using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -27,11 +25,12 @@ namespace MemberSite.Controllers.Api
         private readonly SelLangBLL _selLangBll;
         private readonly ServerInfoBll _serverInfoBll;
         private readonly MessageBll _messageBll;
+        private readonly LotteryBLL _lotteryBLL;
         private readonly DateTimeHelper _dateTimeHelper;
         private readonly IOlympicEventBLL _olympicEventBll;
         private readonly ILogger<EventsController> _logger;
         private readonly QueueJobBLL _queueJobBll;
-
+        
         public EventsController(IServiceProvider provider)
         {
             _authorizeBll = provider.GetRequiredService<AuthorizeBLL>();
@@ -42,6 +41,7 @@ namespace MemberSite.Controllers.Api
             _selLangBll = provider.GetRequiredService<SelLangBLL>();
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
             _messageBll = provider.GetRequiredService<MessageBll>();
+            _lotteryBLL = provider.GetRequiredService<LotteryBLL>();
             _olympicEventBll = provider.GetRequiredService<IOlympicEventBLL>();
             _logger = provider.GetRequiredService<ILogger<EventsController>>();
             _dateTimeHelper = provider.GetRequiredService<DateTimeHelper>();
@@ -916,6 +916,47 @@ namespace MemberSite.Controllers.Api
         }
 
         #endregion
+
+        #endregion
+
+        #region Lottery
+
+        [Authorize]
+        [HttpPost]
+        public ApiResult<LotteryInfo> GetLotteryInfo()
+        {
+            var apiResult = new ApiResult<LotteryInfo>
+            {
+                Data = new LotteryInfo()
+            };
+
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is { CustId: > 0 })
+            {
+                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+
+                var (lotteryInfo, errorCode) = _lotteryBLL.GetLotteryInfo(custInfo.SiteId, authData.CustId, custInfo.CurrencyId);
+
+                switch (errorCode)
+                {
+                    case -1: 
+                        apiResult.Message = _selLangBll.GetMsg("msg_NoData");
+                        break;
+                    case -2:
+                        apiResult.Message = _selLangBll.GetMsg("msg_ThisCurrencyNotSupport");
+                        break;
+                    case -3: 
+                        apiResult.Message = _selLangBll.GetMsg("msg_ThisCurrencyNotSupport");
+                        break;
+                    case 0: 
+                        apiResult.Data = lotteryInfo;
+                        apiResult.ErrorCode = 0;
+                        break;
+                }
+            }
+
+            return apiResult;
+        }
 
         #endregion
     }

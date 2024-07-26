@@ -277,4 +277,70 @@ namespace MemberSite.Service.Model
 
     #endregion
 
+    #region Lottery
+
+    public class LotteryInfo
+    {
+        public LotteryRoundInfo LotteryRoundInfo { get; set; }
+        public List<LotteryEventDrawTurnOverSetting> LotteryTierList { get; set; }
+        public List<string> TicketNo { get; set; }
+        public int TicketCount => TicketNo.Count;
+        public int StickerId { get; set; }
+        public bool StickerIsPurchase { get; set; }
+        public decimal CustTurnoverProccessing { get; set; }
+        public decimal CustTurnoverSummary { get; set; }
+    }
+    
+    public class LotteryRoundInfo
+    {
+        public int RoundId { get; set; }
+        private DateTimeOffset _startDate { get; set; }
+        public DateTimeOffset StartDate
+        {
+            get => _startDate;
+            set => _startDate = new DateTimeOffset(value.DateTime, new TimeSpan(8, 0, 0));
+        }
+        private DateTimeOffset _endDate { get; set; }
+        public DateTimeOffset EndDate
+        {
+            get => _endDate;
+            set => _endDate = new DateTimeOffset(value.DateTime, new TimeSpan(8, 0, 0));
+        }
+        private DateTimeOffset _drawDate { get; set; }
+        public DateTimeOffset DrawDate
+        {
+            get => _drawDate;
+            set => _drawDate = new DateTimeOffset(value.DateTime, new TimeSpan(8, 0, 0));
+        }
+    }
+   
+    public class CustLotteryTicket
+    {
+        public int CustId { get; set; }
+        public string UserName { get; set; }
+        public int CurrencyId { get; set; }
+        public int RoundId { get; set; }
+        public int StickerId { get; set; }
+        public string TicketNo { get; set; }
+        public int Type { get; set; }
+    }
+    
+    public class LotteryEventDrawTurnOverSetting
+    {
+        public int SiteId { get; set; }
+        public int CurrencyId { get; set; }
+        public int Level { get; set; }
+        public decimal TurnOverStart { get; set; }
+        public decimal TurnOverEnd { get; set; }
+    }
+    
+    public class RaffleTicketSticker
+    {
+        public int SiteId { get; set; }
+        public int CurrencyId { get; set; }
+        public decimal StickerPrize { get; set; }
+        public decimal TurnOver { get; set; }
+    }
+    
+    #endregion
 }
