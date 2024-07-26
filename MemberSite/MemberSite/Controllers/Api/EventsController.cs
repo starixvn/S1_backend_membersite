@@ -3,11 +3,9 @@ using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -28,13 +26,15 @@ namespace MemberSite.Controllers.Api
         private readonly SelLangBLL _selLangBll;
         private readonly ServerInfoBll _serverInfoBll;
         private readonly MessageBll _messageBll;
+        private readonly LotteryBLL _lotteryBll;
         private readonly DateTimeHelper _dateTimeHelper;
         private readonly IOlympicEventBLL _olympicEventBll;
         private readonly ILogger<EventsController> _logger;
         private readonly QueueJobBLL _queueJobBll;
-
-        public EventsController(IServiceProvider provider)
+        
+        public EventsController(IServiceProvider provider, LotteryBLL lotteryBll)
         {
+            _lotteryBll = lotteryBll;
             _authorizeBll = provider.GetRequiredService<AuthorizeBLL>();
             _eventsBll = provider.GetRequiredService<EventsBLL>();
             _angPaoBll = provider.GetRequiredService<IAngPaoBLL>();
@@ -44,6 +44,7 @@ namespace MemberSite.Controllers.Api
             _selLangBll = provider.GetRequiredService<SelLangBLL>();
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
             _messageBll = provider.GetRequiredService<MessageBll>();
+            _lotteryBll = provider.GetRequiredService<LotteryBLL>();
             _olympicEventBll = provider.GetRequiredService<IOlympicEventBLL>();
             _logger = provider.GetRequiredService<ILogger<EventsController>>();
             _dateTimeHelper = provider.GetRequiredService<DateTimeHelper>();
@@ -924,6 +925,43 @@ namespace MemberSite.Controllers.Api
         
         [Authorize]
         [HttpPost]
+        public ApiResult<LotteryInfo> GetLotteryInfo()
+        {
+            var apiResult = new ApiResult<LotteryInfo>
+            {
+                Data = new LotteryInfo()
+            };
+
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is { CustId: > 0 })
+            {
+                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+
+                var (lotteryInfo, errorCode) = _lotteryBll.GetLotteryInfo(custInfo.SiteId, authData.CustId, custInfo.CurrencyId);
+
+                switch (errorCode)
+                {
+                    case -1: 
+                        apiResult.Message = _selLangBll.GetMsg("msg_NoData");
+                        break;
+                    case -2:
+                        apiResult.Message = _selLangBll.GetMsg("msg_ThisCurrencyNotSupport");
+                        break;
+                    case -3: 
+                        apiResult.Message = _selLangBll.GetMsg("msg_ThisCurrencyNotSupport");
+                        break;
+                    case 0: 
+                        apiResult.Data = lotteryInfo;
+                        apiResult.ErrorCode = 0;
+                        break;
+                } 
+            }
+
+            return apiResult;
+        }
+        
+        [Authorize]
+        [HttpPost]
         public async Task<ApiResult<GetChineseZodiacStickerResponse>> GetChineseZodiacStickerList()
         {
             var apiResult = new ApiResult<GetChineseZodiacStickerResponse>()
@@ -935,20 +973,19 @@ namespace MemberSite.Controllers.Api
             if (authData is { CustId: > 0 })
             {
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-                var nowTime = DateTime.Now;
                 //取當下時間的抽獎資料
-                var getLotteryDrawSetting = _eventsBll.GetLotteryEventDrawSetting(custInfo.SiteId, nowTime).FirstOrDefault();
+                var getLotteryDrawSetting = _lotteryBll.GetLotteryRoundInfo(custInfo.SiteId, DateTimeOffset.UtcNow.ToOffset(TimeSpan.FromHours(8)).DateTime);
                 //檢查是否買過本期貼紙
-                var getCustLotteryTicket = _eventsBll.GetCustLotteryTicket(custInfo.SiteId, getLotteryDrawSetting.RoundId,2);
+                var getCustLotteryTicket = _lotteryBll.GetCustLotteryTicket(custInfo.CustId, getLotteryDrawSetting.RoundId, (int)LotteryTicketEnum.Sticker).ToList();
 
-                if (getCustLotteryTicket == null || !getCustLotteryTicket.Any())
+                if (!getCustLotteryTicket.Any())
                 {
                     apiResult.Data.CanBuy = true;
                     apiResult.Data.StickerId = 0;
                 }
                 else
                 {
-                    var checkBoughtTicket = getCustLotteryTicket.FirstOrDefault(x => x.Type == 2);
+                    var checkBoughtTicket = getCustLotteryTicket.FirstOrDefault(x => x.Type == (int)LotteryTicketEnum.Sticker);
     
                     if (checkBoughtTicket?.StickerId != 0)
                     {
@@ -963,21 +1000,17 @@ namespace MemberSite.Controllers.Api
                 }
                 
                 //索取貼紙價格 因為要立即生效 不能放Redis(再討論看看)
-                var result = _eventsBll.GetChineseZodiacStickerList(custInfo.SiteId);
-                var mappingData = 
-                    result.FirstOrDefault(x => x.CurrencyId == custInfo.CurrencyId && x.SiteId == custInfo.SiteId);
+                var result = _lotteryBll.GetRaffleTicketStickerSetting(custInfo.SiteId);
+                var mappingData = result.FirstOrDefault(x => x.CurrencyId == custInfo.CurrencyId && x.SiteId == custInfo.SiteId);
                 
                 if (mappingData != null && mappingData.StickerPrize != 0.00m)
                 {
                     apiResult.Data.StickerPrize = mappingData.StickerPrize;
-                    apiResult.Data.TurnOver = mappingData.TurnOver;
                 }
                 else
                 {
-                    {
-                        apiResult.ErrorCode = 999;
-                        apiResult.Message = _selLangBll.GetMsg("msg_ApiServerError"); 
-                    }
+                    apiResult.ErrorCode = 999;
+                    apiResult.Message = _selLangBll.GetMsg("msg_ApiServerError"); 
                 }
 
                 apiResult.ErrorCode = 0;
@@ -990,8 +1023,6 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public async Task<ApiResult> BuyChineseZodiacSticker(BuyChineseZodiacStickerReq stickerReq)
         {
-            var nowTime = DateTime.Now;
-            
             var apiResult = new ApiResult();
             var authData = _authorizeBll.GetAuthData();
 
@@ -1000,11 +1031,24 @@ namespace MemberSite.Controllers.Api
             {
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                 //取當期資料
-                var getLotteryDrawSetting = _eventsBll.GetLotteryEventDrawSetting(custInfo.SiteId, nowTime).FirstOrDefault();
+                var getLotteryDrawSetting = _lotteryBll.GetLotteryRoundInfo(custInfo.SiteId, DateTimeOffset.UtcNow.ToOffset(TimeSpan.FromHours(8)).DateTime);
+                
+                //檢查是否買過本期貼紙
+                var getCustLotteryTicket = _lotteryBll.GetCustLotteryTicket(custInfo.CustId, getLotteryDrawSetting.RoundId, (int)LotteryTicketEnum.Sticker).ToList();
+                if (getCustLotteryTicket.Any())
+                {
+                    var checkBoughtTicket = getCustLotteryTicket.Any(x => x.Type == (int)LotteryTicketEnum.Sticker);
+                    if (checkBoughtTicket)
+                    {
+                        apiResult.ErrorCode = 123;
+                        apiResult.Message = "The zodiac stickers have already been purchased for this period";
+                        return apiResult;
+                    }
+                }
+                
                 //取貼紙價格
-                var stickerPrizeList = _eventsBll.GetChineseZodiacStickerList(custInfo.SiteId);
-                var stickerPrize = 
-                    stickerPrizeList.FirstOrDefault(x => x.CurrencyId == custInfo.CurrencyId && x.SiteId == custInfo.SiteId);
+                var stickerPrizeList = _lotteryBll.GetRaffleTicketStickerSetting(custInfo.SiteId);
+                var stickerPrize = stickerPrizeList.FirstOrDefault(x => x.CurrencyId == custInfo.CurrencyId && x.SiteId == custInfo.SiteId);
 
                 if (stickerPrize == null)
                 {
@@ -1025,21 +1069,7 @@ namespace MemberSite.Controllers.Api
                     return apiResult;
                 }
                 
-                //再驗一次票(先寫，可保留)
-                //檢查是否買過本期貼紙
-                var getCustLotteryTicket = _eventsBll.GetCustLotteryTicket(custInfo.SiteId, getLotteryDrawSetting.RoundId,2);
-                if (getCustLotteryTicket == null || !getCustLotteryTicket.Any())
-                {
-                    var checkBoughtTicket = getCustLotteryTicket.Any(x => x.Type == 2);
-                    if (checkBoughtTicket)
-                    {
-                        apiResult.ErrorCode = 123;
-                        apiResult.Message = "The zodiac stickers have already been purchased for this period";
-                        return apiResult;
-                    }
-                }
-
-                var result = await _eventsBll.BuyChineseZodiacSticker(custInfo,getLotteryDrawSetting.RoundId,stickerReq.StickerId,stickerPrize.StickerPrize);
+                var result = await _lotteryBll.BuyChineseZodiacSticker(custInfo,getLotteryDrawSetting.RoundId,stickerReq.StickerId,stickerPrize.StickerPrize);
                 
                 apiResult.ErrorCode = result;
                 apiResult.Message = apiResult.ErrorCode switch
@@ -1062,7 +1092,6 @@ namespace MemberSite.Controllers.Api
                     ErrorCode = 9000
                 };
             }
-            return apiResult;
         }
 
         #endregion

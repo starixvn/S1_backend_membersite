@@ -279,18 +279,10 @@ namespace MemberSite.Service.Model
     
     #region Lottery
     
-    public class GetChineseZodiacStickerReq
-    {
-        public int CustId { get; set; }
-        public int SiteId { get; set; }
-        public int CurrencyId { get; set; }
-    }
-
     public class GetChineseZodiacStickerResponse
     {
         public int StickerId { get; set; }
         public decimal StickerPrize { get; set; }
-        public decimal TurnOver { get; set; }
         public bool CanBuy { get; set; }
     }
     
@@ -300,24 +292,30 @@ namespace MemberSite.Service.Model
         public int CurrencyId { get; set; }
         public decimal StickerPrize { get; set; }
         public decimal TurnOver { get; set; }
-        public string Updator { get; set; }
-        public DateTime UpdateTime { get; set; }
-        public DateTime CreateTime { get; set; }
     }
 
     public class LotteryEventDraw
     {
-        public int SQ { get; set; }
-        public int SiteId { get; set; }
         public int RoundId { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
-        public DateTime DrawDate { get; set; }
+        private DateTimeOffset _startDate { get; set; }
+        public DateTimeOffset StartDate
+        {
+            get => _startDate;
+            set => _startDate = new DateTimeOffset(value.DateTime, new TimeSpan(8, 0, 0));
+        }
+        private DateTimeOffset _endDate { get; set; }
+        public DateTimeOffset EndDate
+        {
+            get => _endDate;
+            set => _endDate = new DateTimeOffset(value.DateTime, new TimeSpan(8, 0, 0));
+        }
+        private DateTimeOffset _drawDate { get; set; }
+        public DateTimeOffset DrawDate
+        {
+            get => _drawDate;
+            set => _drawDate = new DateTimeOffset(value.DateTime, new TimeSpan(8, 0, 0));
+        }
         public int Status { get; set; }
-        public string ExcludeSetting { get; set; }
-        public string Updator { get; set; }
-        public DateTime CreateTime { get; set; }
-        public DateTime UpdateTime { get; set; }
     }
 
     public class CustLotteryTicket
@@ -330,11 +328,13 @@ namespace MemberSite.Service.Model
         public int Type { get; set; }
         public DateTime CreateTime { get; set; }
     }
+    
     public class BuyChineseZodiacStickerReq
     {
         [JsonPropertyName("stickerid")]
         public int StickerId { get; set; }
     }
+    
     public class BuyChineseZodiacStickerResponse
     {
         public int ErrorCode { get; set;}
@@ -359,6 +359,25 @@ namespace MemberSite.Service.Model
         public string Memo { get; set; }
     }
     
+    public class LotteryInfo
+    {
+        public LotteryEventDraw LotteryRoundInfo { get; set; }
+        public List<LotteryEventDrawTurnOverSetting> LotteryTierList { get; set; }
+        public List<string> TicketNo { get; set; }
+        public int TicketCount => TicketNo.Count;
+        public decimal TurnoverGoal { get; set; }
+        public decimal CustTurnoverProccessing { get; set; }
+        public decimal CustTurnoverSummary { get; set; }
+    }
+    
+    public class LotteryEventDrawTurnOverSetting
+    {
+        public int SiteId { get; set; }
+        public int CurrencyId { get; set; }
+        public int Level { get; set; }
+        public decimal TurnOverStart { get; set; }
+        public decimal TurnOverEnd { get; set; }
+    }
+    
     #endregion
-
 }
