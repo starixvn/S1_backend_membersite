@@ -25,13 +25,11 @@ namespace MemberSite.Service.BLL
                 LotteryRoundInfo = null,
                 LotteryTierList = null,
                 TicketNo = null,
-                StickerId = 0,
-                StickerIsPurchase = false,
                 CustTurnoverProccessing = 0,
                 CustTurnoverSummary = 0
             };
             
-            var lotteryRoundInfo = GetLotteryRoundInfo(siteId, DateTime.UtcNow);
+            var lotteryRoundInfo = GetLotteryRoundInfo(siteId, DateTimeOffset.UtcNow.ToOffset(TimeSpan.FromHours(8)).DateTime);
             if (lotteryRoundInfo is null)
             {
                 errorCode = -1;
@@ -55,8 +53,6 @@ namespace MemberSite.Service.BLL
             
             var originTicketList = _eventsService.GetCustLotteryTicket(custId, lotteryRoundInfo.RoundId ,(int)LotteryTicketEnum.All).ToList();
             var custTicketList = originTicketList.Where(x=>x.Type == (int)LotteryTicketEnum.Ticket).Select(x => x.TicketNo).ToList();
-            var custStickerId = originTicketList.FirstOrDefault(x=>x.Type == (int)LotteryTicketEnum.Sticker);
-            var stickerId = custStickerId?.StickerId ?? 0; 
             
             var turnoverSummary = _eventsService.GetCustLotteryTurnOverSummary(custId, lotteryRoundInfo.StartDate.UtcDateTime, lotteryRoundInfo.EndDate.UtcDateTime);
             var proccessing = turnoverSummary - setting.TurnOver * custTicketList.Count;
@@ -64,10 +60,9 @@ namespace MemberSite.Service.BLL
             lotteryInfo.LotteryRoundInfo = lotteryRoundInfo;
             lotteryInfo.LotteryTierList = tierCurrencyList;
             lotteryInfo.TicketNo = custTicketList;
-            lotteryInfo.StickerId = stickerId;
-            lotteryInfo.StickerIsPurchase = stickerId != 0;
             lotteryInfo.CustTurnoverSummary = turnoverSummary;
             lotteryInfo.CustTurnoverProccessing = proccessing;
+            lotteryInfo.TurnoverGoal = setting.TurnOver;
             errorCode = 0;
             
             return (lotteryInfo , errorCode);
@@ -95,9 +90,9 @@ namespace MemberSite.Service.BLL
             return list;
         }
         
-        public IEnumerable<CustLotteryTicket> GetCustLotteryTicket(int siteId, int roundId, int type)
+        public IEnumerable<CustLotteryTicket> GetCustLotteryTicket(int custId, int roundId, int type)
         {
-            var list = _eventsService.GetCustLotteryTicket(siteId, roundId, type);
+            var list = _eventsService.GetCustLotteryTicket(custId, roundId, type);
             return list;
         }
 

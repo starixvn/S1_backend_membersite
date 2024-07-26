@@ -284,7 +284,6 @@ namespace MemberSite.Service.Model
     {
         public int StickerId { get; set; }
         public decimal StickerPrize { get; set; }
-        public decimal TurnOver { get; set; }
         public bool CanBuy { get; set; }
     }
     
@@ -294,15 +293,10 @@ namespace MemberSite.Service.Model
         public int CurrencyId { get; set; }
         public decimal StickerPrize { get; set; }
         public decimal TurnOver { get; set; }
-        public string Updator { get; set; }
-        public DateTime UpdateTime { get; set; }
-        public DateTime CreateTime { get; set; }
     }
 
     public class LotteryEventDraw
     {
-        public int SQ { get; set; }
-        public int SiteId { get; set; }
         public int RoundId { get; set; }
         private DateTimeOffset _startDate { get; set; }
         public DateTimeOffset StartDate
@@ -372,8 +366,7 @@ namespace MemberSite.Service.Model
         public List<LotteryEventDrawTurnOverSetting> LotteryTierList { get; set; }
         public List<string> TicketNo { get; set; }
         public int TicketCount => TicketNo.Count;
-        public int StickerId { get; set; }
-        public bool StickerIsPurchase { get; set; }
+        public decimal TurnoverGoal { get; set; }
         public decimal CustTurnoverProccessing { get; set; }
         public decimal CustTurnoverSummary { get; set; }
     }
