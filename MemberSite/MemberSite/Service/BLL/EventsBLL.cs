@@ -197,18 +197,6 @@ namespace MemberSite.Service.BLL
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)),
                 i => GetDrawPrizeMessage(eventId, langId));
         }
-        public IEnumerable<LeaderboardPointCalculation> GetLeaderboardPointCalculation(int siteId, string date)
-        {
-            var list = _eventsService.GetLeaderboardPointCalculation(siteId, date);
-            return list;
-        }
-
-        public IEnumerable<LeaderboardRankingBonus> GetLeaderboardRankingBonus(int siteId, int currencyId)
-        {
-            var list = _eventsService.GetLeaderboardRankingBonus(siteId, currencyId);
-            return list;
-        }
-        
     }
 }
 
