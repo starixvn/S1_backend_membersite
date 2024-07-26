@@ -109,7 +109,6 @@ namespace MemberSite.Service.BLL
 
         public int DrawPrize(ref int eventId, int custId, int currencyId, string userName, int siteId, out int result, out Prize drawPrize)
         {
-
             return _eventsService.DrawPrize(ref eventId, custId, currencyId, userName, siteId, out result, out drawPrize);
         }
 
@@ -197,7 +196,7 @@ namespace MemberSite.Service.BLL
             var list = _eventsService.GetLeaderboardRankingBonus(siteId, currencyId);
             return list;
         }
-
+        
     }
 }
 

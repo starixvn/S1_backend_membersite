@@ -73,7 +73,7 @@ namespace MemberSite.Service.BLL
             return (lotteryInfo , errorCode);
         }
         
-        public LotteryRoundInfo GetLotteryRoundInfo(int siteId, DateTime date)
+        public LotteryEventDraw GetLotteryRoundInfo(int siteId, DateTime date)
         {
             var key = $"GetLotteryRoundInfo_{siteId}";
             return _cacheHelper.TryGetOrCreate(key,
@@ -88,6 +88,59 @@ namespace MemberSite.Service.BLL
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)),
                 _ => _eventsService.GetLotteryEventDrawTurnOverSetting(siteId));
         }
+        
+        public IEnumerable<RaffleTicketStickerSetting> GetRaffleTicketStickerSetting(int siteId)
+        {
+            var list = _eventsService.GetRaffleTicketStickerSetting(siteId);
+            return list;
+        }
+        
+        public IEnumerable<CustLotteryTicket> GetCustLotteryTicket(int siteId, int roundId, int type)
+        {
+            var list = _eventsService.GetCustLotteryTicket(siteId, roundId, type);
+            return list;
+        }
+
+        public async Task<int> BuyChineseZodiacSticker(Customer custInfo,int roundId,int stickerId,decimal stickerPrize)
+        {
+            var custLotteryTicketRequest = new CustLotteryTicketInsertRequest
+            {
+                CustId = custInfo.CustId,
+                TicketNo = "",
+                RoundId = roundId,
+                StickerId = stickerId,
+                Type = 2
+            };
+            
+            var insertResult = _eventsService.InsertCustLotteryTicket(custLotteryTicketRequest);
+
+            if (insertResult != 1)
+            {
+                return 997;
+            }
+            
+            var balanceMemo = $"Buy ChineseZodiacSticker - StickerId : {stickerId}, Prize : {stickerPrize:#,##0.##}.";
+
+            var buyStickerRequest = new BuyZodiacStickerRequest
+            {
+                SiteId = custInfo.SiteId,
+                CustId = custInfo.CustId,
+                UserName = custInfo.UserName,
+                StickerPrize = stickerPrize * -1,
+                Memo = balanceMemo
+            };
+            
+
+            var buyResult = await _eventsService.BuyChineseZodiacSticker(buyStickerRequest);
+
+            if (buyResult != 1)
+            {
+                return 998;
+            }
+            
+            return buyResult;
+        }
+        
     }
 }
 

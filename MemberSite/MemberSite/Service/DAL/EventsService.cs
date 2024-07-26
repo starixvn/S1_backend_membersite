@@ -485,19 +485,63 @@ namespace MemberSite.Service.DAL
         }
 
         #endregion
-
+        
         #region Lottery
-
-        public LotteryRoundInfo GetLotteryEventDrawSetting(int siteId , DateTime date )
+        
+        public IEnumerable<RaffleTicketStickerSetting> GetRaffleTicketStickerSetting(int siteId)
         {
             var p = new DynamicParameters();
-            p.Add("_SiteId", siteId);
-            p.Add("_Date", date);
-            var result = _reportDbClient.QueryFirst<LotteryRoundInfo>("Service_LotteryEventDrawSetting_Get", p);
+            p.Add("_SiteId", siteId, dbType: DbType.Int32);
             
-            return result;
+            return _reportDbClient.Query<RaffleTicketStickerSetting>("Admin_RaffleTicketSticker_Get", p);
         }
 
+        public LotteryEventDraw GetLotteryEventDrawSetting(int siteId, DateTime nowTime)
+        {
+            var p = new DynamicParameters();
+            p.Add("_SiteId", siteId, dbType: DbType.Int32);
+            p.Add("_Date", nowTime, dbType: DbType.DateTime);
+            
+            return _reportDbClient.QueryFirst<LotteryEventDraw>("Service_LotteryEventDrawSetting_Get", p);
+        }
+        
+        public int InsertCustLotteryTicket(CustLotteryTicketInsertRequest request)
+        {
+            var p = new DynamicParameters();
+            p.Add("CustId", request.CustId, dbType: DbType.Int32);
+            p.Add("TicketNo", request.TicketNo , dbType: DbType.String);
+            p.Add("RoundId", request.RoundId , dbType: DbType.Int32);
+            p.Add("StickerId", request.StickerId , dbType: DbType.Int32);
+            p.Add("Type", request.Type , dbType: DbType.Int32);
+            
+            var result = _mainDbClient.Execute("Service_CustLotteryTicket_Ins", p);
+            return result;
+        }
+        
+        public async Task<int> BuyChineseZodiacSticker(BuyZodiacStickerRequest buyRequest)
+        {
+            await using var conn = _mainDbClient.GetMySqlConnection();
+            await conn.OpenAsync();
+            await using var trans = await conn.BeginTransactionAsync();
+            
+            var result = _walletService.SetBalance(
+                buyRequest.CustId, 
+                buyRequest.SiteId, 
+                buyRequest.UserName, 
+                buyRequest.StickerPrize, 
+                30000, 
+                buyRequest.Memo, 
+                "LotteryEvent : BuyChineseZodiacSticker", 
+                out _, out _, trans);
+            
+            if (result > 0)
+            {
+                MySqlClient.CommitAndDisposeConnection(conn, trans);
+            }
+
+            return result;
+        }
+        
         public IEnumerable<CustLotteryTicket> GetCustLotteryTicket(int custId ,int roundId ,int type)
         {
             var p = new DynamicParameters();
@@ -525,14 +569,6 @@ namespace MemberSite.Service.DAL
             var result = _reportDbClient.QueryFirst<decimal>("Service_CustLotteryTurnOverSummary_Get", p);
             return result;
         }
-        
-        public IEnumerable<RaffleTicketSticker> GetRaffleTicketStickerSetting(int siteId)
-        {
-            var p = new DynamicParameters();
-            p.Add("_SiteId", siteId, dbType: DbType.Int32);
-            return _reportDbClient.Query<RaffleTicketSticker>("Admin_RaffleTicketSticker_Get" , p);
-        }
-
         
         #endregion
 

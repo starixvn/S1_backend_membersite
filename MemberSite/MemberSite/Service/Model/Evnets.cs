@@ -1,4 +1,5 @@
-﻿using MemberSite.Service.Model.enums;
+﻿using System.Text.Json.Serialization;
+using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.Model
 {
@@ -276,23 +277,32 @@ namespace MemberSite.Service.Model
     }
 
     #endregion
-
+    
     #region Lottery
-
-    public class LotteryInfo
+    
+    public class GetChineseZodiacStickerResponse
     {
-        public LotteryRoundInfo LotteryRoundInfo { get; set; }
-        public List<LotteryEventDrawTurnOverSetting> LotteryTierList { get; set; }
-        public List<string> TicketNo { get; set; }
-        public int TicketCount => TicketNo.Count;
         public int StickerId { get; set; }
-        public bool StickerIsPurchase { get; set; }
-        public decimal CustTurnoverProccessing { get; set; }
-        public decimal CustTurnoverSummary { get; set; }
+        public decimal StickerPrize { get; set; }
+        public decimal TurnOver { get; set; }
+        public bool CanBuy { get; set; }
     }
     
-    public class LotteryRoundInfo
+    public class RaffleTicketStickerSetting
     {
+        public int SiteId { get; set; }
+        public int CurrencyId { get; set; }
+        public decimal StickerPrize { get; set; }
+        public decimal TurnOver { get; set; }
+        public string Updator { get; set; }
+        public DateTime UpdateTime { get; set; }
+        public DateTime CreateTime { get; set; }
+    }
+
+    public class LotteryEventDraw
+    {
+        public int SQ { get; set; }
+        public int SiteId { get; set; }
         public int RoundId { get; set; }
         private DateTimeOffset _startDate { get; set; }
         public DateTimeOffset StartDate
@@ -312,17 +322,60 @@ namespace MemberSite.Service.Model
             get => _drawDate;
             set => _drawDate = new DateTimeOffset(value.DateTime, new TimeSpan(8, 0, 0));
         }
+        public int Status { get; set; }
     }
-   
+
     public class CustLotteryTicket
     {
+        public int SQ { get; set; }
         public int CustId { get; set; }
-        public string UserName { get; set; }
-        public int CurrencyId { get; set; }
+        public int RoundId { get; set; }
+        public string TicketNo { get; set; }
+        public int StickerId { get; set; }
+        public int Type { get; set; }
+        public DateTime CreateTime { get; set; }
+    }
+    
+    public class BuyChineseZodiacStickerReq
+    {
+        [JsonPropertyName("stickerid")]
+        public int StickerId { get; set; }
+    }
+    
+    public class BuyChineseZodiacStickerResponse
+    {
+        public int ErrorCode { get; set;}
+        public string Message { get; set;}
+    }
+
+    public class CustLotteryTicketInsertRequest
+    {
+        public int CustId { get; set; }
+        public string TicketNo { get; set; }
         public int RoundId { get; set; }
         public int StickerId { get; set; }
-        public string TicketNo { get; set; }
         public int Type { get; set; }
+    }
+
+    public class BuyZodiacStickerRequest
+    {
+        public int SiteId { get; set; }
+        public int CustId { get; set; }
+        public string UserName { get; set; }
+        public decimal StickerPrize { get; set; }
+        public string Memo { get; set; }
+    }
+    
+    public class LotteryInfo
+    {
+        public LotteryEventDraw LotteryRoundInfo { get; set; }
+        public List<LotteryEventDrawTurnOverSetting> LotteryTierList { get; set; }
+        public List<string> TicketNo { get; set; }
+        public int TicketCount => TicketNo.Count;
+        public int StickerId { get; set; }
+        public bool StickerIsPurchase { get; set; }
+        public decimal CustTurnoverProccessing { get; set; }
+        public decimal CustTurnoverSummary { get; set; }
     }
     
     public class LotteryEventDrawTurnOverSetting
@@ -332,14 +385,6 @@ namespace MemberSite.Service.Model
         public int Level { get; set; }
         public decimal TurnOverStart { get; set; }
         public decimal TurnOverEnd { get; set; }
-    }
-    
-    public class RaffleTicketSticker
-    {
-        public int SiteId { get; set; }
-        public int CurrencyId { get; set; }
-        public decimal StickerPrize { get; set; }
-        public decimal TurnOver { get; set; }
     }
     
     #endregion
