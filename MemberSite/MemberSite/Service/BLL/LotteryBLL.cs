@@ -119,6 +119,52 @@ namespace MemberSite.Service.BLL
                 _ => _eventsService.GetLotteryEventDrawSetting(siteId , date));
         }
         
+        public List<GetCustLotteryWinningResponse> GetCustLotteryHistoryWinnerList(int siteId ,int custId, int roundId)
+        {
+            var response = new List<GetCustLotteryWinningResponse>();
+            
+            var winningTickets = GetCustLotteryTicket(custId, roundId, (int) LotteryTicketEnum.Ticket)
+                .Where(x=>x.LotteryPrizeCategory != 0)
+                .ToList();
+
+            var sticker = GetCustLotteryTicket(custId, roundId, (int) LotteryTicketEnum.Sticker).FirstOrDefault();
+            
+            var roundList = GetLotteryWinnerListCache(siteId , roundId).ToList();
+
+            foreach (var ticketData in winningTickets)
+            {
+                var roundMatch = roundList.FirstOrDefault(rl => rl.RoundId == ticketData.RoundId);
+                if (roundMatch is not null)
+                {
+                    var data = new GetCustLotteryWinningResponse
+                    {
+                        RoundId = roundMatch.RoundId,
+                        StartDate = roundMatch.StartDate,
+                        EndDate = roundMatch.EndDate,
+                        PrizeName =  ticketData.LotteryPrizeCategory switch
+                        {
+                            LotteryPrizeCategory.FirstPrize => "1st Prize",
+                            LotteryPrizeCategory.SecondPrize => "2nd Prize",
+                            LotteryPrizeCategory.ThirdPrize => "3rd Prize",
+                            LotteryPrizeCategory.ConsolationPrize => "Consolation Prize",
+                            LotteryPrizeCategory.SmallPrize => "Small Prize",
+                            _ => string.Empty
+                        },
+                        StickerId = sticker?.StickerId ?? 0
+                    };
+
+                    if (ticketData.LotteryPrizeCategory == LotteryPrizeCategory.FirstPrize)
+                    {
+                        data.Jackpot = roundMatch.StickerId == data.StickerId ? 1 : 0;
+                    }
+                    
+                    response.Add(data);
+                }
+            }
+            
+            return response;
+        }
+        
         public IEnumerable<LotteryEventDrawTurnOverSetting> GetLotteryTierList(int siteId)
         {
             var key = $"GetLotteryTierList_{siteId}";
