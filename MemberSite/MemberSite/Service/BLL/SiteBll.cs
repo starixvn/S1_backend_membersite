@@ -240,6 +240,7 @@ public class SiteBll
 
         if (long.TryParse(signupModel.PhoneNo, out var phoneNo))
         {
+            signupModel.PhoneNo = phoneNo.ToString();
             if (_custInfoBll.ExistsPhoneNo(0, signupModel.AreaCode, signupModel.PhoneNo))
             {
                 apiResult.ErrorCode = -6;
