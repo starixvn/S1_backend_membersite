@@ -380,5 +380,56 @@ namespace MemberSite.Service.Model
         public decimal TurnOverEnd { get; set; }
     }
     
+    public class CurrentLotteryWinnerList
+    {
+        public int SiteId { get; set; }
+        public int RoundId { get; set; }
+        public string FirstPrize { get; set; }
+        public string SecondPrize { get; set; }
+        public string ThirdPrize { get; set; }
+        public string ConsolationPrize { get; set; }
+        public string SmallPrize { get; set; }
+        public int StickerId { get; set; }
+        public DateTime CreateTime { get; set; }
+        private DateTimeOffset _startDate { get; set; }
+        public DateTimeOffset StartDate
+        {
+            get => _startDate;
+            set => _startDate = new DateTimeOffset(value.DateTime, new TimeSpan(8, 0, 0));
+        }
+        private DateTimeOffset _endDate { get; set; }
+        public DateTimeOffset EndDate
+        {
+            get => _endDate;
+            set => _endDate = new DateTimeOffset(value.DateTime, new TimeSpan(8, 0, 0));
+        }
+    }
+    
+    public class GetLotteryWinnerListRequest
+    {
+        public int SiteId { get; set; }
+        public int RoundId { get; set; }
+    }
+    
+    public class GetCurrentLotteryWinnerListResponse
+    {
+        public int SiteId { get; set; }
+        public int RoundId { get; set; }
+        public List<string> FirstPrize { get; set; }
+        public List<string> SecondPrize { get; set; }
+        public List<string> ThirdPrize { get; set; }
+        public List<string> ConsolationPrize { get; set; }
+        public List<string> SmallPrize { get; set; }
+        public int StickerId { get; set; }
+    }
+    
+    public class GetLotteryRoundListResponse
+    {
+        public int SiteId { get; set; }
+        public int RoundId { get; set; }
+        public DateTimeOffset StartDate { get; set; }
+        public DateTimeOffset EndDate { get; set; }
+    }
+    
     #endregion
 }

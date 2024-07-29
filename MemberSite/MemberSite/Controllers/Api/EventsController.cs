@@ -963,6 +963,43 @@ namespace MemberSite.Controllers.Api
         
         [Authorize]
         [HttpPost]
+        public ApiResult<GetCurrentLotteryWinnerListResponse> GetCurrentLotteryWinnerList(GetLotteryWinnerListRequest request)
+        {
+            var apiResult = new ApiResult<GetCurrentLotteryWinnerListResponse>
+            {
+                Data = _lotteryBll.GetCurrentLotteryWinnerList(request.SiteId, 0),
+                ErrorCode = (int) ErrorCode.Success
+            };
+            
+            return apiResult;
+        }
+        
+        [Authorize]
+        [HttpPost]
+        public ApiResult<GetCurrentLotteryWinnerListResponse> GetLotteryHistoryWinnerList(GetLotteryWinnerListRequest request)
+        {
+            var apiResult = new ApiResult<GetCurrentLotteryWinnerListResponse>
+            {
+                Data = _lotteryBll.GetCurrentLotteryWinnerList(request.SiteId, request.RoundId),
+                ErrorCode = (int) ErrorCode.Success
+            };
+            return apiResult;
+        }
+        
+        [Authorize]
+        [HttpPost]
+        public ApiResult<List<GetLotteryRoundListResponse>> GetLotteryRoundList(GetLotteryWinnerListRequest request)
+        {
+            var apiResult = new ApiResult<List<GetLotteryRoundListResponse>>
+            {
+                Data = _lotteryBll.GetLotteryRoundList(request.SiteId , 0),
+                ErrorCode = (int) ErrorCode.Success
+            };
+            return apiResult;
+        }
+        
+        [Authorize]
+        [HttpPost]
         public async Task<ApiResult<GetChineseZodiacStickerResponse>> GetChineseZodiacStickerList()
         {
             var apiResult = new ApiResult<GetChineseZodiacStickerResponse>()

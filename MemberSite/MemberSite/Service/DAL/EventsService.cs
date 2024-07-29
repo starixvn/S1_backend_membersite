@@ -570,6 +570,14 @@ namespace MemberSite.Service.DAL
             return result;
         }
         
+        public IEnumerable<CurrentLotteryWinnerList> GetCurrentLotteryWinnerList(int siteId ,int roundId)
+        {
+            var p = new DynamicParameters();
+            p.Add("_SiteId", siteId, dbType: DbType.Int32);
+            p.Add("_RoundId", roundId, dbType: DbType.Int32);
+            return _reportDbClient.Query<CurrentLotteryWinnerList>("Member_LotteryTicketHistory_Get" , p);
+        }
+        
         #endregion
 
     }
