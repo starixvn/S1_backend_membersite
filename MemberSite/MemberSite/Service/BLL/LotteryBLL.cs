@@ -3,6 +3,7 @@ using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using Microsoft.Extensions.Caching.Memory;
+using Newtonsoft.Json;
 
 namespace MemberSite.Service.BLL
 {
@@ -68,6 +69,48 @@ namespace MemberSite.Service.BLL
             return (lotteryInfo , errorCode);
         }
         
+        public GetCurrentLotteryWinnerListResponse GetCurrentLotteryWinnerList(int siteId , int roundId)
+        {
+            var response = new GetCurrentLotteryWinnerListResponse();
+            var result = GetLotteryWinnerListCache(siteId , roundId)
+                .MaxBy(x=>x.CreateTime);
+
+            if (result is not null)
+            {
+                response.SiteId = result.SiteId;
+                response.RoundId = result.RoundId;
+                response.FirstPrize = JsonConvert.DeserializeObject<List<string>>(result.FirstPrize);
+                response.SecondPrize = JsonConvert.DeserializeObject<List<string>>(result.SecondPrize);
+                response.ThirdPrize = JsonConvert.DeserializeObject<List<string>>(result.ThirdPrize);
+                response.ConsolationPrize = JsonConvert.DeserializeObject<List<string>>(result.ConsolationPrize);
+                response.SmallPrize = JsonConvert.DeserializeObject<List<string>>(result.SmallPrize);
+                response.StickerId = result.StickerId;
+            }
+            else
+            {
+                return null;
+            }
+            
+            return response;
+        }
+        
+        public List<GetLotteryRoundListResponse> GetLotteryRoundList(int siteId , int roundId)
+        {
+            var result = GetLotteryWinnerListCache(siteId , roundId);
+
+            var response = result.Select(x => new GetLotteryRoundListResponse 
+                {
+                    SiteId = x.SiteId,
+                    RoundId = x.RoundId,
+                    StartDate = x.StartDate,
+                    EndDate = x.EndDate
+                })
+                .OrderByDescending(x=>x.RoundId)
+                .ToList();
+
+            return response;
+        }
+        
         public LotteryEventDraw GetLotteryRoundInfo(int siteId, DateTime date)
         {
             var key = $"GetLotteryRoundInfo_{siteId}";
@@ -82,6 +125,14 @@ namespace MemberSite.Service.BLL
             return _cacheHelper.TryGetOrCreate(key,
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)),
                 _ => _eventsService.GetLotteryEventDrawTurnOverSetting(siteId));
+        }
+        
+        private IEnumerable<CurrentLotteryWinnerList> GetLotteryWinnerListCache(int siteId ,int roundId)
+        {
+            var key = $"GetCurrentLotteryWinnerList_{siteId}_{roundId}";
+            return _cacheHelper.TryGetOrCreate(key,
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromHours(1)),
+                _ => _eventsService.GetCurrentLotteryWinnerList(siteId , roundId));
         }
         
         public IEnumerable<RaffleTicketStickerSetting> GetRaffleTicketStickerSetting(int siteId)
