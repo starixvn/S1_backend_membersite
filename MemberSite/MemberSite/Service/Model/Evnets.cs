@@ -326,6 +326,7 @@ namespace MemberSite.Service.Model
         public string TicketNo { get; set; }
         public int StickerId { get; set; }
         public int Type { get; set; }
+        public LotteryPrizeCategory LotteryPrizeCategory { get; set; }
         public DateTime CreateTime { get; set; }
     }
     
@@ -429,6 +430,27 @@ namespace MemberSite.Service.Model
         public DateTimeOffset StartDate { get; set; }
         public DateTimeOffset EndDate { get; set; }
     }
+    
+    public class GetCustLotteryWinningResponse
+    {
+        public int RoundId { get; set; }
+        private DateTimeOffset _startDate { get; set; }
+        public DateTimeOffset StartDate
+        {
+            get => _startDate;
+            set => _startDate = new DateTimeOffset(value.DateTime, new TimeSpan(8, 0, 0));
+        }
+        private DateTimeOffset _endDate { get; set; }
+        public DateTimeOffset EndDate
+        {
+            get => _endDate;
+            set => _endDate = new DateTimeOffset(value.DateTime, new TimeSpan(8, 0, 0));
+        }
+        public string PrizeName { get; set; }
+        public int StickerId { get; set; }
+        public int Jackpot { get; set; }
+    }
+    
     
     #endregion
 }

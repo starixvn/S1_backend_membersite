@@ -999,6 +999,25 @@ namespace MemberSite.Controllers.Api
         
         [Authorize]
         [HttpPost]
+        public ApiResult<List<GetCustLotteryWinningResponse>> GetCustLotteryHistoryWinnerList()
+        {
+            var apiResult = new ApiResult<List<GetCustLotteryWinningResponse>>();
+            
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is { CustId: > 0 })
+            {
+                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                var result = _lotteryBll.GetCustLotteryHistoryWinnerList(custInfo.SiteId, authData.CustId, 0);
+                
+                apiResult.Data = result;
+                apiResult.ErrorCode = (int) ErrorCode.Success;
+            }
+            
+            return apiResult;
+        }
+        
+        [Authorize]
+        [HttpPost]
         public async Task<ApiResult<GetChineseZodiacStickerResponse>> GetChineseZodiacStickerList()
         {
             var apiResult = new ApiResult<GetChineseZodiacStickerResponse>()

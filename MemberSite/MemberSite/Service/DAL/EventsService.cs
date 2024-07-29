@@ -576,6 +576,7 @@ namespace MemberSite.Service.DAL
             return result;
         }
         
+        //超過開獎時間才會有資料
         public IEnumerable<CurrentLotteryWinnerList> GetCurrentLotteryWinnerList(int siteId ,int roundId)
         {
             var p = new DynamicParameters();
