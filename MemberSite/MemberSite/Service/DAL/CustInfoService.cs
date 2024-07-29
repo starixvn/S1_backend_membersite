@@ -1,5 +1,4 @@
 ﻿using System.Data;
-
 using Dapper;
 
 using MemberSite.Service.Library;
@@ -53,7 +52,7 @@ namespace MemberSite.Service.DAL
             return _reportDbClient.QueryFirst<CustInfoProfile>("Service_CustProfileByUserName_Get_V2", new { _SiteId = siteId, _UserName = userName, _CustId = custId });
         }
 
-        public int AddCustInfo(Customer customer, string Email, string lineUserId, int deviceType, out int custId, string signupUrl = null, string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null, int Birth_d = 0, int Birth_m = 0, int Birth_y = 0, string signupIp = null)
+        public int AddCustInfo(Customer customer, string Email, string lineUserId, int deviceType, out int custId, string signupUrl = null, string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null, int Birth_d = 0, int Birth_m = 0, int Birth_y = 0, string signupIp = null, string accountNo = null, string iFSCCode = null, int sysId = 0)
         {
             using var conn = _mainDbClient.GetMySqlConnection();
             conn.Open();
@@ -99,8 +98,7 @@ namespace MemberSite.Service.DAL
                     return -5;
                 }
 
-                if ((!string.IsNullOrEmpty(Email) ||
-                     (!string.IsNullOrEmpty(PhoneNo) && !string.IsNullOrEmpty(AreaCode))))
+                if ((!string.IsNullOrEmpty(Email) || (!string.IsNullOrEmpty(PhoneNo) && !string.IsNullOrEmpty(AreaCode))))
                 {
                     if (string.IsNullOrEmpty(Email))
                     {
@@ -185,6 +183,12 @@ namespace MemberSite.Service.DAL
                     {
                         result = InsertCustLineProfile(custId, lineUserId, trans) ? 1 : 0;
                     }
+                }
+                //tuk55電話註冊 要填寫銀行卡號資訊
+                if(result > 0 && !string.IsNullOrEmpty(accountNo) && sysId != 0)
+                {
+                    var (bankDetailResult, bankLogResult, custBankInfoResult) = SetCustBank(custId, customer.SiteId, RealName, sysId, accountNo, iFSCCode, CustBankInfoLogStatus.Create, trans);
+                    result = bankDetailResult && bankLogResult && custBankInfoResult ? 1 : 0;
                 }
 
                 if (result > 0)
@@ -457,14 +461,7 @@ namespace MemberSite.Service.DAL
             conn.Open();
             using var trans = conn.BeginTransaction();
 
-            var custBankInfoResult = true;
-            var custBankInfo = GetCustBankInfo(custId);
-            if (custBankInfo == null && !string.IsNullOrEmpty(accountName))
-            {
-                custBankInfoResult = SetCustBankInfo(custId, siteId, accountName, trans);
-            }
-            var bankDetailResult = SetCustBankDetail(custId, sysId, accountNum, iFSCCode, CustBankDetailStatus.Able, trans);
-            var bankLogResult = SetCustBankInfoLog(custId, siteId, accountName, sysId, accountNum, iFSCCode, status, trans);
+            var(bankDetailResult, bankLogResult, custBankInfoResult) = SetCustBank(custId, siteId, accountName, sysId, accountNum, iFSCCode, status, trans);
             if (bankDetailResult & bankLogResult & custBankInfoResult)
             {
                 trans.Commit();
@@ -478,7 +475,19 @@ namespace MemberSite.Service.DAL
 
             return bankDetailResult & bankLogResult & custBankInfoResult;
         }
+        private (bool bankDetailResult, bool bankLogResult, bool custBankInfoResult) SetCustBank(int custId, int siteId, string accountName, int sysId, string accountNum, string iFSCCode, CustBankInfoLogStatus status, IDbTransaction trans)
+        {
+            var custBankInfoResult = true;
+            var custBankInfo = GetCustBankInfo(custId);
+            if (custBankInfo == null && !string.IsNullOrEmpty(accountName))
+            {
+                custBankInfoResult = SetCustBankInfo(custId, siteId, accountName, trans);
+            }
+            var bankDetailResult = SetCustBankDetail(custId, sysId, accountNum, iFSCCode, CustBankDetailStatus.Able, trans);
+            var bankLogResult = SetCustBankInfoLog(custId, siteId, accountName, sysId, accountNum, iFSCCode, status, trans);
 
+            return (bankDetailResult, bankLogResult, custBankInfoResult);
+        }
         private bool SetCustBankInfoLog(int custId, int siteId, string accountName, int sysId, string accountNum, string iFSCCode, CustBankInfoLogStatus status, IDbTransaction trans)
         {
             var parameter = new DynamicParameters(new
@@ -1077,6 +1086,12 @@ namespace MemberSite.Service.DAL
                 conn.Dispose();
                 throw;
             }
+        }
+        
+        public async Task<IEnumerable<CustRealNameChangeLog>> GetCustRealNameChangeLogAsync(int custId)
+        {
+            var p = new DynamicParameters(new { CustId = custId });
+            return await _reportDbClient.QueryAsync<CustRealNameChangeLog>("Admin_CustRealNameChangeLog_Get", p);
         }
     }
 }

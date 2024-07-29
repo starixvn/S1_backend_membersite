@@ -1,6 +1,6 @@
 ﻿namespace MemberSite.Service.Model.enums
 {
-    public enum WorldCupUserTicketStatus
+    public enum CupEventUserTicketStatus
     {
         Active = 1,
         Finished = 2,

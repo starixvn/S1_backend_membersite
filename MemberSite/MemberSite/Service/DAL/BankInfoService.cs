@@ -12,9 +12,14 @@ namespace MemberSite.Service.DAL
         {
             _reportDb = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
         }
-        public IEnumerable<BankInfoSys> GetBankInfoSysList(int siteId)
+        public IEnumerable<BankInfoSys> GetBankInfoSysList(int currencyId, string lang)
         {
-            return _reportDb.Query<BankInfoSys>("Member_BankInfoSysList_Get", new { SiteId = siteId });
+            return _reportDb.Query<BankInfoSys>("Member_BankInfoSysList_Get_V2", 
+                new
+                {
+                    _CurrencyId = currencyId,
+                    _Lang = lang
+                });
         }
 
         public IEnumerable<BankInfoSys> GetBankInfoSysListForCtrl(int siteId)/*Filter Out BankInfoSys.Status != 0*/
@@ -26,11 +31,6 @@ namespace MemberSite.Service.DAL
         public IEnumerable<BankInfoPay> GetBankInfoPayList(int siteId, DepositType depositType)
         {
             return _reportDb.Query<BankInfoPay>("Common_BankInfoPay_Get_V4", new { _SiteId = siteId, _DepositType = (int)depositType });
-        }
-
-        public IEnumerable<BankInfoName> GetBankInfoNameList(string lang)
-        {
-            return _reportDb.Query<BankInfoName>("Member_BankInfoName_Get", new { _Lang = lang });
         }
 
         public IEnumerable<BlockAccount> GetBlockBankAccount(int sysId, string accountNum)

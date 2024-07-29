@@ -100,12 +100,12 @@ public class NewYear2024BLL
 
             var model = new NewYearMission2024
             {
-                MissionDate = mission.MissionDate,
+                MissionDate = mission.MissionName,
                 MissionName = missionName,
                 MissionNo = mission.MissionNo,
                 GoalAmount = goalAmount,
                 ProgressAmount = progressAmount,
-                EggCount = mission.EggCount,
+                EggCount = mission.TicketCount,
                 IsCompleted = mission.IsCompleted,
                 Type = type,
                 TpCategoryId = mission.TpCategoryId
@@ -123,6 +123,15 @@ public class NewYear2024BLL
     public async Task<int> GetEggTicket(int custId)
     {
         var eggTicket = _eventsService.GetEggTicket(custId);
+        return eggTicket;
+    }
+    
+    /// <summary>
+    /// 索取龍蛋資料
+    /// </summary>
+    public async Task<IEnumerable<EggTicketData>> GetEggTicketData(int custId)
+    {
+        var eggTicket = _eventsService.GetEggTicketData(custId);
         return eggTicket;
     }
 

@@ -90,6 +90,8 @@ namespace MemberSite.Service.Model
     public class Prize
     {
         public int PrizeId { get; set; }
+        public int EventId { get; set; }
+        public int CurrencyId { get; set; }
         public int PrizeType { get; set; }
         public int Jackpot { get; set; }
         public string PrizeName { get; set; }
@@ -182,7 +184,7 @@ namespace MemberSite.Service.Model
 
     public class PromotionMission
     {
-        public string MissionDate { get; set; }
+        public string MissionName { get; set; }
         public int MissionNo { get; set; }
         public bool DepositFlag { get; set; }
         public decimal DepositAmount { get; set; }
@@ -191,7 +193,7 @@ namespace MemberSite.Service.Model
         public int TpCategoryId { get; set; }
         public bool AffFlag { get; set; }
         public int AffCount { get; set; }
-        public int EggCount { get; set; }
+        public int TicketCount { get; set; }
         public bool IsCompleted { get; set; }
     }
 
@@ -202,6 +204,15 @@ namespace MemberSite.Service.Model
         public int AffCount { get; set; }
     }
 
+    
+    public class CupEventPromotionMissionProgress
+    {
+        public decimal DepositAmount { get; set; }
+        public decimal TurnoverSum { get; set; }
+        public IEnumerable<CupEventAffResponse> AffList { get; set; }
+        public int CompletedBetCount { get; set; }
+    }
+    
     public class PromotionMissionMessage
     {
         public int Type { get; set; }
@@ -248,6 +259,20 @@ namespace MemberSite.Service.Model
     {
         public bool IsClaimedBigPrize { get; set; }
         public int Stickers { get; set; }
+    }
+
+    public class EggTicketData
+    {
+        public int Id { get; set; }
+        public int CustId { get; set; }
+
+        public string MissionDate { get; set; }
+
+        public int IsUsed { get; set; }
+
+        public DateTime CreateTime { get; set; }
+
+        public DateTime UpdateTime { get; set; }
     }
 
     #endregion

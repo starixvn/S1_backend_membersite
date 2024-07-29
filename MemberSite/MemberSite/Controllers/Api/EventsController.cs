@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace MemberSite.Controllers.Api
 {
@@ -27,6 +28,7 @@ namespace MemberSite.Controllers.Api
         private readonly ServerInfoBll _serverInfoBll;
         private readonly MessageBll _messageBll;
         private readonly DateTimeHelper _dateTimeHelper;
+        private readonly IOlympicEventBLL _olympicEventBll;
         private readonly ILogger<EventsController> _logger;
         private readonly QueueJobBLL _queueJobBll;
 
@@ -40,6 +42,7 @@ namespace MemberSite.Controllers.Api
             _selLangBll = provider.GetRequiredService<SelLangBLL>();
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
             _messageBll = provider.GetRequiredService<MessageBll>();
+            _olympicEventBll = provider.GetRequiredService<IOlympicEventBLL>();
             _logger = provider.GetRequiredService<ILogger<EventsController>>();
             _dateTimeHelper = provider.GetRequiredService<DateTimeHelper>();
             _newYear2024Bll = provider.GetRequiredService<NewYear2024BLL>();
@@ -110,7 +113,7 @@ namespace MemberSite.Controllers.Api
 
             var nowMonth = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, 1);
             var dateDifference = nowMonth - getLeaderboardListMonthReq.SelectDays;
-            if (dateDifference.TotalDays > 60)
+            if (dateDifference.TotalDays > 180)
             {
                 return apiResult;
             }
@@ -164,6 +167,7 @@ namespace MemberSite.Controllers.Api
 
             try
             {
+                req.CurrencyId = req.CurrencyId == 0 ? _selLangBll.GetPreferCurrencyId() : req.CurrencyId;
                 var time = _dateTimeHelper.ToCurrencyZone(DateTime.UtcNow, req.CurrencyId).Result;
                 var date = time.ToString("yyyyMM");
 
@@ -619,6 +623,15 @@ namespace MemberSite.Controllers.Api
                     }
                 }
 
+                if (eventId is 18 or 19 or 20)
+                {
+                    var custDrawPrizeList = _eventsBll.GetCustDrawPrizeList(eventId, custInfo.SiteId, authData.CustId);
+                    //去拿奧運清單
+                    var getOlympicsList = _olympicEventBll.GetOlympicsList();
+                    var mappingOlympicsData = MappingGoldCount(getOlympicsList, custDrawPrizeList,custInfo.CurrencyId);
+                    apiResult.Data = mappingOlympicsData;
+                }
+
                 apiResult.ErrorCode = 0;
             }
 
@@ -867,6 +880,39 @@ namespace MemberSite.Controllers.Api
             return prize.PrizeName.Contains("Advant Play Free Bet")
                 ? string.Concat(prize.PrizeName, $" {(int)prize.Amount}")
                 : prize.PrizeName;
+        }
+
+        private IEnumerable<CustGiftList> MappingGoldCount(string olympicsEventList, IEnumerable<CustGiftList> custGiftLists,int currencyId)
+        {
+            var result = new List<CustGiftList>();
+            var getCurrencyList = JObject.Parse(olympicsEventList);
+            var reverseMapping = new Dictionary<string, string>();
+
+            if (getCurrencyList.TryGetValue(currencyId.ToString(), out JToken currencyData))
+            {
+                foreach (var innerPair in (JObject)currencyData)
+                {
+                    reverseMapping[innerPair.Value.ToString()] = innerPair.Key;
+                }
+            }
+
+            foreach (var item in custGiftLists)
+            {
+                if (reverseMapping.TryGetValue(item.PrizeId.ToString(), out var key) && int.TryParse(key, out var goldCount))
+                {
+                    var addData = new CustGiftList()
+                    {
+                        EventDate = item.EventDate,
+                        PrizeId = goldCount,
+                        PrizeName = item.PrizeName,
+                        Amount = item.Amount,
+                        DrawTime = item.DrawTime
+                    };
+                    result.Add(addData);
+                }
+            }
+
+            return result;
         }
 
         #endregion

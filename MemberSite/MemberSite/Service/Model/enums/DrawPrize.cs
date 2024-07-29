@@ -1,5 +1,11 @@
 ﻿namespace MemberSite.Service.Model.enums
 {
+    public enum CupEventNameEnum
+    {
+        EuroCup2024 = 1,
+        ParisOlympic2024 = 2,
+    }
+
     public enum PromotionMissionTypeEnum
     {
         AccumulateDeposit = 1,

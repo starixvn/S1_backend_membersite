@@ -136,14 +136,10 @@
   <data name="msg_DepositRefunded"><value>আমানত ফেরত</value></data>
   <data name="msg_DecimalOutOfRange"><value>2টি সংখ্যার চেয়ে বেশি দশমিকের কারণে স্থানান্তর ব্যর্থ হয়েছে৷</value></data>
   <data name="msg_OTPDailyLimit"><value>ওটিপি সীমায় পৌঁছেছে, অনুগ্রহ করে লাইভ চ্যাট সহায়তার সাথে যোগাযোগ করুন</value></data>
-  <data name="msg_AffCodeNotFound"><value>এফিলিয়েট আইডি পাওয়া যাচ্ছে না</value></data>
-  <data name="msg_BankSystemUnstable"><value>ব্যাংক সিস্টেম অস্থির</value></data>
-  <data name="msg_BankSystemUnstable_Detail"><value>ব্যাংকের সিস্টেম বিশদগতি পুনরুদ্ধার করতে অক্ষম।</value></data>
+  <data name="msg_SystemUnstable"><value>ব্যাংকের সিস্টেম বিশদগতি পুনরুদ্ধার করতে অক্ষম।</value></data>
+  <data name="msg_SystemUnstable_Detail"><value>ব্যাংকের সিস্টেম বর্তমানে লেনদেনের বিশদ তথ্য পুনরুদ্ধার করতে অক্ষম এবং এই মুহূর্তে আপনার আমানত প্রক্রিয়া করতে অক্ষম।</value></data>
   <data name="msg_BankUnderMaintenance"><value>ব্যাংক মেইন্টেনেন্স</value></data>
   <data name="msg_BankUnderMaintenance_Detail"><value>ব্যাংকের সিস্টেম বর্তমানে রক্ষণাবেক্ষণ করা হচ্ছে এবং এই মুহূর্তে আপনার জমা গ্রহণ করতে অক্ষম।</value></data>
-  <data name="msg_WrongPhoneNumberAndUserName"><value>অ্যাকাউন্ট বা ফোন নম্বরটি ভুল, দয়া করে আবার লিখুন৷</value></data>
-  <data name="msg_DepositRemarkReminder" xml:space="preserve"><value>আমানত মন্তব্য রিমাইন্ডার</value></data>
-  <data name="msg_DepositRemarkReminder_Detail" xml:space="preserve"><value>আপনার লেনদেনটি অনুমোদিত হয়েছে। তবে, তার মধ্যে কিছু ভুল রয়েছে বলে মনে হয়। আমাদের সাইটে জমা দিতে পূর্বে, দয়া করে নিজের ব্যাংকিং সিস্টেমে সঠিক ব্যাংক বিবরণ এবং মন্তব্য সরাসরি ইনপুট করে নিন।</value></data>
-  <data name="msg_FillUpRemarkReminder" xml:space="preserve"><value>পূরণ মন্তব্য রিমাইন্ডার</value></data>
-  <data name="msg_FillUpRemarkReminder_Detail" xml:space="preserve"><value>আপনার ডিপোজিট অনুরোধের যাচাই এবং প্রসেসিং গতিপ্রদানের জন্য, দয়া করে ট্রান্সফার করার সময় ডিপোজিট পৃষ্ঠায় প্রদানকৃত রেফারেন্স নম্বরটি ইনপুট করতে নিশ্চিত হন।</value></data>
-</root>
+  <data name="msg_AffCodeNotFound"><value>এফিলিয়েট আইডি পাওয়া যাচ্ছে না</value></data>
+  <data name="msg_WrongAmountFormat"><value>ত্রুটি &gt; পরিমাণের বিন্যাস ভুল</value></data>
+  </root>
