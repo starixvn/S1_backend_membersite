@@ -282,7 +282,7 @@ namespace MemberSite.Service.Model
     
     public class GetChineseZodiacStickerResponse
     {
-        public int StickerId { get; set; }
+        public ChineseZodiacStickerId StickerId { get; set; }
         public decimal StickerPrize { get; set; }
         public bool CanBuy { get; set; }
     }
@@ -297,6 +297,7 @@ namespace MemberSite.Service.Model
 
     public class LotteryEventDraw
     {
+        public int EventId { get; set; }
         public int RoundId { get; set; }
         private DateTimeOffset _startDate { get; set; }
         public DateTimeOffset StartDate
@@ -325,7 +326,7 @@ namespace MemberSite.Service.Model
         public int CustId { get; set; }
         public int RoundId { get; set; }
         public string TicketNo { get; set; }
-        public int StickerId { get; set; }
+        public ChineseZodiacStickerId StickerId { get; set; }
         public int Type { get; set; }
         public LotteryPrizeCategory LotteryPrizeCategory { get; set; }
         public DateTime CreateTime { get; set; }
@@ -334,7 +335,7 @@ namespace MemberSite.Service.Model
     public class BuyChineseZodiacStickerReq
     {
         [JsonPropertyName("stickerid")]
-        public int StickerId { get; set; }
+        public ChineseZodiacStickerId StickerId { get; set; }
     }
     
     public class BuyChineseZodiacStickerResponse
@@ -348,7 +349,7 @@ namespace MemberSite.Service.Model
         public int CustId { get; set; }
         public string TicketNo { get; set; }
         public int RoundId { get; set; }
-        public int StickerId { get; set; }
+        public ChineseZodiacStickerId StickerId { get; set; }
         public int Type { get; set; }
     }
 
@@ -361,6 +362,19 @@ namespace MemberSite.Service.Model
         public string Memo { get; set; }
     }
     
+    public class LotteryMaintain
+    {
+        public bool IsMaintain { get; set; }
+    }
+    
+    public class LotteryMaintainModel
+    {
+        public DateTime BeginDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public bool IsMaintain { get; set; }
+        public string UpdateUser { get; set; }
+    }
+    
     public class LotteryInfo
     {
         public LotteryEventDraw LotteryRoundInfo { get; set; }
@@ -370,6 +384,7 @@ namespace MemberSite.Service.Model
         public decimal TurnoverGoal { get; set; }
         public decimal CustTurnoverProccessing { get; set; }
         public decimal CustTurnoverSummary { get; set; }
+        public decimal JackpotAmount { get; set; }
     }
     
     public class LotteryEventDrawTurnOverSetting
@@ -390,7 +405,7 @@ namespace MemberSite.Service.Model
         public string ThirdPrize { get; set; }
         public string ConsolationPrize { get; set; }
         public string SmallPrize { get; set; }
-        public int StickerId { get; set; }
+        public ChineseZodiacStickerId StickerId { get; set; }
         public DateTime CreateTime { get; set; }
         private DateTimeOffset _startDate { get; set; }
         public DateTimeOffset StartDate
@@ -421,7 +436,7 @@ namespace MemberSite.Service.Model
         public List<string> ThirdPrize { get; set; }
         public List<string> ConsolationPrize { get; set; }
         public List<string> SmallPrize { get; set; }
-        public int StickerId { get; set; }
+        public ChineseZodiacStickerId StickerId { get; set; }
     }
     
     public class GetLotteryRoundListResponse
@@ -448,10 +463,15 @@ namespace MemberSite.Service.Model
             set => _endDate = new DateTimeOffset(value.DateTime, new TimeSpan(8, 0, 0));
         }
         public string PrizeName { get; set; }
-        public int StickerId { get; set; }
+        public ChineseZodiacStickerId StickerId { get; set; }
         public int Jackpot { get; set; }
     }
     
+    public class DrawPrizeJackpotAccumulation
+    {
+        public int PrizeId { get; set; }
+        public int JackpotAmount { get; set; }
+    }
     
     #endregion
 }

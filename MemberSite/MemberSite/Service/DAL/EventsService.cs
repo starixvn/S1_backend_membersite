@@ -511,7 +511,7 @@ namespace MemberSite.Service.DAL
             p.Add("CustId", request.CustId, dbType: DbType.Int32);
             p.Add("TicketNo", request.TicketNo , dbType: DbType.String);
             p.Add("RoundId", request.RoundId , dbType: DbType.Int32);
-            p.Add("StickerId", request.StickerId , dbType: DbType.Int32);
+            p.Add("StickerId", (int)request.StickerId , dbType: DbType.Int32);
             p.Add("StickerAmount", stickerPrize , dbType: DbType.Decimal);
             p.Add("Type", request.Type , dbType: DbType.Int32);
             
@@ -578,6 +578,13 @@ namespace MemberSite.Service.DAL
             p.Add("_SiteId", siteId, dbType: DbType.Int32);
             p.Add("_RoundId", roundId, dbType: DbType.Int32);
             return _reportDbClient.Query<CurrentLotteryWinnerList>("Member_LotteryTicketHistory_Get" , p);
+        }
+        
+        public DrawPrizeJackpotAccumulation GetDrawPrizeJackpotAccumulation(int eventId)
+        {
+            var p = new DynamicParameters();
+            p.Add("_EventId", eventId, dbType: DbType.Int32);
+            return _reportDbClient.QueryFirst<DrawPrizeJackpotAccumulation>("Service_DrawPrizeJackpotAccumulation_Get" , p);
         }
         
         #endregion
