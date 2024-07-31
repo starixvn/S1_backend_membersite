@@ -923,6 +923,39 @@ namespace MemberSite.Controllers.Api
 
         #region Lottery
         
+        [HttpPost]
+        public async Task<ApiResult<LotteryMaintain>> GetLotteryMaintain()
+        {
+            var apiResult = new ApiResult<LotteryMaintain>
+            {
+                Data = new LotteryMaintain()
+            };
+            
+            var serverInfo = _serverInfoBll.GetServerInfo();
+            var key = $"LotteryMaintain:{serverInfo.SiteId}";
+            
+            var exists = await _redisHelper.KeyExistsAsync(key , RedisDataBase.Shared);
+
+            if (exists)
+            {
+                var dataString = _redisHelper.StringGet(key , RedisDataBase.Shared);
+                var data = JsonConvert.DeserializeObject<LotteryMaintainModel>(dataString);
+                var now = DateTime.UtcNow;
+                
+                if (data.IsMaintain 
+                    && now >= data.BeginDate
+                    && now <= data.EndDate)
+                {
+                    apiResult.Data.IsMaintain = true;
+                }
+              
+            }
+
+            apiResult.ErrorCode = (int)ErrorCode.Success;   
+            return apiResult;
+            
+        }
+        
         [Authorize]
         [HttpPost]
         public ApiResult<LotteryInfo> GetLotteryInfo()

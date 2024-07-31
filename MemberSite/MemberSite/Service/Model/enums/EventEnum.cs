@@ -5,7 +5,7 @@
         Rat = 1,
         Ox = 2,
         Tiger = 3,
-        Rabbit = 4,
+        Cat = 4,
         Dragon = 5,
         Snake = 6,
         Horse = 7,

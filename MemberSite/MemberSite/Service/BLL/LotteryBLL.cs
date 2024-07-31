@@ -27,7 +27,8 @@ namespace MemberSite.Service.BLL
                 LotteryTierList = null,
                 TicketNo = null,
                 CustTurnoverProccessing = 0,
-                CustTurnoverSummary = 0
+                CustTurnoverSummary = 0,
+                JackpotAmount = 0
             };
             
             var lotteryRoundInfo = GetLotteryRoundInfo(siteId, DateTimeOffset.UtcNow.ToOffset(TimeSpan.FromHours(8)).DateTime);
@@ -58,12 +59,15 @@ namespace MemberSite.Service.BLL
             var turnoverSummary = _eventsService.GetCustLotteryTurnOverSummary(custId, lotteryRoundInfo.StartDate.UtcDateTime, lotteryRoundInfo.EndDate.UtcDateTime);
             var proccessing = turnoverSummary - setting.TurnOver * custTicketList.Count;
             
+            var jackpotAccumulation = _eventsService.GetDrawPrizeJackpotAccumulation(lotteryRoundInfo.EventId);
+            
             lotteryInfo.LotteryRoundInfo = lotteryRoundInfo;
             lotteryInfo.LotteryTierList = tierCurrencyList;
             lotteryInfo.TicketNo = custTicketList;
             lotteryInfo.CustTurnoverSummary = turnoverSummary;
             lotteryInfo.CustTurnoverProccessing = proccessing;
             lotteryInfo.TurnoverGoal = setting.TurnOver;
+            lotteryInfo.JackpotAmount = jackpotAccumulation.JackpotAmount;
             errorCode = 0;
             
             return (lotteryInfo , errorCode);
@@ -193,7 +197,7 @@ namespace MemberSite.Service.BLL
             return list;
         }
 
-        public async Task<int> BuyChineseZodiacSticker(Customer custInfo,int roundId,int stickerId,decimal stickerPrize)
+        public async Task<int> BuyChineseZodiacSticker(Customer custInfo,int roundId,ChineseZodiacStickerId stickerId,decimal stickerPrize)
         {
             var custLotteryTicketRequest = new CustLotteryTicketInsertRequest
             {
