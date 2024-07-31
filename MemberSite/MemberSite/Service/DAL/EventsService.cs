@@ -511,13 +511,14 @@ namespace MemberSite.Service.DAL
             return _reportDbClient.QueryFirst<LotteryEventDraw>("Service_LotteryEventDrawSetting_Get", p);
         }
         
-        public int InsertCustLotteryTicket(CustLotteryTicketInsertRequest request)
+        public int InsertCustLotteryTicket(CustLotteryTicketInsertRequest request ,decimal stickerPrize)
         {
             var p = new DynamicParameters();
             p.Add("CustId", request.CustId, dbType: DbType.Int32);
             p.Add("TicketNo", request.TicketNo , dbType: DbType.String);
             p.Add("RoundId", request.RoundId , dbType: DbType.Int32);
             p.Add("StickerId", request.StickerId , dbType: DbType.Int32);
+            p.Add("StickerAmount", stickerPrize , dbType: DbType.Decimal);
             p.Add("Type", request.Type , dbType: DbType.Int32);
             
             var result = _mainDbClient.Execute("Service_CustLotteryTicket_Ins", p);

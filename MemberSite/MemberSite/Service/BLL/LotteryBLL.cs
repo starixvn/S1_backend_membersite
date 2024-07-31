@@ -204,7 +204,7 @@ namespace MemberSite.Service.BLL
                 Type = 2
             };
             
-            var insertResult = _eventsService.InsertCustLotteryTicket(custLotteryTicketRequest);
+            var insertResult = _eventsService.InsertCustLotteryTicket(custLotteryTicketRequest ,stickerPrize);
 
             if (insertResult != 1)
             {
