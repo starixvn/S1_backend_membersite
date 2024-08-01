@@ -2,10 +2,7 @@
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 
-using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-
-using Org.BouncyCastle.Ocsp;
 
 namespace MemberSite.Controllers.Api
 {
