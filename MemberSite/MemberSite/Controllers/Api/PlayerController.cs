@@ -65,7 +65,12 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public async Task<ApiResult<IEnumerable<string>>> GetCustNotification(CustNotificationReq req)
         {
-            var apiResult = new ApiResult<IEnumerable<string>>();
+            var apiResult = new ApiResult<IEnumerable<string>>
+            {
+                Data = new List<string>(),
+                ErrorCode = (int)ErrorCode.Success
+            };
+
             try
             {
 
@@ -73,13 +78,13 @@ namespace MemberSite.Controllers.Api
                 if (authData is { CustId: > 0 })
                 {
                     apiResult.Data = await _custNotificationBLL.GetCustNotification((int)req.NotificationType, authData.CustId);
-                    apiResult.ErrorCode = (int)ErrorCode.Success;
                 }
             }
             catch (Exception e)
             {
                 _logger.LogError(e, e.Message);
             }
+
             return apiResult;
         }
 
@@ -89,7 +94,6 @@ namespace MemberSite.Controllers.Api
             var apiResult = new ApiResult<int>();
             try
             {
-
                 var authData = _authorizeBll.GetAuthData();
                 if (authData is { CustId: > 0 })
                 {
@@ -102,6 +106,7 @@ namespace MemberSite.Controllers.Api
             {
                 _logger.LogError(e, e.Message);
             }
+
             return apiResult;
         }
     }
