@@ -11,7 +11,7 @@ namespace MemberSite.Service.DAL
 
         public InternalService(IServiceProvider serviceProvider)
         {
-            _reportDbClient = serviceProvider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.ReportBackupDB);
+            _reportDbClient = serviceProvider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
         }
         
         public Task<IEnumerable<HotEventInfo>> GetHotEventDataList(int siteId)
