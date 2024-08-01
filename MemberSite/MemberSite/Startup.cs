@@ -196,6 +196,8 @@ namespace MemberSite
             services.AddSingleton<CryptoHelper>();
             services.AddSingleton<QuestionnaireBLL>();
             services.AddSingleton<FaceBookPixelBLL>();
+            services.AddSingleton<CustNotificationBLL>();
+
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();
 
