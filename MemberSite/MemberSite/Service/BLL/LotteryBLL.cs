@@ -20,6 +20,7 @@ namespace MemberSite.Service.BLL
         
         public ( LotteryInfo, int) GetLotteryInfo(int siteId , int custId , int currencyId)
         {
+            var eventId = 21;
             int errorCode;
             var lotteryInfo = new LotteryInfo
             {
@@ -59,7 +60,7 @@ namespace MemberSite.Service.BLL
             var turnoverSummary = _eventsService.GetCustLotteryTurnOverSummary(custId, lotteryRoundInfo.StartDate.UtcDateTime, lotteryRoundInfo.EndDate.UtcDateTime);
             var proccessing = turnoverSummary - setting.TurnOver * custTicketList.Count;
             
-            var jackpotAccumulation = _eventsService.GetDrawPrizeJackpotAccumulation(lotteryRoundInfo.EventId);
+            var jackpotAccumulation = _eventsService.GetDrawPrizeJackpotAccumulation(eventId);
             
             lotteryInfo.LotteryRoundInfo = lotteryRoundInfo;
             lotteryInfo.LotteryTierList = tierCurrencyList;

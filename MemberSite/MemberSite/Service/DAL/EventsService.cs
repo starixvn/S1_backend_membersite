@@ -496,10 +496,12 @@ namespace MemberSite.Service.DAL
         
         public IEnumerable<RaffleTicketStickerSetting> GetRaffleTicketStickerSetting(int siteId)
         {
+            var time = DateTime.UtcNow.AddHours(8);
             var p = new DynamicParameters();
             p.Add("_SiteId", siteId, dbType: DbType.Int32);
+            p.Add("_Time", time, dbType: DbType.DateTime);
             
-            return _reportDbClient.Query<RaffleTicketStickerSetting>("Admin_RaffleTicketSticker_Get", p);
+            return _reportDbClient.Query<RaffleTicketStickerSetting>("Service_RaffleTicketStickerSetting_Get", p);
         }
 
         public LotteryEventDraw GetLotteryEventDrawSetting(int siteId, DateTime nowTime)
