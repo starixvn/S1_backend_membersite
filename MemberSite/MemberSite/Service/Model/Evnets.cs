@@ -297,7 +297,6 @@ namespace MemberSite.Service.Model
 
     public class LotteryEventDraw
     {
-        public int EventId { get; set; }
         public int RoundId { get; set; }
         private DateTimeOffset _startDate { get; set; }
         public DateTimeOffset StartDate
