@@ -96,7 +96,7 @@ namespace MemberSite.Service.DAL
 
         public int SetDepositReceipt(int custId, int depositId, string refNo, long depositTime)
         {
-            return _mainDbClient.Execute("DepositReceipt_Set", new { CustId = custId, DepositId = depositId, RefNo = refNo, DepositTime = depositTime });
+            return _mainDbClient.Execute("DepositReceipt_Set_V2", new { CustId = custId, DepositId = depositId, RefNo = refNo, DepositTime = depositTime });
         }
 
         public async Task<int> SetDepositReceiptPic(int custId, int depositId, int receiptNo, string picFileName, string userName)
