@@ -20,7 +20,7 @@ namespace MemberSite.Controllers.Api
         private readonly AuthorizeBLL _authorizeBLL;
         private readonly CustInfoBll _custInfoBLL;
         private readonly StoreBLL _storeBLL;
-        private readonly ILogger<PromotionController> _logger;
+        private readonly ILogger<StoreController> _logger;
 
         public StoreController(IServiceProvider provider)
         {
@@ -29,7 +29,7 @@ namespace MemberSite.Controllers.Api
             _authorizeBLL = provider.GetRequiredService<AuthorizeBLL>();
             _custInfoBLL = provider.GetRequiredService<CustInfoBll>();
             _storeBLL = provider.GetRequiredService<StoreBLL>();
-            _logger = provider.GetRequiredService<ILogger<PromotionController>>();
+            _logger = provider.GetRequiredService<ILogger<StoreController>>();
         }
 
         [HttpPost]
