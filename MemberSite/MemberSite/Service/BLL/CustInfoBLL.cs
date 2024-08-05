@@ -366,6 +366,12 @@ namespace MemberSite.Service.BLL
             return _custInfoService.InsertCustBankInfo(custId, custInfo.SiteId, accountName, sysId, accountNum, iFSCCode, status) ? 0 : -1;
         }
 
+        public int SetCustSetting(int custId,int financeNotification, int lastDepositMode)
+        {
+            var custInfo = GetCustInfoWithCache(custId);
+            return _custInfoService.SetCustSetting(custId, custInfo.SiteId, financeNotification, lastDepositMode) ? 0 : -1;
+        }
+
         public int SetCustUSDTInfo(int custId, string accountName, IEnumerable<CryptoWalletDetail> uSDTInfo, IEnumerable<CryptoWalletDetailLog> uSDTInfoLog)
         {
             var custInfo = GetCustInfoWithCache(custId);
