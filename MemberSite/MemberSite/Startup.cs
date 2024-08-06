@@ -114,6 +114,7 @@ namespace MemberSite
             services.AddTransient<QueueJobService>();
             services.AddTransient<RedemptionService>();
             services.AddSingleton<CommonService>();
+            services.AddTransient<InternalService>();
 
             services.AddSingleton<IPService>();
             services.AddSingleton<ShieldService>();
@@ -178,6 +179,7 @@ namespace MemberSite
             services.AddTransient<DateTimeHelper>();
             services.AddTransient<IAnnouncementBLL, AnnouncementBLL>();
             services.AddTransient<IOlympicEventBLL, OlympicEventBLL>();
+            services.AddTransient<InternalBLL>();
 
             services.AddTransient<IHotGameBLL, HotGameBLL>();
             services.AddTransient<BigWinBLL>();
