@@ -23,9 +23,6 @@ public class PayInfoLocalizeBLL
         var pgNames = GetPayGroupNameWithCache()
             .Where(x => x.Lang.Equals(lang, StringComparison.OrdinalIgnoreCase));
 
-        if (!pgNames.Any())
-            return pgList;
-
         foreach (var pg in pgList)
         {
             pg.DisplayGroupName = pgNames
@@ -39,9 +36,6 @@ public class PayInfoLocalizeBLL
     {
         var pcNames = GetPayChannelNameWithCache()
             .Where(x => x.Lang.Equals(lang, StringComparison.OrdinalIgnoreCase));
-
-        if (!pcNames.Any())
-            return pcList;
 
         foreach (var pc in pcList)
         {

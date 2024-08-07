@@ -106,15 +106,16 @@ public class OlympicEventBLL : IOlympicEventBLL
         int prizeId;
         string bonusCode;
         var olympicPrize = new Prize();
-        var id = 10000;
+        int id;
         
         //獲取EventId及BonusCode
         var currencyBonusAmountList = GetOlympicsList();
+        _logger.LogInformation($"Step 1 : GetOlympicsList : {currencyBonusAmountList}");
         if (!string.IsNullOrEmpty(currencyBonusAmountList))
         {
             var getCurrencyAmount = JObject.Parse(currencyBonusAmountList);
-            bonusCode = (string)getCurrencyAmount["olympicsBonusCode"]?[usedGoldMetalCount.ToString()];
-            prizeId = (int)getCurrencyAmount[currencyId.ToString()]?[usedGoldMetalCount.ToString()];
+            bonusCode = (string)getCurrencyAmount["olympicsBonusCode"]?[siteId.ToString()]?[usedGoldMetalCount.ToString()];
+            id = (int)getCurrencyAmount["olympicsTableSQ"]?["custEggTicket"];
             
             var eventId = siteId switch
             {
@@ -123,8 +124,33 @@ public class OlympicEventBLL : IOlympicEventBLL
                 3 => 20,
                 _ => 0
             };
+
             var prizesList = await _eventsService.GetPrizes(eventId, currencyId);
+            
+            _logger.LogInformation($"Step 2 : GetPrizes : {JsonConvert.SerializeObject(prizesList)}");
+
+            var suffix = eventId switch
+            {
+                19 => "G",
+                20 => "B",
+                _ => string.Empty
+            };
+
+            if (string.IsNullOrEmpty(suffix))
+            {
+                var sitePrizeId = currencyId.ToString();
+                prizeId = (int?)getCurrencyAmount[sitePrizeId]?[usedGoldMetalCount.ToString()] ?? 0;
+            }
+            else
+            {
+                var sitePrizeId = currencyId + suffix;
+                prizeId = (int?)getCurrencyAmount[sitePrizeId]?[usedGoldMetalCount.ToString()] ?? 0;
+            }
+
             olympicPrize = prizesList.FirstOrDefault(x => x.PrizeId == prizeId);
+            
+            _logger.LogInformation($"Step 2.5 : bonusCode : {bonusCode} , id : {id} , prizeId : {prizeId}, ");
+            
         }
         else
         {
@@ -137,7 +163,10 @@ public class OlympicEventBLL : IOlympicEventBLL
         
         //金牌數不足不發 前端可能會擋 後端在擋一次
         var eggTicket = await _newYear2024Bll.GetEggTicketData(custId);
+        _logger.LogInformation($"Step 3 : GetEggTicketData : {JsonConvert.SerializeObject(eggTicket)}");
+        
         var eggTicketCanUse = eggTicket.Where(x => x.IsUsed == 0 && x.MissionDate.Contains("Olympic2024")).ToList();
+        _logger.LogInformation($"Step 4 : eggTicketCanUse : {JsonConvert.SerializeObject(eggTicketCanUse)}");
         if (eggTicketCanUse.Count < usedGoldMetalCount)
         {
             return new ClaimOlympicEventPrizeResponse()
@@ -163,6 +192,7 @@ public class OlympicEventBLL : IOlympicEventBLL
         //     DeviceType = deviceType
         // };
         
+        _logger.LogInformation($"Step 5 : Write Insert Log ");
         var bonusRequest = new BonusPayoutRequest
         {
             CustId = custId,
@@ -197,7 +227,8 @@ public class OlympicEventBLL : IOlympicEventBLL
                 AfterDetailInfo = JsonConvert.SerializeObject(detailInfo),
                 RefTransId = string.Empty
             });
-
+        
+        _logger.LogInformation($"Step 6 : Write Insert Log Success? : {logResult}");
         if (!logResult)
         {
             result.ErrorCode = 456;
@@ -227,7 +258,9 @@ public class OlympicEventBLL : IOlympicEventBLL
         #region Set Used GoldMedal
         
         var getGoldMedalIdList = GetGoldMedalIdSqlInClause(eggTicket, usedGoldMetalCount);
+        _logger.LogInformation($"Step 7 : getGoldMedalIdList : {getGoldMedalIdList}");
         var setUsedGoldMedal = _eventsService.OlympicsEventGoldMetalSet(id, custId, getGoldMedalIdList);
+        _logger.LogInformation($"Step 8 : getGoldMedalIdList : {setUsedGoldMedal}");
         
         //先塞DrawLog 後續再看怎樣
         if (setUsedGoldMedal == (int)ErrorCode.Success)
@@ -241,6 +274,8 @@ public class OlympicEventBLL : IOlympicEventBLL
                 custId,
                 currencyId
             );
+            
+            _logger.LogInformation($"Step 8 : OlympicsEventDrawLogIns : {insertLog}");
 
             if (insertLog == 1)
             {
@@ -269,23 +304,15 @@ public class OlympicEventBLL : IOlympicEventBLL
 
     public string GetOlympicsList()
     {
-        var olympicsBonusAmountKey = $"Olympic2024BonusAmount";
+        var olympicsBonusAmountKey = $"Olympic2024Information";
         var olympicsBonusAmount = _redisHelper.StringGet(olympicsBonusAmountKey);
         return olympicsBonusAmount;
     }
 
     private bool CheckCustVerifyStatus(int siteId, CustInfoProfile custInfo)
     {
-        var status = false;
-        switch (siteId)
-        {
-            case 1 or 2:
-                if (custInfo.PhoneVerified && custInfo.EmailVerified) status = true;
-                break;
-            case 3:
-                status = true;
-                break;
-        }
+        //全驗證
+        var status = custInfo.PhoneVerified && custInfo.EmailVerified;
         return status;
     }
     
@@ -339,13 +366,24 @@ public class OlympicEventBLL : IOlympicEventBLL
         var SpName = "Service_Olympic_TpBetRecord_Get";
         var tpId = Tp.SBSW;
         var gameType = "69";
-        var sq = 1111;
+        // PRD
+        //var sq = 35250610;
+        var sq = 35250610;
         //Defaul Result
         var result = 0;
+        DateTime startTime = default;
+        DateTime endTime = default;
         
-        //先寫死 後續看怎拿
-        var startTime = DateTime.Parse("2024-05-01 00:00:00");
-        var endTime = DateTime.Parse("2024-07-31 00:00:00");
+        //sbswTableSQ & olympicsStartTime
+        var currencyBonusAmountList = GetOlympicsList();
+        if (!string.IsNullOrEmpty(currencyBonusAmountList))
+        {
+            var getCurrencyAmount = JObject.Parse(currencyBonusAmountList);
+            sq = (int)getCurrencyAmount["olympicsTableSQ"]?["sbswBet"];
+            startTime = DateTime.Parse((string)getCurrencyAmount["olympicsTime"]?["olympicsStartTime"] ?? "2024-07-15 00:00:00");
+            endTime = DateTime.Parse((string)getCurrencyAmount["olympicsTime"]?["olympicsEndTime"] ?? "2024-08-16 00:00:00");
+        }
+
 
         var p = new
         {
@@ -401,8 +439,8 @@ public class OlympicEventBLL : IOlympicEventBLL
             //查看注單也有別的關鍵詞 改用Regex匹配 要不然SABA那邊有改會錯
             //TODO : Dev Add TESTING賽事 RLS前要砍掉
             result = getSportBet
-                .Where(bet => Regex.IsMatch(bet.leagueName_en, @"\bOlympics\b.*\b2024\b", RegexOptions.IgnoreCase) 
-                              || Regex.IsMatch(bet.leagueName_en, @"\bTESTING\b", RegexOptions.IgnoreCase))
+                .Where(bet => Regex.IsMatch(bet.leagueName_en, @"\bOlympics\b.*\b2024\b", RegexOptions.IgnoreCase))
+                              //|| Regex.IsMatch(bet.leagueName_en, @"\bTESTING\b", RegexOptions.IgnoreCase))
                 .Select(bet => bet.txId).ToList();
         }
         return result;
@@ -413,7 +451,9 @@ public class OlympicEventBLL : IOlympicEventBLL
         var sbswBetDataSet = new HashSet<string>(getSBSWBetData);
         var totalValidBet = getTpBetRecordData
             .Where(record => sbswBetDataSet.Contains(record.TransId))
+            //PRD
             .Sum(record => record.ValidBet ?? 0);
+            //Dev
             //.Sum(record => record.Stake);
         
         return totalValidBet;
