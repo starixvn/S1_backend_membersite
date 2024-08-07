@@ -143,6 +143,7 @@ namespace MemberSite
             services.AddSingleton<PaymentBLL>();
             services.AddSingleton<ThirdPartyBll>();
             services.AddSingleton<MessageBll>();
+            services.AddSingleton<LotteryBLL>();
             services.AddSingleton<PromotionBll>();
             services.AddSingleton<RedemptionBLL>();
             services.AddSingleton<StoreBLL>();
@@ -195,6 +196,8 @@ namespace MemberSite
             services.AddSingleton<CryptoHelper>();
             services.AddSingleton<QuestionnaireBLL>();
             services.AddSingleton<FaceBookPixelBLL>();
+            services.AddSingleton<CustNotificationBLL>();
+
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();
 

@@ -4,7 +4,7 @@
     {
         Success = 0,
         Fail = -1,
-        Attack = -96,
+        Attack = -97,
         SystemException = 999,
     }
 }

@@ -1,4 +1,5 @@
-﻿using MemberSite.Service.Model.enums;
+﻿using System.Text.Json.Serialization;
+using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.Model
 {
@@ -275,5 +276,208 @@ namespace MemberSite.Service.Model
     }
 
     #endregion
+    
+    #region Lottery
+    
+    public class GetChineseZodiacStickerResponse
+    {
+        public ChineseZodiacStickerId StickerId { get; set; }
+        public decimal StickerPrize { get; set; }
+        public bool CanBuy { get; set; }
+    }
+    
+    public class RaffleTicketStickerSetting
+    {
+        public int SiteId { get; set; }
+        public int CurrencyId { get; set; }
+        public decimal StickerPrize { get; set; }
+        public decimal TurnOver { get; set; }
+    }
 
+    public class LotteryEventDraw
+    {
+        public int SiteId { get; set; }
+        public int RoundId { get; set; }
+        private DateTimeOffset _startDate { get; set; }
+        public DateTimeOffset StartDate
+        {
+            get => _startDate;
+            set => _startDate = new DateTimeOffset(value.DateTime, new TimeSpan(8, 0, 0));
+        }
+        private DateTimeOffset _endDate { get; set; }
+        public DateTimeOffset EndDate
+        {
+            get => _endDate;
+            set => _endDate = new DateTimeOffset(value.DateTime, new TimeSpan(8, 0, 0));
+        }
+        private DateTimeOffset _drawDate { get; set; }
+        public DateTimeOffset DrawDate
+        {
+            get => _drawDate;
+            set => _drawDate = new DateTimeOffset(value.DateTime, new TimeSpan(8, 0, 0));
+        }
+        public int Status { get; set; }
+    }
+
+    public class CustLotteryTicket
+    {
+        public int SQ { get; set; }
+        public int CustId { get; set; }
+        public int RoundId { get; set; }
+        public string TicketNo { get; set; }
+        public ChineseZodiacStickerId StickerId { get; set; }
+        public int Type { get; set; }
+        public LotteryPrizeCategory LotteryPrizeCategory { get; set; }
+        public DateTime CreateTime { get; set; }
+    }
+    
+    public class BuyChineseZodiacStickerReq
+    {
+        [JsonPropertyName("stickerid")]
+        public ChineseZodiacStickerId StickerId { get; set; }
+    }
+    
+    public class BuyChineseZodiacStickerResponse
+    {
+        public int ErrorCode { get; set;}
+        public string Message { get; set;}
+    }
+
+    public class CustLotteryTicketInsertRequest
+    {
+        public int CustId { get; set; }
+        public string TicketNo { get; set; }
+        public int RoundId { get; set; }
+        public ChineseZodiacStickerId StickerId { get; set; }
+        public int Type { get; set; }
+    }
+
+    public class BuyZodiacStickerRequest
+    {
+        public int SiteId { get; set; }
+        public int CustId { get; set; }
+        public string UserName { get; set; }
+        public decimal StickerPrize { get; set; }
+        public string Memo { get; set; }
+    }
+    
+    public class LotteryMaintain
+    {
+        public bool IsMaintain { get; set; }
+    }
+    
+    public class LotteryMaintainModel
+    {
+        public DateTime BeginDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public bool IsMaintain { get; set; }
+        public string UpdateUser { get; set; }
+    }
+    
+    public class LotteryInfo
+    {
+        public LotteryEventDraw LotteryRoundInfo { get; set; }
+        public List<LotteryEventDrawTurnOverSetting> LotteryTierList { get; set; }
+        public List<string> TicketNo { get; set; }
+        public int TicketCount => TicketNo.Count;
+        public decimal TurnoverGoal { get; set; }
+        public decimal CustTurnoverProccessing { get; set; }
+        public decimal CustTurnoverSummary { get; set; }
+        public decimal JackpotAmount { get; set; }
+    }
+    
+    public class LotteryEventDrawTurnOverSetting
+    {
+        public int SiteId { get; set; }
+        public int CurrencyId { get; set; }
+        public int Level { get; set; }
+        public decimal TurnOverStart { get; set; }
+        public decimal TurnOverEnd { get; set; }
+    }
+    
+    public class LotteryWinnerData
+    {
+        public int SiteId { get; set; }
+        public int RoundId { get; set; }
+        public string FirstPrize { get; set; }
+        public string SecondPrize { get; set; }
+        public string ThirdPrize { get; set; }
+        public string ConsolationPrize { get; set; }
+        public string SmallPrize { get; set; }
+        public ChineseZodiacStickerId StickerId { get; set; }
+        public DateTime CreateTime { get; set; }
+        private DateTimeOffset _startDate { get; set; }
+        public DateTimeOffset StartDate
+        {
+            get => _startDate;
+            set => _startDate = new DateTimeOffset(value.DateTime, new TimeSpan(8, 0, 0));
+        }
+        private DateTimeOffset _endDate { get; set; }
+        public DateTimeOffset EndDate
+        {
+            get => _endDate;
+            set => _endDate = new DateTimeOffset(value.DateTime, new TimeSpan(8, 0, 0));
+        }
+        private DateTimeOffset _drawDate { get; set; }
+        public DateTimeOffset DrawDate
+        {
+            get => _drawDate;
+            set => _drawDate = new DateTimeOffset(value.DateTime, new TimeSpan(8, 0, 0));
+        }
+    }
+    
+    public class GetLotteryWinnerListRequest
+    {
+        public int SiteId { get; set; }
+        public int RoundId { get; set; }
+    }
+    
+    public class GetCurrentLotteryWinnerListResponse
+    {
+        public int SiteId { get; set; }
+        public int RoundId { get; set; }
+        public List<string> FirstPrize { get; set; }
+        public List<string> SecondPrize { get; set; }
+        public List<string> ThirdPrize { get; set; }
+        public List<string> ConsolationPrize { get; set; }
+        public List<string> SmallPrize { get; set; }
+        public ChineseZodiacStickerId StickerId { get; set; }
+    }
+    
+    public class GetLotteryRoundListResponse
+    {
+        public int SiteId { get; set; }
+        public int RoundId { get; set; }
+        public DateTimeOffset StartDate { get; set; }
+        public DateTimeOffset EndDate { get; set; }
+        public DateTimeOffset DrawDate { get; set; }
+    }
+    
+    public class GetCustLotteryWinningResponse
+    {
+        public int RoundId { get; set; }
+        private DateTimeOffset _startDate { get; set; }
+        public DateTimeOffset StartDate
+        {
+            get => _startDate;
+            set => _startDate = new DateTimeOffset(value.DateTime, new TimeSpan(8, 0, 0));
+        }
+        private DateTimeOffset _endDate { get; set; }
+        public DateTimeOffset EndDate
+        {
+            get => _endDate;
+            set => _endDate = new DateTimeOffset(value.DateTime, new TimeSpan(8, 0, 0));
+        }
+        public string PrizeName { get; set; }
+        public ChineseZodiacStickerId StickerId { get; set; }
+        public int Jackpot { get; set; }
+    }
+    
+    public class DrawPrizeJackpotAccumulation
+    {
+        public int PrizeId { get; set; }
+        public int JackpotAmount { get; set; }
+    }
+    
+    #endregion
 }

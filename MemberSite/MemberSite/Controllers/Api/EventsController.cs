@@ -3,11 +3,9 @@ using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -24,24 +22,29 @@ namespace MemberSite.Controllers.Api
         private readonly ICacheHelper _redisHelper;
         private readonly CustInfoBll _custInfoBll;
         private readonly NewYear2024BLL _newYear2024Bll;
+        private readonly WalletBLL _walletBll;
         private readonly SelLangBLL _selLangBll;
         private readonly ServerInfoBll _serverInfoBll;
         private readonly MessageBll _messageBll;
+        private readonly LotteryBLL _lotteryBll;
         private readonly DateTimeHelper _dateTimeHelper;
         private readonly IOlympicEventBLL _olympicEventBll;
         private readonly ILogger<EventsController> _logger;
         private readonly QueueJobBLL _queueJobBll;
-
-        public EventsController(IServiceProvider provider)
+        
+        public EventsController(IServiceProvider provider, LotteryBLL lotteryBll)
         {
+            _lotteryBll = lotteryBll;
             _authorizeBll = provider.GetRequiredService<AuthorizeBLL>();
             _eventsBll = provider.GetRequiredService<EventsBLL>();
             _angPaoBll = provider.GetRequiredService<IAngPaoBLL>();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
+            _walletBll = provider.GetRequiredService<WalletBLL>();
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _selLangBll = provider.GetRequiredService<SelLangBLL>();
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
             _messageBll = provider.GetRequiredService<MessageBll>();
+            _lotteryBll = provider.GetRequiredService<LotteryBLL>();
             _olympicEventBll = provider.GetRequiredService<IOlympicEventBLL>();
             _logger = provider.GetRequiredService<ILogger<EventsController>>();
             _dateTimeHelper = provider.GetRequiredService<DateTimeHelper>();
@@ -915,6 +918,270 @@ namespace MemberSite.Controllers.Api
         }
 
         #endregion
+
+        #endregion
+
+        #region Lottery
+        
+        [HttpPost]
+        public async Task<ApiResult<LotteryMaintain>> GetLotteryMaintain()
+        {
+            var apiResult = new ApiResult<LotteryMaintain>
+            {
+                Data = new LotteryMaintain()
+            };
+            
+            var serverInfo = _serverInfoBll.GetServerInfo();
+            var key = $"LotteryMaintain:{serverInfo.SiteId}";
+            
+            var exists = await _redisHelper.KeyExistsAsync(key , RedisDataBase.Shared);
+
+            if (exists)
+            {
+                var dataString = _redisHelper.StringGet(key , RedisDataBase.Shared);
+                var data = JsonConvert.DeserializeObject<LotteryMaintainModel>(dataString);
+                var now = DateTime.UtcNow;
+                
+                if (data.IsMaintain 
+                    && now >= data.BeginDate
+                    && now <= data.EndDate)
+                {
+                    apiResult.Data.IsMaintain = true;
+                }
+              
+            }
+
+            apiResult.ErrorCode = (int)ErrorCode.Success;   
+            return apiResult;
+            
+        }
+        
+        [Authorize]
+        [HttpPost]
+        public ApiResult<LotteryInfo> GetLotteryInfo()
+        {
+            var apiResult = new ApiResult<LotteryInfo>
+            {
+                Data = new LotteryInfo()
+            };
+
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is { CustId: > 0 })
+            {
+                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+
+                var (lotteryInfo, errorCode) = _lotteryBll.GetLotteryInfo(custInfo.SiteId, authData.CustId, custInfo.CurrencyId);
+
+                switch (errorCode)
+                {
+                    case -1: 
+                        apiResult.Message = _selLangBll.GetMsg("msg_NoData");
+                        break;
+                    case -2:
+                        apiResult.Message = _selLangBll.GetMsg("msg_ThisCurrencyNotSupport");
+                        break;
+                    case -3: 
+                        apiResult.Message = _selLangBll.GetMsg("msg_ThisCurrencyNotSupport");
+                        break;
+                    case 0: 
+                        apiResult.Data = lotteryInfo;
+                        apiResult.ErrorCode = 0;
+                        break;
+                } 
+            }
+
+            return apiResult;
+        }
+        
+        [Authorize]
+        [HttpPost]
+        public ApiResult<GetCurrentLotteryWinnerListResponse> GetCurrentLotteryWinnerList(GetLotteryWinnerListRequest request)
+        {
+            var apiResult = new ApiResult<GetCurrentLotteryWinnerListResponse>
+            {
+                Data = _lotteryBll.GetCurrentLotteryWinnerList(request.SiteId, 0),
+                ErrorCode = (int) ErrorCode.Success
+            };
+            
+            return apiResult;
+        }
+        
+        [Authorize]
+        [HttpPost]
+        public ApiResult<GetCurrentLotteryWinnerListResponse> GetLotteryHistoryWinnerList(GetLotteryWinnerListRequest request)
+        {
+            var apiResult = new ApiResult<GetCurrentLotteryWinnerListResponse>
+            {
+                Data = _lotteryBll.GetCurrentLotteryWinnerList(request.SiteId, request.RoundId),
+                ErrorCode = (int) ErrorCode.Success
+            };
+            return apiResult;
+        }
+        
+        [Authorize]
+        [HttpPost]
+        public ApiResult<List<GetLotteryRoundListResponse>> GetLotteryRoundList(GetLotteryWinnerListRequest request)
+        {
+            var apiResult = new ApiResult<List<GetLotteryRoundListResponse>>
+            {
+                Data = _lotteryBll.GetLotteryRoundList(request.SiteId),
+                ErrorCode = (int) ErrorCode.Success
+            };
+            return apiResult;
+        }
+        
+        [Authorize]
+        [HttpPost]
+        public ApiResult<List<GetCustLotteryWinningResponse>> GetCustLotteryHistoryWinnerList()
+        {
+            var apiResult = new ApiResult<List<GetCustLotteryWinningResponse>>();
+            
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is { CustId: > 0 })
+            {
+                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                var result = _lotteryBll.GetCustLotteryHistoryWinnerList(custInfo.SiteId, authData.CustId, 0);
+                
+                apiResult.Data = result;
+                apiResult.ErrorCode = (int) ErrorCode.Success;
+            }
+            
+            return apiResult;
+        }
+        
+        [Authorize]
+        [HttpPost]
+        public async Task<ApiResult<GetChineseZodiacStickerResponse>> GetChineseZodiacStickerList()
+        {
+            var apiResult = new ApiResult<GetChineseZodiacStickerResponse>()
+            {
+                Data = new GetChineseZodiacStickerResponse()
+            };
+            var authData = _authorizeBll.GetAuthData();
+
+            if (authData is { CustId: > 0 })
+            {
+                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                //取當下時間的抽獎資料
+                var getLotteryDrawSetting = _lotteryBll.GetLotteryRoundInfo(custInfo.SiteId, DateTimeOffset.UtcNow.ToOffset(TimeSpan.FromHours(8)).DateTime);
+                //檢查是否買過本期貼紙
+                var getCustLotteryTicket = _lotteryBll.GetCustLotteryTicket(custInfo.CustId, getLotteryDrawSetting.RoundId, (int)LotteryTicketEnum.Sticker).ToList();
+
+                if (!getCustLotteryTicket.Any())
+                {
+                    apiResult.Data.CanBuy = true;
+                    apiResult.Data.StickerId = 0;
+                }
+                else
+                {
+                    var checkBoughtTicket = getCustLotteryTicket.FirstOrDefault(x => x.Type == (int)LotteryTicketEnum.Sticker);
+    
+                    if (checkBoughtTicket?.StickerId != 0)
+                    {
+                        apiResult.Data.CanBuy = false;
+                        apiResult.Data.StickerId = checkBoughtTicket.StickerId;
+                    }
+                    else
+                    {
+                        apiResult.Data.CanBuy = true;
+                        apiResult.Data.StickerId = 0;
+                    }
+                }
+                
+                //索取貼紙價格 因為要立即生效 不能放Redis(再討論看看)
+                var result = _lotteryBll.GetRaffleTicketStickerSetting(custInfo.SiteId);
+                var mappingData = result.FirstOrDefault(x => x.CurrencyId == custInfo.CurrencyId && x.SiteId == custInfo.SiteId);
+                
+                if (mappingData != null && mappingData.StickerPrize != 0.00m)
+                {
+                    apiResult.Data.StickerPrize = mappingData.StickerPrize;
+                }
+                else
+                {
+                    apiResult.ErrorCode = 999;
+                    apiResult.Message = _selLangBll.GetMsg("msg_ApiServerError"); 
+                }
+
+                apiResult.ErrorCode = 0;
+            }
+
+            return apiResult;
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<ApiResult> BuyChineseZodiacSticker(BuyChineseZodiacStickerReq stickerReq)
+        {
+            var apiResult = new ApiResult();
+            var authData = _authorizeBll.GetAuthData();
+
+            if (authData is not { CustId: > 0 }) return apiResult;
+            try
+            {
+                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                //取當期資料
+                var getLotteryDrawSetting = _lotteryBll.GetLotteryRoundInfo(custInfo.SiteId, DateTimeOffset.UtcNow.ToOffset(TimeSpan.FromHours(8)).DateTime);
+                
+                //檢查是否買過本期貼紙
+                var getCustLotteryTicket = _lotteryBll.GetCustLotteryTicket(custInfo.CustId, getLotteryDrawSetting.RoundId, (int)LotteryTicketEnum.Sticker).ToList();
+                if (getCustLotteryTicket.Any())
+                {
+                    var checkBoughtTicket = getCustLotteryTicket.Any(x => x.Type == (int)LotteryTicketEnum.Sticker);
+                    if (checkBoughtTicket)
+                    {
+                        apiResult.ErrorCode = 123;
+                        apiResult.Message = "The zodiac stickers have already been purchased for this period";
+                        return apiResult;
+                    }
+                }
+                
+                //取貼紙價格
+                var stickerPrizeList = _lotteryBll.GetRaffleTicketStickerSetting(custInfo.SiteId);
+                var stickerPrize = stickerPrizeList.FirstOrDefault(x => x.CurrencyId == custInfo.CurrencyId && x.SiteId == custInfo.SiteId);
+
+                if (stickerPrize == null)
+                {
+                    apiResult.ErrorCode = 9000;
+                    apiResult.Message = _selLangBll.GetMsg("msg_ApiServerError");
+                    return apiResult;
+                }
+                
+                //取用戶當下餘額
+                var custBalance = _walletBll.GetBalance(authData.CustId);
+
+                //餘額不足回傳 3 會依照當下用戶langId回傳相對應訊息
+                var checkBalance = custBalance - Math.Abs(stickerPrize.StickerPrize);
+                if (checkBalance < 0)
+                {
+                    apiResult.ErrorCode = 3;
+                    apiResult.Message = _selLangBll.GetMsg("msg_InsufficientFund");
+                    return apiResult;
+                }
+                
+                var result = await _lotteryBll.BuyChineseZodiacSticker(custInfo,getLotteryDrawSetting.RoundId,stickerReq.StickerId,stickerPrize.StickerPrize);
+                
+                apiResult.ErrorCode = result;
+                apiResult.Message = apiResult.ErrorCode switch
+                {
+                    1 => "Success",
+                    997 => "Insert failed, Please contact the operator.",
+                    998 => "Purchase failed, Please contact the operator.",
+                    999 => "Purchase failed, Please contact the operator.",
+                    _ => _selLangBll.GetMsg("msg_ApiServerError"),
+                };
+                return apiResult;
+
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "BuyChineseZodiacSticker");
+                return new ApiResult<BuyChineseZodiacStickerResponse>
+                {
+                    Message = "System Error.",
+                    ErrorCode = 9000
+                };
+            }
+        }
 
         #endregion
     }
