@@ -73,12 +73,9 @@ namespace MemberSite.Controllers.Api
             _checkAttackBll = provider.GetRequiredService<CheckAttackBLL>();
             _stringVaildHelper = provider.GetRequiredService<StringVaildHelper>();
             _checkIpBll = provider.GetRequiredService<CheckIpBLL>();
-            _checkAttackBll = provider.GetRequiredService<CheckAttackBLL>();
-            _stringVaildHelper = provider.GetRequiredService<StringVaildHelper>();
             _FPSBll = provider.GetRequiredService<FPSBLL>();
             _httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
             _commonBll = provider.GetRequiredService<CommonBLL>();
-
         }
 
         public class LoginModel
@@ -104,7 +101,7 @@ namespace MemberSite.Controllers.Api
         //[TypeFilter(typeof(PublicAuthAttribute))]
         public async Task<ApiResult> SignIn(LoginModel loginModel)
         {
-            var apiResult = new ApiResult(_selLangBll);          
+            var apiResult = new ApiResult(_selLangBll);
 
             if (!_regexUserName.IsMatch(loginModel.UserName))
             {
@@ -734,6 +731,7 @@ namespace MemberSite.Controllers.Api
                 if (long.TryParse(reSetPwdByOtpReq.PhoneNo, out var phoneNo))
                 {
                     var serverInfo = _serverInfoBll.GetServerInfo();
+
                     if (serverInfo.SiteId == (int)SiteEnum.Tuk555)
                     {
                         reSetPwdByOtpReq.Username = $"P{reSetPwdByOtpReq.AreaCode.Trim('+')}{reSetPwdByOtpReq.PhoneNo}";
