@@ -388,7 +388,7 @@ public class SiteBll
         }
 
         //tuk55註冊要帶銀行卡號相關資訊
-        if (!string.IsNullOrEmpty(signupModel.AccountNo) && string.IsNullOrEmpty(signupModel.RealName) && signupModel.SysId != 0)
+        if (!string.IsNullOrEmpty(signupModel.AccountNo) && signupModel.SysId != 0)
         {
             var bankInfoSysList = _bankInfoBll.GetBankInfoSysListByCurrencyForCtrl(signupModel.CurrencyId);
             var blockBankAccountList = _bankInfoBll.GetBlockBankAccount(signupModel.SysId, signupModel.AccountNo).ToList();
