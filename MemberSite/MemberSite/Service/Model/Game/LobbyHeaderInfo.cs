@@ -27,6 +27,8 @@ namespace MemberSite.Service.Model.Game
         public HeaderIconTypeEnum IconType { get; set; }
         public DateTime IconStartTime { get; set; }
         public DateTime IconEndTime { get; set; }
+        public string RwdHeaderPicUrl { get; set; }
+        public string RwdLobbyPicUrl { get; set; }
         public string PcHeaderPicUrl { get; set; }
         public string PcLobbyPicUrl { get; set; }
         public string MobileHeaderPicUrl { get; set; }
