@@ -1025,7 +1025,7 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<List<GetLotteryRoundListResponse>>
             {
-                Data = _lotteryBll.GetLotteryRoundList(request.SiteId , 0),
+                Data = _lotteryBll.GetLotteryRoundList(request.SiteId),
                 ErrorCode = (int) ErrorCode.Success
             };
             return apiResult;
