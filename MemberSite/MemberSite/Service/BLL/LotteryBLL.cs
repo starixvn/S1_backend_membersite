@@ -77,7 +77,7 @@ namespace MemberSite.Service.BLL
         public GetCurrentLotteryWinnerListResponse GetCurrentLotteryWinnerList(int siteId , int roundId)
         {
             var response = new GetCurrentLotteryWinnerListResponse();
-            var result = GetLotteryWinnerListCache(siteId , roundId)
+            var result = GetLotteryWinnerList(siteId , roundId)
                 .MaxBy(x=>x.CreateTime);
 
             if (result is not null)
@@ -99,16 +99,21 @@ namespace MemberSite.Service.BLL
             return response;
         }
         
-        public List<GetLotteryRoundListResponse> GetLotteryRoundList(int siteId , int roundId)
+        public List<GetLotteryRoundListResponse> GetLotteryRoundList(int siteId)
         {
-            var result = GetLotteryWinnerListCache(siteId , roundId);
-
-            var response = result.Select(x => new GetLotteryRoundListResponse 
+            var resultList = _eventsService.GetLotteryRoundList(siteId);
+            
+            // 抓drawdate + 1 month 以前全部資料
+            var checkTime = DateTimeOffset.UtcNow.ToOffset(TimeSpan.FromHours(8)).AddMonths(1).DateTime;
+            resultList = resultList.Where(x => x.DrawDate <= checkTime);
+            
+            var response = resultList.Select(x => new GetLotteryRoundListResponse 
                 {
                     SiteId = x.SiteId,
                     RoundId = x.RoundId,
                     StartDate = x.StartDate,
-                    EndDate = x.EndDate
+                    EndDate = x.EndDate,
+                    DrawDate = x.DrawDate
                 })
                 .OrderByDescending(x=>x.RoundId)
                 .ToList();
@@ -134,7 +139,7 @@ namespace MemberSite.Service.BLL
 
             var sticker = GetCustLotteryTicket(custId, roundId, (int) LotteryTicketEnum.Sticker).FirstOrDefault();
             
-            var roundList = GetLotteryWinnerListCache(siteId , roundId).ToList();
+            var roundList = GetLotteryWinnerList(siteId , roundId).ToList();
 
             foreach (var ticketData in winningTickets)
             {
@@ -178,12 +183,9 @@ namespace MemberSite.Service.BLL
                 _ => _eventsService.GetLotteryEventDrawTurnOverSetting(siteId));
         }
         
-        private IEnumerable<CurrentLotteryWinnerList> GetLotteryWinnerListCache(int siteId ,int roundId)
+        private IEnumerable<LotteryWinnerData> GetLotteryWinnerList(int siteId ,int roundId)
         {
-            var key = $"GetCurrentLotteryWinnerList_{siteId}_{roundId}";
-            return _cacheHelper.TryGetOrCreate(key,
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromHours(1)),
-                _ => _eventsService.GetCurrentLotteryWinnerList(siteId , roundId));
+            return _eventsService.GetLotteryWinnerList(siteId , roundId);
         }
         
         public IEnumerable<RaffleTicketStickerSetting> GetRaffleTicketStickerSetting(int siteId)

@@ -296,6 +296,7 @@ namespace MemberSite.Service.Model
 
     public class LotteryEventDraw
     {
+        public int SiteId { get; set; }
         public int RoundId { get; set; }
         private DateTimeOffset _startDate { get; set; }
         public DateTimeOffset StartDate
@@ -394,7 +395,7 @@ namespace MemberSite.Service.Model
         public decimal TurnOverEnd { get; set; }
     }
     
-    public class CurrentLotteryWinnerList
+    public class LotteryWinnerData
     {
         public int SiteId { get; set; }
         public int RoundId { get; set; }
@@ -416,6 +417,12 @@ namespace MemberSite.Service.Model
         {
             get => _endDate;
             set => _endDate = new DateTimeOffset(value.DateTime, new TimeSpan(8, 0, 0));
+        }
+        private DateTimeOffset _drawDate { get; set; }
+        public DateTimeOffset DrawDate
+        {
+            get => _drawDate;
+            set => _drawDate = new DateTimeOffset(value.DateTime, new TimeSpan(8, 0, 0));
         }
     }
     
@@ -443,6 +450,7 @@ namespace MemberSite.Service.Model
         public int RoundId { get; set; }
         public DateTimeOffset StartDate { get; set; }
         public DateTimeOffset EndDate { get; set; }
+        public DateTimeOffset DrawDate { get; set; }
     }
     
     public class GetCustLotteryWinningResponse

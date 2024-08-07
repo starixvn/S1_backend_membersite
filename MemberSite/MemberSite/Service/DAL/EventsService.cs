@@ -513,6 +513,14 @@ namespace MemberSite.Service.DAL
             return _reportDbClient.QueryFirst<LotteryEventDraw>("Service_LotteryEventDrawSetting_Get", p);
         }
         
+        public IEnumerable<LotteryEventDraw> GetLotteryRoundList(int siteId)
+        {
+            var p = new DynamicParameters();
+            p.Add("_SiteId", siteId, dbType: DbType.Int32);
+            
+            return _reportDbClient.Query<LotteryEventDraw>("Member_LotteryEventDraw_Get", p);
+        }
+        
         public int InsertCustLotteryTicket(CustLotteryTicketInsertRequest request ,decimal stickerPrize)
         {
             var p = new DynamicParameters();
@@ -580,12 +588,12 @@ namespace MemberSite.Service.DAL
         }
         
         //超過開獎時間才會有資料
-        public IEnumerable<CurrentLotteryWinnerList> GetCurrentLotteryWinnerList(int siteId ,int roundId)
+        public IEnumerable<LotteryWinnerData> GetLotteryWinnerList(int siteId ,int roundId)
         {
             var p = new DynamicParameters();
             p.Add("_SiteId", siteId, dbType: DbType.Int32);
             p.Add("_RoundId", roundId, dbType: DbType.Int32);
-            return _reportDbClient.Query<CurrentLotteryWinnerList>("Member_LotteryTicketHistory_Get" , p);
+            return _reportDbClient.Query<LotteryWinnerData>("Member_LotteryTicketHistory_Get" , p);
         }
         
         public DrawPrizeJackpotAccumulation GetDrawPrizeJackpotAccumulation(int eventId)
