@@ -469,7 +469,7 @@ namespace MemberSite.Service.BLL
             var custInfo = GetCustInfoWithCache(custId);
             return _redisHelper.TryGetOrCreate(
                 $"SubmittedCustPhotoId:{custId}",
-                TimeSpan.FromMinutes(1),
+                TimeSpan.FromSeconds(20),
                 () => _custInfoService.SubmittedCustPhotoId(custId, custInfo.SiteId, custInfo.CurrencyId));
         }
 
@@ -477,7 +477,7 @@ namespace MemberSite.Service.BLL
         {
             return _redisHelper.TryGetOrCreate(
                 $"CustPhotoIdToKYC:{custId}",
-                TimeSpan.FromMinutes(1),
+                TimeSpan.FromSeconds(20),
                 () => _custInfoService.GetCustPhotoIdToKYC(custId));
         }
 
