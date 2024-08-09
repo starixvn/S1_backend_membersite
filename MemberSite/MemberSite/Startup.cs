@@ -190,6 +190,8 @@ namespace MemberSite
             services.AddSingleton<CheckIpBLL>();
             services.AddSingleton<CryptoHelper>();
             services.AddSingleton<FaceBookPixelBLL>();
+            services.AddSingleton<CustNotificationBLL>();
+
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();
 
