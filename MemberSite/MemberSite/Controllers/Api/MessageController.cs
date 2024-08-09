@@ -50,16 +50,20 @@ namespace MemberSite.Controllers.Api
                 var request = JsonConvert.DeserializeObject<GetAnnouncementRequest>(content);
 
                 int? currency = request?.CurrencyId;
-
+                _logger.LogInformation($"test-currency={currency}");
                 var authData = _authorizeBll.GetAuthData();
                 if (authData is { CustId: > 0 })
                 {
+                    _logger.LogInformation($"test-Login Success");
                     var customerInfo = _customerInfoBll.GetCustInfoWithCache(authData.CustId);
                     currency = customerInfo.CurrencyId;
                 }
                 var serverInfo = _serverInfoBll.GetServerInfo();
+                _logger.LogInformation($"test-currency={currency}");
+                _logger.LogInformation($"test-ServerDefaultLang={serverInfo.DefLang}");
+                _logger.LogInformation($"test-selLangBll.GetLangId={_selLangBll.GetLangId()}");
                 var language = LanguageObject.Create(currency, _selLangBll.GetLangId(), serverInfo.DefLang);
-
+                _logger.LogInformation($"test-language.LanguageCode={language.LanguageCode},language.DefaultLanguage={language.DefaultLanguage}");
                 result.Data = await _announcementBLL.GetAnnouncements(serverInfo.SiteId, language);
             }
             catch (Exception e)
