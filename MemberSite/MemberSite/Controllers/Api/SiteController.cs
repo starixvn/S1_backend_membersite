@@ -410,6 +410,12 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public async Task<ApiResult> SignupAsync(SignupModel signupModel)
         {
+            if (await _checkAttackBll.CheckAttackForSignup())
+            {
+                Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return null;
+            }
+
             var apiResult = new ApiResult(_selLangBll);
             var isAuthenticated = User.Identity is { IsAuthenticated: true };
 
@@ -483,6 +489,12 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public async Task<ApiResult> SignupPhoneAsync(SignupPhoneModel signupRequest)
         {
+            if (await _checkAttackBll.CheckAttackForSignup())
+            {
+                Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return null;
+            }
+
             var apiResult = new ApiResult(_selLangBll);
             var isAuthenticated = User.Identity is { IsAuthenticated: true };
 
