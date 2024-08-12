@@ -334,7 +334,7 @@ namespace MemberSite.Service.Model
     public class BuyChineseZodiacStickerReq
     {
         [JsonPropertyName("stickerid")]
-        public ChineseZodiacStickerId StickerId { get; set; }
+        public int StickerId { get; set; }
     }
     
     public class BuyChineseZodiacStickerResponse

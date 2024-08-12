@@ -1,4 +1,4 @@
-﻿using MemberSite.Service.BLL;
+using MemberSite.Service.BLL;
 using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
@@ -1114,6 +1114,7 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult();
             var authData = _authorizeBll.GetAuthData();
+            var stickerId = (ChineseZodiacStickerId)stickerReq.StickerId;
 
             if (authData is not { CustId: > 0 }) return apiResult;
             try
@@ -1158,7 +1159,7 @@ namespace MemberSite.Controllers.Api
                     return apiResult;
                 }
                 
-                var result = await _lotteryBll.BuyChineseZodiacSticker(custInfo,getLotteryDrawSetting.RoundId,stickerReq.StickerId,stickerPrize.StickerPrize);
+                var result = await _lotteryBll.BuyChineseZodiacSticker(custInfo,getLotteryDrawSetting.RoundId,stickerId,stickerPrize.StickerPrize);
                 
                 apiResult.ErrorCode = result;
                 apiResult.Message = apiResult.ErrorCode switch
