@@ -1,4 +1,5 @@
 ﻿using MemberSite.Service.Library;
+using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.BLL
@@ -9,7 +10,7 @@ namespace MemberSite.Service.BLL
         private readonly Tools _tools;
         private readonly IpHelper _ipHelper;
         private readonly ICacheHelper _cacheHelper;
-
+        private readonly IPBLL _iPBll;
 
         public CheckAttackBLL(IServiceProvider provider)
         {
@@ -17,6 +18,7 @@ namespace MemberSite.Service.BLL
             _tools = provider.GetRequiredService<Tools>();
             _ipHelper = provider.GetRequiredService<IpHelper>();
             _cacheHelper = provider.GetRequiredService<ICacheHelper>();
+            _iPBll = provider.GetRequiredService<IPBLL>();
         }
 
         public async Task<bool> CheckAttackIp(HttpRequest Request, int limitCount)
@@ -42,11 +44,54 @@ namespace MemberSite.Service.BLL
             var checkCount = await _cacheHelper.StringIncrementAsync($"{Request.Path}:IP:{clientIp}", TimeSpan.FromMinutes(1));
             if (checkCount >= limitCount)
             {
-                _ = await _cacheHelper.StringFireAndForgetSetAsync($"block:{clientIp}", string.Empty, TimeSpan.FromMinutes(10));
+                _ = await _cacheHelper.StringFireAndForgetSetAsync($"block:{clientIp}", string.Empty, TimeSpan.FromMinutes(15));
                 return true;
             }
 
             return false;
-        }  
+        }
+        
+        public async Task<bool> CheckAttackForSignup()
+        {
+            var clientIp = _tools.GetClientIP();
+            if (_ipHelper.IpInRange(clientIp) || clientIp == "18.139.199.197")
+            {
+                return false;
+            }
+
+            // 檢查白名單
+            if (await _cacheHelper.KeyExistsAsync($"AllowedIp:{clientIp}", RedisDataBase.IP))
+            {
+                return false;
+            }
+
+            // 10分鐘相同IP註冊超過20次阻擋一小時
+            var checkCountForShortTime = await _cacheHelper.StringIncrementAsync($"IP:Signup:{clientIp}", TimeSpan.FromMinutes(10));      
+            if (checkCountForShortTime >= 20)
+            {
+                _logger.LogWarning($"auto block {clientIp} for 20 minutes.");
+                _ = _cacheHelper.StringFireAndForgetSetAsync($"block:Signup:{clientIp}", string.Empty, TimeSpan.FromHours(1));
+            }
+
+            // 一小時相同IP註冊超過60次，自動封鎖IP，需要從後台手動解鎖
+            var checkCountForBlock = await _cacheHelper.StringIncrementAsync($"IP:Signup:long:{clientIp}", TimeSpan.FromHours(1));
+            if (checkCountForBlock >= 60)
+            {
+                _logger.LogWarning($"auto block {clientIp}, Please go to the backoffice to unlock it.");
+                var memo = $"Auto Deny (/Site/Signup) - Attack: try Auto Signup, reason is too many requests";
+                var setResult = _iPBll.SetBlockIp(new BlockIpRequest { IP = clientIp, Memo = memo, Operator = "System" });
+                if (setResult > 0 && !_cacheHelper.KeyExists($"AutoDeny:Signup:{clientIp}"))
+                {
+                   _ = _cacheHelper.StringFireAndForgetSetAsync($"AutoDeny:Signup:{clientIp}", string.Empty, TimeSpan.FromHours(1));
+                }
+            }
+
+            if (checkCountForShortTime >= 20 || checkCountForBlock >= 60 || _cacheHelper.KeyExists($"block:Signup:{clientIp}"))
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
 }
