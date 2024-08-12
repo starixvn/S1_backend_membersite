@@ -71,6 +71,7 @@ namespace MemberSite
             services.AddSingleton<IpHelper>();
             services.AddSingleton<AWSS3Helper>();
             services.AddSingleton<StringVaildHelper>();
+            services.AddTransient<LanguageObject>();
 
             /*DAL*/
             services.AddSingleton<IServerInfoService, ServerInfoService>();
