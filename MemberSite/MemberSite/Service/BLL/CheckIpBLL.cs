@@ -1,4 +1,7 @@
-﻿using MemberSite.Exceptions;
+﻿using System.Collections.Generic;
+using System.Collections.Immutable;
+
+using MemberSite.Exceptions;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
@@ -12,6 +15,7 @@ namespace MemberSite.Service.BLL
         private readonly Dictionary<string, string> _forbiddenCountries;
         private readonly List<IPCountry> _IPCountryList;
         private readonly ICacheHelper _cacheHelper;
+        public readonly List<string> CountryList;
 
         public CheckIpBLL(IServiceProvider provider)
         {
@@ -21,6 +25,8 @@ namespace MemberSite.Service.BLL
             _forbiddenCountries = provider.GetRequiredService<ConfigBLL>()
                 .GetConfigValue<List<string>>("BlockCountry").ToDictionary(i => i, i => i);
             _cacheHelper = provider.GetRequiredService<ICacheHelper>();
+            var countryList = _IPCountryList.Select(i => i.Country.Replace("-", "").Replace("\r", "")).Where(s => !string.IsNullOrWhiteSpace(s));
+            CountryList = new(new HashSet<string>(countryList).OrderBy(i => i));
         }
 
         public async Task<IpCountryWithAccess> CheckIp(string clientIp)
