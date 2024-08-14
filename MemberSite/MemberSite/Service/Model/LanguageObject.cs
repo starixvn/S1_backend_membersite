@@ -1,4 +1,4 @@
-﻿namespace MemberSite.Service.Library;
+﻿namespace MemberSite.Service.Model;
 
 public class LanguageObject
 {
