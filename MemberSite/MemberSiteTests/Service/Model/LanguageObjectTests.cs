@@ -1,5 +1,4 @@
-﻿using MemberSite.Service.Library;
-
+﻿using MemberSite.Service.Model;
 using NUnit.Framework;
 
 namespace MemberSiteTests.Service.Model
