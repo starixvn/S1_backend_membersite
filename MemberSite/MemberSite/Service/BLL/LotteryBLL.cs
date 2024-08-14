@@ -149,6 +149,7 @@ namespace MemberSite.Service.BLL
                     var data = new GetCustLotteryWinningResponse
                     {
                         RoundId = roundMatch.RoundId,
+                        TicketNo = ticketData.TicketNo,
                         StartDate = roundMatch.StartDate,
                         EndDate = roundMatch.EndDate,
                         PrizeName =  ticketData.LotteryPrizeCategory switch
