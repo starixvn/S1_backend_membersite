@@ -48,7 +48,7 @@ namespace MemberSite.Controllers.Api
                     newsReq.CurrencyId = customerInfo.CurrencyId;
                 }
                 var serverInfo = _serverInfoBll.GetServerInfo();
-                var language = LanguageObject.Create(_configBll, serverInfo.SiteId, newsReq.CurrencyId, _selLangBll.GetLangId(), serverInfo.DefLang);
+                var language = _selLangBll.LanguageObjectCreate(serverInfo.SiteId, newsReq.CurrencyId, _selLangBll.GetLangId(), serverInfo.DefLang);
                 var pageNumber = newsReq.PageNumber;
 
                 var news = await _newsBLL.GetNews(serverInfo.SiteId, language, newsReq.PageSize, pageNumber);
@@ -88,7 +88,7 @@ namespace MemberSite.Controllers.Api
                     newsReq.CurrencyId = customerInfo.CurrencyId;
                 }
                 var serverInfo = _serverInfoBll.GetServerInfo();
-                var language = LanguageObject.Create(_configBll, serverInfo.SiteId, newsReq.CurrencyId, _selLangBll.GetLangId(), serverInfo.DefLang);
+                var language = _selLangBll.LanguageObjectCreate(serverInfo.SiteId, newsReq.CurrencyId, _selLangBll.GetLangId(), serverInfo.DefLang);
 
                 result.Data = await _newsBLL.GetNewsById(serverInfo.SiteId, newsReq.NewsId, language);
                 result.ErrorCode = 0;

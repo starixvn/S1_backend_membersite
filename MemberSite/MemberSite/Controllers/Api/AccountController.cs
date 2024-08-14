@@ -442,7 +442,7 @@ namespace MemberSite.Controllers.Api
             var pageSize = msgReq.PageSize == 0 ? 5 : msgReq.PageSize;
             var serverInfo = _serverInfoBll.GetServerInfo();
             var custInfo = _custInfoBll.GetCustInfo(authData.CustId);
-            var language = LanguageObject.Create(_configBll, custInfo.SiteId, custInfo.CurrencyId, custInfo.UserLang, serverInfo.DefLang);
+            var language = _selLangBll.LanguageObjectCreate(custInfo.SiteId, custInfo.CurrencyId, custInfo.UserLang, serverInfo.DefLang);
 
             var msgs = await _messageBll.GetMsgList(authData.CustId, language, pageSize, pageNumber);
             apiResult.Data = msgs.Data;
@@ -471,7 +471,7 @@ namespace MemberSite.Controllers.Api
             }
             var serverInfo = _serverInfoBll.GetServerInfo();
             var custInfo = _custInfoBll.GetCustInfo(authData.CustId);
-            var language = LanguageObject.Create(_configBll, custInfo.SiteId, custInfo.CurrencyId, custInfo.UserLang, serverInfo.DefLang);
+            var language = _selLangBll.LanguageObjectCreate(custInfo.SiteId, custInfo.CurrencyId, custInfo.UserLang, serverInfo.DefLang);
 
             apiResult.Data = await _messageBll.GetMsgContent(authData.CustId, language, msgContentReq.MsgId, msgContentReq.IsBatch);
             apiResult.ErrorCode = 0;
@@ -545,7 +545,7 @@ namespace MemberSite.Controllers.Api
             }
             var serverInfo = _serverInfoBll.GetServerInfo();
             var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-            var language = LanguageObject.Create(_configBll, custInfo.SiteId, custInfo.CurrencyId, custInfo.UserLang, serverInfo.DefLang);
+            var language = _selLangBll.LanguageObjectCreate(custInfo.SiteId, custInfo.CurrencyId, custInfo.UserLang, serverInfo.DefLang);
             apiResult.Data = await _messageBll.GetPopupMessage(authData.CustId, language);
             apiResult.ErrorCode = 0;
             return apiResult;
