@@ -52,7 +52,7 @@ namespace MemberSite.Service.DAL
             return _reportDbClient.QueryFirst<CustInfoProfile>("Service_CustProfileByUserName_Get_V2", new { _SiteId = siteId, _UserName = userName, _CustId = custId });
         }
 
-        public int AddCustInfo(Customer customer, string Email, string lineUserId, int deviceType, out int custId, string signupUrl = null, string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null, int Birth_d = 0, int Birth_m = 0, int Birth_y = 0, string signupIp = null, string accountNo = null, string iFSCCode = null, int sysId = 0)
+        public int AddCustInfo(Customer customer, string Email, string lineUserId, int deviceType, out int custId, string signupUrl = null, string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null, int Birth_d = 0, int Birth_m = 0, int Birth_y = 0,string nationality = null ,string signupIp = null, string accountNo = null, string iFSCCode = null, int sysId = 0)
         {
             using var conn = _mainDbClient.GetMySqlConnection();
             conn.Open();
@@ -98,7 +98,7 @@ namespace MemberSite.Service.DAL
                     return -5;
                 }
 
-                if ((!string.IsNullOrEmpty(Email) || (!string.IsNullOrEmpty(PhoneNo) && !string.IsNullOrEmpty(AreaCode))))
+                if ((!string.IsNullOrEmpty(Email) || (!string.IsNullOrEmpty(PhoneNo) && !string.IsNullOrEmpty(AreaCode))) && !string.IsNullOrEmpty(nationality))
                 {
                     if (string.IsNullOrEmpty(Email))
                     {
@@ -119,6 +119,9 @@ namespace MemberSite.Service.DAL
                         profiler.Add("Birth_m", Birth_m.ToString());
                         profiler.Add("Birth_y", Birth_y.ToString());
                     }
+                    
+                    
+                    profiler.Add("Nationality",nationality);
 
                     var profile = profiler.Count <= 0 ? null : Newtonsoft.Json.JsonConvert.SerializeObject(profiler);
                     result = _mainDbClient.Execute("Member_CustProfile_Ins", trans, new DynamicParameters(new
