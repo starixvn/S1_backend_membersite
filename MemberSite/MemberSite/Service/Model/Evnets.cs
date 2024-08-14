@@ -456,6 +456,7 @@ namespace MemberSite.Service.Model
     public class GetCustLotteryWinningResponse
     {
         public int RoundId { get; set; }
+        public string TicketNo { get; set; }
         private DateTimeOffset _startDate { get; set; }
         public DateTimeOffset StartDate
         {
