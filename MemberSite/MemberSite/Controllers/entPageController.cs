@@ -22,6 +22,7 @@ namespace MemberSite.Controllers
         private readonly CustInfoBll _custInfoBll;
         private readonly ServerInfoBll _serverInfoBll;
         private readonly GameBLL _gameBll;
+        private readonly CheckIpBLL _checkIpBll;
         private readonly string _tpServiceApiUrl;
         private readonly ILogger _logger;
 
@@ -36,6 +37,7 @@ namespace MemberSite.Controllers
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
             _gameBll = provider.GetRequiredService<GameBLL>();
+            _checkIpBll = provider.GetRequiredService<CheckIpBLL>();
             var configBll = provider.GetRequiredService<ConfigBLL>();
             _tpServiceApiUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost").TpService;
             _logger = provider.GetRequiredService<ILogger<entPageController>>();
@@ -134,6 +136,17 @@ namespace MemberSite.Controllers
                         inputs.Add("Token", authData.Token);
                     }
 
+                    // 目前先以SabaPlay使用觀察，後續其他遊戲需要則可調整為共用
+                    if (tpId == (int)Tp.SabaPlay)
+                    {
+                        if (Request.Headers.TryGetValue("User-Agent", out var userAgent))
+                        {
+                            inputs.Add("BrowserUserAgent", userAgent);
+                        }
+                        var ipCountryName = _checkIpBll.GetIpCountryName(_tools.GetClientIP());
+                        inputs.Add("IpCountryName", ipCountryName.TrimEnd());
+                    }
+
                     tpInfo.CustId = authData.CustId;
                     tpInfo.LangId = _selLangBll.CheckLangId(LangId) ? LangId : custInfo.UserLang;
                 }
@@ -146,6 +159,7 @@ namespace MemberSite.Controllers
 
                 LogContext.PushProperty("TpInfo", JsonConvert.SerializeObject(tpInfo));
                 tpInfo.inputs = inputs;
+
                 var data = await _courierAdapter.MyPostAsync<bool, TpInfo>(myUrl, tpInfo);
                 if (data.ErrorCode == 0)
                 {
