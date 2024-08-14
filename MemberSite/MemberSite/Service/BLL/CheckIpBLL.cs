@@ -101,7 +101,24 @@ namespace MemberSite.Service.BLL
             return await _cacheHelper.KeyExistsAsync($"BlockIp:{clientIp}", RedisDataBase.IP);
         }
 
-
-
+        public string GetIpCountryName(string clientIp)
+        {
+            try
+            {
+                var uip = _tools.GetIpToLong(clientIp);
+                var ipCountry = _IPCountryList.Find(x => x.IpFrom < uip && x.IpTo > uip);
+                return ipCountry.Country;
+            }
+            catch (IPFormatException e)
+            {
+                _logger.LogError(e, e.Message);
+                return "";
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, e.Message);
+                return "";
+            }
+        }
     }
 }
