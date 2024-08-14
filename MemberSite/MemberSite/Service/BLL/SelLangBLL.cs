@@ -24,6 +24,7 @@ namespace MemberSite.Service.BLL
         private readonly ConcurrentDictionary<string, ResourceManager> _rm = new();
         private readonly CacheHelper _cacheHelper;
         private readonly ILogger<SelLangBLL> _logger;
+        private static Dictionary<int, IEnumerable<SpecialLangRule>> _langSpecialRule;
 
         public SelLangBLL(IServiceProvider provider)
         {
@@ -31,6 +32,8 @@ namespace MemberSite.Service.BLL
             _httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
             _logger = provider.GetRequiredService<ILogger<SelLangBLL>>();
+            var configBll = provider.GetRequiredService<ConfigBLL>();
+            _langSpecialRule = configBll.GetConfigValuesBySiteId<IEnumerable<SpecialLangRule>>("LangSpecialRule");
         }
 
         public IEnumerable<SiteLanguage> GetLangIdList()
@@ -280,6 +283,21 @@ namespace MemberSite.Service.BLL
             }
 
             return countryList;
+        }
+
+        public LanguageObject LanguageObjectCreate(int siteId, int? currency, string languageCode, string defaultLanguage = "en")
+        {
+            var langSpecialRule = _langSpecialRule[siteId];
+            var rule = langSpecialRule?.FirstOrDefault(x => x.SuffixLangId == languageCode);
+            if (rule is not null)
+            {
+                if (currency.HasValue && rule.CurrencyAndLangMap.Any(x => x.CurrencyId == currency) && languageCode == "en")
+                {
+                    var lang = rule.CurrencyAndLangMap.FirstOrDefault(x => x.CurrencyId == currency).PrefixLangId;
+                    languageCode = $"{lang}_en";
+                }
+            }
+            return new LanguageObject(languageCode, defaultLanguage);
         }
     }
 }

@@ -59,8 +59,7 @@ namespace MemberSite.Controllers.Api
                     currency = customerInfo.CurrencyId;
                 }
                 var serverInfo = _serverInfoBll.GetServerInfo();
-
-                var language = LanguageObject.Create(_configBll, serverInfo.SiteId, currency, _selLangBll.GetLangId(), serverInfo.DefLang);
+                var language = _selLangBll.LanguageObjectCreate(serverInfo.SiteId, currency, _selLangBll.GetLangId(), serverInfo.DefLang);
                 result.Data = await _announcementBLL.GetAnnouncements(serverInfo.SiteId, language);
             }
             catch (Exception e)
