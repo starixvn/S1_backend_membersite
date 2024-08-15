@@ -668,13 +668,13 @@ namespace MemberSite.Service.BLL
 
         public int SetWithdrawalCancel(int custId, string transId)
         {
-            var CustInfo = _custInfoBll.GetCustInfoWithCache(custId);
+            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var forStatus = new List<int>
             {
                 (int)WithdrawalStatus.Pending,
                 (int)WithdrawalStatus.ToKyc
             };
-            return withdrawalService.SetWithdrawalCancel(CustInfo.CustId, transId, CustInfo.SiteId, forStatus, WithdrawalStatus.Cancelled);
+            return withdrawalService.SetWithdrawalCancel(custInfo.UserName, transId, custInfo.SiteId, forStatus, WithdrawalStatus.Cancelled);
         }
         public IEnumerable<DepositReceipt> GetDepositReceipt(string transId, int custId)
         {
