@@ -98,7 +98,7 @@ namespace MemberSite.Service.DAL
                     return -5;
                 }
 
-                if ((!string.IsNullOrEmpty(Email) || (!string.IsNullOrEmpty(PhoneNo) && !string.IsNullOrEmpty(AreaCode))) && !string.IsNullOrEmpty(nationality))
+                if ((!string.IsNullOrEmpty(Email) || (!string.IsNullOrEmpty(PhoneNo) && !string.IsNullOrEmpty(AreaCode))))
                 {
                     if (string.IsNullOrEmpty(Email))
                     {
@@ -119,9 +119,11 @@ namespace MemberSite.Service.DAL
                         profiler.Add("Birth_m", Birth_m.ToString());
                         profiler.Add("Birth_y", Birth_y.ToString());
                     }
-                    
-                    
-                    profiler.Add("Nationality",nationality);
+
+                    if (!string.IsNullOrEmpty(nationality))
+                    {
+                        profiler.Add("Nationality", nationality);
+                    }
 
                     var profile = profiler.Count <= 0 ? null : Newtonsoft.Json.JsonConvert.SerializeObject(profiler);
                     result = _mainDbClient.Execute("Member_CustProfile_Ins", trans, new DynamicParameters(new

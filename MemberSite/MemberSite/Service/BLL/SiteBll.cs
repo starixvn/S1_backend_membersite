@@ -272,20 +272,6 @@ public class SiteBll
             }
         }
         
-        if (string.IsNullOrWhiteSpace(signupModel.Nationality))
-        {
-            apiResult.ErrorCode = -30;
-            apiResult.Message = _selLangBll.GetMsg("msg_NeedNationality");
-            return false;
-        }
-        
-        if (signupModel.Birth_d == 0 && signupModel.Birth_m == 0 && signupModel.Birth_y == 0)
-        {
-            apiResult.ErrorCode = -21;
-            apiResult.Message = $"{_selLangBll.GetMsg("msg_BirthdayIsRequired")}";
-            return false;
-        }
-        
         if (!_tools.CheckUserName(signupModel.UserName))
         {
             apiResult.ErrorCode = -2;
