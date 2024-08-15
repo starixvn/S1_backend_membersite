@@ -33,5 +33,15 @@ namespace MemberSite.Controllers.Api
                 Data = result
             };
         }
+
+        [HttpGet]
+        public async Task<ApiResult<List<string>>> GetCountryList()
+        {
+            return new ApiResult<List<string>>()
+            {
+                ErrorCode = (int)ErrorCode.Success,
+                Data = _checkIpBll.CountryList
+            };
+        }
     }
 }
