@@ -15,7 +15,7 @@ namespace MemberSite.Service.BLL
         private readonly Dictionary<string, string> _forbiddenCountries;
         private readonly List<IPCountry> _IPCountryList;
         private readonly ICacheHelper _cacheHelper;
-        public readonly List<string> CountryList;
+        public readonly List<CountryCode> CountryList;
 
         public CheckIpBLL(IServiceProvider provider)
         {
@@ -25,8 +25,10 @@ namespace MemberSite.Service.BLL
             _forbiddenCountries = provider.GetRequiredService<ConfigBLL>()
                 .GetConfigValue<List<string>>("BlockCountry").ToDictionary(i => i, i => i);
             _cacheHelper = provider.GetRequiredService<ICacheHelper>();
-            var countryList = _IPCountryList.Select(i => i.Country.Replace("-", "").Replace("\r", "")).Where(s => !string.IsNullOrWhiteSpace(s));
-            CountryList = new(new HashSet<string>(countryList).OrderBy(i => i));
+            CountryList = _IPCountryList.Select(i => new CountryCode(i))
+                .Where(i => !string.IsNullOrWhiteSpace(i.Country))
+                .DistinctBy(p => p.Country)
+                .OrderBy(i => i.Country).ToList();
         }
 
         public async Task<IpCountryWithAccess> CheckIp(string clientIp)

@@ -35,9 +35,9 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpGet]
-        public async Task<ApiResult<List<string>>> GetCountryList()
+        public async Task<ApiResult<List<CountryCode>>> GetCountryList()
         {
-            return new ApiResult<List<string>>()
+            return new ApiResult<List<CountryCode>>()
             {
                 ErrorCode = (int)ErrorCode.Success,
                 Data = _checkIpBll.CountryList
