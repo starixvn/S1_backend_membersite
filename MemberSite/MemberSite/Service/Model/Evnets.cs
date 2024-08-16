@@ -50,7 +50,13 @@ namespace MemberSite.Service.Model
         public int TopNum { get; set; }
         public DateTime SelectDays { get; set; }
     }
-
+    
+    public class GetLeaderboardSettingReq
+    {
+        public int SiteId { get; set; }
+        public int CurrencyId { get; set; }
+    }
+    
     public class LeaderboardSetting
     {
         public LeaderboardPointCalculation LeaderboardPointCalculation { get; set; }
@@ -76,12 +82,6 @@ namespace MemberSite.Service.Model
         public string Ranking { get; set; }
         public decimal MinPoint { get; set; }
         public decimal Bonus { get; set; }
-    }
-
-    public class GetLeaderboardSettingReq
-    {
-        public int SiteId { get; set; }
-        public int CurrencyId { get; set; }
     }
 
     #endregion
@@ -204,7 +204,6 @@ namespace MemberSite.Service.Model
         public decimal TurnoverSum { get; set; }
         public int AffCount { get; set; }
     }
-
     
     public class CupEventPromotionMissionProgress
     {
@@ -443,6 +442,8 @@ namespace MemberSite.Service.Model
         public List<string> ConsolationPrize { get; set; }
         public List<string> SmallPrize { get; set; }
         public ChineseZodiacStickerId StickerId { get; set; }
+        public  List<string> TicketNo { get; set; }
+     
     }
     
     public class GetLotteryRoundListResponse

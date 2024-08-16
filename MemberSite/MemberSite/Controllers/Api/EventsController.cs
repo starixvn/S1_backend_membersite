@@ -998,9 +998,11 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiResult<GetCurrentLotteryWinnerListResponse> GetCurrentLotteryWinnerList(GetLotteryWinnerListRequest request)
         {
+            var authData = _authorizeBll.GetAuthData();
+            
             var apiResult = new ApiResult<GetCurrentLotteryWinnerListResponse>
             {
-                Data = _lotteryBll.GetCurrentLotteryWinnerList(request.SiteId, 0),
+                Data = _lotteryBll.GetCurrentLotteryWinnerList(request.SiteId,authData.CustId, 0),
                 ErrorCode = (int) ErrorCode.Success
             };
             
@@ -1011,9 +1013,11 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public ApiResult<GetCurrentLotteryWinnerListResponse> GetLotteryHistoryWinnerList(GetLotteryWinnerListRequest request)
         {
+            var authData = _authorizeBll.GetAuthData();
+            
             var apiResult = new ApiResult<GetCurrentLotteryWinnerListResponse>
             {
-                Data = _lotteryBll.GetCurrentLotteryWinnerList(request.SiteId, request.RoundId),
+                Data = _lotteryBll.GetCurrentLotteryWinnerList(request.SiteId, authData.CustId ,request.RoundId),
                 ErrorCode = (int) ErrorCode.Success
             };
             return apiResult;
