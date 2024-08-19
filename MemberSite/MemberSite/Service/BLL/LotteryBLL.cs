@@ -92,6 +92,7 @@ namespace MemberSite.Service.BLL
                 response.StickerId = result.StickerId;
                 var tickets = _eventsService.GetCustLotteryTicket(custId, result.RoundId ,(int)LotteryTicketEnum.Ticket).ToList();
                 response.TicketNo = tickets.Select(x => x.TicketNo).ToList();
+                response.CustWinTicketNo = tickets.FirstOrDefault(x => x.LotteryPrizeCategory != 0);
                 var sticker = _eventsService.GetCustLotteryTicket(custId, result.RoundId ,(int)LotteryTicketEnum.Sticker).FirstOrDefault();
                 if (sticker != null) response.CustStickerId = sticker.StickerId;
             }
