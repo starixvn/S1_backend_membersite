@@ -379,7 +379,7 @@ namespace MemberSite.Service.Model
         public LotteryEventDraw LotteryRoundInfo { get; set; }
         public List<LotteryEventDrawTurnOverSetting> LotteryTierList { get; set; }
         public List<string> TicketNo { get; set; }
-        public int TicketCount => TicketNo.Count;
+        public int TicketCount => TicketNo?.Count ?? 0;
         public decimal TurnoverGoal { get; set; }
         public decimal CustTurnoverProccessing { get; set; }
         public decimal CustTurnoverSummary { get; set; }
