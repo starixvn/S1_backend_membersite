@@ -142,4 +142,5 @@
   <data name="msg_BankUnderMaintenance"><value>Pemeliharaan Bank</value></data>
   <data name="msg_BankUnderMaintenance_Detail"><value>Sistem bank sedang dalam pemeliharaan dan tidak dapat memproses deposit anda saat ini.</value></data>
   <data name="msg_WrongAmountFormat"><value>Kesalahan &gt; Format jumlah salah</value></data>
+  <data name="msg_QuestionnaireFailed"><value>Anda telah mencapai batas maksimal pengajuan umpan balik untuk hari ini</value></data>
   </root>

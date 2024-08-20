@@ -151,4 +151,5 @@
   <data name="msg_BankUnderMaintenance_Detail"><value>ขณะนี้ระบบของธนาคารอยู่ระหว่างการปิดปรับปรุง ระบบไม่สามารถดำเนินรายการเงินฝากของคุณได้ในขณะนี้</value></data>
   <data name="msg_AffCodeNotFound"><value>ไม่พบรหัสพันธมิตรดังกล่าว</value></data>
   <data name="msg_WrongAmountFormat"><value>ข้อผิดพลาด &gt; รูปแบบจำนวนเงินไม่ถูกต้อง</value></data>
+  <data name="msg_QuestionnaireFailed"><value>คุณส่งข้อเสนอแนะถึงขีดจำกัดสูงสุดสำหรับวันนี้แล้ว</value></data>	
   </root>

@@ -150,4 +150,5 @@
   <data name="msg_BankUnderMaintenance_Detail"><value>银行系统正在维护中，目前无法处理您的存款申请。</value></data>
   <data name="msg_AffCodeNotFound"><value>代理商ID 无法查找</value></data>
   <data name="msg_WrongAmountFormat"><value>金额格式错误</value></data>
+  <data name="msg_QuestionnaireFailed"><value>今日反馈次数已达上限。</value></data>
   </root>
