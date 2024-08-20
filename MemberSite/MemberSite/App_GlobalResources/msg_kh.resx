@@ -149,14 +149,10 @@
   <data name="msg_RealNameWrongFormat"><value>ឈ្មោះពិតប្រាកដមិនអនុញ្ញាតអោយមានលេខឬតួអក្សរពិសេសបានទេ។</value></data>
   <data name="msg_PasswordVaildate"><value>ពាក្យសម្ងាត់ត្រូវមានចន្លោះពី ៦-១៥ តួអក្សរ មានទាំងអក្សរក្រមលេខ និង តួអក្សរពិសេស (!@#$%^&amp;*)។</value></data>
   <data name="msg_OTPDailyLimit"><value>OTP បានឈានដល់ដែនកំណត់ សូមទាក់ទងមកជាមួយខ្ Live Chat គាំទ្រសន្</value></data>
-  <data name="msg_AffCodeNotFound"><value>រកមិនឃើញលេខសម្គាល់សាខាទេ។</value></data>
-  <data name="msg_BankSystemUnstable"><value>ប្រព័ន្ធធនាគារមិនស្រស់</value></data>
-  <data name="msg_BankSystemUnstable_Detail"><value>ប្រព័ន្ធធនាគារមិនអាចរកទិន្នន័យលើកម្មវិធីបានទេ។</value></data>
+  <data name="msg_SystemUnstable"><value>ប្រព័ន្ធធនាគារមិនអាចរកទិន្នន័យលើកម្មវិធីបានទេ។</value></data>
+  <data name="msg_SystemUnstable_Detail"><value>ប្រព័ន្ធ​ធនាគារ​មិន​អាច​ទំនិញ​ពិនិត្យ​ទំនិញ​បាន​នោះ​ទេ​ និង​មិន​អាច​ដំណើរការ​ការ​បញ្ជូន​ប្រាក់​ដែល​អ្នក​កំពុង​កក់​បាន​នៅ​ពេល​នេះ​ទេ។</value></data>
   <data name="msg_BankUnderMaintenance"><value>ការថែទាំថ្លៃរបស់ធនាគារ</value></data>
   <data name="msg_BankUnderMaintenance_Detail"><value>ប្រព័ន្ធធនាគារកំពុងទទួលពហុព័ត៌មានរបស់ភ្នាក់ងារបច្ចុប្បន្ន ហើយមិនអាចដំណើរការការដាក់ប្រាក់របស់អ្នកបានលើសពីពេលនេះទេ។</value></data>
-  <data name="msg_OTP_SendOTPSMS_Fail" xml:space="preserve"><value>លេខកូដ OTP មិនត្រឹមត្រូវ</value></data>
-  <data name="msg_DepositRemarkReminder" xml:space="preserve"><value>ការរាយការណ៍អំពីការដាក់បញ្ចាំង</value></data>
-  <data name="msg_DepositRemarkReminder_Detail" xml:space="preserve"><value>ប្រតិបត្តប្រតិបត្តរបស់អ្នកបានអនុម័ត។ ដូច្នេះមានកំហុសមួយចំនួននៅក្នុងការសំគាល់ដែលផ្ដល់។ មុននឹងដាក់បញ្ជូនលើកនៅលើកនៅនៅការគាំទ្ររបស់យើងតាមការបញ្ចូលរបស់អ្នកទៅក្នុងប្រព័ន្ធធនាគាររបស់អ្នកទាំងអស់។</value></data>
-  <data name="msg_FillUpRemarkReminder" xml:space="preserve"><value>ការរាយការណ៍ការបំពេញសំគាល់</value></data>
-  <data name="msg_FillUpRemarkReminder_Detail" xml:space="preserve"><value>ដើម្បីបង្ហាញការយល់ដឹងនិងដំណើរការស្នើសុំនៃសំណើមដោយល្អសម្រាប់ការធ្វើការបញ្ចូលរបស់អ្នក, សូមប្រាកដថានៅពេលដែលធ្វើការផ្ទេរទិន្នន័យអ្នកត្រូវបញ្ចូលលេខយោងដែលបានផ្ដល់នៅលើទំព័រប្រព័ន្ធដែលស្នើរតែការបញ្ចូល។</value></data>
-</root>
+  <data name="msg_AffCodeNotFound"><value>រកមិនឃើញលេខសម្គាល់សាខាទេ។</value></data>
+  <data name="msg_WrongAmountFormat"><value>កំហុស &gt; ទ្រង់ទ្រាយចំនួនមិនត្រឹមត្រូវ</value></data>
+  </root>

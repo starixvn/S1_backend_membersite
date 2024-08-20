@@ -297,6 +297,13 @@ namespace MemberSite.Service.Library
         public DeviceId GetDeviceId(string url)
         {
             var deviceType = DeviceId.Desktop;
+
+            if (httpContextAccessor.HttpContext.Request.Headers.TryGetValue("ai-device", out var device))
+            {
+                deviceType = (DeviceId)Enum.Parse(typeof(DeviceId), device);
+                return deviceType;
+            }
+
             foreach (var (key, value) in _loginDeviceConfig)
             {
                 if (url.Contains(value))

@@ -30,12 +30,26 @@
         {
             return partitionTime.ToString("yyyyMM");
         }
-
+        
         public static bool EarlierThan(this DateTime startMonth, DateTime endMonth)
         {
             var start = int.Parse(startMonth.ToString("yyyyMM"));
             var end = int.Parse(endMonth.ToString("yyyyMM"));
             return start <= end;
+        }
+        
+        public static IEnumerable<string> GetTpBetRecordPartitionRange(this DateTime startDate, DateTime endDate)
+        {
+            var result = new List<string>
+            {
+                string.Empty,
+            };
+            while (startDate.EarlierThan(endDate))
+            {
+                result.Add($"_{startDate.GetMonthlyPartitionKey()}");
+                startDate = startDate.AddMonths(1);
+            }
+            return result;
         }
     }
 }

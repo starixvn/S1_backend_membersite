@@ -249,7 +249,7 @@ namespace MemberSite.Controllers.Api
                 return new ApiResult
                 {
                     ErrorCode = -5,
-                    Message = "Amount format is wrong."
+                    Message = _selLangBll.GetMsg("msg_WrongAmountFormat")
                 };
             }
 
@@ -372,7 +372,7 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult(_selLangBll);
             var authData = _authorizeBll.GetAuthData(true);
-            if (authData == null)
+            if (authData == null || authData.CustId == 0)
             {
                 apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
                 return apiResult;
@@ -468,16 +468,17 @@ namespace MemberSite.Controllers.Api
                 apiResult.ErrorCode = -2;
                 return apiResult;
             }
-            if (withdrawalReqModel.Blackbox != null)
-            {
-                _ = Task.Run(async () =>
-                {
-                    var apiResultIovation = await _iovationBll.IovationChecks(authData.CustId, custInfo.CurrencyId, custInfo.UserName, withdrawalReqModel.Blackbox, IovationType.withdrawal);
-                    if (apiResultIovation.ErrorCode == 0 && apiResultIovation.Data != null)
-                        _iovationBll.SetIovation(authData.CustId, IovationType.withdrawal, apiResultIovation.Data);
+            // 提款移除Iovation檢查
+            //if (withdrawalReqModel.Blackbox != null)
+            //{
+            //    _ = Task.Run(async () =>
+            //    {
+            //        var apiResultIovation = await _iovationBll.IovationChecks(authData.CustId, custInfo.CurrencyId, custInfo.UserName, withdrawalReqModel.Blackbox, IovationType.withdrawal);
+            //        if (apiResultIovation.ErrorCode == 0 && apiResultIovation.Data != null)
+            //            _iovationBll.SetIovation(authData.CustId, IovationType.withdrawal, apiResultIovation.Data);
 
-                });
-            }
+            //    });
+            //}
             decimal afterAmount;
             string transId;
             switch (withdrawalType)
@@ -541,7 +542,7 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult(_selLangBll);
             var authData = _authorizeBll.GetAuthData(true);
-            if (authData == null)
+            if (authData == null || authData.CustId == 0)
             {
                 apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
                 return apiResult;
@@ -1551,7 +1552,7 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult(_selLangBll);
             var authData = _authorizeBll.GetAuthData(true);
-            if (authData == null)
+            if (authData == null || authData.CustId == 0)
             {
                 apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
                 return apiResult;
@@ -1862,7 +1863,26 @@ namespace MemberSite.Controllers.Api
 
             return apiResult;
         }
-        
+
+        public class GetBankInfoSysListByCurrencyIdReq
+        {
+            public int CurrencyId { get; set; }
+            public string LangId { get; set; }
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public ApiResult<IEnumerable<BankInfoSys>> GetBankInfoSysListByCurrencyId(GetBankInfoSysListByCurrencyIdReq req)
+        {
+            var apiResult = new ApiResult<IEnumerable<BankInfoSys>>();
+            var result = _bankInfoBll.GetBankInfoSysListByCurrencyForCtrl(req.CurrencyId, req.LangId)
+                .ToList();
+
+            apiResult.Data = result;
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+
         private ApiResult<LocalPayResp> DepositByLocalPayment(int custId, int groupId, decimal amount)
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);

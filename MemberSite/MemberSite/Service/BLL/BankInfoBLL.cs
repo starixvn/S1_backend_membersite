@@ -13,6 +13,7 @@ namespace MemberSite.Service.BLL
         private readonly PayService _payService;
         private readonly DepositLimitBLL _depositLimitBll;
         private readonly ICacheHelper _redisHelper;
+        private readonly PayInfoLocalizeBLL _payInfoLocalizeBll;
 
         public BankInfoBLL(IServiceProvider provider)
         {
@@ -22,12 +23,13 @@ namespace MemberSite.Service.BLL
             _payService = provider.GetRequiredService<PayService>();
             _depositLimitBll = provider.GetRequiredService<DepositLimitBLL>();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
+            _payInfoLocalizeBll = provider.GetRequiredService<PayInfoLocalizeBLL>();
         }
         public IEnumerable<BankInfoSys> GetBankInfoSysListByCurrency(int currencyId, string lang)
         {
-            var key = $"BankInfoSysList:{currencyId}:{lang}";
+            var key = $"PaySetting:BankInfoSys:{currencyId}:{lang}";
             var dbData = _redisHelper.TryGetOrCreate(key, TimeSpan.FromMinutes(10),
-                () => _bankInfoService.GetBankInfoSysList(currencyId, lang));
+                () => _bankInfoService.GetBankInfoSysList(currencyId, lang), RedisDataBase.Shared);
             
             return dbData;
         }
@@ -64,7 +66,12 @@ namespace MemberSite.Service.BLL
                         PayName = item.PayName,
                         PayId = item.PayId,
                         ChannelId = item.ChannelId,
-                        SelBank = selBank,
+                        ChannelName = item.ChannelName,
+                        DisplayChannelName = item.DisplayChannelName,
+                        GroupId = item.GroupId,
+                        GroupName = item.GroupName,
+                        DisplayGroupName = item.DisplayGroupName,
+                        SelBank = item.SelBank,
                         Mode = item.Mode,
                         ExtraDataType = (int)item.ExtraDataType,
                         MaxAmount = item.MaxAmount,
@@ -171,22 +178,32 @@ namespace MemberSite.Service.BLL
         
         public IEnumerable<BankInfoPay> GetOnlineBankList(int siteId, DepositType depositType)
         {
-            var key = $"PaySetting:OnlineBanking:{siteId}:{depositType}";
-            var dbData = _redisHelper.TryGetOrCreate<IEnumerable<BankInfoPay>>(key, TimeSpan.FromMinutes(5),
+            var key = $"PaySetting:{siteId}:{DepositType.OnlineBanking}:{depositType}";
+            var dbData = _redisHelper.TryGetOrCreate<IEnumerable<BankInfoPay>>(key, TimeSpan.FromSeconds(30),
                 () => _bankInfoService.GetBankInfoPayList(siteId, depositType).OrderBy(x => x.MSort).ThenBy(x => x.SSort),
                 RedisDataBase.Shared);
+
             return dbData;
         }
         
         private IEnumerable<BankInfoPay> GetOnlineBankListLocalizationWithCache(Customer custInfo, DepositType depositType)
         {
             var authData = _authorizeBll.GetAuthData();
-            var key = $"PaySetting:OnlineBanking:{custInfo.SiteId}:{custInfo.CurrencyId}:{authData.LangId}:{depositType}";
+            var key = $"PaySetting:{custInfo.SiteId}:{DepositType.OnlineBanking}:{custInfo.CurrencyId}:{authData.LangId}:{depositType}";
             
-            var dbData = _redisHelper.TryGetOrCreate<IEnumerable<BankInfoPay>>(key, TimeSpan.FromMinutes(5),
-                () =>GetOnlineBankListLocalization(custInfo, authData.LangId, depositType).OrderBy(x => x.MSort).ThenBy(x => x.SSort),
+            var dbData = _redisHelper.TryGetOrCreate<IEnumerable<BankInfoPay>>(key, TimeSpan.FromSeconds(30),
+                () =>
+                {
+                    var data = GetOnlineBankListLocalization(custInfo, authData.LangId, depositType);
+                        
+                    data = _payInfoLocalizeBll.PayGroupNameLocalization(data, authData.LangId);
+                    data = _payInfoLocalizeBll.PayChannelNameLocalization(data, authData.LangId);
+                    
+                    return data.OrderBy(x => x.MSort)
+                        .ThenBy(x => x.SSort);
+                },
                 RedisDataBase.Shared);
-            
+
             return dbData;
         }
         

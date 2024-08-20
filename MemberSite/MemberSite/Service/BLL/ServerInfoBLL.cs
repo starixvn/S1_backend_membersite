@@ -97,34 +97,65 @@ namespace MemberSite.Service.BLL
             return countryList;
         }
 
+        // mark
+        //public string GetDomain()
+        //{
+        //    // 先拿Header的origin-host
+        //    if (_httpContextAccessor.HttpContext.Request.Headers.TryGetValue("origin-host", out var originHost))
+        //    {
+        //        return new Uri(originHost).Host;
+        //    }
+
+        //    // 先拿Header的ai-host
+        //    if (_httpContextAccessor.HttpContext.Request.Headers.TryGetValue("ai-host", out var aiHost))
+        //    {
+        //        return new Uri(aiHost).Host;
+        //    }
+
+        //    if (_httpContextAccessor.HttpContext.Request.Headers.TryGetValue("Referer", out var referer))
+        //    {
+        //        if (new Uri(referer).Host.Contains("localhost"))
+        //        {
+        //            return _httpContextAccessor.HttpContext.Request.Host.Host;
+        //        }
+        //        else
+        //        {
+        //            return new Uri(referer).Host;
+        //        }
+        //    }
+
+        //    // 都拿不到直接用Request的Host
+        //    return _httpContextAccessor.HttpContext.Request.Host.Host;
+        //}
+
         public string GetDomain()
         {
+            var host = string.Empty;
             // 先拿Header的origin-host
             if (_httpContextAccessor.HttpContext.Request.Headers.TryGetValue("origin-host", out var originHost))
             {
-                return new Uri(originHost).Host;
+                host = new Uri(originHost).Host;
             }
 
             // 先拿Header的ai-host
             if (_httpContextAccessor.HttpContext.Request.Headers.TryGetValue("ai-host", out var aiHost))
             {
-                return new Uri(aiHost).Host;
+                host = new Uri(aiHost).Host;
             }
 
             if (_httpContextAccessor.HttpContext.Request.Headers.TryGetValue("Referer", out var referer))
             {
-                if (new Uri(referer).Host.Contains("localhost"))
-                {
-                    return _httpContextAccessor.HttpContext.Request.Host.Host;
-                }
-                else
-                {
-                    return new Uri(referer).Host;
-                }
+                host = new Uri(referer).Host;
             }
 
+            if (host.Contains("localhost"))
+                host = string.IsNullOrWhiteSpace(aiHost) ? _httpContextAccessor.HttpContext.Request.Host.Host : aiHost;
+
+            if (_appHost.Any(a => a == host))
+                host = $"m{host[host.IndexOf('.')..]}";
+
             // 都拿不到直接用Request的Host
-            return _httpContextAccessor.HttpContext.Request.Host.Host;
+            return host;
         }
 
         public string GetRequestUrl()
