@@ -120,7 +120,7 @@ namespace MemberSite.Service.BLL
 
             #region 埋點
             
-            if (result == 0 && regCustInfo.SiteId == 1 )
+            if (result == 0 && regCustInfo.SiteId is 1 or 2 or 3 )
             {
                 _ = Task.Run(() =>
                 {
