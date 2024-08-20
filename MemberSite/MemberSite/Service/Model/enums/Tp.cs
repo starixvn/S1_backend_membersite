@@ -37,6 +37,7 @@
         TCG = 33,
         MG = 34,
         MP = 35,
-        SBSW = 41
+        SBSW = 41,
+        SabaPlay = 66,
     }
 }

@@ -34,4 +34,16 @@
             Message = $"[{ip}] {message}";
         }
     }
+
+    public class CountryCode
+    {
+        public string Code { get; set; }
+        public string Country { get; set; }
+
+        public CountryCode(IPCountry iPCountry)
+        {
+            Code = iPCountry.Code;
+            Country = iPCountry.Country.Replace("-", "").Replace("\r", "");
+        }
+    }
 }

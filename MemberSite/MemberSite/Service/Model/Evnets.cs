@@ -442,6 +442,10 @@ namespace MemberSite.Service.Model
         public List<string> ConsolationPrize { get; set; }
         public List<string> SmallPrize { get; set; }
         public ChineseZodiacStickerId StickerId { get; set; }
+        public  List<string> TicketNo { get; set; }
+        public  CustLotteryTicket CustWinTicketNo { get; set; }
+        public ChineseZodiacStickerId CustStickerId { get; set; }
+     
     }
     
     public class GetLotteryRoundListResponse

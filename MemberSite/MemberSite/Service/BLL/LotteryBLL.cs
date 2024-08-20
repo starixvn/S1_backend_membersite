@@ -74,7 +74,7 @@ namespace MemberSite.Service.BLL
             return (lotteryInfo , errorCode);
         }
         
-        public GetCurrentLotteryWinnerListResponse GetCurrentLotteryWinnerList(int siteId , int roundId)
+        public GetCurrentLotteryWinnerListResponse GetCurrentLotteryWinnerList(int siteId ,int custId  , int roundId)
         {
             var response = new GetCurrentLotteryWinnerListResponse();
             var result = GetLotteryWinnerList(siteId , roundId)
@@ -90,6 +90,11 @@ namespace MemberSite.Service.BLL
                 response.ConsolationPrize = JsonConvert.DeserializeObject<List<string>>(result.ConsolationPrize);
                 response.SmallPrize = JsonConvert.DeserializeObject<List<string>>(result.SmallPrize);
                 response.StickerId = result.StickerId;
+                var tickets = _eventsService.GetCustLotteryTicket(custId, result.RoundId ,(int)LotteryTicketEnum.Ticket).ToList();
+                response.TicketNo = tickets.Select(x => x.TicketNo).ToList();
+                response.CustWinTicketNo = tickets.FirstOrDefault(x => x.LotteryPrizeCategory != 0);
+                var sticker = _eventsService.GetCustLotteryTicket(custId, result.RoundId ,(int)LotteryTicketEnum.Sticker).FirstOrDefault();
+                if (sticker != null) response.CustStickerId = sticker.StickerId;
             }
             else
             {
