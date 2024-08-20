@@ -38,6 +38,12 @@ namespace MemberSite.Service.BLL
                 var uip = _tools.GetIpToLong(clientIp);
                 var ipCountry = _IPCountryList.Find(x => x.IpFrom < uip && x.IpTo > uip);
 
+                // ip異常找不到國家回傳block
+                if (ipCountry == null)
+                {
+                    return new IpCountryWithAccess(clientIp, "not found in IPCountryList");
+                }
+
                 // 1.檢查白名單
                 if (await _cacheHelper.KeyExistsAsync($"AllowedIp:{clientIp}", RedisDataBase.IP))
                 {
@@ -46,12 +52,6 @@ namespace MemberSite.Service.BLL
                         Code = ipCountry.Code,
                         Forbidden = false //access
                     };
-                }
-
-                // ip異常找不到國家回傳block
-                if (ipCountry == null)
-                {
-                    return new IpCountryWithAccess(clientIp, "not found in IPCountryList");
                 }
 
                 // 2.檢查黑名單
