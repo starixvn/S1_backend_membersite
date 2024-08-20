@@ -157,15 +157,7 @@ namespace MemberSite.Service.BLL
                         TicketNo = ticketData.TicketNo,
                         StartDate = roundMatch.StartDate,
                         EndDate = roundMatch.EndDate,
-                        PrizeName =  ticketData.LotteryPrizeCategory switch
-                        {
-                            LotteryPrizeCategory.FirstPrize => "1st Prize",
-                            LotteryPrizeCategory.SecondPrize => "2nd Prize",
-                            LotteryPrizeCategory.ThirdPrize => "3rd Prize",
-                            LotteryPrizeCategory.ConsolationPrize => "Consolation Prize",
-                            LotteryPrizeCategory.SmallPrize => "Small Prize",
-                            _ => string.Empty
-                        },
+                        LotteryPrizeCategory =  ticketData.LotteryPrizeCategory,
                         StickerId = sticker?.StickerId ?? 0
                     };
 
