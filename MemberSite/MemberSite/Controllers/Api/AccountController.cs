@@ -43,6 +43,7 @@ namespace MemberSite.Controllers.Api
         private readonly CheckAttackBLL _checkAttackBll;
         private readonly ServerInfoBll _serverInfoBll;
         private readonly JwtConfig _jwtConfig;
+        private readonly ConfigBLL _configBll;
 
         public AccountController(IServiceProvider provider)
         {
@@ -54,9 +55,9 @@ namespace MemberSite.Controllers.Api
             _walletBll = provider.GetRequiredService<WalletBLL>();
             _courierAdapter = provider.GetRequiredService<CourierAdapter>();
 
-            var configBll = provider.GetRequiredService<ConfigBLL>();
-            _tpServiceApiUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost").TpService;
-            _jwtConfig = configBll.GetConfigValueByEnvironment<JwtConfig>("JwtSettings");
+            _configBll = provider.GetRequiredService<ConfigBLL>();
+            _tpServiceApiUrl = _configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost").TpService;
+            _jwtConfig = _configBll.GetConfigValueByEnvironment<JwtConfig>("JwtSettings");
             _messageBll = provider.GetRequiredService<MessageBll>();
             _paymentBll = provider.GetRequiredService<PaymentBLL>();
             _payInfoBll = provider.GetRequiredService<PayInfoBLL>();
@@ -411,8 +412,8 @@ namespace MemberSite.Controllers.Api
                             crypto.Disabled = true;
                     }
                 }
-                
-                
+
+
             }
 
             apiResult.Data = custBankInfo;
@@ -441,7 +442,7 @@ namespace MemberSite.Controllers.Api
             var pageSize = msgReq.PageSize == 0 ? 5 : msgReq.PageSize;
             var serverInfo = _serverInfoBll.GetServerInfo();
             var custInfo = _custInfoBll.GetCustInfo(authData.CustId);
-            var language = LanguageObject.Create(custInfo.CurrencyId, custInfo.UserLang, serverInfo.DefLang);
+            var language = _selLangBll.LanguageObjectCreate(custInfo.SiteId, custInfo.CurrencyId, custInfo.UserLang, serverInfo.DefLang);
 
             var msgs = await _messageBll.GetMsgList(authData.CustId, language, pageSize, pageNumber);
             apiResult.Data = msgs.Data;
@@ -470,7 +471,7 @@ namespace MemberSite.Controllers.Api
             }
             var serverInfo = _serverInfoBll.GetServerInfo();
             var custInfo = _custInfoBll.GetCustInfo(authData.CustId);
-            var language = LanguageObject.Create(custInfo.CurrencyId, custInfo.UserLang, serverInfo.DefLang);
+            var language = _selLangBll.LanguageObjectCreate(custInfo.SiteId, custInfo.CurrencyId, custInfo.UserLang, serverInfo.DefLang);
 
             apiResult.Data = await _messageBll.GetMsgContent(authData.CustId, language, msgContentReq.MsgId, msgContentReq.IsBatch);
             apiResult.ErrorCode = 0;
@@ -544,7 +545,7 @@ namespace MemberSite.Controllers.Api
             }
             var serverInfo = _serverInfoBll.GetServerInfo();
             var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-            var language = LanguageObject.Create(custInfo.CurrencyId, custInfo.UserLang, serverInfo.DefLang);
+            var language = _selLangBll.LanguageObjectCreate(custInfo.SiteId, custInfo.CurrencyId, custInfo.UserLang, serverInfo.DefLang);
             apiResult.Data = await _messageBll.GetPopupMessage(authData.CustId, language);
             apiResult.ErrorCode = 0;
             return apiResult;
