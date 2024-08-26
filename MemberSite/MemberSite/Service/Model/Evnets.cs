@@ -473,7 +473,7 @@ namespace MemberSite.Service.Model
             get => _endDate;
             set => _endDate = new DateTimeOffset(value.DateTime, new TimeSpan(8, 0, 0));
         }
-        public string PrizeName { get; set; }
+        public LotteryPrizeCategory LotteryPrizeCategory { get; set; }
         public ChineseZodiacStickerId StickerId { get; set; }
         public int Jackpot { get; set; }
     }
