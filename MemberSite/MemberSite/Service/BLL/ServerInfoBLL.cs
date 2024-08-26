@@ -124,10 +124,11 @@ namespace MemberSite.Service.BLL
         public string GetMainDomain()
         {
             var host = GetDomain();
-            var dotIndex = host.IndexOf(".");
-            if (dotIndex > -1)
+            var parts = host.Split('.');
+
+            if (parts.Length >= 2)
             {
-                host = host.Substring(dotIndex + 1);
+                return $"{parts[parts.Length - 2]}.{parts[parts.Length - 1]}";
             }
 
             return host;
