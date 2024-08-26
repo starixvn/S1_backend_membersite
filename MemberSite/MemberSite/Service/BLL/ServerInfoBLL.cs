@@ -149,7 +149,7 @@ namespace MemberSite.Service.BLL
             }
 
             if (host.Contains("localhost"))
-                host = string.IsNullOrWhiteSpace(aiHost) ? _httpContextAccessor.HttpContext.Request.Host.Host : aiHost;
+                host = string.IsNullOrWhiteSpace(aiHost) ? _httpContextAccessor.HttpContext.Request.Host.Host : new Uri(aiHost).Host;
 
             if (_appHost.Any(a => a == host))
                 host = $"m{host[host.IndexOf('.')..]}";
