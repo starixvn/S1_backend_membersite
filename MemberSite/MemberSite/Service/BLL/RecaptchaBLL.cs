@@ -61,7 +61,7 @@ namespace MemberSite.Service.BLL
 
         private async Task<RecaptchaGroup> GetRecaptchaSetting()
         {
-            var domain = _serverInfoBll.GetDomain();
+            var domain = _serverInfoBll.GetMainDomain();
             var name = await _recaptchaSvc.GetGroup(domain);
             return _recaptcha.Groups[name];
         }
