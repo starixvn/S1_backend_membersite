@@ -398,6 +398,91 @@ namespace MemberSite.Service.DAL
 
             return stickerCount;
         }
+        
+        public IEnumerable<EggTicketData> GetEggTicketData(int custId)
+        {
+            var p = new DynamicParameters(new
+            {
+                _CustId = custId,
+            });
+            var eggTicket = _reportDbClient.Query<EggTicketData>("Service_CustEggTicket_Data_Get", p);
+
+            return eggTicket;
+        }
+        
+        #endregion
+        
+        #region Olympic
+
+        public IEnumerable<OlympicEventSBSWModel> GetOlympicsEventSportBet(int sq,int custId,string transIdList)
+        {
+            var p = new DynamicParameters();
+            p.Add("SQ", sq, dbType: DbType.Int64);
+            p.Add("CustId", custId, dbType: DbType.Int32);
+            p.Add("transIdList", transIdList, dbType: DbType.String);
+            
+            return _reportDbClient.Query<OlympicEventSBSWModel>("Service_Olympic_SportBetCheck_Get", p);
+        }
+
+        public int OlympicsInertGoldMetal(int custId, int goldMetalCount,string type)
+        {
+            var p = new DynamicParameters();
+            p.Add("_CustId", custId, dbType: DbType.Int32);
+            p.Add("_MissionDate", type, dbType: DbType.String);
+            p.Add("_TicketCount", goldMetalCount, dbType: DbType.Int32);
+            p.Add("_EggTicket", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            
+            var result = _mainDbClient.Execute("Service_CustEggTicket_Ins", p);
+            var eggTicket = p.Get<int>("_EggTicket");
+
+            return eggTicket;
+        }
+
+        public int OlympicsEventGoldMetalSet(int id,int custId ,string goldMetalIdList)
+        {
+            var p = new DynamicParameters();
+            p.Add("Id", id, dbType: DbType.Int64);
+            p.Add("CustId", custId, dbType: DbType.Int32);
+            p.Add("GoldMedalIdList", goldMetalIdList, dbType: DbType.String);
+            
+            var result = _mainDbClient.Execute("Service_Olympic_GoldMedal_Set", p);
+            return result;
+        }
+
+        public bool CreateAdminAdjustmentInfoLog(CreateAdminAdjustmentInfoLogInput input)
+        {
+            var props = new DynamicParameters();
+            props.Add("_SiteId", input.SiteId);
+            props.Add("_CustId", input.CustId);
+            props.Add("_CurrencyId", input.CurrencyId);
+            props.Add("_Menu", (int)input.MenuEnum);
+            props.Add("_ActionType", (int)input.ActionType);
+            props.Add("_RefTransId", input.RefTransId ?? string.Empty);
+            props.Add("_BeforeDetailInfo", input.BeforeDetailInfo, DbType.String);
+            props.Add("_AfterDetailInfo", input.AfterDetailInfo, DbType.String);
+            props.Add("_Operator", input.Operator);
+
+            var result =
+                _mainDbClient.Execute("Admin_AdminAdjustmentInfoLog_Ins_V2", props);
+
+            return result > 0;
+        }
+
+        public int OlympicsEventDrawLogIns(int eventId, int prizeId, string prizeName, decimal amount, int custId, int currencyId)
+        {
+            var props = new DynamicParameters();
+            props.Add("_EventId", eventId);
+            props.Add("_PrizeId", prizeId);
+            props.Add("_PrizeName", prizeName);
+            props.Add("_Amount", amount);
+            props.Add("_CustId", custId);
+            props.Add("_CurrencyId", currencyId);
+
+            var result =
+                _mainDbClient.Execute("Service_Olympic_DrawLog_Ins", props);
+
+            return result;
+        }
 
         #endregion
 

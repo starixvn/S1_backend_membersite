@@ -113,6 +113,8 @@ namespace MemberSite
             services.AddTransient<GameService>();
             services.AddTransient<QueueJobService>();
             services.AddTransient<RedemptionService>();
+            services.AddSingleton<CommonService>();
+            services.AddTransient<InternalService>();
 
             services.AddSingleton<IPService>();
             services.AddSingleton<ShieldService>();
@@ -165,6 +167,7 @@ namespace MemberSite
             services.AddSingleton<VerificationRewardBLL>();
             services.AddTransient<DeepLinkBLL>();
             services.AddSingleton<PayInfoBLL>();
+            services.AddSingleton<PayInfoLocalizeBLL>();
             services.AddSingleton<LineLoginBLL>();
             services.AddSingleton<SiteBll>();
             services.AddSingleton<IPBLL>();
@@ -175,6 +178,8 @@ namespace MemberSite
             services.AddTransient<CheckAttackBLL>();
             services.AddTransient<DateTimeHelper>();
             services.AddTransient<IAnnouncementBLL, AnnouncementBLL>();
+            services.AddTransient<IOlympicEventBLL, OlympicEventBLL>();
+            services.AddTransient<InternalBLL>();
 
             services.AddTransient<IHotGameBLL, HotGameBLL>();
             services.AddTransient<BigWinBLL>();
@@ -185,6 +190,8 @@ namespace MemberSite
             services.AddSingleton<CheckIpBLL>();
             services.AddSingleton<CryptoHelper>();
             services.AddSingleton<FaceBookPixelBLL>();
+            services.AddSingleton<CustNotificationBLL>();
+
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();
 

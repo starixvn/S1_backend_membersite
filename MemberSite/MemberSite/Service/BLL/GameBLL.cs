@@ -194,6 +194,8 @@ namespace MemberSite.Service.BLL
                             IconStartTime = item.IconStartTime,
                             IconEndTime = item.IconEndTime,
                             CurrencyGameName = string.IsNullOrEmpty(item.CurrencyGameName) ? null : JsonConvert.DeserializeObject<Dictionary<string, string>>(item.CurrencyGameName),
+                            RwdHeaderPicUrl = JsonConvert.SerializeObject(new List<string> { $"{imgDomain}/img/Header/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.png" }),
+                            RwdLobbyPicUrl = JsonConvert.SerializeObject(new List<string> { $"{imgDomain}/img/LobbyHeader/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.png" }),
                             PcHeaderPicUrl = JsonConvert.SerializeObject(new List<string> {$"{imgDomain}/desktop/img/Header/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.png"}),
                             PcLobbyPicUrl = JsonConvert.SerializeObject(new List<string> {$"{imgDomain}/desktop/img/LobbyHeader/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.png"}),
                             MobileHeaderPicUrl = JsonConvert.SerializeObject(new List<string> {$"{imgDomain}/h5/img/Header/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.png"}),
