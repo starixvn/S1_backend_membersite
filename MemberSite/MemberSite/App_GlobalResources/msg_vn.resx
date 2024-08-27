@@ -156,5 +156,5 @@
   <data name="msg_BankUnderMaintenance_Detail"><value>Hệ thống ngân hàng hiện đang được bảo trì và tạm thời không thể xử lý khoản tiền gửi của bạn.</value></data>
   <data name="msg_AffCodeNotFound"><value>Tìm không thấy ID Đại lý</value></data>
   <data name="msg_WrongAmountFormat"><value>Lỗi &gt; Định dạng số tiền sai</value></data>
-  <data name="msg_QuestionnaireFailed"><value>Số lượt gửi phản hồi hôm nay đã hết.</value></data>
+  <data name="msg_QuestionnaireFailed"><value>Số lượt gửi phản hồi hôm nay đã hết. </value></data>
   </root>

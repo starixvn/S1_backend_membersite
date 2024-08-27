@@ -152,5 +152,5 @@
   <data name="msg_BankUnderMaintenance_Detail"><value>Sistem bank sedang dalam penyelenggaraan dan tidak dapat memproses deposit anda buat masa ini.</value></data>
   <data name="msg_AffCodeNotFound"><value>ID ahli gabungan tidak ditemui</value></data>
   <data name="msg_WrongAmountFormat"><value>Ralat &gt; Format jumlah salah</value></data>
-  <data name="msg_QuestionnaireFailed"><value>Anda telah mencapai penyerahan maklum balas maksimum untuk hari ini.</value></data>
+  <data name="msg_QuestionnaireFailed"><value>Anda telah mencapai penyerahan maklum balas maksimum untuk hari ini.。</value></data>	
   </root>

@@ -113,9 +113,9 @@ namespace MemberSite
             services.AddTransient<IAffiliateService, AffiliateService>();
             services.AddTransient<QueueJobService>();
             services.AddTransient<RedemptionService>();
-            services.AddTransient<QustionnaireService>();
             services.AddSingleton<CommonService>();
             services.AddTransient<InternalService>();
+            services.AddTransient<QustionnaireService>();
 
             services.AddSingleton<IPService>();
             services.AddSingleton<ShieldService>();
@@ -194,10 +194,10 @@ namespace MemberSite
             services.AddSingleton<CheckIpBLL>();
             services.AddTransient<TelegramBLL>();
             services.AddSingleton<CryptoHelper>();
-            services.AddSingleton<QuestionnaireBLL>();
             services.AddSingleton<FaceBookPixelBLL>();
             services.AddSingleton<CustNotificationBLL>();
-
+            services.AddSingleton<QuestionnaireBLL>();
+            
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();
 
