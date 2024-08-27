@@ -1,9 +1,8 @@
-﻿using MemberSite.Service.Model.enums;
-
-namespace MemberSite.Service.Model;
+﻿namespace MemberSite.Service.Model;
 
 public class PixelRequest
 {
+    public int SiteId { get; set; }
     public int CustId { get; set; }
     public string Url { get; set; }
     public int CurrencyId { get; set; }
