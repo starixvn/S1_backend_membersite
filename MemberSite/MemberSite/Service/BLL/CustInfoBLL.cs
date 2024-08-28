@@ -80,7 +80,7 @@ namespace MemberSite.Service.BLL
 
         public int AddCustInfo(string UserName, string Userpwd, string Email, int CurrencyId, string UserLang,
             string refId, string affId, string aff, AffCodeObject affCode, string lineUserId, int deviceType, Customer agent, out int custId, string signupUrl = null,
-            string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null,
+            string referralUrl = null, string PhoneNo = null, string AreaCode = null,string nationality = null, string RealName = null, string promoCode = null,
             int Birth_d = 0, int Birth_m = 0, int Birth_y = 0, string signupIp = null, string accountNo = null, string iFSCCode = null, int sysId = 0)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
@@ -102,7 +102,7 @@ namespace MemberSite.Service.BLL
             };
             
             var result = _custInfoService.AddCustInfo(regCustInfo, Email, lineUserId, deviceType, out custId, signupUrl, referralUrl, PhoneNo, AreaCode,
-                RealName, promoCode, Birth_d, Birth_m, Birth_y, signupIp, accountNo, iFSCCode, sysId);
+                RealName, promoCode, Birth_d, Birth_m, Birth_y, nationality,signupIp, accountNo, iFSCCode, sysId);
             regCustInfo.CustId = custId;
             
             if (result == 0 && regCustInfo.SiteId is 2 or 3) // goal and bwing
