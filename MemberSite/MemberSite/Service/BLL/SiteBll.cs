@@ -55,7 +55,7 @@ public class SiteBll
         var result = _custInfoBll.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email,
             signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff,
             affCodeObj, signupModel.LineUserId, deviceType, agent, out var custId, signupModel.SignupUrl, signupModel.ReferralUrl, signupModel.PhoneNo,
-            signupModel.AreaCode, signupModel.RealName, signupModel.PromoCode, signupModel.Birth_d,
+            signupModel.AreaCode, signupModel.Nationality,signupModel.RealName, signupModel.PromoCode, signupModel.Birth_d,
             signupModel.Birth_m, signupModel.Birth_y, signupIp);
 
         AfterSignUp(signupModel, fromUrl, userAgent, deviceType, result, custId, apiResult, out var customer); 
@@ -92,7 +92,7 @@ public class SiteBll
         var result = _custInfoBll.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email, 
             signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff,
             affCodeObj, signupModel.LineUserId, deviceType, agent, out var custId, signupModel.SignupUrl, signupModel.ReferralUrl, signupModel.PhoneNo,
-            signupModel.AreaCode, signupModel.RealName, signupModel.PromoCode, signupModel.Birth_d,
+            signupModel.AreaCode, signupModel.Nationality,signupModel.RealName, signupModel.PromoCode, signupModel.Birth_d,
             signupModel.Birth_m, signupModel.Birth_y, signupIp, signupModel.AccountNo, signupModel.IFSCCode, signupModel.SysId);
         
         AfterSignUp(signupModel, fromUrl, userAgent, deviceType, result, custId, apiResult, out var customer);
@@ -157,6 +157,13 @@ public class SiteBll
                 apiResult.Message = $"{_selLangBll.GetResourceValue("lbl_Email")} {_selLangBll.GetMsg("msg_HasExist")}";
                 return null;
             }
+        }
+        
+        if (signupModel.Birth_d == 0 && signupModel.Birth_m == 0 && signupModel.Birth_y == 0)
+        {
+            apiResult.ErrorCode = -21;
+            apiResult.Message = $"{_selLangBll.GetMsg("msg_BirthdayIsRequired")}";
+            return null;
         }
         
         #endregion
@@ -259,16 +266,16 @@ public class SiteBll
             apiResult.Message = $"{_selLangBll.GetResourceValue("lbl_Phone")} {_selLangBll.GetMsg("msg_PhoneWrongFormat")}";
             return false;
         }
-
-        //if (!string.IsNullOrWhiteSpace(signupModel.Email))
-        //{
-        //    if (_custInfoBLL.ExistsEmail(0, signupModel.Email))
-        //    {
-        //        apiResult.ErrorCode = -10;
-        //        apiResult.Message = $"{_selLangBll.GetResourceValue("lbl_Email")} {_selLangBll.GetMsg("msg_HasExist")}";
-        //        return customer;
-        //    }
-        //}
+        
+        if (!string.IsNullOrWhiteSpace(signupModel.Email))
+        {
+            if (_custInfoBll.ExistsEmail(0, signupModel.Email))
+            {
+                apiResult.ErrorCode = -10;
+                apiResult.Message = $"{_selLangBll.GetResourceValue("lbl_Email")} {_selLangBll.GetMsg("msg_HasExist")}";
+                return false;
+            }
+        }
         
         if (!_tools.CheckUserName(signupModel.UserName))
         {

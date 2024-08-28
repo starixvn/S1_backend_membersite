@@ -353,7 +353,8 @@ namespace MemberSite.Controllers.Api
             public string ReferralUrl { get; set; }
             public string PhoneNo { get; set; }
             public string AreaCode { get; set; }
-            public string AreaPhoneNo => $"{AreaCode}{PhoneNo}";
+            public string AreaPhoneNo  =>  $"{AreaCode}{PhoneNo}";
+            public string Nationality { get; set; }
             public string RealName { get; set; }
             public string PromoCode { get; set; }
             public string RedirectUrl { get; set; }
