@@ -159,13 +159,6 @@ public class SiteBll
             }
         }
         
-        if (signupModel.Birth_d == 0 && signupModel.Birth_m == 0 && signupModel.Birth_y == 0)
-        {
-            apiResult.ErrorCode = -21;
-            apiResult.Message = $"{_selLangBll.GetMsg("msg_BirthdayIsRequired")}";
-            return null;
-        }
-        
         #endregion
         
         var result = _custInfoBll.IvorysportAddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email,
