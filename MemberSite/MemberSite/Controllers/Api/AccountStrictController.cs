@@ -513,11 +513,6 @@ namespace MemberSite.Controllers.Api
                 {
                     custProfile["FinanceNotification"] = beforeCustInfo.FinanceNotification;
                 }
-                
-                if (!string.IsNullOrEmpty(beforeCustInfo.LastDepositMode))
-                {
-                    custProfile["LastDepositMode"] = beforeCustInfo.LastDepositMode;
-                }
 
                 custProfile = SetCountryCodeAndAreaCode(custProfile, beforeCustInfo, custInfo.SiteId);
 
@@ -647,11 +642,6 @@ namespace MemberSite.Controllers.Api
                     if (!string.IsNullOrEmpty(beforeCustInfo.FinanceNotification))
                     {
                         custProfile["FinanceNotification"] = beforeCustInfo.FinanceNotification;
-                    }
-                
-                    if (!string.IsNullOrEmpty(beforeCustInfo.LastDepositMode))
-                    {
-                        custProfile["LastDepositMode"] = beforeCustInfo.LastDepositMode;
                     }
 
                     custProfile = SetCountryCodeAndAreaCode(custProfile, beforeCustInfo, custInfo.SiteId);
@@ -852,7 +842,6 @@ namespace MemberSite.Controllers.Api
                         custInfo.Occupation,
                         custInfo.SourceOfIncome,
                         FinanceNotification = string.IsNullOrEmpty(custInfo.FinanceNotification) ? "1" : custInfo.FinanceNotification,
-                        LastDepositMode = string.IsNullOrEmpty(custInfo.LastDepositMode) ? "1" : custInfo.LastDepositMode,
                         custInfo.CustId,
                     };
 
@@ -1251,7 +1240,6 @@ namespace MemberSite.Controllers.Api
         {
             public string Language { get; set; }
             public int FinanceNotification { get; set; }
-            public int LastDepositMode { get; set; }
         }
 
         [HttpPost]
@@ -1261,7 +1249,7 @@ namespace MemberSite.Controllers.Api
             var authData = _authorizeBLL.GetAuthData();
             if (authData is { CustId: > 0 })
             {
-                apiResult.ErrorCode = _custInfoBLL.SetCustSetting(authData.CustId,custSettingReq.FinanceNotification,custSettingReq.LastDepositMode); 
+                apiResult.ErrorCode = _custInfoBLL.SetCustSetting(authData.CustId,custSettingReq.FinanceNotification); 
             }
 
             return apiResult;
