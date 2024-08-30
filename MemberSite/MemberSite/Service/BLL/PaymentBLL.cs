@@ -658,22 +658,21 @@ namespace MemberSite.Service.BLL
         }
         public int SetDepositCancel(int custId, string transId)
         {
-            var depositId = 0;
             var m = Regex.Match(transId, @"\d+");
-            int.TryParse(m.Value, out depositId);
-            var CustInfo = _custInfoBll.GetCustInfoWithCache(custId);
-            return _depositService.SetDepositCancel(CustInfo.CustId, depositId, CustInfo.SiteId);
+            _ = int.TryParse(m.Value, out var depositId);
+            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
+            return _depositService.SetDepositCancel(custInfo.UserName, depositId, custInfo.SiteId);
         }
 
         public int SetWithdrawalCancel(int custId, string transId)
         {
-            var CustInfo = _custInfoBll.GetCustInfoWithCache(custId);
+            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var forStatus = new List<int>
             {
                 (int)WithdrawalStatus.Pending,
                 (int)WithdrawalStatus.ToKyc
             };
-            return withdrawalService.SetWithdrawalCancel(CustInfo.CustId, transId, CustInfo.SiteId, forStatus, WithdrawalStatus.Cancelled);
+            return withdrawalService.SetWithdrawalCancel(custInfo.UserName, transId, custInfo.SiteId, forStatus, WithdrawalStatus.Cancelled);
         }
         public IEnumerable<DepositReceipt> GetDepositReceipt(string transId, int custId)
         {
