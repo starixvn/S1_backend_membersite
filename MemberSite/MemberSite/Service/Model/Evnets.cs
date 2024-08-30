@@ -357,6 +357,7 @@ namespace MemberSite.Service.Model
         public int SiteId { get; set; }
         public int CustId { get; set; }
         public string UserName { get; set; }
+        public string StickerId { get; set; }
         public decimal StickerPrize { get; set; }
         public string Memo { get; set; }
     }
