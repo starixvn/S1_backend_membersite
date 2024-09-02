@@ -1,37 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="metadata">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
-              </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="assembly">
-            <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
-            </xsd:complexType>
-          </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
                 <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
                 <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
               <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
               <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
@@ -46,388 +27,128 @@
       </xsd:complexType>
     </xsd:element>
   </xsd:schema>
-  <resheader name="resmimetype">
-    <value>text/microsoft-resx</value>
-  </resheader>
-  <resheader name="version">
-    <value>2.0</value>
-  </resheader>
-  <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <data name="msg_TransferAlert" xml:space="preserve">
-    <value>您的当前体育钱包余额是：&lt;span class="popup-span Js-3RdWallet-Balance"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;立即存款并将中心钱包余额转移至体育钱包以享有我司游戏盘口及服务。</value>
-  </data>
-  <data name="msg_SubmitDepositTime" xml:space="preserve">
-    <value>请提交您存款时间</value>
-  </data>
-  <data name="msg_ClaimCashBackBonus" xml:space="preserve">
-    <value>恭喜，您的现金返还 {0} 已汇入您的户口！</value>
-  </data>
-  <data name="msg_BirthdayIsRequired" xml:space="preserve">
-    <value>请输入生日</value>
-  </data>
-  <data name="msg_UsernameReq" xml:space="preserve">
-    <value>请输入用户名。</value>
-  </data>
-  <data name="msg_ApiServerError" xml:space="preserve">
-    <value>API 数据库错误</value>
-  </data>
-  <data name="msg_MustInteger" xml:space="preserve">
-    <value>请填入整数金额，不可填入小数</value>
-  </data>
-  <data name="msg_LoginToAccess" xml:space="preserve">
-    <value>登录后进行游戏。</value>
-  </data>
-  <data name="msg_WithdrawalAccountNumberIncorrect_Detail" xml:space="preserve">
-    <value>提款账户号码有误。请核实您的提款账户号码信息。</value>
-  </data>
-  <data name="msg_CreditSignUp" xml:space="preserve">
-    <value>敬爱的客户， &lt;br /&gt;&lt;br /&gt;欢迎来到&lt;a href="https://{0}" target="_new"&gt;{0}&lt;/a&gt;, 完成注册后请游览此链接并享受我司的游戏盘口。</value>
-  </data>
-  <data name="msg_WrongAmountSubmitted_Detail" xml:space="preserve">
-    <value>实际转账金额与存款单申请金额不符，请再次确认或联系在线客服寻求协助。</value>
-  </data>
-  <data name="msg_BankAccountDuplicate" xml:space="preserve">
-    <value>不允许重复银行，请尝试另一个户口。</value>
-  </data>
-  <data name="msg_WithdrawalNoFund" xml:space="preserve">
-    <value>余额不足！申请提现失败。</value>
-  </data>
-  <data name="msg_EmailFormatVerify" xml:space="preserve">
-    <value>输入的邮箱地址格式有误</value>
-  </data>
-  <data name="msg_loggedout" xml:space="preserve">
-    <value>您已成功登出！</value>
-  </data>
-  <data name="msg_PhoneFormatVerify" xml:space="preserve">
-    <value>您输入的手机号格式有误，介于{0}位数字</value>
-  </data>
-  <data name="msg_PhoneWrongFormat" xml:space="preserve">
-    <value>手机格式不符</value>
-  </data>
-  <data name="msg_Updatesuccessful" xml:space="preserve">
-    <value>更新成功</value>
-  </data>
-  <data name="msg_WithdrawalFailed" xml:space="preserve">
-    <value>申请提现失败。请联系客服了解详情。</value>
-  </data>
-  <data name="msg_CryptoWalletDuplicate" xml:space="preserve">
-    <value>加密货币钱包地址已存在</value>
-  </data>
-  <data name="msg_WithdrawalExists" xml:space="preserve">
-    <value>您的交易订单待定中。请等您的待定订单完成后再尝试。</value>
-  </data>
-  <data name="msg_LessThanWithdrawalMin" xml:space="preserve">
-    <value>提款金额必须要大于 {0}</value>
-  </data>
-  <data name="msg_ReferenceNumber" xml:space="preserve">
-    <value>参照好吗</value>
-  </data>
-  <data name="msg_Congratulations" xml:space="preserve">
-    <value>注册已完成，您可立即登录存款，开始投注。</value>
-  </data>
-  <data name="msg_PaymentNotReceived" xml:space="preserve">
-    <value>款项未收到</value>
-  </data>
-  <data name="msg_DepositHint" xml:space="preserve">
-    <value>立即存款以享有我司游戏盘口及服务。</value>
-  </data>
-  <data name="msg_WrongAmount" xml:space="preserve">
-    <value>金额错误</value>
-  </data>
-  <data name="msg_WithdrawalAccountsNameUnmatch" xml:space="preserve">
-    <value>提款人姓名不符</value>
-  </data>
-  <data name="msg_PasswordValidate" xml:space="preserve">
-    <value>密码长度必须 6 至 15 个字符，包含字母数字。</value>
-  </data>
-  <data name="msg_WrongAmountSubmitted" xml:space="preserve">
-    <value>存款金额不正确</value>
-  </data>
-  <data name="msg_UsernameNotAvailable" xml:space="preserve">
-    <value>用户名已有人使用。</value>
-  </data>
-  <data name="msg_WithdrawalAccountsNameUnmatch_Detail" xml:space="preserve">
-    <value>提款账户姓名与注册姓名不符合。请联系客服寻求协助。</value>
-  </data>
-  <data name="msg_NeedAccountName" xml:space="preserve">
-    <value>需要账户名称</value>
-  </data>
-  <data name="msg_DrawPrizeTital" xml:space="preserve">
-    <value>红包大放送</value>
-  </data>
-  <data name="msg_UsernameLength" xml:space="preserve">
-    <value>用户名必须介于6 和18 个字符之间。</value>
-  </data>
-  <data name="msg_DepositSlipRequired_Detail" xml:space="preserve">
-    <value>请上传转账收据以缩短款项交易时长。</value>
-  </data>
-  <data name="msg_NeedAccountNo" xml:space="preserve">
-    <value>需要帐户号码</value>
-  </data>
-  <data name="msg_DrawPrize" xml:space="preserve">
-    <value>恭喜，您的红包 {0} 已汇入您的户口！</value>
-  </data>
-  <data name="msg_SpecialCodeErrorForCheck" xml:space="preserve">
-    <value>优惠码序号有误，请再次确认</value>
-  </data>
-  <data name="msg_InvalidOldPassword" xml:space="preserve">
-    <value>旧密码无效</value>
-  </data>
-  <data name="msg_WithdrawalAccountAannotReceiveMoney_Detail" xml:space="preserve">
-    <value>提款账户无法正常收款，请再次核实或使用其他提款账户提款。</value>
-  </data>
-  <data name="msg_PasswordLength" xml:space="preserve">
-    <value>密码长度必须介于6 和18 个字符之间。</value>
-  </data>
-  <data name="msg_GreaterThanWithdrawalMax" xml:space="preserve">
-    <value>您已达到每日提款限额</value>
-  </data>
-  <data name="msg_MailWrongFormat" xml:space="preserve">
-    <value>电子邮箱格式错误</value>
-  </data>
-  <data name="msg_NotInLimit" xml:space="preserve">
-    <value>不在设定范围</value>
-  </data>
-  <data name="msg_UsernameValidate" xml:space="preserve">
-    <value>仅限6到18个数字、英文字母大小写</value>
-  </data>
-  <data name="msg_WrongBankSubmitted_Detail" xml:space="preserve">
-    <value>选择的存款账户有误，请再次确认或联系在线客服寻求协助。</value>
-  </data>
-  <data name="msg_DepositSlipRequired" xml:space="preserve">
-    <value>提供存款单据</value>
-  </data>
-  <data name="msg_UpdateFailed" xml:space="preserve">
-    <value>更新失败</value>
-  </data>
-  <data name="msg_EnterRealName" xml:space="preserve">
-    <value>请输入您的真实姓名</value>
-  </data>
-  <data name="msg_SelectBirthDay" xml:space="preserve">
-    <value>请选择您的生日</value>
-  </data>
-  <data name="msg_RequiredAmountInsufficient" xml:space="preserve">
-    <value>存款最低 {0} 以符合资格领取优惠</value>
-  </data>
-  <data name="msg_DepositProcessLogin_LoginFailed" xml:space="preserve">
-    <value>登录失败。用户名/密码错误或是用户名不存在。</value>
-  </data>
-  <data name="msg_SelectFile" xml:space="preserve">
-    <value>选择文档</value>
-  </data>
-  <data name="msg_DepositProcessLogin_ACLocked" xml:space="preserve">
-    <value>您的账户被锁定，请联络客服人员。</value>
-  </data>
-  <data name="msg_InactiveBankAccountSubmission" xml:space="preserve">
-    <value>存入已撤收款账户</value>
-  </data>
-  <data name="msg_ConfirmRealNameAlert" xml:space="preserve">
-    <value>请确保您的真实姓名与您的银行帐户名称相同，以免影响您的提现</value>
-  </data>
-  <data name="msg_MustDeposit" xml:space="preserve">
-    <value>您必须要先存款才能提款</value>
-  </data>
-  <data name="msg_GoToDepositPage" xml:space="preserve">
-    <value>立即充值?</value>
-  </data>
-  <data name="msg_PromoCodeHasBeenUsed" xml:space="preserve">
-    <value>此优惠代码已使用过。</value>
-  </data>
-  <data name="msg_PaymentNotReceived_Detail" xml:space="preserve">
-    <value>暂未收到款项，恳请耐心等候。</value>
-  </data>
-  <data name="msg_DrawPrize1" xml:space="preserve">
-    <value>恭喜你！ 您的{0}奖金{1} {2}已汇入您的帐户。</value>
-  </data>
-  <data name="msg_BalanceHint" xml:space="preserve">
-    <value>您的当前余额是</value>
-  </data>
-  <data name="msg_HasExist" xml:space="preserve">
-    <value>已存在系统中</value>
-  </data>
-  <data name="msg_InsufficientFund" xml:space="preserve">
-    <value>余额不足！</value>
-  </data>
-  <data name="msg_DepositRefunded_Detail" xml:space="preserve">
-    <value>存款金额已退还，恳请查看户口。</value>
-  </data>
-  <data name="msg_LockedAmountInsufficient" xml:space="preserve">
-    <value>中心钱包余额不可少于 {0}</value>
-  </data>
-  <data name="msg_InactiveBankAccountSubmission_Detail" xml:space="preserve">
-    <value>收款账户将不定时更新，恳请在转账前核实最新收款账户.</value>
-  </data>
-  <data name="msg_WithdrawalAccountAannotReceiveMoney" xml:space="preserve">
-    <value>提款账户无法正常收款</value>
-  </data>
-  <data name="msg_SamePassword" xml:space="preserve">
-    <value>新密码与旧密码相同</value>
-  </data>
-  <data name="msg_BeneficiarysAccountMaintenance_Detail" xml:space="preserve">
-    <value>提款账户银行正在维护中，您的提款申请将会在银行维护完毕之后为您办理</value>
-  </data>
-  <data name="msg_DepositorsNameUnmatch_Detail" xml:space="preserve">
-    <value>注册姓名与银行户口名字不符，请联系客服寻求协助。</value>
-  </data>
-  <data name="msg_WithdrawalAccountNumberIncorrect" xml:space="preserve">
-    <value>提款账户有误</value>
-  </data>
-  <data name="msg_DepositAlert" xml:space="preserve">
-    <value>您的当前中心钱包余额是：&lt;span class="popup-span Js-MainWallet-Balance"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;立即存款或将体育钱包余额转移至中心钱包以享有我司游戏盘口及服务。</value>
-  </data>
-  <data name="msg_ForceLogedoutHint" xml:space="preserve">
-    <value>由于此 ID 已再其它浏览器或设备登入因此您被强制终止登录。</value>
-  </data>
-  <data name="msg_WithdrawalSuccessful" xml:space="preserve">
-    <value>申请提现成功。核准后会及时通知。</value>
-  </data>
-  <data name="msg_EnterPhoneNumber" xml:space="preserve">
-    <value>请输入手机号码</value>
-  </data>
-  <data name="msg_PasswordReq" xml:space="preserve">
-    <value>请输入密码。</value>
-  </data>
-  <data name="msg_NoData" xml:space="preserve">
-    <value>无资料</value>
-  </data>
-  <data name="msg_ThisCurrencyNotSupport" xml:space="preserve">
-    <value>不支持您使用的货币。</value>
-  </data>
-  <data name="msg_InvalidCryptoWalletAddress" xml:space="preserve">
-    <value>您的加密钱包地址格式不符！</value>
-  </data>
-  <data name="msg_DrawPrizeTital1" xml:space="preserve">
-    <value>{0}神秘宝盒</value>
-  </data>
-  <data name="ForgetPwdSuccess" xml:space="preserve">
-    <value>您的新密码已发送到您的注册电子邮件地址。</value>
-  </data>
-  <data name="msg_BankAccountExists" xml:space="preserve">
-    <value>您已经存储此信息。</value>
-  </data>
-  <data name="msg_Ineligible" xml:space="preserve">
-    <value>您不符合领取此优惠，请联系客服以了解详情。</value>
-  </data>
-  <data name="msg_CreditSignUpHint_1" xml:space="preserve">
-    <value>敬爱的客户，</value>
-  </data>
-  <data name="msg_CreditSignUpHint_2" xml:space="preserve">
-    <value>欢迎来到{0}, 完成注册后请游览此链接并享受我司的游戏盘口。</value>
-  </data>
-  <data name="ResetPwdSuccess" xml:space="preserve">
-    <value>您的密码已成功重置！</value>
-  </data>
-  <data name="msg_DepositorsNameUnmatch" xml:space="preserve">
-    <value>存款人姓名不符</value>
-  </data>
-  <data name="msg_PromoCodeIncorrect" xml:space="preserve">
-    <value>优惠代码不正确</value>
-  </data>
-  <data name="msg_SpecialCodeErr" xml:space="preserve">
-    <value>优惠码序号有误，请再次确认</value>
-  </data>
-  <data name="msg_IneligibleAngPow" xml:space="preserve">
-    <value>請存款以享受此優惠促銷</value>
-  </data>
-  <data name="msg_MailReq" xml:space="preserve">
-    <value>电子邮箱提交后无法更改。</value>
-  </data>
-  <data name="msg_ForceLogedout" xml:space="preserve">
-    <value>已登出！请重新登录后再试！</value>
-  </data>
-  <data name="msg_WrongBankSubmitted" xml:space="preserve">
-    <value>存款账户有误</value>
-  </data>
-  <data name="msg_BeneficiarysAccountMaintenance" xml:space="preserve">
-    <value>提款账户银行维护</value>
-  </data>
-  <data name="ForgetPwdFail" xml:space="preserve">
-    <value>您输入的电子邮件或是安全问题回答不正确，请确认!</value>
-  </data>
-  <data name="msg_OTPHint" xml:space="preserve">
-    <value>请完成您的个人资料并验证您的手机以享受我们的促销。</value>
-  </data>
-  <data name="msg_MailExisted" xml:space="preserve">
-    <value>此电子邮件地址已有人使用。</value>
-  </data>
-  <data name="msg_SpecialCodeVipLevelsOrBlockTagInvalid" xml:space="preserve">
-    <value>无法参与此优惠，请联系客服咨询</value>
-  </data>
-  <data name="msg_AffCodeValidate" xml:space="preserve">
-    <value>代理商 ID 仅限5到20個數字</value>
-  </data>
-  <data name="msg_OTPHint2" xml:space="preserve">
-    <value>现在验证您的电话？</value>
-  </data>
-  <data name="msg_OTPHint1" xml:space="preserve">
-    <value>您想享受我们完整的产品和服务吗？</value>
-  </data>
-  <data name="msg_DepositRefunded" xml:space="preserve">
-    <value>存款已退</value>
-  </data>
-  <data name="msg_DecimalOutOfRange" xml:space="preserve">
-    <value>转账失败由于小数点多于二位数</value>
-  </data>
-  <data name="msg_RedemptionLimitOverLimit" xml:space="preserve">
-    <value>很抱歉，您已达兑换上限。恳请新月份再尝试</value>
-  </data>
-  <data name="msg_times_chance" xml:space="preserve">
-    <value>你還有{0}次抽獎機會</value>
-  </data>
-  <data name="msg_congratulation_event_reward" xml:space="preserve">
-    <value>恭喜您！获得{0}金额</value>
-  </data>
-  <data name="msg_ProfileOrPhoneNotFinish" xml:space="preserve">
-    <value>未完善账户信息，请先完善账户信息</value>
-  </data>
-  <data name="msg_EWalletIsMaintenance" xml:space="preserve">
-    <value>目前E-Wallet正在維護中，請使用其它提款方式</value>
-  </data>
-  <data name="msg_turnover_not_enough" xml:space="preserve">
-    <value>未完成所需流水，无法参与此优惠。</value>
-  </data>
-  <data name="msg_ResubmitWithdrawal" xml:space="preserve">
-    <value>请重新提交提款申请</value>
-  </data>
-  <data name="msg_Event_has_not_started" xml:space="preserve">
-    <value>活动还没开始</value>
-  </data>
-  <data name="msg_limit_has_been_reached" xml:space="preserve">
-    <value>今日次数已达上限</value>
-  </data>
-  <data name="msg_InsufficientPoint" xml:space="preserve">
-    <value>抱歉，您的 88奖励兑换金币不足</value>
-  </data>
-  <data name="msg_keep_up" xml:space="preserve">
-    <value>再接再厲!</value>
-  </data>
-  <data name="msg_OTPDailyLimit" xml:space="preserve">
-    <value>OTP次数已达上限，请联系客服</value>
-  </data>
-  <data name="msg_AffCodeNotFound" xml:space="preserve">
-    <value>代理商ID 无法查找</value>
-  </data>
-  <data name="msg_SystemUnstable" xml:space="preserve">
-    <value>银行系统无法查询明细</value>
-  </data>
-  <data name="msg_SystemUnstable_Detail" xml:space="preserve">
-    <value>银行系统暂时无法查询明细信息，目前无法处理您的存款。</value>
-  </data>
-  <data name="msg_BankUnderMaintenance" xml:space="preserve">
-    <value>银行维护</value>
-  </data>
-  <data name="msg_BankUnderMaintenance_Detail" xml:space="preserve">
-    <value>银行系统正在维护中，目前无法处理您的存款申请。</value>
-  </data>
-  <data name="msg_NeedAddress" xml:space="preserve">
-    <value>尚未填写目前地址</value>
-  </data>
-  <data name="msg_NeedNationality" xml:space="preserve">
-    <value>尚未填写国籍</value>
-  </data>
-</root>
+<resheader name="resmimetype"><value>text/microsoft-resx</value></resheader><resheader name="version"><value>1.3</value></resheader><resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader><resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader><data name="msg_TransferAlert"><value>您的当前体育钱包余额是：&lt;span class="popup-span Js-3RdWallet-Balance"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;立即存款并将中心钱包余额转移至体育钱包以享有我司游戏盘口及服务。</value></data>
+  <data name="msg_SubmitDepositTime"><value>请提交您存款时间</value></data>
+  <data name="msg_ClaimCashBackBonus"><value>恭喜，您的现金返还 {0} 已汇入您的户口！</value></data>
+  <data name="msg_BirthdayIsRequired"><value>请输入生日</value></data>
+  <data name="msg_UsernameReq"><value>请输入用户名。</value></data>
+  <data name="msg_ApiServerError"><value>API 数据库错误</value></data>
+  <data name="msg_MustInteger"><value>请填入整数金额，不可填入小数</value></data>
+  <data name="msg_LoginToAccess"><value>登录后进行游戏。</value></data>
+  <data name="msg_WithdrawalAccountNumberIncorrect_Detail"><value>提款账户号码有误。请核实您的提款账户号码信息。</value></data>
+  <data name="msg_CreditSignUp"><value>敬爱的客户， &lt;br /&gt;&lt;br /&gt;欢迎来到&lt;a href="https://{0}" target="_new"&gt;{0}&lt;/a&gt;, 完成注册后请游览此链接并享受我司的游戏盘口。</value></data>
+  <data name="msg_WrongAmountSubmitted_Detail"><value>实际转账金额与存款单申请金额不符，请再次确认或联系在线客服寻求协助。</value></data>
+  <data name="msg_BankAccountDuplicate"><value>不允许重复银行，请尝试另一个户口。</value></data>
+  <data name="msg_WithdrawalNoFund"><value>余额不足！申请提现失败。</value></data>
+  <data name="msg_EmailFormatVerify"><value>输入的邮箱地址格式有误</value></data>
+  <data name="msg_loggedout"><value>您已成功登出！</value></data>
+  <data name="msg_PhoneFormatVerify"><value>您输入的手机号格式有误，介于{0}位数字</value></data>
+  <data name="msg_PhoneWrongFormat"><value>手机格式不符</value></data>
+  <data name="msg_Updatesuccessful"><value>更新成功</value></data>
+  <data name="msg_WithdrawalFailed"><value>申请提现失败。请联系客服了解详情。</value></data>
+  <data name="msg_CryptoWalletDuplicate"><value>加密货币钱包地址已存在</value></data>
+  <data name="msg_WithdrawalExists"><value>您的交易订单待定中。请等您的待定订单完成后再尝试。</value></data>
+  <data name="msg_LessThanWithdrawalMin"><value>提款金额必须要大于 {0}</value></data>
+  <data name="msg_ReferenceNumber"><value>参照好吗</value></data>
+  <data name="msg_Congratulations"><value>注册已完成，您可立即登录存款，开始投注。</value></data>
+  <data name="msg_PaymentNotReceived"><value>款项未收到</value></data>
+  <data name="msg_DepositHint"><value>立即存款以享有我司游戏盘口及服务。</value></data>
+  <data name="msg_WrongAmount"><value>金额错误</value></data>
+  <data name="msg_WithdrawalAccountsNameUnmatch"><value>提款人姓名不符</value></data>
+  <data name="msg_PasswordValidate"><value>密码长度必须 6 至 15 个字符，包含字母数字。</value></data>
+  <data name="msg_WrongAmountSubmitted"><value>存款金额不正确</value></data>
+  <data name="msg_UsernameNotAvailable"><value>用户名已有人使用。</value></data>
+  <data name="msg_WithdrawalAccountsNameUnmatch_Detail"><value>提款账户姓名与注册姓名不符合。请联系客服寻求协助。</value></data>
+  <data name="msg_NeedAccountName"><value>需要账户名称</value></data>
+  <data name="msg_DrawPrizeTital"><value>红包大放送</value></data>
+  <data name="msg_UsernameLength"><value>用户名必须介于6 和18 个字符之间。</value></data>
+  <data name="msg_DepositSlipRequired_Detail"><value>请上传转账收据以缩短款项交易时长。</value></data>
+  <data name="msg_NeedAccountNo"><value>需要帐户号码</value></data>
+  <data name="msg_DrawPrize"><value>恭喜，您的红包 {0} 已汇入您的户口！</value></data>
+  <data name="msg_SpecialCodeErrorForCheck"><value>优惠码序号有误，请再次确认</value></data>
+  <data name="msg_InvalidOldPassword"><value>旧密码无效</value></data>
+  <data name="msg_WithdrawalAccountAannotReceiveMoney_Detail"><value>提款账户无法正常收款，请再次核实或使用其他提款账户提款。</value></data>
+  <data name="msg_PasswordLength"><value>密码长度必须介于6 和18 个字符之间。</value></data>
+  <data name="msg_GreaterThanWithdrawalMax"><value>您已达到每日提款限额</value></data>
+  <data name="msg_MailWrongFormat"><value>电子邮箱格式错误</value></data>
+  <data name="msg_NotInLimit"><value>不在设定范围</value></data>
+  <data name="msg_UsernameValidate"><value>仅限6到18个数字、英文字母大小写</value></data>
+  <data name="msg_WrongBankSubmitted_Detail"><value>选择的存款账户有误，请再次确认或联系在线客服寻求协助。</value></data>
+  <data name="msg_DepositSlipRequired"><value>提供存款单据</value></data>
+  <data name="msg_UpdateFailed"><value>更新失败</value></data>
+  <data name="msg_EnterRealName"><value>请输入您的真实姓名</value></data>
+  <data name="msg_SelectBirthDay"><value>请选择您的生日</value></data>
+  <data name="msg_RequiredAmountInsufficient"><value>存款最低 {0} 以符合资格领取优惠</value></data>
+  <data name="msg_DepositProcessLogin_LoginFailed"><value>登录失败。用户名/密码错误或是用户名不存在。</value></data>
+  <data name="msg_SelectFile"><value>选择文档</value></data>
+  <data name="msg_DepositProcessLogin_ACLocked"><value>您的账户被锁定，请联络客服人员。</value></data>
+  <data name="msg_InactiveBankAccountSubmission"><value>存入已撤收款账户</value></data>
+  <data name="msg_ConfirmRealNameAlert"><value>请确保您的真实姓名与您的银行帐户名称相同，以免影响您的提现</value></data>
+  <data name="msg_MustDeposit"><value>您必须要先存款才能提款</value></data>
+  <data name="msg_GoToDepositPage"><value>立即充值?</value></data>
+  <data name="msg_PromoCodeHasBeenUsed"><value>此优惠代码已使用过。</value></data>
+  <data name="msg_PaymentNotReceived_Detail"><value>暂未收到款项，恳请耐心等候。</value></data>
+  <data name="msg_DrawPrize1"><value>恭喜你！ 您的{0}奖金{1} {2}已汇入您的帐户。</value></data>
+  <data name="msg_BalanceHint"><value>您的当前余额是</value></data>
+  <data name="msg_HasExist"><value>已存在系统中</value></data>
+  <data name="msg_InsufficientFund"><value>余额不足！</value></data>
+  <data name="msg_DepositRefunded_Detail"><value>存款金额已退还，恳请查看户口。</value></data>
+  <data name="msg_LockedAmountInsufficient"><value>中心钱包余额不可少于 {0}</value></data>
+  <data name="msg_InactiveBankAccountSubmission_Detail"><value>收款账户将不定时更新，恳请在转账前核实最新收款账户.</value></data>
+  <data name="msg_WithdrawalAccountAannotReceiveMoney"><value>提款账户无法正常收款</value></data>
+  <data name="msg_SamePassword"><value>新密码与旧密码相同</value></data>
+  <data name="msg_BeneficiarysAccountMaintenance_Detail"><value>提款账户银行正在维护中，您的提款申请将会在银行维护完毕之后为您办理</value></data>
+  <data name="msg_DepositorsNameUnmatch_Detail"><value>注册姓名与银行户口名字不符，请联系客服寻求协助。</value></data>
+  <data name="msg_WithdrawalAccountNumberIncorrect"><value>提款账户有误</value></data>
+  <data name="msg_DepositAlert"><value>您的当前中心钱包余额是：&lt;span class="popup-span Js-MainWallet-Balance"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;立即存款或将体育钱包余额转移至中心钱包以享有我司游戏盘口及服务。</value></data>
+  <data name="msg_ForceLogedoutHint"><value>由于此 ID 已再其它浏览器或设备登入因此您被强制终止登录。</value></data>
+  <data name="msg_WithdrawalSuccessful"><value>申请提现成功。核准后会及时通知。</value></data>
+  <data name="msg_EnterPhoneNumber"><value>请输入手机号码</value></data>
+  <data name="msg_PasswordReq"><value>请输入密码。</value></data>
+  <data name="msg_NoData"><value>无资料</value></data>
+  <data name="msg_ThisCurrencyNotSupport"><value>不支持您使用的货币。</value></data>
+  <data name="msg_InvalidCryptoWalletAddress"><value>您的加密钱包地址格式不符！</value></data>
+  <data name="msg_DrawPrizeTital1"><value>{0}神秘宝盒</value></data>
+  <data name="ForgetPwdSuccess"><value>您的新密码已发送到您的注册电子邮件地址。</value></data>
+  <data name="msg_BankAccountExists"><value>您已经存储此信息。</value></data>
+  <data name="msg_Ineligible"><value>您不符合领取此优惠，请联系客服以了解详情。</value></data>
+  <data name="msg_CreditSignUpHint_1"><value>敬爱的客户，</value></data>
+  <data name="msg_CreditSignUpHint_2"><value>欢迎来到{0}, 完成注册后请游览此链接并享受我司的游戏盘口。</value></data>
+  <data name="ResetPwdSuccess"><value>您的密码已成功重置！</value></data>
+  <data name="msg_DepositorsNameUnmatch"><value>存款人姓名不符</value></data>
+  <data name="msg_PromoCodeIncorrect"><value>优惠代码不正确</value></data>
+  <data name="msg_SpecialCodeErr"><value>优惠码序号有误，请再次确认</value></data>
+  <data name="msg_IneligibleAngPow"><value>請存款以享受此優惠促銷</value></data>
+  <data name="msg_MailReq"><value>电子邮箱提交后无法更改。</value></data>
+  <data name="msg_ForceLogedout"><value>已登出！请重新登录后再试！</value></data>
+  <data name="msg_WrongBankSubmitted"><value>存款账户有误</value></data>
+  <data name="msg_BeneficiarysAccountMaintenance"><value>提款账户银行维护</value></data>
+  <data name="ForgetPwdFail"><value>您输入的电子邮件或是安全问题回答不正确，请确认!</value></data>
+  <data name="msg_OTPHint"><value>请完成您的个人资料并验证您的手机以享受我们的促销。</value></data>
+  <data name="msg_MailExisted"><value>此电子邮件地址已有人使用。</value></data>
+  <data name="msg_SpecialCodeVipLevelsOrBlockTagInvalid"><value>无法参与此优惠，请联系客服咨询</value></data>
+  <data name="msg_AffCodeValidate"><value>代理商 ID 仅限5到20個數字</value></data>
+  <data name="msg_OTPHint2"><value>现在验证您的电话？</value></data>
+  <data name="msg_OTPHint1"><value>您想享受我们完整的产品和服务吗？</value></data>
+  <data name="msg_DepositRefunded"><value>存款已退</value></data>
+  <data name="msg_DecimalOutOfRange"><value>转账失败由于小数点多于二位数</value></data>
+  <data name="msg_RedemptionLimitOverLimit"><value>很抱歉，您已达兑换上限。恳请新月份再尝试</value></data>
+  <data name="msg_times_chance"><value>你還有{0}次抽獎機會</value></data>
+  <data name="msg_congratulation_event_reward"><value>恭喜您！获得{0}金额</value></data>
+  <data name="msg_ProfileOrPhoneNotFinish"><value>未完善账户信息，请先完善账户信息</value></data>
+  <data name="msg_EWalletIsMaintenance"><value>目前E-Wallet正在維護中，請使用其它提款方式</value></data>
+  <data name="msg_turnover_not_enough"><value>未完成所需流水，无法参与此优惠。</value></data>
+  <data name="msg_ResubmitWithdrawal"><value>请重新提交提款申请</value></data>
+  <data name="msg_Event_has_not_started"><value>活动还没开始</value></data>
+  <data name="msg_limit_has_been_reached"><value>今日次数已达上限</value></data>
+  <data name="msg_InsufficientPoint"><value>抱歉，您的 88奖励兑换金币不足</value></data>
+  <data name="msg_keep_up"><value>再接再厲!</value></data>
+  <data name="msg_OTPDailyLimit"><value>OTP次数已达上限，请联系客服</value></data>
+  <data name="msg_SystemUnstable"><value>银行系统无法查询明细</value></data>
+  <data name="msg_SystemUnstable_Detail"><value>银行系统暂时无法查询明细信息，目前无法处理您的存款。</value></data>
+  <data name="msg_BankUnderMaintenance"><value>银行维护</value></data>
+  <data name="msg_BankUnderMaintenance_Detail"><value>银行系统正在维护中，目前无法处理您的存款申请。</value></data>
+  <data name="msg_AffCodeNotFound"><value>代理商ID 无法查找</value></data>
+  <data name="msg_WrongAmountFormat"><value>金额格式错误</value></data>
+  <data name="msg_QuestionnaireFailed"><value>今日反馈次数已达上限。</value></data>
+  </root>

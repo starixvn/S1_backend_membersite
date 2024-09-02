@@ -1,7 +1,7 @@
-﻿using MemberSite.Controllers.Api;
-using MemberSite.Service.DAL.Interface;
+﻿using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
+
 using Newtonsoft.Json;
 
 namespace MemberSite.Service.BLL
@@ -84,7 +84,7 @@ namespace MemberSite.Service.BLL
             return banner;
         }
 
-        public IEnumerable<BannerV3> GetBannerV3(int siteId, int bannerType, int showStatus, int currencyId, string langId, ServerInfo serverInfo)
+        public IEnumerable<BannerV3> GetBannerV3(int siteId, int bannerType, int showStatus, int currencyId, string langId)
         {
             var banner = new List<BannerV3>();
             var bannerList = bannerService.GetBannerV3(siteId, bannerType, showStatus, currencyId);
@@ -93,7 +93,7 @@ namespace MemberSite.Service.BLL
                 if (bannerDetail.Details != null && bannerDetail.BannerType != 2)
                 {
                     try
-                    {               
+                    {
                         var details = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(bannerDetail.Details);
                         if (!details.ContainsKey(langId)) continue;
                         var settings = details[langId];

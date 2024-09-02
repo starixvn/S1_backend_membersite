@@ -268,7 +268,7 @@ namespace MemberSiteTests.Service.BLL
                 };
             });
             eventsSvc.GetCustPrizeOnToday(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>()).ReturnsNull();
-            eventsSvc.PayoutPrize(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<string>(), Arg.Any<int>(), Arg.Any<int>(), Arg.Any<string>(), Arg.Any<int>(), Arg.Any<decimal>(), Arg.Any<int>(), Arg.Any<int>(), Arg.Any<bool>()).Returns(x => 1);
+            eventsSvc.PayoutPrize(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<string>(), Arg.Any<int>(), Arg.Any<int>(), Arg.Any<string>(), Arg.Any<int>(), Arg.Any<decimal>(), Arg.Any<int>(), Arg.Any<int>(), Arg.Any<bool>(), Arg.Any<bool>()).Returns(x => 1);
             var cacheHelper = new CacheHelper(_serviceProvider);
             var angPao = new AngPaoBLL(eventsSvc, angPaoPro);
             var eventId = 12;

@@ -7,6 +7,8 @@ using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 
+using Newtonsoft.Json;
+
 namespace MemberSite.Service.DAL
 {
     public class EventsService : IEventsService
@@ -147,21 +149,51 @@ namespace MemberSite.Service.DAL
             return result;
         }
 
-        public async Task<int> PayoutPrize(int eventId, int prizeId, string prizeName, int siteId, int custId, string userName, int currencyId, decimal prizeAmount, int ticketNo, int prizeType, bool isUsed)
+        public async Task<int> PayoutPrize(int eventId, int prizeId, string prizeName, int siteId, int custId, string userName, int currencyId, decimal prizeAmount, int ticketNo, int prizeType, bool isUsed, bool isBigPrize)
         {
             await using var conn = _mainDbClient.GetMySqlConnection();
             await conn.OpenAsync();
             await using var trans = await conn.BeginTransactionAsync();
-            var res = await _mainDbClient.ExecuteAsync("Member_DrawPrize_Set_V2", trans, new { _EventId = eventId, _PrizeId = prizeId, _PrizeName = prizeName, _Amount = prizeAmount, _CustId = custId, _CurrencyId = currencyId, _TicketNo = ticketNo, _IsUsed = isUsed });
+
+            var para = new DynamicParameters(new
+            {
+                _EventId = eventId,
+                _PrizeId = prizeId,
+                _PrizeName = prizeName,
+                _Amount = prizeAmount,
+                _CustId = custId,
+                _CurrencyId = currencyId,
+                _TicketNo = ticketNo,
+                _IsUsed = isUsed,
+                _IsBigPrize = isBigPrize
+            });
+
+            var sp = "Member_DrawPrize_Set_V2";
+            if (new List<int> { 15, 16, 17 }.Contains(eventId))
+            {
+                sp = "Member_DrawPrizeNewYear2024_Set";
+                para.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            }
+
+            var res = await _mainDbClient.ExecuteAsync(sp, trans, para);
+            var result = para.Get<int?>("Result") ?? 0;
+
+            if (result == -99)
+            {
+                //抽滿了 重抽
+                return result;
+            }
+
             if (prizeType == 1 && prizeAmount > 0)
             {
-                var memo = $"Prize: {prizeAmount.ToString("#,##0.##")}";
-                res = _walletService.SetBalance(custId, siteId, userName, prizeAmount, 8, memo, eventId.ToString(), out _, out _, trans);
-                res = _withdrawalLimitService.SetWithdrawalLimit(custId, userName, siteId, prizeAmount, 1, memo, eventId.ToString(), (int)WithdrawalLimitLogCreateFromEnum.DrawPrize, "System", out var afterWithdrawalLimit, trans);
+                var memo = $"PrizeName : {prizeName} ,Prize: {prizeAmount:#,##0.##}";
+                _walletService.SetBalance(custId, siteId, userName, prizeAmount, 8, memo, eventId.ToString(), out _, out _, trans);
+                res = _withdrawalLimitService.SetWithdrawalLimit(custId, userName, siteId, prizeAmount, 1, memo, eventId.ToString(), (int)WithdrawalLimitLogCreateFromEnum.DrawPrize, "System", out _, trans);
             }
+
             if (res > 0)
             {
-                trans.Commit();
+                MySqlClient.CommitAndDisposeConnection(conn, trans);
             }
 
             return res;
@@ -177,12 +209,12 @@ namespace MemberSite.Service.DAL
         }
         public IEnumerable<PrizeList> GetDrawPrizeList(int eventId, int currencyId)
         {
-            return _reportDbClient.Query<PrizeList>("Member_DrawPrizeList_Get", new { EventId = eventId, CurrencyId = currencyId }, commandType: CommandType.StoredProcedure);
+            return _reportDbClient.Query<PrizeList>("Member_DrawPrizeList_Get", new { EventId = eventId, CurrencyId = currencyId });
         }
 
         public IEnumerable<PrizeDisPlayList> GetDrawPrizeDisPlaySetting(int eventId)
         {
-            return _reportDbClient.Query<PrizeDisPlayList>("Member_DrawPrizeDisPlaySetting_Get", new { EventId = eventId }, commandType: CommandType.StoredProcedure);
+            return _reportDbClient.Query<PrizeDisPlayList>("Member_DrawPrizeDisPlaySetting_Get", new { EventId = eventId });
         }
 
         public EventDrawInfo GetEventDrawInfo(int eventId)
@@ -233,7 +265,7 @@ namespace MemberSite.Service.DAL
             var result = _reportDbClient.Query<LeaderboardPointCalculation>("Service_LeaderboardPointCalculation_Get", p);
             return result;
         }
-        public IEnumerable<LeaderboardRankingBonus> GetLeaderboardRankingBonus(int siteId,int currencyId)
+        public IEnumerable<LeaderboardRankingBonus> GetLeaderboardRankingBonus(int siteId, int currencyId)
         {
             var p = new DynamicParameters();
             p.Add("_SiteId", siteId);
@@ -242,5 +274,218 @@ namespace MemberSite.Service.DAL
 
             return result;
         }
+
+
+        #region PromotionMission
+
+        public IEnumerable<PromotionMission> GetPromotionMission(int siteId, int currencyId, string missionName)
+        {
+            var p = new DynamicParameters(new
+            {
+                _SiteId = siteId,
+                _CurrencyId = currencyId,
+                _MissionName = missionName
+            });
+            var result = _reportDbClient.Query<PromotionMission>("Service_PromotionMission_Get", p);
+
+            return result;
+        }
+
+        public PromotionMissionProgress GetCustPromotionMissionProgress(int custId, int currencyId, int tpCategoryId, DateTime startTime, DateTime endTime)
+        {
+            var p = new DynamicParameters(new
+            {
+                _CustId = custId,
+                _CurrencyId = currencyId,
+                _TpCategoryId = tpCategoryId,
+                _StartTime = startTime,
+                _EndTime = endTime,
+            });
+            p.Add("_UnUsedDepositAmount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
+            p.Add("_TurnoverSum", dbType: DbType.Decimal, direction: ParameterDirection.Output);
+            p.Add("_AffCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            _reportDbClient.Query<PromotionMissionProgress>("Service_PromotionMissionCheck_Get", p);
+
+            var unUsedDepositAmount = p.Get<decimal>("_UnUsedDepositAmount");
+            var turnoverSum = p.Get<decimal>("_TurnoverSum");
+            var affCount = p.Get<int>("_AffCount");
+
+            var resultModel = new PromotionMissionProgress
+            {
+                UnUsedDepositAmount = unUsedDepositAmount,
+                TurnoverSum = turnoverSum,
+                AffCount = affCount
+            };
+            return resultModel;
+        }
+
+        public IEnumerable<PromotionMissionMessage> GetPromotionMissionMessage()
+        {
+            var result = _reportDbClient.Query<PromotionMissionMessage>("Service_PromotionMissionMessage_Get");
+
+            return result;
+        }
+
+        public IEnumerable<CustPromotionMission> GetCustPromotionMission(int custId, string missionDate)
+        {
+            var p = new DynamicParameters(new
+            {
+                _CustId = custId,
+                _MissionDate = missionDate
+            });
+            var result = _reportDbClient.Query<CustPromotionMission>("Service_CustPromotionMission_Get", p);
+
+            return result;
+        }
+
+        public int ClaimPromotionMission(int custId, int siteId, int currencyId, string missionDate, IEnumerable<NewYearMission2024> mission)
+        {
+            using var conn = _mainDbClient.GetMySqlConnection();
+            conn.Open();
+            using var trans = conn.BeginTransaction();
+
+            var missionNos = mission.Select(x => x.MissionNo);
+            var p = new DynamicParameters(new
+            {
+                _CustId = custId,
+                _SiteId = siteId,
+                _CurrencyId = currencyId,
+                _MissionDate = missionDate,
+                _MissionNos = JsonConvert.SerializeObject(missionNos)
+            });
+            _mainDbClient.Execute("Service_CustPromotionMission_Ins", trans, p);
+
+            var p2 = new DynamicParameters(new
+            {
+                _CustId = custId,
+                _MissionDate = missionDate,
+                _TicketCount = mission.Sum(x => x.EggCount)
+            });
+            p2.Add("_EggTicket", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            _mainDbClient.Execute("Service_CustEggTicket_Ins", trans, p2);
+            var eggTicket = p2.Get<int>("_EggTicket");
+
+            MySqlClient.CommitAndDisposeConnection(conn, trans);
+
+            return eggTicket;
+        }
+
+        #endregion
+
+        #region NewYear2024
+
+        public int GetEggTicket(int custId)
+        {
+            var p = new DynamicParameters(new
+            {
+                _CustId = custId,
+            });
+            var eggTicket = _reportDbClient.QueryFirst<int>("Service_CustEggTicket_Get", p);
+
+            return eggTicket;
+        }
+
+        public int GetCustBlessingsSticker(int custId)
+        {
+            var p = new DynamicParameters(new
+            {
+                _CustId = custId,
+            });
+            p.Add("_StickerCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            _reportDbClient.Execute("Service_CustBlessingsSticker_Get", p);
+
+            var stickerCount = p.Get<int>("_StickerCount");
+
+            return stickerCount;
+        }
+        
+        public IEnumerable<EggTicketData> GetEggTicketData(int custId)
+        {
+            var p = new DynamicParameters(new
+            {
+                _CustId = custId,
+            });
+            var eggTicket = _reportDbClient.Query<EggTicketData>("Service_CustEggTicket_Data_Get", p);
+
+            return eggTicket;
+        }
+        
+        #endregion
+        
+        #region Olympic
+
+        public IEnumerable<OlympicEventSBSWModel> GetOlympicsEventSportBet(int sq,int custId,string transIdList)
+        {
+            var p = new DynamicParameters();
+            p.Add("SQ", sq, dbType: DbType.Int64);
+            p.Add("CustId", custId, dbType: DbType.Int32);
+            p.Add("transIdList", transIdList, dbType: DbType.String);
+            
+            return _reportDbClient.Query<OlympicEventSBSWModel>("Service_Olympic_SportBetCheck_Get", p);
+        }
+
+        public int OlympicsInertGoldMetal(int custId, int goldMetalCount,string type)
+        {
+            var p = new DynamicParameters();
+            p.Add("_CustId", custId, dbType: DbType.Int32);
+            p.Add("_MissionDate", type, dbType: DbType.String);
+            p.Add("_TicketCount", goldMetalCount, dbType: DbType.Int32);
+            p.Add("_EggTicket", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            
+            var result = _mainDbClient.Execute("Service_CustEggTicket_Ins", p);
+            var eggTicket = p.Get<int>("_EggTicket");
+
+            return eggTicket;
+        }
+
+        public int OlympicsEventGoldMetalSet(int id,int custId ,string goldMetalIdList)
+        {
+            var p = new DynamicParameters();
+            p.Add("Id", id, dbType: DbType.Int64);
+            p.Add("CustId", custId, dbType: DbType.Int32);
+            p.Add("GoldMedalIdList", goldMetalIdList, dbType: DbType.String);
+            
+            var result = _mainDbClient.Execute("Service_Olympic_GoldMedal_Set", p);
+            return result;
+        }
+
+        public bool CreateAdminAdjustmentInfoLog(CreateAdminAdjustmentInfoLogInput input)
+        {
+            var props = new DynamicParameters();
+            props.Add("_SiteId", input.SiteId);
+            props.Add("_CustId", input.CustId);
+            props.Add("_CurrencyId", input.CurrencyId);
+            props.Add("_Menu", (int)input.MenuEnum);
+            props.Add("_ActionType", (int)input.ActionType);
+            props.Add("_RefTransId", input.RefTransId ?? string.Empty);
+            props.Add("_BeforeDetailInfo", input.BeforeDetailInfo, DbType.String);
+            props.Add("_AfterDetailInfo", input.AfterDetailInfo, DbType.String);
+            props.Add("_Operator", input.Operator);
+
+            var result =
+                _mainDbClient.Execute("Admin_AdminAdjustmentInfoLog_Ins_V2", props);
+
+            return result > 0;
+        }
+
+        public int OlympicsEventDrawLogIns(int eventId, int prizeId, string prizeName, decimal amount, int custId, int currencyId)
+        {
+            var props = new DynamicParameters();
+            props.Add("_EventId", eventId);
+            props.Add("_PrizeId", prizeId);
+            props.Add("_PrizeName", prizeName);
+            props.Add("_Amount", amount);
+            props.Add("_CustId", custId);
+            props.Add("_CurrencyId", currencyId);
+
+            var result =
+                _mainDbClient.Execute("Service_Olympic_DrawLog_Ins", props);
+
+            return result;
+        }
+
+        #endregion
+
+
     }
 }

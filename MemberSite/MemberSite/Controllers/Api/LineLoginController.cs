@@ -1,11 +1,13 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Web;
+
 using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Line;
+
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -27,6 +29,8 @@ namespace MemberSite.Controllers.Api
         private readonly FPSBLL _sFpsBll;
         private readonly LineLoginChannelConfig _lineLoginChannelConfig;
         private readonly ILogger<LineLoginController> _logger;
+        private readonly FPSBLL _FPSBll;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         #region Constructor
 
@@ -39,6 +43,8 @@ namespace MemberSite.Controllers.Api
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _sFpsBll = provider.GetRequiredService<FPSBLL>();
             _logger = provider.GetRequiredService<ILogger<LineLoginController>>();
+            _FPSBll = provider.GetRequiredService<FPSBLL>();
+            _httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
             var configBll = provider.GetRequiredService<ConfigBLL>();
             _lineLoginChannelConfig = configBll.GetConfigValueByEnvironment<LineLoginChannelConfig>("LineLoginChannelConfig");
         }
@@ -70,7 +76,7 @@ namespace MemberSite.Controllers.Api
             public string platform { get; set; }
             public string userAgent { get; set; }
             public string screen { get; set; }
-            public string di { get; set; }
+            public FPSRequest FPSRequest { get; set; }
 
         }
 
@@ -291,13 +297,31 @@ namespace MemberSite.Controllers.Api
                 };
             }
 
-            // if (loginData.di != null)
-            // {
-            //     _ = Task.Run(async () =>
-            //     {
-            //         await _sFpsBll.FPSChecksAsync(customer.CustId, "login", "Successfully", loginData.url, loginData.platform, loginData.userAgent, loginData.screen, loginData.di, ip);
-            //     });
-            // }
+            #region FPS
+
+            if (loginData.FPSRequest != null)
+            {
+                var context = _httpContextAccessor.HttpContext;
+                _ = Task.Run(async () =>
+                {
+                    var request = new FPSApiRequest
+                    {
+                        Account = customer.CustId.ToString(),
+                        DI = loginData.FPSRequest.DI,
+                        BI = loginData.FPSRequest.BI,
+                        IP = ip,
+                        UserAgent = Request.Headers["User-Agent"],
+                        DetecasAnalysis = loginData.FPSRequest.DetecasAnalysis,
+                        AcceptsTypes = context?.Request.Headers["Accept"].ToString(),
+                        SessionKey = loginData.FPSRequest.SessionKey,
+                        Token = loginData.FPSRequest.Token,
+                        Url = loginData.url
+                    };
+                    await _FPSBll.FPSChecksAsync(request);
+                });
+            }
+
+            #endregion
 
             if (deviceType != (int)DeviceId.APP)
             {

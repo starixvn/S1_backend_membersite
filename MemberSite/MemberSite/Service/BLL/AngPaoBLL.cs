@@ -62,7 +62,7 @@ namespace MemberSite.Service.BLL
             {
                 drawPrize = _angPaoProcessor.Drawing(prizes);
             }
-            res = await _eventsService.PayoutPrize(eventId, drawPrize.PrizeId, drawPrize.PrizeName, customer.SiteId, customer.CustId, customer.UserName, customer.CurrencyId, drawPrize.Amount, ticket.TicketNo, drawPrize.PrizeType, isUsed);
+            res = await _eventsService.PayoutPrize(eventId, drawPrize.PrizeId, drawPrize.PrizeName, customer.SiteId, customer.CustId, customer.UserName, customer.CurrencyId, drawPrize.Amount, ticket.TicketNo, drawPrize.PrizeType, isUsed, false);
             return (res, drawPrize);
         }
 

@@ -7,6 +7,7 @@ using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
+using Newtonsoft.Json;
 
 namespace MemberSite.Service.DAL
 {
@@ -64,7 +65,7 @@ namespace MemberSite.Service.DAL
             {
                 MySqlClient.CommitAndDisposeConnection(conn, trans);
 
-                if (siteId != (int)SiteId.Nova88)
+                if (siteId is 2 or 3) // goal and bwing
                 {
                     _ = Task.Run(() =>
                     {
@@ -106,42 +107,51 @@ namespace MemberSite.Service.DAL
             return withdrawalInfoHistoryResult;
         }
 
-        public int SetWithdrawalCancel(int custId, string transId, int siteId, IEnumerable<int> forStatus, WithdrawalStatus status)
+        public int SetWithdrawalCancel(string userName, string transId, int siteId, IEnumerable<int> forStatus, WithdrawalStatus status)
         {
             var m = Regex.Match(transId, @"\d+");
-            int.TryParse(m.Value, out var withdrawalId);
+            _ = int.TryParse(m.Value, out var withdrawalId);
             var result = 0;
-            var type = 1003;  /*Cancel  Withdrawal 1003*/
-            string UserName = null;
+            const int type = 1003;
             try
             {
                 using var conn = _mainDbClient.GetMySqlConnection();
                 conn.Open();
                 using var trans = conn.BeginTransaction();
 
-                var sForStatus = Newtonsoft.Json.JsonConvert.SerializeObject(forStatus);
-                var p = new DynamicParameters(new { WithdrawalId = withdrawalId, SiteId = siteId, Comment = "Customer Cancelled", ForStatus = sForStatus, Status = (int)status, WithdrawalInfo = (string)null, WithdrawalType = (int?)null, RefId = (string)null });
-                p.Add("CustId", dbType: DbType.Int32, direction: ParameterDirection.Output);
-                p.Add("UserName", dbType: DbType.String, direction: ParameterDirection.Output);
-                p.Add("Amount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
-                result = _mainDbClient.Execute("Member_WithdrawalInfoV2_Set", trans, p);
-                custId = p.Get<int?>("CustId") ?? 0;
-                UserName = p.Get<string>("UserName");
-                var amount = p.Get<decimal>("Amount");
+                var p = new DynamicParameters(new
+                {
+                    _WithdrawalId = withdrawalId,
+                    _SiteId = siteId,
+                    _ForStatus = JsonConvert.SerializeObject(forStatus),
+                    _Status = (int)status,
+                    _WithdrawalInfo = (string)null,
+                    _WithdrawalType = (int?)null,
+                    _ChargeFee = 0,
+                    _RefId = (string)null,
+                    _Operator = userName
+                });
+                
+                p.Add("_CustId", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                p.Add("_UserName", dbType: DbType.String, direction: ParameterDirection.Output);
+                p.Add("_Amount", dbType: DbType.Decimal, direction: ParameterDirection.Output);
+                result = _mainDbClient.Execute("Service_WithdrawalInfo_Set", trans, p);
+                
+                var custId = p.Get<int?>("_CustId") ?? 0;
+                var amount = p.Get<decimal>("_Amount");
 
                 if (result > 0)
                 {
-                    SetWithdrawalLog(withdrawalId, siteId, "Customer Cancelled", (int)status, UserName);
+                    SetWithdrawalLog(withdrawalId, siteId, "Customer Cancelled", (int)status, userName);
 
                     if (status == WithdrawalStatus.Cancelled)
                     {
-                        result = walletService.SetBalance(custId, siteId, UserName, amount, type, $"Withdrawal Canceled: {amount}", transId, out _, out _, trans);
+                        result = walletService.SetBalance(custId, siteId, userName, amount, type, $"Withdrawal Canceled: {amount}", transId, out _, out _, trans);
                     }
 
                     if (result > 0)
                     {
                         trans.Commit();
-                        //result = p.Get<int?>("CustId") ?? result;
                     }
                 }
                 conn.Close();
@@ -149,7 +159,7 @@ namespace MemberSite.Service.DAL
             }
             catch (Exception ex)
             {
-                SetWithdrawalLog(withdrawalId, siteId, ex.Message, (int)WithdrawalStatus.Error, UserName);
+                SetWithdrawalLog(withdrawalId, siteId, ex.Message, (int)WithdrawalStatus.Error, userName);
             }
             return result;
         }

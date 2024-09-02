@@ -21,17 +21,19 @@ namespace MemberSite.Controllers.Api
         private readonly ServerInfoBll _serverInfoBll;
         private readonly AuthorizeBLL _authorizeBll;
         private readonly CustInfoBll _customerInfoBll;
+        private readonly ConfigBLL _configBll;
         private readonly IAnnouncementBLL _announcementBLL;
 
         private readonly ILogger<MessageController> _logger;
 
-        public MessageController(SelLangBLL selLangBll, ServerInfoBll serverInfoBll, AuthorizeBLL authorizeBll, CustInfoBll customerInfoBll, IAnnouncementBLL announcementBLL, ILogger<MessageController> logger)
+        public MessageController(SelLangBLL selLangBll, ServerInfoBll serverInfoBll, AuthorizeBLL authorizeBll, CustInfoBll customerInfoBll, IAnnouncementBLL announcementBLL, ConfigBLL configBll, ILogger<MessageController> logger)
         {
             _selLangBll = selLangBll;
             _serverInfoBll = serverInfoBll;
             _authorizeBll = authorizeBll;
             _customerInfoBll = customerInfoBll;
             _announcementBLL = announcementBLL;
+            _configBll = configBll;
             _logger = logger;
         }
 
@@ -58,7 +60,7 @@ namespace MemberSite.Controllers.Api
                     currency = customerInfo.CurrencyId;
                 }
                 var serverInfo = _serverInfoBll.GetServerInfo();
-                var language = LanguageObject.Create(currency, _selLangBll.GetLangId(), serverInfo.DefLang);
+                var language = _selLangBll.LanguageObjectCreate(serverInfo.SiteId, currency, _selLangBll.GetLangId(), serverInfo.DefLang);
 
                 result.Data = await _announcementBLL.GetAnnouncements(serverInfo.SiteId, language);
             }

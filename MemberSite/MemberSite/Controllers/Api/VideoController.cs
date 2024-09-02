@@ -1,6 +1,5 @@
 ﻿using MemberSite.Service.BLL;
 using MemberSite.Service.Model;
-using MemberSite.Service.Model.enums;
 
 using Microsoft.AspNetCore.Mvc;
 

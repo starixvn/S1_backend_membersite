@@ -1,3 +1,5 @@
+using System.Text.RegularExpressions;
+
 using MemberSite.Service.BLL;
 using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.Library;
@@ -9,8 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using Newtonsoft.Json;
-using System.Text.RegularExpressions;
-using static MemberSite.Controllers.Api.SiteController;
+
 using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
@@ -21,6 +22,7 @@ namespace MemberSite.Controllers.Api
     [ApiController]
     public class AccountStrictController : ControllerBase
     {
+        private readonly ServerInfoBll _serverInfoBll;
         private readonly SelLangBLL _selLangBLL;
         private readonly AuthorizeBLL _authorizeBLL;
         private readonly CustInfoBll _custInfoBLL;
@@ -39,6 +41,7 @@ namespace MemberSite.Controllers.Api
 
         public AccountStrictController(IServiceProvider provider)
         {
+            _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
             _selLangBLL = provider.GetRequiredService<SelLangBLL>();
             _authorizeBLL = provider.GetRequiredService<AuthorizeBLL>();
             _custInfoBLL = provider.GetRequiredService<CustInfoBll>();
@@ -58,13 +61,16 @@ namespace MemberSite.Controllers.Api
         Dictionary<int, string> counrtyDic = new Dictionary<int, string>() {
             {2,"Malaysia" },
             {3,"United States of America" },
-            {4,"Thailand" },         
+            {4,"Thailand" },
             {13,"China" },
             {15,"Indonesia" },
+            {32,"Japan" },
+            {45,"Republic of Korea" },
             {51,"Viet Nam" },
             {61,"India" },
             {72,"Cambodia" },
             {74,"Bangladesh" },
+            {82,"Brasil" }
         };
 
 
@@ -496,7 +502,7 @@ namespace MemberSite.Controllers.Api
                     return apiResult;
                 }
 
-                if (!string.IsNullOrEmpty(email) && custInfo.SiteId == (int)SiteId.Nova88 && !_regexEmail.IsMatch(email))
+                if (!string.IsNullOrEmpty(email) && custInfo.SiteId == 1 && !_regexEmail.IsMatch(email))
                 {
                     apiResult.ErrorCode = -10;
                     apiResult.Message = _selLangBll.GetMsg("msg_EmailFormatVerify");
@@ -741,7 +747,7 @@ namespace MemberSite.Controllers.Api
                 {
                     custProfile["CountryCode"] = _custInfoBLL.GetCountryNameByAreaCode(beforeCustInfo.AreaCode);
                 }
-                else if (siteId is (int)SiteId.Goal123 or (int)SiteId.Bwing)
+                else if (siteId is 2 or 3)
                 {
                     custProfile["CountryCode"] = "VN";
                 }
@@ -829,7 +835,8 @@ namespace MemberSite.Controllers.Api
                         custInfo.CurrentAddress,
                         Nationality = nationality,
                         custInfo.Occupation,
-                        custInfo.SourceOfIncome
+                        custInfo.SourceOfIncome,
+                        custInfo.CustId,
                     };
 
                     apiResult.ErrorCode = 0;
@@ -968,10 +975,10 @@ namespace MemberSite.Controllers.Api
             var profileUrl = _serverInfoBLL.GetHttpDomain();
             var langId = _selLangBLL.GetLangId();
 
-            var host = Url.ActionContext.HttpContext.Request.Host.Host;
+            var host = _serverInfoBll.GetDomain();
             if (host.Split('.')[0] == "app")
             {
-                profileUrl = $"{Url.ActionContext.HttpContext.Request.Scheme}://{host.Replace("app", "m")}";
+                profileUrl = $"https://{host.Replace("app", "m")}";
                 req.route = host == "app.n17881788.com" ? "profile" : "member";
             }
             if (!string.IsNullOrEmpty(langId) && req.route != "member")

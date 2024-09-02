@@ -1,37 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="metadata">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
-              </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="assembly">
-            <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
-            </xsd:complexType>
-          </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
                 <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
                 <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
               <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
               <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
@@ -46,409 +27,136 @@
       </xsd:complexType>
     </xsd:element>
   </xsd:schema>
-  <resheader name="resmimetype">
-    <value>text/microsoft-resx</value>
-  </resheader>
-  <resheader name="version">
-    <value>2.0</value>
-  </resheader>
-  <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <data name="msg_TransferAlert" xml:space="preserve">
-    <value>Your current Sportsbook Wallet is : &lt;span class="popup-span Js-3RdWallet-Balance"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;Deposit and transfer from Main Wallet to Sportsbook Wallet now to enjoy our games and services.</value>
-  </data>
-  <data name="msg_SubmitDepositTime" xml:space="preserve">
-    <value>Please submit your deposit time.</value>
-  </data>
-  <data name="msg_ClaimCashBackBonus" xml:space="preserve">
-    <value>Congratulations, your CASHBACK {0} has been credited to your account!</value>
-  </data>
-  <data name="msg_BirthdayIsRequired" xml:space="preserve">
-    <value>Please fill in the birth date</value>
-  </data>
-  <data name="msg_UsernameReq" xml:space="preserve">
-    <value>Username is required.</value>
-  </data>
-  <data name="msg_ApiServerError" xml:space="preserve">
-    <value>API Server Error.</value>
-  </data>
-  <data name="msg_MustInteger" xml:space="preserve">
-    <value>Kindly fill in the complete figure, decimal digit are not allowed.</value>
-  </data>
-  <data name="msg_LoginToAccess" xml:space="preserve">
-    <value>Please login to access game.</value>
-  </data>
-  <data name="msg_WithdrawalAccountNumberIncorrect_Detail" xml:space="preserve">
-    <value>Withdrawal account number incorrect. Kindly check your withdrawal account number.</value>
-  </data>
-  <data name="msg_CreditSignUp" xml:space="preserve">
-    <value>Dear Valued customer, &lt;br /&gt;&lt;br /&gt;Welcome to &lt;a href="https://{0}" target="_new"&gt;{0}&lt;/a&gt;, upon registration please visit the said link and enjoy our games.</value>
-  </data>
-  <data name="msg_WrongAmountSubmitted_Detail" xml:space="preserve">
-    <value>Deposit amount does not match the deposit slip application amount, Kindly recheck or contact Customer Support for further assistance.</value>
-  </data>
-  <data name="msg_BankAccountDuplicate" xml:space="preserve">
-    <value>Duplicate Bank Account No. is not allowed. Please try another Account No.</value>
-  </data>
-  <data name="msg_WithdrawalNoFund" xml:space="preserve">
-    <value>Your withdrawal request was failed due to insufficient balance!</value>
-  </data>
-  <data name="msg_EmailFormatVerify" xml:space="preserve">
-    <value>Email address format incorrect</value>
-  </data>
-  <data name="msg_loggedout" xml:space="preserve">
-    <value>You have successfully logged out!!</value>
-  </data>
-  <data name="msg_PhoneFormatVerify" xml:space="preserve">
-    <value>Phone number you entered is incorrect, should be between {0} digits</value>
-  </data>
-  <data name="msg_PhoneWrongFormat" xml:space="preserve">
-    <value>Phone Format is wrong.</value>
-  </data>
-  <data name="msg_Updatesuccessful" xml:space="preserve">
-    <value>Update Successfully</value>
-  </data>
-  <data name="msg_WithdrawalFailed" xml:space="preserve">
-    <value>Your withdrawal request was failed. Please check with CSD for more information.</value>
-  </data>
-  <data name="msg_CryptoWalletDuplicate" xml:space="preserve">
-    <value>Crypto wallet address has been used</value>
-  </data>
-  <data name="msg_WithdrawalExists" xml:space="preserve">
-    <value>Your transaction request is on Pending. Please try again while the Pending transaction is complete.</value>
-  </data>
-  <data name="msg_LessThanWithdrawalMin" xml:space="preserve">
-    <value>Withdrawal amount must be greater than {0}</value>
-  </data>
-  <data name="msg_ReferenceNumber" xml:space="preserve">
-    <value>Reference number</value>
-  </data>
-  <data name="mag_AffiliateNotExist" xml:space="preserve">
-    <value>Your Affiliate Code is invalid. Please check again!</value>
-  </data>
-  <data name="msg_Congratulations" xml:space="preserve">
-    <value>Your registration is completed; you may immediately login, deposit and then start to place bets.</value>
-  </data>
-  <data name="msg_PaymentNotReceived" xml:space="preserve">
-    <value>Payment not received</value>
-  </data>
-  <data name="msg_DepositHint" xml:space="preserve">
-    <value>Deposit now to enjoy our games and services.</value>
-  </data>
-  <data name="msg_WrongAmount" xml:space="preserve">
-    <value>Wrong amount</value>
-  </data>
-  <data name="msg_WithdrawalAccountsNameUnmatch" xml:space="preserve">
-    <value>Withdrawal Account's name unmatch</value>
-  </data>
-  <data name="msg_PasswordValidate" xml:space="preserve">
-    <value>Password must be 6-15 characters, contain alphanumeric.</value>
-  </data>
-  <data name="msg_WrongAmountSubmitted" xml:space="preserve">
-    <value>Deposit Amount Incorrect</value>
-  </data>
-  <data name="msg_UsernameNotAvailable" xml:space="preserve">
-    <value>Username is no longer available.</value>
-  </data>
-  <data name="msg_WithdrawalAccountsNameUnmatch_Detail" xml:space="preserve">
-    <value>Withdrawal account name does not match with the registered name. Please contact customer service for assistance.</value>
-  </data>
-  <data name="msg_NeedAccountName" xml:space="preserve">
-    <value>Need Account Name</value>
-  </data>
-  <data name="msg_DrawPrizeTital" xml:space="preserve">
-    <value>Ang Pao Giveaway</value>
-  </data>
-  <data name="msg_UsernameLength" xml:space="preserve">
-    <value>Username must between 6 and 18 characters long.</value>
-  </data>
-  <data name="msg_DepositSlipRequired_Detail" xml:space="preserve">
-    <value>Kindly attach transfer slip to speed up transaction processing time.</value>
-  </data>
-  <data name="msg_NeedAccountNo" xml:space="preserve">
-    <value>Need Account Number</value>
-  </data>
-  <data name="msg_DrawPrize" xml:space="preserve">
-    <value>Congratulations, your Ang Pow {0} has been credited to your account!</value>
-  </data>
-  <data name="msg_SpecialCodeErrorForCheck" xml:space="preserve">
-    <value>The Promo Code is incorrect, please recheck again</value>
-  </data>
-  <data name="msg_InvalidOldPassword" xml:space="preserve">
-    <value>Invalid Old Password!</value>
-  </data>
-  <data name="msg_WithdrawalAccountAannotReceiveMoney_Detail" xml:space="preserve">
-    <value>Withdrawal account is unable to receive funds. Kindly recheck or contact Customer Support for further assistance.</value>
-  </data>
-  <data name="msg_PasswordLength" xml:space="preserve">
-    <value>Password must between 6 and 18 characters long.</value>
-  </data>
-  <data name="msg_GreaterThanWithdrawalMax" xml:space="preserve">
-    <value>Your Daily Limit Reached.</value>
-  </data>
-  <data name="msg_MailWrongFormat" xml:space="preserve">
-    <value>Mail Format is wrong.</value>
-  </data>
-  <data name="msg_NotInLimit" xml:space="preserve">
-    <value>Not in Limit</value>
-  </data>
-  <data name="msg_UsernameValidate" xml:space="preserve">
-    <value>6-18 alphanumeric (A-Z, a-z, 0-9) characters only.</value>
-  </data>
-  <data name="msg_WrongBankSubmitted_Detail" xml:space="preserve">
-    <value>The selected deposit account is incorrect, Kindly recheck or contact Customer Support for further assistance.</value>
-  </data>
-  <data name="msg_DepositSlipRequired" xml:space="preserve">
-    <value>Deposit Slip Required</value>
-  </data>
-  <data name="msg_OTPEnterCode" xml:space="preserve">
-    <value>Please enter the verification number you received below.</value>
-  </data>
-  <data name="msg_UpdateFailed" xml:space="preserve">
-    <value>Update Failed</value>
-  </data>
-  <data name="msg_EnterRealName" xml:space="preserve">
-    <value>Please enter your real name.</value>
-  </data>
-  <data name="msg_SelectBirthDay" xml:space="preserve">
-    <value>Please select your birthday.</value>
-  </data>
-  <data name="msg_RequiredAmountInsufficient" xml:space="preserve">
-    <value>Deposit at least {0} to be eligible for bonus</value>
-  </data>
-  <data name="msg_DepositProcessLogin_LoginFailed" xml:space="preserve">
-    <value>Login failed, Username/ Password is wrong or Username does not exist.</value>
-  </data>
-  <data name="msg_SelectFile" xml:space="preserve">
-    <value>Select File</value>
-  </data>
-  <data name="msg_DepositProcessLogin_ACLocked" xml:space="preserve">
-    <value>Your account is locked; please contact 24/7 customer service, thanks!</value>
-  </data>
-  <data name="msg_InactiveBankAccountSubmission" xml:space="preserve">
-    <value>Inactive Bank Account submission</value>
-  </data>
-  <data name="msg_ConfirmRealNameAlert" xml:space="preserve">
-    <value>To ensure all transations correct, please make sure your real name is same with your bank account name</value>
-  </data>
-  <data name="msg_MustDeposit" xml:space="preserve">
-    <value>Kindly complete deposit before submit withdrawal</value>
-  </data>
-  <data name="msg_GoToDepositPage" xml:space="preserve">
-    <value>Go to deposit page?</value>
-  </data>
-  <data name="msg_PromoCodeHasBeenUsed" xml:space="preserve">
-    <value>The Promo Code has been used</value>
-  </data>
-  <data name="msg_PaymentNotReceived_Detail" xml:space="preserve">
-    <value>Payment have not received in bank, kindly wait patiently.</value>
-  </data>
-  <data name="msg_DrawPrize1" xml:space="preserve">
-    <value>Congratulation! Your {0} bonus of {1} {2} has been credited to your account.</value>
-  </data>
-  <data name="msg_BalanceHint" xml:space="preserve">
-    <value>Your current balance is</value>
-  </data>
-  <data name="msg_HasExist" xml:space="preserve">
-    <value>already exists.</value>
-  </data>
-  <data name="msg_InsufficientFund" xml:space="preserve">
-    <value>Insufficient Fund!</value>
-  </data>
-  <data name="msg_DepositRefunded_Detail" xml:space="preserve">
-    <value>Deposit amount has been refunded, kindly check your bank account.</value>
-  </data>
-  <data name="msg_LockedAmountInsufficient" xml:space="preserve">
-    <value>Main wallet balance should not be lower than {0}</value>
-  </data>
-  <data name="msg_OTPSendCode" xml:space="preserve">
-    <value>We had send the verification code to your register mobile. Please check your mobile and enter your verification code below.</value>
-  </data>
-  <data name="msg_InactiveBankAccountSubmission_Detail" xml:space="preserve">
-    <value>The deposit account has been change, please check the latest receiving account before make a transaction .</value>
-  </data>
-  <data name="msg_WithdrawalAccountAannotReceiveMoney" xml:space="preserve">
-    <value>Withdrawal account unable to receive funds</value>
-  </data>
-  <data name="msg_SamePassword" xml:space="preserve">
-    <value>Old Password and New Password are same!</value>
-  </data>
-  <data name="msg_BeneficiarysAccountMaintenance_Detail" xml:space="preserve">
-    <value>Bank is currently under maintenance, your withdrawal application will be processed for you after the bank maintenance is completed.</value>
-  </data>
-  <data name="msg_DepositorsNameUnmatch_Detail" xml:space="preserve">
-    <value>Registered name is not match with bank account name, kindly contact Customer Support for further assistance.</value>
-  </data>
-  <data name="msg_WithdrawalAccountNumberIncorrect" xml:space="preserve">
-    <value>Withdrawal Account Number Incorrect</value>
-  </data>
-  <data name="msg_DepositAlert" xml:space="preserve">
-    <value>Your Main Wallet balance is : &lt;span class="popup-span Js-MainWallet-Balance"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;Deposit now or transfer from Sportsbook Wallet to Main Wallet to enjoy our games and services.</value>
-  </data>
-  <data name="msg_ForceLogedoutHint" xml:space="preserve">
-    <value>This ID has already logged in from another browser window or device. You will be forced to logout from this session.</value>
-  </data>
-  <data name="msg_WithdrawalSuccessful" xml:space="preserve">
-    <value>Your withdrawal request was successful. We will notify you once it is done.</value>
-  </data>
-  <data name="msg_EnterPhoneNumber" xml:space="preserve">
-    <value>Please enter phone number.</value>
-  </data>
-  <data name="msg_PasswordReq" xml:space="preserve">
-    <value>Password is required.</value>
-  </data>
-  <data name="msg_NoData" xml:space="preserve">
-    <value>No Data</value>
-  </data>
-  <data name="msg_ThisCurrencyNotSupport" xml:space="preserve">
-    <value>Your Currency Does Not Support.</value>
-  </data>
-  <data name="msg_InvalidCryptoWalletAddress" xml:space="preserve">
-    <value>Invalid crypto wallet address.</value>
-  </data>
-  <data name="msg_DrawPrizeTital1" xml:space="preserve">
-    <value>{0} Mystery Box</value>
-  </data>
-  <data name="ForgetPwdSuccess" xml:space="preserve">
-    <value>Your new password has been sent to your registered e-mail address.</value>
-  </data>
-  <data name="msg_BankAccountExists" xml:space="preserve">
-    <value>You have already stored this information.</value>
-  </data>
-  <data name="msg_Ineligible" xml:space="preserve">
-    <value>You are not eligible for this promotion. Please contact our support for more details.</value>
-  </data>
-  <data name="msg_CreditSignUpHint_1" xml:space="preserve">
-    <value>Dear Valued customer</value>
-  </data>
-  <data name="msg_CreditSignUpHint_2" xml:space="preserve">
-    <value>Welcome to {0}, upon registration please visit the said link and enjoy our games.</value>
-  </data>
-  <data name="ResetPwdSuccess" xml:space="preserve">
-    <value>Your password has been reset successfully!</value>
-  </data>
-  <data name="msg_DepositorsNameUnmatch" xml:space="preserve">
-    <value>Depositor's name unmatch</value>
-  </data>
-  <data name="msg_PromoCodeIncorrect" xml:space="preserve">
-    <value>Promo code is incorrect.</value>
-  </data>
-  <data name="msg_SpecialCodeErr" xml:space="preserve">
-    <value>The Promo Code is incorrect, please recheck again</value>
-  </data>
-  <data name="msg_IneligibleAngPow" xml:space="preserve">
-    <value>Please make your deposit to entitle for this promotion</value>
-  </data>
-  <data name="msg_MailReq" xml:space="preserve">
-    <value>Email cannot be changed after submission</value>
-  </data>
-  <data name="msg_ForceLogedout" xml:space="preserve">
-    <value>You have logged out!! Please login and try again!!</value>
-  </data>
-  <data name="msg_WrongBankSubmitted" xml:space="preserve">
-    <value>Wrong deposit account selected</value>
-  </data>
-  <data name="msg_BeneficiarysAccountMaintenance" xml:space="preserve">
-    <value>Beneficiary's account maintenance</value>
-  </data>
-  <data name="ForgetPwdFail" xml:space="preserve">
-    <value>This email address is invalid!</value>
-  </data>
-  <data name="msg_OTPHint" xml:space="preserve">
-    <value>Please complete your profile and verify your phone number to enjoy our promotions.</value>
-  </data>
-  <data name="msg_MailExisted" xml:space="preserve">
-    <value>Mail already exists.</value>
-  </data>
-  <data name="msg_SpecialCodeVipLevelsOrBlockTagInvalid" xml:space="preserve">
-    <value>Unable to participate in this promotion, please contact customer service for inquiry</value>
-  </data>
-  <data name="msg_AffCodeValidate" xml:space="preserve">
-    <value>Affiliate ID allows 5-20 numeric only.</value>
-  </data>
-  <data name="msg_OTPHint2" xml:space="preserve">
-    <value>Verify your Phone now?</value>
-  </data>
-  <data name="msg_OTPHint1" xml:space="preserve">
-    <value>Do you want to enjoy our complete products &amp; services?</value>
-  </data>
-  <data name="msg_DepositRefunded" xml:space="preserve">
-    <value>Deposit refunded</value>
-  </data>
-  <data name="msg_DecimalOutOfRange" xml:space="preserve">
-    <value>Transfer failed due to decimal greater than 2 digits</value>
-  </data>
-  <data name="msg_RedemptionLimitOverLimit" xml:space="preserve">
-    <value>Sorry, your redemption limit reached. Please try again on the new calendar month.</value>
-  </data>
-  <data name="msg_times_chance" xml:space="preserve">
-    <value>Still remain {0} times chance</value>
-  </data>
-  <data name="msg_congratulation_event_reward" xml:space="preserve">
-    <value>congratulations! Get {0} amount</value>
-  </data>
-  <data name="msg_ProfileOrPhoneNotFinish" xml:space="preserve">
-    <value>Account information has not been completed, please verify the account information</value>
-  </data>
-  <data name="msg_EWalletIsMaintenance" xml:space="preserve">
-    <value>E-Wallet is maintenance, please use other withdrawal methods</value>
-  </data>
-  <data name="msg_turnover_not_enough" xml:space="preserve">
-    <value>Yet completed the valid bet required, unable to participate</value>
-  </data>
-  <data name="msg_ResubmitWithdrawal" xml:space="preserve">
-    <value>Please resubmit a withdrawal request</value>
-  </data>
-  <data name="msg_Event_has_not_started" xml:space="preserve">
-    <value>Event has not started yet</value>
-  </data>
-  <data name="msg_limit_has_been_reached" xml:space="preserve">
-    <value>Today's limit has been reached</value>
-  </data>
-  <data name="msg_InsufficientPoint" xml:space="preserve">
-    <value>Sorry! You have insufficient 88 Rewards point.</value>
-  </data>
-  <data name="msg_keep_up" xml:space="preserve">
-    <value>Good luck on your next shake</value>
-  </data>
-  <data name="msg_EWalletDuplicate" xml:space="preserve">
-    <value>Duplicate E-wallet Account No. is not allowed. Please try another E-wallet Account No.</value>
-  </data>
-  <data name="msg_CompletePhoneNumber" xml:space="preserve">
-    <value>Please complete your Mobile Phone (OTP) verification.</value>
-  </data>
-  <data name="msg_LineAccountAlreadyBind" xml:space="preserve">
-    <value>This LINE account has been used, please use another account.</value>
-  </data>
-  <data name="msg_RealNameWrongFormat" xml:space="preserve">
-    <value>RealName can't allow number or special charactors.</value>
-  </data>
-  <data name="msg_OTPDailyLimit" xml:space="preserve">
-    <value>OTP has reached the limit,please contact Live Chat Support</value>
-  </data>
-  <data name="msg_AffCodeNotFound" xml:space="preserve">
-    <value>Affiliate ID cant be found</value>
-  </data>
-  <data name="msg_SystemUnstable" xml:space="preserve">
-    <value>System is unable to retrieve details.</value>
-  </data>
-  <data name="msg_SystemUnstable_Detail" xml:space="preserve">
-    <value>Bank's system is currently unable to retrieve the transaction details, and unable to process your deposit at the moment.</value>
-  </data>
-  <data name="msg_BankUnderMaintenance" xml:space="preserve">
-    <value>Bank Maintenance</value>
-  </data>
-  <data name="msg_BankUnderMaintenance_Detail" xml:space="preserve">
-    <value>Bank's system is currently under maintenance and unable to process your deposit at the moment.</value>
-  </data>
-  <data name="msg_NeedAddress" xml:space="preserve">
-    <value>Unfilled Current Address</value>
-  </data>
-  <data name="msg_NeedNationality" xml:space="preserve">
-    <value>Unfilled Nationality</value>
-  </data>
-</root>
+<resheader name="resmimetype"><value>text/microsoft-resx</value></resheader><resheader name="version"><value>1.3</value></resheader><resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader><resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader><data name="msg_TransferAlert"><value>Your current Sportsbook Wallet is : &lt;span class="popup-span Js-3RdWallet-Balance"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;Deposit and transfer from Main Wallet to Sportsbook Wallet now to enjoy our games and services.</value></data>
+  <data name="msg_SubmitDepositTime"><value>Please submit your deposit time.</value></data>
+  <data name="msg_ClaimCashBackBonus"><value>Congratulations, your CASHBACK {0} has been credited to your account!</value></data>
+  <data name="msg_BirthdayIsRequired"><value>Please fill in the birth date</value></data>
+  <data name="msg_UsernameReq"><value>Username is required.</value></data>
+  <data name="msg_ApiServerError"><value>API Server Error.</value></data>
+  <data name="msg_MustInteger"><value>Kindly fill in the complete figure, decimal digit are not allowed.</value></data>
+  <data name="msg_LoginToAccess"><value>Please login to access game.</value></data>
+  <data name="msg_WithdrawalAccountNumberIncorrect_Detail"><value>Withdrawal account number incorrect. Kindly check your withdrawal account number.</value></data>
+  <data name="msg_CreditSignUp"><value>Dear Valued customer, &lt;br /&gt;&lt;br /&gt;Welcome to &lt;a href="https://{0}" target="_new"&gt;{0}&lt;/a&gt;, upon registration please visit the said link and enjoy our games.</value></data>
+  <data name="msg_WrongAmountSubmitted_Detail"><value>Deposit amount does not match the deposit slip application amount, Kindly recheck or contact Customer Support for further assistance.</value></data>
+  <data name="msg_BankAccountDuplicate"><value>Duplicate Bank Account No. is not allowed. Please try another Account No.</value></data>
+  <data name="msg_WithdrawalNoFund"><value>Your withdrawal request was failed due to insufficient balance!</value></data>
+  <data name="msg_EmailFormatVerify"><value>Email address format incorrect</value></data>
+  <data name="msg_loggedout"><value>You have successfully logged out!!</value></data>
+  <data name="msg_PhoneFormatVerify"><value>Phone number you entered is incorrect, should be between {0} digits</value></data>
+  <data name="msg_PhoneWrongFormat"><value>Phone Format is wrong.</value></data>
+  <data name="msg_Updatesuccessful"><value>Update Successfully</value></data>
+  <data name="msg_WithdrawalFailed"><value>Your withdrawal request was failed. Please check with CSD for more information.</value></data>
+  <data name="msg_CryptoWalletDuplicate"><value>Crypto wallet address has been used</value></data>
+  <data name="msg_WithdrawalExists"><value>Your transaction request is on Pending. Please try again while the Pending transaction is complete.</value></data>
+  <data name="msg_LessThanWithdrawalMin"><value>Withdrawal amount must be greater than {0}</value></data>
+  <data name="msg_ReferenceNumber"><value>Reference number</value></data>
+  <data name="mag_AffiliateNotExist"><value>Your Affiliate Code is invalid. Please check again!</value></data>
+  <data name="msg_Congratulations"><value>Your registration is completed; you may immediately login, deposit and then start to place bets.</value></data>
+  <data name="msg_PaymentNotReceived"><value>Payment not received</value></data>
+  <data name="msg_DepositHint"><value>Deposit now to enjoy our games and services.</value></data>
+  <data name="msg_WrongAmount"><value>Wrong amount</value></data>
+  <data name="msg_WithdrawalAccountsNameUnmatch"><value>Withdrawal Account's name unmatch</value></data>
+  <data name="msg_PasswordValidate"><value>Password must be 6-15 characters, contain alphanumeric.</value></data>
+  <data name="msg_WrongAmountSubmitted"><value>Deposit Amount Incorrect</value></data>
+  <data name="msg_UsernameNotAvailable"><value>Username is no longer available.</value></data>
+  <data name="msg_WithdrawalAccountsNameUnmatch_Detail"><value>Withdrawal account name does not match with the registered name. Please contact customer service for assistance.</value></data>
+  <data name="msg_NeedAccountName"><value>Need Account Name</value></data>
+  <data name="msg_DrawPrizeTital"><value>Ang Pao Giveaway</value></data>
+  <data name="msg_UsernameLength"><value>Username must between 6 and 18 characters long.</value></data>
+  <data name="msg_DepositSlipRequired_Detail"><value>Kindly attach transfer slip to speed up transaction processing time.</value></data>
+  <data name="msg_NeedAccountNo"><value>Need Account Number</value></data>
+  <data name="msg_DrawPrize"><value>Congratulations, your Ang Pow {0} has been credited to your account!</value></data>
+  <data name="msg_SpecialCodeErrorForCheck"><value>The Promo Code is incorrect, please recheck again</value></data>
+  <data name="msg_InvalidOldPassword"><value>Invalid Old Password!</value></data>
+  <data name="msg_WithdrawalAccountAannotReceiveMoney_Detail"><value>Withdrawal account is unable to receive funds. Kindly recheck or contact Customer Support for further assistance.</value></data>
+  <data name="msg_PasswordLength"><value>Password must between 6 and 18 characters long.</value></data>
+  <data name="msg_GreaterThanWithdrawalMax"><value>Your Daily Limit Reached.</value></data>
+  <data name="msg_MailWrongFormat"><value>Mail Format is wrong.</value></data>
+  <data name="msg_NotInLimit"><value>Not in Limit</value></data>
+  <data name="msg_UsernameValidate"><value>6-18 alphanumeric (A-Z, a-z, 0-9) characters only.</value></data>
+  <data name="msg_WrongBankSubmitted_Detail"><value>The selected deposit account is incorrect, Kindly recheck or contact Customer Support for further assistance.</value></data>
+  <data name="msg_DepositSlipRequired"><value>Deposit Slip Required</value></data>
+  <data name="msg_OTPEnterCode"><value>Please enter the verification number you received below.</value></data>
+  <data name="msg_UpdateFailed"><value>Update Failed</value></data>
+  <data name="msg_EnterRealName"><value>Please enter your real name.</value></data>
+  <data name="msg_SelectBirthDay"><value>Please select your birthday.</value></data>
+  <data name="msg_RequiredAmountInsufficient"><value>Deposit at least {0} to be eligible for bonus</value></data>
+  <data name="msg_DepositProcessLogin_LoginFailed"><value>Login failed, Username/ Password is wrong or Username does not exist.</value></data>
+  <data name="msg_SelectFile"><value>Select File</value></data>
+  <data name="msg_DepositProcessLogin_ACLocked"><value>Your account is locked; please contact 24/7 customer service, thanks!</value></data>
+  <data name="msg_InactiveBankAccountSubmission"><value>Inactive Bank Account submission</value></data>
+  <data name="msg_ConfirmRealNameAlert"><value>To ensure all transations correct, please make sure your real name is same with your bank account name</value></data>
+  <data name="msg_MustDeposit"><value>Kindly complete deposit before submit withdrawal</value></data>
+  <data name="msg_GoToDepositPage"><value>Go to deposit page?</value></data>
+  <data name="msg_PromoCodeHasBeenUsed"><value>The Promo Code has been used</value></data>
+  <data name="msg_PaymentNotReceived_Detail"><value>Payment have not received in bank, kindly wait patiently.</value></data>
+  <data name="msg_DrawPrize1"><value>Congratulation! Your {0} bonus of {1} {2} has been credited to your account.</value></data>
+  <data name="msg_BalanceHint"><value>Your current balance is</value></data>
+  <data name="msg_HasExist"><value>already exists.</value></data>
+  <data name="msg_InsufficientFund"><value>Insufficient Fund!</value></data>
+  <data name="msg_DepositRefunded_Detail"><value>Deposit amount has been refunded, kindly check your bank account.</value></data>
+  <data name="msg_LockedAmountInsufficient"><value>Main wallet balance should not be lower than {0}</value></data>
+  <data name="msg_OTPSendCode"><value>We had send the verification code to your register mobile. Please check your mobile and enter your verification code below.</value></data>
+  <data name="msg_InactiveBankAccountSubmission_Detail"><value>The deposit account has been change, please check the latest receiving account before make a transaction .</value></data>
+  <data name="msg_WithdrawalAccountAannotReceiveMoney"><value>Withdrawal account unable to receive funds</value></data>
+  <data name="msg_SamePassword"><value>Old Password and New Password are same!</value></data>
+  <data name="msg_BeneficiarysAccountMaintenance_Detail"><value>Bank is currently under maintenance, your withdrawal application will be processed for you after the bank maintenance is completed.</value></data>
+  <data name="msg_DepositorsNameUnmatch_Detail"><value>Registered name is not match with bank account name, kindly contact Customer Support for further assistance.</value></data>
+  <data name="msg_WithdrawalAccountNumberIncorrect"><value>Withdrawal Account Number Incorrect</value></data>
+  <data name="msg_DepositAlert"><value>Your Main Wallet balance is : &lt;span class="popup-span Js-MainWallet-Balance"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;Deposit now or transfer from Sportsbook Wallet to Main Wallet to enjoy our games and services.</value></data>
+  <data name="msg_ForceLogedoutHint"><value>This ID has already logged in from another browser window or device. You will be forced to logout from this session.</value></data>
+  <data name="msg_WithdrawalSuccessful"><value>Your withdrawal request was successful. We will notify you once it is done.</value></data>
+  <data name="msg_EnterPhoneNumber"><value>Please enter phone number.</value></data>
+  <data name="msg_PasswordReq"><value>Password is required.</value></data>
+  <data name="msg_NoData"><value>No Data</value></data>
+  <data name="msg_ThisCurrencyNotSupport"><value>Your Currency Does Not Support.</value></data>
+  <data name="msg_InvalidCryptoWalletAddress"><value>Invalid crypto wallet address.</value></data>
+  <data name="msg_DrawPrizeTital1"><value>{0} Mystery Box</value></data>
+  <data name="ForgetPwdSuccess"><value>Your new password has been sent to your registered e-mail address.</value></data>
+  <data name="msg_BankAccountExists"><value>You have already stored this information.</value></data>
+  <data name="msg_Ineligible"><value>You are not eligible for this promotion. Please contact our support for more details.</value></data>
+  <data name="msg_CreditSignUpHint_1"><value>Dear Valued customer</value></data>
+  <data name="msg_CreditSignUpHint_2"><value>Welcome to {0}, upon registration please visit the said link and enjoy our games.</value></data>
+  <data name="ResetPwdSuccess"><value>Your password has been reset successfully!</value></data>
+  <data name="msg_DepositorsNameUnmatch"><value>Depositor's name unmatch</value></data>
+  <data name="msg_PromoCodeIncorrect"><value>Promo code is incorrect.</value></data>
+  <data name="msg_SpecialCodeErr"><value>The Promo Code is incorrect, please recheck again</value></data>
+  <data name="msg_IneligibleAngPow"><value>Please make your deposit to entitle for this promotion</value></data>
+  <data name="msg_MailReq"><value>Email cannot be changed after submission</value></data>
+  <data name="msg_ForceLogedout"><value>You have logged out!! Please login and try again!!</value></data>
+  <data name="msg_WrongBankSubmitted"><value>Wrong deposit account selected</value></data>
+  <data name="msg_BeneficiarysAccountMaintenance"><value>Beneficiary's account maintenance</value></data>
+  <data name="ForgetPwdFail"><value>This email address is invalid!</value></data>
+  <data name="msg_OTPHint"><value>Please complete your profile and verify your phone number to enjoy our promotions.</value></data>
+  <data name="msg_MailExisted"><value>Mail already exists.</value></data>
+  <data name="msg_SpecialCodeVipLevelsOrBlockTagInvalid"><value>Unable to participate in this promotion, please contact customer service for inquiry</value></data>
+  <data name="msg_AffCodeValidate"><value>Affiliate ID allows 5-20 numeric only.</value></data>
+  <data name="msg_OTPHint2"><value>Verify your Phone now?</value></data>
+  <data name="msg_OTPHint1"><value>Do you want to enjoy our complete products &amp; services?</value></data>
+  <data name="msg_DepositRefunded"><value>Deposit refunded</value></data>
+  <data name="msg_DecimalOutOfRange"><value>Transfer failed due to decimal greater than 2 digits</value></data>
+  <data name="msg_RedemptionLimitOverLimit"><value>Sorry, your redemption limit reached. Please try again on the new calendar month.</value></data>
+  <data name="msg_times_chance"><value>Still remain {0} times chance</value></data>
+  <data name="msg_congratulation_event_reward"><value>congratulations! Get {0} amount</value></data>
+  <data name="msg_ProfileOrPhoneNotFinish"><value>Account information has not been completed, please verify the account information</value></data>
+  <data name="msg_EWalletIsMaintenance"><value>E-Wallet is maintenance, please use other withdrawal methods</value></data>
+  <data name="msg_turnover_not_enough"><value>Yet completed the valid bet required, unable to participate</value></data>
+  <data name="msg_ResubmitWithdrawal"><value>Please resubmit a withdrawal request</value></data>
+  <data name="msg_Event_has_not_started"><value>Event has not started yet</value></data>
+  <data name="msg_limit_has_been_reached"><value>Today's limit has been reached</value></data>
+  <data name="msg_InsufficientPoint"><value>Sorry! You have insufficient 88 Rewards point.</value></data>
+  <data name="msg_keep_up"><value>Good luck on your next shake</value></data>
+  <data name="msg_EWalletDuplicate"><value>Duplicate E-wallet Account No. is not allowed. Please try another E-wallet Account No.</value></data>
+  <data name="msg_CompletePhoneNumber"><value>Please complete your Mobile Phone (OTP) verification.</value></data>
+  <data name="msg_LineAccountAlreadyBind"><value>This LINE account has been used, please use another account.</value></data>
+  <data name="msg_RealNameWrongFormat"><value>RealName can't allow number or special charactors.</value></data>
+  <data name="msg_OTPDailyLimit"><value>OTP has reached the limit,please contact Live Chat Support</value></data>
+  <data name="msg_SystemUnstable"><value>System is unable to retrieve details.</value></data>
+  <data name="msg_SystemUnstable_Detail"><value>Bank's system is currently unable to retrieve the transaction details, and unable to process your deposit at the moment.</value></data>
+  <data name="msg_BankUnderMaintenance"><value>Bank Maintenance</value></data>
+  <data name="msg_BankUnderMaintenance_Detail"><value>Bank's system is currently under maintenance and unable to process your deposit at the moment.</value></data>
+  <data name="msg_AffCodeNotFound"><value>Affiliate ID cant be found</value></data>
+  <data name="msg_WrongPhoneNumberAndUserName"><value>The account or phone number is incorrect, please re-enter it.</value></data>
+  <data name="msg_WrongAmountFormat"><value>Amount format is wrong</value></data>
+  <data name="msg_QuestionnaireFailed"><value>You have reached the maximum feedback submissions for today.</value></data>
+  </root>

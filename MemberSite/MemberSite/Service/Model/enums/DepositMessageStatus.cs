@@ -9,7 +9,9 @@
         WrongAmountSubmitted = 4,
         WrongBankSubmitted = 5,
         InactiveBankAccountSubmission = 6,
-        SystemUnstable = 7,
-        BankUnderMaintenance = 8
+        BankSystemUnstable = 7,
+        BankUnderMaintenance = 8,
+        DepositRemarkReminder = 9,
+        FillUpRemarkReminder = 10
     }
 }

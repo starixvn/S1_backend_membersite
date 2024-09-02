@@ -2,8 +2,10 @@
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
@@ -23,6 +25,7 @@ namespace MemberSite.Controllers.Api
         private readonly BonusWalletBLL _bonusWalletBll;
         private readonly CustInfoBll _custInfoBll;
         private readonly GameBLL _gameBll;
+        private readonly CheckIpBLL _checkIpBll;
         private readonly ServerInfoBll _serverInfoBll;
         private readonly ILogger<TpController> _logger;
         private readonly ICacheHelper _cacheHelper;
@@ -40,6 +43,7 @@ namespace MemberSite.Controllers.Api
             _bonusWalletBll = provider.GetRequiredService<BonusWalletBLL>();
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _gameBll = provider.GetRequiredService<GameBLL>();
+            _checkIpBll = provider.GetRequiredService<CheckIpBLL>();
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
             _logger = provider.GetRequiredService<ILogger<TpController>>();
             _cacheHelper = provider.GetRequiredService<ICacheHelper>();
@@ -125,6 +129,17 @@ namespace MemberSite.Controllers.Api
                     else
                     {
                         input.Add("Token", authData.Token);
+                    }
+
+                    // 目前先以SabaPlay使用觀察，後續其他遊戲需要則可調整為共用
+                    if (inInfo.TpId == (int)Tp.SabaPlay)
+                    {
+                        if (Request.Headers.TryGetValue("User-Agent", out var userAgent))
+                        {
+                            input.Add("BrowserUserAgent", userAgent);
+                        }
+                        var ipCountryName = _checkIpBll.GetIpCountryName(_tools.GetClientIP());
+                        input.Add("IpCountryName", ipCountryName.TrimEnd());
                     }
                 }
                 else if (input.TryGetValue("token", out var jwtToken)

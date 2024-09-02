@@ -2,7 +2,7 @@
 {
     public enum AppLinkAppType
     {
-        Andriod = 1,
+        Android = 1,
         IOS = 2
     }
 }

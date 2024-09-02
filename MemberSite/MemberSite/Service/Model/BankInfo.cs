@@ -1,4 +1,5 @@
 ﻿using MemberSite.Service.Model.enums;
+
 using Newtonsoft.Json;
 
 namespace MemberSite.Service.Model
@@ -17,9 +18,15 @@ namespace MemberSite.Service.Model
     public class PaymentFront : IPaymentLimit
     {
         public int PayId { get; set; }
-        public int ChannelId { get; set; }
         public string PayName { get; set; }
+        public int ChannelId { get; set; }
+        public string ChannelName { get; set; }
+        public string DisplayChannelName { get; set; }
+        public int GroupId { get; set; }
+        public string GroupName { get; set; }
+        public string DisplayGroupName { get; set; }
         public bool SelBank { get; set; }
+        public int ExtraDataType { get; set; }
         public decimal MinAmount { get; set; }
         public decimal MaxAmount { get; set; }
         public int Mode { get; set; }

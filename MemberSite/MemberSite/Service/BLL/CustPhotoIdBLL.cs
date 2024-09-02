@@ -1,9 +1,9 @@
 using Amazon.S3.Model;
+
 using MemberSite.Extensions;
 using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Library;
-using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.BLL;
 
@@ -12,19 +12,22 @@ public class CustPhotoIdBLL : ICustPhotoIdBLL
     private readonly ImageEditorBLL _imageEditorBll;
     private readonly ICustPhotoIdService _custPhotoIdService;
     private readonly AWSS3Helper _s3Helper;
+    private readonly ServerInfoBll _serverInfoBll;
     private readonly ILogger<CustPhotoIdBLL> _logger;
     private readonly string _environment;
     private readonly string _backOfficeBucketName;
 
     public CustPhotoIdBLL(ImageEditorBLL imageEditorBll,
-        ICustPhotoIdService custPhotoIdService, 
+        ICustPhotoIdService custPhotoIdService,
         AWSS3Helper s3Helper,
+        ServerInfoBll serverInfoBll,
         IWebHostEnvironment env,
         ILogger<CustPhotoIdBLL> logger,
         ConfigBLL configBll)
     {
         _imageEditorBll = imageEditorBll;
         _logger = logger;
+        _serverInfoBll = serverInfoBll;
         _custPhotoIdService = custPhotoIdService;
         _s3Helper = s3Helper;
         _environment = env.IsPrd() ? "PRD" : "DEV";
@@ -36,15 +39,16 @@ public class CustPhotoIdBLL : ICustPhotoIdBLL
         await using var fileStream = photo.OpenReadStream();
         using var uploadedImage = await SixLabors.ImageSharp.Image.LoadAsync(fileStream);
         var fileBytes = await _imageEditorBll.Resize(uploadedImage);
-        
+
         var sq = await _custPhotoIdService.SetCustPhotoId(custId, siteId);
         if (sq <= 0)
         {
             _logger.LogError("insert CustPhotoId failed");
             return 0;
         }
-        var site = (SiteId)siteId;
-        var siteName = site.ToString().ToUpper();
+
+        var serverInfo = _serverInfoBll.GetServerInfo();
+        var siteName = serverInfo.SiteName.ToUpper();
         var stream = new MemoryStream(fileBytes);
         var key = $"{_environment}/{siteName}/CustPhotoId/{custId}/{sq}.jpeg";
         var putRequest = new PutObjectRequest

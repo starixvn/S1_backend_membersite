@@ -1,4 +1,6 @@
-﻿using MemberSite.Service.DAL;
+﻿using Google.Protobuf.WellKnownTypes;
+using MemberSite.Service.BLL.Interface;
+using MemberSite.Service.DAL;
 using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Domain;
 using MemberSite.Service.Library;
@@ -9,9 +11,8 @@ using MemberSite.Service.Model.Mapping;
 using Microsoft.Extensions.Caching.Memory;
 
 using Newtonsoft.Json;
-using static MemberSite.Controllers.Api.SiteController;
-
-using Org.BouncyCastle.Asn1.Tsp;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace MemberSite.Service.BLL
 {
@@ -37,6 +38,9 @@ namespace MemberSite.Service.BLL
         private readonly ShieldBLL _shieldBll;
         private readonly VIPService _vIPService;
         private readonly DepositService _depositService;
+        private readonly ICustPhotoIdBLL _custPhoto;
+        private readonly ILogger<CustInfoBll> _logger;
+        private readonly FaceBookPixelBLL _faceBookPixelBll;
 
         public CustInfoBll(IServiceProvider provider)
         {
@@ -55,6 +59,9 @@ namespace MemberSite.Service.BLL
             _affiliateService = provider.GetRequiredService<IAffiliateService>();
             _vIPService = provider.GetRequiredService<VIPService>();
             _depositService = provider.GetRequiredService<DepositService>();
+            _custPhoto = provider.GetRequiredService<ICustPhotoIdBLL>();
+            _logger = provider.GetRequiredService<ILogger<CustInfoBll>>();
+            _faceBookPixelBll = provider.GetRequiredService<FaceBookPixelBLL>();
         }
         public string GetCountryNameByAreaCode(string areaCode)
         {
@@ -74,65 +81,12 @@ namespace MemberSite.Service.BLL
         }
 
         public int AddCustInfo(string UserName, string Userpwd, string Email, int CurrencyId, string UserLang,
-            string refId, string affId, string aff, AffCodeObject affCode, string lineUserId, int deviceType, out int custId, string signupUrl = null,
-            string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null,
-            int Birth_d = 0, int Birth_m = 0, int Birth_y = 0, string signupIp = null)
+            string refId, string affId, string aff, AffCodeObject affCode, string lineUserId, int deviceType, Customer agent, out int custId, string signupUrl = null,
+            string referralUrl = null, string PhoneNo = null, string AreaCode = null,string nationality = null, string RealName = null, string promoCode = null,
+            int Birth_d = 0, int Birth_m = 0, int Birth_y = 0, string signupIp = null, string accountNo = null, string iFSCCode = null, int sysId = 0)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
-            if (string.IsNullOrEmpty(affId) && !serverInfo.ICurrencyList.Contains(CurrencyId))
-            {
-                custId = 0;
-                return -1;
-            }
-
-            if (!_tools.CheckUserName(UserName))
-            {
-                custId = 0;
-                return -2;
-            }
-
-            if (!_tools.CheckUserInputPassword(Userpwd))
-            {
-                custId = 0;
-                return -3;
-            }
-
-            if (!serverInfo.ILangList.Contains(UserLang))
-            {
-                custId = 0;
-                return -4;
-            }
-            if (affCode != null && !affCode.IsExists(serverInfo.SiteId, _affiliateService.ExistsAffiliateCode))
-            {
-                custId = 0;
-                return -10;
-            }
-
-            Customer agent = null;
-            //如果從CreditSite註冊，且有輸入邀請碼(Referral)，則該用戶屬於邀請碼下線
-            if (!string.IsNullOrEmpty(refId))
-            {
-                agent = _agentInfoService.GetAffiliateAgent($"{refId}_{CurrencyId}", serverInfo.SiteId);
-
-                if (agent?.CurrencyId != CurrencyId)
-                {
-                    custId = 0;
-                    return -19; /*agent Currency != CurrencyId*/
-                }
-            }
-            else if (!string.IsNullOrEmpty(affId))
-            {
-                agent = _agentInfoService.GetAffiliateAgent(affId, serverInfo.SiteId);
-
-                if (agent == null)
-                {
-                    custId = 0;
-                    return -19;
-                }
-            }
-
-            agent ??= _agentInfoService.GetSuperAgent(serverInfo.SiteId, CurrencyId);
-
+            
             var regCustInfo = new Customer
             {
                 UserName = UserName,
@@ -148,18 +102,13 @@ namespace MemberSite.Service.BLL
                 Aff = aff,
                 AffCode = affCode?.Value
             };
-
-            if (string.IsNullOrEmpty(signupUrl))
-            {
-                signupUrl = _tools.GetFromUrl();
-            }
-
+            
             var result = _custInfoService.AddCustInfo(regCustInfo, Email, lineUserId, deviceType, out custId, signupUrl, referralUrl, PhoneNo, AreaCode,
-                RealName, promoCode, Birth_d, Birth_m, Birth_y, signupIp);
-
-            if (result == 0 && regCustInfo.SiteId != (int)SiteId.Nova88)
+                RealName, promoCode, Birth_d, Birth_m, Birth_y, nationality,signupIp, accountNo, iFSCCode, sysId);
+            regCustInfo.CustId = custId;
+            
+            if (result == 0 && regCustInfo.SiteId is 2 or 3) // goal and bwing
             {
-                regCustInfo.CustId = custId;
                 _ = Task.Run(() =>
                 {
                     _ = _shieldBll.CheckCustShieldRisk(
@@ -168,9 +117,23 @@ namespace MemberSite.Service.BLL
                         ShieldRiskTaggedIssue.HighRisk);
                 });
             }
+
+            #region 埋點
+            
+            if (result == 0 && regCustInfo.SiteId is 1 or 2 or 3 )
+            {
+                _ = Task.Run(() =>
+                {
+                    var pixelEvent = new List<FaceBookPixel> {FaceBookPixel.completeRegistration};
+                    var pixelRequest = _faceBookPixelBll.CreatePixelRequest(regCustInfo.SiteId, regCustInfo.CustId, CurrencyId , 0 ,pixelEvent);
+                    _ = _faceBookPixelBll.Send(pixelRequest);
+                });
+            }
+            
+            #endregion
             return result != 0 ? result : 0;
         }
-
+        
         private string GetAllAgentByUserId(Customer agent)
         {
             if (agent.AgentId == 0 || agent.AllAgentId == null)
@@ -218,7 +181,7 @@ namespace MemberSite.Service.BLL
                 return -3;
             }
 
-            if (customer.SiteId != (int)SiteId.Nova88)
+            if (customer.SiteId is 2 or 3) // goal and bwing
             {
                 var info = customer;
                 _ = Task.Run(async () =>
@@ -237,6 +200,23 @@ namespace MemberSite.Service.BLL
                     };
                     var result = await _shieldBll.SendShieldAttributes(request);
                 });
+            }
+
+            try
+            {
+                byte[] userAgentBytes = Encoding.ASCII.GetBytes(userAgent);
+                if (userAgentBytes.Length > 255)
+                {
+                    byte[] truncatedBytes = new byte[255];
+                    Array.Copy(userAgentBytes, truncatedBytes, 255);
+                    userAgent = Encoding.ASCII.GetString(truncatedBytes);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"UserAgent ASCII Error.Message={ex.Message}.");
+                if (userAgent.Length > 250)
+                    userAgent = userAgent.Substring(0, 250);
             }
 
             _authenticateService.AddLoginRecord(customer.CustId, customer.SiteId, ip, deviceType, out token);
@@ -351,6 +331,9 @@ namespace MemberSite.Service.BLL
 
         public bool SetResetPwd(int custId, string newPassword)
         {
+            var check = _tools.CheckUserInputPassword(newPassword);
+            if (!check) return false;
+
             var md5NewPassword = _tools.MD5Encrypt(newPassword);
             return _custInfoService.SetResetPwd(custId, md5NewPassword);
         }
@@ -403,6 +386,12 @@ namespace MemberSite.Service.BLL
 
             return custBankInfo;
         }
+        
+        public IEnumerable<BankInfoDetail> GetCustBankDetail(int custId)
+        {
+            return _custInfoService.GetCustBankDetail(custId);
+        }
+        
         public string GetDefAccountNo(int custId)
         {
             var custInfo = GetCustInfoWithCache(custId);
@@ -436,6 +425,11 @@ namespace MemberSite.Service.BLL
             return _custInfoService.ExistsEmail(custId, email, siteId);
         }
 
+        public bool ExistsPhoneNoAndUserName(string userName, string areaCode, string phoneNo, int siteId)
+        {
+            return _custInfoService.ExistsPhoneNoAndUserName(userName, areaCode, phoneNo, siteId);
+        }
+
         /// <summary>
         /// Check user's have AccountName or not
         /// </summary>
@@ -462,13 +456,29 @@ namespace MemberSite.Service.BLL
                 () => GetCustInfoProfile(custId));
         }
 
+        public CustInfoProfile GetCustInfoProfileByUserName(int siteId, string userName)
+        {
+            return _redisHelper.TryGetOrCreate(
+                $"CustInfoProfile:{siteId}:{userName}",
+                TimeSpan.FromMinutes(1),
+                () => _custInfoService.GetCustInfoProfileByUserName(siteId, userName, null));
+        }
+
         public int SubmittedCustPhotoId(int custId)
         {
             var custInfo = GetCustInfoWithCache(custId);
             return _redisHelper.TryGetOrCreate(
-                $"SubmittedCustPhotoId:{custId}", 
-                TimeSpan.FromSeconds(5),
+                $"SubmittedCustPhotoId:{custId}",
+                TimeSpan.FromSeconds(20),
                 () => _custInfoService.SubmittedCustPhotoId(custId, custInfo.SiteId, custInfo.CurrencyId));
+        }
+
+        public int GetCustPhotoIdToKYC(int custId)
+        {
+            return _redisHelper.TryGetOrCreate(
+                $"CustPhotoIdToKYC:{custId}",
+                TimeSpan.FromSeconds(20),
+                () => _custInfoService.GetCustPhotoIdToKYC(custId));
         }
 
         public async Task<ApiResult> ForgetPwd1Async(int custId, string resetPasswordUrl)
@@ -513,6 +523,20 @@ namespace MemberSite.Service.BLL
             return apiResult;
         }
 
+        public async Task<ApiResult> ReSetPwdVerifyOTPAsync(int custId, string inputOTP)
+        {
+            var apiResult = await _commonBll.VerifyOTPAsync(custId, inputOTP);
+
+            return apiResult;
+        }
+
+        public async Task<ApiResult> SignUpVerifyOTPAsync(string areaPhoneNo, string inputOTP)
+        {
+            var apiResult = await _commonBll.SignUpVerifyOTPAsync(areaPhoneNo, inputOTP);
+            
+            return apiResult;
+        }
+        
         public string GetAffiliateId(int custId)
         {
             var custInfo = GetCustInfoWithCache(custId);
@@ -594,6 +618,8 @@ namespace MemberSite.Service.BLL
             var serverInfo = _serverInfoBll.GetServerInfo();
             if (!string.IsNullOrEmpty(affId))
             {
+                if (!IsVaild(affId))
+                    return -9;
                 var agent = _agentInfoService.GetAffiliateAgent(affId, serverInfo.SiteId);
 
                 if (agent == null)
@@ -606,6 +632,11 @@ namespace MemberSite.Service.BLL
 
             return -1;
 
+        }
+
+        private bool IsVaild(string value)
+        {
+            return Regex.IsMatch(value, @"^[a-z0-9]{8}$");
         }
 
         public int AffiliateAndReferralCheck(string affCode, out int currencyId)
@@ -752,7 +783,7 @@ namespace MemberSite.Service.BLL
         public async Task<IEnumerable<CustTpGameTypeSetting>> GetCustTpGameTypeSetting(int custId)
         {
             var result = new List<CustTpGameTypeSetting>();
-            var types = (CustTpGameTypeSettingType[])Enum.GetValues(typeof(CustTpGameTypeSettingType));
+            var types = (CustTpGameTypeSettingType[])System.Enum.GetValues(typeof(CustTpGameTypeSettingType));
             var key = $"GetCustTpGameTypeSetting:{custId}";
             var typeResult = await _redisHelper.TryGetOrCreateAsync(key,
                 TimeSpan.FromMinutes(10),
@@ -789,10 +820,9 @@ namespace MemberSite.Service.BLL
         public CustVIPProgress GetCustVIPProgress(int custId)
         {
             CustVIPProgress result = new CustVIPProgress();
-            var customer = _custInfoService.GetCustInfo(custId);
+            var customer = GetCustInfoWithCache(custId, true);
             result.CurrentVipLevel = customer.UserLevel;
             var vipSystem = _vIPService.GetVipSystem(customer.SiteId).Where(x => x.CurrencyId == customer.CurrencyId).ToList();
-
             if (vipSystem != null)
             {
                 var upGradeData = vipSystem.Find(x => x.Level == customer.UserLevel + 1);
@@ -805,7 +835,6 @@ namespace MemberSite.Service.BLL
                     result.DownDeposit = downGradeData.DownDeposit;
                     result.DownTurnover = downGradeData.DownTurnover;
                 }
-
                 result.ActualDeposit = GetActualDeposit(customer.SiteId, custId);
             }
             return result;
@@ -824,64 +853,13 @@ namespace MemberSite.Service.BLL
 
         //只給Ivorysport使用
         public int IvorysportAddCustInfo(string UserName, string Userpwd, string Email, int CurrencyId, string UserLang,
-            string refId, string affId, string aff, AffCodeObject affCode, string lineUserId, int deviceType, out int custId, string signupUrl = null,
-            string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null,
-            int Birth_d = 0, int Birth_m = 0, int Birth_y = 0, string signupIp = null, 
-            string nationality = null, int cccupation = 0, int sourceOfIncome = 0, string country = null, string city = null, string postCode = null, string lineFirst = null)
+            string refId, string affId, string aff, AffCodeObject affCode, string lineUserId, int deviceType, IFormFile photoId, Customer agent, 
+            out int custId, string signupUrl = null, string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null,
+            int Birth_d = 0, int Birth_m = 0, int Birth_y = 0, string signupIp = null, string nationality = null, int cccupation = 0, int sourceOfIncome = 0, string country = null,
+            string city = null, string postCode = null, string lineFirst = null)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
-            if (string.IsNullOrEmpty(affId) && !serverInfo.ICurrencyList.Contains(CurrencyId))
-            {
-                custId = 0;
-                return -1;
-            }
-            if (!_tools.CheckUserName(UserName))
-            {
-                custId = 0;
-                return -2;
-            }
-            if (!_tools.CheckUserInputPassword(Userpwd))
-            {
-                custId = 0;
-                return -3;
-            }
-
-            if (!serverInfo.ILangList.Contains(UserLang))
-            {
-                custId = 0;
-                return -4;
-            }
-            if (affCode != null && !affCode.IsExists(serverInfo.SiteId, _affiliateService.ExistsAffiliateCode))
-            {
-                custId = 0;
-                return -10;
-            }
-
-            Customer agent = null;
-            //如果從CreditSite註冊，且有輸入邀請碼(Referral)，則該用戶屬於邀請碼下線
-            if (!string.IsNullOrEmpty(refId))
-            {
-                agent = _agentInfoService.GetAffiliateAgent($"{refId}_{CurrencyId}", serverInfo.SiteId);
-
-                if (agent?.CurrencyId != CurrencyId)
-                {
-                    custId = 0;
-                    return -19; /*agent Currency != CurrencyId*/
-                }
-            }
-            else if (!string.IsNullOrEmpty(affId))
-            {
-                agent = _agentInfoService.GetAffiliateAgent(affId, serverInfo.SiteId);
-
-                if (agent == null)
-                {
-                    custId = 0;
-                    return -19;
-                }
-            }
-
-            agent ??= _agentInfoService.GetSuperAgent(serverInfo.SiteId, CurrencyId);
-
+            
             var regCustInfo = new Customer
             {
                 UserName = UserName,
@@ -905,7 +883,7 @@ namespace MemberSite.Service.BLL
 
             string address = null;
 
-            if (country != null && city != null && postCode != null && lineFirst != null)
+            if (country != null && city != null)
             {
                 Dictionary<string, string> addressDic = new Dictionary<string, string>();
                 addressDic.Add("Country", country);
@@ -918,7 +896,7 @@ namespace MemberSite.Service.BLL
             var result = _custInfoService.IvorysportAddCustInfo(regCustInfo, Email, lineUserId, deviceType, out custId, signupUrl, referralUrl, PhoneNo, AreaCode,
                 RealName, promoCode, Birth_d, Birth_m, Birth_y, signupIp, nationality, cccupation, sourceOfIncome, address);
 
-            if (result == 0 && regCustInfo.SiteId != (int)SiteId.Nova88)
+            if (result == 0 && regCustInfo.SiteId is 2 or 3) // goal and bwing
             {
                 regCustInfo.CustId = custId;
                 _ = Task.Run(() =>
@@ -929,7 +907,18 @@ namespace MemberSite.Service.BLL
                         ShieldRiskTaggedIssue.HighRisk);
                 });
             }
+
+            if (result == 0)
+            {
+                _ = _custPhoto.UploadPhotoIdAsync(custId, regCustInfo.SiteId, photoId);
+            }
+
             return result != 0 ? result : 0;
+        }
+        
+        public async Task<IEnumerable<CustRealNameChangeLog>> GetCustRealNameChangeLogAsync(int custId)
+        {
+            return await _custInfoService.GetCustRealNameChangeLogAsync(custId);
         }
     }
 }

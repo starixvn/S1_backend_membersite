@@ -42,7 +42,17 @@ namespace MemberSite.Service.DAL
             return _reportDbClient.ExecuteScalar<int>("Member_ExistsEmail_Get", new { CustId = custId, Email = email, SiteId = siteId }) != 0;
         }
 
-        public int AddCustInfo(Customer customer, string Email, string lineUserId, int deviceType, out int custId, string signupUrl = null, string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null, int Birth_d = 0, int Birth_m = 0, int Birth_y = 0, string signupIp = null)
+        public bool ExistsPhoneNoAndUserName(string userName, string areaCode, string phoneNo, int siteId)
+        {
+            return _reportDbClient.ExecuteScalar<int>("Member_ExistsPhoneNoAndUserName_Get", new { _UserName = userName, _AreaCode = areaCode, _PhoneNo = phoneNo, _SiteId = siteId }) != 0;
+        }
+
+        public CustInfoProfile GetCustInfoProfileByUserName(int siteId, string userName, int? custId)
+        {
+            return _reportDbClient.QueryFirst<CustInfoProfile>("Service_CustProfileByUserName_Get_V2", new { _SiteId = siteId, _UserName = userName, _CustId = custId });
+        }
+
+        public int AddCustInfo(Customer customer, string Email, string lineUserId, int deviceType, out int custId, string signupUrl = null, string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null, int Birth_d = 0, int Birth_m = 0, int Birth_y = 0,string nationality = null ,string signupIp = null, string accountNo = null, string iFSCCode = null, int sysId = 0)
         {
             using var conn = _mainDbClient.GetMySqlConnection();
             conn.Open();
@@ -88,8 +98,7 @@ namespace MemberSite.Service.DAL
                     return -5;
                 }
 
-                if ((!string.IsNullOrEmpty(Email) ||
-                     (!string.IsNullOrEmpty(PhoneNo) && !string.IsNullOrEmpty(AreaCode))))
+                if ((!string.IsNullOrEmpty(Email) || (!string.IsNullOrEmpty(PhoneNo) && !string.IsNullOrEmpty(AreaCode))))
                 {
                     if (string.IsNullOrEmpty(Email))
                     {
@@ -109,6 +118,11 @@ namespace MemberSite.Service.DAL
                         profiler.Add("Birth_d", Birth_d.ToString());
                         profiler.Add("Birth_m", Birth_m.ToString());
                         profiler.Add("Birth_y", Birth_y.ToString());
+                    }
+
+                    if (!string.IsNullOrEmpty(nationality))
+                    {
+                        profiler.Add("Nationality", nationality);
                     }
 
                     var profile = profiler.Count <= 0 ? null : Newtonsoft.Json.JsonConvert.SerializeObject(profiler);
@@ -174,6 +188,12 @@ namespace MemberSite.Service.DAL
                     {
                         result = InsertCustLineProfile(custId, lineUserId, trans) ? 1 : 0;
                     }
+                }
+                //tuk55電話註冊 要填寫銀行卡號資訊
+                if(result > 0 && !string.IsNullOrEmpty(accountNo) && sysId != 0)
+                {
+                    var (bankDetailResult, bankLogResult, custBankInfoResult) = SetCustBank(custId, customer.SiteId, RealName, sysId, accountNo, iFSCCode, CustBankInfoLogStatus.Create, trans);
+                    result = bankDetailResult && bankLogResult && custBankInfoResult ? 1 : 0;
                 }
 
                 if (result > 0)
@@ -446,14 +466,7 @@ namespace MemberSite.Service.DAL
             conn.Open();
             using var trans = conn.BeginTransaction();
 
-            var custBankInfoResult = true;
-            var custBankInfo = GetCustBankInfo(custId);
-            if (custBankInfo == null && !string.IsNullOrEmpty(accountName))
-            {
-                custBankInfoResult = SetCustBankInfo(custId, siteId, accountName, trans);
-            }
-            var bankDetailResult = SetCustBankDetail(custId, sysId, accountNum, iFSCCode, CustBankDetailStatus.Able, trans);
-            var bankLogResult = SetCustBankInfoLog(custId, siteId, accountName, sysId, accountNum, iFSCCode, status, trans);
+            var(bankDetailResult, bankLogResult, custBankInfoResult) = SetCustBank(custId, siteId, accountName, sysId, accountNum, iFSCCode, status, trans);
             if (bankDetailResult & bankLogResult & custBankInfoResult)
             {
                 trans.Commit();
@@ -467,7 +480,19 @@ namespace MemberSite.Service.DAL
 
             return bankDetailResult & bankLogResult & custBankInfoResult;
         }
+        private (bool bankDetailResult, bool bankLogResult, bool custBankInfoResult) SetCustBank(int custId, int siteId, string accountName, int sysId, string accountNum, string iFSCCode, CustBankInfoLogStatus status, IDbTransaction trans)
+        {
+            var custBankInfoResult = true;
+            var custBankInfo = GetCustBankInfo(custId);
+            if (custBankInfo == null && !string.IsNullOrEmpty(accountName))
+            {
+                custBankInfoResult = SetCustBankInfo(custId, siteId, accountName, trans);
+            }
+            var bankDetailResult = SetCustBankDetail(custId, sysId, accountNum, iFSCCode, CustBankDetailStatus.Able, trans);
+            var bankLogResult = SetCustBankInfoLog(custId, siteId, accountName, sysId, accountNum, iFSCCode, status, trans);
 
+            return (bankDetailResult, bankLogResult, custBankInfoResult);
+        }
         private bool SetCustBankInfoLog(int custId, int siteId, string accountName, int sysId, string accountNum, string iFSCCode, CustBankInfoLogStatus status, IDbTransaction trans)
         {
             var parameter = new DynamicParameters(new
@@ -549,6 +574,11 @@ namespace MemberSite.Service.DAL
         public int SubmittedCustPhotoId(int custId, int siteId, int currencyId)
         {
             return _reportDbClient.ExecuteScalar<int>("Member_SubmittedCustPhotoId_GetV2", new { CustId = custId, SiteId = siteId, CurrencyId = currencyId });
+        }
+
+        public int GetCustPhotoIdToKYC(int custId)
+        {
+            return _reportDbClient.ExecuteScalar<int>("Member_CustPhotoIdToKYC_Get", new { CustId = custId });
         }
 
         public bool SetResetPwd(int custId, string md5NewPassword)
@@ -953,7 +983,7 @@ namespace MemberSite.Service.DAL
                         profiler.Add("Occupation", cccupation.ToString());
                     }
 
-                    if(sourceOfIncome != 0)
+                    if (sourceOfIncome != 0)
                     {
                         profiler.Add("SourceOfIncome", sourceOfIncome.ToString());
                     }
@@ -1023,10 +1053,11 @@ namespace MemberSite.Service.DAL
                     }
                 }
 
-                if(result > 0 && address != null)
+                if (result > 0 && address != null)
                 {
                     result = _mainDbClient.Execute("Member_CustProfile_Address_Set", trans,
-                        new DynamicParameters(new {
+                        new DynamicParameters(new
+                        {
                             CustId = custId,
                             SiteId = customer.SiteId,
                             Address = address
@@ -1060,6 +1091,12 @@ namespace MemberSite.Service.DAL
                 conn.Dispose();
                 throw;
             }
+        }
+        
+        public async Task<IEnumerable<CustRealNameChangeLog>> GetCustRealNameChangeLogAsync(int custId)
+        {
+            var p = new DynamicParameters(new { CustId = custId });
+            return await _reportDbClient.QueryAsync<CustRealNameChangeLog>("Admin_CustRealNameChangeLog_Get", p);
         }
     }
 }

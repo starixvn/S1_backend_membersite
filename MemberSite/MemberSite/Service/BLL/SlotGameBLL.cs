@@ -5,6 +5,7 @@ using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Game;
 using MemberSite.Service.Model.Lobby;
+
 using Newtonsoft.Json;
 
 namespace MemberSite.Service.BLL
@@ -52,6 +53,7 @@ namespace MemberSite.Service.BLL
                 { 67, 30 },
                 { 109, 52},
                 { 110, 52},
+                { 132, 16},
             };
             _excludeTp = new List<int>
             {
@@ -73,27 +75,35 @@ namespace MemberSite.Service.BLL
             var serverInfo = _serverInfoBll.GetServerInfo();
             var (siteId, currencyId, custId) = GetUserInfo(request.CurrencyId, user, serverInfo);
             var imgUrl = _siteCloudFrontImageInfo[serverInfo.SiteName].OldImageUrl;
+             
+            // 取得SlotGame相關資料，同時執行所有需要的非同步操作
+            var providerTask = GetSlotGameProviderList(siteId, currencyId, TpCategory.Casino);
+            var gameListTask = GetSlotGameList(siteId, currencyId, request.DeviceType);
+            var categorySequenceTask = _lobbyCategoryBll.GetLobbyCategorySequenceByLobbyCategoryId(siteId, currencyId, LobbyCategory.Slots);
 
-            // 取得SlotGame相關資料
-            var providerList = await GetSlotGameProviderList(siteId, currencyId, TpCategory.Casino);
-            var slotGameList = await GetSlotGameList(siteId, currencyId, request.DeviceType);   
-            var lobbyCategorySequence = await _lobbyCategoryBll.GetLobbyCategorySequenceByLobbyCategoryId(siteId, currencyId, LobbyCategory.Slots);
-            var slotGameTopRanking = await GetSlotGameTopRanking(siteId, currencyId);
+            await Task.WhenAll(providerTask, gameListTask, categorySequenceTask);
+            var providerList = await providerTask;
+            var slotGameList = await gameListTask;
+            var lobbyCategorySequence = await categorySequenceTask;
+
 
             // 整理資料與排序
             var slotGameProviderDict = slotGameList.GroupBy(i => i.TpId).ToDictionary(i => i.Key, i => i.Key);
             providerList = FilterAndSortProviderList(providerList, slotGameProviderDict, lobbyCategorySequence);
-            slotGameList = SortSlotGameList(slotGameList, slotGameTopRanking);
-
             // 未登入狀態直接回傳
             if (custId == 0)
             {
                 return new GetSlotGamePageResponse(imgUrl, providerList, slotGameList, request.SlotGameCategoryList);
             }
 
-            //取得User的SlotGame相關資料         
-            var disableGame = await GetDisableGameList(custId);
-            var favoriteAndRecentlyPlayed = await GetFavoriteAndRecentlyPlayed(custId);
+            // 取得用戶的SlotGame相關資料
+            var disableGameTask = GetDisableGameList(custId);
+            var favoriteAndRecentlyPlayedTask = GetFavoriteAndRecentlyPlayed(custId);
+            await Task.WhenAll(disableGameTask, favoriteAndRecentlyPlayedTask);
+
+            var disableGame = await disableGameTask;
+            var favoriteAndRecentlyPlayed = await favoriteAndRecentlyPlayedTask;
+
 
             return new GetSlotGamePageResponse(
                 imgUrl: imgUrl,
@@ -116,11 +126,13 @@ namespace MemberSite.Service.BLL
                 statusList.Add(3);
             }
 
-            var key = $"GetSlotGameList:{_isStage}:{currencyId}:{siteId}:{deviceType}";
+            var key = $"GetSlotGameListV2:{_isStage}:{currencyId}:{siteId}:{deviceType}";
             var result = await _cacheHelper.TryGetOrCreateAsync(key,
-                TimeSpan.FromMinutes(10),
+                TimeSpan.FromMinutes(15), //設定過期15分鐘，
                 async () =>
                 {
+                    // PRD環境由Hangfire每五分鐘定期更新
+                    // 此部分預防Redis異常，與處理RLS環境的快取
                     var result = await _reportDbClient.QueryAsync<SlotGameInfo>("Service_SlotGame_Get", new
                     {
                         CurrencyId = currencyId,
@@ -152,21 +164,24 @@ namespace MemberSite.Service.BLL
         /// </summary>
         private (int SiteId, int CurrencyId, int CustId) GetUserInfo(int? inputCurrencyId, ClaimsPrincipal user, ServerInfo serverInfo)
         {
+
             if (user?.Identity is { IsAuthenticated: true })
             {
+
                 var authData = _authorizeBll.GetAuthData();
-                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-                return (custInfo.SiteId, custInfo.CurrencyId, authData.CustId);
-            }
-            else
-            {
-                var currencyId = _selLangBll.GetPreferCurrencyId();
-                if (inputCurrencyId.HasValue)
+                if (authData != null && authData.CustId != 0)
                 {
-                    currencyId = inputCurrencyId.Value;
+                    var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                    return (custInfo.SiteId, custInfo.CurrencyId, authData.CustId);
                 }
-                return (serverInfo.SiteId, currencyId, 0);
             }
+            var currencyId = _selLangBll.GetPreferCurrencyId();
+            if (inputCurrencyId.HasValue)
+            {
+                currencyId = inputCurrencyId.Value;
+            }
+            return (serverInfo.SiteId, currencyId, 0);
+
         }
 
         public async Task<IEnumerable<DisableTpGame>> GetDisableGameList(int custId)
@@ -208,7 +223,6 @@ namespace MemberSite.Service.BLL
             var bannerUrl = _siteCloudFrontImageInfo[serverInfo.SiteName].BannerImageUrl;
             var deviceType = request.DeviceType;
             var devicePath = deviceType == (int)HotGameDeviceType.Pc ? "desktop" : "h5";
-
             // 未登入狀態直接回傳
             if (custId == 0)
             {
@@ -220,7 +234,6 @@ namespace MemberSite.Service.BLL
             {
                 return new RecentlyViewedResponse(imgUrl, bannerUrl, recentlyViewedInfo);
             }
-
             // 取出有byCurrency跟Site設定的遊戲資訊
             var tpIds = _casinoBll.GetProviderIdByCurrency(currencyId, serverInfo.SiteId);
             // 取出Slot的遊戲資訊
@@ -232,87 +245,103 @@ namespace MemberSite.Service.BLL
             {
                 detail.ImgTpName = _changeGameImgName.TryGetValue(detail.ImgTpName, out var changeName) ? changeName : detail.ImgTpName;
             }
-            
+
+            _logger.LogInformation($"data={string.Join("!!!", data.Select(item => item.RecentlyViewed))}");
+
             foreach (var item in data)
             {
-                var isMaintain = false;
-                var gameName = new Dictionary<string, string>();
-                var gameLogo = new Dictionary<string, string>();
-                string[] parts = item.RecentlyViewed.Split(':');
-                var type = int.Parse(parts[0]);
-                var tpId = int.Parse(parts[1]);
-                var tpGameType = int.Parse(parts[2]);
-                var categoryId = int.Parse(parts[3]);
-                var gameId = parts[4];
-                var betType = (parts[5] == "0") ? "" : parts[5];
-                var imgTpName = tpGameIdList.FirstOrDefault(r => r.TpId == tpId)?.ImgTpName;
-                var tpGameIdNo = 0;
-
-                // TP 關閉資料
-                if (!tpIds.Contains(tpId))
+                try
                 {
-                    _logger.LogWarning($"GetRecentlyViewed tpIds disable : {tpId}");
+                    var isMaintain = false;
+                    var gameName = new Dictionary<string, string>();
+                    var gameLogo = new Dictionary<string, string>();
+                    string[] parts = item.RecentlyViewed.Split(':');
+                    var type = int.Parse(parts[0]);
+                    var tpId = int.Parse(parts[1]);
+                    var tpGameType = int.Parse(parts[2]);
+                    var categoryId = int.Parse(parts[3]);
+                    var gameId = parts[4];
+                    var betType = (parts[5] == "0") ? "" : parts[5];
+                    var imgTpName = tpGameIdList.FirstOrDefault(r => r.TpId == tpId)?.ImgTpName;
+                    var tpGameIdNo = 0;
+
+                    // TP 關閉資料
+                    if (!tpIds.Contains(tpId))
+                    {
+                        _logger.LogWarning($"GetRecentlyViewed tpIds disable : {tpId}");
+                        continue;
+                    }
+
+                    // 檢查維護
+                    if (_gameBll.IsMaintain(siteId, tpId, tpGameType.ToString(), out var tpMaintain))
+                    {
+                        isMaintain = true;
+                    }
+
+                    if (categoryId == (int)TpCategory.Casino && type == (int)RecentlyViewedTypeEnum.GameName)
+                    {
+                        var gameSlotDetail = slotGameList.FirstOrDefault(i => i.TpId == tpId && (i.GameId == gameId || i.AppId == gameId));
+                        if (gameSlotDetail == null)
+                        {
+                            _logger.LogWarning($"GetRecentlyViewed gameSlotDetail null : {tpId} - {gameId}");
+                            continue;
+                        }
+
+                        var tpGameIdListDetail = tpGameIdList.FirstOrDefault(i => i.TpId == tpId && i.TpGameType == tpGameType);
+                        gameName = gameSlotDetail.GameName;
+                        gameLogo = gameSlotDetail.ImgName.ToDictionary(item => item.Key, item => $"{imgUrl}/{imgTpName}/{item.Value}");
+                        tpGameIdNo = (int)(tpGameIdListDetail?.TpGameIdNo);
+                    }
+                    else
+                    {
+                        var tpGameIdListDetail = tpGameIdList.FirstOrDefault(i => i.TpId == tpId && i.TpGameType == tpGameType && i.GameId == gameId && i.BetType == betType);
+                        if (tpGameIdListDetail == null)
+                        {
+                            _logger.LogWarning($"GetRecentlyViewed tpGameIdListDetail null : {tpId} - {tpGameType} - {gameId} - {betType}");
+                            continue;
+                        }
+                        if (tpGameIdListDetail.TpGameIdStatus != 1)
+                        {
+                            _logger.LogWarning($"GetRecentlyViewed TpGameIdStatus disable : {tpId} - {tpGameType} - {gameId} - {betType}");
+                            continue;
+                        }
+                        gameName = tpGameIdListDetail.GameName;
+                        gameLogo.Add("en", $"{bannerUrl}/{devicePath}/img/productimg/{tpGameIdListDetail.ImgTpName}/{tpGameIdListDetail.LobbyCategoryName}/{tpGameIdListDetail.ImgName}");
+                        tpGameIdNo = tpGameIdListDetail.TpGameIdNo;
+                    }
+
+                    string venderLogoTpId = _specialVenderLogoTp.ContainsKey(tpGameIdNo) && _specialVenderLogoTp.ContainsValue(tpId) ? $"{tpId}-{tpGameIdNo}" : tpId.ToString();
+
+                    recentlyViewedInfo.Add(new RecentlyViewedInfo()
+                    {
+                        TpId = tpId,
+                        TpGameType = tpGameType,
+                        CategoryId = categoryId,
+                        GameId = gameId,
+                        BetType = betType,
+                        TpName = imgTpName,
+                        GameName = gameName,
+                        GameLogo = gameLogo,
+                        TpLogo = $"{bannerUrl}/{devicePath}/img/venderlogo/{venderLogoTpId}.png",
+                        TpGameIdNo = tpGameIdNo,
+                        IsMaintain = isMaintain,
+                    });
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError($"Message={ex.Message}. custid={custId}, item={item}");
+                    string[] parts = item.RecentlyViewed.Split(':');
+                    var type = int.Parse(parts[0]);
+                    var tpId = int.Parse(parts[1]);
+                    var tpGameType = int.Parse(parts[2]);
+                    var categoryId = int.Parse(parts[3]);
+                    var gameId = parts[4];
+                    var betType = (parts[5] == "0") ? "" : parts[5];
+                    var imgTpName = tpGameIdList.FirstOrDefault(r => r.TpId == tpId)?.ImgTpName;
+                    _logger.LogError($"type={type}. tpId={tpId}, tpGameType={tpGameType},  categoryId={categoryId}, gameId={gameId}, betType={betType}, imgTpName={imgTpName}");
                     continue;
                 }
-
-                // 檢查維護
-                if (_gameBll.IsMaintain(siteId, tpId, tpGameType.ToString(), out var tpMaintain))
-                {
-                    isMaintain = true;
-                }
-
-                if (categoryId == (int)TpCategory.Casino && type == (int)RecentlyViewedTypeEnum.GameName)
-                {
-                    var gameSlotDetail = slotGameList.FirstOrDefault(i => i.TpId == tpId && (i.GameId == gameId || i.AppId == gameId));
-                    if (gameSlotDetail == null)
-                    {
-                        _logger.LogWarning($"GetRecentlyViewed gameSlotDetail null : {tpId} - {gameId}");
-                        continue;
-                    }
-
-                    var tpGameIdListDetail = tpGameIdList.FirstOrDefault(i => i.TpId == tpId && i.TpGameType == tpGameType);
-                    gameName = gameSlotDetail.GameName;
-                    gameLogo = gameSlotDetail.ImgName.ToDictionary(item => item.Key, item => $"{imgUrl}/{imgTpName}/{item.Value}");
-                    tpGameIdNo = (int)(tpGameIdListDetail?.TpGameIdNo);
-                }
-                else
-                {
-                    var tpGameIdListDetail = tpGameIdList.FirstOrDefault(i => i.TpId == tpId && i.TpGameType == tpGameType && i.GameId == gameId && i.BetType == betType);
-                    if (tpGameIdListDetail == null)
-                    {
-                        _logger.LogWarning($"GetRecentlyViewed tpGameIdListDetail null : {tpId} - {tpGameType} - {gameId} - {betType}");
-                        continue;
-                    }
-
-                    if (tpGameIdListDetail.TpGameIdStatus != 1)
-                    {
-                        _logger.LogWarning($"GetRecentlyViewed TpGameIdStatus disable : {tpId} - {tpGameType} - {gameId} - {betType}");
-                        continue;
-                    }
-
-                    gameName = tpGameIdListDetail.GameName;
-                    gameLogo.Add("en", $"{bannerUrl}/{devicePath}/img/productimg/{tpGameIdListDetail.ImgTpName}/{tpGameIdListDetail.LobbyCategoryName}/{tpGameIdListDetail.ImgName}");
-                    tpGameIdNo = tpGameIdListDetail.TpGameIdNo;
-                }
-
-                string venderLogoTpId = _specialVenderLogoTp.ContainsKey(tpGameIdNo) && _specialVenderLogoTp.ContainsValue(tpId) ? $"{tpId}-{tpGameIdNo}" : tpId.ToString();
-
-                recentlyViewedInfo.Add(new RecentlyViewedInfo()
-                {
-                    TpId = tpId,
-                    TpGameType = tpGameType,
-                    CategoryId = categoryId,
-                    GameId = gameId,
-                    BetType = betType,
-                    TpName = imgTpName,
-                    GameName = gameName,
-                    GameLogo = gameLogo,
-                    TpLogo = $"{bannerUrl}/{devicePath}/img/venderlogo/{venderLogoTpId}.png",
-                    TpGameIdNo = tpGameIdNo,
-                    IsMaintain = isMaintain,
-                });
             }
-
             return new RecentlyViewedResponse(imgUrl, bannerUrl, recentlyViewedInfo);
         }
 
@@ -332,44 +361,6 @@ namespace MemberSite.Service.BLL
                 })
                 .OrderBy(x => x.Sort)
                 .ToList();
-        }
-
-        /// <summary>
-        /// 排序SlotGame清單
-        /// </summary>
-        private List<SlotGameInfo> SortSlotGameList(List<SlotGameInfo> slotGameList, List<SlotGameTopRankingInfo> slotGameTopRanking)
-        {
-            // 遊戲組入排序欄位
-            return slotGameList
-               .Select(sgl => {
-                   // 不分TpId排序參數 (TpId = 0的設定資料)
-                   sgl.Top = slotGameTopRanking.Find(x => x.NoneTpId == 0 && x.SlotGameId == sgl.SlotGameId)?.Sort ?? 99999;
-                   // 指定TpId排序參數 (TpId > 0的設定資料)
-                   sgl.Sort = slotGameTopRanking.Find(x => x.NoneTpId != 0 && x.SlotGameId == sgl.SlotGameId)?.Sort ?? 99999;
-                   return sgl;
-               })
-               .OrderBy(x => x.Top)
-               .ThenBy(x => x.Sort)
-               .ToList();
-        }
-
-        /// <summary>
-        /// Slot遊戲優先排序列
-        /// </summary>
-        private async Task<IEnumerable<SlotGameTopRankingInfo>> GetSlotGameTopRankingList()
-        {
-            return await _cacheHelper.TryGetOrCreateAsync($"GetSlotGameTopRankingList",
-                TimeSpan.FromHours(2),
-                async () => await _casinoService.GetSlotGameTopRankingList());
-        }
-
-        /// <summary>
-        /// 依條件取得Slot遊戲優先排序 (SiteId、CurrencyId)
-        /// </summary>
-        private async Task<List<SlotGameTopRankingInfo>> GetSlotGameTopRanking(int siteId, int currencyId)
-        {
-            var list = await GetSlotGameTopRankingList();
-            return list.Where(x => x.SiteId == siteId && x.CurrencyId == currencyId).ToList();
         }
     }
 }

@@ -19,6 +19,8 @@ namespace MemberSite.Extensions.Middlewares
         private readonly AuthorizeBLL _authorizeBll;
         private readonly ServerInfoBll _serverInfoBll;
         private readonly Tools _tools;
+        private readonly IEnumerable<string> _markPwdKeys;
+        private readonly IEnumerable<string> _markPwdPaths;
 
         public RequestLogMiddleware(RequestDelegate next, ILoggerFactory factory, AuthorizeBLL authorizeBll,
             ServerInfoBll serverInfoBll, Tools tools)
@@ -28,6 +30,14 @@ namespace MemberSite.Extensions.Middlewares
             _authorizeBll = authorizeBll;
             _serverInfoBll = serverInfoBll;
             _tools = tools;
+            _markPwdKeys = new[] {"UserPwd", "OldPassword", "NewPassword"};
+            _markPwdPaths = new[]
+            {
+                "/SignIn",
+                "/SignInApp",
+                "/Signup",
+                "/ChangePassword"
+            };
         }
 
         public async Task Invoke(HttpContext context)
@@ -65,44 +75,28 @@ namespace MemberSite.Extensions.Middlewares
 
                     var authData = _authorizeBll.GetAuthData();
                     var serverInfo = _serverInfoBll.GetServerInfo();
+
+                    foreach (var header in context.Request.Headers)
+                    {
+                        LogContext.PushProperty($"Headers.{header.Key}", header.Value.ToString());
+                    }
+
                     LogContext.PushProperty("CustId", authData?.CustId);
                     LogContext.PushProperty("UserName", authData?.UserName);
                     LogContext.PushProperty("SiteId", serverInfo?.SiteId);
                     LogContext.PushProperty("ClientIp", _tools.GetClientIP());
-                    using (LogContext.PushProperty("Domain", context.Request.Host.ToString()))
-                    using (LogContext.PushProperty("ClientAgent", context.Request.Headers["User-Agent"].ToString()))
-                    using (LogContext.PushProperty("Referer", context.Request.Headers["Referer"].ToString()))
-                    {
-                        // log需將登入密碼隱碼
-                        if (path.Contains("/api/Site/SignIn", StringComparison.OrdinalIgnoreCase) ||
-                            path.Contains("/api/Site/SignInApp", StringComparison.OrdinalIgnoreCase) ||
-                            path.Contains("/api/Site/Signup", StringComparison.OrdinalIgnoreCase) ||
-                            path.Contains("/api/Site/SignupApp", StringComparison.OrdinalIgnoreCase) ||
-                            path.Contains("/api/Extra/Signup", StringComparison.OrdinalIgnoreCase) ||
-                            path.Contains("/api/Account/ChangePassword", StringComparison.OrdinalIgnoreCase))
-                        {
-                            var jbody = JObject.Parse(content);
-                            if (jbody.TryGetValue("Userpwd", StringComparison.OrdinalIgnoreCase, out var pwd)
-                                && !string.IsNullOrEmpty(pwd.ToString()))
-                            {
-                                jbody["Userpwd"] = "********";
-                            }
-                            if (jbody.TryGetValue("OldPassword", StringComparison.OrdinalIgnoreCase, out var opwd)
-                               && !string.IsNullOrEmpty(opwd.ToString()))
-                            {
-                                jbody["OldPassword"] = "********";
-                            }
-                            if (jbody.TryGetValue("NewPassword", StringComparison.OrdinalIgnoreCase, out var npwd)
-                               && !string.IsNullOrEmpty(npwd.ToString()))
-                            {
-                                jbody["NewPassword"] = "********";
-                            }
-                            content = jbody.ToString();
-                        }
 
-                        _logger.LogInformation(
-                            $"REQUEST METHOD: {context.Request.Method}, CodePage: {codePage}, REQUEST BODY: {content}, REQUEST URL: {url}, ES: {context.Request.Cookies[".ES"]}, JWT: {context.Request.Headers?["authorization"].ToString()}");
+                    // log需將密碼隱碼
+                    if (path != null && _markPwdPaths.Any(p => path.Contains(p, StringComparison.OrdinalIgnoreCase)))
+                    {
+                        content = MarkLogPassword(content);
                     }
+
+                    var log = new StringBuilder();
+                    log.AppendLine($"REQUEST URL: {url}, Method: {context.Request.Method}, CodePage: {codePage},");
+                    log.AppendLine($"REQUEST BODY: {content}");
+                    _logger.LogInformation(log.ToString());
+                    
                 }
 
                 requestBodyStream.Seek(0, SeekOrigin.Begin);
@@ -111,6 +105,30 @@ namespace MemberSite.Extensions.Middlewares
                 await _next(context);
                 context.Request.Body = originalRequestBody;
             }
+        }
+
+        private  string MarkLogPassword(string json)
+        {
+            var objKeys = JsonConvert.DeserializeObject<Dictionary<string, object>>(json)
+                .Select(x => x.Key)
+                .ToList();
+            
+            var jObj = JObject.Parse(json);
+
+            foreach (var key in _markPwdKeys)
+            {
+                var realKey = objKeys.FirstOrDefault(x => key.Equals(x, StringComparison.OrdinalIgnoreCase));
+                
+                if (string.IsNullOrEmpty(realKey))
+                    continue;
+                
+                if (!string.IsNullOrEmpty(jObj[realKey]?.ToString()))
+                {
+                    jObj[realKey] = "********";
+                }
+            }
+
+            return jObj.ToString();
         }
     }
 }

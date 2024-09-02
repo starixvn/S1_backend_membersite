@@ -6,6 +6,7 @@ using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
+using Newtonsoft.Json;
 
 namespace MemberSite.Service.DAL
 {
@@ -46,14 +47,14 @@ namespace MemberSite.Service.DAL
                 depositDetailInfo.Memo,
                 Prefix = $"D{_common.GetEnv()}"
             });
-            
+
             p.Add("vPostScript", dbType: DbType.String, direction: ParameterDirection.Output);
             p.Add("vTransId", dbType: DbType.String, direction: ParameterDirection.Output);
 
             var result = _mainDbClient.Execute("DepositInfoWithFrom_Ins", trans, p);
             trans.Commit();
 
-            if (depositDetailInfo.SiteId != (int)SiteId.Nova88)
+            if (depositDetailInfo.SiteId is 2 or 3) // goal and bwing
             {
                 _ = Task.Run(() =>
                 {
@@ -96,7 +97,7 @@ namespace MemberSite.Service.DAL
 
         public int SetDepositReceipt(int custId, int depositId, string refNo, long depositTime)
         {
-            return _mainDbClient.Execute("DepositReceipt_Set", new { CustId = custId, DepositId = depositId, RefNo = refNo, DepositTime = depositTime });
+            return _mainDbClient.Execute("DepositReceipt_Set_V2", new { CustId = custId, DepositId = depositId, RefNo = refNo, DepositTime = depositTime });
         }
 
         public async Task<int> SetDepositReceiptPic(int custId, int depositId, int receiptNo, string picFileName, string userName)
@@ -113,16 +114,68 @@ namespace MemberSite.Service.DAL
             return await _mainDbClient.ExecuteAsync("DepositReceiptPic_Set_V3", p);
         }
 
-        public int SetDepositCancel(int custId, int depositId, int siteId)
+        public int SetDepositCancel(string username, int depositId, int siteId)
         {
             using var conn = _mainDbClient.GetMySqlConnection();
             conn.Open();
             using var trans = conn.BeginTransaction();
+            var result = 0;
+            
+            try
+            {
+                var p = new DynamicParameters(new
+                {
+                    _DepositId = depositId,
+                    _SiteId = siteId,
+                    _ActualDeposit = 0,
+                    _ForStatus = JsonConvert.SerializeObject(new []{DepositStatusEnum.Pending}),
+                    _Status = (int)DepositStatusEnum.Canceled,
+                    _RefId = (string)null,
+                    _ThirdId = (string)null,
+                    _Operator = username
+                });
+                p.Add("_CustId", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                p.Add("_UserName", dbType: DbType.String, direction: ParameterDirection.Output);
 
-            var result = _mainDbClient.Execute("DepositInfoCancel_Set", trans, new { CustId = custId, DepositId = depositId, Siteid = siteId });
-            trans.Commit();
+                result = _mainDbClient.Execute("Service_DepositInfo_Set_V4", trans, p);
 
+                if (result > 0)
+                {
+                    result = SetDepositLog(depositId, siteId, 
+                        "Customer Cancelled", DepositStatusEnum.Canceled, 0,
+                        username, trans);
+                    
+                    if (result > 0)
+                    {
+                        trans.Commit();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                SetDepositLog(depositId, siteId, ex.Message, DepositStatusEnum.Error, 0, username, trans);
+            }
+            finally
+            {
+                conn.Close();
+                conn.Dispose();
+            }
+            
             return result;
+        }
+        
+        private int SetDepositLog(int depositId, int siteId, string comment, DepositStatusEnum status, decimal actualDeposit, string @operator, IDbTransaction trans)
+        {
+            return _mainDbClient.Execute("DepositLog_Ins", trans,
+                new DynamicParameters(new
+                {
+                    DepositId = depositId,
+                    SiteId = siteId,
+                    Comment = comment,
+                    Action = (int)status,
+                    ActualDeposit = actualDeposit,
+                    Operator = @operator
+                }));
         }
 
         public IEnumerable<DepositReceipt> GetDepositReceipt(int depositId, int siteId)

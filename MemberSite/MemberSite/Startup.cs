@@ -1,9 +1,5 @@
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
-using Elastic.Apm.AspNetCore;
-using Elastic.Apm.DiagnosticSource;
-using Elastic.Apm.SqlClient;
-using Elastic.Apm.StackExchange.Redis;
 using MemberSite.Extensions;
 using MemberSite.Service.BLL;
 using MemberSite.Service.BLL.Interface;
@@ -11,12 +7,16 @@ using MemberSite.Service.DAL;
 using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
+using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Mapping;
 using MemberSite.Service.Model.Options;
+
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.WebEncoders;
+
 using Prometheus;
+
 using StackExchange.Redis;
 
 namespace MemberSite
@@ -54,9 +54,8 @@ namespace MemberSite
         {
             services.AddMemoryCache();
             services.AddDatabaseConnection(_configuration);
-            
+
             var redisConnection = ConnectionMultiplexer.Connect(_configuration.GetValue<string>("RedisConnection"));
-            redisConnection.UseElasticApm();
             services.AddSingleton<IConnectionMultiplexer>(redisConnection);
             services.AddSingleton<ICacheHelper, RedisCacheHelper>();
 
@@ -98,7 +97,7 @@ namespace MemberSite
             services.AddSingleton<NewsService>();
             services.AddSingleton<IovationService>();
             services.AddSingleton<EventsService>();
-            services.AddTransient<IEventsService, EventsService>();            
+            services.AddTransient<IEventsService, EventsService>();
             services.AddSingleton<LiveStreamingService>();
             services.AddSingleton<VideoDataService>();
             services.AddSingleton<ConfigService>();
@@ -106,12 +105,17 @@ namespace MemberSite
             services.AddSingleton<DeepLinkService>();
             services.AddSingleton<IVerificationRewardService, VerificationRewardService>();
             services.AddSingleton<ICustPhotoIdService, CustPhotoIdService>();
-            services.AddTransient<WorldCupPredictionService>();
+            services.AddTransient<CupEventService>();
             services.AddTransient<RecaptchaService>();
             services.AddSingleton<PartitionService>();
             services.AddTransient<CurrencyService>();
             services.AddTransient<IAffiliateService, AffiliateService>();
             services.AddTransient<GameService>();
+            services.AddTransient<QueueJobService>();
+            services.AddTransient<RedemptionService>();
+            services.AddSingleton<CommonService>();
+            services.AddTransient<InternalService>();
+            services.AddTransient<QustionnaireService>();
 
             services.AddSingleton<IPService>();
             services.AddSingleton<ShieldService>();
@@ -156,32 +160,40 @@ namespace MemberSite
             services.AddSingleton<LiveStreamingBll>();
             services.AddSingleton<VideoDataBll>();
             services.AddSingleton<GameBLL>();
-            services.AddTransient<IGeoIpApi, GeoIpApi>();
             services.AddTransient<IRecaptchaApi, RecaptchaApi>();
             services.AddTransient<ICustPhotoIdBLL, CustPhotoIdBLL>();
-            services.AddTransient<GeoIpBLL>();
             services.AddTransient<AppLinkBLL>();
             services.AddTransient<FileNameBLL>();
             services.AddTransient<ImageEditorBLL>();
             services.AddSingleton<VerificationRewardBLL>();
             services.AddTransient<DeepLinkBLL>();
             services.AddSingleton<PayInfoBLL>();
+            services.AddSingleton<PayInfoLocalizeBLL>();
             services.AddSingleton<LineLoginBLL>();
             services.AddSingleton<SiteBll>();
             services.AddSingleton<IPBLL>();
             services.AddSingleton<ShieldBLL>();
-            services.AddTransient<WorldCupPredictionBLL>();
+            services.AddTransient<CupEventBLL>();
             services.AddSingleton<SlotGameBLL>();
             services.AddTransient<RecaptchaBLL>();
             services.AddTransient<CheckAttackBLL>();
             services.AddTransient<DateTimeHelper>();
             services.AddTransient<IAnnouncementBLL, AnnouncementBLL>();
+            services.AddTransient<IOlympicEventBLL, OlympicEventBLL>();
+            services.AddTransient<InternalBLL>();
 
             services.AddTransient<IHotGameBLL, HotGameBLL>();
             services.AddTransient<BigWinBLL>();
             services.AddSingleton<CustomCookieAuthenticationEvents>();
             services.AddTransient<HotEventBLL>();
+            services.AddTransient<NewYear2024BLL>();
+            services.AddTransient<QueueJobBLL>();
+            services.AddSingleton<CheckIpBLL>();
             services.AddSingleton<CryptoHelper>();
+            services.AddSingleton<FaceBookPixelBLL>();
+            services.AddSingleton<CustNotificationBLL>();
+            services.AddSingleton<QuestionnaireBLL>();
+            
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();
 
@@ -236,6 +248,7 @@ namespace MemberSite
             services.AddOptionListByDB<TpGameTypeOption>("Admin_TpGameType_Get");
             services.AddOptionListByDB<AreaCodeMap>("Common_CountryList_Get");
             services.AddOptionListByDB<SabaSportTypeOption>("Service_SabaSportType_Get");
+            services.AddOptionListByDB<IPCountry>("Service_IPCode_Get", dataBase: DataBase.ReportIPTable);
 
             //處理SiteConfig
             services.AddOptionListByDB<ServerInfo>("ServerInfoList_Get");
@@ -254,12 +267,6 @@ namespace MemberSite
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseHttpsRedirection();
-            if (!env.IsEnvironment("Local"))
-            {
-                app.UseElasticApm(_configuration,
-                    new HttpDiagnosticsSubscriber(),
-                    new SqlClientDiagnosticSubscriber());
-            }
             app.UseStaticFiles();
 
             app.UseRouting();
@@ -273,9 +280,10 @@ namespace MemberSite
             app.UseCors("LeaderBoard");
             app.UseAuthentication();
             app.UseAuthorization();
+            
             app.UseRequestLogMiddleware();
             app.UseResponseLogMiddleware();
-            app.UseMiddleware<SiteMiddleware>();
+            app.UseBlockMiddleware();
 
             app.UseEndpoints(endpoints =>
             {

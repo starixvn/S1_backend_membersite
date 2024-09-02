@@ -36,8 +36,8 @@ public class RedemptionController : Controller
         var authData = _authorizeBll.GetAuthData();
         if (authData is { CustId: > 0 })
         {
-            var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);           
-            
+            var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+
             var lockKey = $"CreateRedemptionLock:{custInfo.CustId}";
             var lockValue = Guid.NewGuid().ToString(); // 每次取鎖使用唯一值，確保為同一個執行序所執行
             var lockExpiry = TimeSpan.FromSeconds(15); //lock 15 sec        
@@ -53,7 +53,7 @@ public class RedemptionController : Controller
                 });
 
                 await _redisHelper.UnLockAsync(lockKey, lockValue);
-            }                          
+            }
         }
 
         switch (result.ErrorCode)
