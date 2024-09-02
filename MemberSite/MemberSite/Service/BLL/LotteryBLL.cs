@@ -223,6 +223,7 @@ namespace MemberSite.Service.BLL
                 SiteId = custInfo.SiteId,
                 CustId = custInfo.CustId,
                 UserName = custInfo.UserName,
+                StickerId = stickerId.ToString(),
                 StickerPrize = stickerPrize * -1,
                 Memo = balanceMemo
             };

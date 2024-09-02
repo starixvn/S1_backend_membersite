@@ -119,16 +119,20 @@ namespace MemberSite.Service.DAL
                         profiler.Add("Birth_m", Birth_m.ToString());
                         profiler.Add("Birth_y", Birth_y.ToString());
                     }
-                    
+
                     //Customer Setting Default Open
                     profiler.Add("CustNotification","1");
                     profiler.Add("LastDepositMode","1");
+
 
                     if (!string.IsNullOrEmpty(nationality))
                     {
                         profiler.Add("Nationality", nationality);
                     }
-
+     
+                    //Customer Setting Default Open
+                    profiler.Add("CustNotification","1");
+                    
                     var profile = profiler.Count <= 0 ? null : Newtonsoft.Json.JsonConvert.SerializeObject(profiler);
                     result = _mainDbClient.Execute("Member_CustProfile_Ins", trans, new DynamicParameters(new
                     {
@@ -331,14 +335,13 @@ namespace MemberSite.Service.DAL
             return _mainDbClient.Execute("Member_CustProfile_Address_Set", p) > 0;
         }
 
-        public bool SetCustSetting(int custId,int siteId,int financeNotification, int lastDepositMode)
+        public bool SetCustSetting(int custId,int siteId,int financeNotification)
         {
             var p = new DynamicParameters(new
             {
                 _CustId = custId,
                 _SiteId = siteId,
-                _CustNotification = financeNotification.ToString(),
-                _LastDepositMode = lastDepositMode.ToString(),
+                _CustNotification = financeNotification.ToString()
             });
             return _mainDbClient.Execute("Member_CustProfileSetting_Set", p) > 0;
         }

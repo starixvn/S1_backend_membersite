@@ -546,9 +546,9 @@ namespace MemberSite.Service.DAL
                 buyRequest.SiteId, 
                 buyRequest.UserName, 
                 buyRequest.StickerPrize, 
-                30000, 
+                21, 
                 buyRequest.Memo, 
-                "LotteryEvent : BuyChineseZodiacSticker", 
+                $"LotteryEvent : BuyChineseZodiacSticker {buyRequest.StickerId}", 
                 out _, out _, trans);
             
             if (result > 0)

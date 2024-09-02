@@ -117,6 +117,7 @@ namespace MemberSite
             services.AddSingleton<CommonService>();
             services.AddTransient<InternalService>();
 
+
             services.AddSingleton<IPService>();
             services.AddSingleton<ShieldService>();
             services.AddTransient<IHotEventService, HotEventService>();
@@ -194,6 +195,7 @@ namespace MemberSite
             services.AddSingleton<CheckIpBLL>();
             services.AddTransient<TelegramBLL>();
             services.AddSingleton<CryptoHelper>();
+
             services.AddSingleton<QuestionnaireBLL>();
             services.AddSingleton<FaceBookPixelBLL>();
             services.AddSingleton<CustNotificationBLL>();
