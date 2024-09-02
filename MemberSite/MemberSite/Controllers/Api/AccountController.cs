@@ -1,7 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Security.Claims;
-using System.Text.RegularExpressions;
+
 using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
 using Newtonsoft.Json;
 
 using static MemberSite.Extensions.MethodExtension;
@@ -34,6 +33,7 @@ namespace MemberSite.Controllers.Api
         private readonly string _tpServiceApiUrl;
         private readonly MessageBll _messageBll;
         private readonly PaymentBLL _paymentBll;
+        private readonly PayInfoBLL _payInfoBll;
         private readonly ThirdPartyBll _thirdPartyBll;
         private readonly CasinoBll _casinoBll;
         private readonly BonusWalletBLL _bonusWalletBll;
@@ -43,7 +43,7 @@ namespace MemberSite.Controllers.Api
         private readonly CheckAttackBLL _checkAttackBll;
         private readonly ServerInfoBll _serverInfoBll;
         private readonly JwtConfig _jwtConfig;
-        private readonly Regex _regexPhoneNo = new(@"^\d+$");
+        private readonly ConfigBLL _configBll;
 
         public AccountController(IServiceProvider provider)
         {
@@ -55,11 +55,12 @@ namespace MemberSite.Controllers.Api
             _walletBll = provider.GetRequiredService<WalletBLL>();
             _courierAdapter = provider.GetRequiredService<CourierAdapter>();
 
-            var configBll = provider.GetRequiredService<ConfigBLL>();
-            _tpServiceApiUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost").TpService;
-            _jwtConfig = configBll.GetConfigValueByEnvironment<JwtConfig>("JwtSettings");
+            _configBll = provider.GetRequiredService<ConfigBLL>();
+            _tpServiceApiUrl = _configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost").TpService;
+            _jwtConfig = _configBll.GetConfigValueByEnvironment<JwtConfig>("JwtSettings");
             _messageBll = provider.GetRequiredService<MessageBll>();
             _paymentBll = provider.GetRequiredService<PaymentBLL>();
+            _payInfoBll = provider.GetRequiredService<PayInfoBLL>();
             _thirdPartyBll = provider.GetRequiredService<ThirdPartyBll>();
             _casinoBll = provider.GetRequiredService<CasinoBll>();
             _bonusWalletBll = provider.GetRequiredService<BonusWalletBLL>();
@@ -366,14 +367,7 @@ namespace MemberSite.Controllers.Api
                 return apiResult;
             }
             var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-            var bankInfoSysList = _bankInfoBll.GetBankInfoSysListByCurrency(custInfo.CurrencyId).ToList();
-
-            if (custInfo.SiteId == 1
-                && custInfo.CurrencyId == (int)CurrencyId.THB) // Nova88 泰國銀行名稱支援多語系
-            {
-                _bankInfoBll.BankNameLocalization(bankInfoSysList, authData.LangId);
-            }
-
+            var bankInfoSysList = _bankInfoBll.GetBankInfoSysListByCurrency(custInfo.CurrencyId, authData.LangId).ToList();
             var custBankInfo = JsonConvert.DeserializeObject<CustBankInfoRep>(JsonConvert.SerializeObject(_custInfoBll.GetCustBankInfo(authData.CustId)));
 
             if (custBankInfo is { bankInfoDetail: { } } && custBankInfo.bankInfoDetail.Any())
@@ -385,7 +379,6 @@ namespace MemberSite.Controllers.Api
                     {
                         bankInfo.BankName = refBankInfo.BankName;
                         bankInfo.BankLogo = refBankInfo.BankLogo;
-                        bankInfo.BankSite = refBankInfo.BankSite;
                         bankInfo.Disabled = refBankInfo.Status != GeneralStatusEnum.Enable;
                     }
 
@@ -419,6 +412,8 @@ namespace MemberSite.Controllers.Api
                             crypto.Disabled = true;
                     }
                 }
+
+
             }
 
             apiResult.Data = custBankInfo;
@@ -447,7 +442,7 @@ namespace MemberSite.Controllers.Api
             var pageSize = msgReq.PageSize == 0 ? 5 : msgReq.PageSize;
             var serverInfo = _serverInfoBll.GetServerInfo();
             var custInfo = _custInfoBll.GetCustInfo(authData.CustId);
-            var language = LanguageObject.Create(custInfo.CurrencyId, custInfo.UserLang, serverInfo.DefLang);
+            var language = _selLangBll.LanguageObjectCreate(custInfo.SiteId, custInfo.CurrencyId, custInfo.UserLang, serverInfo.DefLang);
 
             var msgs = await _messageBll.GetMsgList(authData.CustId, language, pageSize, pageNumber);
             apiResult.Data = msgs.Data;
@@ -476,7 +471,7 @@ namespace MemberSite.Controllers.Api
             }
             var serverInfo = _serverInfoBll.GetServerInfo();
             var custInfo = _custInfoBll.GetCustInfo(authData.CustId);
-            var language = LanguageObject.Create(custInfo.CurrencyId, custInfo.UserLang, serverInfo.DefLang);
+            var language = _selLangBll.LanguageObjectCreate(custInfo.SiteId, custInfo.CurrencyId, custInfo.UserLang, serverInfo.DefLang);
 
             apiResult.Data = await _messageBll.GetMsgContent(authData.CustId, language, msgContentReq.MsgId, msgContentReq.IsBatch);
             apiResult.ErrorCode = 0;
@@ -550,7 +545,7 @@ namespace MemberSite.Controllers.Api
             }
             var serverInfo = _serverInfoBll.GetServerInfo();
             var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-            var language = LanguageObject.Create(custInfo.CurrencyId, custInfo.UserLang, serverInfo.DefLang);
+            var language = _selLangBll.LanguageObjectCreate(custInfo.SiteId, custInfo.CurrencyId, custInfo.UserLang, serverInfo.DefLang);
             apiResult.Data = await _messageBll.GetPopupMessage(authData.CustId, language);
             apiResult.ErrorCode = 0;
             return apiResult;
@@ -926,18 +921,12 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult<bool> ExistsPhoneNo(RrofileReq rrofileReq)
+        public async Task<ApiResult<bool>> ExistsPhoneNo(RrofileReq rrofileReq)
         {
             var apiResult = new ApiResult<bool>(_selLangBll);
 
             try
             {
-                if (_checkAttackBll.CheckAttack(rrofileReq, Request))
-                {
-                    Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
-                    return null;
-                }
-
                 var authData = _authorizeBll.GetAuthData(checkOnUser: true);
                 if (authData is not { CustId: > 0 })
                 {
@@ -945,8 +934,9 @@ namespace MemberSite.Controllers.Api
                     return apiResult;
                 }
 
-                if (_regexPhoneNo.IsMatch(rrofileReq.PhoneNo))
+                if (long.TryParse(rrofileReq.PhoneNo, out var phoneNo))
                 {
+                    rrofileReq.PhoneNo = phoneNo.ToString();
                     apiResult.Data = _custInfoBll.ExistsPhoneNo(authData.CustId, rrofileReq.AreaCode, rrofileReq.PhoneNo);
                 }
                 else

@@ -53,6 +53,7 @@ namespace MemberSite.Service.BLL
                 { 67, 30 },
                 { 109, 52},
                 { 110, 52},
+                { 132, 16},
             };
             _excludeTp = new List<int>
             {
@@ -79,19 +80,16 @@ namespace MemberSite.Service.BLL
             var providerTask = GetSlotGameProviderList(siteId, currencyId, TpCategory.Casino);
             var gameListTask = GetSlotGameList(siteId, currencyId, request.DeviceType);
             var categorySequenceTask = _lobbyCategoryBll.GetLobbyCategorySequenceByLobbyCategoryId(siteId, currencyId, LobbyCategory.Slots);
-            var topRankingTask = GetSlotGameTopRanking(siteId, currencyId);
 
-            await Task.WhenAll(providerTask, gameListTask, categorySequenceTask, topRankingTask);
+            await Task.WhenAll(providerTask, gameListTask, categorySequenceTask);
             var providerList = await providerTask;
             var slotGameList = await gameListTask;
             var lobbyCategorySequence = await categorySequenceTask;
-            var slotGameTopRanking = await topRankingTask;
 
 
             // 整理資料與排序
             var slotGameProviderDict = slotGameList.GroupBy(i => i.TpId).ToDictionary(i => i.Key, i => i.Key);
             providerList = FilterAndSortProviderList(providerList, slotGameProviderDict, lobbyCategorySequence);
-            slotGameList = SortSlotGameList(slotGameList, slotGameTopRanking);
             // 未登入狀態直接回傳
             if (custId == 0)
             {
@@ -130,10 +128,11 @@ namespace MemberSite.Service.BLL
 
             var key = $"GetSlotGameListV2:{_isStage}:{currencyId}:{siteId}:{deviceType}";
             var result = await _cacheHelper.TryGetOrCreateAsync(key,
-                null, //設定為不過期，改由Hangfire更新
+                TimeSpan.FromMinutes(15), //設定過期15分鐘，
                 async () =>
                 {
-                    // Cache更新由Hangfire處理，此部分預防Redis異常
+                    // PRD環境由Hangfire每五分鐘定期更新
+                    // 此部分預防Redis異常，與處理RLS環境的快取
                     var result = await _reportDbClient.QueryAsync<SlotGameInfo>("Service_SlotGame_Get", new
                     {
                         CurrencyId = currencyId,
@@ -362,45 +361,6 @@ namespace MemberSite.Service.BLL
                 })
                 .OrderBy(x => x.Sort)
                 .ToList();
-        }
-
-        /// <summary>
-        /// 排序SlotGame清單
-        /// </summary>
-        private List<SlotGameInfo> SortSlotGameList(List<SlotGameInfo> slotGameList, List<SlotGameTopRankingInfo> slotGameTopRanking)
-        {
-            // 遊戲組入排序欄位
-            return slotGameList
-               .Select(sgl =>
-               {
-                   // 不分TpId排序參數 (TpId = 0的設定資料)
-                   sgl.Top = slotGameTopRanking.Find(x => x.NoneTpId == 0 && x.SlotGameId == sgl.SlotGameId)?.Sort ?? 99999;
-                   // 指定TpId排序參數 (TpId > 0的設定資料)
-                   sgl.Sort = slotGameTopRanking.Find(x => x.NoneTpId != 0 && x.SlotGameId == sgl.SlotGameId)?.Sort ?? 99999;
-                   return sgl;
-               })
-               .OrderBy(x => x.Top)
-               .ThenBy(x => x.Sort)
-               .ToList();
-        }
-
-        /// <summary>
-        /// Slot遊戲優先排序列
-        /// </summary>
-        private async Task<IEnumerable<SlotGameTopRankingInfo>> GetSlotGameTopRankingList()
-        {
-            return await _cacheHelper.TryGetOrCreateAsync($"GetSlotGameTopRankingList",
-                TimeSpan.FromHours(2),
-                async () => await _casinoService.GetSlotGameTopRankingList());
-        }
-
-        /// <summary>
-        /// 依條件取得Slot遊戲優先排序 (SiteId、CurrencyId)
-        /// </summary>
-        private async Task<List<SlotGameTopRankingInfo>> GetSlotGameTopRanking(int siteId, int currencyId)
-        {
-            var list = await GetSlotGameTopRankingList();
-            return list.Where(x => x.SiteId == siteId && x.CurrencyId == currencyId).ToList();
         }
     }
 }

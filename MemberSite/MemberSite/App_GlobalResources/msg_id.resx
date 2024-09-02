@@ -1,37 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="metadata">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
-              </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="assembly">
-            <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
-            </xsd:complexType>
-          </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
                 <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
                 <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
               <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
               <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
@@ -46,379 +27,120 @@
       </xsd:complexType>
     </xsd:element>
   </xsd:schema>
-  <resheader name="resmimetype">
-    <value>text/microsoft-resx</value>
-  </resheader>
-  <resheader name="version">
-    <value>2.0</value>
-  </resheader>
-  <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <data name="msg_TransferAlert" xml:space="preserve">
-    <value>Dompet Sportsbook Anda saat ini adalah: &lt;span class = "popup-span Js-3RdWallet-Balance"&gt; {0} {1} &lt;/span&gt; &lt;br&gt; Setor dan transfer dari Dompet Utama ke Dompet Sportsbook sekarang untuk menikmati permainan dan layanan kami .</value>
-  </data>
-  <data name="msg_SubmitDepositTime" xml:space="preserve">
-    <value>Kirimkan waktu setoran Anda.</value>
-  </data>
-  <data name="msg_ClaimCashBackBonus" xml:space="preserve">
-    <value>Selamat, Bonus CASHBACK Anda {0} telah dikreditkan ke akun Anda!</value>
-  </data>
-  <data name="msg_BirthdayIsRequired" xml:space="preserve">
-    <value>Harap isi tanggal lahir</value>
-  </data>
-  <data name="msg_UsernameReq" xml:space="preserve">
-    <value>Nama pengguna Wajib diisi.</value>
-  </data>
-  <data name="msg_ApiServerError" xml:space="preserve">
-    <value>Kesalahan Jaringan API.</value>
-  </data>
-  <data name="msg_MustInteger" xml:space="preserve">
-    <value>Mohon isi angka dengan lengkap, angka desimal tidak diperbolehkan</value>
-  </data>
-  <data name="msg_LoginToAccess" xml:space="preserve">
-    <value>Silahkan Login untuk akses ke permainan</value>
-  </data>
-  <data name="msg_WithdrawalAccountNumberIncorrect_Detail" xml:space="preserve">
-    <value>Nomor akun penarikan salah. Silahkan cek nomor akun penarikan Anda.</value>
-  </data>
-  <data name="msg_CreditSignUp" xml:space="preserve">
-    <value>Kepada Pelanggan Terhormat,&lt;br /&gt;&lt;br /&gt;Selamat datang di &lt;a href="https://{0}" target="_new"&gt;{0}&lt;/a&gt;, setelah pendaftaran silakan kunjungi link yang kami berikan dan selamat menikmati permainan kami.</value>
-  </data>
-  <data name="msg_WrongAmountSubmitted_Detail" xml:space="preserve">
-    <value>Jumlah deposit tidak cocok dengan yang diajukan. Silahkan cek kembali atau hubungi Layanan Pelanggan untuk bantuan lebih lanjut.</value>
-  </data>
-  <data name="msg_BankAccountDuplicate" xml:space="preserve">
-    <value>Duplikat Nomor Rekening Bank tidak diperbolehkan. Silakan coba Nomor Rekening lain.</value>
-  </data>
-  <data name="msg_WithdrawalNoFund" xml:space="preserve">
-    <value>Pengajuan pernarikan Anda gagal, Saldo anda tidak mencukupi</value>
-  </data>
-  <data name="msg_EmailFormatVerify" xml:space="preserve">
-    <value>Format alamat email salah</value>
-  </data>
-  <data name="msg_loggedout" xml:space="preserve">
-    <value>Anda terlah berhasil logout</value>
-  </data>
-  <data name="msg_PhoneFormatVerify" xml:space="preserve">
-    <value>Nomor telepon yang Anda masukkan salah, antara {0} digit</value>
-  </data>
-  <data name="msg_PhoneWrongFormat" xml:space="preserve">
-    <value>Format Phone salah</value>
-  </data>
-  <data name="msg_Updatesuccessful" xml:space="preserve">
-    <value>Pembaruan berhasil</value>
-  </data>
-  <data name="msg_WithdrawalFailed" xml:space="preserve">
-    <value>Pengajuan penarikan Anda gagal, Untuk informasi lebih lanjut silahkan hubungi CSD</value>
-  </data>
-  <data name="msg_CryptoWalletDuplicate" xml:space="preserve">
-    <value>Alamat dompet kripto sudah digunakan</value>
-  </data>
-  <data name="msg_WithdrawalExists" xml:space="preserve">
-    <value>Permintaan transaksi Anda sedang dalam antrian. Silakan coba lagi ketika transaksi dalam antrian sudah selesai.</value>
-  </data>
-  <data name="msg_LessThanWithdrawalMin" xml:space="preserve">
-    <value>Jumlah penarikan harus lebih dari {0}</value>
-  </data>
-  <data name="msg_ReferenceNumber" xml:space="preserve">
-    <value>Nomor referensi</value>
-  </data>
-  <data name="msg_Congratulations" xml:space="preserve">
-    <value>Pendaftaran Anda selesai; Anda dapat segera login, deposit .kemudaian dapat mulai memasang taruhan.</value>
-  </data>
-  <data name="msg_PaymentNotReceived" xml:space="preserve">
-    <value>Setoran tidak diterima</value>
-  </data>
-  <data name="msg_DepositHint" xml:space="preserve">
-    <value>Deposit sekarang dan nikmati permainan dan pelayanan kami</value>
-  </data>
-  <data name="msg_WrongAmount" xml:space="preserve">
-    <value>Salah jumlah</value>
-  </data>
-  <data name="msg_WithdrawalAccountsNameUnmatch" xml:space="preserve">
-    <value>Nama Akun untuk Penarikan Tidak Sesuai</value>
-  </data>
-  <data name="msg_PasswordValidate" xml:space="preserve">
-    <value>รหัสผ่านต้องมีความยาว 6-15 ตัว ประกอบด้วยตัวอักษรและตัวเลข</value>
-  </data>
-  <data name="msg_WrongAmountSubmitted" xml:space="preserve">
-    <value>Jumlah Deposit Salah</value>
-  </data>
-  <data name="msg_UsernameNotAvailable" xml:space="preserve">
-    <value>Nama pengguna tidak lagi tersedia.</value>
-  </data>
-  <data name="msg_WithdrawalAccountsNameUnmatch_Detail" xml:space="preserve">
-    <value>Nama akun penarikan tidak sesuai dengan nama terdaftar. Untuk bantuan, silahkan hubungi layanan pelanggan</value>
-  </data>
-  <data name="msg_NeedAccountName" xml:space="preserve">
-    <value>Butuh Nama Akun</value>
-  </data>
-  <data name="msg_DrawPrizeTital" xml:space="preserve">
-    <value>Bagi bagi Ang Pao</value>
-  </data>
-  <data name="msg_UsernameLength" xml:space="preserve">
-    <value>Panjang Karakter nama pengguna harus antara 6 dan 18 karakter.</value>
-  </data>
-  <data name="msg_DepositSlipRequired_Detail" xml:space="preserve">
-    <value>Mohon lampirkan slip transfer untuk mempercepat waktu proses transaksi.</value>
-  </data>
-  <data name="msg_NeedAccountNo" xml:space="preserve">
-    <value>Butuh Nomor Rekening</value>
-  </data>
-  <data name="msg_DrawPrize" xml:space="preserve">
-    <value>Selamat, Ang Pao Anda {0} telah dikreditkan ke akun Anda!</value>
-  </data>
-  <data name="msg_SpecialCodeErrorForCheck" xml:space="preserve">
-    <value>Kode Promo salah, harap periksa kembali.</value>
-  </data>
-  <data name="msg_InvalidOldPassword" xml:space="preserve">
-    <value>Kata Sandi Lama Tidak Valid!</value>
-  </data>
-  <data name="msg_WithdrawalAccountAannotReceiveMoney_Detail" xml:space="preserve">
-    <value>Akun penarikan tidak dapat menerima dana. Silahkan cek kembali atau hubungi Layanan Pelanggan untuk bantuan lebih lanjut.</value>
-  </data>
-  <data name="msg_PasswordLength" xml:space="preserve">
-    <value>Penjang Karakter kata sandi harus antara 6 hingga 18 karakter.</value>
-  </data>
-  <data name="msg_GreaterThanWithdrawalMax" xml:space="preserve">
-    <value>Batas Harian Anda Tercapai</value>
-  </data>
-  <data name="msg_MailWrongFormat" xml:space="preserve">
-    <value>Format Email salah</value>
-  </data>
-  <data name="msg_NotInLimit" xml:space="preserve">
-    <value>Tidak dalam Limit</value>
-  </data>
-  <data name="msg_UsernameValidate" xml:space="preserve">
-    <value>6-18 karakter alfanumerik (A-Z, a-z, 0-9) saja.</value>
-  </data>
-  <data name="msg_WrongBankSubmitted_Detail" xml:space="preserve">
-    <value>Akun deposit yang dipilih salah. Silahkan cek kembali atau hubungi Layanan Pelanggan untuk bantuan lebih lanjut.</value>
-  </data>
-  <data name="msg_DepositSlipRequired" xml:space="preserve">
-    <value>Diperlukan Slip Setoran</value>
-  </data>
-  <data name="msg_UpdateFailed" xml:space="preserve">
-    <value>Pembaruan Gagal</value>
-  </data>
-  <data name="msg_EnterRealName" xml:space="preserve">
-    <value>Silakan masukkan nama asli anda</value>
-  </data>
-  <data name="msg_SelectBirthDay" xml:space="preserve">
-    <value>Silakan pilih tanggal ulang tahun anda</value>
-  </data>
-  <data name="msg_RequiredAmountInsufficient" xml:space="preserve">
-    <value>Setoran minimal {0} agar berhak mendapatkan bonus</value>
-  </data>
-  <data name="msg_DepositProcessLogin_LoginFailed" xml:space="preserve">
-    <value>Login gagal,Nama pengguna tidak ditemukan atau Nama pengguna/kata sandi salah.</value>
-  </data>
-  <data name="msg_SelectFile" xml:space="preserve">
-    <value>Pilih file</value>
-  </data>
-  <data name="msg_DepositProcessLogin_ACLocked" xml:space="preserve">
-    <value>Akun anda terkunci, Silahkan hubungi layanan pelanggan 24/7, Terima kasih!</value>
-  </data>
-  <data name="msg_InactiveBankAccountSubmission" xml:space="preserve">
-    <value>Pengajuan Rekening Bank Tidak Aktif</value>
-  </data>
-  <data name="msg_ConfirmRealNameAlert" xml:space="preserve">
-    <value>Untuk memastikan semua transaksi benar, pastikan nama asli anda sama dengan nama rekening bank anda</value>
-  </data>
-  <data name="msg_MustDeposit" xml:space="preserve">
-    <value>Silakan selesaikan deposit sebelum mengajukan penarikan</value>
-  </data>
-  <data name="msg_GoToDepositPage" xml:space="preserve">
-    <value>Pergi ke halaman deposit?</value>
-  </data>
-  <data name="msg_PromoCodeHasBeenUsed" xml:space="preserve">
-    <value>KODE INI SUDAH DIGUNAKAN.</value>
-  </data>
-  <data name="msg_PaymentNotReceived_Detail" xml:space="preserve">
-    <value>Setoran belum diterima di bank, mohon menunggu.</value>
-  </data>
-  <data name="msg_DrawPrize1" xml:space="preserve">
-    <value>Selamat! Bonus {0} Anda sebesar {1} {2} telah dikreditkan ke akun Anda.</value>
-  </data>
-  <data name="msg_BalanceHint" xml:space="preserve">
-    <value>Saldo anda saat ini</value>
-  </data>
-  <data name="msg_HasExist" xml:space="preserve">
-    <value>Sudah ada</value>
-  </data>
-  <data name="msg_InsufficientFund" xml:space="preserve">
-    <value>Dana tidak mencukupi!</value>
-  </data>
-  <data name="msg_DepositRefunded_Detail" xml:space="preserve">
-    <value>Jumlah deposit telah dikembalikan, silakan periksa rekening bank Anda.</value>
-  </data>
-  <data name="msg_LockedAmountInsufficient" xml:space="preserve">
-    <value>Saldo dompet utama tidak boleh lebih rendah dari {0}</value>
-  </data>
-  <data name="msg_InactiveBankAccountSubmission_Detail" xml:space="preserve">
-    <value>Rekening deposit telah diubah, harap periksa rekening tujuan terakhir sebelum melakukan transaksi</value>
-  </data>
-  <data name="msg_WithdrawalAccountAannotReceiveMoney" xml:space="preserve">
-    <value>Akun penarikan gagal menerima dana</value>
-  </data>
-  <data name="msg_SamePassword" xml:space="preserve">
-    <value>Kata Sandi Lama dan Kata Sandi Baru sama!</value>
-  </data>
-  <data name="msg_BeneficiarysAccountMaintenance_Detail" xml:space="preserve">
-    <value>Bank sedang dalam pemeliharaan, transaksi penarikan Anda akan diproses setelah pemeliharaan dari banknya selesai.</value>
-  </data>
-  <data name="msg_DepositorsNameUnmatch_Detail" xml:space="preserve">
-    <value>Nama yang terdaftar tidak sesuai dengan nama rekening bank, silakan hubungi Dukungan Pelanggan untuk bantuan lebih lanjut.</value>
-  </data>
-  <data name="msg_WithdrawalAccountNumberIncorrect" xml:space="preserve">
-    <value>Nomor Akun Penarikan Salah</value>
-  </data>
-  <data name="msg_DepositAlert" xml:space="preserve">
-    <value>Saldo Dompet Utama Anda adalah: &lt;span class = "popup-span Js-MainWallet-Balance"&gt; {0} {1} &lt;/span&gt; &lt;br&gt; Deposit sekarang atau transfer dari Sportsbook Wallet ke Dompet Utama untuk menikmati permainan dan layanan kami .</value>
-  </data>
-  <data name="msg_ForceLogedoutHint" xml:space="preserve">
-    <value>ID ini sudah masuk dari jendela atau perangkat browser lain. Anda akan dipaksa keluar dari sesi ini.</value>
-  </data>
-  <data name="msg_WithdrawalSuccessful" xml:space="preserve">
-    <value>Pengajuan penarikan Anda berhasil. Jika sudah selesai kami akan memberi tahu kepada anda</value>
-  </data>
-  <data name="msg_EnterPhoneNumber" xml:space="preserve">
-    <value>Silakan masukkan nomor telepon anda</value>
-  </data>
-  <data name="msg_PasswordReq" xml:space="preserve">
-    <value>Kata Sanda wajib diisi</value>
-  </data>
-  <data name="msg_NoData" xml:space="preserve">
-    <value>Tidak ada data</value>
-  </data>
-  <data name="msg_ThisCurrencyNotSupport" xml:space="preserve">
-    <value>Mata Uang Anda Tidak Mendukung.</value>
-  </data>
-  <data name="msg_InvalidCryptoWalletAddress" xml:space="preserve">
-    <value>Alamat dompet kripto tidak valid.</value>
-  </data>
-  <data name="msg_DrawPrizeTital1" xml:space="preserve">
-    <value>{0} Mystery Box</value>
-  </data>
-  <data name="ForgetPwdSuccess" xml:space="preserve">
-    <value>Kata sandi baru Anda telah dikirim ke alamat email terdaftar Anda.</value>
-  </data>
-  <data name="msg_BankAccountExists" xml:space="preserve">
-    <value>Anda telah menyimpan informasi ini.</value>
-  </data>
-  <data name="msg_Ineligible" xml:space="preserve">
-    <value>Anda tidak memenuhi syarat untuk promosi ini. Silakan hubungi Layanan Bantuan kami untuk lebih jelasnya.</value>
-  </data>
-  <data name="msg_CreditSignUpHint_1" xml:space="preserve">
-    <value>Kepada Pelanggan Terhormat,</value>
-  </data>
-  <data name="msg_CreditSignUpHint_2" xml:space="preserve">
-    <value>Selamat datang di {0}, setelah pendaftaran silakan kunjungi link yang kami berikan dan selamat menikmati permainan kami.</value>
-  </data>
-  <data name="ResetPwdSuccess" xml:space="preserve">
-    <value>Kata sandi Anda telah berhasil diatur ulang!</value>
-  </data>
-  <data name="msg_DepositorsNameUnmatch" xml:space="preserve">
-    <value>Nama Deposit tidak cocok</value>
-  </data>
-  <data name="msg_PromoCodeIncorrect" xml:space="preserve">
-    <value>Kode promo salah</value>
-  </data>
-  <data name="msg_SpecialCodeErr" xml:space="preserve">
-    <value>Kode Promo salah, harap periksa kembali.</value>
-  </data>
-  <data name="msg_IneligibleAngPow" xml:space="preserve">
-    <value>Harap lakukan deposit Anda untuk mendapatkan promosi ini</value>
-  </data>
-  <data name="msg_MailReq" xml:space="preserve">
-    <value>Email tidak dapat diubah setelah diajukan</value>
-  </data>
-  <data name="msg_ForceLogedout" xml:space="preserve">
-    <value>Anda telah Logout !! Silakan masuk dan coba lagi !!</value>
-  </data>
-  <data name="msg_WrongBankSubmitted" xml:space="preserve">
-    <value>Akun deposit yang dipilih salah</value>
-  </data>
-  <data name="msg_BeneficiarysAccountMaintenance" xml:space="preserve">
-    <value>Rekening penerima sedang pemeliharaan.</value>
-  </data>
-  <data name="ForgetPwdFail" xml:space="preserve">
-    <value>Anda sudah memasukkan email atau jawaban keamanan yang salah, silakan coba lagi!</value>
-  </data>
-  <data name="msg_OTPHint" xml:space="preserve">
-    <value>Harap lengkapi profil Anda dan verifikasi ponsel Anda untuk menikmati promosi kami.</value>
-  </data>
-  <data name="msg_MailExisted" xml:space="preserve">
-    <value>Email ini sudah digunakan.</value>
-  </data>
-  <data name="msg_SpecialCodeVipLevelsOrBlockTagInvalid" xml:space="preserve">
-    <value>Tidak dapat berpartisipasi dalam promosi ini, silakan hubungi layanan pelanggan untuk pertanyaan.</value>
-  </data>
-  <data name="msg_AffCodeValidate" xml:space="preserve">
-    <value>ID Afiliasi hanya mengizinkan 5-20 angka.</value>
-  </data>
-  <data name="msg_OTPHint2" xml:space="preserve">
-    <value>Verifikasi no telpon Anda sekarang!</value>
-  </data>
-  <data name="msg_OTPHint1" xml:space="preserve">
-    <value>Ingin rasakan produk dan layanan lebih komplit?</value>
-  </data>
-  <data name="msg_DepositRefunded" xml:space="preserve">
-    <value>Deposit dikembalikan</value>
-  </data>
-  <data name="msg_DecimalOutOfRange" xml:space="preserve">
-    <value>Transfer gagal karena desimal lebih dari 2 digit</value>
-  </data>
-  <data name="msg_RedemptionLimitOverLimit" xml:space="preserve">
-    <value>Maaf, batas penukaran Anda telah habis. Silakan coba lagi di bulan depan.</value>
-  </data>
-  <data name="msg_EWalletIsMaintenance" xml:space="preserve">
-    <value>E-Wallet adalah pemeliharaan, silakan gunakan metode penarikan lainnya</value>
-  </data>
-  <data name="msg_InsufficientPoint" xml:space="preserve">
-    <value>Maaf! 88 Poin Rewards yang Anda miliki tidak cukup.</value>
-  </data>
-  <data name="msg_EWalletDuplicate" xml:space="preserve">
-    <value>Duplikat Nomor Akun E-wallet tidak diperbolehkan. Silakan coba Nomor Akun E-wallet lain.</value>
-  </data>
-  <data name="msg_OTPDailyLimit" xml:space="preserve">
-    <value>OTP telah mencapai batas, silakan hubungi Layanan Pelanggan</value>
-  </data>
-  <data name="msg_AffCodeNotFound" xml:space="preserve">
-    <value>ID afiliasi tidak dapat ditemukan</value>
-  </data>
-  <data name="msg_BankSystemUnstable" xml:space="preserve">
-    <value>Sistem Bank Tidak Stabil</value>
-  </data>
-  <data name="msg_BankSystemUnstable_Detail" xml:space="preserve">
-    <value>Sistem Bank tidak dapat mengambil rinciannya.</value>
-  </data>
-  <data name="msg_BankUnderMaintenance" xml:space="preserve">
-    <value>Pemeliharaan Bank</value>
-  </data>
-  <data name="msg_BankUnderMaintenance_Detail" xml:space="preserve">
-    <value>Sistem bank sedang dalam pemeliharaan dan tidak dapat memproses deposit anda saat ini.</value>
-  </data>
-  <data name="msg_NeedAddress" xml:space="preserve">
-    <value>tidak terisi Alamat saat ini</value>
-  </data>
-  <data name="msg_NeedNationality" xml:space="preserve">
-    <value>tidak terisi Kebangsaan</value>
-  </data>
-  <data name="msg_DepositRemarkReminder" xml:space="preserve">
-    <value>Pengingat Catatan Setoran</value>
-  </data>
-  <data name="msg_DepositRemarkReminder_Detail" xml:space="preserve">
-    <value>Transaksi Anda telah disetujui. Namun, terdapat kesalahan dalam catatan yang diberikan. Sebelum mengirimkan di situs kami, pastikan Anda memasukkan detail bank dan catatan yang benar langsung ke dalam sistem perbankan Anda.</value>
-  </data>
-  <data name="msg_FillUpRemarkReminder" xml:space="preserve">
-    <value>Isi Catatan Pengingat</value>
-  </data>
-  <data name="msg_FillUpRemarkReminder_Detail" xml:space="preserve">
-    <value>Untuk mempercepat verifikasi dan pemrosesan permintaan deposit Anda, pastikan untuk memasukkan nomor catatan yang disediakan pada halaman deposit saat melakukan transfer.</value>
-  </data>
-</root>
+<resheader name="resmimetype"><value>text/microsoft-resx</value></resheader><resheader name="version"><value>1.3</value></resheader><resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader><resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader><data name="msg_TransferAlert"><value>Dompet Sportsbook Anda saat ini adalah: &lt;span class = "popup-span Js-3RdWallet-Balance"&gt; {0} {1} &lt;/span&gt; &lt;br&gt; Setor dan transfer dari Dompet Utama ke Dompet Sportsbook sekarang untuk menikmati permainan dan layanan kami .</value></data>
+  <data name="msg_SubmitDepositTime"><value>Kirimkan waktu setoran Anda.</value></data>
+  <data name="msg_ClaimCashBackBonus"><value>Selamat, Bonus CASHBACK Anda {0} telah dikreditkan ke akun Anda!</value></data>
+  <data name="msg_BirthdayIsRequired"><value>Harap isi tanggal lahir</value></data>
+  <data name="msg_UsernameReq"><value>Nama pengguna Wajib diisi.</value></data>
+  <data name="msg_ApiServerError"><value>Kesalahan Jaringan API.</value></data>
+  <data name="msg_MustInteger"><value>Mohon isi angka dengan lengkap, angka desimal tidak diperbolehkan</value></data>
+  <data name="msg_LoginToAccess"><value>Silahkan Login untuk akses ke permainan</value></data>
+  <data name="msg_WithdrawalAccountNumberIncorrect_Detail"><value>Nomor akun penarikan salah. Silahkan cek nomor akun penarikan Anda.</value></data>
+  <data name="msg_CreditSignUp"><value>Kepada Pelanggan Terhormat,&lt;br /&gt;&lt;br /&gt;Selamat datang di &lt;a href="https://{0}" target="_new"&gt;{0}&lt;/a&gt;, setelah pendaftaran silakan kunjungi link yang kami berikan dan selamat menikmati permainan kami.</value></data>
+  <data name="msg_WrongAmountSubmitted_Detail"><value>Jumlah deposit tidak cocok dengan yang diajukan. Silahkan cek kembali atau hubungi Layanan Pelanggan untuk bantuan lebih lanjut.</value></data>
+  <data name="msg_BankAccountDuplicate"><value>Duplikat Nomor Rekening Bank tidak diperbolehkan. Silakan coba Nomor Rekening lain.</value></data>
+  <data name="msg_WithdrawalNoFund"><value>Pengajuan pernarikan Anda gagal, Saldo anda tidak mencukupi</value></data>
+  <data name="msg_EmailFormatVerify"><value>Format alamat email salah</value></data>
+  <data name="msg_loggedout"><value>Anda terlah berhasil logout</value></data>
+  <data name="msg_PhoneFormatVerify"><value>Nomor telepon yang Anda masukkan salah, antara {0} digit</value></data>
+  <data name="msg_PhoneWrongFormat"><value>Format Phone salah</value></data>
+  <data name="msg_Updatesuccessful"><value>Pembaruan berhasil</value></data>
+  <data name="msg_WithdrawalFailed"><value>Pengajuan penarikan Anda gagal, Untuk informasi lebih lanjut silahkan hubungi CSD</value></data>
+  <data name="msg_CryptoWalletDuplicate"><value>Alamat dompet kripto sudah digunakan</value></data>
+  <data name="msg_WithdrawalExists"><value>Permintaan transaksi Anda sedang dalam antrian. Silakan coba lagi ketika transaksi dalam antrian sudah selesai.</value></data>
+  <data name="msg_LessThanWithdrawalMin"><value>Jumlah penarikan harus lebih dari {0}</value></data>
+  <data name="msg_ReferenceNumber"><value>Nomor referensi</value></data>
+  <data name="msg_Congratulations"><value>Pendaftaran Anda selesai; Anda dapat segera login, deposit .kemudaian dapat mulai memasang taruhan.</value></data>
+  <data name="msg_PaymentNotReceived"><value>Setoran tidak diterima</value></data>
+  <data name="msg_DepositHint"><value>Deposit sekarang dan nikmati permainan dan pelayanan kami</value></data>
+  <data name="msg_WrongAmount"><value>Salah jumlah</value></data>
+  <data name="msg_WithdrawalAccountsNameUnmatch"><value>Nama Akun untuk Penarikan Tidak Sesuai</value></data>
+  <data name="msg_PasswordValidate"><value>รหัสผ่านต้องมีความยาว 6-15 ตัว ประกอบด้วยตัวอักษรและตัวเลข</value></data>
+  <data name="msg_WrongAmountSubmitted"><value>Jumlah Deposit Salah</value></data>
+  <data name="msg_UsernameNotAvailable"><value>Nama pengguna tidak lagi tersedia.</value></data>
+  <data name="msg_WithdrawalAccountsNameUnmatch_Detail"><value>Nama akun penarikan tidak sesuai dengan nama terdaftar. Untuk bantuan, silahkan hubungi layanan pelanggan</value></data>
+  <data name="msg_NeedAccountName"><value>Butuh Nama Akun</value></data>
+  <data name="msg_DrawPrizeTital"><value>Bagi bagi Ang Pao</value></data>
+  <data name="msg_UsernameLength"><value>Panjang Karakter nama pengguna harus antara 6 dan 18 karakter.</value></data>
+  <data name="msg_DepositSlipRequired_Detail"><value>Mohon lampirkan slip transfer untuk mempercepat waktu proses transaksi.</value></data>
+  <data name="msg_NeedAccountNo"><value>Butuh Nomor Rekening</value></data>
+  <data name="msg_DrawPrize"><value>Selamat, Ang Pao Anda {0} telah dikreditkan ke akun Anda!</value></data>
+  <data name="msg_SpecialCodeErrorForCheck"><value>Kode Promo salah, harap periksa kembali.</value></data>
+  <data name="msg_InvalidOldPassword"><value>Kata Sandi Lama Tidak Valid!</value></data>
+  <data name="msg_WithdrawalAccountAannotReceiveMoney_Detail"><value>Akun penarikan tidak dapat menerima dana. Silahkan cek kembali atau hubungi Layanan Pelanggan untuk bantuan lebih lanjut.</value></data>
+  <data name="msg_PasswordLength"><value>Penjang Karakter kata sandi harus antara 6 hingga 18 karakter.</value></data>
+  <data name="msg_GreaterThanWithdrawalMax"><value>Batas Harian Anda Tercapai</value></data>
+  <data name="msg_MailWrongFormat"><value>Format Email salah</value></data>
+  <data name="msg_NotInLimit"><value>Tidak dalam Limit</value></data>
+  <data name="msg_UsernameValidate"><value>6-18 karakter alfanumerik (A-Z, a-z, 0-9) saja.</value></data>
+  <data name="msg_WrongBankSubmitted_Detail"><value>Akun deposit yang dipilih salah. Silahkan cek kembali atau hubungi Layanan Pelanggan untuk bantuan lebih lanjut.</value></data>
+  <data name="msg_DepositSlipRequired"><value>Diperlukan Slip Setoran</value></data>
+  <data name="msg_UpdateFailed"><value>Pembaruan Gagal</value></data>
+  <data name="msg_EnterRealName"><value>Silakan masukkan nama asli anda</value></data>
+  <data name="msg_SelectBirthDay"><value>Silakan pilih tanggal ulang tahun anda</value></data>
+  <data name="msg_RequiredAmountInsufficient"><value>Setoran minimal {0} agar berhak mendapatkan bonus</value></data>
+  <data name="msg_DepositProcessLogin_LoginFailed"><value>Login gagal,Nama pengguna tidak ditemukan atau Nama pengguna/kata sandi salah.</value></data>
+  <data name="msg_SelectFile"><value>Pilih file</value></data>
+  <data name="msg_DepositProcessLogin_ACLocked"><value>Akun anda terkunci, Silahkan hubungi layanan pelanggan 24/7, Terima kasih!</value></data>
+  <data name="msg_InactiveBankAccountSubmission"><value>Pengajuan Rekening Bank Tidak Aktif</value></data>
+  <data name="msg_ConfirmRealNameAlert"><value>Untuk memastikan semua transaksi benar, pastikan nama asli anda sama dengan nama rekening bank anda</value></data>
+  <data name="msg_MustDeposit"><value>Silakan selesaikan deposit sebelum mengajukan penarikan</value></data>
+  <data name="msg_GoToDepositPage"><value>Pergi ke halaman deposit?</value></data>
+  <data name="msg_PromoCodeHasBeenUsed"><value>KODE INI SUDAH DIGUNAKAN.</value></data>
+  <data name="msg_PaymentNotReceived_Detail"><value>Setoran belum diterima di bank, mohon menunggu.</value></data>
+  <data name="msg_DrawPrize1"><value>Selamat! Bonus {0} Anda sebesar {1} {2} telah dikreditkan ke akun Anda.</value></data>
+  <data name="msg_BalanceHint"><value>Saldo anda saat ini</value></data>
+  <data name="msg_HasExist"><value>Sudah ada</value></data>
+  <data name="msg_InsufficientFund"><value>Dana tidak mencukupi!</value></data>
+  <data name="msg_DepositRefunded_Detail"><value>Jumlah deposit telah dikembalikan, silakan periksa rekening bank Anda.</value></data>
+  <data name="msg_LockedAmountInsufficient"><value>Saldo dompet utama tidak boleh lebih rendah dari {0}</value></data>
+  <data name="msg_InactiveBankAccountSubmission_Detail"><value>Rekening deposit telah diubah, harap periksa rekening tujuan terakhir sebelum melakukan transaksi</value></data>
+  <data name="msg_WithdrawalAccountAannotReceiveMoney"><value>Akun penarikan gagal menerima dana</value></data>
+  <data name="msg_SamePassword"><value>Kata Sandi Lama dan Kata Sandi Baru sama!</value></data>
+  <data name="msg_BeneficiarysAccountMaintenance_Detail"><value>Bank sedang dalam pemeliharaan, transaksi penarikan Anda akan diproses setelah pemeliharaan dari banknya selesai.</value></data>
+  <data name="msg_DepositorsNameUnmatch_Detail"><value>Nama yang terdaftar tidak sesuai dengan nama rekening bank, silakan hubungi Dukungan Pelanggan untuk bantuan lebih lanjut.</value></data>
+  <data name="msg_WithdrawalAccountNumberIncorrect"><value>Nomor Akun Penarikan Salah</value></data>
+  <data name="msg_DepositAlert"><value>Saldo Dompet Utama Anda adalah: &lt;span class = "popup-span Js-MainWallet-Balance"&gt; {0} {1} &lt;/span&gt; &lt;br&gt; Deposit sekarang atau transfer dari Sportsbook Wallet ke Dompet Utama untuk menikmati permainan dan layanan kami .</value></data>
+  <data name="msg_ForceLogedoutHint"><value>ID ini sudah masuk dari jendela atau perangkat browser lain. Anda akan dipaksa keluar dari sesi ini.</value></data>
+  <data name="msg_WithdrawalSuccessful"><value>Pengajuan penarikan Anda berhasil. Jika sudah selesai kami akan memberi tahu kepada anda</value></data>
+  <data name="msg_EnterPhoneNumber"><value>Silakan masukkan nomor telepon anda</value></data>
+  <data name="msg_PasswordReq"><value>Kata Sanda wajib diisi</value></data>
+  <data name="msg_NoData"><value>Tidak ada data</value></data>
+  <data name="msg_ThisCurrencyNotSupport"><value>Mata Uang Anda Tidak Mendukung.</value></data>
+  <data name="msg_InvalidCryptoWalletAddress"><value>Alamat dompet kripto tidak valid.</value></data>
+  <data name="msg_DrawPrizeTital1"><value>{0} Mystery Box</value></data>
+  <data name="ForgetPwdSuccess"><value>Kata sandi baru Anda telah dikirim ke alamat email terdaftar Anda.</value></data>
+  <data name="msg_BankAccountExists"><value>Anda telah menyimpan informasi ini.</value></data>
+  <data name="msg_Ineligible"><value>Anda tidak memenuhi syarat untuk promosi ini. Silakan hubungi Layanan Bantuan kami untuk lebih jelasnya.</value></data>
+  <data name="msg_CreditSignUpHint_1"><value>Kepada Pelanggan Terhormat,</value></data>
+  <data name="msg_CreditSignUpHint_2"><value>Selamat datang di {0}, setelah pendaftaran silakan kunjungi link yang kami berikan dan selamat menikmati permainan kami.</value></data>
+  <data name="ResetPwdSuccess"><value>Kata sandi Anda telah berhasil diatur ulang!</value></data>
+  <data name="msg_DepositorsNameUnmatch"><value>Nama Deposit tidak cocok</value></data>
+  <data name="msg_PromoCodeIncorrect"><value>Kode promo salah</value></data>
+  <data name="msg_SpecialCodeErr"><value>Kode Promo salah, harap periksa kembali.</value></data>
+  <data name="msg_IneligibleAngPow"><value>Harap lakukan deposit Anda untuk mendapatkan promosi ini</value></data>
+  <data name="msg_MailReq"><value>Email tidak dapat diubah setelah diajukan</value></data>
+  <data name="msg_ForceLogedout"><value>Anda telah Logout !! Silakan masuk dan coba lagi !!</value></data>
+  <data name="msg_WrongBankSubmitted"><value>Akun deposit yang dipilih salah</value></data>
+  <data name="msg_BeneficiarysAccountMaintenance"><value>Rekening penerima sedang pemeliharaan.</value></data>
+  <data name="ForgetPwdFail"><value>Anda sudah memasukkan email atau jawaban keamanan yang salah, silakan coba lagi!</value></data>
+  <data name="msg_OTPHint"><value>Harap lengkapi profil Anda dan verifikasi ponsel Anda untuk menikmati promosi kami.</value></data>
+  <data name="msg_MailExisted"><value>Email ini sudah digunakan.</value></data>
+  <data name="msg_SpecialCodeVipLevelsOrBlockTagInvalid"><value>Tidak dapat berpartisipasi dalam promosi ini, silakan hubungi layanan pelanggan untuk pertanyaan.</value></data>
+  <data name="msg_AffCodeValidate"><value>ID Afiliasi hanya mengizinkan 5-20 angka.</value></data>
+  <data name="msg_OTPHint2"><value>Verifikasi no telpon Anda sekarang!</value></data>
+  <data name="msg_OTPHint1"><value>Ingin rasakan produk dan layanan lebih komplit?</value></data>
+  <data name="msg_DepositRefunded"><value>Deposit dikembalikan</value></data>
+  <data name="msg_DecimalOutOfRange"><value>Transfer gagal karena desimal lebih dari 2 digit</value></data>
+  <data name="msg_RedemptionLimitOverLimit"><value>Maaf, batas penukaran Anda telah habis. Silakan coba lagi di bulan depan.</value></data>
+  <data name="msg_EWalletIsMaintenance"><value>E-Wallet adalah pemeliharaan, silakan gunakan metode penarikan lainnya</value></data>
+  <data name="msg_InsufficientPoint"><value>Maaf! 88 Poin Rewards yang Anda miliki tidak cukup.</value></data>
+  <data name="msg_EWalletDuplicate"><value>Duplikat Nomor Akun E-wallet tidak diperbolehkan. Silakan coba Nomor Akun E-wallet lain.</value></data>
+  <data name="msg_OTPDailyLimit"><value>OTP telah mencapai batas, silakan hubungi Layanan Pelanggan</value></data>
+  <data name="msg_SystemUnstable"><value>Sistem tidak dapat mengambil rincian.</value></data>
+  <data name="msg_SystemUnstable_Detail"><value>Sistem bank saat ini tidak dapat mengambil rincian transaksi, dan tidak dapat memproses deposit Anda saat ini.</value></data>
+  <data name="msg_BankUnderMaintenance"><value>Pemeliharaan Bank</value></data>
+  <data name="msg_BankUnderMaintenance_Detail"><value>Sistem bank sedang dalam pemeliharaan dan tidak dapat memproses deposit anda saat ini.</value></data>
+  <data name="msg_WrongAmountFormat"><value>Kesalahan &gt; Format jumlah salah</value></data>
+  <data name="msg_QuestionnaireFailed"><value>Anda telah mencapai batas maksimal pengajuan umpan balik untuk hari ini</value></data>
+  </root>

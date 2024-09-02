@@ -55,6 +55,7 @@ namespace MemberSite.Service.Model
     {
         public int GroupId { get; set; }
         public string GroupName { get; set; }
+        public string DisplayGroupName { get; set; }
         public decimal MinAmount { get; set; }
         public decimal MaxAmount { get; set; }
         [JsonIgnore]
@@ -68,9 +69,12 @@ namespace MemberSite.Service.Model
         public string PayName { get; set; }
         public int GroupId { get; set; }
         public string GroupName { get; set; }
+        public string DisplayGroupName { get; set; }
         public int ChannelId { get; set; }
         public string ChannelName { get; set; }
+        public string DisplayChannelName { get; set; }
         public int Mode { get; set; }
+        public int ExtraDataType { get; set; }
         public decimal MinAmount { get; set; }
         public decimal MaxAmount { get; set; }
         public int AmountRule { get; set; }

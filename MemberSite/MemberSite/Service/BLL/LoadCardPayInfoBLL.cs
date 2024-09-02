@@ -9,33 +9,21 @@ namespace MemberSite.Service.BLL
     {
         private readonly CustInfoBll _custInfoBll;
         private readonly DepositLimitBLL _depositLimitBll;
-        private readonly PayService _payService;
-        private readonly DepositService _depositService;
-        private readonly ICacheHelper _redisHelper;
+        private readonly AuthorizeBLL _authorizeBll;
+        private readonly PayInfoBLL _payInfoBll;
 
         public LoadCardPayInfoBLL(IServiceProvider provider)
         {
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _depositLimitBll = provider.GetRequiredService<DepositLimitBLL>();
-            _payService = provider.GetRequiredService<PayService>();
-            _depositService = provider.GetRequiredService<DepositService>();
-            _redisHelper = provider.GetRequiredService<ICacheHelper>();
-        }
-
-        public IEnumerable<PayInfo> GetLoadCardPayInfoList(int siteId)
-        {
-            var key = $"PaySetting:LoadCard:{siteId}";
-            var dbData = _redisHelper.TryGetOrCreate<IEnumerable<PayInfo>>(key, TimeSpan.FromMinutes(5),
-                () => _payService.GetPayInfo(siteId, DepositType.LoadCardPayment).OrderBy(x => x.GSort).ThenBy(x => x.SSort),
-                RedisDataBase.Shared);
-            return dbData;
+            _payInfoBll = provider.GetRequiredService<PayInfoBLL>();
         }
 
         public IEnumerable<LoadCardPayGroup> GetLoadCardPayGroupList(int custId)
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var pointLevel = _custInfoBll.GetPointLevelWithCache(custId);
-            var LoadCardPayInfoList = GetLoadCardPayInfoList(custInfo.SiteId);
+            var LoadCardPayInfoList = _payInfoBll.GetPayInfoListWithCache(custInfo.SiteId, DepositType.LoadCardPayment);
             var depositLimitInfo = _depositLimitBll.GetDepositLimitInfo(custId, DepositType.LoadCardPayment);
 
             if (depositLimitInfo?.DepositStatus == 0)
@@ -54,6 +42,7 @@ namespace MemberSite.Service.BLL
                     {
                         GroupId = d.GroupId,
                         GroupName = d.GroupName,
+                        DisplayGroupName = d.DisplayGroupName,
                         PayName = d.PayName,
                         GSort = d.GSort,
                         Mode = d.Mode,
@@ -85,7 +74,8 @@ namespace MemberSite.Service.BLL
                 return Array.Empty<PayInfo>();
             }
 
-            var LoadCardPayInfoList = GetLoadCardPayInfoList(custInfo.SiteId).Where(x => vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.GroupId == groupId).ToList();
+            var LoadCardPayInfoList = _payInfoBll.GetPayInfoListWithCache(custInfo.SiteId, DepositType.LoadCardPayment)
+                .Where(x => vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId && x.GroupId == groupId).ToList();
 
             if (depositLimitInfo != null && LoadCardPayInfoList != null)
             {

@@ -2,7 +2,6 @@
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Game;
-
 using Microsoft.AspNetCore.Mvc;
 
 namespace MemberSite.Controllers.Api
@@ -13,11 +12,15 @@ namespace MemberSite.Controllers.Api
     {
         private readonly ILogger<GameController> _logger;
         private readonly SlotGameBLL _slotGameBll;
+        private readonly GameBLL _gameBll;
+        private readonly ServerInfoBll _serverInfoBll;
 
         public GameController(IServiceProvider provider)
         {
             _logger = provider.GetRequiredService<ILogger<GameController>>();
             _slotGameBll = provider.GetRequiredService<SlotGameBLL>();
+            _gameBll = provider.GetRequiredService<GameBLL>();
+            _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
         }
 
         [HttpPost]
@@ -68,6 +71,31 @@ namespace MemberSite.Controllers.Api
             {
                 _logger.LogError(ex, ex.Message);
                 return new ApiResult<RecentlyViewedResponse>
+                {
+                    ErrorCode = (int)ErrorCode.SystemException,
+                    Message = ex.Message,
+                };
+            }
+        }
+        
+        [HttpPost]
+        public async Task<ApiResult<IEnumerable<LobbyHeaderResponse>>> GetLobbyHeader(GetLobbyHeaderRequest request)
+        {
+            try
+            {
+                var serverInfo = _serverInfoBll.GetServerInfo();
+                var data = await _gameBll.GetLobbyHeader(request, serverInfo);
+                
+                return new ApiResult<IEnumerable<LobbyHeaderResponse>>
+                {
+                    ErrorCode = (int)ErrorCode.Success,
+                    Data = data
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                return new ApiResult<IEnumerable<LobbyHeaderResponse>>
                 {
                     ErrorCode = (int)ErrorCode.SystemException,
                     Message = ex.Message,

@@ -125,6 +125,15 @@ public class NewYear2024BLL
         var eggTicket = _eventsService.GetEggTicket(custId);
         return eggTicket;
     }
+    
+    /// <summary>
+    /// 索取龍蛋資料
+    /// </summary>
+    public async Task<IEnumerable<EggTicketData>> GetEggTicketData(int custId)
+    {
+        var eggTicket = _eventsService.GetEggTicketData(custId);
+        return eggTicket;
+    }
 
     /// <summary>
     /// 領取達成每日任務

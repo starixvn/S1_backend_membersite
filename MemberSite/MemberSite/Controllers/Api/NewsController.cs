@@ -15,13 +15,15 @@ namespace MemberSite.Controllers.Api
         private readonly AuthorizeBLL _authorizeBll;
         private readonly CustInfoBll _customerInfoBll;
         private readonly NewsBLL _newsBLL;
-        public NewsController(SelLangBLL selLangBll, ServerInfoBll serverInfoBll, AuthorizeBLL authorizeBll, CustInfoBll customerInfoBll, NewsBLL newsBLL)
+        private readonly ConfigBLL _configBll;
+        public NewsController(SelLangBLL selLangBll, ServerInfoBll serverInfoBll, AuthorizeBLL authorizeBll, CustInfoBll customerInfoBll, NewsBLL newsBLL, ConfigBLL configBll)
         {
             _selLangBll = selLangBll;
             _serverInfoBll = serverInfoBll;
             _authorizeBll = authorizeBll;
             _customerInfoBll = customerInfoBll;
             _newsBLL = newsBLL;
+            _configBll = configBll;
         }
 
         public class ParamNews
@@ -46,7 +48,7 @@ namespace MemberSite.Controllers.Api
                     newsReq.CurrencyId = customerInfo.CurrencyId;
                 }
                 var serverInfo = _serverInfoBll.GetServerInfo();
-                var language = LanguageObject.Create(newsReq.CurrencyId, _selLangBll.GetLangId(), serverInfo.DefLang);
+                var language = _selLangBll.LanguageObjectCreate(serverInfo.SiteId, newsReq.CurrencyId, _selLangBll.GetLangId(), serverInfo.DefLang);
                 var pageNumber = newsReq.PageNumber;
 
                 var news = await _newsBLL.GetNews(serverInfo.SiteId, language, newsReq.PageSize, pageNumber);
@@ -86,7 +88,7 @@ namespace MemberSite.Controllers.Api
                     newsReq.CurrencyId = customerInfo.CurrencyId;
                 }
                 var serverInfo = _serverInfoBll.GetServerInfo();
-                var language = LanguageObject.Create(newsReq.CurrencyId, _selLangBll.GetLangId(), serverInfo.DefLang);
+                var language = _selLangBll.LanguageObjectCreate(serverInfo.SiteId, newsReq.CurrencyId, _selLangBll.GetLangId(), serverInfo.DefLang);
 
                 result.Data = await _newsBLL.GetNewsById(serverInfo.SiteId, newsReq.NewsId, language);
                 result.ErrorCode = 0;

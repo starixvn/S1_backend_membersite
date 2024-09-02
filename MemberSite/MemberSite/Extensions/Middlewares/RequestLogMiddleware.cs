@@ -19,6 +19,8 @@ namespace MemberSite.Extensions.Middlewares
         private readonly AuthorizeBLL _authorizeBll;
         private readonly ServerInfoBll _serverInfoBll;
         private readonly Tools _tools;
+        private readonly IEnumerable<string> _markPwdKeys;
+        private readonly IEnumerable<string> _markPwdPaths;
 
         public RequestLogMiddleware(RequestDelegate next, ILoggerFactory factory, AuthorizeBLL authorizeBll,
             ServerInfoBll serverInfoBll, Tools tools)
@@ -28,6 +30,14 @@ namespace MemberSite.Extensions.Middlewares
             _authorizeBll = authorizeBll;
             _serverInfoBll = serverInfoBll;
             _tools = tools;
+            _markPwdKeys = new[] {"UserPwd", "OldPassword", "NewPassword"};
+            _markPwdPaths = new[]
+            {
+                "/SignIn",
+                "/SignInApp",
+                "/Signup",
+                "/ChangePassword"
+            };
         }
 
         public async Task Invoke(HttpContext context)
@@ -76,39 +86,10 @@ namespace MemberSite.Extensions.Middlewares
                     LogContext.PushProperty("SiteId", serverInfo?.SiteId);
                     LogContext.PushProperty("ClientIp", _tools.GetClientIP());
 
-                    // log需將登入密碼隱碼api/Site/SignIn
-                    if (path.Contains("/api/Site/SignIn", StringComparison.OrdinalIgnoreCase) ||
-                        path.Contains("/api/Site/SignInApp", StringComparison.OrdinalIgnoreCase) ||
-                        path.Contains("/api/Site/Signup", StringComparison.OrdinalIgnoreCase) ||
-                        path.Contains("/api/Site/SignupApp", StringComparison.OrdinalIgnoreCase) ||
-                        path.Contains("/api/Extra/Signup", StringComparison.OrdinalIgnoreCase) ||
-                        path.Contains("/api/Account/ChangePassword", StringComparison.OrdinalIgnoreCase))
+                    // log需將密碼隱碼
+                    if (path != null && _markPwdPaths.Any(p => path.Contains(p, StringComparison.OrdinalIgnoreCase)))
                     {
-                        var jbody = JObject.Parse(content);
-                        if (jbody.TryGetValue("Userpwd", StringComparison.OrdinalIgnoreCase, out var pwd)
-                            && !string.IsNullOrEmpty(pwd.ToString()))
-                        {
-                            jbody["Userpwd"] = "********";
-                        }
-
-                        if (jbody.TryGetValue("userpwd", StringComparison.OrdinalIgnoreCase, out var userpwd)
-                            && !string.IsNullOrEmpty(userpwd.ToString()))
-                        {
-                            jbody["userpwd"] = "********";
-                        }
-
-                        if (jbody.TryGetValue("OldPassword", StringComparison.OrdinalIgnoreCase, out var opwd)
-                            && !string.IsNullOrEmpty(opwd.ToString()))
-                        {
-                            jbody["OldPassword"] = "********";
-                        }
-
-                        if (jbody.TryGetValue("NewPassword", StringComparison.OrdinalIgnoreCase, out var npwd)
-                            && !string.IsNullOrEmpty(npwd.ToString()))
-                        {
-                            jbody["NewPassword"] = "********";
-                        }
-                        content = jbody.ToString();
+                        content = MarkLogPassword(content);
                     }
 
                     var log = new StringBuilder();
@@ -124,6 +105,30 @@ namespace MemberSite.Extensions.Middlewares
                 await _next(context);
                 context.Request.Body = originalRequestBody;
             }
+        }
+
+        private  string MarkLogPassword(string json)
+        {
+            var objKeys = JsonConvert.DeserializeObject<Dictionary<string, object>>(json)
+                .Select(x => x.Key)
+                .ToList();
+            
+            var jObj = JObject.Parse(json);
+
+            foreach (var key in _markPwdKeys)
+            {
+                var realKey = objKeys.FirstOrDefault(x => key.Equals(x, StringComparison.OrdinalIgnoreCase));
+                
+                if (string.IsNullOrEmpty(realKey))
+                    continue;
+                
+                if (!string.IsNullOrEmpty(jObj[realKey]?.ToString()))
+                {
+                    jObj[realKey] = "********";
+                }
+            }
+
+            return jObj.ToString();
         }
     }
 }

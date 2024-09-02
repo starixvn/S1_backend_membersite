@@ -1,5 +1,4 @@
-﻿using MemberSite.Service.Library;
-
+﻿using MemberSite.Service.Model;
 using NUnit.Framework;
 
 namespace MemberSiteTests.Service.Model
@@ -13,9 +12,9 @@ namespace MemberSiteTests.Service.Model
         [TestCase(4, "th", "th")]
         [TestCase(null, "th", "th")]
         [TestCase(null, "en", "en")]
-        public void Test(int? currencyId, string language, string expect)
+        public void Test(int siteId, int? currencyId, string language, string expect)
         {
-            var languageObj = LanguageObject.Create(currencyId, language);
+            var languageObj = LanguageObject.Create(null, siteId, currencyId, language);
 
             Assert.AreEqual(languageObj.LanguageCode, expect);
         }

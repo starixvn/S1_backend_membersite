@@ -1,37 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="metadata">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
-              </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="assembly">
-            <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
-            </xsd:complexType>
-          </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
                 <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
                 <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
               <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
               <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
@@ -46,407 +27,130 @@
       </xsd:complexType>
     </xsd:element>
   </xsd:schema>
-  <resheader name="resmimetype">
-    <value>text/microsoft-resx</value>
-  </resheader>
-  <resheader name="version">
-    <value>2.0</value>
-  </resheader>
-  <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <data name="msg_TransferAlert" xml:space="preserve">
-    <value>Dompet Sportsbook semasa anda adalah : &lt;span class="popup-span Js-3RdWallet-Balance"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;Deposit dan pindah dari Dompet Utama ke Dompet Sportsbook sekarang untuk sambung menikmati permainan dan perkhidmatan kami .</value>
-  </data>
-  <data name="msg_SubmitDepositTime" xml:space="preserve">
-    <value>Sila sertakan masa deposit anda.</value>
-  </data>
-  <data name="msg_ClaimCashBackBonus" xml:space="preserve">
-    <value>Tahniah, PULANGAN TUNAI {0} anda telah dikreditkan ke akaun anda!</value>
-  </data>
-  <data name="msg_BirthdayIsRequired" xml:space="preserve">
-    <value>Sila isi tarikh lahir</value>
-  </data>
-  <data name="msg_UsernameReq" xml:space="preserve">
-    <value>Nama pengguna diperlukan.</value>
-  </data>
-  <data name="msg_ApiServerError" xml:space="preserve">
-    <value>Ralat Pada Pelayan API.</value>
-  </data>
-  <data name="msg_MustInteger" xml:space="preserve">
-    <value>Sila isikan angka yang betul, digit nombor perpuluhan tidak dibenarkan.</value>
-  </data>
-  <data name="msg_LoginToAccess" xml:space="preserve">
-    <value>Sila log masuk untuk dapat akses pada permainan.</value>
-  </data>
-  <data name="msg_WithdrawalAccountNumberIncorrect_Detail" xml:space="preserve">
-    <value>Nombor akaun pengeluaran tak betul. Sila sahkan maklumat nombor akaun pengeluaran anda.</value>
-  </data>
-  <data name="msg_CreditSignUp" xml:space="preserve">
-    <value>Pelanggan yang dihormati, &lt;br /&gt;&lt;br /&gt;Selamat datang ke &lt;a href="https://www.nova88.net" target="_new"&gt;www.nova88.net&lt;/a&gt;, selepas proses pendaftaran, sila melawat pautan dan nikmati permainan kami.</value>
-  </data>
-  <data name="msg_WrongAmountSubmitted_Detail" xml:space="preserve">
-    <value>Jumlah deposit tidak sepadan dengan jumlah permohonan slip deposit, Sila semak semula atau hubungi Sokongan Pelanggan untuk bantuan lanjut.</value>
-  </data>
-  <data name="msg_BankAccountDuplicate" xml:space="preserve">
-    <value>No. Akaun Bank pendua tidak dibenarkan. Sila cuba No. Akaun yang lain.</value>
-  </data>
-  <data name="msg_WithdrawalNoFund" xml:space="preserve">
-    <value>Pohonan pengeluaran anda telah gagal kerana baki anda tidak mencukupi!</value>
-  </data>
-  <data name="msg_EmailFormatVerify" xml:space="preserve">
-    <value>Format alamat e-mel salah</value>
-  </data>
-  <data name="msg_loggedout" xml:space="preserve">
-    <value>Anda telah berjaya log keluar!!</value>
-  </data>
-  <data name="msg_PhoneFormatVerify" xml:space="preserve">
-    <value>Nombor telefon yang anda masukkan tidak betul, antara {0} digit</value>
-  </data>
-  <data name="msg_PhoneWrongFormat" xml:space="preserve">
-    <value>Format Telefon salah.</value>
-  </data>
-  <data name="msg_Updatesuccessful" xml:space="preserve">
-    <value>Berjaya Kemas Kini</value>
-  </data>
-  <data name="msg_WithdrawalFailed" xml:space="preserve">
-    <value>Pohonan pengeluaran anda telah gagal. Sila periksa dengan CSD untuk dapatkan maklumat yang lanjut.</value>
-  </data>
-  <data name="msg_CryptoWalletDuplicate" xml:space="preserve">
-    <value>Alamat dompet Crypto telah digunakan</value>
-  </data>
-  <data name="msg_WithdrawalExists" xml:space="preserve">
-    <value>Permintaan transaksi anda sedang menunggu. Sila cuba lagi sementara transaksi Belum selesai selesai.</value>
-  </data>
-  <data name="msg_LessThanWithdrawalMin" xml:space="preserve">
-    <value>Amaun pengeluaran mesti lebih dari {0}</value>
-  </data>
-  <data name="msg_ReferenceNumber" xml:space="preserve">
-    <value>Nombor rujukan</value>
-  </data>
-  <data name="mag_AffiliateNotExist" xml:space="preserve">
-    <value>Your Affiliate Code is invaild. Please check again!</value>
-  </data>
-  <data name="msg_Congratulations" xml:space="preserve">
-    <value>Pendaftaran anda telah selesai; anda boleh log masuk serta-merta, deposit dan kemudian mula bertaruh.</value>
-  </data>
-  <data name="msg_PaymentNotReceived" xml:space="preserve">
-    <value>Deposit tidak diterima</value>
-  </data>
-  <data name="msg_DepositHint" xml:space="preserve">
-    <value>Baki Dompet Utama anda ialah : &lt;span class="popup-span Js-MainWallet-Balance"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;Deposit sekarang atau pindah dana dari Dompet Sportsbook ke Dompet Utama untuk sambung menikmati permainan dan perkhidmatan kami .</value>
-  </data>
-  <data name="msg_WrongAmount" xml:space="preserve">
-    <value>Amaun yang salah</value>
-  </data>
-  <data name="msg_WithdrawalAccountsNameUnmatch" xml:space="preserve">
-    <value>Nama akaun pengeluaran tidak sepadan</value>
-  </data>
-  <data name="msg_PasswordValidate" xml:space="preserve">
-    <value>Kata laluan mestilah 6-15 aksara yang mengandungi alfanumerik.</value>
-  </data>
-  <data name="msg_WrongAmountSubmitted" xml:space="preserve">
-    <value>Jumlah Deposit Tidak Betul</value>
-  </data>
-  <data name="msg_UsernameNotAvailable" xml:space="preserve">
-    <value>Nama pengguna sudah diguna.</value>
-  </data>
-  <data name="msg_WithdrawalAccountsNameUnmatch_Detail" xml:space="preserve">
-    <value>Nama akaun pengeluaran tidak sepadan dengan nama yang didaftarkan. Sila hubungi Live Chat untuk mendapatkan bantuan.</value>
-  </data>
-  <data name="msg_NeedAccountName" xml:space="preserve">
-    <value>Nama Akaun Diperlukan</value>
-  </data>
-  <data name="msg_DrawPrizeTital" xml:space="preserve">
-    <value>Ganjaran Ang Pao</value>
-  </data>
-  <data name="msg_UsernameLength" xml:space="preserve">
-    <value>Nama pengguna mempunyai antara 6 dan 18 aksara.</value>
-  </data>
-  <data name="msg_DepositSlipRequired_Detail" xml:space="preserve">
-    <value>Sila sertakan slip pemindahan untuk mempercepatkan masa pemprosesan transaksi.</value>
-  </data>
-  <data name="msg_NeedAccountNo" xml:space="preserve">
-    <value>Nombor Akaun Diperlukan</value>
-  </data>
-  <data name="msg_DrawPrize" xml:space="preserve">
-    <value>Tahniah, Ang Pow bernilai {0} anda telah dikredit ke akaun anda!</value>
-  </data>
-  <data name="msg_SpecialCodeErrorForCheck" xml:space="preserve">
-    <value>Kod Promosi tidak betul, sila semak semula sekali lagi.</value>
-  </data>
-  <data name="msg_InvalidOldPassword" xml:space="preserve">
-    <value>Kata Laluan Lama Yang Tidak Sah!</value>
-  </data>
-  <data name="msg_WithdrawalAccountAannotReceiveMoney_Detail" xml:space="preserve">
-    <value>Akaun pengeluaran anda gagal menerima dana. Sila semak semula atau hubungi Sokongan Pelanggan untuk bantuan lanjut.</value>
-  </data>
-  <data name="msg_PasswordLength" xml:space="preserve">
-    <value>Kata laluan mestilah antara 6 dan 18 aksara panjang.</value>
-  </data>
-  <data name="msg_GreaterThanWithdrawalMax" xml:space="preserve">
-    <value>Had Harian Anda Dicapai.</value>
-  </data>
-  <data name="msg_MailWrongFormat" xml:space="preserve">
-    <value>Format Mel adalah salah.</value>
-  </data>
-  <data name="msg_NotInLimit" xml:space="preserve">
-    <value>&gt;</value>
-  </data>
-  <data name="msg_UsernameValidate" xml:space="preserve">
-    <value>6-18 aksara alfaangka (A-Z, a-z, 0-9) sahaja.</value>
-  </data>
-  <data name="msg_WrongBankSubmitted_Detail" xml:space="preserve">
-    <value>Akaun deposit yang dipilih tidak betul, Sila semak semula atau hubungi Sokongan Pelanggan untuk bantuan lanjut.</value>
-  </data>
-  <data name="msg_DepositSlipRequired" xml:space="preserve">
-    <value>Slip Deposit Diperlukan</value>
-  </data>
-  <data name="msg_OTPEnterCode" xml:space="preserve">
-    <value>Sila masukkan nombor pengesahan yang anda terima di bahagian bawah.</value>
-  </data>
-  <data name="msg_UpdateFailed" xml:space="preserve">
-    <value>Gagal Kemas Kini</value>
-  </data>
-  <data name="msg_EnterRealName" xml:space="preserve">
-    <value>Sila masukkan nama benar anda.</value>
-  </data>
-  <data name="msg_SelectBirthDay" xml:space="preserve">
-    <value>Sila pilih hari lahir anda.</value>
-  </data>
-  <data name="msg_RequiredAmountInsufficient" xml:space="preserve">
-    <value>Deposit minima {0} untuk layak dapat bonus</value>
-  </data>
-  <data name="msg_DepositProcessLogin_LoginFailed" xml:space="preserve">
-    <value>Log masuk gagal, Nama Pengguna/ Kata Laluan ada kesalahan atau Nama Pengguna tidak wujud.</value>
-  </data>
-  <data name="msg_SelectFile" xml:space="preserve">
-    <value>Pilih fail</value>
-  </data>
-  <data name="msg_DepositProcessLogin_ACLocked" xml:space="preserve">
-    <value>Akaun anda telah disekat; sila hubungi perkhidmatan pelanggan 24/7, terima kasih!</value>
-  </data>
-  <data name="msg_InactiveBankAccountSubmission" xml:space="preserve">
-    <value>Akaun Bank tidak aktif</value>
-  </data>
-  <data name="msg_ConfirmRealNameAlert" xml:space="preserve">
-    <value>Untuk memastikan semua urus niaga dijalan dengan betul, sila pastikan nama benar anda sama dengan nama akaun bank anda</value>
-  </data>
-  <data name="msg_MustDeposit" xml:space="preserve">
-    <value>Sila lengkapkan proses deposit sebelum pohonan pengeluaran</value>
-  </data>
-  <data name="msg_GoToDepositPage" xml:space="preserve">
-    <value>Pergi ke laman deposit?</value>
-  </data>
-  <data name="msg_PromoCodeHasBeenUsed" xml:space="preserve">
-    <value>Kod Promosi telah digunakan.</value>
-  </data>
-  <data name="msg_PaymentNotReceived_Detail" xml:space="preserve">
-    <value>Deposit belum diterima di bank, sila tunggu sebentar.</value>
-  </data>
-  <data name="msg_DrawPrize1" xml:space="preserve">
-    <value>Tahniah! Bonus bernilai {0} anda sebanyak {1} {2} telah dikredit ke akaun anda.</value>
-  </data>
-  <data name="msg_BalanceHint" xml:space="preserve">
-    <value>Baki semasa anda ialah</value>
-  </data>
-  <data name="msg_HasExist" xml:space="preserve">
-    <value>sudah wujud.</value>
-  </data>
-  <data name="msg_InsufficientFund" xml:space="preserve">
-    <value>Dana tidak mencukupi!</value>
-  </data>
-  <data name="msg_DepositRefunded_Detail" xml:space="preserve">
-    <value>Jumlah deposit telah dikembalikan, sila semak akaun bank anda.</value>
-  </data>
-  <data name="msg_LockedAmountInsufficient" xml:space="preserve">
-    <value>Baki dompet utama tidak boleh rendah dari {0}</value>
-  </data>
-  <data name="msg_OTPSendCode" xml:space="preserve">
-    <value>Kami telah hantar kod pengesahan ke telefon bimbit berdaftar anda. Sila semak telefon bimbit anda dan masukkan kod pengesahan anda di bawah.</value>
-  </data>
-  <data name="msg_InactiveBankAccountSubmission_Detail" xml:space="preserve">
-    <value>Akaun deposit akan sentiasa bertukar, sila semak akaun penerimaan terkini sebelum membuat transaksi .</value>
-  </data>
-  <data name="msg_WithdrawalAccountAannotReceiveMoney" xml:space="preserve">
-    <value>Akaun pengeluaran gagal menerima dana</value>
-  </data>
-  <data name="msg_SamePassword" xml:space="preserve">
-    <value>Kata Laluan Lama dan Kata Laluan Baru adalah sama!</value>
-  </data>
-  <data name="msg_BeneficiarysAccountMaintenance_Detail" xml:space="preserve">
-    <value>Bank sedang dalam penyelenggaraan, permohonan pengeluaran anda akan diproses untuk anda selepas penyelenggaraan bank selesai</value>
-  </data>
-  <data name="msg_DepositorsNameUnmatch_Detail" xml:space="preserve">
-    <value>Nama yang didaftarkan tidak sepadan dengan nama akaun bank, sila hubungi Sokongan Pelanggan untuk bantuan lanjut.</value>
-  </data>
-  <data name="msg_WithdrawalAccountNumberIncorrect" xml:space="preserve">
-    <value>Nombor Akaun Pengeluaran Salah</value>
-  </data>
-  <data name="msg_DepositAlert" xml:space="preserve">
-    <value>Baki semasa anda ialah : &lt;span class="popup-span"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;
-  Deposit sekarang untuk menikmati permainan dan perkhidmatan kami.</value>
-  </data>
-  <data name="msg_ForceLogedoutHint" xml:space="preserve">
-    <value>ID ini telah log masuk dari tetingkap atau peranti dan pelayar yang lain. Anda akan di log keluar dari sesi ini.</value>
-  </data>
-  <data name="msg_WithdrawalSuccessful" xml:space="preserve">
-    <value>Pohonan pengeluaran anda berjaya. Kami akan beritahu anda apabila proses ini selesai.</value>
-  </data>
-  <data name="msg_EnterPhoneNumber" xml:space="preserve">
-    <value>Sila masukkan nombor telefon.</value>
-  </data>
-  <data name="msg_PasswordReq" xml:space="preserve">
-    <value>Kata laluan diperlukan.</value>
-  </data>
-  <data name="msg_NoData" xml:space="preserve">
-    <value>Tiada Data</value>
-  </data>
-  <data name="msg_ThisCurrencyNotSupport" xml:space="preserve">
-    <value>Mata Wang Anda Tidak Disokong.</value>
-  </data>
-  <data name="msg_InvalidCryptoWalletAddress" xml:space="preserve">
-    <value>Invalid crypto wallet address.</value>
-  </data>
-  <data name="msg_DrawPrizeTital1" xml:space="preserve">
-    <value>{0} Kotak Misteri</value>
-  </data>
-  <data name="ForgetPwdSuccess" xml:space="preserve">
-    <value>Kata laluan baru anda telah dihantar ke alamat e-mel berdaftar anda.</value>
-  </data>
-  <data name="msg_BankAccountExists" xml:space="preserve">
-    <value>Anda telah simpan maklumat ini.</value>
-  </data>
-  <data name="msg_Ineligible" xml:space="preserve">
-    <value>Anda tidak layak untuk guna promosi ini. Sila hubungi sokongan pelanggan kami untuk maklumat yang lebih lanjut.</value>
-  </data>
-  <data name="msg_CreditSignUpHint_1" xml:space="preserve">
-    <value>Pelanggan Yang Dihormati,</value>
-  </data>
-  <data name="msg_CreditSignUpHint_2" xml:space="preserve">
-    <value>Selamat datang ke {0}, selepas proses pendaftaran sila melawat pautan tersebut dan nikmati permainan kami.</value>
-  </data>
-  <data name="ResetPwdSuccess" xml:space="preserve">
-    <value>Kata laluan anda telah berjaya diset semula!</value>
-  </data>
-  <data name="msg_DepositorsNameUnmatch" xml:space="preserve">
-    <value>Nama pendeposit tidak sepadan</value>
-  </data>
-  <data name="msg_PromoCodeIncorrect" xml:space="preserve">
-    <value>Kod promosi yang salah.</value>
-  </data>
-  <data name="msg_SpecialCodeErr" xml:space="preserve">
-    <value>Kod Promosi tidak betul, sila semak semula sekali lagi.</value>
-  </data>
-  <data name="msg_IneligibleAngPow" xml:space="preserve">
-    <value>Sila deposit untuk layak dapatkan promosi ini</value>
-  </data>
-  <data name="msg_MailReq" xml:space="preserve">
-    <value>E-mel tidak boleh ditukar selepas dihantar</value>
-  </data>
-  <data name="msg_ForceLogedout" xml:space="preserve">
-    <value>Anda telah di log keluar!! Sila log masuk dan cuba lagi!!</value>
-  </data>
-  <data name="msg_WrongBankSubmitted" xml:space="preserve">
-    <value>Akaun deposit salah dipilih</value>
-  </data>
-  <data name="msg_BeneficiarysAccountMaintenance" xml:space="preserve">
-    <value>Bank sedang dalam penyelenggaraan, permohonan pengeluaran anda akan diproses untuk anda selepas penyelenggaraan bank selesai</value>
-  </data>
-  <data name="ForgetPwdFail" xml:space="preserve">
-    <value>Alamat e-mel ini tidak sah!</value>
-  </data>
-  <data name="msg_OTPHint" xml:space="preserve">
-    <value>Sila lengkapkan profil dan mengesahkan nombor telefon anda untuk menikmati promosi kami.</value>
-  </data>
-  <data name="msg_MailExisted" xml:space="preserve">
-    <value>Mel sudah wujud.</value>
-  </data>
-  <data name="msg_SpecialCodeVipLevelsOrBlockTagInvalid" xml:space="preserve">
-    <value>Tidak dapat menyertai promosi ini, sila hubungi Live Chat untuk pertanyaan.</value>
-  </data>
-  <data name="msg_AffCodeValidate" xml:space="preserve">
-    <value>ID Affliate boleh terdiri dari 5-20 angka sahaja.</value>
-  </data>
-  <data name="msg_OTPHint2" xml:space="preserve">
-    <value>Mengesahkan nombor telefon anda sekarang?</value>
-  </data>
-  <data name="msg_OTPHint1" xml:space="preserve">
-    <value>Anda mahu menikmati produk &amp; perkhidmatan kami yang lengkap tak?</value>
-  </data>
-  <data name="msg_DepositRefunded" xml:space="preserve">
-    <value>Deposit dikembalikan</value>
-  </data>
-  <data name="msg_RedemptionLimitOverLimit" xml:space="preserve">
-    <value>Maaf, had penebusan anda telah tercapai. Sila cuba lagi pada bulan kalendar baharu.</value>
-  </data>
-  <data name="msg_times_chance" xml:space="preserve">
-    <value>Masih kekal {0} kali peluang</value>
-  </data>
-  <data name="msg_congratulation_event_reward" xml:space="preserve">
-    <value>Taniah ! Dapat MYR {0}</value>
-  </data>
-  <data name="msg_ProfileOrPhoneNotFinish" xml:space="preserve">
-    <value>Maklumat akaun belum lengkap, sila sahkan maklumat akaun</value>
-  </data>
-  <data name="msg_EWalletIsMaintenance" xml:space="preserve">
-    <value>E-Dompet adalah penyelenggaraan, sila gunakan kaedah pengeluaran lain</value>
-  </data>
-  <data name="msg_turnover_not_enough" xml:space="preserve">
-    <value>Belum selesai TO yang diperlukan, sila cuba selepas ini</value>
-  </data>
-  <data name="msg_Event_has_not_started" xml:space="preserve">
-    <value>Acara belum bermula lagi</value>
-  </data>
-  <data name="msg_limit_has_been_reached" xml:space="preserve">
-    <value>Had hari ini telah dicapai</value>
-  </data>
-  <data name="msg_InsufficientPoint" xml:space="preserve">
-    <value>Maaf! Anda tidak mempunyai mata 88 Ganjaran yang mencukupi.</value>
-  </data>
-  <data name="msg_keep_up" xml:space="preserve">
-    <value>Semoga berjaya pada goncangan lagi</value>
-  </data>
-  <data name="msg_OTPDailyLimit" xml:space="preserve">
-    <value>OTP telah mencapai had, sila hubungi Live Chat</value>
-  </data>
-  <data name="msg_AffCodeNotFound" xml:space="preserve">
-    <value>ID ahli gabungan tidak ditemui</value>
-  </data>
-  <data name="msg_BankSystemUnstable" xml:space="preserve">
-    <value>Sistem Bank Tidak Stabil</value>
-  </data>
-  <data name="msg_BankSystemUnstable_Detail" xml:space="preserve">
-    <value>Sistem bank tidak dapat mendapatkan butiran</value>
-  </data>
-  <data name="msg_BankUnderMaintenance" xml:space="preserve">
-    <value>Penyelenggaraan Bank</value>
-  </data>
-  <data name="msg_BankUnderMaintenance_Detail" xml:space="preserve">
-    <value>Sistem bank sedang dalam penyelenggaraan dan tidak dapat memproses deposit anda buat masa ini.</value>
-  </data>
-  <data name="msg_NeedAddress" xml:space="preserve">
-    <value>tak terisi Alamat semasa</value>
-  </data>
-  <data name="msg_NeedNationality" xml:space="preserve">
-    <value>tak terisi kewarganegaraan</value>
-  </data>
-  <data name="msg_OTP_SendOTPSMS_Fail" xml:space="preserve">
-    <value>Kod OTP tidak sah</value>
-  </data>
-  <data name="msg_DepositRemarkReminder" xml:space="preserve">
-    <value>Pengingat ruju kan Deposit</value>
-  </data>
-  <data name="msg_DepositRemarkReminder_Detail" xml:space="preserve">
-    <value>Transaksi anda telah diluluskan. Walau bagaimanapun, terdapat ralat dalam keterangan yang diberikan. Sebelum membuat penghantaran di laman web kami, sila pastikan anda memasukkan butiran bank yang betul dan keterangan terus ke dalam sistem perbankan anda.</value>
-  </data>
-  <data name="msg_FillUpRemarkReminder" xml:space="preserve">
-    <value>Pengingat rujukan Mengisi</value>
-  </data>
-  <data name="msg_FillUpRemarkReminder_Detail" xml:space="preserve">
-    <value>Untuk memastikan permohonan deposit anda diproses dengan lebih cepat, sila pastikan untuk memasukkan nombor rujukan yang diberikan pada halaman deposit semasa membuat pindahan.</value>
-  </data>
-</root>
+<resheader name="resmimetype"><value>text/microsoft-resx</value></resheader><resheader name="version"><value>1.3</value></resheader><resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader><resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader><data name="msg_TransferAlert"><value>Dompet Sportsbook semasa anda adalah : &lt;span class="popup-span Js-3RdWallet-Balance"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;Deposit dan pindah dari Dompet Utama ke Dompet Sportsbook sekarang untuk sambung menikmati permainan dan perkhidmatan kami .</value></data>
+  <data name="msg_SubmitDepositTime"><value>Sila sertakan masa deposit anda.</value></data>
+  <data name="msg_ClaimCashBackBonus"><value>Tahniah, PULANGAN TUNAI {0} anda telah dikreditkan ke akaun anda!</value></data>
+  <data name="msg_BirthdayIsRequired"><value>Sila isi tarikh lahir</value></data>
+  <data name="msg_UsernameReq"><value>Nama pengguna diperlukan.</value></data>
+  <data name="msg_ApiServerError"><value>Ralat Pada Pelayan API.</value></data>
+  <data name="msg_MustInteger"><value>Sila isikan angka yang betul, digit nombor perpuluhan tidak dibenarkan.</value></data>
+  <data name="msg_LoginToAccess"><value>Sila log masuk untuk dapat akses pada permainan.</value></data>
+  <data name="msg_WithdrawalAccountNumberIncorrect_Detail"><value>Nombor akaun pengeluaran tak betul. Sila sahkan maklumat nombor akaun pengeluaran anda.</value></data>
+  <data name="msg_CreditSignUp"><value>Pelanggan yang dihormati, &lt;br /&gt;&lt;br /&gt;Selamat datang ke &lt;a href="https://www.nova88.net" target="_new"&gt;www.nova88.net&lt;/a&gt;, selepas proses pendaftaran, sila melawat pautan dan nikmati permainan kami.</value></data>
+  <data name="msg_WrongAmountSubmitted_Detail"><value>Jumlah deposit tidak sepadan dengan jumlah permohonan slip deposit, Sila semak semula atau hubungi Sokongan Pelanggan untuk bantuan lanjut.</value></data>
+  <data name="msg_BankAccountDuplicate"><value>No. Akaun Bank pendua tidak dibenarkan. Sila cuba No. Akaun yang lain.</value></data>
+  <data name="msg_WithdrawalNoFund"><value>Pohonan pengeluaran anda telah gagal kerana baki anda tidak mencukupi!</value></data>
+  <data name="msg_EmailFormatVerify"><value>Format alamat e-mel salah</value></data>
+  <data name="msg_loggedout"><value>Anda telah berjaya log keluar!!</value></data>
+  <data name="msg_PhoneFormatVerify"><value>Nombor telefon yang anda masukkan tidak betul, antara {0} digit</value></data>
+  <data name="msg_PhoneWrongFormat"><value>Format Telefon salah.</value></data>
+  <data name="msg_Updatesuccessful"><value>Berjaya Kemas Kini</value></data>
+  <data name="msg_WithdrawalFailed"><value>Pohonan pengeluaran anda telah gagal. Sila periksa dengan CSD untuk dapatkan maklumat yang lanjut.</value></data>
+  <data name="msg_CryptoWalletDuplicate"><value>Alamat dompet Crypto telah digunakan</value></data>
+  <data name="msg_WithdrawalExists"><value>Permintaan transaksi anda sedang menunggu. Sila cuba lagi sementara transaksi Belum selesai selesai.</value></data>
+  <data name="msg_LessThanWithdrawalMin"><value>Amaun pengeluaran mesti lebih dari {0}</value></data>
+  <data name="msg_ReferenceNumber"><value>Nombor rujukan</value></data>
+  <data name="mag_AffiliateNotExist"><value>Your Affiliate Code is invaild. Please check again!</value></data>
+  <data name="msg_Congratulations"><value>Pendaftaran anda telah selesai; anda boleh log masuk serta-merta, deposit dan kemudian mula bertaruh.</value></data>
+  <data name="msg_PaymentNotReceived"><value>Deposit tidak diterima</value></data>
+  <data name="msg_DepositHint"><value>Baki Dompet Utama anda ialah : &lt;span class="popup-span Js-MainWallet-Balance"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;Deposit sekarang atau pindah dana dari Dompet Sportsbook ke Dompet Utama untuk sambung menikmati permainan dan perkhidmatan kami .</value></data>
+  <data name="msg_WrongAmount"><value>Amaun yang salah</value></data>
+  <data name="msg_WithdrawalAccountsNameUnmatch"><value>Nama akaun pengeluaran tidak sepadan</value></data>
+  <data name="msg_PasswordValidate"><value>Kata laluan mestilah 6-15 aksara yang mengandungi alfanumerik.</value></data>
+  <data name="msg_WrongAmountSubmitted"><value>Jumlah Deposit Tidak Betul</value></data>
+  <data name="msg_UsernameNotAvailable"><value>Nama pengguna sudah diguna.</value></data>
+  <data name="msg_WithdrawalAccountsNameUnmatch_Detail"><value>Nama akaun pengeluaran tidak sepadan dengan nama yang didaftarkan. Sila hubungi Live Chat untuk mendapatkan bantuan.</value></data>
+  <data name="msg_NeedAccountName"><value>Nama Akaun Diperlukan</value></data>
+  <data name="msg_DrawPrizeTital"><value>Ganjaran Ang Pao</value></data>
+  <data name="msg_UsernameLength"><value>Nama pengguna mempunyai antara 6 dan 18 aksara.</value></data>
+  <data name="msg_DepositSlipRequired_Detail"><value>Sila sertakan slip pemindahan untuk mempercepatkan masa pemprosesan transaksi.</value></data>
+  <data name="msg_NeedAccountNo"><value>Nombor Akaun Diperlukan</value></data>
+  <data name="msg_DrawPrize"><value>Tahniah, Ang Pow bernilai {0} anda telah dikredit ke akaun anda!</value></data>
+  <data name="msg_SpecialCodeErrorForCheck"><value>Kod Promosi tidak betul, sila semak semula sekali lagi.</value></data>
+  <data name="msg_InvalidOldPassword"><value>Kata Laluan Lama Yang Tidak Sah!</value></data>
+  <data name="msg_WithdrawalAccountAannotReceiveMoney_Detail"><value>Akaun pengeluaran anda gagal menerima dana. Sila semak semula atau hubungi Sokongan Pelanggan untuk bantuan lanjut.</value></data>
+  <data name="msg_PasswordLength"><value>Kata laluan mestilah antara 6 dan 18 aksara panjang.</value></data>
+  <data name="msg_GreaterThanWithdrawalMax"><value>Had Harian Anda Dicapai.</value></data>
+  <data name="msg_MailWrongFormat"><value>Format Mel adalah salah.</value></data>
+  <data name="msg_NotInLimit"><value>&gt;</value></data>
+  <data name="msg_UsernameValidate"><value>6-18 aksara alfaangka (A-Z, a-z, 0-9) sahaja.</value></data>
+  <data name="msg_WrongBankSubmitted_Detail"><value>Akaun deposit yang dipilih tidak betul, Sila semak semula atau hubungi Sokongan Pelanggan untuk bantuan lanjut.</value></data>
+  <data name="msg_DepositSlipRequired"><value>Slip Deposit Diperlukan</value></data>
+  <data name="msg_OTPEnterCode"><value>Sila masukkan nombor pengesahan yang anda terima di bahagian bawah.</value></data>
+  <data name="msg_UpdateFailed"><value>Gagal Kemas Kini</value></data>
+  <data name="msg_EnterRealName"><value>Sila masukkan nama benar anda.</value></data>
+  <data name="msg_SelectBirthDay"><value>Sila pilih hari lahir anda.</value></data>
+  <data name="msg_RequiredAmountInsufficient"><value>Deposit minima {0} untuk layak dapat bonus</value></data>
+  <data name="msg_DepositProcessLogin_LoginFailed"><value>Log masuk gagal, Nama Pengguna/ Kata Laluan ada kesalahan atau Nama Pengguna tidak wujud.</value></data>
+  <data name="msg_SelectFile"><value>Pilih fail</value></data>
+  <data name="msg_DepositProcessLogin_ACLocked"><value>Akaun anda telah disekat; sila hubungi perkhidmatan pelanggan 24/7, terima kasih!</value></data>
+  <data name="msg_InactiveBankAccountSubmission"><value>Akaun Bank tidak aktif</value></data>
+  <data name="msg_ConfirmRealNameAlert"><value>Untuk memastikan semua urus niaga dijalan dengan betul, sila pastikan nama benar anda sama dengan nama akaun bank anda</value></data>
+  <data name="msg_MustDeposit"><value>Sila lengkapkan proses deposit sebelum pohonan pengeluaran</value></data>
+  <data name="msg_GoToDepositPage"><value>Pergi ke laman deposit?</value></data>
+  <data name="msg_PromoCodeHasBeenUsed"><value>Kod Promosi telah digunakan.</value></data>
+  <data name="msg_PaymentNotReceived_Detail"><value>Deposit belum diterima di bank, sila tunggu sebentar.</value></data>
+  <data name="msg_DrawPrize1"><value>Tahniah! Bonus bernilai {0} anda sebanyak {1} {2} telah dikredit ke akaun anda.</value></data>
+  <data name="msg_BalanceHint"><value>Baki semasa anda ialah</value></data>
+  <data name="msg_HasExist"><value>sudah wujud.</value></data>
+  <data name="msg_InsufficientFund"><value>Dana tidak mencukupi!</value></data>
+  <data name="msg_DepositRefunded_Detail"><value>Jumlah deposit telah dikembalikan, sila semak akaun bank anda.</value></data>
+  <data name="msg_LockedAmountInsufficient"><value>Baki dompet utama tidak boleh rendah dari {0}</value></data>
+  <data name="msg_OTPSendCode"><value>Kami telah hantar kod pengesahan ke telefon bimbit berdaftar anda. Sila semak telefon bimbit anda dan masukkan kod pengesahan anda di bawah.</value></data>
+  <data name="msg_InactiveBankAccountSubmission_Detail"><value>Akaun deposit akan sentiasa bertukar, sila semak akaun penerimaan terkini sebelum membuat transaksi .</value></data>
+  <data name="msg_WithdrawalAccountAannotReceiveMoney"><value>Akaun pengeluaran gagal menerima dana</value></data>
+  <data name="msg_SamePassword"><value>Kata Laluan Lama dan Kata Laluan Baru adalah sama!</value></data>
+  <data name="msg_BeneficiarysAccountMaintenance_Detail"><value>Bank sedang dalam penyelenggaraan, permohonan pengeluaran anda akan diproses untuk anda selepas penyelenggaraan bank selesai</value></data>
+  <data name="msg_DepositorsNameUnmatch_Detail"><value>Nama yang didaftarkan tidak sepadan dengan nama akaun bank, sila hubungi Sokongan Pelanggan untuk bantuan lanjut.</value></data>
+  <data name="msg_WithdrawalAccountNumberIncorrect"><value>Nombor Akaun Pengeluaran Salah</value></data>
+  <data name="msg_DepositAlert"><value>Baki semasa anda ialah : &lt;span class="popup-span"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;
+  Deposit sekarang untuk menikmati permainan dan perkhidmatan kami.</value></data>
+  <data name="msg_ForceLogedoutHint"><value>ID ini telah log masuk dari tetingkap atau peranti dan pelayar yang lain. Anda akan di log keluar dari sesi ini.</value></data>
+  <data name="msg_WithdrawalSuccessful"><value>Pohonan pengeluaran anda berjaya. Kami akan beritahu anda apabila proses ini selesai.</value></data>
+  <data name="msg_EnterPhoneNumber"><value>Sila masukkan nombor telefon.</value></data>
+  <data name="msg_PasswordReq"><value>Kata laluan diperlukan.</value></data>
+  <data name="msg_NoData"><value>Tiada Data</value></data>
+  <data name="msg_ThisCurrencyNotSupport"><value>Mata Wang Anda Tidak Disokong.</value></data>
+  <data name="msg_InvalidCryptoWalletAddress"><value>Invalid crypto wallet address.</value></data>
+  <data name="msg_DrawPrizeTital1"><value>{0} Kotak Misteri</value></data>
+  <data name="ForgetPwdSuccess"><value>Kata laluan baru anda telah dihantar ke alamat e-mel berdaftar anda.</value></data>
+  <data name="msg_BankAccountExists"><value>Anda telah simpan maklumat ini.</value></data>
+  <data name="msg_Ineligible"><value>Anda tidak layak untuk guna promosi ini. Sila hubungi sokongan pelanggan kami untuk maklumat yang lebih lanjut.</value></data>
+  <data name="msg_CreditSignUpHint_1"><value>Pelanggan Yang Dihormati,</value></data>
+  <data name="msg_CreditSignUpHint_2"><value>Selamat datang ke {0}, selepas proses pendaftaran sila melawat pautan tersebut dan nikmati permainan kami.</value></data>
+  <data name="ResetPwdSuccess"><value>Kata laluan anda telah berjaya diset semula!</value></data>
+  <data name="msg_DepositorsNameUnmatch"><value>Nama pendeposit tidak sepadan</value></data>
+  <data name="msg_PromoCodeIncorrect"><value>Kod promosi yang salah.</value></data>
+  <data name="msg_SpecialCodeErr"><value>Kod Promosi tidak betul, sila semak semula sekali lagi.</value></data>
+  <data name="msg_IneligibleAngPow"><value>Sila deposit untuk layak dapatkan promosi ini</value></data>
+  <data name="msg_MailReq"><value>E-mel tidak boleh ditukar selepas dihantar</value></data>
+  <data name="msg_ForceLogedout"><value>Anda telah di log keluar!! Sila log masuk dan cuba lagi!!</value></data>
+  <data name="msg_WrongBankSubmitted"><value>Akaun deposit salah dipilih</value></data>
+  <data name="msg_BeneficiarysAccountMaintenance"><value>Bank sedang dalam penyelenggaraan, permohonan pengeluaran anda akan diproses untuk anda selepas penyelenggaraan bank selesai</value></data>
+  <data name="ForgetPwdFail"><value>Alamat e-mel ini tidak sah!</value></data>
+  <data name="msg_OTPHint"><value>Sila lengkapkan profil dan mengesahkan nombor telefon anda untuk menikmati promosi kami.</value></data>
+  <data name="msg_MailExisted"><value>Mel sudah wujud.</value></data>
+  <data name="msg_SpecialCodeVipLevelsOrBlockTagInvalid"><value>Tidak dapat menyertai promosi ini, sila hubungi Live Chat untuk pertanyaan.</value></data>
+  <data name="msg_AffCodeValidate"><value>ID Affliate boleh terdiri dari 5-20 angka sahaja.</value></data>
+  <data name="msg_OTPHint2"><value>Mengesahkan nombor telefon anda sekarang?</value></data>
+  <data name="msg_OTPHint1"><value>Anda mahu menikmati produk &amp; perkhidmatan kami yang lengkap tak?</value></data>
+  <data name="msg_DepositRefunded"><value>Deposit dikembalikan</value></data>
+  <data name="msg_RedemptionLimitOverLimit"><value>Maaf, had penebusan anda telah tercapai. Sila cuba lagi pada bulan kalendar baharu.</value></data>
+  <data name="msg_times_chance"><value>Masih kekal {0} kali peluang</value></data>
+  <data name="msg_congratulation_event_reward"><value>Taniah ! Dapat MYR {0}</value></data>
+  <data name="msg_ProfileOrPhoneNotFinish"><value>Maklumat akaun belum lengkap, sila sahkan maklumat akaun</value></data>
+  <data name="msg_EWalletIsMaintenance"><value>E-Dompet adalah penyelenggaraan, sila gunakan kaedah pengeluaran lain</value></data>
+  <data name="msg_turnover_not_enough"><value>Belum selesai TO yang diperlukan, sila cuba selepas ini</value></data>
+  <data name="msg_Event_has_not_started"><value>Acara belum bermula lagi</value></data>
+  <data name="msg_limit_has_been_reached"><value>Had hari ini telah dicapai</value></data>
+  <data name="msg_InsufficientPoint"><value>Maaf! Anda tidak mempunyai mata 88 Ganjaran yang mencukupi.</value></data>
+  <data name="msg_keep_up"><value>Semoga berjaya pada goncangan lagi</value></data>
+  <data name="msg_OTPDailyLimit"><value>OTP telah mencapai had, sila hubungi Live Chat</value></data>
+  <data name="msg_SystemUnstable"><value>Sistem bank tidak dapat mendapatkan butiran</value></data>
+  <data name="msg_SystemUnstable_Detail"><value>Sistem bank sedang tidak dapat mengambil butiran transaksi, dan tidak dapat memproses deposit anda buat masa ini.</value></data>
+  <data name="msg_BankUnderMaintenance"><value>Penyelenggaraan Bank</value></data>
+  <data name="msg_BankUnderMaintenance_Detail"><value>Sistem bank sedang dalam penyelenggaraan dan tidak dapat memproses deposit anda buat masa ini.</value></data>
+  <data name="msg_AffCodeNotFound"><value>ID ahli gabungan tidak ditemui</value></data>
+  <data name="msg_WrongAmountFormat"><value>Ralat &gt; Format jumlah salah</value></data>
+  <data name="msg_QuestionnaireFailed"><value>Anda telah mencapai penyerahan maklum balas maksimum untuk hari ini.。</value></data>	
+  </root>

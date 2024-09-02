@@ -14,39 +14,11 @@ namespace MemberSite.Service.Model
         public string Message { get; set; }
     }
 
-    public class CryptoPayInfo : IPayInfo
-    {
-        public int PayId { get; set; }
-        public string PayName { get; set; }
-        public int GroupId { get; set; }
-        public string GroupName { get; set; }
-        public int ChannelId { get; set; }
-        public string ChannelName { get; set; }
-        public string CurrencyName => ChannelName?.Split('-').FirstOrDefault();
-        public int Mode { get; set; }
-        public int PointLevel { get; set; }
-        public int CurrencyId { get; set; }
-        public string PayCurrencyId { get; set; }
-        public decimal MinAmount { get; set; }
-        public decimal MaxAmount { get; set; }
-        [DicIgnore]
-        public int AmountRule { get; set; }
-        [DicIgnore]
-        [System.Text.Json.Serialization.JsonIgnore]
-        public string AmountShow { get; set; }
-        [DicIgnore]
-        public IEnumerable<decimal> AmountList => AmountShow == null ? null : JsonConvert.DeserializeObject<IEnumerable<decimal>>(AmountShow);
-        public string PayCode { get; set; }
-        [DicIgnore]
-        public int GSort { get; set; }
-        [DicIgnore]
-        public int SSort { get; set; }
-    }
-
     public class LoadCardPayGroup : IPaymentLimit
     {
         public int GroupId { get; set; }
         public string GroupName { get; set; }
+        public string DisplayGroupName { get; set; }
         public int GSort { get; set; }
         public string PayName { get; internal set; }
         public int Mode { get; set; }
@@ -59,30 +31,35 @@ namespace MemberSite.Service.Model
         public decimal MinAmount { get; set; }
         public decimal MaxAmount { get; set; }
     }
-
+    
     public interface IPayInfo : IPaymentLimit
     {
         public int PayId { get; set; }
         public string PayName { get; set; }
         public int GroupId { get; set; }
         public string GroupName { get; set; }
+        public string DisplayGroupName { get; set; }
         public int ChannelId { get; set; }
         public string ChannelName { get; set; }
+        public string DisplayChannelName { get; set; }
         public int Mode { get; set; }
         public int AmountRule { get; set; }
         public IEnumerable<decimal> AmountList { get; }
     }
 
-    public class PayInfo : IPayInfo
+    public class PayInfo : IPayInfo, IPayChannelName, IPayGroupName
     {
         public int PayId { get; set; }
         public string PayName { get; set; }
         public int GroupId { get; set; }
         public string GroupName { get; set; }
+        public string DisplayGroupName { get; set; }
         public int ChannelId { get; set; }
         public string ChannelName { get; set; }
+        public string DisplayChannelName { get; set; }
         public int Mode { get; set; }
         public DepositType DepositType { get; set; }
+        public int ExtraDataType { get; set; }
         public int PointLevel { get; set; }
         public string PayCode { get; set; }
         public int CurrencyId { get; set; }
@@ -107,6 +84,7 @@ namespace MemberSite.Service.Model
 
         public int GroupId { get; set; }
         public string GroupName { get; set; }
+        public string DisplayGroupName { get; set; }
         public int GSort { get; set; }
         public int Mode { get; set; }
         public string ChannelName { get; set; }
@@ -114,35 +92,55 @@ namespace MemberSite.Service.Model
         public decimal MaxAmount { get; set; }
     }
 
-    public class PayGroupV2 : IPaymentLimit
-    {
 
-        public int GroupId { get; set; }
-        public string GroupName { get; set; }
-        public int GSort { get; set; }
-        public int Mode { get; set; }
-        public string ChannelName { get; set; }
-        public decimal MinAmount { get; set; }
-        public decimal MaxAmount { get; set; }
-    }
-
-    public class PayGroupInfo
+    public class PayGroupInfo : IPayGroupName
     {
         public int GroupId { get; set; }
         public string GroupName { get; set; }
+        public string DisplayGroupName { get; set; }
         public DepositType Type { get; set; }
         public int Sort { get; set; }
     }
-
-    public class PayChannelInfo
+    
+    public class PayGroupName
+    {
+        public int GroupId { get; set; }
+        public string GroupName { get; set; }
+        public string Lang { get; set; }
+    }
+    
+    public interface IPayGroupName
+    {
+        public string DisplayGroupName { get; set; }
+        public int GroupId { get; set; }
+        public string GroupName { get; set; }
+    }
+    
+    public interface IPayChannelName
+    {
+        public string DisplayChannelName { get; set; }
+        public int ChannelId { get; set; }
+        public string ChannelName { get; set; }
+    }
+    
+    public class PayChannelInfo : IPayChannelName
     {
         public int ChannelId { get; set; }
         public int PayId { get; set; }
         public int GroupId { get; set; }
+        public string DisplayChannelName { get; set; }
         public string ChannelName { get; set; }
         public DepositType Type { get; set; }
         public PayChannelMethod Method { get; set; }
         public PayModeEnum Mode { get; set; }
+        public ExtraDataTypeEnum ExtraDataType { get; set; }
+    }
+    
+    public class PayChannelName
+    {
+        public int ChannelId { get; set; }
+        public string ChannelName { get; set; }
+        public string Lang { get; set; }
     }
 
     public class LineChannel

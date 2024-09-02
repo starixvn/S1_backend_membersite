@@ -17,6 +17,7 @@ namespace MemberSite.Service.BLL
         private readonly DepositService _depositService;
         private readonly BankInfoOffBLL _bankInfoOffBll;
         private readonly CourierAdapter _courierAdapter;
+        private readonly PayInfoBLL _payInfoBll;
         private readonly string _payApiUrl;
         private readonly ICacheHelper _redisHelper;
         private readonly Dictionary<NetworkType, Func<string, bool>> _cryptoValidateHandler;
@@ -28,6 +29,7 @@ namespace MemberSite.Service.BLL
             _bankInfoOffBll = provider.GetRequiredService<BankInfoOffBLL>();
             _payService = provider.GetRequiredService<PayService>();
             _depositService = provider.GetRequiredService<DepositService>();
+            _payInfoBll = provider.GetRequiredService<PayInfoBLL>();
             var configBll = provider.GetRequiredService<ConfigBLL>();
             _payApiUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost").PayService;
 
@@ -46,14 +48,6 @@ namespace MemberSite.Service.BLL
                 };
         }
 
-        public IEnumerable<PayInfo> GetCryptoPayInfoListWithCache(int siteId)
-        {
-            var key = $"PaySetting:Crypto:{siteId}";
-            var dbData = _redisHelper.TryGetOrCreate<IEnumerable<PayInfo>>(key, TimeSpan.FromMinutes(5),
-                () => _payService.GetCryptoPayInfo(siteId).OrderBy(x => x.GSort).ThenBy(x => x.SSort),
-                RedisDataBase.Shared);
-            return dbData;
-        }
 
         public IEnumerable<PayInfo> GetCryptoPayInfoList(int custId)
         {
@@ -66,7 +60,7 @@ namespace MemberSite.Service.BLL
                 return Array.Empty<PayInfo>();
             }
 
-            var cryptoPayInfoList = GetCryptoPayInfoListWithCache(custInfo.SiteId)
+            var cryptoPayInfoList = _payInfoBll.GetPayInfoListWithCache(custInfo.SiteId, DepositType.CryptoPayment)
                 .Where(x => vipLevel >= x.PointLevel && x.CurrencyId == custInfo.CurrencyId)
                 .ToList();
 
@@ -76,6 +70,7 @@ namespace MemberSite.Service.BLL
                     new PayInfo
                     {
                         ChannelName = g.Key,
+                        DisplayChannelName = g.Key,
                         Mode = 3,
                         MaxAmount = g.Any(x => x.MaxAmount == 0)
                             ? 0 : g.Max(x => x.MaxAmount),
@@ -83,6 +78,7 @@ namespace MemberSite.Service.BLL
                         ChannelId = -1 * (int)g.First().CryptoCurrencyId,
                         GroupId = -1,
                         GroupName = "LetsPay",
+                        DisplayGroupName = "LetsPay",
                         AmountRule = 1,
                         CurrencyId = custInfo.CurrencyId,
                         GSort = -1,

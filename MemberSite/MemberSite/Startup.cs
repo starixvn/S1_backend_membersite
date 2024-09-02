@@ -1,11 +1,5 @@
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
-
-using Elastic.Apm.AspNetCore;
-using Elastic.Apm.DiagnosticSource;
-using Elastic.Apm.SqlClient;
-using Elastic.Apm.StackExchange.Redis;
-
 using MemberSite.Extensions;
 using MemberSite.Service.BLL;
 using MemberSite.Service.BLL.Interface;
@@ -62,7 +56,6 @@ namespace MemberSite
             services.AddDatabaseConnection(_configuration);
 
             var redisConnection = ConnectionMultiplexer.Connect(_configuration.GetValue<string>("RedisConnection"));
-            redisConnection.UseElasticApm();
             services.AddSingleton<IConnectionMultiplexer>(redisConnection);
             services.AddSingleton<ICacheHelper, RedisCacheHelper>();
 
@@ -119,6 +112,10 @@ namespace MemberSite
             services.AddTransient<IAffiliateService, AffiliateService>();
             services.AddTransient<GameService>();
             services.AddTransient<QueueJobService>();
+            services.AddTransient<RedemptionService>();
+            services.AddSingleton<CommonService>();
+            services.AddTransient<InternalService>();
+            services.AddTransient<QustionnaireService>();
 
             services.AddSingleton<IPService>();
             services.AddSingleton<ShieldService>();
@@ -171,6 +168,7 @@ namespace MemberSite
             services.AddSingleton<VerificationRewardBLL>();
             services.AddTransient<DeepLinkBLL>();
             services.AddSingleton<PayInfoBLL>();
+            services.AddSingleton<PayInfoLocalizeBLL>();
             services.AddSingleton<LineLoginBLL>();
             services.AddSingleton<SiteBll>();
             services.AddSingleton<IPBLL>();
@@ -181,6 +179,8 @@ namespace MemberSite
             services.AddTransient<CheckAttackBLL>();
             services.AddTransient<DateTimeHelper>();
             services.AddTransient<IAnnouncementBLL, AnnouncementBLL>();
+            services.AddTransient<IOlympicEventBLL, OlympicEventBLL>();
+            services.AddTransient<InternalBLL>();
 
             services.AddTransient<IHotGameBLL, HotGameBLL>();
             services.AddTransient<BigWinBLL>();
@@ -190,6 +190,10 @@ namespace MemberSite
             services.AddTransient<QueueJobBLL>();
             services.AddSingleton<CheckIpBLL>();
             services.AddSingleton<CryptoHelper>();
+            services.AddSingleton<FaceBookPixelBLL>();
+            services.AddSingleton<CustNotificationBLL>();
+            services.AddSingleton<QuestionnaireBLL>();
+            
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();
 
@@ -263,12 +267,6 @@ namespace MemberSite
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseHttpsRedirection();
-            if (!env.IsEnvironment("Local"))
-            {
-                app.UseElasticApm(_configuration,
-                    new HttpDiagnosticsSubscriber(),
-                    new SqlClientDiagnosticSubscriber());
-            }
             app.UseStaticFiles();
 
             app.UseRouting();

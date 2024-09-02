@@ -84,7 +84,7 @@ namespace MemberSite.Service.BLL
             return banner;
         }
 
-        public IEnumerable<BannerV3> GetBannerV3(int siteId, int bannerType, int showStatus, int currencyId, string langId, ServerInfo serverInfo)
+        public IEnumerable<BannerV3> GetBannerV3(int siteId, int bannerType, int showStatus, int currencyId, string langId)
         {
             var banner = new List<BannerV3>();
             var bannerList = bannerService.GetBannerV3(siteId, bannerType, showStatus, currencyId);
