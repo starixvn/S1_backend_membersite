@@ -115,6 +115,7 @@ namespace MemberSite
             services.AddTransient<RedemptionService>();
             services.AddSingleton<CommonService>();
             services.AddTransient<InternalService>();
+            services.AddTransient<QustionnaireService>();
 
             services.AddSingleton<IPService>();
             services.AddSingleton<ShieldService>();
@@ -191,7 +192,8 @@ namespace MemberSite
             services.AddSingleton<CryptoHelper>();
             services.AddSingleton<FaceBookPixelBLL>();
             services.AddSingleton<CustNotificationBLL>();
-
+            services.AddSingleton<QuestionnaireBLL>();
+            
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();
 
