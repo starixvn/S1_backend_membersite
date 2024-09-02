@@ -1598,5 +1598,15 @@ namespace MemberSite.Controllers.Api
             };
         }
 
+        [HttpPost]
+        public async Task<ApiResult<StaticFileDomain>> GetStaticFileDomain()
+        {
+            var data = await _serverInfoBll.GetStaticFileDomain(_serverInfoBll.GetServerInfo().SiteId);
+            return new ApiResult<StaticFileDomain>()
+            {
+                ErrorCode = (int)ErrorCode.Success,
+                Data = data
+            };
+        }
     }
 }
