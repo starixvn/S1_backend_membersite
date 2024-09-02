@@ -233,6 +233,12 @@ public class SiteBll
             //Recaptcha Free Policy
             //var verifyResult = _recaptcha.Verify(signupModel.ReCaptchaToken);
             //Recaptcha Enterprise
+            if (string.IsNullOrWhiteSpace(signupModel.ReCaptchaToken) || string.IsNullOrWhiteSpace(signupModel.ReCaptchaAction))
+            {
+                apiResult.ErrorCode = -1;
+                apiResult.Message = $"lost param for verify: ReCaptchaToken & ReCaptchaAction";
+                return false;
+            }
             var verifyResult = _recaptcha.CreateAssessmentAsync(new AssessmentRequest(signupModel.ReCaptchaToken, signupModel.ReCaptchaAction)).Result;
 
             if (!verifyResult.success)
