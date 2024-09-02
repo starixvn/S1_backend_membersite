@@ -129,9 +129,6 @@ namespace MemberSite.Service.DAL
                     {
                         profiler.Add("Nationality", nationality);
                     }
-     
-                    //Customer Setting Default Open
-                    profiler.Add("CustNotification","1");
                     
                     var profile = profiler.Count <= 0 ? null : Newtonsoft.Json.JsonConvert.SerializeObject(profiler);
                     result = _mainDbClient.Execute("Member_CustProfile_Ins", trans, new DynamicParameters(new
