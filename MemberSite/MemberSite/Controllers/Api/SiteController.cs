@@ -47,6 +47,7 @@ namespace MemberSite.Controllers.Api
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly CommonBLL _commonBll;
         private readonly CheckIpBLL _checkIpBll;
+
         private readonly Dictionary<string, System.Drawing.Imaging.ImageFormat> _contentTypesCheck = new(comparer: StringComparer.OrdinalIgnoreCase)
         {
             {"image/png",System.Drawing.Imaging.ImageFormat.Png},
@@ -76,6 +77,7 @@ namespace MemberSite.Controllers.Api
             _FPSBll = provider.GetRequiredService<FPSBLL>();
             _httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
             _commonBll = provider.GetRequiredService<CommonBLL>();
+
         }
 
         public class LoginModel
@@ -353,7 +355,8 @@ namespace MemberSite.Controllers.Api
             public string ReferralUrl { get; set; }
             public string PhoneNo { get; set; }
             public string AreaCode { get; set; }
-            public string AreaPhoneNo => $"{AreaCode}{PhoneNo}";
+            public string AreaPhoneNo  =>  $"{AreaCode}{PhoneNo}";
+            public string Nationality { get; set; }
             public string RealName { get; set; }
             public string PromoCode { get; set; }
             public string RedirectUrl { get; set; }
@@ -750,6 +753,7 @@ namespace MemberSite.Controllers.Api
                     }
 
                     reSetPwdByOtpReq.PhoneNo = phoneNo.ToString();
+
                     if (_custInfoBll.ExistsPhoneNoAndUserName(reSetPwdByOtpReq.Username, reSetPwdByOtpReq.AreaCode,
                             reSetPwdByOtpReq.PhoneNo, serverInfo.SiteId))
                     {
