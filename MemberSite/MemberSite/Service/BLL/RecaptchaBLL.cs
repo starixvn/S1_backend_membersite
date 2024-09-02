@@ -4,7 +4,7 @@ using Google.Cloud.RecaptchaEnterprise.V1;
 using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.DAL;
 using MemberSite.Service.Model;
-using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace MemberSite.Service.BLL
 {
@@ -94,8 +94,9 @@ namespace MemberSite.Service.BLL
                     },
                     ParentAsProjectName = projectName
                 };
-
+                _logger.LogInformation($"ReCaptcha Enterprise AssessmentRequest={JsonConvert.SerializeObject(createAssessmentRequest)}");
                 response = await client.CreateAssessmentAsync(createAssessmentRequest);
+                _logger.LogInformation($"ReCaptcha Enterprise AssessmentResponse={JsonConvert.SerializeObject(response)}");
             }
             catch (Exception ex)
             {
