@@ -365,6 +365,7 @@ namespace MemberSite.Service.Model
     public class LotteryMaintain
     {
         public bool IsMaintain { get; set; }
+        public bool isRestricted { get; set; }
     }
     
     public class LotteryMaintainModel
