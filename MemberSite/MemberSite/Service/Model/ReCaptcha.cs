@@ -43,7 +43,7 @@ namespace MemberSite.Service.Model
 
     public class AssessmentResult
     {
-        public bool success { get { return IsRisk; } }
+        public bool success { get { return IsRisk is false; } }
         public bool IsFinish { get; set; } = false;
         public bool IsVaild { get; set; } = false;
         public string Str_Score { get { return Int_Score.ToString(); } }
