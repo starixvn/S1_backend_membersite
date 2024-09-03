@@ -396,6 +396,12 @@ namespace MemberSite.Service.Model
         public decimal TurnOverEnd { get; set; }
     }
     
+    public class EventRestriction
+    {
+        public int CurrencyId { get; set; }
+        public int CustId { get; set; }
+    }
+    
     public class LotteryWinnerData
     {
         public int SiteId { get; set; }
