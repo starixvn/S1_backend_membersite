@@ -955,7 +955,7 @@ namespace MemberSite.Controllers.Api
             var restrictionList = _lotteryBll.GetEventRestriction(serverInfo.SiteId);
             if (restrictionList.Any(x=>x.CustId == authData.CustId))
             {
-                apiResult.Data.IsMaintain = true;
+                apiResult.Data.isRestricted = true;
             }
 
             apiResult.ErrorCode = (int)ErrorCode.Success;   
