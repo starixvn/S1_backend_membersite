@@ -603,6 +603,11 @@ namespace MemberSite.Service.DAL
             return _reportDbClient.QueryFirst<DrawPrizeJackpotAccumulation>("Service_DrawPrizeJackpotAccumulation_Get" , p);
         }
         
+        public IEnumerable<EventRestriction> GetEventRestriction(int siteId)
+        {
+            return _reportDbClient.Query<EventRestriction>("Service_EventRestriction_Get", new { _SiteId = siteId });
+        }
+        
         #endregion
 
     }
