@@ -365,6 +365,7 @@ namespace MemberSite.Service.Model
     public class LotteryMaintain
     {
         public bool IsMaintain { get; set; }
+        public bool isRestricted { get; set; }
     }
     
     public class LotteryMaintainModel
@@ -394,6 +395,12 @@ namespace MemberSite.Service.Model
         public int Level { get; set; }
         public decimal TurnOverStart { get; set; }
         public decimal TurnOverEnd { get; set; }
+    }
+    
+    public class EventRestriction
+    {
+        public int CurrencyId { get; set; }
+        public int CustId { get; set; }
     }
     
     public class LotteryWinnerData

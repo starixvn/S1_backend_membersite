@@ -198,6 +198,12 @@ namespace MemberSite.Service.BLL
             return list;
         }
 
+        public IEnumerable<EventRestriction> GetEventRestriction(int siteId)
+        {
+            var restrictionList = _eventsService.GetEventRestriction(siteId);
+            return restrictionList;
+        }
+        
         public async Task<int> BuyChineseZodiacSticker(Customer custInfo,int roundId,ChineseZodiacStickerId stickerId,decimal stickerPrize)
         {
             var custLotteryTicketRequest = new CustLotteryTicketInsertRequest

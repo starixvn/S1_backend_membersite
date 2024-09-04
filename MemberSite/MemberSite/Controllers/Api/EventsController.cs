@@ -923,6 +923,7 @@ namespace MemberSite.Controllers.Api
 
         #region Lottery
         
+        [Authorize]
         [HttpPost]
         public async Task<ApiResult<LotteryMaintain>> GetLotteryMaintain()
         {
@@ -932,10 +933,10 @@ namespace MemberSite.Controllers.Api
             };
             
             var serverInfo = _serverInfoBll.GetServerInfo();
+            var authData = _authorizeBll.GetAuthData();
             var key = $"LotteryMaintain:{serverInfo.SiteId}";
             
             var exists = await _redisHelper.KeyExistsAsync(key , RedisDataBase.Shared);
-
             if (exists)
             {
                 var dataString = _redisHelper.StringGet(key , RedisDataBase.Shared);
@@ -948,12 +949,16 @@ namespace MemberSite.Controllers.Api
                 {
                     apiResult.Data.IsMaintain = true;
                 }
-              
+            }
+
+            var restrictionList = _lotteryBll.GetEventRestriction(serverInfo.SiteId);
+            if (restrictionList.Any(x=>x.CustId == authData.CustId))
+            {
+                apiResult.Data.isRestricted = true;
             }
 
             apiResult.ErrorCode = (int)ErrorCode.Success;   
             return apiResult;
-            
         }
         
         [Authorize]
