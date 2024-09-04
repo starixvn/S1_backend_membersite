@@ -1,4 +1,3 @@
-using Elastic.Apm.Api;
 using Newtonsoft.Json;
 
 namespace MemberSite.Service.Model

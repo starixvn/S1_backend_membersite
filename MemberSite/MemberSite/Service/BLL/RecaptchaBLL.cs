@@ -4,6 +4,7 @@ using Google.Cloud.RecaptchaEnterprise.V1;
 using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.DAL;
 using MemberSite.Service.Model;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace MemberSite.Service.BLL
@@ -94,14 +95,14 @@ namespace MemberSite.Service.BLL
                     },
                     ParentAsProjectName = projectName
                 };
-                _logger.LogInformation($"ReCaptcha Enterprise AssessmentRequest={JsonConvert.SerializeObject(createAssessmentRequest)}");
+                //_logger.LogInformation($"ReCaptcha Enterprise AssessmentRequest={JsonConvert.SerializeObject(createAssessmentRequest)}");
                 response = await client.CreateAssessmentAsync(createAssessmentRequest);
-                _logger.LogInformation($"ReCaptcha Enterprise AssessmentResponse={JsonConvert.SerializeObject(response)}");
+                //.LogInformation($"ReCaptcha Enterprise AssessmentResponse={JsonConvert.SerializeObject(response)}");
             }
             catch (Exception ex)
             {
-                message = $"Exception happen: {ex.Message}";
-                _logger.LogError(message);
+                message = $"Google CreateAssessment Exception happen: {ex.Message}";
+                _logger.LogError(ex, message);
                 return new AssessmentResult(false, false, ex.Message);
             }
 
