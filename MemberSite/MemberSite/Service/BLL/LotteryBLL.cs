@@ -32,6 +32,15 @@ namespace MemberSite.Service.BLL
                 JackpotAmount = 0
             };
             
+            var jackpotAccumulation = _eventsService.GetDrawPrizeJackpotAccumulation(eventId);
+            
+            var tierCurrencyList = GetLotteryTierList(siteId).Where(x=>x.CurrencyId == currencyId).ToList();
+            if (!tierCurrencyList.Any())
+            {
+                errorCode = -3;
+                return ( lotteryInfo , errorCode);
+            }
+            
             var lotteryRoundInfo = GetLotteryRoundInfo(siteId, DateTimeOffset.UtcNow.ToOffset(TimeSpan.FromHours(8)).DateTime);
             if (lotteryRoundInfo is null)
             {
@@ -47,20 +56,13 @@ namespace MemberSite.Service.BLL
                 return ( lotteryInfo , errorCode);
             }
             
-            var tierCurrencyList = GetLotteryTierList(siteId).Where(x=>x.CurrencyId == currencyId).ToList();
-            if (!tierCurrencyList.Any())
-            {
-                errorCode = -3;
-                return ( lotteryInfo , errorCode);
-            }
+          
             
             var originTicketList = _eventsService.GetCustLotteryTicket(custId, lotteryRoundInfo.RoundId ,(int)LotteryTicketEnum.All).ToList();
             var custTicketList = originTicketList.Where(x=>x.Type == (int)LotteryTicketEnum.Ticket).Select(x => x.TicketNo).ToList();
             
             var turnoverSummary = _eventsService.GetCustLotteryTurnOverSummary(custId, lotteryRoundInfo.StartDate.UtcDateTime, lotteryRoundInfo.EndDate.UtcDateTime);
             var proccessing = turnoverSummary - setting.TurnOver * custTicketList.Count;
-            
-            var jackpotAccumulation = _eventsService.GetDrawPrizeJackpotAccumulation(eventId);
             
             lotteryInfo.LotteryRoundInfo = lotteryRoundInfo;
             lotteryInfo.LotteryTierList = tierCurrencyList;
