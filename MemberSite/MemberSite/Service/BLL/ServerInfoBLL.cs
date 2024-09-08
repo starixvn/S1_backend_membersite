@@ -141,7 +141,7 @@ namespace MemberSite.Service.BLL
             // 再拿Header的Host
             if (_httpContextAccessor.HttpContext.Request.Headers.TryGetValue("Host", out var headerHost))
             {
-                host = new Uri(headerHost).Host;
+                host = headerHost;
             }
 
             // 先拿Header的ai-host
@@ -208,7 +208,7 @@ namespace MemberSite.Service.BLL
             // 再拿Header的Host
             if (string.IsNullOrWhiteSpace(host) && _httpContextAccessor.HttpContext.Request.Headers.TryGetValue("Host", out var headerHost))
             {
-                host = new Uri(headerHost).Host;
+                host = headerHost;
             }
 
             // 先拿Header的ai-host

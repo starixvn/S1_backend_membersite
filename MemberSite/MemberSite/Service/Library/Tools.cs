@@ -213,7 +213,7 @@ namespace MemberSite.Service.Library
             // 再拿Header的Host
             if (string.IsNullOrWhiteSpace(fromUrl) && httpContextAccessor.HttpContext.Request.Headers.TryGetValue("Host", out var headerHost))
             {
-                fromUrl = new Uri(headerHost).Host;
+                fromUrl = headerHost;
             }
 
             // 先拿Header的ai-host
