@@ -131,10 +131,17 @@ namespace MemberSite.Service.BLL
         public string GetDomain()
         {
             var host = string.Empty;
+
             // 先拿Header的origin-host
             if (_httpContextAccessor.HttpContext.Request.Headers.TryGetValue("origin-host", out var originHost))
             {
                 host = new Uri(originHost).Host;
+            }
+
+            // 再拿Header的Host
+            if (_httpContextAccessor.HttpContext.Request.Headers.TryGetValue("Host", out var headerHost))
+            {
+                host = headerHost;
             }
 
             // 先拿Header的ai-host
@@ -196,6 +203,12 @@ namespace MemberSite.Service.BLL
             if (string.IsNullOrWhiteSpace(host) && _httpContextAccessor.HttpContext.Request.Headers.TryGetValue("origin-host", out var originHost))
             {
                 host = new Uri(originHost).Host;
+            }
+
+            // 再拿Header的Host
+            if (string.IsNullOrWhiteSpace(host) && _httpContextAccessor.HttpContext.Request.Headers.TryGetValue("Host", out var headerHost))
+            {
+                host = headerHost;
             }
 
             // 先拿Header的ai-host
