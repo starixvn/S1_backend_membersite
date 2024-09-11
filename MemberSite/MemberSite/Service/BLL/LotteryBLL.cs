@@ -80,7 +80,7 @@ namespace MemberSite.Service.BLL
         {
             var response = new GetCurrentLotteryWinnerListResponse();
             var result = GetLotteryWinnerList(siteId , roundId)
-                .MaxBy(x=>x.CreateTime);
+                .MaxBy(x=>x.DrawDate);
 
             if (result is not null)
             {
@@ -122,7 +122,7 @@ namespace MemberSite.Service.BLL
                     EndDate = x.EndDate,
                     DrawDate = x.DrawDate
                 })
-                .OrderByDescending(x=>x.RoundId)
+                .OrderByDescending(x=>x.DrawDate)
                 .ToList();
 
             return response;
