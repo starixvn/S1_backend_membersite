@@ -41,33 +41,33 @@ namespace MemberSite.Service.BLL
         public ServerInfo GetServerInfo()
         {
             var host = GetMainDomain();
-            var siteId = 1;
-            if (_fixSiteId != 0)
-            {
-                siteId = _fixSiteId;
-            }
-            else
-            {
-                var key = $"{host}";
-                if (_cache.TryGetValue<ServerInfo>(key, out var serverInfo))
-                {
-                    return serverInfo;
-                }
-
-                if (!_siteInfoDic.ContainsKey(host))
-                {
-                    var _siteId = _serverInfoService.GetSite(host);
-                    if (_siteId == 0)
-                    {
-                        _cache.Set(key, GetServerInfo(1), new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30)));
-                        return GetServerInfo(1);
-                    }
-
-                    _siteInfoDic.TryAdd(host, _siteId);
-                }
-
-                siteId = _siteInfoDic[host];
-            }
+            var siteId = 101;
+            // if (_fixSiteId != 0)
+            // {
+            //     siteId = _fixSiteId;
+            // }
+            // else
+            // {
+            //     var key = $"{host}";
+            //     if (_cache.TryGetValue<ServerInfo>(key, out var serverInfo))
+            //     {
+            //         return serverInfo;
+            //     }
+            //
+            //     if (!_siteInfoDic.ContainsKey(host))
+            //     {
+            //         var _siteId = _serverInfoService.GetSite(host);
+            //         if (_siteId == 0)
+            //         {
+            //             _cache.Set(key, GetServerInfo(1), new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30)));
+            //             return GetServerInfo(1);
+            //         }
+            //
+            //         _siteInfoDic.TryAdd(host, _siteId);
+            //     }
+            //
+            //     siteId = _siteInfoDic[host];
+            // }
 
             _serverInfo = GetServerInfo(siteId);
             _serverInfo.host = host;

@@ -535,7 +535,9 @@ namespace MemberSite.Controllers
 
         private async Task<ApiResult<PayResult>> CreateDeposit(string transId, Customer custInfo)
         {
-            var url = $"{_payApiUrl}Deposit/Create";
+            // var url = $"{_payApiUrl}Deposit/Create";
+            var url = $"http://localhost:59159/Payment/Deposit/Create";
+
             var apiResult = await _courierAdapter.MyPostAsync<PayResult, DepositReq>(url, new DepositReq
             {
                 TransId = transId,
