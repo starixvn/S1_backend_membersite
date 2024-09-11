@@ -647,7 +647,8 @@ namespace MemberSite.Controllers.Api
                 return false;
             }
 
-            if (custInfo.ActStatus == 1)
+            //MS-9413 代理帳號直接跳過是否需要存款檢查 MemberType = 2 (AffiliateAccount)
+            if (custInfo.MemberType != 2 && custInfo.ActStatus == 1)
             {
                 apiResult.Message = _selLangBll.GetMsg("msg_MustDeposit");
                 apiResult.ErrorCode = -4;
