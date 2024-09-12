@@ -1,13 +1,9 @@
-﻿using System.Drawing.Drawing2D;
-using System.Text.RegularExpressions;
-using MemberSite.Controllers.Api;
+﻿using MemberSite.Controllers.Api;
 using MemberSite.Service.DAL;
 using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Domain;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
-using Org.BouncyCastle.Asn1.Tsp;
-using static MemberSite.Controllers.Api.AccountStrictController;
 
 namespace MemberSite.Service.BLL;
 
@@ -20,9 +16,7 @@ public class SiteBll
     private readonly Tools _tools;
     private readonly IAffiliateService _affiliateService;
     private readonly AgentInfoService _agentInfoService;
-    private readonly Regex _regexUserName = new(@"^[a-zA-Z0-9]{6,18}$");
-    private readonly Regex _regexPhoneNumber = new(@"^\+60[0-9]{9,10}$|\+62[0-9]{10,13}$|\+86[0-9]{10,11}$|\+91[0-9]{10}$|\+66[0-9]{9}$|\+880[0-9]{10}$|\+855[0-9]{8,10}$|\+84[0-9]{9}|\+82[0-9]{9,10}|\+81[0-9]{10}|\+55[0-9]{10,11}$");
-    private readonly Regex _regexEmail = new(@"^\w+((-\w+)|(\.\w+))*@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$");
+    private readonly StringVaildHelper _stringVaildHelper;
     private readonly RecaptchaBLL _recaptcha;
     private readonly ServerInfoBll _serverInfoBll;
     private readonly ILogger<SiteBll> _logger;
@@ -34,11 +28,13 @@ public class SiteBll
         _commonBll = provider.GetRequiredService<CommonBLL>();
         _bankInfoBll = provider.GetRequiredService<BankInfoBLL>();
         _tools = provider.GetRequiredService<Tools>();
+        _stringVaildHelper = provider.GetRequiredService<StringVaildHelper>();
         _affiliateService = provider.GetRequiredService<IAffiliateService>();
         _agentInfoService = provider.GetRequiredService<AgentInfoService>();
         _recaptcha = provider.GetRequiredService<RecaptchaBLL>();
         _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
         _logger = provider.GetRequiredService<ILogger<SiteBll>>();
+        
     }
 
     public Customer Signup(SiteController.SignupModel signupModel, ApiResult apiResult, bool isAuthenticated,
@@ -141,21 +137,11 @@ public class SiteBll
             return null;
         }
 
-        if (!_regexEmail.IsMatch(signupModel.Email))
+        if (!_stringVaildHelper.VaildEmail(signupModel.Email))
         {
             apiResult.ErrorCode = -10;
             apiResult.Message = _selLangBll.GetMsg("msg_EmailFormatVerify");
             return null;
-        }
-        
-        if (!string.IsNullOrWhiteSpace(signupModel.Email))
-        {
-            if (_custInfoBll.ExistsEmail(0, signupModel.Email))
-            {
-                apiResult.ErrorCode = -10;
-                apiResult.Message = $"{_selLangBll.GetResourceValue("lbl_Email")} {_selLangBll.GetMsg("msg_HasExist")}";
-                return null;
-            }
         }
         
         #endregion
@@ -179,79 +165,19 @@ public class SiteBll
         signupIp = null;
         affCodeObj = null;
         
-        if (isAuthenticated || (string.IsNullOrEmpty(signupModel.AreaCode) && !string.IsNullOrEmpty(signupModel.PhoneNo)))
+        var serverInfo = _serverInfoBll.GetServerInfo();
+
+        if (isAuthenticated)
         {
-            _logger.LogError($"isAuthenticated={isAuthenticated} AreaCode={signupModel.AreaCode} PhoneNo={signupModel.PhoneNo}");
+            _logger.LogError($"isAuthenticated={isAuthenticated}");
             apiResult.ErrorCode = 9000;
             return false;
         }
+        
+        var check = CheckSignUpDataBySiteId(serverInfo.SiteId, signupModel, apiResult);
 
-        var serverInfo = _serverInfoBll.GetServerInfo();
-        if (serverInfo.SiteId is 1 or 5)
+        if (!check)
         {
-            switch (signupModel.AreaCode)
-            {
-                case "+60":
-                case "+62":
-                case "+86":
-                case "+91":
-                case "+66":
-                case "+880":
-                case "+855":
-                case "+84":
-                case "+82":
-                case "+81":
-                case "+55":
-                    if (!_regexPhoneNumber.IsMatch(signupModel.AreaCode + signupModel.PhoneNo))
-                    {
-                        var message = signupModel.AreaCode switch
-                        {
-                            "+60" => "9-10",
-                            "+62" => "10-13",
-                            "+86" => "10-11",
-                            "+91" => "10",
-                            "+66" => "9",
-                            "+880" => "10",
-                            "+855" => "8-10",
-                            "+84" => "9",
-                            "+82" => "9-10",
-                            "+81" => "10",
-                            "+55" => "10-11",
-                            _ => ""
-                        };
-                        apiResult.ErrorCode = -20;
-                        apiResult.Message = string.Format(_selLangBll.GetMsg("msg_PhoneFormatVerify"), message);
-                        return false;
-                    }
-                    break;
-            }
-        }
-
-        if (checkReCaptchaToken && !string.IsNullOrEmpty(signupModel.ReCaptchaToken))
-        {
-            var verifyResult = _recaptcha.Verify(signupModel.ReCaptchaToken);
-            if (!verifyResult.success)
-            {
-                apiResult.ErrorCode = -97;
-                apiResult.Message = verifyResult.errorCodes.FirstOrDefault();
-                return false;
-            }
-        }
-
-        if (long.TryParse(signupModel.PhoneNo, out var phoneNo))
-        {
-            signupModel.PhoneNo = phoneNo.ToString();
-            if (_custInfoBll.ExistsPhoneNo(0, signupModel.AreaCode, signupModel.PhoneNo))
-            {
-                apiResult.ErrorCode = -6;
-                apiResult.Message = $"{_selLangBll.GetResourceValue("lbl_Phone")} {_selLangBll.GetMsg("msg_HasExist")}";
-                return false;
-            }
-        }
-        else if (!string.IsNullOrEmpty(signupModel.PhoneNo))
-        {
-            apiResult.ErrorCode = -20;
-            apiResult.Message = $"{_selLangBll.GetResourceValue("lbl_Phone")} {_selLangBll.GetMsg("msg_PhoneWrongFormat")}";
             return false;
         }
         
@@ -272,11 +198,22 @@ public class SiteBll
             return false;
         }
         
-        if (!_regexUserName.IsMatch(signupModel.UserName))
+        if (!_stringVaildHelper.VaildUserName(signupModel.UserName))
         {
             apiResult.ErrorCode = -8;
             apiResult.Message = _selLangBll.GetMsg("msg_UsernameValidate");
             return false;
+        }
+        
+        if (checkReCaptchaToken && !string.IsNullOrEmpty(signupModel.ReCaptchaToken))
+        {
+            var verifyResult = _recaptcha.Verify(signupModel.ReCaptchaToken);
+            if (!verifyResult.success)
+            {
+                apiResult.ErrorCode = -97;
+                apiResult.Message = verifyResult.errorCodes.FirstOrDefault();
+                return false;
+            }
         }
         
         if (!string.IsNullOrWhiteSpace(signupModel.AffCode))
@@ -421,6 +358,126 @@ public class SiteBll
         return true;
     }
 
+    private bool CheckSignUpDataBySiteId(int siteId ,SiteController.SignupModel signupModel, ApiResult apiResult)
+    {
+        switch (siteId)
+        {
+            case 101:
+                if (string.IsNullOrEmpty(signupModel.PhoneNo) && string.IsNullOrWhiteSpace(signupModel.Email))
+                {
+                    apiResult.ErrorCode = -22;
+                    apiResult.Message = $"{_selLangBll.GetMsg("msg_EnterPhoneNumberOrEmail")}";
+                    return false;
+                }
+                
+                if (!string.IsNullOrEmpty(signupModel.PhoneNo))
+                {
+                    if (string.IsNullOrEmpty(signupModel.AreaCode))
+                    {
+                        _logger.LogError($"PhoneNo={signupModel.PhoneNo}");
+                        apiResult.ErrorCode = 9000;
+                        return false;
+                    }
+                    
+                    if (long.TryParse(signupModel.PhoneNo, out var phoneNumber))
+                    {
+                        signupModel.PhoneNo = phoneNumber.ToString();
+                        if (_custInfoBll.ExistsPhoneNo(0, signupModel.AreaCode, signupModel.PhoneNo))
+                        {
+                            apiResult.ErrorCode = -6;
+                            apiResult.Message = $"{_selLangBll.GetResourceValue("lbl_Phone")} {_selLangBll.GetMsg("msg_HasExist")}";
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        apiResult.ErrorCode = -20;
+                        apiResult.Message = $"{_selLangBll.GetResourceValue("lbl_Phone")} {_selLangBll.GetMsg("msg_PhoneWrongFormat")}";
+                        return false;
+                    }
+                }
+                break;
+            
+            default:
+                
+                if (string.IsNullOrEmpty(signupModel.PhoneNo) || string.IsNullOrEmpty(signupModel.AreaCode))
+                {
+                    apiResult.ErrorCode = -18;
+                    apiResult.Message = $"{_selLangBll.GetResourceValue("lbl_Phone")} {_selLangBll.GetMsg("msg_EnterPhoneNumber")}";
+                    _logger.LogError($"PhoneNo={signupModel.PhoneNo} ,AreaCode={signupModel.AreaCode}");
+                    return false;
+                }
+                
+                if (long.TryParse(signupModel.PhoneNo, out var phoneNo))
+                {
+                    signupModel.PhoneNo = phoneNo.ToString();
+                    if (_custInfoBll.ExistsPhoneNo(0, signupModel.AreaCode, signupModel.PhoneNo))
+                    {
+                        apiResult.ErrorCode = -6;
+                        apiResult.Message = $"{_selLangBll.GetResourceValue("lbl_Phone")} {_selLangBll.GetMsg("msg_HasExist")}";
+                        return false;
+                    }
+                }
+                else
+                {
+                    apiResult.ErrorCode = -20;
+                    apiResult.Message = $"{_selLangBll.GetResourceValue("lbl_Phone")} {_selLangBll.GetMsg("msg_PhoneWrongFormat")}";
+                    return false;
+                }
+                
+                if (string.IsNullOrWhiteSpace(signupModel.RealName) || !_stringVaildHelper.VaildAccountNameForSetProfile(signupModel.RealName))
+                {
+                    apiResult.ErrorCode = 21;
+                    apiResult.Message = $"{_selLangBll.GetMsg("msg_RealNameWrongFormat")}";
+                    return false;
+                }
+                
+                if (siteId is 1 or 5)
+                {
+                    switch (signupModel.AreaCode)
+                    {
+                        case "+60":
+                        case "+62":
+                        case "+86":
+                        case "+91":
+                        case "+66":
+                        case "+880":
+                        case "+855":
+                        case "+84":
+                        case "+82":
+                        case "+81":
+                        case "+55": 
+                            if (!_stringVaildHelper.VaildAreaCodePhoneNo(signupModel.AreaCode , signupModel.PhoneNo))
+                            {
+                                var message = signupModel.AreaCode switch
+                                {
+                                    "+60" => "9-10",
+                                    "+62" => "10-13",
+                                    "+86" => "10-11",
+                                    "+91" => "10",
+                                    "+66" => "9",
+                                    "+880" => "10",
+                                    "+855" => "8-10",
+                                    "+84" => "9",
+                                    "+82" => "9-10",
+                                    "+81" => "10",
+                                    "+55" => "10-11",
+                                    _ => ""
+                                };
+                                apiResult.ErrorCode = -20;
+                                apiResult.Message = string.Format(_selLangBll.GetMsg("msg_PhoneFormatVerify"), message);
+                                return false;
+                            }
+                            break;
+                    }
+                }
+                
+                break;
+        }
+        
+        return true;
+    }
+     
     private void AfterSignUp(SiteController.SignupModel signupModel ,string fromUrl, string userAgent, int deviceType, int result , int custId ,ApiResult apiResult ,out Customer customer)
     {
         customer = null;
@@ -509,5 +566,5 @@ public class SiteBll
         }
     }
     
-    
+   
 }

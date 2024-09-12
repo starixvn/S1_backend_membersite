@@ -1,17 +1,12 @@
-using System.Text.RegularExpressions;
-
 using MemberSite.Service.BLL;
 using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Mapping;
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
 using Newtonsoft.Json;
-
 using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
@@ -37,7 +32,6 @@ namespace MemberSite.Controllers.Api
         private readonly IEnumerable<AreaCodeMap> _areaCodeMap;
         private readonly ILogger<AccountStrictController> _logger;
         private readonly ICustPhotoIdBLL _custPhoto;
-        private readonly Regex _regexEmail = new(@"^\w+((-\w+)|(\.\w+))*@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$");
 
         public AccountStrictController(IServiceProvider provider)
         {
@@ -421,32 +415,157 @@ namespace MemberSite.Controllers.Api
             {
                 var custInfo = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
                 var beforeCustInfo = _custInfoBLL.GetCustInfoProfile(authData.CustId);
+
+                #region Check AccountName 
+                
+                if (!string.IsNullOrEmpty(beforeCustInfo.AccountName))
+                {
+                    custProfile["AccountName"] = beforeCustInfo.AccountName;
+                }
+                
                 if (custProfile.ContainsKey("AccountName"))
-                    if (string.IsNullOrWhiteSpace(custProfile["AccountName"])
-                        || !_stringVaildHelper.VaildAccountNameForSetProfile(custProfile["AccountName"]))
+                {
+                    if (string.IsNullOrWhiteSpace(custProfile["AccountName"]) || !_stringVaildHelper.VaildAccountNameForSetProfile(custProfile["AccountName"]))
                     {
                         apiResult.ErrorCode = 21;
                         apiResult.Message = $"{_selLangBLL.GetMsg("msg_RealNameWrongFormat")}";
                         return apiResult;
                     }
-
-                var accountName = custProfile["AccountName"].Trim();
-                if (string.IsNullOrEmpty(beforeCustInfo.AccountName) && !string.IsNullOrEmpty(beforeCustInfo.PhoneNo))
+                }
+                else
                 {
-                    if (!string.IsNullOrEmpty(beforeCustInfo.CountryCode))
-                        custProfile["CountryCode"] = beforeCustInfo.CountryCode;
-                    if (!string.IsNullOrEmpty(beforeCustInfo.AreaCode))
-                        custProfile["AreaCode"] = beforeCustInfo.AreaCode;
-                    if (!string.IsNullOrEmpty(beforeCustInfo.PhoneNo))
-                        custProfile["PhoneNo"] = beforeCustInfo.PhoneNo;
+                    apiResult.ErrorCode = 21;
+                    apiResult.Message = $"{_selLangBLL.GetMsg("msg_EnterRealName")}";
+                    return apiResult;
+                }
+                
+                #endregion
 
-                    if (!DateTime.TryParse($"{custProfile["Birth_y"]}-{custProfile["Birth_m"]}-{custProfile["Birth_d"]}", out _))
+                #region Check BirthDay
+
+                if (!string.IsNullOrEmpty(beforeCustInfo.Birth_d))
+                    custProfile["Birth_d"] = beforeCustInfo.Birth_d;
+                if (!string.IsNullOrEmpty(beforeCustInfo.Birth_m))
+                    custProfile["Birth_m"] = beforeCustInfo.Birth_m;
+                if (!string.IsNullOrEmpty(beforeCustInfo.Birth_y))
+                    custProfile["Birth_y"] = beforeCustInfo.Birth_y;
+                
+                if (!DateTime.TryParse($"{custProfile["Birth_y"]}-{custProfile["Birth_m"]}-{custProfile["Birth_d"]}", out _))
+                {
+                    apiResult.ErrorCode = 21;
+                    apiResult.Message = $"{_selLangBLL.GetMsg("msg_BirthdayIsRequired")}";
+                    return apiResult;
+                }
+                
+                #endregion
+                
+                #region Check Mail
+                
+                if (!string.IsNullOrEmpty(beforeCustInfo.Email))
+                {
+                    custProfile["Email"] = beforeCustInfo.Email;
+                }
+                
+                if (string.IsNullOrEmpty(custProfile["Email"]))
+                {
+                    apiResult.ErrorCode = -10;
+                    apiResult.Message = _selLangBll.GetMsg("msg_EnterPhoneNumberOrEmail");
+                    return apiResult;
+                }
+                
+                if (custProfile.TryGetValue("Email", out var email) && !string.IsNullOrEmpty(email) && _custInfoBLL.ExistsEmail(authData.CustId, email))
+                {
+                    apiResult.ErrorCode = 21;
+                    apiResult.Message = $"{email} {_selLangBLL.GetMsg("msg_HasExist")}";
+                    return apiResult;
+                }
+
+                if (!string.IsNullOrEmpty(email) && custInfo.SiteId == 1 && !_stringVaildHelper.VaildEmail(email))
+                {
+                    apiResult.ErrorCode = -10;
+                    apiResult.Message = _selLangBll.GetMsg("msg_EmailFormatVerify");
+                    return apiResult;
+                }
+
+                #endregion
+                
+                #region Check PhoneNo AreaCode
+                
+                if (!string.IsNullOrEmpty(beforeCustInfo.CountryCode))
+                    custProfile["CountryCode"] = beforeCustInfo.CountryCode;
+                if (!string.IsNullOrEmpty(beforeCustInfo.AreaCode))
+                    custProfile["AreaCode"] = beforeCustInfo.AreaCode;
+                if (!string.IsNullOrEmpty(beforeCustInfo.PhoneNo))
+                    custProfile["PhoneNo"] = beforeCustInfo.PhoneNo;
+                
+                string AreaCode = custProfile[nameof(AreaCode)];
+                string PhoneNo = custProfile[nameof(PhoneNo)];
+
+                if (long.TryParse(PhoneNo, out var phoneNo))
+                {
+                    PhoneNo = phoneNo.ToString();
+                }
+                else
+                {
+                    apiResult.ErrorCode = 21;
+                    apiResult.Message = $"({AreaCode}){PhoneNo} {_selLangBLL.GetMsg("msg_PhoneWrongFormat")}";
+                    return apiResult;
+                }
+
+                if (custInfo.SiteId is 1 or 5)
+                {
+                    switch (AreaCode)
                     {
-                        apiResult.ErrorCode = 21;
-                        apiResult.Message = $"{_selLangBLL.GetMsg("msg_BirthdayIsRequired")}";
-                        return apiResult;
+                        case "+60":
+                        case "+62":
+                        case "+86":
+                        case "+91":
+                        case "+66":
+                        case "+880":
+                        case "+855":
+                        case "+84":
+                        case "+82":
+                        case "+81":
+                        case "+55":
+                            if (!_stringVaildHelper.VaildAreaCodePhoneNo(AreaCode,PhoneNo))
+                            {
+                                var message = AreaCode switch
+                                {
+                                    "+60" => "9-10",
+                                    "+62" => "10-13",
+                                    "+86" => "10-11",
+                                    "+91" => "10",
+                                    "+66" => "9",
+                                    "+880" => "10",
+                                    "+855" => "8-10",
+                                    "+84" => "9",
+                                    "+82" => "9-10",
+                                    "+81" => "10",
+                                    "+55" => "10-11",
+                                    _ => ""
+                                };
+                                apiResult.ErrorCode = -20;
+                                apiResult.Message = string.Format(_selLangBll.GetMsg("msg_PhoneFormatVerify"), message);
+                                return apiResult;
+                            }
+                            break;
                     }
+                }
+                
+                if (_custInfoBLL.ExistsPhoneNo(authData.CustId, AreaCode, PhoneNo))
+                {
+                    apiResult.ErrorCode = 21;
+                    apiResult.Message = $"({AreaCode}){PhoneNo} {_selLangBLL.GetMsg("msg_HasExist")}";
+                    return apiResult;
+                }
+                
+                #endregion
 
+                #region SetCustBankInfo
+                
+                if (string.IsNullOrEmpty(beforeCustInfo.AccountName))
+                {
+                    var accountName = custProfile["AccountName"].Trim();
                     var result = _custInfoBLL.SetCustBankInfo(authData.CustId, accountName);
 
                     if (result != 0)
@@ -454,66 +573,9 @@ namespace MemberSite.Controllers.Api
                         _logger.LogWarning($"CustId: {authData.CustId} SetCustBankInfo failed.");
                     }
                 }
-                else
-                {
-                    string AreaCode = custProfile[nameof(AreaCode)];
-                    string PhoneNo = custProfile[nameof(PhoneNo)];
-
-                    if (long.TryParse(PhoneNo, out var phoneNo))
-                    {
-                        PhoneNo = phoneNo.ToString();
-                    }
-                    else
-                    {
-                        apiResult.ErrorCode = 21;
-                        apiResult.Message = $"({AreaCode}){PhoneNo} {_selLangBLL.GetMsg("msg_PhoneWrongFormat")}";
-                        return apiResult;
-                    }
-
-                    if (_custInfoBLL.ExistsPhoneNo(authData.CustId, AreaCode, PhoneNo))
-                    {
-                        apiResult.ErrorCode = 21;
-                        apiResult.Message = $"({AreaCode}){PhoneNo} {_selLangBLL.GetMsg("msg_HasExist")}";
-                        return apiResult;
-                    }
-
-                    if (!string.IsNullOrEmpty(beforeCustInfo.Birth_d))
-                        custProfile["Birth_d"] = beforeCustInfo.Birth_d;
-                    if (!string.IsNullOrEmpty(beforeCustInfo.Birth_m))
-                        custProfile["Birth_m"] = beforeCustInfo.Birth_m;
-                    if (!string.IsNullOrEmpty(beforeCustInfo.Birth_y))
-                        custProfile["Birth_y"] = beforeCustInfo.Birth_y;
-
-                    if (!string.IsNullOrEmpty(beforeCustInfo.AccountName))
-                    {
-                        custProfile["AccountName"] = beforeCustInfo.AccountName;
-                    }
-                    else
-                    {
-                        var result = _custInfoBLL.SetCustBankInfo(authData.CustId, accountName);
-                    }
-                }
-
-                if (custProfile.TryGetValue("Email", out var email) && !string.IsNullOrEmpty(email) &&
-                    _custInfoBLL.ExistsEmail(authData.CustId, email))
-                {
-                    apiResult.ErrorCode = 21;
-                    apiResult.Message = $"{email} {_selLangBLL.GetMsg("msg_HasExist")}";
-                    return apiResult;
-                }
-
-                if (!string.IsNullOrEmpty(email) && custInfo.SiteId == 1 && !_regexEmail.IsMatch(email))
-                {
-                    apiResult.ErrorCode = -10;
-                    apiResult.Message = _selLangBll.GetMsg("msg_EmailFormatVerify");
-                    return apiResult;
-                }
-
-                if (!string.IsNullOrEmpty(beforeCustInfo.Email))
-                {
-                    custProfile["Email"] = beforeCustInfo.Email;
-                }
-
+                
+                #endregion
+                
                 custProfile = SetCountryCodeAndAreaCode(custProfile, beforeCustInfo, custInfo.SiteId);
 
                 apiResult.ErrorCode = _custInfoBLL.SetProfile(authData.CustId, custProfile);
@@ -741,7 +803,7 @@ namespace MemberSite.Controllers.Api
         {
             custProfile.TryGetValue("CountryCode", out var reqCountryCode);
 
-            if (string.IsNullOrEmpty(reqCountryCode) || !_areaCodeMap.Any(i => i.Code == reqCountryCode))
+            if (string.IsNullOrEmpty(reqCountryCode) || _areaCodeMap.All(i => i.Code != reqCountryCode))
             {
                 if (!string.IsNullOrEmpty(beforeCustInfo.AreaCode))
                 {
@@ -751,11 +813,15 @@ namespace MemberSite.Controllers.Api
                 {
                     custProfile["CountryCode"] = "VN";
                 }
+                else if(!string.IsNullOrEmpty(custProfile["AreaCode"]))
+                {
+                    custProfile["CountryCode"] = _custInfoBLL.GetCountryNameByAreaCode(custProfile["AreaCode"]);
+                }
             }
 
             custProfile.TryGetValue("AreaCode", out var reqAreaCode);
 
-            if (string.IsNullOrEmpty(reqAreaCode) || !_areaCodeMap.Any(i => i.AreaCode == reqAreaCode))
+            if (string.IsNullOrEmpty(reqAreaCode) || _areaCodeMap.All(i => i.AreaCode != reqAreaCode))
             {
                 if (!string.IsNullOrEmpty(beforeCustInfo.AreaCode))
                 {

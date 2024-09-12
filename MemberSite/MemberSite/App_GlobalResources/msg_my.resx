@@ -108,6 +108,7 @@
   <data name="msg_ForceLogedoutHint"><value>ID ini telah log masuk dari tetingkap atau peranti dan pelayar yang lain. Anda akan di log keluar dari sesi ini.</value></data>
   <data name="msg_WithdrawalSuccessful"><value>Pohonan pengeluaran anda berjaya. Kami akan beritahu anda apabila proses ini selesai.</value></data>
   <data name="msg_EnterPhoneNumber"><value>Sila masukkan nombor telefon.</value></data>
+  <data name="msg_EnterPhoneNumberOrEmail"><value>Nombor telefon atau e-mel tidak sah</value></data>
   <data name="msg_PasswordReq"><value>Kata laluan diperlukan.</value></data>
   <data name="msg_NoData"><value>Tiada Data</value></data>
   <data name="msg_ThisCurrencyNotSupport"><value>Mata Wang Anda Tidak Disokong.</value></data>

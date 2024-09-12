@@ -104,6 +104,7 @@
   <data name="msg_ForceLogedoutHint"><value>由于此 ID 已再其它浏览器或设备登入因此您被强制终止登录。</value></data>
   <data name="msg_WithdrawalSuccessful"><value>申请提现成功。核准后会及时通知。</value></data>
   <data name="msg_EnterPhoneNumber"><value>请输入手机号码</value></data>
+  <data name="msg_EnterPhoneNumberOrEmail"><value>请输入有效的手机号或邮箱地址</value></data>
   <data name="msg_PasswordReq"><value>请输入密码。</value></data>
   <data name="msg_NoData"><value>无资料</value></data>
   <data name="msg_ThisCurrencyNotSupport"><value>不支持您使用的货币。</value></data>

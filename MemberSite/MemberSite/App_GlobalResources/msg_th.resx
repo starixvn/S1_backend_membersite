@@ -104,6 +104,7 @@
   <data name="msg_ForceLogedoutHint"><value>ID นี้ได้เข้าสู่ระบบจากเบราว์เซอร์หรืออุปกรณ์อื่นแล้วคุณจะโดนล็อคเอาท์ออกจากเซสชันนี้โดยอัตโนมัติ</value></data>
   <data name="msg_WithdrawalSuccessful"><value>คำขอถอนเงินของคุณสำเร็จแล้ว เราจะแจ้งให้คุณทราบเมื่อดำเนินการเสร็จ</value></data>
   <data name="msg_EnterPhoneNumber"><value>โปรดใส่เบอร์โทรศัพท์</value></data>
+  <data name="msg_EnterPhoneNumberOrEmail"><value>หมายเลขโทรศัพท์หรืออีเมลไม่ถูกต้อง</value></data>
   <data name="msg_PasswordReq"><value>ต้องใส่รหัสผ่าน</value></data>
   <data name="msg_NoData"><value>ไม่มีข้อมูล</value></data>
   <data name="msg_ThisCurrencyNotSupport"><value>ไม่รองรับสกุลเงินนี้</value></data>

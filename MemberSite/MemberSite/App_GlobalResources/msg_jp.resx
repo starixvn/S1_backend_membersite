@@ -107,6 +107,7 @@
   <data name="msg_ForceLogedoutHint"><value>このIDは、別のブラウザウィンドウまたはデバイスから既にログインしています。このセッションからは強制的にログアウトされます。</value></data>
   <data name="msg_WithdrawalSuccessful"><value>お引き出しは成功しました。完了しましたらお知らせいたします。</value></data>
   <data name="msg_EnterPhoneNumber"><value>電話番号を入力してください。</value></data>
+  <data name="msg_EnterPhoneNumberOrEmail"><value>Invalid phone number or email</value></data>
   <data name="msg_PasswordReq"><value>パスワードが必要です。</value></data>
   <data name="msg_NoData"><value>データなし</value></data>
   <data name="msg_ThisCurrencyNotSupport"><value>あなたの通貨はサポートしていません。</value></data>

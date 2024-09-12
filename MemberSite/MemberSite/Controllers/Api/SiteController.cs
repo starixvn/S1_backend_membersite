@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Net.Sockets;
@@ -15,7 +14,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using static MemberSite.Controllers.Api.SiteController;
 using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
@@ -35,7 +33,6 @@ namespace MemberSite.Controllers.Api
         private readonly ServerInfoBll _serverInfoBll;
         private readonly BannerBLL _bannerBll;
         private readonly AuthBLL _authBll;
-        private readonly Regex _regexUserName = new(@"^[a-zA-Z0-9]{6,18}$");
         private readonly ThirdPartyBll _thirdPartyBll;
         private readonly SiteBll _siteBll;
         private readonly ICacheHelper _cacheHelper;
@@ -103,7 +100,7 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult(_selLangBll);
 
-            if (!_regexUserName.IsMatch(loginModel.UserName))
+            if (!_stringVaildHelper.VaildUserName(loginModel.UserName))
             {
                 apiResult.ErrorCode = 1103;
                 apiResult.Message = _selLangBll.GetMsg("msg_UsernameValidate");
@@ -128,7 +125,7 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<JwtAuthData>(_selLangBll);
 
-            if (!_regexUserName.IsMatch(loginModel.UserName))
+            if (!_stringVaildHelper.VaildUserName(loginModel.UserName))
             {
                 apiResult.ErrorCode = -8;
                 apiResult.Message = _selLangBll.GetMsg("msg_UsernameValidate");
@@ -221,7 +218,7 @@ namespace MemberSite.Controllers.Api
             var apiResult = new ApiResult(_selLangBll);   
 
             loginModel.UserName = $"P{loginModel.AreaPhoneNo.Trim('+')}";
-            if (!_regexUserName.IsMatch(loginModel.UserName))
+            if (!_stringVaildHelper.VaildUserName(loginModel.UserName))
             {
                 apiResult.ErrorCode = 1103;
                 apiResult.Message = _selLangBll.GetMsg("msg_UsernameValidate");
@@ -418,14 +415,7 @@ namespace MemberSite.Controllers.Api
 
             var apiResult = new ApiResult(_selLangBll);
             var isAuthenticated = User.Identity is { IsAuthenticated: true };
-
-            if (string.IsNullOrWhiteSpace(signupModel.RealName) || !_stringVaildHelper.VaildAccountNameForSetProfile(signupModel.RealName))
-            {
-                apiResult.ErrorCode = 21;
-                apiResult.Message = $"{_selLangBll.GetMsg("msg_RealNameWrongFormat")}";
-                return apiResult;
-            }
-
+            
             var customer = _siteBll.Signup(signupModel, apiResult, isAuthenticated, _tools.GetFromUrl(), Request.Headers["User-Agent"], true);
             if (apiResult.ErrorCode == (int)ErrorCode.Attack)
             {
@@ -455,14 +445,7 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult<JwtAuthData>(_selLangBll);
             var isAuthenticated = User.Identity is { IsAuthenticated: true };
-
-            if (string.IsNullOrWhiteSpace(signupModel.RealName) || !_stringVaildHelper.VaildAccountNameForSetProfile(signupModel.RealName))
-            {
-                apiResult.ErrorCode = 21;
-                apiResult.Message = $"{_selLangBll.GetMsg("msg_RealNameWrongFormat")}";
-                return apiResult;
-            }
-
+            
             var customer = _siteBll.Signup(signupModel, apiResult, isAuthenticated, _tools.GetFromUrl(), Request.Headers["User-Agent"], false);
 
             if (apiResult.ErrorCode != 0 || customer == null) return apiResult;
@@ -548,13 +531,7 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult(_selLangBll);
             var isAuthenticated = User.Identity is { IsAuthenticated: true };
-            if (string.IsNullOrWhiteSpace(signupModel.RealName) || !_stringVaildHelper.VaildAccountNameForSetProfile(signupModel.RealName))
-            {
-                apiResult.ErrorCode = 21;
-                apiResult.Message = $"{_selLangBll.GetMsg("msg_RealNameWrongFormat")}";
-                return apiResult;
-            }
-
+            
             if (!_contentTypesCheck.ContainsKey(signupModel.PhotoId.ContentType))
             {
                 return new ApiResult { ErrorCode = -1, Message = _selLangBll.GetMsg("msg_UpdateFailed") };

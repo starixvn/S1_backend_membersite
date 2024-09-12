@@ -106,6 +106,7 @@
   <data name="msg_ForceLogedoutHint"><value>ID này đã đăng nhập từ một cửa sổ trình duyệt khác hoặc thiết bị khác. Bạn sẽ bị đăng xuất khỏi phiên này.</value></data>
   <data name="msg_WithdrawalSuccessful"><value>Yêu cầu rút tiền của bạn đã được chấp thuận. Chúng tôi sẽ thông báo đến bạn khi nó được xử lý xong.</value></data>
   <data name="msg_EnterPhoneNumber"><value>Vui lòng nhập số điện thoại.</value></data>
+  <data name="msg_EnterPhoneNumberOrEmail"><value>Số điện thoại hoặc email không đúng</value></data>
   <data name="msg_PasswordReq"><value>Mật khẩu là bắt buộc</value></data>
   <data name="msg_NoData"><value>Không có dữ liệu</value></data>
   <data name="msg_ThisCurrencyNotSupport"><value>Tiền tệ của bạn không được hỗ trợ</value></data>

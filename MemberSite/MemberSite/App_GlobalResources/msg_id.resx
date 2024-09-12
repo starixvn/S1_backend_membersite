@@ -104,6 +104,7 @@
   <data name="msg_ForceLogedoutHint"><value>ID ini sudah masuk dari jendela atau perangkat browser lain. Anda akan dipaksa keluar dari sesi ini.</value></data>
   <data name="msg_WithdrawalSuccessful"><value>Pengajuan penarikan Anda berhasil. Jika sudah selesai kami akan memberi tahu kepada anda</value></data>
   <data name="msg_EnterPhoneNumber"><value>Silakan masukkan nomor telepon anda</value></data>
+  <data name="msg_EnterPhoneNumberOrEmail"><value>Nomor telepon atau email tidak valid</value></data>
   <data name="msg_PasswordReq"><value>Kata Sanda wajib diisi</value></data>
   <data name="msg_NoData"><value>Tidak ada data</value></data>
   <data name="msg_ThisCurrencyNotSupport"><value>Mata Uang Anda Tidak Mendukung.</value></data>
