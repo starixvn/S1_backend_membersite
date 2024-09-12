@@ -24,6 +24,7 @@ public class SiteBll
     private readonly Regex _regexEmail = new(@"^\w+((-\w+)|(\.\w+))*@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$");
     private readonly RecaptchaBLL _recaptcha;
     private readonly ServerInfoBll _serverInfoBll;
+    private readonly CRMBLL _cRMBll;
     private readonly ILogger<SiteBll> _logger;
 
     public SiteBll(IServiceProvider provider)
@@ -37,6 +38,7 @@ public class SiteBll
         _agentInfoService = provider.GetRequiredService<AgentInfoService>();
         _recaptcha = provider.GetRequiredService<RecaptchaBLL>();
         _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
+        _cRMBll = provider.GetRequiredService<CRMBLL>();
         _logger = provider.GetRequiredService<ILogger<SiteBll>>();
     }
 
@@ -458,9 +460,10 @@ public class SiteBll
                     }
                     else
                     {
+                        var serverInfo = _serverInfoBll.GetServerInfo();
+
                         _ = Task.Run(async () =>
                         {
-                            var serverInfo = _serverInfoBll.GetServerInfo();
                             if (serverInfo.SiteId == 5)
                             {
                                 _commonBll.SendWelcomeMail(custId);
@@ -474,6 +477,21 @@ public class SiteBll
                                 //        _iovationBll.SetIovation(custId, IovationType.registration, apiResultIovation.Data);
                                 //}
                             }
+                        });
+
+                        _ = Task.Run(() =>
+                        {
+                            if (serverInfo.SiteId is 1 or 2 or 3)
+                            {
+                                var para = new CRMRequest()
+                                {
+                                    Event = (int)CRMEvent.Register_successful,
+                                    CustId = custId,
+                                    SiteId = serverInfo.SiteId,
+                                    CurrencyId = signupModel.CurrencyId
+                                };
+                                _ = _cRMBll.Send(para);
+                            }                              
                         });
 
                         var userLoginResult = _custInfoBll.UserLogin(false, 0, signupModel.UserName, signupModel.Userpwd,
