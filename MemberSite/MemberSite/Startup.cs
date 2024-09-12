@@ -193,7 +193,8 @@ namespace MemberSite
             services.AddSingleton<FaceBookPixelBLL>();
             services.AddSingleton<CustNotificationBLL>();
             services.AddSingleton<QuestionnaireBLL>();
-            
+            services.AddSingleton<CRMBLL>();
+
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();
 
