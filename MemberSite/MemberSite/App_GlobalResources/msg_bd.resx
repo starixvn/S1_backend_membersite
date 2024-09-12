@@ -107,6 +107,7 @@
   <data name="msg_ForceLogedoutHint"><value>এই আইডিটি ইতিমধ্যে অন্য ব্রাউজার উইন্ডো বা ডিভাইস থেকে লগ ইন করেছে। আপনাকে এই অধিবেশন থেকে লগআউট করতে বাধ্য করা হবে৷</value></data>
   <data name="msg_WithdrawalSuccessful"><value>আপনার উত্তোলনের অনুরোধ সফল হয়েছে। এটি সম্পন্ন হলে আমরা আপনাকে অবহিত করব।</value></data>
   <data name="msg_EnterPhoneNumber"><value>ফোন নম্বর লিখুন.</value></data>
+  <data name="msg_EnterPhoneNumberOrEmail"><value>ফোন নম্বর লিখুন.</value></data>
   <data name="msg_PasswordReq"><value>পাসওয়ার্ড প্রয়োজন.</value></data>
   <data name="msg_NoData"><value>কোন তথ্য নেই</value></data>
   <data name="msg_ThisCurrencyNotSupport"><value>আপনার মূদ্রা সমর্থন করে না.</value></data>

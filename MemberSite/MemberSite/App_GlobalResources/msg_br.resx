@@ -107,6 +107,7 @@
   <data name="msg_ForceLogedoutHint"><value>Este ID já efetuou login em outra janela do navegador ou dispositivo. Você será forçado a fazer logout desta sessão.</value></data>
   <data name="msg_WithdrawalSuccessful"><value>Sua solicitação de saque foi bem-sucedida. Nós o notificaremos assim que isso for feito.</value></data>
   <data name="msg_EnterPhoneNumber"><value>Digite o número de telefone.</value></data>
+  <data name="msg_EnterPhoneNumberOrEmail"><value>Invalid phone number or email .</value></data>
   <data name="msg_PasswordReq"><value>A senha é obrigatória.</value></data>
   <data name="msg_NoData"><value>Sem dados</value></data>
   <data name="msg_ThisCurrencyNotSupport"><value>Sua moeda não é compatível.</value></data>

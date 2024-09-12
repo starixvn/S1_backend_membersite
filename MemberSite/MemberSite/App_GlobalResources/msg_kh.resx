@@ -105,6 +105,7 @@
   <data name="msg_ForceLogedoutHint"><value>អត្តលេខនេះបានចូលរួចហើយពីបង្អួច ឬឧបករណ៍កម្មវិធីរុករកផ្សេងទៀត ។ អ្នកនឹងត្រូវបង្ខំឲ្យចេញពីកម្មវិធីនេះ ។</value></data>
   <data name="msg_WithdrawalSuccessful"><value>សំណើដកប្រាក់របស់អ្នក ទទួលបានជោគជ័យ ។ យើងនឹងជូនដំណឹងដល់អ្នក នៅពេលដែលធ្វើរួចរាល់ ។</value></data>
   <data name="msg_EnterPhoneNumber"><value>សូមបញ្ចូលលេខទូរសព្ទ។</value></data>
+  <data name="msg_EnterPhoneNumberOrEmail"><value>Invalid phone number or email</value></data>
   <data name="msg_PasswordReq"><value>ត្រូវការពាក្យ​សម្ងាត់​។</value></data>
   <data name="msg_NoData"><value>គ្មាន​ទិន្នន័យ</value></data>
   <data name="msg_ThisCurrencyNotSupport"><value>រូបិយបណ្ណរបស់អ្នកមិនត្រូវគ្នាទេ។</value></data>

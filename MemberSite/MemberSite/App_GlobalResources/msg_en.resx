@@ -107,6 +107,7 @@
   <data name="msg_ForceLogedoutHint"><value>This ID has already logged in from another browser window or device. You will be forced to logout from this session.</value></data>
   <data name="msg_WithdrawalSuccessful"><value>Your withdrawal request was successful. We will notify you once it is done.</value></data>
   <data name="msg_EnterPhoneNumber"><value>Please enter phone number.</value></data>
+  <data name="msg_EnterPhoneNumberOrEmail"><value>Invalid phone number or email .</value></data>
   <data name="msg_PasswordReq"><value>Password is required.</value></data>
   <data name="msg_NoData"><value>No Data</value></data>
   <data name="msg_ThisCurrencyNotSupport"><value>Your Currency Does Not Support.</value></data>
