@@ -479,6 +479,7 @@ public class SiteBll
                                     Event = (int)CRMEvent.Register_successful,
                                     CustId = custId,
                                     SiteId = serverInfo.SiteId,
+                                    CurrencyId = signupModel.CurrencyId
                                 };
                                 _ = _cRMBll.Send(para);
                             }                              
