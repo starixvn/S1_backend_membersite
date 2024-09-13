@@ -982,18 +982,21 @@ namespace MemberSite.Controllers.Api
                 {
                     case -1: 
                         apiResult.Message = _selLangBll.GetMsg("msg_NoData");
+                        apiResult.ErrorCode = errorCode;
                         break;
                     case -2:
                         apiResult.Message = _selLangBll.GetMsg("msg_ThisCurrencyNotSupport");
+                        apiResult.ErrorCode = errorCode;
                         break;
                     case -3: 
                         apiResult.Message = _selLangBll.GetMsg("msg_ThisCurrencyNotSupport");
+                        apiResult.ErrorCode = errorCode;
                         break;
                     case 0: 
-                        apiResult.Data = lotteryInfo;
                         apiResult.ErrorCode = 0;
                         break;
                 } 
+                apiResult.Data = lotteryInfo;
             }
 
             return apiResult;
@@ -1171,7 +1174,7 @@ namespace MemberSite.Controllers.Api
                 
                 var result = await _lotteryBll.BuyChineseZodiacSticker(custInfo,getLotteryDrawSetting.RoundId,stickerId,stickerPrize.StickerPrize);
                 
-                apiResult.ErrorCode = result;
+                apiResult.ErrorCode = result == 1 ? (int)ErrorCode.Success : result;
                 apiResult.Message = apiResult.ErrorCode switch
                 {
                     1 => "Success",
