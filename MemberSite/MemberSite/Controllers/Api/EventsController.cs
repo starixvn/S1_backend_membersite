@@ -982,20 +982,17 @@ namespace MemberSite.Controllers.Api
                 {
                     case -1: 
                         apiResult.Message = _selLangBll.GetMsg("msg_NoData");
-                        apiResult.ErrorCode = errorCode;
                         break;
                     case -2:
                         apiResult.Message = _selLangBll.GetMsg("msg_ThisCurrencyNotSupport");
-                        apiResult.ErrorCode = errorCode;
                         break;
                     case -3: 
                         apiResult.Message = _selLangBll.GetMsg("msg_ThisCurrencyNotSupport");
-                        apiResult.ErrorCode = errorCode;
                         break;
                     case 0: 
-                        apiResult.ErrorCode = 0;
                         break;
                 } 
+                apiResult.ErrorCode = 0;
                 apiResult.Data = lotteryInfo;
             }
 
