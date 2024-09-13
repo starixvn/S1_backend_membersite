@@ -69,7 +69,6 @@ namespace MemberSite.Service.BLL
             lotteryInfo.CustTurnoverSummary = turnoverSummary;
             lotteryInfo.CustTurnoverProccessing = proccessing;
             lotteryInfo.TurnoverGoal = setting.TurnOver;
-          
             errorCode = 0;
             
             return (lotteryInfo , errorCode);
