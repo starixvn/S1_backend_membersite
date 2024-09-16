@@ -203,10 +203,17 @@ namespace MemberSite.Service.Library
         public string GetFromUrl()
         {
             var fromUrl = "";
+
             // 先拿Header的origin-host
             if (string.IsNullOrWhiteSpace(fromUrl) && httpContextAccessor.HttpContext.Request.Headers.TryGetValue("origin-host", out var originHost))
             {
                 fromUrl = new Uri(originHost).Host;
+            }
+
+            // 再拿Header的Host
+            if (string.IsNullOrWhiteSpace(fromUrl) && httpContextAccessor.HttpContext.Request.Headers.TryGetValue("Host", out var headerHost))
+            {
+                fromUrl = headerHost;
             }
 
             // 先拿Header的ai-host
