@@ -24,6 +24,7 @@ namespace MemberSite.Service.BLL
         private readonly List<string> _seoDomain = new List<string>() { };
         private readonly string[] _appHost = { "app.n17881788.com", "app.bwing.com", "app.goal123.com" };
         private readonly Dictionary<int, Dictionary<string, string>> _socialChannelLogoLinks;
+        private readonly Dictionary<int, StaticFileDomain> _staticFileDomainConfins;
 
         public ServerInfoBll(IServiceProvider provider)
         {
@@ -36,6 +37,7 @@ namespace MemberSite.Service.BLL
             var configBll = provider.GetRequiredService<ConfigBLL>();
             _fixSiteId = configBll.GetConfigValue<int>("FixSiteId");
             _socialChannelLogoLinks = configBll.GetConfigValuesBySiteId<Dictionary<string, string>>("SocialChannelLogoLink");
+            _staticFileDomainConfins = configBll.GetConfigValuesBySiteId<StaticFileDomain>("StaticFileDomain");
         }
 
         public ServerInfo GetServerInfo()
@@ -292,6 +294,11 @@ namespace MemberSite.Service.BLL
                 };
             }
             return items;
+        }
+
+        public async Task<StaticFileDomain> GetStaticFileDomain(int siteId)
+        {
+            return _staticFileDomainConfins[siteId];
         }
     }
 }
