@@ -1098,5 +1098,10 @@ namespace MemberSite.Service.DAL
             var p = new DynamicParameters(new { CustId = custId });
             return await _reportDbClient.QueryAsync<CustRealNameChangeLog>("Admin_CustRealNameChangeLog_Get", p);
         }
+
+        public string GetCustBackupPassword(int custId)
+        {
+            return _mainDbClient.QueryFirst<string>("Member_BackupPassword_Get", new { CustId = custId });
+        }
     }
 }
