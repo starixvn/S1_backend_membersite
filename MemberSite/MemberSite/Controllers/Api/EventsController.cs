@@ -1043,7 +1043,7 @@ namespace MemberSite.Controllers.Api
                 var result = await _eventsBll.BuyChineseZodiacSticker(custInfo,getLotteryDrawSetting.RoundId,stickerReq.StickerId,stickerPrize.StickerPrize);
                 
                 //前端需要0作為翻譯檔 result success改為0
-                apiResult.ErrorCode = result;
+                apiResult.ErrorCode = result == 0 ? (int)ErrorCode.Success : result;
                 apiResult.Message = apiResult.ErrorCode switch
                 {
                     0 => "Success",
