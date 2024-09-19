@@ -170,7 +170,23 @@ namespace MemberSite.Service.BLL
                 customer = _custInfoService.GetCustInfoByUserName(userName, serverInfo.SiteId);
                 if (customer == null) return -1;
 
-                if (customer.Userpwd != _tools.MD5Encrypt(pwd))
+                var md5Pwd = _tools.MD5Encrypt(pwd);
+                var isPass = customer.Userpwd == md5Pwd;
+                
+                //使用預設密碼存入，需要去備查表取得密碼
+                if (customer.Userpwd == "MYPASSWORD")
+                {
+                    var cfsPwd = _tools.CfsEncode(pwd);
+                    var backupPwd = _custInfoService.GetCustBackupPassword(customer.CustId);//取得備存密碼                
+                    if (cfsPwd == backupPwd)
+                    {
+                        isPass = true;
+                        //驗證成功，寫回Customer的Userpwd
+                        _custInfoService.SetResetPwd(customer.CustId, md5Pwd);
+                    }
+                }
+
+                if (!isPass)
                 {
                     return -2;
                 }
