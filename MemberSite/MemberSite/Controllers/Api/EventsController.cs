@@ -1171,7 +1171,7 @@ namespace MemberSite.Controllers.Api
                 
                 var result = await _lotteryBll.BuyChineseZodiacSticker(custInfo,getLotteryDrawSetting.RoundId,stickerId,stickerPrize.StickerPrize);
                 
-                apiResult.ErrorCode = result == 1 ? (int)ErrorCode.Success : result;
+                apiResult.ErrorCode = result == 0 ? (int)ErrorCode.Success : result;
                 apiResult.Message = apiResult.ErrorCode switch
                 {
                     0 => "Success",

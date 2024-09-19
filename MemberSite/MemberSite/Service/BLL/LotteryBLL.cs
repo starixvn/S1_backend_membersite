@@ -237,10 +237,7 @@ namespace MemberSite.Service.BLL
 
             var buyResult = await _eventsService.BuyChineseZodiacSticker(buyStickerRequest);
 
-            if (buyResult != 1)
-            {
-                return 998;
-            }
+            buyResult = buyResult == 1 ? 0 : 998;
             
             return buyResult;
         }
