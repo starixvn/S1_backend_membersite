@@ -547,9 +547,10 @@ namespace MemberSite.Service.DAL
             if (result > 0)
             {
                 MySqlClient.CommitAndDisposeConnection(conn, trans);
+                result = 0;
             }
-
             return result;
+
         }
         
         #endregion

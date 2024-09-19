@@ -1042,10 +1042,11 @@ namespace MemberSite.Controllers.Api
 
                 var result = await _eventsBll.BuyChineseZodiacSticker(custInfo,getLotteryDrawSetting.RoundId,stickerReq.StickerId,stickerPrize.StickerPrize);
                 
+                //前端需要0作為翻譯檔 result success改為0
                 apiResult.ErrorCode = result;
                 apiResult.Message = apiResult.ErrorCode switch
                 {
-                    1 => "Success",
+                    0 => "Success",
                     997 => "Insert failed, Please contact the operator.",
                     998 => "Purchase failed, Please contact the operator.",
                     999 => "Purchase failed, Please contact the operator.",
@@ -1063,7 +1064,6 @@ namespace MemberSite.Controllers.Api
                     ErrorCode = 9000
                 };
             }
-            return apiResult;
         }
 
         #endregion

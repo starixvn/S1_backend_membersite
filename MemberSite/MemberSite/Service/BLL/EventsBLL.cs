@@ -249,7 +249,7 @@ namespace MemberSite.Service.BLL
 
             var buyResult = await _eventsService.BuyChineseZodiacSticker(buyStickerRequest);
 
-            if (buyResult != 1)
+            if (buyResult != 0)
             {
                 return 998;
             }
