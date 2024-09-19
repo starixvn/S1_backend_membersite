@@ -488,40 +488,41 @@ namespace MemberSite.Service.DAL
         
         #region Lottery
         
-        public IEnumerable<RaffleTicketStickerSetting> GetChineseZodiacStickerList(int siteId)
+        public IEnumerable<RaffleTicketStickerSetting> GetRaffleTicketStickerSetting(int siteId)
         {
+            var time = DateTime.UtcNow.AddHours(8);
             var p = new DynamicParameters();
             p.Add("_SiteId", siteId, dbType: DbType.Int32);
+            p.Add("_Time", time, dbType: DbType.DateTime);
             
-            return _reportDbClient.Query<RaffleTicketStickerSetting>("Admin_RaffleTicketSticker_Get", p);
+            return _reportDbClient.Query<RaffleTicketStickerSetting>("Service_RaffleTicketStickerSetting_Get", p);
         }
 
-        public IEnumerable<LotteryEventDraw> GetLotteryEventDrawSetting(int siteId, DateTime nowTime)
+        public LotteryEventDraw GetLotteryEventDrawSetting(int siteId, DateTime nowTime)
         {
             var p = new DynamicParameters();
             p.Add("_SiteId", siteId, dbType: DbType.Int32);
             p.Add("_Date", nowTime, dbType: DbType.DateTime);
             
-            return _reportDbClient.Query<LotteryEventDraw>("Service_LotteryEventDrawSetting_Get", p);
+            return _reportDbClient.QueryFirst<LotteryEventDraw>("Service_LotteryEventDrawSetting_Get", p);
         }
         
-        public IEnumerable<CustLotteryTicket> GetCustLotteryTicket(int custId, int roundId, int type)
+        public IEnumerable<LotteryEventDraw> GetLotteryRoundList(int siteId)
         {
             var p = new DynamicParameters();
-            p.Add("_CustId", custId, dbType: DbType.Int32);
-            p.Add("_RoundId", roundId, dbType: DbType.Int32);
-            p.Add("_Type", type, dbType: DbType.Int32);
+            p.Add("_SiteId", siteId, dbType: DbType.Int32);
             
-            return _reportDbClient.Query<CustLotteryTicket>("Service_CustLotteryTicket_Get", p);
+            return _reportDbClient.Query<LotteryEventDraw>("Member_LotteryEventDraw_Get", p);
         }
-
-        public int InsertCustLotteryTicket(CustLotteryTicketInsertRequest request)
+        
+        public int InsertCustLotteryTicket(CustLotteryTicketInsertRequest request ,decimal stickerPrize)
         {
             var p = new DynamicParameters();
             p.Add("CustId", request.CustId, dbType: DbType.Int32);
             p.Add("TicketNo", request.TicketNo , dbType: DbType.String);
             p.Add("RoundId", request.RoundId , dbType: DbType.Int32);
-            p.Add("StickerId", request.StickerId , dbType: DbType.Int32);
+            p.Add("StickerId", (int)request.StickerId , dbType: DbType.Int32);
+            p.Add("StickerAmount", stickerPrize , dbType: DbType.Decimal);
             p.Add("Type", request.Type , dbType: DbType.Int32);
             
             var result = _mainDbClient.Execute("Service_CustLotteryTicket_Ins", p);
@@ -539,9 +540,9 @@ namespace MemberSite.Service.DAL
                 buyRequest.SiteId, 
                 buyRequest.UserName, 
                 buyRequest.StickerPrize, 
-                30000, 
+                21, 
                 buyRequest.Memo, 
-                "LotteryEvent : BuyChineseZodiacSticker", 
+                $"LotteryEvent : BuyChineseZodiacSticker {buyRequest.StickerId}", 
                 out _, out _, trans);
             
             if (result > 0)
@@ -553,8 +554,56 @@ namespace MemberSite.Service.DAL
 
         }
         
+        public IEnumerable<CustLotteryTicket> GetCustLotteryTicket(int custId ,int roundId ,int type)
+        {
+            var p = new DynamicParameters();
+            p.Add("_CustId", custId);
+            p.Add("_RoundId", roundId);
+            p.Add("_Type", type);
+            var result = _reportDbClient.Query<CustLotteryTicket>("Service_CustLotteryTicket_Get", p);
+            
+            return result;
+        }
+        
+        public IEnumerable<LotteryEventDrawTurnOverSetting> GetLotteryEventDrawTurnOverSetting(int siteId)
+        {
+            var p = new DynamicParameters();
+            p.Add("_SiteId", siteId, dbType: DbType.Int32);
+            return _reportDbClient.Query<LotteryEventDrawTurnOverSetting>("Service_LotteryEventDrawTurnOverSetting_Get" , p);
+        }
+        
+        public decimal GetCustLotteryTurnOverSummary(int custId ,DateTime startTime ,DateTime endTime)
+        {
+            var p = new DynamicParameters();
+            p.Add("_CustId", custId);
+            p.Add("_StartTime", startTime);
+            p.Add("_EndTime", endTime);
+            var result = _reportDbClient.QueryFirst<decimal>("Service_CustLotteryTurnOverSummary_Get", p);
+            return result;
+        }
+        
+        //超過開獎時間才會有資料
+        public IEnumerable<LotteryWinnerData> GetLotteryWinnerList(int siteId ,int roundId)
+        {
+            var p = new DynamicParameters();
+            p.Add("_SiteId", siteId, dbType: DbType.Int32);
+            p.Add("_RoundId", roundId, dbType: DbType.Int32);
+            return _reportDbClient.Query<LotteryWinnerData>("Member_LotteryTicketHistory_Get" , p);
+        }
+        
+        public DrawPrizeJackpotAccumulation GetDrawPrizeJackpotAccumulation(int eventId)
+        {
+            var p = new DynamicParameters();
+            p.Add("_EventId", eventId, dbType: DbType.Int32);
+            return _reportDbClient.QueryFirst<DrawPrizeJackpotAccumulation>("Service_DrawPrizeJackpotAccumulation_Get" , p);
+        }
+        
+        public IEnumerable<EventRestriction> GetEventRestriction(int siteId)
+        {
+            return _reportDbClient.Query<EventRestriction>("Service_EventRestriction_Get", new { _SiteId = siteId });
+        }
+        
         #endregion
-
 
     }
 }

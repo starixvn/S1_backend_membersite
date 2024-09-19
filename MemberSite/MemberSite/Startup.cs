@@ -139,6 +139,7 @@ namespace MemberSite
             services.AddSingleton<PaymentBLL>();
             services.AddSingleton<ThirdPartyBll>();
             services.AddSingleton<MessageBll>();
+            services.AddSingleton<LotteryBLL>();
             services.AddSingleton<PromotionBll>();
             services.AddSingleton<RedemptionBLL>();
             services.AddSingleton<StoreBLL>();
