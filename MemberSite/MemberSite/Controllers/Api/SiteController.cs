@@ -956,9 +956,11 @@ namespace MemberSite.Controllers.Api
             var apiResult = new ApiResult<IEnumerable<int>>();
             try
             {
+                _logger.LogInformation($"GetAuthData before.");
                 var authData = _authorizeBll.GetAuthData();
                 if (authData is { CustId: > 0 })
                 {
+                    _logger.LogInformation($"login GetCustInfoWithCache before.");
                     var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                     _logger.LogInformation($"GetTpIds by CustInfo, CurrencyId:{custInfo.CurrencyId}, SiteId:{custInfo.SiteId}");
                     var tpIds = _casinoBll.GetProviderIdByCurrency(custInfo.CurrencyId, custInfo.SiteId).ToList();
@@ -966,14 +968,16 @@ namespace MemberSite.Controllers.Api
                     {
                         tpIds.RemoveAll(item => item == (int)Tp.TCG);
                     }
-
+                    _logger.LogInformation($"login Data before.");
                     apiResult.Data = tpIds;
                 }
                 else
                 {
+                    _logger.LogInformation($"GetServerInfo before.");
                     var serverInfo = _serverInfoBll.GetServerInfo();
                     _logger.LogInformation($"GetTpIds not login, CurrencyId:{currencyId}, SiteId:{serverInfo.SiteId}");
                     apiResult.Data = _casinoBll.GetProviderIdByCurrency(currencyId, serverInfo.SiteId);
+                    _logger.LogInformation($"unlogin Data before.");
                 }
             }
             catch (Exception e)
