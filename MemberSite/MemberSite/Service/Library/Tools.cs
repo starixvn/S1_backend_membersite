@@ -332,6 +332,55 @@ namespace MemberSite.Service.Library
             return MD5Encrypt($"{para}{_backEndKey}");
         }
 
+        public string CfsEncode(string codeStr)
+        {
+            var codeLen = 30;
+            var codeSpace = codeLen - codeStr.Length;
 
+            // Padding with character with ASCII value 21
+            if (codeSpace > 1)
+            {
+                codeStr = codeStr.PadRight(codeLen, (char)21);
+            }
+
+            double newCode = 1;
+
+            for (var i = 1; i <= codeLen; i++)
+            {
+                var been = codeLen + (int)codeStr[i - 1] * i;
+                newCode *= been;
+            }
+
+            codeStr = newCode.ToString("G15");
+            var newCode2 = new StringBuilder();
+
+            for (var i = 0; i < codeStr.Length; i++)
+            {
+                var cfsCode = CfsCode(codeStr.Substring(i, Math.Min(3, codeStr.Length - i)));
+                newCode2.Append(cfsCode);
+            }
+
+            var cfsEncodeStr = new StringBuilder();
+            for (var i = 19; i < newCode2.Length - 18; i += 2)
+            {
+                cfsEncodeStr.Append(newCode2[i]);
+            }
+
+            return cfsEncodeStr.ToString();
+        }
+
+        private string CfsCode(string source)
+        {
+            var result = new StringBuilder();
+
+            foreach (var c in source)
+            {
+                result.Append(((int)c).ToString());
+            }
+
+            // Convert to hexadecimal
+            var numValue = int.Parse(result.ToString());
+            return numValue.ToString("X");
+        }
     }
 }

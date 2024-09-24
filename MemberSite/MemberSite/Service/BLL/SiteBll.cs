@@ -21,6 +21,7 @@ public class SiteBll
     private readonly ServerInfoBll _serverInfoBll;
     private readonly CRMBLL _cRMBll;
     private readonly ILogger<SiteBll> _logger;
+    private readonly IWebHostEnvironment _environment;
 
     public SiteBll(IServiceProvider provider)
     {
@@ -36,7 +37,7 @@ public class SiteBll
         _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
         _cRMBll = provider.GetRequiredService<CRMBLL>();
         _logger = provider.GetRequiredService<ILogger<SiteBll>>();
-        
+        _environment = provider.GetRequiredService<IWebHostEnvironment>();
     }
 
     public Customer Signup(SiteController.SignupModel signupModel, ApiResult apiResult, bool isAuthenticated,
@@ -529,17 +530,15 @@ public class SiteBll
 
                         _ = Task.Run(() =>
                         {
-                            if (serverInfo.SiteId is 1 or 2 or 3)
+                            var para = new CRMRequest()
                             {
-                                var para = new CRMRequest()
-                                {
-                                    Event = (int)CRMEvent.Register_successful,
-                                    CustId = custId,
-                                    SiteId = serverInfo.SiteId,
-                                    CurrencyId = signupModel.CurrencyId
-                                };
-                                _ = _cRMBll.Send(para);
-                            }                              
+                                Event = (int)CRMEvent.Register_successful,
+                                CustId = custId,
+                                SiteId = serverInfo.SiteId,
+                                CurrencyId = signupModel.CurrencyId,
+                                Environment = _environment.IsProduction() ? "P" : "D"
+                            };
+                            _ = _cRMBll.Send(para);
                         });
 
                         var userLoginResult = _custInfoBll.UserLogin(false, 0, signupModel.UserName, signupModel.Userpwd,

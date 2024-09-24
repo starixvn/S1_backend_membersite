@@ -989,10 +989,10 @@ namespace MemberSite.Controllers.Api
                         apiResult.Message = _selLangBll.GetMsg("msg_ThisCurrencyNotSupport");
                         break;
                     case 0: 
-                        apiResult.Data = lotteryInfo;
-                        apiResult.ErrorCode = 0;
                         break;
                 } 
+                apiResult.ErrorCode = 0;
+                apiResult.Data = lotteryInfo;
             }
 
             return apiResult;
@@ -1170,10 +1170,10 @@ namespace MemberSite.Controllers.Api
                 
                 var result = await _lotteryBll.BuyChineseZodiacSticker(custInfo,getLotteryDrawSetting.RoundId,stickerId,stickerPrize.StickerPrize);
                 
-                apiResult.ErrorCode = result;
+                apiResult.ErrorCode = result == 0 ? (int)ErrorCode.Success : result;
                 apiResult.Message = apiResult.ErrorCode switch
                 {
-                    1 => "Success",
+                    0 => "Success",
                     997 => "Insert failed, Please contact the operator.",
                     998 => "Purchase failed, Please contact the operator.",
                     999 => "Purchase failed, Please contact the operator.",
