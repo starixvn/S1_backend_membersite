@@ -151,6 +151,7 @@ namespace MemberSite.Service.Model
         public int Occupation { get; set; }
         public int SourceOfIncome { get; set; }
         public string FinanceNotification { get; set; }
+        public string SoundEffects { get; set; }
     }
     public class CustRollOver
     {
