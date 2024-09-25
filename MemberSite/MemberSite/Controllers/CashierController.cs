@@ -420,24 +420,23 @@ namespace MemberSite.Controllers
 
         private bool ActionResult(ApiResult<PayResult> apiResult, string transId, ErrorData model, PaymentView paymentView, out IActionResult actionResult)
         {
+            var useJsonResp = new List<PayChannelMode> { PayChannelMode.ShowQrCode };
+            
+            if (useJsonResp.All(x =>(int)x != apiResult.Data.Mode)
+                && apiResult.ErrorCode != (int)ErrorCode.Success)
+            {
+                actionResult = Content(apiResult.Data.Message, "text/html");
+                return true;
+            }
+            
             switch (apiResult.Data.Mode)
             {
-                case  (int)PayChannelMode.OpenView when apiResult.ErrorCode == (int)ErrorCode.Success:
+                case  (int)PayChannelMode.OpenView:
                     {
-
-                        if (paymentView == PaymentView.DepositReqOnlineBanking &&
-                            !string.IsNullOrEmpty(apiResult.Data.Message))
-                        {
-                            actionResult = Content(apiResult.Data.Message, "text/html");
-                        }
-                        else
-                        {
-                            actionResult = View(paymentView.ToString(), apiResult);
-                        }
-
+                        actionResult = View(paymentView.ToString(), apiResult);
                         return true;
                     }
-                case (int)PayChannelMode.Redirect when apiResult.ErrorCode == (int)ErrorCode.Success:
+                case (int)PayChannelMode.Redirect:
                     {
                         actionResult = Redirect(apiResult.Data.Url);
                         return true;
