@@ -423,33 +423,28 @@ namespace MemberSite.Controllers
         {
             var useJsonResp = new List<PayChannelMode> { PayChannelMode.ShowQrCode };
             
+            model.Message = $"{transId} {apiResult.Message}";
+            actionResult = null;
+            
             if (useJsonResp.All(x =>(int)x != apiResult.Data.Mode)
                 && apiResult.ErrorCode != (int)ErrorCode.Success)
-            {
-                actionResult = Content(apiResult.Data.Message, "text/html");
-                return true;
-            }
-            
+                return false;
+
             switch (apiResult.Data.Mode)
             {
-                case  (int)PayChannelMode.OpenView:
-                    {
-                        actionResult = View(paymentView.ToString(), apiResult);
-                        return true;
-                    }
+                case (int)PayChannelMode.OpenView:
+                    actionResult = View(paymentView.ToString(), apiResult);
+                    return true;
+                
                 case (int)PayChannelMode.Redirect:
-                    {
-                        actionResult = Redirect(apiResult.Data.Url);
-                        return true;
-                    }
+                    actionResult = Redirect(apiResult.Data.Url);
+                    return true;
+                
                 case (int)PayChannelMode.ShowQrCode:
-                    {
-                        actionResult = Json(apiResult);
-                        return true;
-                    }
+                    actionResult = Json(apiResult);
+                    return true;
+                
                 default:
-                    model.Message = $"{transId} {apiResult.RawMessage}";
-                    actionResult = null;
                     return false;
             }
         }
