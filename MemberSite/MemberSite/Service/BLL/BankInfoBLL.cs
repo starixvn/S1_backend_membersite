@@ -25,17 +25,17 @@ namespace MemberSite.Service.BLL
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
             _payInfoLocalizeBll = provider.GetRequiredService<PayInfoLocalizeBLL>();
         }
-        public IEnumerable<BankInfoSys> GetBankInfoSysListByCurrency(int currencyId, string lang)
+        public IEnumerable<BankInfoSys> GetBankInfoSysListByCurrency(int currencyId, string lang, int siteId = 0)
         {
-            var key = $"PaySetting:BankInfoSys:{currencyId}:{lang}";
+            var key = $"PaySetting:BankInfoSys:{currencyId}:{lang}:{siteId}";
             var dbData = _redisHelper.TryGetOrCreate(key, TimeSpan.FromMinutes(10),
-                () => _bankInfoService.GetBankInfoSysList(currencyId, lang), RedisDataBase.Shared);
+                () => _bankInfoService.GetBankInfoSysList(siteId, currencyId, lang), RedisDataBase.Shared);
             
             return dbData;
         }
 
-        public IEnumerable<BankInfoSys> GetBankInfoSysListByCurrencyForCtrl(int currencyId, string lang = "")
-            => GetBankInfoSysListByCurrency(currencyId, lang)
+        public IEnumerable<BankInfoSys> GetBankInfoSysListByCurrencyForCtrl(int currencyId, string lang = "", int siteId = 0)
+            => GetBankInfoSysListByCurrency(currencyId, lang, siteId)
                 .Where(x => x.Status == GeneralStatusEnum.Enable);
         
 
