@@ -421,36 +421,30 @@ namespace MemberSite.Controllers
 
         private bool ActionResult(ApiResult<PayResult> apiResult, string transId, ErrorData model, PaymentView paymentView, out IActionResult actionResult)
         {
+            var useJsonResp = new List<PayChannelMode> { PayChannelMode.ShowQrCode };
+            
+            model.Message = $"{transId} {apiResult.Message}";
+            actionResult = null;
+            
+            if (useJsonResp.All(x =>(int)x != apiResult.Data.Mode)
+                && apiResult.ErrorCode != (int)ErrorCode.Success)
+                return false;
+
             switch (apiResult.Data.Mode)
             {
-                case  (int)PayChannelMode.OpenView when apiResult.ErrorCode == (int)ErrorCode.Success:
-                    {
-
-                        if (paymentView == PaymentView.DepositReqOnlineBanking &&
-                            !string.IsNullOrEmpty(apiResult.Data.Message))
-                        {
-                            actionResult = Content(apiResult.Data.Message, "text/html");
-                        }
-                        else
-                        {
-                            actionResult = View(paymentView.ToString(), apiResult);
-                        }
-
-                        return true;
-                    }
-                case (int)PayChannelMode.Redirect when apiResult.ErrorCode == (int)ErrorCode.Success:
-                    {
-                        actionResult = Redirect(apiResult.Data.Url);
-                        return true;
-                    }
+                case (int)PayChannelMode.OpenView:
+                    actionResult = View(paymentView.ToString(), apiResult);
+                    return true;
+                
+                case (int)PayChannelMode.Redirect:
+                    actionResult = Redirect(apiResult.Data.Url);
+                    return true;
+                
                 case (int)PayChannelMode.ShowQrCode:
-                    {
-                        actionResult = Json(apiResult);
-                        return true;
-                    }
+                    actionResult = Json(apiResult);
+                    return true;
+                
                 default:
-                    model.Message = $"{transId} {apiResult.RawMessage}";
-                    actionResult = null;
                     return false;
             }
         }

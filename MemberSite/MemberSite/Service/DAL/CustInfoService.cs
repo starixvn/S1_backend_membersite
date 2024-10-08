@@ -122,14 +122,13 @@ namespace MemberSite.Service.DAL
 
                     //Customer Setting Default Open
                     profiler.Add("CustNotification","1");
-                    profiler.Add("LastDepositMode","1");
-
+                    profiler.Add("SoundEffects","1");
 
                     if (!string.IsNullOrEmpty(nationality))
                     {
                         profiler.Add("Nationality", nationality);
                     }
-                    
+
                     var profile = profiler.Count <= 0 ? null : Newtonsoft.Json.JsonConvert.SerializeObject(profiler);
                     result = _mainDbClient.Execute("Member_CustProfile_Ins", trans, new DynamicParameters(new
                     {
@@ -332,13 +331,14 @@ namespace MemberSite.Service.DAL
             return _mainDbClient.Execute("Member_CustProfile_Address_Set", p) > 0;
         }
 
-        public bool SetCustSetting(int custId,int siteId,int financeNotification)
+        public bool SetCustSetting(int custId,int siteId,int financeNotification,int soundEffects)
         {
             var p = new DynamicParameters(new
             {
                 _CustId = custId,
                 _SiteId = siteId,
-                _CustNotification = financeNotification.ToString()
+                _CustNotification = financeNotification.ToString(),
+                _SoundEffects = soundEffects.ToString()
             });
             return _mainDbClient.Execute("Member_CustProfileSetting_Set", p) > 0;
         }

@@ -580,6 +580,11 @@ namespace MemberSite.Controllers.Api
                 {
                     custProfile["FinanceNotification"] = beforeCustInfo.FinanceNotification;
                 }
+                
+                if (!string.IsNullOrEmpty(beforeCustInfo.SoundEffects))
+                {
+                    custProfile["SoundEffects"] = beforeCustInfo.SoundEffects;
+                }
 
                 custProfile = SetCountryCodeAndAreaCode(custProfile, beforeCustInfo, custInfo.SiteId);
 
@@ -711,6 +716,11 @@ namespace MemberSite.Controllers.Api
                         custProfile["FinanceNotification"] = beforeCustInfo.FinanceNotification;
                     }
                     
+                    if (!string.IsNullOrEmpty(beforeCustInfo.SoundEffects))
+                    {
+                        custProfile["SoundEffects"] = beforeCustInfo.SoundEffects;
+                    }
+
                     custProfile = SetCountryCodeAndAreaCode(custProfile, beforeCustInfo, custInfo.SiteId);
 
                     apiResult.ErrorCode = _custInfoBLL.SetProfileV2(authData.CustId, custProfile);
@@ -914,6 +924,7 @@ namespace MemberSite.Controllers.Api
                         custInfo.Occupation,
                         custInfo.SourceOfIncome,
                         FinanceNotification = string.IsNullOrEmpty(custInfo.FinanceNotification) ? "1" : custInfo.FinanceNotification,
+                        SoundEffects = string.IsNullOrEmpty(custInfo.SoundEffects) ? "1" : custInfo.SoundEffects,
                         custInfo.CustId,
                     };
 
@@ -1312,6 +1323,7 @@ namespace MemberSite.Controllers.Api
         {
             public string Language { get; set; }
             public int FinanceNotification { get; set; }
+            public int SoundEffects { get; set; }
         }
 
         [HttpPost]
@@ -1321,7 +1333,7 @@ namespace MemberSite.Controllers.Api
             var authData = _authorizeBLL.GetAuthData();
             if (authData is { CustId: > 0 })
             {
-                apiResult.ErrorCode = _custInfoBLL.SetCustSetting(authData.CustId,custSettingReq.FinanceNotification); 
+                apiResult.ErrorCode = _custInfoBLL.SetCustSetting(authData.CustId,custSettingReq.FinanceNotification,custSettingReq.SoundEffects); 
             }
 
             return apiResult;
