@@ -1,18 +1,96 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
                 <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
                 <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
               <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
               <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
@@ -27,134 +105,407 @@
       </xsd:complexType>
     </xsd:element>
   </xsd:schema>
-<resheader name="resmimetype"><value>text/microsoft-resx</value></resheader><resheader name="version"><value>1.3</value></resheader><resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader><resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader><data name="msg_TransferAlert"><value>Số dư hiện tại của bạn là: &lt;span class="popup-span Js-3RdWallet-Balance"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;
- Hãy chuyển tiền từ ví chính sang ví Thể thao để trải nghiệm các trò chơi và dịch vụ của chúng tôi</value></data>
-  <data name="msg_ClaimCashBackBonus"><value>Xin chúc mừng, khoản tiền hoàn lại {0} của bạn đã được ghi có vào tài khoản của bạn!</value></data>
-  <data name="msg_BirthdayIsRequired"><value>Vui lòng điền ngày tháng năm sinh</value></data>
-  <data name="msg_UsernameReq"><value>Tên người dùng là bắt buộc</value></data>
-  <data name="msg_MustInteger"><value>Vui lòng điền đủ các ký tự, các chữ số thập phân không hợp lệ</value></data>
-  <data name="msg_LoginToAccess"><value>Để truy cập vào trò chơi, vui lòng đăng nhập.</value></data>
-  <data name="msg_WithdrawalAccountNumberIncorrect_Detail"><value>Số tài khoản rút tiền không chính xác. Vui lòng kiểm tra số tài khoản rút tiền của bạn.</value></data>
-  <data name="msg_CreditSignUp"><value>Kính gửi quý khách hàng, &lt;br /&gt;&lt;br /&gt;Chào mừng đến với &lt;a href="https://www.nova88.net" target=""_new""&gt;www.nova88.net&lt;/a&gt;, vui lòng truy cập liên kết ở trên để đăng ký và trải nghiệm các trò chơi của chúng tôi.</value></data>
-  <data name="msg_WrongAmountSubmitted_Detail"><value>Số tiền gửi không khớp với số tiền tạo lệnh nạp tiền . Vui lòng kiểm tra lại hoặc liên hệ với bộ phận Hỗ trợ khách hàng để được hỗ trợ thêm.</value></data>
-  <data name="msg_BankAccountDuplicate"><value>Tài khoản ngân hàng này đã tồn tại</value></data>
-  <data name="msg_WithdrawalNoFund"><value>Yêu cầu rút tiền không thành công do tài khoản hiện không đủ tiền.</value></data>
-  <data name="msg_EmailFormatVerify"><value>Định dạng địa chỉ email không chính xác</value></data>
-  <data name="msg_loggedout"><value>Bạn đã đăng xuất thành công</value></data>
-  <data name="msg_PhoneFormatVerify"><value>Số điện thoại bạn nhập không chính xác, phải có độ dài từ {0} số.</value></data>
-  <data name="msg_PhoneWrongFormat"><value>Định dạng Phone không đúng</value></data>
-  <data name="msg_Updatesuccessful"><value>Cập nhật thành công</value></data>
-  <data name="msg_WithdrawalFailed"><value>Yêu cầu rút tiền của bạn không được chấp thuận. Vui lòng liên hệ bộ phận chăm sóc khách hàng để biết thêm chi tiết</value></data>
-  <data name="msg_CryptoWalletDuplicate"><value>Địa chỉ Ví tiền ảo này đã được sử dụng</value></data>
-  <data name="msg_WithdrawalExists"><value>Yêu cầu giao dịch của bạn hiện đang được xử lý. Vui lòng thử lại sau khi giao dịch được hoàn tất.</value></data>
-  <data name="msg_LessThanWithdrawalMin"><value>Số tiền rút phải lớn hơn {0}</value></data>
-  <data name="msg_ReferenceNumber"><value>Số tham chiếu</value></data>
-  <data name="mag_AffiliateNotExist"><value>Mã Liên Kết của bạn không hợp lệ. Vui lòng kiểm tra lại!</value></data>
-  <data name="msg_Congratulations"><value>Đăng ký của bạn đã hoàn tất, bạn có thể đăng nhập ngay bây giờ , gửi tiền và sau đó bắt đầu đặt cược.</value></data>
-  <data name="msg_PaymentNotReceived"><value>Lệnh Nạp tiền không nhận được</value></data>
-  <data name="msg_DepositHint"><value>Nạp tiền ngay để thưởng thức các trò chơi và dịch vụ của chúng tôi.</value></data>
-  <data name="msg_WrongAmount"><value>Số tiền sai</value></data>
-  <data name="msg_WithdrawalAccountsNameUnmatch"><value>Tài Khoản rút tiền không trùng khớp</value></data>
-  <data name="msg_PasswordValidate"><value>Mật khẩu phải có 6-15 ký tự.</value></data>
-  <data name="msg_WrongAmountSubmitted"><value>Số tiền gửi không chính xác</value></data>
-  <data name="msg_UsernameNotAvailable"><value>Tên đăng nhập này đã được sử dụng.</value></data>
-  <data name="msg_WithdrawalAccountsNameUnmatch_Detail"><value>Tên tài khoản rút tiền không khớp với tên đã đăng ký. Vui lòng liên hệ với dịch vụ chăm sóc khách hàng để được hỗ trợ.</value></data>
-  <data name="msg_NeedAccountName"><value>Cần nhập tên tài khoản</value></data>
-  <data name="msg_DrawPrizeTital"><value>Lì Xì phát lộc</value></data>
-  <data name="msg_UsernameLength"><value>Tên người dùng phải dài từ 6 đến 18 ký tự</value></data>
-  <data name="msg_DepositSlipRequired_Detail"><value>Vui lòng đính kèm biên lai nạp tiền để giao dịch được xử lý nhanh chóng hơn</value></data>
-  <data name="msg_NeedAccountNo"><value>Cần nhập số tài khoản</value></data>
-  <data name="msg_DrawPrize"><value>Xin chúc mừng, tiền lì xì VNĐ {0} đã được ghi có vào ví của bạn!</value></data>
-  <data name="msg_SpecialCodeErrorForCheck"><value>Mã khuyến mãi không chính xác, vui lòng kiểm tra lại</value></data>
-  <data name="msg_InvalidOldPassword"><value>Mật khẩu cũ không đúng.</value></data>
-  <data name="msg_WithdrawalAccountAannotReceiveMoney_Detail"><value>Tài khoản rút tiền không thành công . Vui lòng kiểm tra lại hoặc liên hệ với bộ phận Hỗ trợ khách hàng để được hỗ trợ thêm</value></data>
-  <data name="msg_PasswordLength"><value>Mật khẩu phải có từ 6 đến 18 ký tự</value></data>
-  <data name="msg_GreaterThanWithdrawalMax"><value>Bạn Đã Sử Dụng Hết Hạn Mức Trong Ngày.</value></data>
-  <data name="msg_MailWrongFormat"><value>Định dạng Email không đúng</value></data>
-  <data name="msg_NotInLimit"><value>ngoài hạn mức.</value></data>
-  <data name="msg_UsernameValidate"><value>6-18 ký tự chữ và số (A-Z, a-z, 0-9)</value></data>
-  <data name="msg_WrongBankSubmitted_Detail"><value>Tài khoản Nạp tiền đã chọn không chính xác . Vui lòng kiểm tra lại hoặc liên hệ với bộ phận Hỗ trợ khách hàng để được hỗ trợ thêm.</value></data>
-  <data name="msg_DepositSlipRequired"><value>Yêu cầu Biên Lai nạp tiền</value></data>
-  <data name="msg_OTPEnterCode"><value>Vui lòng nhập số xác minh bạn nhận được bên dưới.</value></data>
-  <data name="msg_UpdateFailed"><value>Cập nhật thất bại</value></data>
-  <data name="msg_EnterRealName"><value>Vui lòng nhập tên thật của bạn.</value></data>
-  <data name="msg_SelectBirthDay"><value>Vui lòng chọn ngày sinh của bạn.</value></data>
-  <data name="msg_RequiredAmountInsufficient"><value>Gửi tối thiểu {0} để đủ điều kiện nhận thưởng</value></data>
-  <data name="msg_DepositProcessLogin_LoginFailed"><value>Đăng nhập thất bại, Tên người dùng / Mật khẩu sai hoặc Tên người dùng không tồn tại.</value></data>
-  <data name="msg_SelectFile"><value>Chọn Tập Tin</value></data>
-  <data name="msg_DepositProcessLogin_ACLocked"><value>Tài khoản của bạn đã bị khóa, vui lòng liên hệ với dịch vụ khách hàng 24/7, cảm ơn!</value></data>
-  <data name="msg_InactiveBankAccountSubmission"><value>Tài khoản ngân hàng không hoạt động</value></data>
-  <data name="msg_ConfirmRealNameAlert"><value>Để đảm bảo giao dịch chính xác, vui lòng đảm bảo tên thật của bạn giống với tên trên tài khoản ngân hàng.</value></data>
-  <data name="msg_MustDeposit"><value>Vui lòng gửi tiền trước khi gửi tạo lệnh rút tiền</value></data>
-  <data name="msg_GoToDepositPage"><value>Vào trang nạp tiền?</value></data>
-  <data name="msg_PromoCodeHasBeenUsed"><value>Mã khuyến mãi đã được sử dụng</value></data>
-  <data name="msg_PaymentNotReceived_Detail"><value>Tiền nạp của quý khách chưa nhận được, xin vui lòng kiên nhẫn chờ</value></data>
-  <data name="msg_DrawPrize1"><value>Xin chúc mừng! Tài khoản của bạn được nhận thưởng {1}{2} từ {0}.</value></data>
-  <data name="msg_BalanceHint"><value>Số dư hiện tại của bạn là</value></data>
-  <data name="msg_HasExist"><value>này đã được sử dụng</value></data>
-  <data name="msg_InsufficientFund"><value>Không đủ tiền!</value></data>
-  <data name="msg_DepositRefunded_Detail"><value>Số tiền gửi đã được hoàn trả, xin vui lòng kiểm tra tài khoản ngân hàng của quý khách</value></data>
-  <data name="msg_LockedAmountInsufficient"><value>Số dư trong ví chính không được nhỏ hơn {0}</value></data>
-  <data name="msg_OTPSendCode"><value>Mã xác nhận đã được gửi đến số điện thoại bạn đăng ký. Vui lòng kiểm tra và nhập mã xác nhận bên dưới.</value></data>
-  <data name="msg_InactiveBankAccountSubmission_Detail"><value>Tài khoản tiền gửi đã thay đổi, vui lòng kiểm tra tài khoản nhận mới nhất trước khi thực hiện giao dịch</value></data>
-  <data name="msg_WithdrawalAccountAannotReceiveMoney"><value>Tài khoản rút tiền không thành công</value></data>
-  <data name="msg_SamePassword"><value>Mật khẩu cũ và Mật khẩu mới đều giống nhau!</value></data>
-  <data name="msg_BeneficiarysAccountMaintenance_Detail"><value>Ngân hàng hiện đang bảo trì, lệnh rút tiền của bạn sẽ được xử lý sau khi ngân hàng bảo trì hoàn tất.</value></data>
-  <data name="msg_DepositorsNameUnmatch_Detail"><value>Họ Tên tài khoản không trùng khớp với Họ Tên trong ngân hàng , vui lòng liên hệ bộ phận chăm sóc khách hàng để được hỗ trợ thêm.</value></data>
-  <data name="msg_WithdrawalAccountNumberIncorrect"><value>Số tài khoản rút tiền không chính xác</value></data>
-  <data name="msg_DepositAlert"><value>Số tiền trong ví chính : &lt;span class="popup-span Js-MainWallet-Balance"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;Nạp tiền bây giờ hoặc chuyển tiền từ Ví Thể Thao sang ví chính để trải nghiệm các trò chơi và dịch vụ của chúng tôi.</value></data>
-  <data name="msg_ForceLogedoutHint"><value>ID này đã đăng nhập từ một cửa sổ trình duyệt khác hoặc thiết bị khác. Bạn sẽ bị đăng xuất khỏi phiên này.</value></data>
-  <data name="msg_WithdrawalSuccessful"><value>Yêu cầu rút tiền của bạn đã được chấp thuận. Chúng tôi sẽ thông báo đến bạn khi nó được xử lý xong.</value></data>
-  <data name="msg_EnterPhoneNumber"><value>Vui lòng nhập số điện thoại.</value></data>
-  <data name="msg_PasswordReq"><value>Mật khẩu là bắt buộc</value></data>
-  <data name="msg_NoData"><value>Không có dữ liệu</value></data>
-  <data name="msg_ThisCurrencyNotSupport"><value>Tiền tệ của bạn không được hỗ trợ</value></data>
-  <data name="msg_InvalidCryptoWalletAddress"><value>Địa chỉ ví tiền điện tử không hợp lệ.</value></data>
-  <data name="msg_DrawPrizeTital1"><value>Chiếc Hộp Thần Kỳ {0}</value></data>
-  <data name="ForgetPwdSuccess"><value>Mật khẩu mới đã được gửi đến địa chỉ email đăng ký của bạn.</value></data>
-  <data name="msg_BankAccountExists"><value>Bạn đã lưu thông tin này.</value></data>
-  <data name="msg_Ineligible"><value>Tài khoản của bạn chưa may mắn trong ngày hôm nay, xin vui lòng thử lại vào ngày hôm sau.</value></data>
-  <data name="msg_CreditSignUpHint_1"><value>Kính gửi quý khách hàng,</value></data>
-  <data name="msg_CreditSignUpHint_2"><value>Chào mừng đến với {0}, vui lòng truy cập liên kết ở trên để đăng ký và trải nghiệm các trò chơi của chúng tôi.</value></data>
-  <data name="ResetPwdSuccess"><value>Mật khẩu của bạn đã được đặt lại thành công!</value></data>
-  <data name="msg_DepositorsNameUnmatch"><value>Tên người gửi tiền không khớp</value></data>
-  <data name="msg_PromoCodeIncorrect"><value>Mã khuyến mãi không đúng</value></data>
-  <data name="msg_SpecialCodeErr"><value>Mã khuyến mãi không chính xác, vui lòng kiểm tra lại</value></data>
-  <data name="msg_IneligibleAngPow"><value>Vui lòng nạp tiền để tham gia khuyến mãi.</value></data>
-  <data name="msg_MailReq"><value>Không thể thay đổi Email sau khi xác nhận</value></data>
-  <data name="msg_ForceLogedout"><value>Bạn đã đăng xuất !!! Hãy đăng nhập và thử lại !!!</value></data>
-  <data name="msg_WrongBankSubmitted"><value>Chọn sai tài khoản Nạp tiền</value></data>
-  <data name="msg_BeneficiarysAccountMaintenance"><value>Tài khoản ngân hàng thụ hưởng đang bảo trì</value></data>
-  <data name="ForgetPwdFail"><value>Vui lòng nhập địa chỉ email bạn đã đăng ký.</value></data>
-  <data name="msg_OTPHint"><value>Vui lòng hoàn tất thông tin của bạn và xác minh số điện thoại của bạn để được hưởng các chương trình khuyến mãi của chúng tôi.</value></data>
-  <data name="msg_MailExisted"><value>Địa chỉ Email này đã được sử dụng.</value></data>
-  <data name="msg_SpecialCodeVipLevelsOrBlockTagInvalid"><value>Không thể tham gia chương trình khuyến mãi này, vui lòng liên hệ bộ phận chăm sóc khách hàng để được giải đáp</value></data>
-  <data name="msg_AffCodeValidate"><value>ID Đại lý chỉ cho phép 5-20 số.</value></data>
-  <data name="msg_OTPHint2"><value>Xác minh điện thoại của bạn ngay?</value></data>
-  <data name="msg_OTPHint1"><value>Bạn muốn trải nghiệm toàn diện các sản phẩm &amp; dịch vụ của chúng tôi?</value></data>
-  <data name="msg_DepositRefunded"><value>Hoàn lại Tiền gửi</value></data>
-  <data name="msg_DecimalOutOfRange"><value>Chuyển quỹ thất bại do phần thập phân có nhiều hơn 2 chữ số.</value></data>
-  <data name="msg_RedemptionLimitOverLimit"><value>Xin lỗi, bạn đã đạt đến giới hạn đổi quà. Vui lòng thử lại vào tháng mới.</value></data>
-  <data name="msg_times_chance"><value>Vẫn còn {0} lần cơ hội</value></data>
-  <data name="msg_congratulation_event_reward"><value>Xin chúc mừng! Nhận được số tiền {0}</value></data>
-  <data name="msg_ProfileOrPhoneNotFinish"><value>Thông tin tài khoản chưa được điền đầy đủ, vui lòng xác minh thông tin tài khoản</value></data>
-  <data name="msg_EWalletIsMaintenance"><value>Ví điện tử đang bảo trì, vui lòng sử dụng các phương thức rút tiền khác</value></data>
-  <data name="msg_turnover_not_enough"><value>Chưa hoàn thành yêu cầu đặt cược hợp lệ, không thể tham gia</value></data>
-  <data name="msg_ResubmitWithdrawal"><value>Vui lòng gửi lại yêu cầu rút tiền.</value></data>
-  <data name="msg_Event_has_not_started"><value>Sự kiện vẫn chưa bắt đầu</value></data>
-  <data name="msg_limit_has_been_reached"><value>Đã đạt đến giới hạn của ngày hôm nay</value></data>
-  <data name="msg_InsufficientPoint"><value>Xin lỗi! Số điểm 88 Rewards của bạn không đủ.</value></data>
-  <data name="msg_keep_up"><value>Chúc may mắn trong lần rút tiếp theo của bạn</value></data>
-  <data name="msg_EWalletDuplicate"><value>Không được phép sử dụng trùng số tài khoản E-wallet. Vui lòng thử sử dụng số tài khoản E-wallet khác.</value></data>
-  <data name="msg_CompletePhoneNumber"><value>Vui lòng hoàn tất việc xác minh điện thoại di động (OTP) của bạn.</value></data>
-  <data name="msg_LineAccountAlreadyBind"><value>Tài khoản LINE này đã được sử dụng, vui lòng sử dụng tài khoản khác.</value></data>
-  <data name="msg_RealNameWrongFormat"><value>Tên thật không thể chứa số hoặc ký tự đặc biệt.</value></data>
-  <data name="msg_OTPDailyLimit"><value>Bạn đã gửi nhiều yêu cầu OTP trước đó, vui lòng liên hệ bộ phận Live Chat để được hỗ trợ</value></data>
-  <data name="msg_SystemUnstable"><value>Hệ thống hiện không thể hiện chi tiết.</value></data>
-  <data name="msg_SystemUnstable_Detail"><value>Hệ thống ngân hàng hiện không thể hiện chi tiết giao dịch và xử lý giao dịch nạp tiền. Vui lòng quay lại sau.</value></data>
-  <data name="msg_BankUnderMaintenance"><value>Bảo trì ngân hàng</value></data>
-  <data name="msg_BankUnderMaintenance_Detail"><value>Hệ thống ngân hàng hiện đang được bảo trì và tạm thời không thể xử lý khoản tiền gửi của bạn.</value></data>
-  <data name="msg_AffCodeNotFound"><value>Tìm không thấy ID Đại lý</value></data>
-  <data name="msg_WrongAmountFormat"><value>Lỗi &gt; Định dạng số tiền sai</value></data>
-  <data name="msg_QuestionnaireFailed"><value>Số lượt gửi phản hồi hôm nay đã hết. </value></data>
-  </root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="msg_TransferAlert" xml:space="preserve">
+    <value>Số dư hiện tại của bạn là: &lt;span class="popup-span Js-3RdWallet-Balance"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;
+ Hãy chuyển tiền từ ví chính sang ví Thể thao để trải nghiệm các trò chơi và dịch vụ của chúng tôi</value>
+  </data>
+  <data name="msg_ClaimCashBackBonus" xml:space="preserve">
+    <value>Xin chúc mừng, khoản tiền hoàn lại {0} của bạn đã được ghi có vào tài khoản của bạn!</value>
+  </data>
+  <data name="msg_BirthdayIsRequired" xml:space="preserve">
+    <value>Vui lòng điền ngày tháng năm sinh</value>
+  </data>
+  <data name="msg_UsernameReq" xml:space="preserve">
+    <value>Tên người dùng là bắt buộc</value>
+  </data>
+  <data name="msg_MustInteger" xml:space="preserve">
+    <value>Vui lòng điền đủ các ký tự, các chữ số thập phân không hợp lệ</value>
+  </data>
+  <data name="msg_LoginToAccess" xml:space="preserve">
+    <value>Để truy cập vào trò chơi, vui lòng đăng nhập.</value>
+  </data>
+  <data name="msg_WithdrawalAccountNumberIncorrect_Detail" xml:space="preserve">
+    <value>Số tài khoản rút tiền không chính xác. Vui lòng kiểm tra số tài khoản rút tiền của bạn.</value>
+  </data>
+  <data name="msg_CreditSignUp" xml:space="preserve">
+    <value>Kính gửi quý khách hàng, &lt;br /&gt;&lt;br /&gt;Chào mừng đến với &lt;a href="https://www.nova88.net" target=""_new""&gt;www.nova88.net&lt;/a&gt;, vui lòng truy cập liên kết ở trên để đăng ký và trải nghiệm các trò chơi của chúng tôi.</value>
+  </data>
+  <data name="msg_WrongAmountSubmitted_Detail" xml:space="preserve">
+    <value>Số tiền gửi không khớp với số tiền tạo lệnh nạp tiền . Vui lòng kiểm tra lại hoặc liên hệ với bộ phận Hỗ trợ khách hàng để được hỗ trợ thêm.</value>
+  </data>
+  <data name="msg_BankAccountDuplicate" xml:space="preserve">
+    <value>Tài khoản ngân hàng này đã tồn tại</value>
+  </data>
+  <data name="msg_WithdrawalNoFund" xml:space="preserve">
+    <value>Yêu cầu rút tiền không thành công do tài khoản hiện không đủ tiền.</value>
+  </data>
+  <data name="msg_EmailFormatVerify" xml:space="preserve">
+    <value>Định dạng địa chỉ email không chính xác</value>
+  </data>
+  <data name="msg_loggedout" xml:space="preserve">
+    <value>Bạn đã đăng xuất thành công</value>
+  </data>
+  <data name="msg_PhoneFormatVerify" xml:space="preserve">
+    <value>Số điện thoại bạn nhập không chính xác, phải có độ dài từ {0} số.</value>
+  </data>
+  <data name="msg_PhoneWrongFormat" xml:space="preserve">
+    <value>Định dạng Phone không đúng</value>
+  </data>
+  <data name="msg_Updatesuccessful" xml:space="preserve">
+    <value>Cập nhật thành công</value>
+  </data>
+  <data name="msg_WithdrawalFailed" xml:space="preserve">
+    <value>Yêu cầu rút tiền của bạn không được chấp thuận. Vui lòng liên hệ bộ phận chăm sóc khách hàng để biết thêm chi tiết</value>
+  </data>
+  <data name="msg_CryptoWalletDuplicate" xml:space="preserve">
+    <value>Địa chỉ Ví tiền ảo này đã được sử dụng</value>
+  </data>
+  <data name="msg_WithdrawalExists" xml:space="preserve">
+    <value>Yêu cầu giao dịch của bạn hiện đang được xử lý. Vui lòng thử lại sau khi giao dịch được hoàn tất.</value>
+  </data>
+  <data name="msg_LessThanWithdrawalMin" xml:space="preserve">
+    <value>Số tiền rút phải lớn hơn {0}</value>
+  </data>
+  <data name="msg_ReferenceNumber" xml:space="preserve">
+    <value>Số tham chiếu</value>
+  </data>
+  <data name="mag_AffiliateNotExist" xml:space="preserve">
+    <value>Mã Liên Kết của bạn không hợp lệ. Vui lòng kiểm tra lại!</value>
+  </data>
+  <data name="msg_Congratulations" xml:space="preserve">
+    <value>Đăng ký của bạn đã hoàn tất, bạn có thể đăng nhập ngay bây giờ , gửi tiền và sau đó bắt đầu đặt cược.</value>
+  </data>
+  <data name="msg_PaymentNotReceived" xml:space="preserve">
+    <value>Lệnh Nạp tiền không nhận được</value>
+  </data>
+  <data name="msg_DepositHint" xml:space="preserve">
+    <value>Nạp tiền ngay để thưởng thức các trò chơi và dịch vụ của chúng tôi.</value>
+  </data>
+  <data name="msg_WrongAmount" xml:space="preserve">
+    <value>Số tiền sai</value>
+  </data>
+  <data name="msg_WithdrawalAccountsNameUnmatch" xml:space="preserve">
+    <value>Tài Khoản rút tiền không trùng khớp</value>
+  </data>
+  <data name="msg_PasswordValidate" xml:space="preserve">
+    <value>Mật khẩu phải có 6-15 ký tự.</value>
+  </data>
+  <data name="msg_WrongAmountSubmitted" xml:space="preserve">
+    <value>Số tiền gửi không chính xác</value>
+  </data>
+  <data name="msg_UsernameNotAvailable" xml:space="preserve">
+    <value>Tên đăng nhập này đã được sử dụng.</value>
+  </data>
+  <data name="msg_WithdrawalAccountsNameUnmatch_Detail" xml:space="preserve">
+    <value>Tên tài khoản rút tiền không khớp với tên đã đăng ký. Vui lòng liên hệ với dịch vụ chăm sóc khách hàng để được hỗ trợ.</value>
+  </data>
+  <data name="msg_NeedAccountName" xml:space="preserve">
+    <value>Cần nhập tên tài khoản</value>
+  </data>
+  <data name="msg_DrawPrizeTital" xml:space="preserve">
+    <value>Lì Xì phát lộc</value>
+  </data>
+  <data name="msg_UsernameLength" xml:space="preserve">
+    <value>Tên người dùng phải dài từ 6 đến 18 ký tự</value>
+  </data>
+  <data name="msg_DepositSlipRequired_Detail" xml:space="preserve">
+    <value>Vui lòng đính kèm biên lai nạp tiền để giao dịch được xử lý nhanh chóng hơn</value>
+  </data>
+  <data name="msg_NeedAccountNo" xml:space="preserve">
+    <value>Cần nhập số tài khoản</value>
+  </data>
+  <data name="msg_DrawPrize" xml:space="preserve">
+    <value>Xin chúc mừng, tiền lì xì VNĐ {0} đã được ghi có vào ví của bạn!</value>
+  </data>
+  <data name="msg_SpecialCodeErrorForCheck" xml:space="preserve">
+    <value>Mã khuyến mãi không chính xác, vui lòng kiểm tra lại</value>
+  </data>
+  <data name="msg_InvalidOldPassword" xml:space="preserve">
+    <value>Mật khẩu cũ không đúng.</value>
+  </data>
+  <data name="msg_WithdrawalAccountAannotReceiveMoney_Detail" xml:space="preserve">
+    <value>Tài khoản rút tiền không thành công . Vui lòng kiểm tra lại hoặc liên hệ với bộ phận Hỗ trợ khách hàng để được hỗ trợ thêm</value>
+  </data>
+  <data name="msg_PasswordLength" xml:space="preserve">
+    <value>Mật khẩu phải có từ 6 đến 18 ký tự</value>
+  </data>
+  <data name="msg_GreaterThanWithdrawalMax" xml:space="preserve">
+    <value>Bạn Đã Sử Dụng Hết Hạn Mức Trong Ngày.</value>
+  </data>
+  <data name="msg_MailWrongFormat" xml:space="preserve">
+    <value>Định dạng Email không đúng</value>
+  </data>
+  <data name="msg_NotInLimit" xml:space="preserve">
+    <value>ngoài hạn mức.</value>
+  </data>
+  <data name="msg_UsernameValidate" xml:space="preserve">
+    <value>6-18 ký tự chữ và số (A-Z, a-z, 0-9)</value>
+  </data>
+  <data name="msg_WrongBankSubmitted_Detail" xml:space="preserve">
+    <value>Tài khoản Nạp tiền đã chọn không chính xác . Vui lòng kiểm tra lại hoặc liên hệ với bộ phận Hỗ trợ khách hàng để được hỗ trợ thêm.</value>
+  </data>
+  <data name="msg_DepositSlipRequired" xml:space="preserve">
+    <value>Yêu cầu Biên Lai nạp tiền</value>
+  </data>
+  <data name="msg_OTPEnterCode" xml:space="preserve">
+    <value>Vui lòng nhập số xác minh bạn nhận được bên dưới.</value>
+  </data>
+  <data name="msg_UpdateFailed" xml:space="preserve">
+    <value>Cập nhật thất bại</value>
+  </data>
+  <data name="msg_EnterRealName" xml:space="preserve">
+    <value>Vui lòng nhập tên thật của bạn.</value>
+  </data>
+  <data name="msg_SelectBirthDay" xml:space="preserve">
+    <value>Vui lòng chọn ngày sinh của bạn.</value>
+  </data>
+  <data name="msg_RequiredAmountInsufficient" xml:space="preserve">
+    <value>Gửi tối thiểu {0} để đủ điều kiện nhận thưởng</value>
+  </data>
+  <data name="msg_DepositProcessLogin_LoginFailed" xml:space="preserve">
+    <value>Đăng nhập thất bại, Tên người dùng / Mật khẩu sai hoặc Tên người dùng không tồn tại.</value>
+  </data>
+  <data name="msg_SelectFile" xml:space="preserve">
+    <value>Chọn Tập Tin</value>
+  </data>
+  <data name="msg_DepositProcessLogin_ACLocked" xml:space="preserve">
+    <value>Tài khoản của bạn đã bị khóa, vui lòng liên hệ với dịch vụ khách hàng 24/7, cảm ơn!</value>
+  </data>
+  <data name="msg_InactiveBankAccountSubmission" xml:space="preserve">
+    <value>Tài khoản ngân hàng không hoạt động</value>
+  </data>
+  <data name="msg_ConfirmRealNameAlert" xml:space="preserve">
+    <value>Để đảm bảo giao dịch chính xác, vui lòng đảm bảo tên thật của bạn giống với tên trên tài khoản ngân hàng.</value>
+  </data>
+  <data name="msg_MustDeposit" xml:space="preserve">
+    <value>Vui lòng gửi tiền trước khi gửi tạo lệnh rút tiền</value>
+  </data>
+  <data name="msg_GoToDepositPage" xml:space="preserve">
+    <value>Vào trang nạp tiền?</value>
+  </data>
+  <data name="msg_PromoCodeHasBeenUsed" xml:space="preserve">
+    <value>Mã khuyến mãi đã được sử dụng</value>
+  </data>
+  <data name="msg_PaymentNotReceived_Detail" xml:space="preserve">
+    <value>Tiền nạp của quý khách chưa nhận được, xin vui lòng kiên nhẫn chờ</value>
+  </data>
+  <data name="msg_DrawPrize1" xml:space="preserve">
+    <value>Xin chúc mừng! Tài khoản của bạn được nhận thưởng {1}{2} từ {0}.</value>
+  </data>
+  <data name="msg_BalanceHint" xml:space="preserve">
+    <value>Số dư hiện tại của bạn là</value>
+  </data>
+  <data name="msg_HasExist" xml:space="preserve">
+    <value>này đã được sử dụng</value>
+  </data>
+  <data name="msg_InsufficientFund" xml:space="preserve">
+    <value>Không đủ tiền!</value>
+  </data>
+  <data name="msg_DepositRefunded_Detail" xml:space="preserve">
+    <value>Số tiền gửi đã được hoàn trả, xin vui lòng kiểm tra tài khoản ngân hàng của quý khách</value>
+  </data>
+  <data name="msg_LockedAmountInsufficient" xml:space="preserve">
+    <value>Số dư trong ví chính không được nhỏ hơn {0}</value>
+  </data>
+  <data name="msg_OTPSendCode" xml:space="preserve">
+    <value>Mã xác nhận đã được gửi đến số điện thoại bạn đăng ký. Vui lòng kiểm tra và nhập mã xác nhận bên dưới.</value>
+  </data>
+  <data name="msg_InactiveBankAccountSubmission_Detail" xml:space="preserve">
+    <value>Tài khoản tiền gửi đã thay đổi, vui lòng kiểm tra tài khoản nhận mới nhất trước khi thực hiện giao dịch</value>
+  </data>
+  <data name="msg_WithdrawalAccountAannotReceiveMoney" xml:space="preserve">
+    <value>Tài khoản rút tiền không thành công</value>
+  </data>
+  <data name="msg_SamePassword" xml:space="preserve">
+    <value>Mật khẩu cũ và Mật khẩu mới đều giống nhau!</value>
+  </data>
+  <data name="msg_BeneficiarysAccountMaintenance_Detail" xml:space="preserve">
+    <value>Ngân hàng hiện đang bảo trì, lệnh rút tiền của bạn sẽ được xử lý sau khi ngân hàng bảo trì hoàn tất.</value>
+  </data>
+  <data name="msg_DepositorsNameUnmatch_Detail" xml:space="preserve">
+    <value>Họ Tên tài khoản không trùng khớp với Họ Tên trong ngân hàng , vui lòng liên hệ bộ phận chăm sóc khách hàng để được hỗ trợ thêm.</value>
+  </data>
+  <data name="msg_WithdrawalAccountNumberIncorrect" xml:space="preserve">
+    <value>Số tài khoản rút tiền không chính xác</value>
+  </data>
+  <data name="msg_DepositAlert" xml:space="preserve">
+    <value>Số tiền trong ví chính : &lt;span class="popup-span Js-MainWallet-Balance"&gt;{0} {1}&lt;/span&gt;&lt;br &gt;Nạp tiền bây giờ hoặc chuyển tiền từ Ví Thể Thao sang ví chính để trải nghiệm các trò chơi và dịch vụ của chúng tôi.</value>
+  </data>
+  <data name="msg_ForceLogedoutHint" xml:space="preserve">
+    <value>ID này đã đăng nhập từ một cửa sổ trình duyệt khác hoặc thiết bị khác. Bạn sẽ bị đăng xuất khỏi phiên này.</value>
+  </data>
+  <data name="msg_WithdrawalSuccessful" xml:space="preserve">
+    <value>Yêu cầu rút tiền của bạn đã được chấp thuận. Chúng tôi sẽ thông báo đến bạn khi nó được xử lý xong.</value>
+  </data>
+  <data name="msg_EnterPhoneNumber" xml:space="preserve">
+    <value>Vui lòng nhập số điện thoại.</value>
+  </data>
+  <data name="msg_PasswordReq" xml:space="preserve">
+    <value>Mật khẩu là bắt buộc</value>
+  </data>
+  <data name="msg_NoData" xml:space="preserve">
+    <value>Không có dữ liệu</value>
+  </data>
+  <data name="msg_ThisCurrencyNotSupport" xml:space="preserve">
+    <value>Tiền tệ của bạn không được hỗ trợ</value>
+  </data>
+  <data name="msg_InvalidCryptoWalletAddress" xml:space="preserve">
+    <value>Địa chỉ ví tiền điện tử không hợp lệ.</value>
+  </data>
+  <data name="msg_DrawPrizeTital1" xml:space="preserve">
+    <value>Chiếc Hộp Thần Kỳ {0}</value>
+  </data>
+  <data name="ForgetPwdSuccess" xml:space="preserve">
+    <value>Mật khẩu mới đã được gửi đến địa chỉ email đăng ký của bạn.</value>
+  </data>
+  <data name="msg_BankAccountExists" xml:space="preserve">
+    <value>Bạn đã lưu thông tin này.</value>
+  </data>
+  <data name="msg_Ineligible" xml:space="preserve">
+    <value>Tài khoản của bạn chưa may mắn trong ngày hôm nay, xin vui lòng thử lại vào ngày hôm sau.</value>
+  </data>
+  <data name="msg_CreditSignUpHint_1" xml:space="preserve">
+    <value>Kính gửi quý khách hàng,</value>
+  </data>
+  <data name="msg_CreditSignUpHint_2" xml:space="preserve">
+    <value>Chào mừng đến với {0}, vui lòng truy cập liên kết ở trên để đăng ký và trải nghiệm các trò chơi của chúng tôi.</value>
+  </data>
+  <data name="ResetPwdSuccess" xml:space="preserve">
+    <value>Mật khẩu của bạn đã được đặt lại thành công!</value>
+  </data>
+  <data name="msg_DepositorsNameUnmatch" xml:space="preserve">
+    <value>Tên người gửi tiền không khớp</value>
+  </data>
+  <data name="msg_PromoCodeIncorrect" xml:space="preserve">
+    <value>Mã khuyến mãi không đúng</value>
+  </data>
+  <data name="msg_SpecialCodeErr" xml:space="preserve">
+    <value>Mã khuyến mãi không chính xác, vui lòng kiểm tra lại</value>
+  </data>
+  <data name="msg_IneligibleAngPow" xml:space="preserve">
+    <value>Vui lòng nạp tiền để tham gia khuyến mãi.</value>
+  </data>
+  <data name="msg_MailReq" xml:space="preserve">
+    <value>Không thể thay đổi Email sau khi xác nhận</value>
+  </data>
+  <data name="msg_ForceLogedout" xml:space="preserve">
+    <value>Bạn đã đăng xuất !!! Hãy đăng nhập và thử lại !!!</value>
+  </data>
+  <data name="msg_WrongBankSubmitted" xml:space="preserve">
+    <value>Chọn sai tài khoản Nạp tiền</value>
+  </data>
+  <data name="msg_BeneficiarysAccountMaintenance" xml:space="preserve">
+    <value>Tài khoản ngân hàng thụ hưởng đang bảo trì</value>
+  </data>
+  <data name="ForgetPwdFail" xml:space="preserve">
+    <value>Vui lòng nhập địa chỉ email bạn đã đăng ký.</value>
+  </data>
+  <data name="msg_OTPHint" xml:space="preserve">
+    <value>Vui lòng hoàn tất thông tin của bạn và xác minh số điện thoại của bạn để được hưởng các chương trình khuyến mãi của chúng tôi.</value>
+  </data>
+  <data name="msg_MailExisted" xml:space="preserve">
+    <value>Địa chỉ Email này đã được sử dụng.</value>
+  </data>
+  <data name="msg_SpecialCodeVipLevelsOrBlockTagInvalid" xml:space="preserve">
+    <value>Không thể tham gia chương trình khuyến mãi này, vui lòng liên hệ bộ phận chăm sóc khách hàng để được giải đáp</value>
+  </data>
+  <data name="msg_AffCodeValidate" xml:space="preserve">
+    <value>ID Đại lý chỉ cho phép 5-20 số.</value>
+  </data>
+  <data name="msg_OTPHint2" xml:space="preserve">
+    <value>Xác minh điện thoại của bạn ngay?</value>
+  </data>
+  <data name="msg_OTPHint1" xml:space="preserve">
+    <value>Bạn muốn trải nghiệm toàn diện các sản phẩm &amp; dịch vụ của chúng tôi?</value>
+  </data>
+  <data name="msg_DepositRefunded" xml:space="preserve">
+    <value>Hoàn lại Tiền gửi</value>
+  </data>
+  <data name="msg_DecimalOutOfRange" xml:space="preserve">
+    <value>Chuyển quỹ thất bại do phần thập phân có nhiều hơn 2 chữ số.</value>
+  </data>
+  <data name="msg_RedemptionLimitOverLimit" xml:space="preserve">
+    <value>Xin lỗi, bạn đã đạt đến giới hạn đổi quà. Vui lòng thử lại vào tháng mới.</value>
+  </data>
+  <data name="msg_times_chance" xml:space="preserve">
+    <value>Vẫn còn {0} lần cơ hội</value>
+  </data>
+  <data name="msg_congratulation_event_reward" xml:space="preserve">
+    <value>Xin chúc mừng! Nhận được số tiền {0}</value>
+  </data>
+  <data name="msg_ProfileOrPhoneNotFinish" xml:space="preserve">
+    <value>Thông tin tài khoản chưa được điền đầy đủ, vui lòng xác minh thông tin tài khoản</value>
+  </data>
+  <data name="msg_EWalletIsMaintenance" xml:space="preserve">
+    <value>Ví điện tử đang bảo trì, vui lòng sử dụng các phương thức rút tiền khác</value>
+  </data>
+  <data name="msg_turnover_not_enough" xml:space="preserve">
+    <value>Chưa hoàn thành yêu cầu đặt cược hợp lệ, không thể tham gia</value>
+  </data>
+  <data name="msg_ResubmitWithdrawal" xml:space="preserve">
+    <value>Vui lòng gửi lại yêu cầu rút tiền.</value>
+  </data>
+  <data name="msg_Event_has_not_started" xml:space="preserve">
+    <value>Sự kiện vẫn chưa bắt đầu</value>
+  </data>
+  <data name="msg_limit_has_been_reached" xml:space="preserve">
+    <value>Đã đạt đến giới hạn của ngày hôm nay</value>
+  </data>
+  <data name="msg_InsufficientPoint" xml:space="preserve">
+    <value>Xin lỗi! Số điểm 88 Rewards của bạn không đủ.</value>
+  </data>
+  <data name="msg_keep_up" xml:space="preserve">
+    <value>Chúc may mắn trong lần rút tiếp theo của bạn</value>
+  </data>
+  <data name="msg_EWalletDuplicate" xml:space="preserve">
+    <value>Không được phép sử dụng trùng số tài khoản E-wallet. Vui lòng thử sử dụng số tài khoản E-wallet khác.</value>
+  </data>
+  <data name="msg_CompletePhoneNumber" xml:space="preserve">
+    <value>Vui lòng hoàn tất việc xác minh điện thoại di động (OTP) của bạn.</value>
+  </data>
+  <data name="msg_LineAccountAlreadyBind" xml:space="preserve">
+    <value>Tài khoản LINE này đã được sử dụng, vui lòng sử dụng tài khoản khác.</value>
+  </data>
+  <data name="msg_RealNameWrongFormat" xml:space="preserve">
+    <value>Tên thật không thể chứa số hoặc ký tự đặc biệt.</value>
+  </data>
+  <data name="msg_OTPDailyLimit" xml:space="preserve">
+    <value>Bạn đã gửi nhiều yêu cầu OTP trước đó, vui lòng liên hệ bộ phận Live Chat để được hỗ trợ</value>
+  </data>
+  <data name="msg_SystemUnstable" xml:space="preserve">
+    <value>Hệ thống hiện không thể hiện chi tiết.</value>
+  </data>
+  <data name="msg_SystemUnstable_Detail" xml:space="preserve">
+    <value>Hệ thống ngân hàng hiện không thể hiện chi tiết giao dịch và xử lý giao dịch nạp tiền. Vui lòng quay lại sau.</value>
+  </data>
+  <data name="msg_BankUnderMaintenance" xml:space="preserve">
+    <value>Bảo trì ngân hàng</value>
+  </data>
+  <data name="msg_BankUnderMaintenance_Detail" xml:space="preserve">
+    <value>Hệ thống ngân hàng hiện đang được bảo trì và tạm thời không thể xử lý khoản tiền gửi của bạn.</value>
+  </data>
+  <data name="msg_AffCodeNotFound" xml:space="preserve">
+    <value>Tìm không thấy ID Đại lý</value>
+  </data>
+  <data name="msg_WrongAmountFormat" xml:space="preserve">
+    <value>Lỗi &gt; Định dạng số tiền sai</value>
+  </data>
+  <data name="msg_QuestionnaireFailed" xml:space="preserve">
+    <value>Số lượt gửi phản hồi hôm nay đã hết. </value>
+  </data>
+  <data name="msg_RecaptchaError" xml:space="preserve">
+    <value>Đăng ký không thành công, xác minh không thành công.</value>
+  </data>
+</root>

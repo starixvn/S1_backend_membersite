@@ -237,7 +237,7 @@ public class SiteBll
             if (string.IsNullOrWhiteSpace(signupModel.ReCaptchaToken) || string.IsNullOrWhiteSpace(signupModel.ReCaptchaAction))
             {
                 apiResult.ErrorCode = -1;
-                apiResult.Message = $"lost param for verify: ReCaptchaToken & ReCaptchaAction";
+                apiResult.Message = $"{_selLangBll.GetMsg("msg_RecaptchaError")}";
                 return false;
             }
             var verifyResult = _recaptcha.CreateAssessmentAsync(new AssessmentRequest(signupModel.ReCaptchaToken, signupModel.ReCaptchaAction)).Result;
@@ -245,7 +245,7 @@ public class SiteBll
             if (!verifyResult.success)
             {
                 apiResult.ErrorCode = -97;
-                apiResult.Message = verifyResult.errorCodes.FirstOrDefault();
+                apiResult.Message = $"{_selLangBll.GetMsg("msg_RecaptchaError")}"; 
                 return false;
             }
         }
