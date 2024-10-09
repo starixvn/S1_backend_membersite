@@ -4,6 +4,7 @@ using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Domain;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
+using Newtonsoft.Json;
 
 namespace MemberSite.Service.BLL;
 
@@ -207,18 +208,28 @@ public class SiteBll
             apiResult.Message = _selLangBll.GetMsg("msg_UsernameValidate");
             return false;
         }
-        
+
         if (checkReCaptchaToken && !string.IsNullOrEmpty(signupModel.ReCaptchaToken))
         {
-            var verifyResult = _recaptcha.Verify(signupModel.ReCaptchaToken);
+            //Recaptcha Free Policy
+            //var verifyResult = _recaptcha.Verify(signupModel.ReCaptchaToken);
+            //Recaptcha Enterprise
+            if (string.IsNullOrWhiteSpace(signupModel.ReCaptchaToken) || string.IsNullOrWhiteSpace(signupModel.ReCaptchaAction))
+            {
+                apiResult.ErrorCode = -1;
+                apiResult.Message = $"{_selLangBll.GetMsg("msg_RecaptchaError")}";
+                return false;
+            }
+            var verifyResult = _recaptcha.CreateAssessmentAsync(new AssessmentRequest(signupModel.ReCaptchaToken, signupModel.ReCaptchaAction)).Result;
+            _logger.LogInformation($"reCaptcha verify result={JsonConvert.SerializeObject(verifyResult)}");
             if (!verifyResult.success)
             {
                 apiResult.ErrorCode = -97;
-                apiResult.Message = verifyResult.errorCodes.FirstOrDefault();
+                apiResult.Message = $"{_selLangBll.GetMsg("msg_RecaptchaError")}";
                 return false;
             }
         }
-        
+
         if (!string.IsNullOrWhiteSpace(signupModel.AffCode))
         {
             if (signupModel.AffCode.Trim().Length == 5)
