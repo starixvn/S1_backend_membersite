@@ -24,6 +24,7 @@ namespace MemberSite.Service.BLL
         private readonly List<string> _seoDomain = new List<string>() { };
         private readonly string[] _appHost = { "app.n17881788.com", "app.bwing.com", "app.goal123.com" };
         private readonly Dictionary<int, Dictionary<string, string>> _socialChannelLogoLinks;
+        private readonly Dictionary<int, StaticFileDomain> _staticFileDomainConfins;
 
         public ServerInfoBll(IServiceProvider provider)
         {
@@ -36,6 +37,7 @@ namespace MemberSite.Service.BLL
             var configBll = provider.GetRequiredService<ConfigBLL>();
             _fixSiteId = configBll.GetConfigValue<int>("FixSiteId");
             _socialChannelLogoLinks = configBll.GetConfigValuesBySiteId<Dictionary<string, string>>("SocialChannelLogoLink");
+            _staticFileDomainConfins = configBll.GetConfigValuesBySiteId<StaticFileDomain>("StaticFileDomain");
         }
 
         public ServerInfo GetServerInfo()
@@ -131,10 +133,17 @@ namespace MemberSite.Service.BLL
         public string GetDomain()
         {
             var host = string.Empty;
+
             // 先拿Header的origin-host
             if (_httpContextAccessor.HttpContext.Request.Headers.TryGetValue("origin-host", out var originHost))
             {
                 host = new Uri(originHost).Host;
+            }
+
+            // 再拿Header的Host
+            if (_httpContextAccessor.HttpContext.Request.Headers.TryGetValue("Host", out var headerHost))
+            {
+                host = headerHost;
             }
 
             // 先拿Header的ai-host
@@ -149,7 +158,7 @@ namespace MemberSite.Service.BLL
             }
 
             if (host.Contains("localhost"))
-                host = string.IsNullOrWhiteSpace(aiHost) ? _httpContextAccessor.HttpContext.Request.Host.Host : aiHost;
+                host = string.IsNullOrWhiteSpace(aiHost) ? _httpContextAccessor.HttpContext.Request.Host.Host : new Uri(aiHost).Host;
 
             if (_appHost.Any(a => a == host))
                 host = $"m{host[host.IndexOf('.')..]}";
@@ -166,10 +175,11 @@ namespace MemberSite.Service.BLL
         public string GetMainDomain()
         {
             var host = GetDomain();
-            var dotIndex = host.IndexOf(".");
-            if (dotIndex > -1)
+            var parts = host.Split('.');
+
+            if (parts.Length >= 2)
             {
-                host = host.Substring(dotIndex + 1);
+                return $"{parts[parts.Length - 2]}.{parts[parts.Length - 1]}";
             }
 
             return host;
@@ -195,6 +205,12 @@ namespace MemberSite.Service.BLL
             if (string.IsNullOrWhiteSpace(host) && _httpContextAccessor.HttpContext.Request.Headers.TryGetValue("origin-host", out var originHost))
             {
                 host = new Uri(originHost).Host;
+            }
+
+            // 再拿Header的Host
+            if (string.IsNullOrWhiteSpace(host) && _httpContextAccessor.HttpContext.Request.Headers.TryGetValue("Host", out var headerHost))
+            {
+                host = headerHost;
             }
 
             // 先拿Header的ai-host
@@ -278,6 +294,11 @@ namespace MemberSite.Service.BLL
                 };
             }
             return items;
+        }
+
+        public async Task<StaticFileDomain> GetStaticFileDomain(int siteId)
+        {
+            return _staticFileDomainConfins[siteId];
         }
     }
 }

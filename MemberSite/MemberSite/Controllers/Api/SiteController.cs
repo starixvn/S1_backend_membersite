@@ -1601,6 +1601,16 @@ namespace MemberSite.Controllers.Api
                 Data = await _checkIpBll.CheckIp(_tools.GetClientIP())
             };
         }
-        
+
+        [HttpPost]
+        public async Task<ApiResult<StaticFileDomain>> GetStaticFileDomain()
+        {
+            var data = await _serverInfoBll.GetStaticFileDomain(_serverInfoBll.GetServerInfo().SiteId);
+            return new ApiResult<StaticFileDomain>()
+            {
+                ErrorCode = (int)ErrorCode.Success,
+                Data = data
+            };
+        }
     }
 }
