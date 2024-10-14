@@ -22,6 +22,8 @@ namespace MemberSite.Service.Model.enums
         [Description("QuickTransfer")]
         QuickTransfer = 9,
         [Description("ChatTransfer")]
-        ChatTransfer = 10
+        ChatTransfer = 10,
+        [Description("DigitalWallet")]
+        DigitalWallet = 11
     }
 }
