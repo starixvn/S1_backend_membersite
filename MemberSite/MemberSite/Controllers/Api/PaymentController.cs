@@ -1691,7 +1691,7 @@ namespace MemberSite.Controllers.Api
 
             return new ApiResult<IDictionary<string, PayMethod>>
             {
-                Data = _payInfoBll.GetOnlineBankMethods(
+                Data = _payInfoBll.GetGenericPayMethods(
                     new[] { DepositType.DigitalWallet }, authData.CustId),
 
                 ErrorCode = 0
