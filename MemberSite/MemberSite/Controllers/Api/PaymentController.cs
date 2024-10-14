@@ -1675,6 +1675,27 @@ namespace MemberSite.Controllers.Api
                 ErrorCode = 0
             };
         }
+        
+        [HttpPost]
+        public ApiResult<IDictionary<string, PayMethod>> GetPayInfoDigitalWallet()
+        {
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                return new ApiResult<IDictionary<string, PayMethod>>
+                {
+                    Message = _selLangBll.GetMsg("msg_ForceLogedout")
+                };
+            }
+
+            return new ApiResult<IDictionary<string, PayMethod>>
+            {
+                Data = _payInfoBll.GetOnlineBankMethods(
+                    new[] { DepositType.DigitalWallet }, authData.CustId),
+
+                ErrorCode = 0
+            };
+        }
 
         public class DepositReqLocalPaymentReq : ILocalBankReq
         {
