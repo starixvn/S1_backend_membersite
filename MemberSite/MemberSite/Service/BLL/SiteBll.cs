@@ -217,14 +217,14 @@ public class SiteBll
             if (string.IsNullOrWhiteSpace(signupModel.ReCaptchaToken) || string.IsNullOrWhiteSpace(signupModel.ReCaptchaAction))
             {
                 apiResult.ErrorCode = -1;
-                apiResult.Message = $"{_selLangBll.GetMsg("msg_RecaptchaError")}";
+                apiResult.Message = $"missing. {_selLangBll.GetMsg("msg_RecaptchaError")}";
                 return false;
             }
             var verifyResult = _recaptcha.CreateAssessmentAsync(new AssessmentRequest(signupModel.ReCaptchaToken, signupModel.ReCaptchaAction)).Result;
             _logger.LogInformation($"reCaptcha verify result={JsonConvert.SerializeObject(verifyResult)}");
             if (!verifyResult.success)
             {
-                apiResult.ErrorCode = -97;
+                apiResult.ErrorCode = -1;
                 apiResult.Message = $"{_selLangBll.GetMsg("msg_RecaptchaError")}";
                 return false;
             }
