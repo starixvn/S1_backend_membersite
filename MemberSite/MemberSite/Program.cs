@@ -6,7 +6,7 @@ using Serilog.Exceptions;
 using Serilog.Formatting.Json;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.WebHost.UseSentry();
 var remoteUrls = GetRemoteUrls();
 remoteUrls = builder.Configuration.CheckLocalConfig(builder.Environment, args, remoteUrls);
 builder.Configuration.AddRemoteJsonConfig(remoteUrls);
