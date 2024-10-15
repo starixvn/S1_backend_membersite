@@ -232,12 +232,12 @@ public class SiteBll
             }
         }
 
-        if (_reCaptchaSiteConfig.Contains(serverInfo.SiteId))
+        if (_reCaptchaSiteConfig.Contains(serverInfo.SiteId) && !string.IsNullOrWhiteSpace(signupModel.ReCaptchaToken))
         {
             //Recaptcha Free Policy
             //var verifyResult = _recaptcha.Verify(signupModel.ReCaptchaToken);
             //Recaptcha Enterprise
-            if (string.IsNullOrWhiteSpace(signupModel.ReCaptchaToken) || string.IsNullOrWhiteSpace(signupModel.ReCaptchaAction))
+            if (string.IsNullOrWhiteSpace(signupModel.ReCaptchaAction))
             {
                 apiResult.ErrorCode = -1;
                 apiResult.Message = $"missing. {_selLangBll.GetMsg("msg_RecaptchaError")}";
