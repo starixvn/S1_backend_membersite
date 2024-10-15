@@ -212,7 +212,7 @@ public class SiteBll
             return false;
         }
 
-        if (_reCaptchaSiteConfig.Contains(serverInfo.SiteId) && !string.IsNullOrWhiteSpace(signupModel.ReCaptchaToken))
+        if (_reCaptchaSiteConfig.Any() && _reCaptchaSiteConfig.Contains(serverInfo.SiteId) && !string.IsNullOrWhiteSpace(signupModel.ReCaptchaToken))
         {
             //Recaptcha Free Policy
             //var verifyResult = _recaptcha.Verify(signupModel.ReCaptchaToken);
