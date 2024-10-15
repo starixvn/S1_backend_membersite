@@ -13,6 +13,8 @@ namespace MemberSite.Service.Model
         public string SessionKey { get; set; }
         //tk
         public string Token { get; set; }
+        // loginModel.url
+        public string Url { get; set; }
     }
 
     public class FPSApiRequest
