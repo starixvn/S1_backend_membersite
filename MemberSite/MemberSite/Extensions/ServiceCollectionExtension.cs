@@ -1,14 +1,12 @@
-﻿using System.Text;
-
-using MemberSite.Service.BLL;
+﻿using MemberSite.Service.BLL;
 using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
-
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace MemberSite.Extensions
 {
@@ -96,7 +94,7 @@ namespace MemberSite.Extensions
             var configBll = provider.GetRequiredService<ConfigBLL>();
             var jwtSettings = configBll.GetConfigValueByEnvironment<JwtConfig>("JwtSettings");
 
-            if (jwtSettings.IsJwt)
+            if (jwtSettings is not null && jwtSettings.IsJwt)
             {
                 services
                    // 檢查 HTTP Header 的 Authorization 是否有 JWT Bearer Token
