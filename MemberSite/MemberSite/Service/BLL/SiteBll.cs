@@ -23,6 +23,7 @@ public class SiteBll
     private readonly CRMBLL _cRMBll;
     private readonly ILogger<SiteBll> _logger;
     private readonly IWebHostEnvironment _environment;
+    private readonly IEnumerable<int> _reCaptchaSiteConfig;
 
     public SiteBll(IServiceProvider provider)
     {
@@ -39,6 +40,8 @@ public class SiteBll
         _cRMBll = provider.GetRequiredService<CRMBLL>();
         _logger = provider.GetRequiredService<ILogger<SiteBll>>();
         _environment = provider.GetRequiredService<IWebHostEnvironment>();
+        var configBll = provider.GetRequiredService<ConfigBLL>();
+        _reCaptchaSiteConfig = configBll.GetConfigValue<IEnumerable<int>>("ReCaptchaSite");
     }
 
     public Customer Signup(SiteController.SignupModel signupModel, ApiResult apiResult, bool isAuthenticated,
@@ -209,7 +212,7 @@ public class SiteBll
             return false;
         }
 
-        if (checkReCaptchaToken && !string.IsNullOrEmpty(signupModel.ReCaptchaToken))
+        if (_reCaptchaSiteConfig.Contains(serverInfo.SiteId))
         {
             //Recaptcha Free Policy
             //var verifyResult = _recaptcha.Verify(signupModel.ReCaptchaToken);
