@@ -104,7 +104,7 @@ namespace MemberSite.Service.BLL
 
         public TItem GetConfigValueByEnvironment<TItem>(string configKey, int siteId = 0)
         {
-            var environmentName = _environment.EnvironmentName == "LOCAL" ? "Local" : _environment.EnvironmentName;
+            var environmentName = "LOCAL";
             var json = GetConfigValue($"{configKey}.{environmentName}.json", siteId);
             return !string.IsNullOrEmpty(json) ? JsonConvert.DeserializeObject<TItem>(json) : default;
         }
