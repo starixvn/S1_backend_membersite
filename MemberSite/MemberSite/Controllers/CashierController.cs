@@ -287,6 +287,7 @@ namespace MemberSite.Controllers
                     case DepositType.QuickTransfer:
                         return await DepositOnlineBankingAsync(authData.CustId, sysId, channelId, amount, bonusCode, new Dictionary<string, string>
                         {
+                            {"SysId", sysId.ToString()},
                             {"PayAccount", payAccount}
                         }, errorUrl, channel.Type);
 
