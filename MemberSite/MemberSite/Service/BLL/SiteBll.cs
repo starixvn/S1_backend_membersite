@@ -1,13 +1,11 @@
-﻿using System.Drawing.Drawing2D;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using MemberSite.Controllers.Api;
 using MemberSite.Service.DAL;
 using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Domain;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
-using Org.BouncyCastle.Asn1.Tsp;
-using static MemberSite.Controllers.Api.AccountStrictController;
+using Newtonsoft.Json;
 
 namespace MemberSite.Service.BLL;
 
@@ -28,6 +26,7 @@ public class SiteBll
     private readonly CRMBLL _cRMBll;
     private readonly ILogger<SiteBll> _logger;
     private readonly IWebHostEnvironment _environment;
+    private readonly IEnumerable<int> _reCaptchaSiteConfig;
 
     public SiteBll(IServiceProvider provider)
     {
@@ -43,43 +42,45 @@ public class SiteBll
         _cRMBll = provider.GetRequiredService<CRMBLL>();
         _logger = provider.GetRequiredService<ILogger<SiteBll>>();
         _environment = provider.GetRequiredService<IWebHostEnvironment>();
+        var configBll = provider.GetRequiredService<ConfigBLL>();
+        _reCaptchaSiteConfig = configBll.GetConfigValue<IEnumerable<int>>("ReCaptchaSite");
     }
 
     public Customer Signup(SiteController.SignupModel signupModel, ApiResult apiResult, bool isAuthenticated,
         string fromUrl, string userAgent, bool checkReCaptchaToken)
     {
-        var check = CheckSignUpData(signupModel, apiResult, isAuthenticated, fromUrl, checkReCaptchaToken, out var affCodeObj ,out var agent , out var deviceType ,out var signupIp);
+        var check = CheckSignUpData(signupModel, apiResult, isAuthenticated, fromUrl, checkReCaptchaToken, out var affCodeObj, out var agent, out var deviceType, out var signupIp);
 
         if (!check)
         {
             return null;
         }
-        
+
         var result = _custInfoBll.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email,
             signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff,
             affCodeObj, signupModel.LineUserId, deviceType, agent, out var custId, signupModel.SignupUrl, signupModel.ReferralUrl, signupModel.PhoneNo,
-            signupModel.AreaCode, signupModel.Nationality,signupModel.RealName, signupModel.PromoCode, signupModel.Birth_d,
+            signupModel.AreaCode, signupModel.Nationality, signupModel.RealName, signupModel.PromoCode, signupModel.Birth_d,
             signupModel.Birth_m, signupModel.Birth_y, signupIp);
 
-        AfterSignUp(signupModel, fromUrl, userAgent, deviceType, result, custId, apiResult, out var customer); 
-            
+        AfterSignUp(signupModel, fromUrl, userAgent, deviceType, result, custId, apiResult, out var customer);
+
         return customer;
     }
 
-    public Customer SignupPhone(string otpNum ,SiteController.SignupModel signupModel, ApiResult apiResult, bool isAuthenticated,
+    public Customer SignupPhone(string otpNum, SiteController.SignupModel signupModel, ApiResult apiResult, bool isAuthenticated,
         string fromUrl, string userAgent, bool checkReCaptchaToken)
     {
         signupModel.UserName = $"P{signupModel.AreaPhoneNo.Trim('+')}";
-        
-        var check = CheckSignUpData(signupModel, apiResult, isAuthenticated, fromUrl, checkReCaptchaToken, out var affCodeObj , out var agent , out var deviceType ,out var signupIp);
+
+        var check = CheckSignUpData(signupModel, apiResult, isAuthenticated, fromUrl, checkReCaptchaToken, out var affCodeObj, out var agent, out var deviceType, out var signupIp);
 
         if (!check)
         {
             return null;
         }
-        
+
         #region OTP
-        
+
         // No need anymore
         // var verifyResult = _custInfoBll.SignUpVerifyOTPAsync(signupModel.AreaPhoneNo, otpNum).Result;
         // if (verifyResult.ErrorCode != 0)
@@ -91,13 +92,13 @@ public class SiteBll
         // }
 
         #endregion
-        
-        var result = _custInfoBll.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email, 
+
+        var result = _custInfoBll.AddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email,
             signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff,
             affCodeObj, signupModel.LineUserId, deviceType, agent, out var custId, signupModel.SignupUrl, signupModel.ReferralUrl, signupModel.PhoneNo,
-            signupModel.AreaCode, signupModel.Nationality,signupModel.RealName, signupModel.PromoCode, signupModel.Birth_d,
+            signupModel.AreaCode, signupModel.Nationality, signupModel.RealName, signupModel.PromoCode, signupModel.Birth_d,
             signupModel.Birth_m, signupModel.Birth_y, signupIp, signupModel.AccountNo, signupModel.IFSCCode, signupModel.SysId);
-        
+
         AfterSignUp(signupModel, fromUrl, userAgent, deviceType, result, custId, apiResult, out var customer);
 
         // No need anymore
@@ -105,10 +106,10 @@ public class SiteBll
         // {
         //     _commonBll.SetOTPLogCustInfo(customer.SiteId, customer.CustId ,customer.CurrencyId ,customer.UserName ,otpNum);
         // }
-        
+
         return customer;
     }
-    
+
     /// <summary>
     /// 只給Ivorysport使用
     /// </summary>
@@ -122,7 +123,7 @@ public class SiteBll
     public Customer IvorysportSignup(SiteController.IvorysportSignupModel signupModel, ApiResult apiResult, bool isAuthenticated,
         string host, string userAgent, bool checkReCaptchaToken)
     {
-        var check = CheckSignUpData(signupModel, apiResult, isAuthenticated, host, checkReCaptchaToken, out var affCodeObj, out var agent , out var deviceType ,out var signupIp);
+        var check = CheckSignUpData(signupModel, apiResult, isAuthenticated, host, checkReCaptchaToken, out var affCodeObj, out var agent, out var deviceType, out var signupIp);
         if (!check)
         {
             return null;
@@ -151,7 +152,7 @@ public class SiteBll
             apiResult.Message = _selLangBll.GetMsg("msg_EmailFormatVerify");
             return null;
         }
-        
+
         if (!string.IsNullOrWhiteSpace(signupModel.Email))
         {
             if (_custInfoBll.ExistsEmail(0, signupModel.Email))
@@ -161,28 +162,28 @@ public class SiteBll
                 return null;
             }
         }
-        
+
         #endregion
-        
+
         var result = _custInfoBll.IvorysportAddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email,
             signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff,
-            affCodeObj, signupModel.LineUserId, deviceType, signupModel.PhotoId, agent ,out var custId, signupModel.SignupUrl, signupModel.ReferralUrl, signupModel.PhoneNo,
+            affCodeObj, signupModel.LineUserId, deviceType, signupModel.PhotoId, agent, out var custId, signupModel.SignupUrl, signupModel.ReferralUrl, signupModel.PhoneNo,
             signupModel.AreaCode, signupModel.RealName, signupModel.PromoCode, signupModel.Birth_d,
             signupModel.Birth_m, signupModel.Birth_y, signupIp, signupModel.Nationality, signupModel.Occupation, signupModel.SourceOfIncome, signupModel.Country, signupModel.City, signupModel.PostCode, signupModel.LineFirst);
 
-        AfterSignUp(signupModel, host, userAgent, deviceType, result, custId, apiResult, out var customer); 
-            
+        AfterSignUp(signupModel, host, userAgent, deviceType, result, custId, apiResult, out var customer);
+
         return customer;
     }
-    
-    private bool CheckSignUpData(SiteController.SignupModel signupModel, ApiResult apiResult, bool isAuthenticated, string host, bool checkReCaptchaToken, out AffCodeObject affCodeObj ,
-        out Customer agent ,out int deviceType,out string signupIp)
+
+    private bool CheckSignUpData(SiteController.SignupModel signupModel, ApiResult apiResult, bool isAuthenticated, string host, bool checkReCaptchaToken, out AffCodeObject affCodeObj,
+        out Customer agent, out int deviceType, out string signupIp)
     {
         agent = null;
         deviceType = 0;
         signupIp = null;
         affCodeObj = null;
-        
+
         if (isAuthenticated || (string.IsNullOrEmpty(signupModel.AreaCode) && !string.IsNullOrEmpty(signupModel.PhoneNo)))
         {
             _logger.LogError($"isAuthenticated={isAuthenticated} AreaCode={signupModel.AreaCode} PhoneNo={signupModel.PhoneNo}");
@@ -231,13 +232,23 @@ public class SiteBll
             }
         }
 
-        if (checkReCaptchaToken && !string.IsNullOrEmpty(signupModel.ReCaptchaToken))
+        if (_reCaptchaSiteConfig.Any() && _reCaptchaSiteConfig.Contains(serverInfo.SiteId) && !string.IsNullOrWhiteSpace(signupModel.ReCaptchaToken))
         {
-            var verifyResult = _recaptcha.Verify(signupModel.ReCaptchaToken);
+            //Recaptcha Free Policy
+            //var verifyResult = _recaptcha.Verify(signupModel.ReCaptchaToken);
+            //Recaptcha Enterprise
+            if (string.IsNullOrWhiteSpace(signupModel.ReCaptchaAction))
+            {
+                apiResult.ErrorCode = -1;
+                apiResult.Message = $"missing. {_selLangBll.GetMsg("msg_RecaptchaError")}";
+                return false;
+            }
+            var verifyResult = _recaptcha.CreateAssessmentAsync(new AssessmentRequest(signupModel.ReCaptchaToken, signupModel.ReCaptchaAction)).Result;
+            _logger.LogInformation($"reCaptcha verify result={JsonConvert.SerializeObject(verifyResult)}");
             if (!verifyResult.success)
             {
-                apiResult.ErrorCode = -97;
-                apiResult.Message = verifyResult.errorCodes.FirstOrDefault();
+                apiResult.ErrorCode = -1;
+                apiResult.Message = $"{_selLangBll.GetMsg("msg_RecaptchaError")}"; 
                 return false;
             }
         }
@@ -258,7 +269,7 @@ public class SiteBll
             apiResult.Message = $"{_selLangBll.GetResourceValue("lbl_Phone")} {_selLangBll.GetMsg("msg_PhoneWrongFormat")}";
             return false;
         }
-        
+
         if (!string.IsNullOrWhiteSpace(signupModel.Email))
         {
             if (_custInfoBll.ExistsEmail(0, signupModel.Email))
@@ -268,26 +279,26 @@ public class SiteBll
                 return false;
             }
         }
-        
+
         if (!_tools.CheckUserName(signupModel.UserName))
         {
             apiResult.ErrorCode = -2;
             apiResult.Message = _selLangBll.GetMsg("msg_UsernameValidate");
             return false;
         }
-        
+
         if (!_regexUserName.IsMatch(signupModel.UserName))
         {
             apiResult.ErrorCode = -8;
             apiResult.Message = _selLangBll.GetMsg("msg_UsernameValidate");
             return false;
         }
-        
+
         if (!string.IsNullOrWhiteSpace(signupModel.AffCode))
         {
             if (signupModel.AffCode.Trim().Length == 5)
             {
-                 affCodeObj = new AffCodeObject(signupModel.AffCode);
+                affCodeObj = new AffCodeObject(signupModel.AffCode);
                 if (!affCodeObj.IsValid())
                 {
                     apiResult.ErrorCode = -9;
@@ -337,7 +348,7 @@ public class SiteBll
         {
             signupModel.AffCode = "nova88tvads";
         }
-        
+
         if (string.IsNullOrEmpty(signupModel.AffId) && !serverInfo.ICurrencyList.Contains(signupModel.CurrencyId))
         {
             apiResult.ErrorCode = -1;
@@ -421,14 +432,14 @@ public class SiteBll
         agent ??= _agentInfoService.GetSuperAgent(serverInfo.SiteId, signupModel.CurrencyId);
         deviceType = (int)_tools.GetDeviceId(host);
         signupIp = _tools.GetClientIP();
-        
+
         return true;
     }
 
-    private void AfterSignUp(SiteController.SignupModel signupModel ,string fromUrl, string userAgent, int deviceType, int result , int custId ,ApiResult apiResult ,out Customer customer)
+    private void AfterSignUp(SiteController.SignupModel signupModel, string fromUrl, string userAgent, int deviceType, int result, int custId, ApiResult apiResult, out Customer customer)
     {
         customer = null;
-     
+
         switch (result)
         {
             case -5:
@@ -526,6 +537,6 @@ public class SiteBll
                 }
         }
     }
-    
-    
+
+
 }

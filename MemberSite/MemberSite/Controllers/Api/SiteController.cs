@@ -47,6 +47,7 @@ namespace MemberSite.Controllers.Api
         private readonly FPSBLL _FPSBll;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly CommonBLL _commonBll;
+
         private readonly Dictionary<string, System.Drawing.Imaging.ImageFormat> _contentTypesCheck = new(comparer: StringComparer.OrdinalIgnoreCase)
         {
             {"image/png",System.Drawing.Imaging.ImageFormat.Png},
@@ -76,6 +77,7 @@ namespace MemberSite.Controllers.Api
             _FPSBll = provider.GetRequiredService<FPSBLL>();
             _httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
             _commonBll = provider.GetRequiredService<CommonBLL>();
+
         }
 
         public class LoginModel
@@ -344,6 +346,7 @@ namespace MemberSite.Controllers.Api
             public string blackbox { get; set; }
             public string LineUserId { get; set; }
             public string ReCaptchaToken { get; set; }
+            public string ReCaptchaAction { get; set; }
         }
 
         public class SignupModel : RegisteredModel
@@ -751,6 +754,7 @@ namespace MemberSite.Controllers.Api
 
 
                     reSetPwdByOtpReq.PhoneNo = phoneNo.ToString();
+
                     if (_custInfoBll.ExistsPhoneNoAndUserName(reSetPwdByOtpReq.Username, reSetPwdByOtpReq.AreaCode,
                             reSetPwdByOtpReq.PhoneNo, serverInfo.SiteId))
                     {

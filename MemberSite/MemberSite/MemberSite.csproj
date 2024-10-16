@@ -63,6 +63,7 @@
     <PackageReference Include="AWSSDK.S3" Version="3.7.101.21" />
     <PackageReference Include="Dapper" Version="2.0.123" />
     <PackageReference Include="Flurl.Http" Version="2.4.2" />
+    <PackageReference Include="Google.Cloud.RecaptchaEnterprise.V1" Version="2.12.0" />
     <PackageReference Include="LazZiya.ImageResize" Version="4.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.3" />
     <PackageReference Include="MySql.Data" Version="8.0.27" />
