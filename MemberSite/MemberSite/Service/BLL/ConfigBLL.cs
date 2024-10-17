@@ -10,6 +10,7 @@ namespace MemberSite.Service.BLL
         private readonly Dictionary<string, SiteConfigObject> _siteNameConfigs;
         private readonly Dictionary<int, SiteConfigObject> _siteIdConfigs;
         private readonly IWebHostEnvironment _environment;
+        private readonly IConfiguration _configuration;
 
         public ConfigBLL(IServiceProvider provider)
         {
@@ -20,6 +21,7 @@ namespace MemberSite.Service.BLL
             _siteNameConfigs = new Dictionary<string, SiteConfigObject>(siteConfigs.ToDictionary(i => i.SiteName, i => i), StringComparer.OrdinalIgnoreCase);
             _siteIdConfigs = siteConfigs.ToDictionary(i => i.SiteId, i => i);
             _environment = provider.GetRequiredService<IWebHostEnvironment>();
+            _configuration = provider.GetRequiredService<IConfiguration>();
         }
 
         public string GetConfigValue(string siteName, string configKey)
@@ -104,7 +106,7 @@ namespace MemberSite.Service.BLL
 
         public TItem GetConfigValueByEnvironment<TItem>(string configKey, int siteId = 0)
         {
-            var environmentName = "LOCAL";
+            var environmentName = _configuration.GetSection("Environment").Value;
             var json = GetConfigValue($"{configKey}.{environmentName}.json", siteId);
             return !string.IsNullOrEmpty(json) ? JsonConvert.DeserializeObject<TItem>(json) : default;
         }
