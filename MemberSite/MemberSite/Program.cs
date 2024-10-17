@@ -36,7 +36,7 @@ startup.Configure(app, builder.Environment);
 var minWorkers = 96;
 var minIOCPs = 4;
 ThreadPool.SetMinThreads(minWorkers, minIOCPs);
-
+SentrySdk.CaptureMessage("Member_site_api started");
 app.Run();
 return;
 
