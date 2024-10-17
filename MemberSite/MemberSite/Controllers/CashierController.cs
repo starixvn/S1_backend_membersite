@@ -7,7 +7,7 @@ using MemberSite.Service.Model.enums;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
+using Newtonsoft.Json;
 using static MemberSite.Controllers.entPageController;
 
 namespace MemberSite.Controllers
@@ -47,11 +47,16 @@ namespace MemberSite.Controllers
             _logger = provider.GetRequiredService<ILogger<CashierController>>();
             var configBll = provider.GetRequiredService<ConfigBLL>();
             _payApiUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost").PayService;
+
+            _logger.LogInformation("---- CONFIG SERVICE HOST ----");
+            _logger.LogInformation(JsonConvert.SerializeObject(configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost")));
+            
         }
 
         [HttpGet]
         public async Task<IActionResult> DepositReqOnlineBankingAsync(int sysId, int payId, int ChannelId, decimal Amount, string BonusCode, string ErrorUrl)
         {
+            
             var model = new ErrorData();
             var authData = _authorizeBll.GetAuthData();
 
@@ -249,6 +254,7 @@ namespace MemberSite.Controllers
         public async Task<IActionResult> DepositReqAsync(int channelId, int sysId, decimal amount, string bonusCode,
             string payAccount, string code, string serial, string errorUrl)
         {
+
             var authData = _authorizeBll.GetAuthData();
             if (authData is not { CustId: > 0 })
             {
@@ -322,13 +328,14 @@ namespace MemberSite.Controllers
             catch (CustomException ex)
             {
                 _logger.LogInformation($"({ex.Code}) {ex.Message}");
+                return RedirectErrorPage(errorUrl, new ErrorData(ex.Message));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message, ex);
+                return RedirectErrorPage(errorUrl, new ErrorData(ex.Message));
             }
-
-            return RedirectErrorPage(errorUrl, new ErrorData());
+            
         }
 
         private async Task<IActionResult> DepositCryptoWalletAsync(int custId, int channelId, decimal amount, string bonusCode, string errorUrl)
