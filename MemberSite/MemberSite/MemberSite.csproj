@@ -79,10 +79,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="appsettings.LOCAL.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="wwwroot\CMS\Nova88\Promotion\cs\banner-bonus.jpg">
+      <Content Update="wwwroot\CMS\Nova88\Promotion\cs\banner-bonus.jpg">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>

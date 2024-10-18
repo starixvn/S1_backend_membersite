@@ -4,9 +4,10 @@
       "commandName": "Project",
       "commandLineArgs": "Nova", // Nova or Leobet
       "launchBrowser": false,
+      "externalUrlConfiguration": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        //"ASPNETCORE_ENVIRONMENT": "Development"
       }
     }
   }
-  }
+}

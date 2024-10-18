@@ -12,7 +12,7 @@ namespace MemberSite.Service.BLL
         private readonly ILogger<AuthBLL> _logger;
         private readonly string _publicApiAuthToken;
         private readonly string _publicApiPassToken;
-        private readonly IHostEnvironment _hostEnvironment;
+        private readonly IWebHostEnvironment _hostEnvironment;
 
         public AuthBLL(IServiceProvider provider)
         {
@@ -23,7 +23,7 @@ namespace MemberSite.Service.BLL
             _publicApiAuthToken = configBll.GetConfigValue("PublicApiAuthToken");
             _publicApiPassToken = configBll.GetConfigValue("PublicApiPassToken");
             _logger = provider.GetRequiredService<ILogger<AuthBLL>>();
-            _hostEnvironment = provider.GetRequiredService<IHostEnvironment>();
+            _hostEnvironment = provider.GetRequiredService<IWebHostEnvironment>();
         }
 
         public bool Authenticate<T>(string sToken, out T t)
@@ -43,7 +43,6 @@ namespace MemberSite.Service.BLL
 
         public bool RequestAuth(string content)
         {
-
             if (string.IsNullOrWhiteSpace(content))
             {
                 _logger.LogError("Request vaild fail：Content is null.");
@@ -56,6 +55,7 @@ namespace MemberSite.Service.BLL
             }
 
             #region Development Pass Token
+
             if (_hostEnvironment.IsDevelopment() || _hostEnvironment.EnvironmentName == "Development.APP")
             {
                 // 暫不檢查是否有帶token
@@ -70,7 +70,7 @@ namespace MemberSite.Service.BLL
                         return true;
             }
 
-            #endregion
+            #endregion Development Pass Token
 
             //暫不檢查是否有帶token、timestamp
             //if (!jbody.ContainsKey("timestamp")
