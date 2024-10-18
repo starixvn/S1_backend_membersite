@@ -4,5 +4,7 @@
     {
         DepositSuccess = 1,
         WithdrawalSuccess = 2,
+        DepositFail = 3,
+        WithdrawalFail = 4,
     }
 }
