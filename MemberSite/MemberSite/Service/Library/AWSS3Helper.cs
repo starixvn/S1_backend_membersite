@@ -48,7 +48,8 @@ public class AWSS3Helper
 
     public async Task<bool> PutObjectAsync(PutObjectRequest request)
     {
-        var response = await _client.PutObjectAsync(request);
+        var client = await GetClientAsync();
+        var response = await client.PutObjectAsync(request);
         if (response.HttpStatusCode != HttpStatusCode.OK)
         {
             _logger.LogInformation($"UploadS3File, Bucket={request.BucketName}, Key={request.Key} Response={JsonConvert.SerializeObject(response)}");
