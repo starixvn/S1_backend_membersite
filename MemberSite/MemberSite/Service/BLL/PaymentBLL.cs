@@ -869,42 +869,43 @@ namespace MemberSite.Service.BLL
 
             // 不看卡號 只看提款成功次數
             var withdrawalSuccessCount = withdrawalService.GetAllAccountWithdrawalSuccessCounterByCustId(custInfo.CustId);
-            if (custInfo.SiteId == 1)
-            {
-                // Iovation
-                var custIovation = _iovationService.GetCustIovation(custInfo.CustId);
-                if (custIovation is null || !setting.DeviceLevel.Contains(custIovation.Iovation))
-                {
-                    _logger.LogInformation($"{transId} WithdrawalVerifyWay Manual, custIovation : {custIovation} , Setting :{JsonConvert.SerializeObject(setting.DeviceLevel)} ");
-                    return WithdrawalInfoAutoWayEnum.Manual;
-                }
-            }
-            else
-            {
-                // shieldScores
-                var context = _httpContextAccessor.HttpContext;
-                var strDeviceScore = context.Request.Cookies["device_score"];
-                var deviceScore = -1;
-                if (strDeviceScore != null)
-                {
-                    deviceScore = Convert.ToInt32(strDeviceScore);
-                }
-                else
-                {
-                    var shieldInfo = _shieldService.GetCustShieldRiskInfoList(custInfo.CustId);
-                    if (shieldInfo is not null)
-                    {
-                        deviceScore = shieldInfo.DeviceScore;
-                        _logger.LogInformation($"{transId} WithdrawalVerifyWay Manual, Can't find device_score , use DB Data : {shieldInfo.DeviceScore}  ");
-                    }
-                }
+            // if (custInfo.SiteId == 1)
+            // {
+            //     // Iovation
+            //     var custIovation = _iovationService.GetCustIovation(custInfo.CustId);
+            //     if (custIovation is null || !setting.DeviceLevel.Contains(custIovation.Iovation))
+            //     {
+            //         _logger.LogInformation($"{transId} WithdrawalVerifyWay Manual, custIovation : {custIovation} , Setting :{JsonConvert.SerializeObject(setting.DeviceLevel)} ");
+            //         return WithdrawalInfoAutoWayEnum.Manual;
+            //     }
+            // }
+            // else
+            // {
+            //     // shieldScores
+            //     var context = _httpContextAccessor.HttpContext;
+            //     var strDeviceScore = context.Request.Cookies["device_score"];
+            //     var deviceScore = -1;
+            //     if (strDeviceScore != null)
+            //     {
+            //         deviceScore = Convert.ToInt32(strDeviceScore);
+            //     }
+            //     else
+            //     {
+            //         var shieldInfo = _shieldService.GetCustShieldRiskInfoList(custInfo.CustId);
+            //         if (shieldInfo is not null)
+            //         {
+            //             deviceScore = shieldInfo.DeviceScore;
+            //             _logger.LogInformation($"{transId} WithdrawalVerifyWay Manual, Can't find device_score , use DB Data : {shieldInfo.DeviceScore}  ");
+            //         }
+            //     }
 
-                if (deviceScore < setting.DeviceScores)
-                {
-                    _logger.LogInformation($"{transId} WithdrawalVerifyWay Manual, deviceScore : {deviceScore} , Setting :{setting.DeviceScores} ");
-                    return WithdrawalInfoAutoWayEnum.Manual;
-                }
-            }
+            //     if (deviceScore < setting.DeviceScores)
+            //     {
+            //         _logger.LogInformation($"{transId} WithdrawalVerifyWay Manual, deviceScore : {deviceScore} , Setting :{setting.DeviceScores} ");
+            //         return WithdrawalInfoAutoWayEnum.Manual;
+            //     }
+            // }
+            
             var check = CheckAutoPaymentRuleSetting(setting, custInfo.TagList, custInfo.UserLevel, withdrawalAmount, withdrawalSuccessCount);
             return check;
         }
