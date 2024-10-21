@@ -11,14 +11,15 @@ COPY --from=deps $NUGET_PACKAGES/. $NUGET_PACKAGES/
 
 WORKDIR /src
 COPY ["MemberSite/MemberSite/MemberSite.csproj", "MemberSite/"]
-RUN dotnet restore -v n -r linux-x64 "./MemberSite/MemberSite.csproj"
+RUN dotnet restore -v n "./MemberSite/MemberSite.csproj"
 
 COPY . .
 WORKDIR "/src/MemberSite"
-RUN dotnet publish -r linux-x64 --self-contained false -o /app/publish
+RUN dotnet publish -c Release -o /app/publish
 
-
-FROM hub.lumigame.com/base/dotnet/core/sdk:6.0 AS base
+FROM hub.lumigame.com/base/dotnet/core/aspnet:6.0
 WORKDIR /app
 COPY --from=builder /app/publish .
+EXPOSE 5000
+
 ENTRYPOINT ["dotnet", "MemberSite.dll"]
