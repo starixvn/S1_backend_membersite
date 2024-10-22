@@ -3,11 +3,9 @@ using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -31,7 +29,7 @@ namespace MemberSite.Controllers.Api
         private readonly IOlympicEventBLL _olympicEventBll;
         private readonly ILogger<EventsController> _logger;
         private readonly QueueJobBLL _queueJobBll;
-        private readonly PredictionPromotionBLL _predictionPromotionBLL;
+        private readonly PredictionPromotionBLL _predictionPromotionBll;
 
         public EventsController(IServiceProvider provider)
         {
@@ -48,7 +46,7 @@ namespace MemberSite.Controllers.Api
             _dateTimeHelper = provider.GetRequiredService<DateTimeHelper>();
             _newYear2024Bll = provider.GetRequiredService<NewYear2024BLL>();
             _queueJobBll = provider.GetRequiredService<QueueJobBLL>();
-            _predictionPromotionBLL = provider.GetRequiredService<PredictionPromotionBLL>();
+            _predictionPromotionBll = provider.GetRequiredService<PredictionPromotionBLL>();
         }
 
         #region Leaderboard
@@ -930,7 +928,6 @@ namespace MemberSite.Controllers.Api
             var authData = _authorizeBll.GetAuthData();
             var serverInfo = _serverInfoBll.GetServerInfo();
             var custId = 0;
-            int siteId;
             int currencyId;
             var landId = _selLangBll.GetLangId();
 
@@ -938,16 +935,14 @@ namespace MemberSite.Controllers.Api
             {
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                 custId = custInfo.CustId;
-                siteId = custInfo.SiteId;
                 currencyId = custInfo.CurrencyId;
             } 
             else
             {
-                siteId = serverInfo.SiteId;
                 currencyId = _selLangBll.GetPreferCurrencyId();
             }
             
-            apiResult.Data = await _predictionPromotionBLL.GetPredictionTeamInfo(custId ,siteId, currencyId, landId);
+            apiResult.Data = await _predictionPromotionBll.GetPredictionTeamInfo(custId ,serverInfo, currencyId, landId);
             apiResult.ErrorCode = (int) ErrorCode.Success;
             
             return apiResult;
@@ -963,8 +958,8 @@ namespace MemberSite.Controllers.Api
                 var authData = _authorizeBll.GetAuthData();
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
 
-                var matchInfo = await _predictionPromotionBLL.GetPromotionPredictionByMatchId(custInfo.SiteId,request.MatchId);
-                var checkTime = matchInfo.BattleDateTime.UtcDateTime.Date.AddSeconds(-1);
+                var matchInfo = await _predictionPromotionBll.GetPromotionPredictionByMatchId(custInfo.SiteId,request.MatchId);
+                var checkTime = matchInfo.BattleTime.Date.AddSeconds(-1);
                 if (DateTime.UtcNow > checkTime)
                 {
                     apiResult.ErrorCode = -2;
@@ -976,7 +971,7 @@ namespace MemberSite.Controllers.Api
                 var lockExpiry = TimeSpan.FromSeconds(30); //lock 30 sec        
                 if (await _redisHelper.TryCreateLockAsync(lockKey, lockValue, lockExpiry))
                 {
-                    var result = await _predictionPromotionBLL.PredictCupEventScore( authData.CustId, request.MatchId, request);
+                    var result = await _predictionPromotionBll.PredictCupEventScore( authData.CustId, request.MatchId, request);
                     await _redisHelper.UnLockAsync(lockKey, lockValue);
 
                     if (result)
