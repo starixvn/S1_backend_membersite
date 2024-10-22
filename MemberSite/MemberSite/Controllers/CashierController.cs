@@ -297,10 +297,6 @@ namespace MemberSite.Controllers
                         };
                         break;
 
-                    case DepositType.CryptoPayment:
-                        p.ExtraData = new Dictionary<string, string>();
-                        break;
-
                     case DepositType.LoadCardPayment:
                         p.ExtraData = new Dictionary<string, string>
                         {
@@ -308,7 +304,10 @@ namespace MemberSite.Controllers
                             {"Serial", serial}
                         };
                         break;
+                    
+                    case DepositType.CryptoPayment:
                     case DepositType.ChatTransfer:
+                    case DepositType.DigitalWallet:
                         p.ExtraData = new Dictionary<string, string>();
                         break;
 
@@ -484,6 +483,7 @@ namespace MemberSite.Controllers
                 {DepositType.CryptoPayment, PaymentView.DepositReqCryptoPay},
                 {DepositType.CryptoWallet, PaymentView.DepositReqCryptoPay},
                 {DepositType.QrPayPayment, PaymentView.DepositReqMobilePay},
+                {DepositType.DigitalWallet, PaymentView.DepositReqMobilePay},
                 {DepositType.LoadCardPayment, PaymentView.DepositReqLoadCardPay},
                 {DepositType.BankAutoChannel, PaymentView.DepositReqOnlineBanking},
                 {DepositType.QuickTransfer, PaymentView.DepositReqOnlineBanking},
