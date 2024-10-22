@@ -32,9 +32,8 @@ namespace MemberSite.Controllers.Api
         private readonly ILogger<EventsController> _logger;
         private readonly QueueJobBLL _queueJobBll;
         
-        public EventsController(IServiceProvider provider, LotteryBLL lotteryBll)
+        public EventsController(IServiceProvider provider)
         {
-            _lotteryBll = lotteryBll;
             _authorizeBll = provider.GetRequiredService<AuthorizeBLL>();
             _eventsBll = provider.GetRequiredService<EventsBLL>();
             _angPaoBll = provider.GetRequiredService<IAngPaoBLL>();
