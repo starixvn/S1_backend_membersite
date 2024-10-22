@@ -31,6 +31,7 @@ namespace MemberSite.Controllers.Api
         private readonly IOlympicEventBLL _olympicEventBll;
         private readonly ILogger<EventsController> _logger;
         private readonly QueueJobBLL _queueJobBll;
+        private readonly PredictionPromotionBLL _predictionPromotionBLL;
 
         public EventsController(IServiceProvider provider)
         {
@@ -47,6 +48,7 @@ namespace MemberSite.Controllers.Api
             _dateTimeHelper = provider.GetRequiredService<DateTimeHelper>();
             _newYear2024Bll = provider.GetRequiredService<NewYear2024BLL>();
             _queueJobBll = provider.GetRequiredService<QueueJobBLL>();
+            _predictionPromotionBLL = provider.GetRequiredService<PredictionPromotionBLL>();
         }
 
         #region Leaderboard
@@ -917,6 +919,99 @@ namespace MemberSite.Controllers.Api
 
         #endregion
 
+        #endregion
+
+        #region PredictionPromotion
+        
+        [HttpPost]
+        public async Task<ApiResult<IEnumerable<GetPredictionTeamInfoResp>>> GetPredictionTeamInfo()
+        {
+            var apiResult = new ApiResult<IEnumerable<GetPredictionTeamInfoResp>>();
+            var authData = _authorizeBll.GetAuthData();
+            var serverInfo = _serverInfoBll.GetServerInfo();
+            var custId = 0;
+            int siteId;
+            int currencyId;
+            var landId = _selLangBll.GetLangId();
+
+            if (authData is { CustId: > 0 })
+            {
+                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                custId = custInfo.CustId;
+                siteId = custInfo.SiteId;
+                currencyId = custInfo.CurrencyId;
+            } 
+            else
+            {
+                siteId = serverInfo.SiteId;
+                currencyId = _selLangBll.GetPreferCurrencyId();
+            }
+            
+            apiResult.Data = await _predictionPromotionBLL.GetPredictionTeamInfo(custId ,siteId, currencyId, landId);
+            apiResult.ErrorCode = (int) ErrorCode.Success;
+            
+            return apiResult;
+        }
+        
+        [HttpPost]
+        [Authorize]
+        public async Task<ApiResult> PromotionPredictScore(PredictScoreRequest request)
+        {
+            var apiResult = new ApiResult();
+            try
+            {
+                var authData = _authorizeBll.GetAuthData();
+                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+
+                var matchInfo = await _predictionPromotionBLL.GetPromotionPredictionByMatchId(custInfo.SiteId,request.MatchId);
+                var checkTime = matchInfo.BattleDateTime.UtcDateTime.Date.AddSeconds(-1);
+                if (DateTime.UtcNow > checkTime)
+                {
+                    apiResult.ErrorCode = -2;
+                    apiResult.Message = "Predict time has expired";
+                }
+                
+                var lockKey = $"PromotionPredictScore:{custInfo.CustId}";
+                var lockValue = Guid.NewGuid().ToString(); // 每次取鎖使用唯一值，確保為同一個執行序所執行
+                var lockExpiry = TimeSpan.FromSeconds(30); //lock 30 sec        
+                if (await _redisHelper.TryCreateLockAsync(lockKey, lockValue, lockExpiry))
+                {
+                    var result = await _predictionPromotionBLL.PredictCupEventScore( authData.CustId, request.MatchId, request);
+                    await _redisHelper.UnLockAsync(lockKey, lockValue);
+
+                    if (result)
+                    {
+                        apiResult.ErrorCode = 0;
+                    }
+                    else
+                    {
+                        apiResult.ErrorCode = -1;
+                        apiResult.Message = "Score can't less than 0.";
+                    }
+                }       
+                
+            }
+            catch (MySql.Data.MySqlClient.MySqlException mySqlEx)
+            {
+                if (mySqlEx.Number == 1062)/*Duplicate for key 'PRIMARY'*/
+                {
+                    apiResult.ErrorCode = 1062;
+                    apiResult.Message = "Has Predicted";
+                }
+                else
+                {
+                    apiResult.ErrorCode = 9000;
+                    apiResult.Message = _selLangBll.GetMsg("msg_Ineligible");
+                }
+            }
+            catch (Exception ex)
+            {
+                apiResult.Message = ex.Message;
+            }
+
+            return apiResult;
+        }
+        
         #endregion
     }
 }

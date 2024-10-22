@@ -194,7 +194,8 @@ namespace MemberSite
             services.AddSingleton<CustNotificationBLL>();
             services.AddSingleton<QuestionnaireBLL>();
             services.AddSingleton<CRMBLL>();
-
+            services.AddTransient<PredictionPromotionBLL>();
+            
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();
 
