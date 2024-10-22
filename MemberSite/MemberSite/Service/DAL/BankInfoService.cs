@@ -12,11 +12,12 @@ namespace MemberSite.Service.DAL
         {
             _reportDb = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
         }
-        public IEnumerable<BankInfoSys> GetBankInfoSysList(int currencyId, string lang)
+        public IEnumerable<BankInfoSys> GetBankInfoSysList(int siteId, int currencyId, string lang)
         {
-            return _reportDb.Query<BankInfoSys>("Member_BankInfoSysList_Get_V2", 
+            return _reportDb.Query<BankInfoSys>("Member_BankInfoSysList_Get_V3", 
                 new
                 {
+                    _SiteId = siteId,
                     _CurrencyId = currencyId,
                     _Lang = lang
                 });
