@@ -200,7 +200,8 @@ namespace MemberSite
             services.AddSingleton<FaceBookPixelBLL>();
             services.AddSingleton<CustNotificationBLL>();
             services.AddSingleton<CRMBLL>();
-
+            services.AddTransient<PredictionPromotionBLL>();
+            
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();
 

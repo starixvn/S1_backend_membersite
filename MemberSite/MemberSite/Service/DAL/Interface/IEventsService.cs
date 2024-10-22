@@ -46,5 +46,12 @@ namespace MemberSite.Service.DAL.Interface
 
         #endregion
 
+        #region PredictionPromotion
+
+        Task<IEnumerable<PromotionPrediction>> GetPromotionPrediction(int custId ,int siteId, int currencyId, string langId);
+        Task<PromotionPrediction> GetPromotionPredictionByMatchId(int siteId, int matchId);
+        Task<int> PromotionPredictScore(int custId, int matchId, PredictScoreRequest request);
+
+        #endregion
     }
 }

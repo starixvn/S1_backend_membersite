@@ -610,5 +610,39 @@ namespace MemberSite.Service.DAL
         
         #endregion
 
+		 #region PredictionPromotion
+
+        public Task<IEnumerable<PromotionPrediction>> GetPromotionPrediction(int custId ,int siteId, int currencyId ,string langId)
+        {
+            var p = new DynamicParameters();
+            p.Add("_CustId", custId);
+            p.Add("_SiteId", siteId);
+            p.Add("_CurrencyId", currencyId);
+            p.Add("_LangId", langId);
+            var result = _reportDbClient.QueryAsync<PromotionPrediction>("Member_PromotionPrediction_Get", p);
+            
+            return result;
+        }
+        
+        public Task<PromotionPrediction> GetPromotionPredictionByMatchId(int siteId, int matchId)
+        {
+            var p = new DynamicParameters();
+            p.Add("_SiteId", siteId, dbType: DbType.Int64);
+            p.Add("_MatchId", matchId, dbType: DbType.Int64);
+
+            return _reportDbClient.QueryFirstAsync<PromotionPrediction>("Service_PromotionPredictionByMatchId_Get", p);
+        }
+        
+        public Task<int> PromotionPredictScore(int custId, int matchId , PredictScoreRequest request)
+        {
+            var p = new DynamicParameters();
+            p.Add("_CustId", custId, dbType: DbType.Int64);
+            p.Add("_MatchId", matchId, dbType: DbType.Int64);
+            p.Add("_HomeScore", request.HomeTeamScore, dbType: DbType.Int64);
+            p.Add("_AwayScore", request.AwayTeamScore, dbType: DbType.Int64);
+
+            return _mainDbClient.ExecuteAsync("Member_CustPromotionPredictScore_Ins", p);
+        }
+		#endregion
     }
 }
