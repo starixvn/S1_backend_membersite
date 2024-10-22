@@ -1,38 +1,59 @@
 ﻿using MemberSite.Service.DAL.Interface;
-using MemberSite.Service.Library;
 using MemberSite.Service.Model;
-using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.BLL;
 
 public class PredictionPromotionBLL
 {
     private readonly IEventsService _eventsService;
-    private readonly SelLangBLL _selLangBll;
-    private readonly DateTimeHelper _dateTimeHelper;
-    private readonly EventsBLL _eventsBll;
-    private readonly ILogger<NewYear2024BLL> _logger;
-    private readonly ICacheHelper _redisHelper;
-
+    private readonly HotEventBLL _hotEventBll;
+    
     public PredictionPromotionBLL(IServiceProvider provider)
     {
         _eventsService = provider.GetRequiredService<IEventsService>();
-        _selLangBll = provider.GetRequiredService<SelLangBLL>();
-        _dateTimeHelper = provider.GetRequiredService<DateTimeHelper>();
-        _eventsBll = provider.GetRequiredService<EventsBLL>();
-        _logger = provider.GetRequiredService<ILogger<NewYear2024BLL>>();
-        _redisHelper = provider.GetRequiredService<ICacheHelper>();
+        _hotEventBll = provider.GetRequiredService<HotEventBLL>();
     }
     
-    public async Task<IEnumerable<GetPredictionTeamInfoResp>> GetPredictionTeamInfo(int custId ,int siteId, int currency ,string landId)
+    public async Task<IEnumerable<GetPredictionTeamInfoResp>> GetPredictionTeamInfo(int custId ,ServerInfo serverInfo, int currency ,string landId)
     {
-        var promotionPredictionList = await _eventsService.GetPromotionPrediction(custId, siteId, currency, landId);
+        var promotionPredictionList = await _eventsService.GetPromotionPrediction(custId, serverInfo.SiteId, currency, landId);
+        var sportTeamsInfo = await _hotEventBll.GetSportTeamsInfo();
+        var sportLeaguesInfo = await _hotEventBll.GetSportLeaguesInfo();
+        
         var result = promotionPredictionList
             .GroupBy(x => x.BonusCode)
             .Select(r => new GetPredictionTeamInfoResp
             {
                 BonusCode = r.Key,
-                PromotionPrediction = promotionPredictionList.Where(x=>x.BonusCode == r.Key).ToList()
+                PromotionPrediction = promotionPredictionList
+                    .Where(x=>x.BonusCode == r.Key)
+                    .Select(y => new PromotionPrediction
+                    {
+                        BonusCode = r.Key,
+                        MatchId = y.MatchId,
+                        Title = y.Title,
+                        Banner = y.Banner,
+                        Description = y.Description,
+                        RollOver = y.RollOver,
+                        RequiredAmount = y.RequiredAmount,
+                        Bonus = y.Bonus,
+                        SportLeaguesTitle = y.SportLeaguesTitle,
+                        GameId =  y.GameId,
+                        BattleTime =  y.BattleTime,
+                        HomeTeamName =  y.HomeTeamName,
+                        HomeTeamLeaguesId = y.HomeTeamLeaguesId,
+                        HomeTeamId = y.HomeTeamId,
+                        HomeTeamPic =  _hotEventBll.GetHomeTeamPic(serverInfo, sportLeaguesInfo, y, sportTeamsInfo),
+                        AwayTeamLeaguesId =y.AwayTeamLeaguesId,
+                        AwayTeamId = y.AwayTeamId,
+                        AwayTeamName =  y.AwayTeamName,
+                        AwayTeamPic = _hotEventBll.GetAwayTeamPic(serverInfo, sportLeaguesInfo, y, sportTeamsInfo),
+                        HomeScore =  y.HomeScore,
+                        AwayScore =  y.AwayScore,
+                        Result =  y.Result,
+                        IsPredict =  y.IsPredict,
+                        TpId = y.TpId,
+                    })
             });
         
         return result;

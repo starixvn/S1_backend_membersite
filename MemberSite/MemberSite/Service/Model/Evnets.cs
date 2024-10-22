@@ -499,33 +499,21 @@ namespace MemberSite.Service.Model
     public class GetPredictionTeamInfoResp
     {
         public string BonusCode { get; set; }
-        public List<PromotionPrediction> PromotionPrediction { get; set; }
+        public IEnumerable<PromotionPrediction> PromotionPrediction { get; set; }
     }
 
   
-    public class PromotionPrediction
+    public class PromotionPrediction : HotEventDto
     {
-        private DateTimeOffset _battleDateTime { get; set; }
         public string BonusCode { get; set; }
-        public int MatchId { get; set; }
         public string Title { get; set; }
         public string Banner { get; set; }
         public string Description { get; set; }
         public decimal RollOver { get; set; }
         public decimal RequiredAmount { get; set; }
         public decimal Bonus { get; set; }
-        public int SportLeaguesTitleId { get; set; }
-        public string SportLeaguesTitle { get; set; }
-        public int GameId { get; set; }
-        public DateTimeOffset BattleDateTime
-        {
-            get => _battleDateTime;
-            set => _battleDateTime = new DateTimeOffset(value.DateTime.AddHours(8), new TimeSpan(8, 0, 0));
-        }
-        public int HomeSportTeamId { get; set; }
-        public string HomeTeamName { get; set; }
-        public int AwaySportTeamId { get; set; }
-        public string AwayTeamName { get; set; }
+        public string HomeTeamPic { get; set; }
+        public string AwayTeamPic { get; set; }
         public int HomeScore { get; set; }
         public int AwayScore { get; set; }
         public bool Result { get; set; }
