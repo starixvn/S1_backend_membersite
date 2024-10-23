@@ -1234,14 +1234,50 @@ namespace MemberSite.Controllers.Api
             {
                 var authData = _authorizeBll.GetAuthData();
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-
                 var matchInfo = await _predictionPromotionBll.GetPromotionPredictionByMatchId(custInfo.SiteId,request.MatchId);
-                var checkTime = matchInfo.BattleTime.Date.AddSeconds(-1);
-                if (DateTime.UtcNow > checkTime)
+                
+                #region check Time
+                
+                var endTimeCheck = matchInfo.EndTime.AddHours(8).AddDays(-1);
+                var endTime = new DateTimeOffset(endTimeCheck.Year, endTimeCheck.Month, endTimeCheck.Day, 23, 59, 59, TimeSpan.FromHours(8));
+                
+                if (DateTime.UtcNow < matchInfo.StartTime || DateTime.UtcNow > endTime.UtcDateTime )
                 {
                     apiResult.ErrorCode = -2;
                     apiResult.Message = "Predict time has expired";
+                    return apiResult; 
                 }
+
+                #endregion
+
+                #region Check Depsoit
+                
+                var startTime = endTime.AddDays(- matchInfo.DepositTermPeriodDays).UtcDateTime.Date;
+                var depositList = await _predictionPromotionBll.GetMemberDeposit(custInfo.CustId, startTime, endTime.UtcDateTime);
+
+                if (matchInfo.RequiredAmount > 0)
+                {
+                    var depositSummary = depositList.Sum(x => x.DepositAmount);
+                    if (depositSummary < matchInfo.RequiredAmount)
+                    {
+                        apiResult.ErrorCode = -3;
+                        apiResult.Message = string.Format(_selLangBll.GetMsg("msg_RequiredAmountInsufficient"), matchInfo.RequiredAmount);
+                        return apiResult; 
+                    }
+                }
+
+                if (matchInfo.DepositCountAchieved > 0)
+                {
+                    var depositCount = depositList.Count;
+                    if (depositCount < matchInfo.DepositCountAchieved)
+                    {
+                        apiResult.ErrorCode = -4;
+                        apiResult.Message = "Deposit Count not enough";
+                        return apiResult; 
+                    }
+                }
+                
+                #endregion
                 
                 var lockKey = $"PromotionPredictScore:{custInfo.CustId}";
                 var lockValue = Guid.NewGuid().ToString(); // 每次取鎖使用唯一值，確保為同一個執行序所執行

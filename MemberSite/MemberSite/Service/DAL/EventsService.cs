@@ -643,6 +643,23 @@ namespace MemberSite.Service.DAL
 
             return _mainDbClient.ExecuteAsync("Member_CustPromotionPredictScore_Ins", p);
         }
-		#endregion
+
+        /// <summary>
+        /// 取得玩家活動內存款清單
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<PredictionDepositDto>> GetMemberDeposit(int custId, DateTime startTime ,DateTime endTime)
+        {
+            var p = new DynamicParameters();
+            p.Add("_CustId", custId, dbType: DbType.Int64);
+            p.Add("_StartTime", startTime, dbType: DbType.DateTime);
+            p.Add("_EndTime", endTime, dbType: DbType.DateTime);
+
+            var result = await _reportDbClient.QueryAsync<PredictionDepositDto>("Service_PromotionPredictionDeposit_Get", p);
+            return result.ToList();
+        }
+        
+        #endregion
+
     }
 }

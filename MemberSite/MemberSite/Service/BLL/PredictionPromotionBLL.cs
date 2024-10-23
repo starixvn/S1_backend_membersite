@@ -77,4 +77,10 @@ public class PredictionPromotionBLL
         return result > 0;
     }
 
+    public async Task<List<PredictionDepositDto>> GetMemberDeposit(int custId, DateTime startTime, DateTime endTime)
+    {
+        var promotionPrediction = await _eventsService.GetMemberDeposit(custId, startTime ,endTime);
+      
+        return promotionPrediction;
+    }
 }
