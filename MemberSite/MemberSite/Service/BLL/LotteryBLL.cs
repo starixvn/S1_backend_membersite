@@ -120,7 +120,7 @@ namespace MemberSite.Service.BLL
                     EndDate = x.EndDate,
                     DrawDate = x.DrawDate
                 })
-                .OrderByDescending(x=>x.DrawDate)
+                .OrderBy(x=>x.DrawDate)
                 .ToList();
 
             return response;
