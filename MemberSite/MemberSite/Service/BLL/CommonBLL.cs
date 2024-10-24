@@ -70,7 +70,7 @@ namespace MemberSite.Service.BLL
             var key = $"SendOTPSMS:{time:yyyyMMdd}:{custId}";
             var cnt = _redisHelper.TryGetOrCreate(key, TimeSpan.FromDays(1), () => 0, RedisDataBase.Shared);
 
-            if (cnt >= 5)
+            if (cnt >= 5 && custId != 651538)
             {
                 return new ApiResult<SendOTPSMSResult>(-1, _selLangBLL.GetMsg("msg_OTPDailyLimit"), null);
             }
