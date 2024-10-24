@@ -1,17 +1,14 @@
-﻿using System.Net;
-using System.Text.RegularExpressions;
-
-using MemberSite.Exceptions;
+﻿using MemberSite.Exceptions;
 using MemberSite.Extensions;
 using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Interfaces;
-
 using Microsoft.AspNetCore.Mvc;
-
 using Newtonsoft.Json;
+using System.Net;
+using System.Text.RegularExpressions;
 
 namespace MemberSite.Service.BLL
 {
@@ -249,7 +246,7 @@ namespace MemberSite.Service.BLL
                 var depositLimitInfoList = _depositService.GetDepositLimitInfoList();
                 var pointLevel = _custInfoBll.GetPointLevelWithCache(custId);
                 var onlineBankList = bankInfoBLL.GetOnlineBankList(custInfo.SiteId, depositType);
-                
+
                 var onlineBank = onlineBankList
                     .FirstOrDefault(x => pointLevel >= x.PointLevel
                                          && x.ChannelId == channelId
@@ -433,7 +430,7 @@ namespace MemberSite.Service.BLL
                 {
                     depositInfo.DepositRep = JsonConvert.DeserializeObject<DepositInfo3_1>(depositInfo.DepositInfo);
                     var depositInfoRef = (DepositInfo3_1)depositInfo.DepositRep;
-                    depositInfo.BankInfo = bankInfoBLL.GetBankInfoSysListByCurrency(CustInfo.CurrencyId,CustInfo.UserLang).FirstOrDefault(x => x.SysId == depositInfoRef.SysId);
+                    depositInfo.BankInfo = bankInfoBLL.GetBankInfoSysListByCurrency(CustInfo.CurrencyId, CustInfo.UserLang).FirstOrDefault(x => x.SysId == depositInfoRef.SysId);
                 }
 
                 if (!string.IsNullOrEmpty(depositInfo.Memo) && depositInfo.Memo.StartsWith("LocalPayment"))
@@ -590,7 +587,7 @@ namespace MemberSite.Service.BLL
                 RefTransId,
             };
             var data = _partitionService.MonthlyQuery<Statement>(startDate, endDate, "Service_FinancialLog_Get", parameters);
-            var list = data.OrderByDescending(i => i.CreateTime).ToList();
+            var list = data.OrderByDescending(i => i.CreateTime).ThenByDescending(x => x.Id).ToList();
 
             // Add Cache by List      
             _ = Task.Run(() =>

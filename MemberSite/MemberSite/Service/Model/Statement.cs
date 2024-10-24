@@ -1,11 +1,11 @@
-﻿using System.Text.Json.Serialization;
-
-using MemberSite.Extensions;
+﻿using MemberSite.Extensions;
+using System.Text.Json.Serialization;
 
 namespace MemberSite.Service.Model
 {
     public class Statement
     {
+        public long Id { get; set; }
         public string Type { get; set; }
         public decimal ChangeAmount { get; set; }
         public decimal BeforeAmount { get; set; }
