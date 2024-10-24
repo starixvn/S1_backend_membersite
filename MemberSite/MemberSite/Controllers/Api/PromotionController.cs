@@ -9,6 +9,7 @@ using MemberSite.Service.Model.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using static MemberSite.Controllers.Api.PromotionController;
 using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
@@ -111,6 +112,11 @@ namespace MemberSite.Controllers.Api
             public int CurrencyId { set; get; }
         }
 
+        public class CustPrivatePromotionReq
+        {
+            public int DeviceType { set; get; }
+        }
+
         [Authorize]
         [HttpPost]
         public async Task<ApiResult> SetClaimPromotionAsync(PromotionReq promotionReq)
@@ -122,17 +128,17 @@ namespace MemberSite.Controllers.Api
                 if (authData is { CustId: > 0 })
                 {
                     var key = $"SetClaimPromotion:{authData.CustId}";
-                    
+
                     if (!await _cacheHelper.SetNxAsync(key, string.Empty, TimeSpan.FromSeconds(5)))
                     {
                         apiResult.ErrorCode = -100;
                         apiResult.Message = _selLangBll.GetMsg("msg_Ineligible");
-                        
+
                         _logger.LogInformation("Block duplicate claim bonus");
-                        
+
                         return apiResult;
                     }
-                    
+
                     var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                     var deviceType = (int)PromotionDeviceType.All;
                     if (promotionReq.DeviceType != null)
@@ -636,6 +642,43 @@ namespace MemberSite.Controllers.Api
             {
                 _logger.LogError(e, GetCurrentMethod());
             }
+            return result;
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ApiResult<List<CustPromotion>> GetCustPrivatePromotionList(CustPrivatePromotionReq data)
+        {
+            var result = new ApiResult<List<CustPromotion>>();
+            try
+            {
+                var serverInfo = _serverInfoBll.GetServerInfo();
+                var authData = _authorizeBll.GetAuthData();
+
+                if (authData is { CustId: > 0 })
+                {
+                    var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+
+                    var apiUrl = $"{_bonusServiceUrl}GetCustPrivatePromotionList";
+
+                    var req = new CustPromotionRequest
+                    {
+                        SiteId = serverInfo.SiteId,
+                        CustId = custInfo.CustId,
+                        CurrencyId = custInfo.CurrencyId,
+                        DeviceType = data.DeviceType,
+                        LangId = _selLangBll.GetLangId(),
+                        DefLang = serverInfo.DefLang
+                    };
+
+                    result = _courierAdapter.MyPostAsync<List<CustPromotion>, CustPromotionRequest>(apiUrl, req).Result;
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, GetCurrentMethod());
+            }
+
             return result;
         }
     }

@@ -31,10 +31,10 @@ namespace MemberSite.Controllers.Api
         private readonly IOlympicEventBLL _olympicEventBll;
         private readonly ILogger<EventsController> _logger;
         private readonly QueueJobBLL _queueJobBll;
-        
-        public EventsController(IServiceProvider provider, LotteryBLL lotteryBll)
+        private readonly PredictionPromotionBLL _predictionPromotionBll;
+
+        public EventsController(IServiceProvider provider)
         {
-            _lotteryBll = lotteryBll;
             _authorizeBll = provider.GetRequiredService<AuthorizeBLL>();
             _eventsBll = provider.GetRequiredService<EventsBLL>();
             _angPaoBll = provider.GetRequiredService<IAngPaoBLL>();
@@ -50,6 +50,7 @@ namespace MemberSite.Controllers.Api
             _dateTimeHelper = provider.GetRequiredService<DateTimeHelper>();
             _newYear2024Bll = provider.GetRequiredService<NewYear2024BLL>();
             _queueJobBll = provider.GetRequiredService<QueueJobBLL>();
+            _predictionPromotionBll = provider.GetRequiredService<PredictionPromotionBLL>();
         }
 
         #region Leaderboard
@@ -1193,6 +1194,132 @@ namespace MemberSite.Controllers.Api
             }
         }
 
+        #endregion
+        
+        #region PredictionPromotion
+        
+        [HttpPost]
+        public async Task<ApiResult<IEnumerable<GetPredictionTeamInfoResp>>> GetPredictionTeamInfo()
+        {
+            var apiResult = new ApiResult<IEnumerable<GetPredictionTeamInfoResp>>();
+            var authData = _authorizeBll.GetAuthData();
+            var serverInfo = _serverInfoBll.GetServerInfo();
+            var custId = 0;
+            int currencyId;
+            var landId = _selLangBll.GetLangId();
+
+            if (authData is { CustId: > 0 })
+            {
+                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                custId = custInfo.CustId;
+                currencyId = custInfo.CurrencyId;
+            } 
+            else
+            {
+                currencyId = _selLangBll.GetPreferCurrencyId();
+            }
+            
+            apiResult.Data = await _predictionPromotionBll.GetPredictionTeamInfo(custId ,serverInfo, currencyId, landId);
+            apiResult.ErrorCode = (int) ErrorCode.Success;
+            
+            return apiResult;
+        }
+        
+        [HttpPost]
+        [Authorize]
+        public async Task<ApiResult> PromotionPredictScore(PredictScoreRequest request)
+        {
+            var apiResult = new ApiResult();
+            try
+            {
+                var authData = _authorizeBll.GetAuthData();
+                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                var matchInfo = await _predictionPromotionBll.GetPromotionPredictionByMatchId(custInfo.SiteId,request.MatchId);
+                
+                #region check Time
+                
+                var endTimeCheck = matchInfo.EndTime.AddHours(8).AddDays(-1);
+                var endTime = new DateTimeOffset(endTimeCheck.Year, endTimeCheck.Month, endTimeCheck.Day, 23, 59, 59, TimeSpan.FromHours(8));
+                
+                if (DateTime.UtcNow < matchInfo.StartTime || DateTime.UtcNow > endTime.UtcDateTime )
+                {
+                    apiResult.ErrorCode = -2;
+                    apiResult.Message = "Predict time has expired";
+                    return apiResult; 
+                }
+
+                #endregion
+
+                #region Check Depsoit
+                
+                var startTime = endTime.AddDays(- matchInfo.DepositTermPeriodDays).UtcDateTime.Date;
+                var depositList = await _predictionPromotionBll.GetMemberDeposit(custInfo.CustId, startTime, endTime.UtcDateTime);
+
+                if (matchInfo.RequiredAmount > 0)
+                {
+                    var depositSummary = depositList.Sum(x => x.DepositAmount);
+                    if (depositSummary < matchInfo.RequiredAmount)
+                    {
+                        apiResult.ErrorCode = -3;
+                        apiResult.Message = string.Format(_selLangBll.GetMsg("msg_RequiredAmountInsufficient"), matchInfo.RequiredAmount);
+                        return apiResult; 
+                    }
+                }
+
+                if (matchInfo.DepositCountAchieved > 0)
+                {
+                    var depositCount = depositList.Count;
+                    if (depositCount < matchInfo.DepositCountAchieved)
+                    {
+                        apiResult.ErrorCode = -4;
+                        apiResult.Message = "Deposit Count not enough";
+                        return apiResult; 
+                    }
+                }
+                
+                #endregion
+                
+                var lockKey = $"PromotionPredictScore:{custInfo.CustId}";
+                var lockValue = Guid.NewGuid().ToString(); // 每次取鎖使用唯一值，確保為同一個執行序所執行
+                var lockExpiry = TimeSpan.FromSeconds(30); //lock 30 sec        
+                if (await _redisHelper.TryCreateLockAsync(lockKey, lockValue, lockExpiry))
+                {
+                    var result = await _predictionPromotionBll.PredictCupEventScore( authData.CustId, request.MatchId, request);
+                    await _redisHelper.UnLockAsync(lockKey, lockValue);
+
+                    if (result)
+                    {
+                        apiResult.ErrorCode = 0;
+                    }
+                    else
+                    {
+                        apiResult.ErrorCode = -1;
+                        apiResult.Message = "Score can't less than 0.";
+                    }
+                }       
+                
+            }
+            catch (MySql.Data.MySqlClient.MySqlException mySqlEx)
+            {
+                if (mySqlEx.Number == 1062)/*Duplicate for key 'PRIMARY'*/
+                {
+                    apiResult.ErrorCode = 1062;
+                    apiResult.Message = "Has Predicted";
+                }
+                else
+                {
+                    apiResult.ErrorCode = 9000;
+                    apiResult.Message = _selLangBll.GetMsg("msg_Ineligible");
+                }
+            }
+            catch (Exception ex)
+            {
+                apiResult.Message = ex.Message;
+            }
+
+            return apiResult;
+        }
+        
         #endregion
     }
 }

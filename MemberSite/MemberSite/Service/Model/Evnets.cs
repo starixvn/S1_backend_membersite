@@ -493,4 +493,57 @@ namespace MemberSite.Service.Model
     }
     
     #endregion
+    
+     #region Prediction
+    
+    public class GetPredictionTeamInfoResp
+    {
+        public string BonusCode { get; set; }
+        public IEnumerable<PromotionPrediction> PromotionPrediction { get; set; }
+    }
+
+  
+    public class PromotionPrediction : HotEventDto
+    {
+        public string BonusCode { get; set; }
+        public string Title { get; set; }
+        public string Banner { get; set; }
+        public string Description { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public decimal RollOver { get; set; }
+        public decimal RequiredAmount { get; set; }
+        public int DepositCountAchieved { get; set; }
+        public int DepositTermPeriodDays { get; set; }
+        public decimal Bonus { get; set; }
+        public string HomeTeamPic { get; set; }
+        public string AwayTeamPic { get; set; }
+        public int HomeScore { get; set; }
+        public int AwayScore { get; set; }
+        public bool Result { get; set; }
+        public bool IsPredict { get; set; }
+    }
+
+    public class PredictScoreRequest
+    {
+        public int MatchId { get; set; }
+        public int HomeTeamScore { get; set; }
+        public int AwayTeamScore { get; set; }
+    }
+    
+    public class PredictionDepositDto
+    {
+        /// <summary>
+        /// 存款單
+        /// </summary>
+        public string TransId { get; set; }
+        
+        /// <summary>
+        /// 充值金額
+        /// </summary>
+        public decimal DepositAmount { get; set; }
+    }
+    
+    #endregion
+
 }

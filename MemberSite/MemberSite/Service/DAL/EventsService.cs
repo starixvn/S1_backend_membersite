@@ -610,5 +610,56 @@ namespace MemberSite.Service.DAL
         
         #endregion
 
+		 #region PredictionPromotion
+
+        public Task<IEnumerable<PromotionPrediction>> GetPromotionPrediction(int custId ,int siteId, int currencyId ,string langId)
+        {
+            var p = new DynamicParameters();
+            p.Add("_CustId", custId);
+            p.Add("_SiteId", siteId);
+            p.Add("_CurrencyId", currencyId);
+            p.Add("_LangId", langId);
+            var result = _reportDbClient.QueryAsync<PromotionPrediction>("Member_PromotionPrediction_Get", p);
+            
+            return result;
+        }
+        
+        public Task<PromotionPrediction> GetPromotionPredictionByMatchId(int siteId, int matchId)
+        {
+            var p = new DynamicParameters();
+            p.Add("_SiteId", siteId, dbType: DbType.Int64);
+            p.Add("_MatchId", matchId, dbType: DbType.Int64);
+
+            return _reportDbClient.QueryFirstAsync<PromotionPrediction>("Service_PromotionPredictionByMatchId_Get", p);
+        }
+        
+        public Task<int> PromotionPredictScore(int custId, int matchId , PredictScoreRequest request)
+        {
+            var p = new DynamicParameters();
+            p.Add("_CustId", custId, dbType: DbType.Int64);
+            p.Add("_MatchId", matchId, dbType: DbType.Int64);
+            p.Add("_HomeScore", request.HomeTeamScore, dbType: DbType.Int64);
+            p.Add("_AwayScore", request.AwayTeamScore, dbType: DbType.Int64);
+
+            return _mainDbClient.ExecuteAsync("Member_CustPromotionPredictScore_Ins", p);
+        }
+
+        /// <summary>
+        /// 取得玩家活動內存款清單
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<PredictionDepositDto>> GetMemberDeposit(int custId, DateTime startTime ,DateTime endTime)
+        {
+            var p = new DynamicParameters();
+            p.Add("_CustId", custId, dbType: DbType.Int64);
+            p.Add("_StartTime", startTime, dbType: DbType.DateTime);
+            p.Add("_EndTime", endTime, dbType: DbType.DateTime);
+
+            var result = await _reportDbClient.QueryAsync<PredictionDepositDto>("Service_PromotionPredictionDeposit_Get", p);
+            return result.ToList();
+        }
+        
+        #endregion
+
     }
 }
