@@ -11,6 +11,7 @@ public interface ICacheHelper
     Task<bool> StringFireAndForgetSetAsync(string key, RedisValue value, TimeSpan? timeSpan, RedisDataBase redisDataBase = RedisDataBase.Member);
 
     bool StringSet(string key, RedisValue value, TimeSpan? timeSpan, RedisDataBase redisDataBase = RedisDataBase.Member);
+    Task<TItem> StringGetAsync<TItem>(string key, RedisDataBase redisDataBase = RedisDataBase.Member);
 
     string StringGet(string key, RedisDataBase redisDataBase = RedisDataBase.Member);
 

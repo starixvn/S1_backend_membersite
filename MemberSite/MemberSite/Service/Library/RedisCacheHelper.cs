@@ -354,6 +354,21 @@ namespace MemberSite.Service.Library
             }
         }
 
+        public async Task<TItem> StringGetAsync<TItem>(string key, RedisDataBase redisDataBase = RedisDataBase.Admin)
+        {
+            key = $"{redisDataBase}:{RemoveSpecialChars(key)}";
+            try
+            {
+                var db = _multiplexer.GetDatabase((int)redisDataBase);
+                var json = await db.StringGetAsync(key);
+                return JsonConvert.DeserializeObject<TItem>(json);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"{key} | {ex.Message}");
+                return default;
+            }
+        }
         private string RemoveSpecialChars(string key)
         {
             foreach (var c in _charsToRemove)
