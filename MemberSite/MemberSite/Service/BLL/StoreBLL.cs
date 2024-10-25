@@ -11,7 +11,6 @@ public class StoreBLL
     private readonly Dictionary<int, string> _siteStoreImageUrl;
     public StoreBLL(IServiceProvider provider)
     {
-        _logger = provider.GetRequiredService<ILogger<StoreBLL>>();
         var configBll = provider.GetRequiredService<ConfigBLL>();
         _storeSiteUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost").StoreService;
         _courierAdapter = provider.GetRequiredService<CourierAdapter>();
