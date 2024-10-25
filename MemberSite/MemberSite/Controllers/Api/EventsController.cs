@@ -1238,9 +1238,8 @@ namespace MemberSite.Controllers.Api
                 
                 #region check Time
                 
-                var endTimeCheck = matchInfo.EndTime.AddHours(8).AddDays(-1);
-                var endTime = new DateTimeOffset(endTimeCheck.Year, endTimeCheck.Month, endTimeCheck.Day, 23, 59, 59, TimeSpan.FromHours(8));
-                
+                var endTimeTimezone = matchInfo.EndTime.AddHours(8);
+                var endTime = new DateTimeOffset(endTimeTimezone.Year, endTimeTimezone.Month, endTimeTimezone.Day, 0, 0, 0, TimeSpan.FromHours(8)).AddSeconds(-1);
                 if (DateTime.UtcNow < matchInfo.StartTime || DateTime.UtcNow > endTime.UtcDateTime )
                 {
                     apiResult.ErrorCode = -2;
@@ -1252,8 +1251,10 @@ namespace MemberSite.Controllers.Api
 
                 #region Check Depsoit
                 
-                var startTime = endTime.AddDays(- matchInfo.DepositTermPeriodDays).UtcDateTime.Date;
-                var depositList = await _predictionPromotionBll.GetMemberDeposit(custInfo.CustId, startTime, endTime.UtcDateTime);
+                var battleTimeZone = matchInfo.BattleTime.AddHours(8);
+                var depositStartTime = new DateTimeOffset(battleTimeZone.Year ,battleTimeZone.Month ,battleTimeZone.Day ,0,0,0, TimeSpan.FromHours(8)) .AddDays(- matchInfo.DepositTermPeriodDays);
+                var depositEndTime =  new DateTimeOffset(battleTimeZone.Year, battleTimeZone.Month, battleTimeZone.Day, 23, 59, 59, TimeSpan.FromHours(8)).AddSeconds(-1);
+                var depositList = await _predictionPromotionBll.GetMemberDeposit(custInfo.CustId, depositStartTime.UtcDateTime, depositEndTime.UtcDateTime);
 
                 if (matchInfo.RequiredAmount > 0)
                 {
