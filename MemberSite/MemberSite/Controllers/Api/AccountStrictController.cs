@@ -1005,12 +1005,14 @@ namespace MemberSite.Controllers.Api
         public async Task<ApiResult> VerifyEmailAsync(VerifyEmailReq req, [FromRoute] string langId)
         {
             var apiResult = new ApiResult(_selLangBll);
+            SentrySdk.CaptureMessage($"VerifyEmailAsync get apiResult: {JsonConvert.SerializeObject(apiResult)} - req: {JsonConvert.SerializeObject(req)} - langid: {JsonConvert.SerializeObject(langId)}");
             try
             {
                 if (_authBll.Authenticate(req.key, out CustInfoProfile custInfoProfile))
                 {
                     Customer customer = null;
                     var result = _custInfoBLL.GetCustomer(custInfoProfile.UserName, ref customer);
+                    SentrySdk.CaptureMessage($"VerifyEmailAsync Authenticate get GetCustomer: {JsonConvert.SerializeObject(result)} ");
                     if (result != 0)
                     {
                         apiResult.ErrorCode = result;
@@ -1018,6 +1020,7 @@ namespace MemberSite.Controllers.Api
                     }
 
                     var authData = _authorizeBLL.GetAuthData();
+                    SentrySdk.CaptureMessage($"VerifyEmailAsync Authenticate get authData: {JsonConvert.SerializeObject(authData)} ");
                     if (authData is { CustId: > 0 } && authData.CustId != customer.CustId)
                     {
                         apiResult.ErrorCode = 1;
@@ -1025,11 +1028,13 @@ namespace MemberSite.Controllers.Api
                     else
                     {
                         var verifyResult = await _custInfoBLL.VerifyEmailAsync(customer.CustId, req.code);
+                        SentrySdk.CaptureMessage($"VerifyEmailAsync Authenticate verifyResult: {JsonConvert.SerializeObject(verifyResult)} ");
                         apiResult.ErrorCode = verifyResult.ErrorCode;
                     }
                 }
                 else
                 {
+                    SentrySdk.CaptureMessage($"VerifyEmailAsync UnAuthenticate: 403");
                     apiResult.ErrorCode = 403;
                 }
             }
