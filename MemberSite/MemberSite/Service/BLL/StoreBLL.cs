@@ -9,19 +9,28 @@ public class StoreBLL
     private readonly ILogger<StoreBLL> _logger;
     private readonly CourierAdapter _courierAdapter;
     private readonly string _storeSiteUrl;
-
+    private readonly Dictionary<int, string> _siteStoreImageUrl;
     public StoreBLL(IServiceProvider provider)
     {
         _logger = provider.GetRequiredService<ILogger<StoreBLL>>();
         var configBll = provider.GetRequiredService<ConfigBLL>();
         _storeSiteUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost").StoreService;
         _courierAdapter = provider.GetRequiredService<CourierAdapter>();
+        _siteStoreImageUrl = configBll.GetConfigValuesBySiteId<string>("StoreImageUrl");
     }
 
     public async Task<object> GetGiftListAsync(StoreGetGiftListRequest request)
     {
         var url = _storeSiteUrl + "Frontend/GetGiftList";
         var result = await _courierAdapter.PostAsync(url, request);
+
+        if (result is IEnumerable<dynamic> collection)
+        {
+            foreach (var item in collection)
+            {
+                item.GiftPictureUrl = $"{_siteStoreImageUrl[item.SiteId]}{item.GiftPictureUrl}";
+            }
+        }
 
         return result;
     }

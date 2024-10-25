@@ -74,14 +74,32 @@ namespace MemberSite.Service.BLL
 
         public Dictionary<int, TItem> GetConfigValuesBySiteId<TItem>(string configKey)
         {
-            var defaultItem = _defaultSiteConfig.TryGetValue(configKey, out var json)
-                ? JsonConvert.DeserializeObject<TItem>(json) : default;
+            TItem defaultItem;
+            if (typeof(TItem) == typeof(string))
+            {
+                defaultItem = (TItem)(object)(_defaultSiteConfig.TryGetValue(configKey, out var json) ? json : null);
+            }
+            else
+            {
+                defaultItem = _defaultSiteConfig.TryGetValue(configKey, out var json)
+                    ? JsonConvert.DeserializeObject<TItem>(json)
+                    : default;
+            }
 
             var result = new Dictionary<int, TItem>();
             foreach (var siteConfig in _siteIdConfigs)
             {
-                var data = siteConfig.Value.Config.TryGetValue(configKey, out var configValue)
-                    ? JsonConvert.DeserializeObject<TItem>(configValue) : defaultItem;
+                TItem data;
+                if (typeof(TItem) == typeof(string))
+                {
+                    data = (TItem)(object)(siteConfig.Value.Config.TryGetValue(configKey, out var configValue) ? configValue : (string)(object)defaultItem);
+                }
+                else
+                {
+                    data = siteConfig.Value.Config.TryGetValue(configKey, out var configValue)
+                        ? JsonConvert.DeserializeObject<TItem>(configValue)
+                        : defaultItem;
+                }
                 result.Add(siteConfig.Key, data);
             }
             return result;
