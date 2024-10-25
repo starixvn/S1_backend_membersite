@@ -1,6 +1,7 @@
 ﻿using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.Store.Frontend;
+using Newtonsoft.Json.Linq;
 
 namespace MemberSite.Service.BLL;
 
@@ -24,11 +25,18 @@ public class StoreBLL
         var url = _storeSiteUrl + "Frontend/GetGiftList";
         var result = await _courierAdapter.PostAsync(url, request);
 
-        if (result is IEnumerable<dynamic> collection)
+        var jsonObject = JObject.FromObject(result);
+        var dataArray = jsonObject["data"] as JArray;
+        if (dataArray != null)
         {
-            foreach (var item in collection)
+            foreach (var item in dataArray)
             {
-                item.GiftPictureUrl = $"{_siteStoreImageUrl[item.SiteId]}{item.GiftPictureUrl}";
+                var siteId = item["SiteId"].ToObject<int>();
+                var giftPictureUrl = item["GiftPictureUrl"]?.ToString();
+                if (!string.IsNullOrEmpty(giftPictureUrl))
+                {
+                    item["GiftPictureUrl"] = $"{_siteStoreImageUrl[siteId]}{item["GiftPictureUrl"]}";
+                }
             }
         }
 
