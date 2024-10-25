@@ -7,6 +7,7 @@ using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Line;
 
 using MySql.Data.MySqlClient;
+using Newtonsoft.Json;
 
 namespace MemberSite.Service.DAL
 {
@@ -32,7 +33,7 @@ namespace MemberSite.Service.DAL
             _mainDbClient.Execute("Common_AuthToken_Sel", trans, p);
 
             trans.Commit();
-
+            SentrySdk.CaptureMessage($"VerifyEmailAsync Authenticate Common_AuthToken_Sel: {JsonConvert.SerializeObject(p)} - Key:{JsonConvert.SerializeObject(Key)} ");
             var permissionData = p.Get<string>("PermissionData");
             return permissionData;
         }
