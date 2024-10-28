@@ -14,6 +14,12 @@ var remoteUrls = GetRemoteUrls();
 remoteUrls = builder.Configuration.CheckLocalConfig(builder.Environment, args, remoteUrls);
 builder.Configuration.AddRemoteJsonConfig(remoteUrls);
 
+var environmentName = builder.Configuration.GetValue<string>("Environment");
+if (!string.IsNullOrEmpty(environmentName))
+{
+    builder.Environment.EnvironmentName = environmentName;
+}
+
 var startup = new Startup(builder.Configuration);
 startup.ConfigureServices(builder.Services);
 
