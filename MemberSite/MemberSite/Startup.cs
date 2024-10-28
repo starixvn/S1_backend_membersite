@@ -1,5 +1,3 @@
-using System.Text.Encodings.Web;
-using System.Text.Unicode;
 using MemberSite.Extensions;
 using MemberSite.Service.BLL;
 using MemberSite.Service.BLL.Interface;
@@ -10,14 +8,13 @@ using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Mapping;
 using MemberSite.Service.Model.Options;
-
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.WebEncoders;
-
 using Prometheus;
-
 using StackExchange.Redis;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 
 namespace MemberSite
 {
@@ -281,7 +278,7 @@ namespace MemberSite
             app.UseCors("LeaderBoard");
             app.UseAuthentication();
             app.UseAuthorization();
-            
+
             app.UseRequestLogMiddleware();
             app.UseResponseLogMiddleware();
             app.UseBlockMiddleware();
