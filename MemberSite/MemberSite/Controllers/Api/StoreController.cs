@@ -33,7 +33,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public async Task<object> GetGiftListAsync(GetGiftListRequest request, string LangId = "en")
+        public async Task<object> GetGiftListAsync(GetGiftListRequest request)
         {
             var custId = 0;
             var currencyId = 0;
@@ -46,7 +46,7 @@ namespace MemberSite.Controllers.Api
                 custId = authData.CustId;
             }
             else
-                currencyId = (int)StoreExtension.GetCurrencyByLangId(LangId);
+                currencyId = request.CurrencyId;
 
             var apiRequest = new StoreGetGiftListRequest
             {
@@ -55,7 +55,7 @@ namespace MemberSite.Controllers.Api
                 CurrencyId = currencyId,
                 CategoryIds = request.CategoryIds,
                 Tags = request.Tags,
-                Lang = LangConverter(LangId), // 應前端要求，一律改吃LangId
+                LangId = request.LangId, // 應前端要求，一律改吃LangId
                 OrderByField = request.OrderByField,
                 Desc = request.Desc,
                 PageSize = request.PageSize
@@ -82,11 +82,11 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public async Task<object> GetGiftTagsAsync(string LangId = "")
+        public async Task<object> GetGiftTagsAsync(GetGiftTagsRequest request)
         {
-            var lang = string.IsNullOrEmpty(LangId)
+            var lang = string.IsNullOrEmpty(request.LangId)
                 ? _selLangBLL.GetLangId()
-                : LangId; // 因前端需求，有帶LangId時優先使用LangId
+                : request.LangId; // 因前端需求，有帶LangId時優先使用LangId
 
             return await _storeBLL.GetGiftTagsAsync(new StoreGetTagsRequest
             {
