@@ -5,8 +5,6 @@ public class StoreGetGiftListRequest : GetGiftListRequest
 {
     public int CustId { get; set; }
     public int SiteId { get; set; }
-    public int CurrencyId { get; set; }
-    public string Lang { get; set; }
 }
 
 public class GetGiftListRequest
@@ -16,6 +14,13 @@ public class GetGiftListRequest
     public string OrderByField { get; set; }
     public bool Desc { get; set; }
     public int PageSize { get; set; }
+    public int CurrencyId { get; set; }
+    public string LangId { get; set; }
+}
+
+public class GetGiftTagsRequest
+{
+    public string LangId { get; set; }
 }
 
 public class StoreGetMyCoinRequest
