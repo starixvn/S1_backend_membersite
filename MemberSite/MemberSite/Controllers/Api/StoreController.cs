@@ -4,7 +4,7 @@ using MemberSite.Service.Model;
 using MemberSite.Service.Model.Store.Frontend;
 
 using Microsoft.AspNetCore.Mvc;
-
+using Newtonsoft.Json;
 using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
@@ -37,7 +37,11 @@ namespace MemberSite.Controllers.Api
         {
             var custId = 0;
             var currencyId = 0;
-
+            
+            _logger.LogInformation($"GetGiftList Start Step 1");
+            _logger.LogInformation($"GetGiftList request : {JsonConvert.SerializeObject(request)}");
+            
+            
             var authData = _authorizeBLL.GetAuthData();
             if (authData is { CustId: > 0 })
             {
@@ -60,6 +64,8 @@ namespace MemberSite.Controllers.Api
                 Desc = request.Desc,
                 PageSize = request.PageSize
             };
+            
+            _logger.LogInformation($"GetGiftList apiRequest : {JsonConvert.SerializeObject(apiRequest)}");
 
             return await _storeBLL.GetGiftListAsync(apiRequest);
         }
