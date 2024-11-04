@@ -510,4 +510,10 @@
   <data name="msg_RecaptchaError" xml:space="preserve">
     <value>등록 실패, 인증 통과하지 못함</value>
   </data>
+  <data name="msg_WithdrawalRestrictionsBankCardWithdrawals" xml:space="preserve">
+    <value>출금 채널 제한</value>
+  </data>
+  <data name="msg_WithdrawalRestrictionsBankCardWithdrawals_Detail" xml:space="preserve">
+    <value>귀하의 출금 요청이 거부되었습니다. 은행 카드 채널을 통해 출금하시거나 고객 서비스에 연락하여 도움을 요청하시기 바랍니다.</value>
+  </data>
 </root>

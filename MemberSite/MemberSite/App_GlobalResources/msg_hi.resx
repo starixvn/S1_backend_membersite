@@ -468,4 +468,10 @@
   <data name="msg_RecaptchaError" xml:space="preserve">
     <value>पंजीकरण विफल, सत्यापन असफल।</value>
   </data>
+  <data name="msg_WithdrawalRestrictionsBankCardWithdrawals" xml:space="preserve">
+    <value>निकासी चैनल प्रतिबंध</value>
+  </data>
+  <data name="msg_WithdrawalRestrictionsBankCardWithdrawals_Detail" xml:space="preserve">
+    <value>आपका निकासी अनुरोध अस्वीकृत कर दिया गया है। कृपया बैंक कार्ड चैनल के माध्यम से निकासी करें या सहायता के लिए ग्राहक सेवा से संपर्क करें।</value>
+  </data>
 </root>

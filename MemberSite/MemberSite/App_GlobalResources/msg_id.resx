@@ -468,4 +468,10 @@
   <data name="msg_RecaptchaError" xml:space="preserve">
     <value>Pendaftaran gagal, verifikasi gagal.</value>
   </data>
+  <data name="msg_WithdrawalRestrictionsBankCardWithdrawals" xml:space="preserve">
+    <value>Pembatasan saluran penarikan</value>
+  </data>
+  <data name="msg_WithdrawalRestrictionsBankCardWithdrawals_Detail" xml:space="preserve">
+    <value>Permintaan penarikan Anda telah ditolak. Silakan lakukan penarikan melalui metode bank transfer atau hubungi layanan pelanggan untuk bantuan.</value>
+  </data>
 </root>
