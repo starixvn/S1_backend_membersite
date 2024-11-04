@@ -172,56 +172,27 @@ namespace MemberSite.Service.BLL
 
             return labelString;
         }
+
         public string GetResourceValue(string key)
         {
-            var labelString = "";
             var serverInfo = _serverInfoBll.GetServerInfo();
-            if (serverInfo.SiteId == 1)
+            var labelString = GetResourceValue(key, $"{serverInfo.SiteName}_lan", GetLangId());
+
+            if (string.IsNullOrEmpty(labelString))
             {
                 labelString = GetResourceValue(key, "MemberSite_lan", GetLangId());
-            }
-            else
-            {
-                try
-                {
-                    labelString = GetResourceValue(key, $"{serverInfo.SiteName}_lan", GetLangId());
-                }
-                catch (Exception)
-                {
-                    // ignored
-                }
-
-                if (string.IsNullOrEmpty(labelString))
-                {
-                    labelString = GetResourceValue(key, "MemberSite_lan", GetLangId());
-                }
             }
 
             return labelString;
         }
         public string GetMsg(string key)
         {
-            var msgString = "";
             var serverInfo = _serverInfoBll.GetServerInfo();
-            if (serverInfo.SiteId == 1)
+            var msgString = GetResourceValue(key, $"{serverInfo.SiteName}_msg", GetLangId());
+
+            if (string.IsNullOrEmpty(msgString))
             {
                 msgString = GetResourceValue(key, "msg", GetLangId());
-            }
-            else
-            {
-                try
-                {
-                    msgString = GetResourceValue(key, $"{serverInfo.SiteName}_msg", GetLangId());
-                }
-                catch (Exception)
-                {
-                    // ignored
-                }
-
-                if (string.IsNullOrEmpty(msgString))
-                {
-                    msgString = GetResourceValue(key, "msg", GetLangId());
-                }
             }
 
             return msgString;
