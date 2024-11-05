@@ -118,19 +118,18 @@ namespace MemberSite.Service.BLL
                 });
             }
 
-            #region 埋點
-            
-            if (result == 0 && regCustInfo.SiteId is 1 or 2 or 3 )
-            {
-                _ = Task.Run(() =>
-                {
-                    var pixelEvent = new List<FaceBookPixel> {FaceBookPixel.completeRegistration};
-                    var pixelRequest = _faceBookPixelBll.CreatePixelRequest(regCustInfo.SiteId, regCustInfo.CustId, CurrencyId , 0 ,pixelEvent);
-                    _ = _faceBookPixelBll.Send(pixelRequest);
-                });
-            }
-            
-            #endregion
+            //TODO: Hide this code for phase 1, using it for tracking via Facebook Pixel for FB promotion purposes
+            //#region 埋點
+            //if (result == 0 && regCustInfo.SiteId is 1 or 2 or 3 )
+            //{
+            //    _ = Task.Run(() =>
+            //    {
+            //        var pixelEvent = new List<FaceBookPixel> {FaceBookPixel.completeRegistration};
+            //        var pixelRequest = _faceBookPixelBll.CreatePixelRequest(regCustInfo.SiteId, regCustInfo.CustId, CurrencyId , 0 ,pixelEvent);
+            //        _ = _faceBookPixelBll.Send(pixelRequest);
+            //    });
+            //}
+            //#endregion
             return result != 0 ? result : 0;
         }
         
