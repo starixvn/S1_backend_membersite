@@ -11,24 +11,25 @@ namespace MemberSite.Service.BLL
     public class BankInfoOffBLL
     {
         private readonly BankInfoOffService _bankInfoService;
-        private readonly BankInfoBLL _bankInfoBll;
         private readonly CustInfoBll _custInfoBll;
         private readonly DepositLimitBLL _depositLimitBll;
         private readonly DepositService _depositService;
         private readonly ICacheHelper _redisHelper;
         private readonly ILogger<BankInfoOffBLL> _logger;
         private readonly AuthorizeBLL _authorizeBll;
+        private readonly string _awsPayQRS3Path;
 
         public BankInfoOffBLL(IServiceProvider provider)
         {
             _bankInfoService = provider.GetRequiredService<BankInfoOffService>();
-            _bankInfoBll = provider.GetRequiredService<BankInfoBLL>();
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _depositLimitBll = provider.GetRequiredService<DepositLimitBLL>();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
             _depositService = provider.GetRequiredService<DepositService>();
             _logger = provider.GetRequiredService<ILogger<BankInfoOffBLL>>();
             _authorizeBll = provider.GetRequiredService<AuthorizeBLL>();
+            var configBll = provider.GetRequiredService<ConfigBLL>();
+            _awsPayQRS3Path = configBll.GetConfigValue("PayQRS3Path");
         }
 
         public IEnumerable<OfflineBankAccountInfo> GetOfflineBankAccount(int siteId, int currency, string lang = "")
@@ -246,6 +247,10 @@ namespace MemberSite.Service.BLL
                     .ToList();
             }
 
+            var qrPath = string.Empty;
+            if (!string.IsNullOrWhiteSpace(_awsPayQRS3Path))
+                qrPath = _awsPayQRS3Path;
+
             var infos = localBankList
                 .OrderBy(x => x.Sort)
                 .GroupBy(x => new { x.SysId, x.BankCode })
@@ -263,7 +268,7 @@ namespace MemberSite.Service.BLL
                         IFSCCode = d.AccountCode,
                         BankSite = d.BankSite,
                         Status = d.Status,
-                        QRCodeUrl = d.QRCodeUrl,
+                        QRCodeUrl = string.IsNullOrWhiteSpace(d.QRCodeUrl) ? d.QRCodeUrl : $"{qrPath}{d.QRCodeUrl}",
                         SupportChannel = d.SupportChannel,
                         MinAmount = d.MinAmount,
                         MaxAmount = d.MaxAmount,
