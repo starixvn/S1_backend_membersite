@@ -23,6 +23,7 @@ namespace MemberSite.Service.BLL
 
         public async Task<bool> CheckAttackIp(HttpRequest Request, int limitCount)
         {
+            return false; // should remove after testing
             var clientIp = _tools.GetClientIP();
             if (_cacheHelper.KeyExists($"AllowedIp:{clientIp}", RedisDataBase.IP))
             {
@@ -36,7 +37,7 @@ namespace MemberSite.Service.BLL
 
             // 檢查是否已經被block
             if (_cacheHelper.KeyExists($"block:{clientIp}"))
-            {                
+            {
                 return true;
             }
 
@@ -50,7 +51,7 @@ namespace MemberSite.Service.BLL
 
             return false;
         }
-        
+
         public async Task<bool> CheckAttackForSignup()
         {
             var clientIp = _tools.GetClientIP();
@@ -66,7 +67,7 @@ namespace MemberSite.Service.BLL
             }
 
             // 10分鐘相同IP註冊超過20次阻擋一小時
-            var checkCountForShortTime = await _cacheHelper.StringIncrementAsync($"IP:Signup:{clientIp}", TimeSpan.FromMinutes(10));      
+            var checkCountForShortTime = await _cacheHelper.StringIncrementAsync($"IP:Signup:{clientIp}", TimeSpan.FromMinutes(10));
             if (checkCountForShortTime >= 20)
             {
                 _logger.LogWarning($"auto block {clientIp} for 20 minutes.");
@@ -82,7 +83,7 @@ namespace MemberSite.Service.BLL
                 var setResult = _iPBll.SetBlockIp(new BlockIpRequest { IP = clientIp, Memo = memo, Operator = "System" });
                 if (setResult > 0 && !_cacheHelper.KeyExists($"AutoDeny:Signup:{clientIp}"))
                 {
-                   _ = _cacheHelper.StringFireAndForgetSetAsync($"AutoDeny:Signup:{clientIp}", string.Empty, TimeSpan.FromHours(1));
+                    _ = _cacheHelper.StringFireAndForgetSetAsync($"AutoDeny:Signup:{clientIp}", string.Empty, TimeSpan.FromHours(1));
                 }
             }
 
