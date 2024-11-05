@@ -18,13 +18,13 @@ namespace MemberSite.Controllers.Api
     public class PaymentController : ControllerBase
     {
         private readonly BankInfoOffBLL _bankInfoOffBll;
+        private readonly ServerInfoBll _serverInfoBll;
         private readonly AuthorizeBLL _authorizeBll;
         private readonly PaymentBLL _paymentBll;
         private readonly CustInfoBll _custInfoBll;
         private readonly BankInfoBLL _bankInfoBll;
         private readonly SelLangBLL _selLangBll;
         private readonly WalletBLL _walletBll;
-        private readonly IovationBLL _iovationBll;
         private readonly CryptoPayInfoBll _cryptoPayInfoBll;
         private readonly LoadCardPayInfoBLL _loadCardPayInfoBll;
         private readonly PayInfoBLL _payInfoBll;
@@ -48,7 +48,7 @@ namespace MemberSite.Controllers.Api
 
             _selLangBll = provider.GetRequiredService<SelLangBLL>();
             _walletBll = provider.GetRequiredService<WalletBLL>();
-            _iovationBll = provider.GetRequiredService<IovationBLL>();
+            _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
             _cryptoPayInfoBll = provider.GetRequiredService<CryptoPayInfoBll>();
             _loadCardPayInfoBll = provider.GetRequiredService<LoadCardPayInfoBLL>();
 
@@ -1676,6 +1676,27 @@ namespace MemberSite.Controllers.Api
                 ErrorCode = 0
             };
         }
+        
+        [HttpPost]
+        public ApiResult<IDictionary<string, PayMethod>> GetPayInfoDigitalWallet()
+        {
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                return new ApiResult<IDictionary<string, PayMethod>>
+                {
+                    Message = _selLangBll.GetMsg("msg_ForceLogedout")
+                };
+            }
+
+            return new ApiResult<IDictionary<string, PayMethod>>
+            {
+                Data = _payInfoBll.GetGenericPayMethods(
+                    new[] { DepositType.DigitalWallet }, authData.CustId),
+
+                ErrorCode = 0
+            };
+        }
 
         public class DepositReqLocalPaymentReq : ILocalBankReq
         {
@@ -1883,7 +1904,9 @@ namespace MemberSite.Controllers.Api
         public ApiResult<IEnumerable<BankInfoSys>> GetBankInfoSysListByCurrencyId(GetBankInfoSysListByCurrencyIdReq req)
         {
             var apiResult = new ApiResult<IEnumerable<BankInfoSys>>();
-            var result = _bankInfoBll.GetBankInfoSysListByCurrencyForCtrl(req.CurrencyId, req.LangId)
+            var serverInfo = _serverInfoBll.GetServerInfo();
+            var result = _bankInfoBll
+                .GetBankInfoSysListByCurrencyForCtrl(req.CurrencyId, req.LangId, serverInfo.SiteId)
                 .ToList();
 
             apiResult.Data = result;
