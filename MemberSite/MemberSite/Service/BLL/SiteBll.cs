@@ -191,44 +191,41 @@ public class SiteBll
         }
 
         var serverInfo = _serverInfoBll.GetServerInfo();
-        if (serverInfo.SiteId is 1 or 5)
+        switch (signupModel.AreaCode)
         {
-            switch (signupModel.AreaCode)
-            {
-                case "+60":
-                case "+62":
-                case "+86":
-                case "+91":
-                case "+66":
-                case "+880":
-                case "+855":
-                case "+84":
-                case "+82":
-                case "+81":
-                case "+55":
-                    if (!_regexPhoneNumber.IsMatch(signupModel.AreaCode + signupModel.PhoneNo))
+            case "+60":
+            case "+62":
+            case "+86":
+            case "+91":
+            case "+66":
+            case "+880":
+            case "+855":
+            case "+84":
+            case "+82":
+            case "+81":
+            case "+55":
+                if (!_regexPhoneNumber.IsMatch(signupModel.AreaCode + signupModel.PhoneNo))
+                {
+                    var message = signupModel.AreaCode switch
                     {
-                        var message = signupModel.AreaCode switch
-                        {
-                            "+60" => "9-10",
-                            "+62" => "10-13",
-                            "+86" => "10-11",
-                            "+91" => "10",
-                            "+66" => "9",
-                            "+880" => "10",
-                            "+855" => "8-10",
-                            "+84" => "9",
-                            "+82" => "9-10",
-                            "+81" => "10",
-                            "+55" => "10-11",
-                            _ => ""
-                        };
-                        apiResult.ErrorCode = -20;
-                        apiResult.Message = string.Format(_selLangBll.GetMsg("msg_PhoneFormatVerify"), message);
-                        return false;
-                    }
-                    break;
-            }
+                        "+60" => "9-10",
+                        "+62" => "10-13",
+                        "+86" => "10-11",
+                        "+91" => "10",
+                        "+66" => "9",
+                        "+880" => "10",
+                        "+855" => "8-10",
+                        "+84" => "9",
+                        "+82" => "9-10",
+                        "+81" => "10",
+                        "+55" => "10-11",
+                        _ => ""
+                    };
+                    apiResult.ErrorCode = -20;
+                    apiResult.Message = string.Format(_selLangBll.GetMsg("msg_PhoneFormatVerify"), message);
+                    return false;
+                }
+                break;
         }
 
         if (checkReCaptchaToken && !string.IsNullOrEmpty(signupModel.ReCaptchaToken))

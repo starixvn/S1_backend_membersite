@@ -279,8 +279,9 @@ namespace MemberSite
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseRequestLogMiddleware();
-            app.UseResponseLogMiddleware();
+            //TODO: I think we don't need to log request/response, so i comment it first
+            //app.UseRequestLogMiddleware();
+            //app.UseResponseLogMiddleware();
             app.UseBlockMiddleware();
 
             app.UseEndpoints(endpoints =>
