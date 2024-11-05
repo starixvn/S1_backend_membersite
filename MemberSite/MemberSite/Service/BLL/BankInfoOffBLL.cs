@@ -268,7 +268,7 @@ namespace MemberSite.Service.BLL
                         IFSCCode = d.AccountCode,
                         BankSite = d.BankSite,
                         Status = d.Status,
-                        QRCodeUrl = $"{qrPath}{d.QRCodeUrl}",
+                        QRCodeUrl = string.IsNullOrWhiteSpace(d.QRCodeUrl) ? d.QRCodeUrl : $"{qrPath}{d.QRCodeUrl}",
                         SupportChannel = d.SupportChannel,
                         MinAmount = d.MinAmount,
                         MaxAmount = d.MaxAmount,
