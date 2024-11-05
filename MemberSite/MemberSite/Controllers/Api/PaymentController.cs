@@ -1,5 +1,6 @@
-﻿using Amazon.S3.Model;
-
+﻿using System.Diagnostics;
+using Amazon.S3.Model;
+using MemberSite.Extensions;
 using MemberSite.Service.BLL;
 using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
@@ -192,33 +193,6 @@ namespace MemberSite.Controllers.Api
             public string Code { set; get; }
         }
 
-        /// <summary>
-        /// Local Bank Transfer
-        /// </summary>
-        /// <param name="req"></param>
-        /// <returns></returns>
-        [HttpPost]
-        public async Task<ApiResult<DepositRep3>> DepositReqWireTransferAsync(DepositReqWireTransferReq req)
-        {
-            var authData = _authorizeBll.GetAuthData();
-
-            var checkResult = CheckDeposit(authData, req.Amount,
-                req.HasPromotion);
-
-            if (checkResult.ErrorCode != 0)
-            {
-                return new ApiResult<DepositRep3>
-                {
-                    ErrorCode = checkResult.ErrorCode,
-                    Message = checkResult.Message
-                };
-            }
-
-            var apiResult = await DepositByLocalBankAsync(authData.CustId, req);
-
-            return apiResult;
-        }
-
         private ApiResult CheckDeposit(AuthData authData, decimal amount, bool hasPromotion)
         {
             if (authData is not { CustId: > 0 })
@@ -281,70 +255,6 @@ namespace MemberSite.Controllers.Api
             public decimal Amount { set; get; }
             public string BonusCode { set; get; }
             public DepositType DepositType { set; get; }
-        }
-
-        [HttpPost]
-        public ApiResult<LocalPayResp> DepositReqLocalPay(DepositReqLocalPayReq req)
-        {
-            var authData = _authorizeBll.GetAuthData();
-            var hasPromotion = _promotionBll.VerifyBonusCode(req.BonusCode);
-            var checkResult = CheckDeposit(authData, req.Amount, hasPromotion);
-
-            if (checkResult.ErrorCode != 0)
-            {
-                return new ApiResult<LocalPayResp>
-                {
-                    ErrorCode = checkResult.ErrorCode,
-                    RawMessage = checkResult.Message
-                };
-            }
-
-            var custId = authData.CustId;
-            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
-            var result = DepositByLocalPayment(custId, req.GroupId, req.Amount);
-
-            if (result.ErrorCode != (int)ErrorCode.Success)
-                return result;
-
-            var transId = result.Data.TransId;
-
-            if (hasPromotion)
-            {
-                if (!_promotionBll.SetDepositPromotionQueue(
-                        transId,
-                        req.BonusCode,
-                        custId,
-                        custInfo.SiteId,
-                        custInfo.UserName,
-                        custInfo.CurrencyId,
-                        1,
-                        0))
-                {
-                    _logger.LogError($"TransId:{transId} SetDepositPromotionQueue Failed");
-                }
-            }
-
-            return result;
-        }
-
-        [HttpPost]
-        public ApiResult<DepositRep3> GetLocalBankInfo(DepositReqWireTransferReq depositReqWireTransferReq)
-        {
-            var apiResult = new ApiResult<DepositRep3>();
-            var authData = _authorizeBll.GetAuthData();
-            if (authData is not { CustId: > 0 })
-            {
-                apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
-                return apiResult;
-            }
-
-            apiResult.ErrorCode = _bankInfoOffBll.LocalBankinfo(authData.CustId, depositReqWireTransferReq.SysId, depositReqWireTransferReq.Memo, out var depositRep3);
-            if (apiResult.ErrorCode == (int)ErrorCode.Success)
-            {
-                apiResult.Data = depositRep3;
-            }
-
-            return apiResult;
         }
 
         public class WithdrawalReqModel
@@ -696,129 +606,6 @@ namespace MemberSite.Controllers.Api
                 .ToList();
 
             apiResult.Data = result;
-            apiResult.ErrorCode = 0;
-            return apiResult;
-        }
-
-        [HttpPost]
-        public ApiResult<IEnumerable<PaymentFront>> GetOnlinePaymentList()
-        {
-            var apiResult = new ApiResult<IEnumerable<PaymentFront>>();
-            var authData = _authorizeBll.GetAuthData();
-            if (authData is not { CustId: > 0 })
-            {
-                apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
-                return apiResult;
-            }
-            var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-            apiResult.Data = _bankInfoBll.GetOnlinePaymentList(custInfo.CustId, DepositType.OnlineBanking);
-            apiResult.ErrorCode = 0;
-            return apiResult;
-        }
-
-        public class OnlineBankInfoReq
-        {
-            public int sysId { set; get; }
-            public int payId { set; get; }
-        }
-
-        [HttpPost]
-        public ApiResult<BankInfoPayFront> GetOnlineBankInfo(OnlineBankInfoReq onlineBankInfoReq)
-        {
-            var apiResult = new ApiResult<BankInfoPayFront>();
-            var authData = _authorizeBll.GetAuthData();
-            if (authData is not { CustId: > 0 })
-            {
-                apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
-                return apiResult;
-            }
-            var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-            apiResult.Data = _bankInfoBll.GetOnlineBankInfo(custInfo.CustId, onlineBankInfoReq.sysId, onlineBankInfoReq.payId);
-            apiResult.ErrorCode = 0;
-            return apiResult;
-        }
-
-        [HttpPost]
-        public ApiResult<IEnumerable<PayGroup>> GetMobilePayGroupList()
-        {
-            var apiResult = new ApiResult<IEnumerable<PayGroup>>();
-            var authData = _authorizeBll.GetAuthData();
-            if (authData is not { CustId: > 0 })
-            {
-                apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
-                return apiResult;
-            }
-
-            apiResult.Data = _payInfoBll.GetPayGroupList(authData.CustId, DepositType.MobilePayment);
-            apiResult.ErrorCode = 0;
-            return apiResult;
-        }
-
-        public class PayInfoReq
-        {
-            public int groupId { set; get; }
-        }
-
-        [HttpPost]
-        public ApiResult<IEnumerable<PayInfo>> GetMobilePayInfoList(PayInfoReq payInfoReq)
-        {
-            var apiResult = new ApiResult<IEnumerable<PayInfo>>();
-            var authData = _authorizeBll.GetAuthData();
-            if (authData is not { CustId: > 0 })
-            {
-                apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
-                return apiResult;
-            }
-
-            apiResult.Data = _payInfoBll.GetPayInfoList(authData.CustId, payInfoReq.groupId, DepositType.MobilePayment);
-            apiResult.ErrorCode = 0;
-            return apiResult;
-        }
-
-        [HttpPost]
-        public ApiResult<IEnumerable<PayInfo>> GetCryptoPayInfoListAsync()
-        {
-            var apiResult = new ApiResult<IEnumerable<PayInfo>>();
-            var authData = _authorizeBll.GetAuthData();
-            if (authData is not { CustId: > 0 })
-            {
-                apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
-                return apiResult;
-            }
-
-            apiResult.Data = _cryptoPayInfoBll.GetCryptoPayInfoList(authData.CustId);
-            apiResult.ErrorCode = 0;
-            return apiResult;
-        }
-
-        [HttpPost]
-        public ApiResult<IEnumerable<LoadCardPayGroup>> GetLoadCardPayGroupList()
-        {
-            var apiResult = new ApiResult<IEnumerable<LoadCardPayGroup>>();
-            var authData = _authorizeBll.GetAuthData();
-            if (authData is not { CustId: > 0 })
-            {
-                apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
-                return apiResult;
-            }
-
-            apiResult.Data = _loadCardPayInfoBll.GetLoadCardPayGroupList(authData.CustId);
-            apiResult.ErrorCode = 0;
-            return apiResult;
-        }
-
-        [HttpPost]
-        public ApiResult<IEnumerable<PayInfo>> GetLoadCardPayInfoList(PayInfoReq payInfoReq)
-        {
-            var apiResult = new ApiResult<IEnumerable<PayInfo>>();
-            var authData = _authorizeBll.GetAuthData();
-            if (authData is not { CustId: > 0 })
-            {
-                apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
-                return apiResult;
-            }
-
-            apiResult.Data = _loadCardPayInfoBll.GetLoadCardPayInfoList(authData.CustId, payInfoReq.groupId);
             apiResult.ErrorCode = 0;
             return apiResult;
         }
@@ -1415,115 +1202,6 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public ApiResult<IEnumerable<PayGroup>> GetQRPayGroupList()
-        {
-            var result = new ApiResult<IEnumerable<PayGroup>>();
-            var authData = _authorizeBll.GetAuthData();
-            if (authData is not { CustId: > 0 })
-            {
-                result.Message = _selLangBll.GetMsg("msg_ForceLogedout");
-                return result;
-            }
-
-            result.Data = _payInfoBll.GetPayGroupList(_authorizeBll.GetAuthData().CustId, DepositType.QrPayPayment);
-            result.ErrorCode = 0;
-            return result;
-        }
-
-        [HttpPost]
-        public ApiResult<IEnumerable<PayInfo>> GetQRPayInfoList(PayInfoReq payInfoReq)
-        {
-            var result = new ApiResult<IEnumerable<PayInfo>>();
-            var authData = _authorizeBll.GetAuthData();
-            if (authData is not { CustId: > 0 })
-            {
-                result.Message = _selLangBll.GetMsg("msg_ForceLogedout");
-                return result;
-            }
-
-            result.Data = _payInfoBll.GetPayInfoList(_authorizeBll.GetAuthData().CustId, payInfoReq.groupId, DepositType.QrPayPayment);
-            result.ErrorCode = 0;
-            return result;
-        }
-
-        /// <summary>
-        /// Goal & Bwing
-        /// </summary>
-        /// <returns></returns>
-        [HttpPost]
-        public ApiResult<IEnumerable<SysBankInfoFront>> GetAutoChannelBankGroupList()
-        {
-            var apiResult = new ApiResult<IEnumerable<SysBankInfoFront>>();
-            var authData = _authorizeBll.GetAuthData();
-            if (authData is not { CustId: > 0 })
-            {
-                apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
-                return apiResult;
-            }
-            var result = _bankInfoBll.GetAutoSelectChannelBankGroupList(authData.CustId);
-
-            apiResult.Data = result;
-            apiResult.ErrorCode = 0;
-            return apiResult;
-        }
-        
-        [HttpPost]
-        public ApiResult<IEnumerable<OnlineBankChannel>> GetAutoDepositGroupList()
-        {
-            var apiResult = new ApiResult<IEnumerable<OnlineBankChannel>>();
-            var authData = _authorizeBll.GetAuthData();
-            if (authData is not { CustId: > 0 })
-            {
-                apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
-                return apiResult;
-            }
-            var result = _payInfoBll.GetOnlineBankChannelList(authData.CustId, DepositType.BankAutoChannel);
-
-            apiResult.Data = result;
-            apiResult.ErrorCode = 0;
-            
-            return apiResult;
-        }
-
-        /// <summary>
-        /// 取得存款Line頻道
-        /// </summary>
-        /// <returns></returns>
-        [HttpPost]
-        public ApiResult<LineChannel> GetLineChannelForDpeosit()
-        {
-            var authData = _authorizeBll.GetAuthData();
-            if (authData is not { CustId: > 0 })
-                return new ApiResult<LineChannel>
-                {
-                    ErrorCode = -1,
-                    Message = "Cust is Invalid.Please Contact to CSD."
-                };
-
-            var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-            if (custInfo == null)
-                return new ApiResult<LineChannel>
-                {
-                    ErrorCode = -1,
-                    Message = "Cust Not Found.Please Contact to CSD."
-                };
-
-            var result = _bankInfoBll.GetLineChannel(custInfo.SiteId, custInfo.CurrencyId);
-            if (result == null)
-                return new ApiResult<LineChannel>
-                {
-                    ErrorCode = -1,
-                    Message = "Link Not Found.Please Contact to CSD."
-                };
-
-            return new ApiResult<LineChannel>
-            {
-                Data = result,
-                ErrorCode = 0
-            }; ;
-        }
-
-        [HttpPost]
         public ApiResult<IEnumerable<EWalletInfoSys>> GetEWalletInfoSysList()
         {
             var apiResult = new ApiResult<IEnumerable<EWalletInfoSys>>();
@@ -1652,33 +1330,26 @@ namespace MemberSite.Controllers.Api
                 ErrorCode = 0
             };
         }
-
-        /// <summary>
-        /// 舊的site沒有改用GetPayInfoListAll，等都轉移去新平台再一起拔掉
-        /// </summary>
-        [HttpPost]
-        public ApiResult<IDictionary<string, PayMethod>> GetPayInfoQuickTransfer()
+        
+        public class GetPayInfoReq
         {
-            var authData = _authorizeBll.GetAuthData();
-            if (authData is not { CustId: > 0 })
-            {
-                return new ApiResult<IDictionary<string, PayMethod>>
-                {
-                    Message = _selLangBll.GetMsg("msg_ForceLogedout")
-                };
-            }
+            public DepositType Type { get; set; }
+        }
 
-            return new ApiResult<IDictionary<string, PayMethod>>
-            {
-                Data = _payInfoBll.GetOnlineBankMethods(
-                    new[] { DepositType.QuickTransfer }, authData.CustId),
+        public ApiResult GetPayInfoType()
+        {
+            var data = EnumExtension
+                .EnumToSelectListItem(new[] { DepositType.CryptoWallet });
 
+            return new ApiResult<IEnumerable<SelectListItem>>
+            {
+                Data = data,
                 ErrorCode = 0
             };
         }
         
         [HttpPost]
-        public ApiResult<IDictionary<string, PayMethod>> GetPayInfoDigitalWallet()
+        public ApiResult<IDictionary<string, PayMethod>> GetPayInfoList(GetPayInfoReq req)
         {
             var authData = _authorizeBll.GetAuthData();
             if (authData is not { CustId: > 0 })
@@ -1689,11 +1360,41 @@ namespace MemberSite.Controllers.Api
                 };
             }
 
+            var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+            IDictionary<string, PayMethod> data;
+            switch (req.Type)
+            {
+                case DepositType.LocalBank:
+                    data = _payInfoBll.GetBankTransferMethods(authData.CustId);
+                    break;
+                
+                case DepositType.OnlineBanking:
+                case DepositType.QuickTransfer:
+                case DepositType.BankAutoChannel:
+                case DepositType.ChatTransfer:
+                    data = _payInfoBll.GetOnlineBankMethods(new[] { req.Type }, authData.CustId);
+                    break;
+                
+                case DepositType.MobilePayment:
+                case DepositType.LoadCardPayment:
+                case DepositType.CryptoPayment:
+                case DepositType.QrPayPayment:
+                case DepositType.DigitalWallet:
+                    data = _payInfoBll.GetGenericPayMethods(new[] { req.Type }, authData.CustId);
+                    break;
+                
+                case DepositType.LinePay:
+                    data = _payInfoBll.GetLinePayMethods(custInfo.SiteId, custInfo.CurrencyId);
+                    break;
+                
+                default:
+                    data = new Dictionary<string, PayMethod>();
+                    break;
+            }
+            
             return new ApiResult<IDictionary<string, PayMethod>>
             {
-                Data = _payInfoBll.GetGenericPayMethods(
-                    new[] { DepositType.DigitalWallet }, authData.CustId),
-
+                Data = data,
                 ErrorCode = 0
             };
         }
@@ -1800,27 +1501,6 @@ namespace MemberSite.Controllers.Api
 
             return result;
         }
-
-        [HttpPost]
-        public ApiResult<IDictionary<string, PayMethod>> GetPayInfoChatTransfer()
-        {
-            var authData = _authorizeBll.GetAuthData();
-            if (authData is not { CustId: > 0 })
-            {
-                return new ApiResult<IDictionary<string, PayMethod>>
-                {
-                    Message = _selLangBll.GetMsg("msg_ForceLogedout")
-                };
-            }
-
-            return new ApiResult<IDictionary<string, PayMethod>>
-            {
-                Data = _payInfoBll.GetOnlineBankMethods(
-                    new[] { DepositType.ChatTransfer }, authData.CustId),
-
-                ErrorCode = 0
-            };
-        }
         
         public class GetCustBankInfoReq
         {
@@ -1913,6 +1593,395 @@ namespace MemberSite.Controllers.Api
             apiResult.ErrorCode = 0;
             return apiResult;
         }
+
+        #region 都換成共用api後這些可以拔掉
+        /// 由 /api/Payment/DepositReqLocalPayment 取代
+        [HttpPost]
+        public async Task<ApiResult<DepositRep3>> DepositReqWireTransferAsync(DepositReqWireTransferReq req)
+        {
+            var authData = _authorizeBll.GetAuthData();
+
+            var checkResult = CheckDeposit(authData, req.Amount,
+                req.HasPromotion);
+
+            if (checkResult.ErrorCode != 0)
+            {
+                return new ApiResult<DepositRep3>
+                {
+                    ErrorCode = checkResult.ErrorCode,
+                    Message = checkResult.Message
+                };
+            }
+
+            var apiResult = await DepositByLocalBankAsync(authData.CustId, req);
+
+            return apiResult;
+        }
+        
+        /// 由 /api/Payment/DepositReqLocalPayment 取代
+        [HttpPost]
+        public ApiResult<LocalPayResp> DepositReqLocalPay(DepositReqLocalPayReq req)
+        {
+            var authData = _authorizeBll.GetAuthData();
+            var hasPromotion = _promotionBll.VerifyBonusCode(req.BonusCode);
+            var checkResult = CheckDeposit(authData, req.Amount, hasPromotion);
+
+            if (checkResult.ErrorCode != 0)
+            {
+                return new ApiResult<LocalPayResp>
+                {
+                    ErrorCode = checkResult.ErrorCode,
+                    RawMessage = checkResult.Message
+                };
+            }
+
+            var custId = authData.CustId;
+            var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
+            var result = DepositByLocalPayment(custId, req.GroupId, req.Amount);
+
+            if (result.ErrorCode != (int)ErrorCode.Success)
+                return result;
+
+            var transId = result.Data.TransId;
+
+            if (hasPromotion)
+            {
+                if (!_promotionBll.SetDepositPromotionQueue(
+                        transId,
+                        req.BonusCode,
+                        custId,
+                        custInfo.SiteId,
+                        custInfo.UserName,
+                        custInfo.CurrencyId,
+                        1,
+                        0))
+                {
+                    _logger.LogError($"TransId:{transId} SetDepositPromotionQueue Failed");
+                }
+            }
+
+            return result;
+        }
+
+        // 以下由 /api/Payment/GetPayInfo，/api/Payment/GetPayInfoAll 取代的 GetXXXPayGroup、GetXXXPayInfo、GetXXXBankInfo
+        [HttpPost]
+        public ApiResult<DepositRep3> GetLocalBankInfo(DepositReqWireTransferReq depositReqWireTransferReq)
+        {
+            var apiResult = new ApiResult<DepositRep3>();
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
+                return apiResult;
+            }
+
+            apiResult.ErrorCode = _bankInfoOffBll.LocalBankinfo(authData.CustId, depositReqWireTransferReq.SysId, depositReqWireTransferReq.Memo, out var depositRep3);
+            if (apiResult.ErrorCode == (int)ErrorCode.Success)
+            {
+                apiResult.Data = depositRep3;
+            }
+
+            return apiResult;
+        }
+        
+        [HttpPost]
+        public ApiResult<IEnumerable<PaymentFront>> GetOnlinePaymentList()
+        {
+            var apiResult = new ApiResult<IEnumerable<PaymentFront>>();
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
+                return apiResult;
+            }
+            var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+            apiResult.Data = _bankInfoBll.GetOnlinePaymentList(custInfo.CustId, DepositType.OnlineBanking);
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+        
+        public class OnlineBankInfoReq
+        {
+            public int sysId { set; get; }
+            public int payId { set; get; }
+        }
+
+        [HttpPost]
+        public ApiResult<BankInfoPayFront> GetOnlineBankInfo(OnlineBankInfoReq onlineBankInfoReq)
+        {
+            var apiResult = new ApiResult<BankInfoPayFront>();
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
+                return apiResult;
+            }
+            var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+            apiResult.Data = _bankInfoBll.GetOnlineBankInfo(custInfo.CustId, onlineBankInfoReq.sysId, onlineBankInfoReq.payId);
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+
+        [HttpPost]
+        public ApiResult<IEnumerable<PayGroup>> GetMobilePayGroupList()
+        {
+            var apiResult = new ApiResult<IEnumerable<PayGroup>>();
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
+                return apiResult;
+            }
+
+            apiResult.Data = _payInfoBll.GetPayGroupList(authData.CustId, DepositType.MobilePayment);
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+
+        public class PayInfoReq
+        {
+            public int groupId { set; get; }
+        }
+
+        [HttpPost]
+        public ApiResult<IEnumerable<PayInfo>> GetMobilePayInfoList(PayInfoReq payInfoReq)
+        {
+            var apiResult = new ApiResult<IEnumerable<PayInfo>>();
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
+                return apiResult;
+            }
+
+            apiResult.Data = _payInfoBll.GetPayInfoList(authData.CustId, payInfoReq.groupId, DepositType.MobilePayment);
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+
+        [HttpPost]
+        public ApiResult<IEnumerable<PayInfo>> GetCryptoPayInfoListAsync()
+        {
+            var apiResult = new ApiResult<IEnumerable<PayInfo>>();
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
+                return apiResult;
+            }
+
+            apiResult.Data = _cryptoPayInfoBll.GetCryptoPayInfoList(authData.CustId);
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+
+        [HttpPost]
+        public ApiResult<IEnumerable<LoadCardPayGroup>> GetLoadCardPayGroupList()
+        {
+            var apiResult = new ApiResult<IEnumerable<LoadCardPayGroup>>();
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
+                return apiResult;
+            }
+
+            apiResult.Data = _loadCardPayInfoBll.GetLoadCardPayGroupList(authData.CustId);
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+
+        [HttpPost]
+        public ApiResult<IEnumerable<PayInfo>> GetLoadCardPayInfoList(PayInfoReq payInfoReq)
+        {
+            var apiResult = new ApiResult<IEnumerable<PayInfo>>();
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
+                return apiResult;
+            }
+
+            apiResult.Data = _loadCardPayInfoBll.GetLoadCardPayInfoList(authData.CustId, payInfoReq.groupId);
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+
+        [HttpPost]
+        public ApiResult<IDictionary<string, PayMethod>> GetPayInfoChatTransfer()
+        {
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                return new ApiResult<IDictionary<string, PayMethod>>
+                {
+                    Message = _selLangBll.GetMsg("msg_ForceLogedout")
+                };
+            }
+
+            return new ApiResult<IDictionary<string, PayMethod>>
+            {
+                Data = _payInfoBll.GetOnlineBankMethods(
+                    new[] { DepositType.ChatTransfer }, authData.CustId),
+
+                ErrorCode = 0
+            };
+        }
+        
+        [HttpPost]
+        public ApiResult<IDictionary<string, PayMethod>> GetPayInfoQuickTransfer()
+        {
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                return new ApiResult<IDictionary<string, PayMethod>>
+                {
+                    Message = _selLangBll.GetMsg("msg_ForceLogedout")
+                };
+            }
+
+            return new ApiResult<IDictionary<string, PayMethod>>
+            {
+                Data = _payInfoBll.GetOnlineBankMethods(
+                    new[] { DepositType.QuickTransfer }, authData.CustId),
+
+                ErrorCode = 0
+            };
+        }
+        
+        [HttpPost]
+        public ApiResult<IEnumerable<PayGroup>> GetQRPayGroupList()
+        {
+            var result = new ApiResult<IEnumerable<PayGroup>>();
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                result.Message = _selLangBll.GetMsg("msg_ForceLogedout");
+                return result;
+            }
+
+            result.Data = _payInfoBll.GetPayGroupList(_authorizeBll.GetAuthData().CustId, DepositType.QrPayPayment);
+            result.ErrorCode = 0;
+            return result;
+        }
+
+        [HttpPost]
+        public ApiResult<IEnumerable<PayInfo>> GetQRPayInfoList(PayInfoReq payInfoReq)
+        {
+            var result = new ApiResult<IEnumerable<PayInfo>>();
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                result.Message = _selLangBll.GetMsg("msg_ForceLogedout");
+                return result;
+            }
+
+            result.Data = _payInfoBll.GetPayInfoList(_authorizeBll.GetAuthData().CustId, payInfoReq.groupId, DepositType.QrPayPayment);
+            result.ErrorCode = 0;
+            return result;
+        }
+
+        /// <summary>
+        /// Goal & Bwing
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public ApiResult<IEnumerable<SysBankInfoFront>> GetAutoChannelBankGroupList()
+        {
+            var apiResult = new ApiResult<IEnumerable<SysBankInfoFront>>();
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
+                return apiResult;
+            }
+            var result = _bankInfoBll.GetAutoSelectChannelBankGroupList(authData.CustId);
+
+            apiResult.Data = result;
+            apiResult.ErrorCode = 0;
+            return apiResult;
+        }
+        
+        [HttpPost]
+        public ApiResult<IEnumerable<OnlineBankChannel>> GetAutoDepositGroupList()
+        {
+            var apiResult = new ApiResult<IEnumerable<OnlineBankChannel>>();
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
+                return apiResult;
+            }
+            var result = _payInfoBll.GetOnlineBankChannelList(authData.CustId, DepositType.BankAutoChannel);
+
+            apiResult.Data = result;
+            apiResult.ErrorCode = 0;
+            
+            return apiResult;
+        }
+
+        /// <summary>
+        /// 取得存款Line頻道
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public ApiResult<LineChannel> GetLineChannelForDpeosit()
+        {
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 })
+                return new ApiResult<LineChannel>
+                {
+                    ErrorCode = -1,
+                    Message = "Cust is Invalid.Please Contact to CSD."
+                };
+
+            var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+            if (custInfo == null)
+                return new ApiResult<LineChannel>
+                {
+                    ErrorCode = -1,
+                    Message = "Cust Not Found.Please Contact to CSD."
+                };
+
+            var result = _bankInfoBll.GetLineChannel(custInfo.SiteId, custInfo.CurrencyId);
+            if (result == null)
+                return new ApiResult<LineChannel>
+                {
+                    ErrorCode = -1,
+                    Message = "Link Not Found.Please Contact to CSD."
+                };
+
+            return new ApiResult<LineChannel>
+            {
+                Data = result,
+                ErrorCode = 0
+            }; ;
+        }
+        
+        [HttpPost]
+        public ApiResult<IDictionary<string, PayMethod>> GetPayInfoDigitalWallet()
+        {
+            var authData = _authorizeBll.GetAuthData();
+            if (authData is not { CustId: > 0 })
+            {
+                return new ApiResult<IDictionary<string, PayMethod>>
+                {
+                    Message = _selLangBll.GetMsg("msg_ForceLogedout")
+                };
+            }
+
+            return new ApiResult<IDictionary<string, PayMethod>>
+            {
+                Data = _payInfoBll.GetGenericPayMethods(
+                    new[] { DepositType.DigitalWallet }, authData.CustId),
+
+                ErrorCode = 0
+            };
+        }
+
+        #endregion
+
+        #region Private
 
         private ApiResult<LocalPayResp> DepositByLocalPayment(int custId, int groupId, decimal amount)
         {
@@ -2070,5 +2139,7 @@ namespace MemberSite.Controllers.Api
                 Data = depositRep
             };
         }
+
+        #endregion
     }
 }
