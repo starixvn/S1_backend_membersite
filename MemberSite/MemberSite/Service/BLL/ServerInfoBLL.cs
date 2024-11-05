@@ -42,8 +42,8 @@ namespace MemberSite.Service.BLL
 
         public ServerInfo GetServerInfo()
         {
-            var host = GetMainDomain();
-            var siteId = 1;
+            var host = GetDomain();
+            int siteId;
             if (_fixSiteId != 0)
             {
                 siteId = _fixSiteId;
@@ -61,8 +61,7 @@ namespace MemberSite.Service.BLL
                     var _siteId = _serverInfoService.GetSite(host);
                     if (_siteId == 0)
                     {
-                        _cache.Set(key, GetServerInfo(1), new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromSeconds(30)));
-                        return GetServerInfo(1);
+                        throw new InvalidOperationException($"Cannot find specific site id with host: {host}");
                     }
 
                     _siteInfoDic.TryAdd(host, _siteId);
@@ -98,37 +97,6 @@ namespace MemberSite.Service.BLL
             var countryList = _serverInfoService.GetCountryList();
             return countryList;
         }
-
-        // mark
-        //public string GetDomain()
-        //{
-        //    // 先拿Header的origin-host
-        //    if (_httpContextAccessor.HttpContext.Request.Headers.TryGetValue("origin-host", out var originHost))
-        //    {
-        //        return new Uri(originHost).Host;
-        //    }
-
-        //    // 先拿Header的ai-host
-        //    if (_httpContextAccessor.HttpContext.Request.Headers.TryGetValue("ai-host", out var aiHost))
-        //    {
-        //        return new Uri(aiHost).Host;
-        //    }
-
-        //    if (_httpContextAccessor.HttpContext.Request.Headers.TryGetValue("Referer", out var referer))
-        //    {
-        //        if (new Uri(referer).Host.Contains("localhost"))
-        //        {
-        //            return _httpContextAccessor.HttpContext.Request.Host.Host;
-        //        }
-        //        else
-        //        {
-        //            return new Uri(referer).Host;
-        //        }
-        //    }
-
-        //    // 都拿不到直接用Request的Host
-        //    return _httpContextAccessor.HttpContext.Request.Host.Host;
-        //}
 
         public string GetDomain()
         {
@@ -175,9 +143,10 @@ namespace MemberSite.Service.BLL
         public string GetMainDomain()
         {
             var host = GetDomain();
+            //TODO: comment because if player site domain is a.b.com then we must get a.b.com to get site info instead of get b.com to query data
             var parts = host.Split('.');
 
-            if (parts.Length >= 2)
+            if (parts.Length > 2)
             {
                 return $"{parts[parts.Length - 2]}.{parts[parts.Length - 1]}";
             }
