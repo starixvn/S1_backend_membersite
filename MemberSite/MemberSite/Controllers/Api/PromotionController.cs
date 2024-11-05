@@ -8,8 +8,9 @@ using MemberSite.Service.Model.Interfaces;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 using Newtonsoft.Json;
-using static MemberSite.Controllers.Api.PromotionController;
+
 using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
@@ -574,7 +575,7 @@ namespace MemberSite.Controllers.Api
 
         [Authorize]
         [HttpPost]
-        public ApiResult<PopUpPromotion> GetPopUpPromotion(PromotionDeviceReq data)
+        public async Task<ApiResult<PopUpPromotion>> GetPopUpPromotionAsync(PromotionDeviceReq data)
         {
             var result = new ApiResult<PopUpPromotion>();
             try
@@ -599,7 +600,7 @@ namespace MemberSite.Controllers.Api
                         IsLogin = true
                     };
 
-                    result = _courierAdapter.MyPostAsync<PopUpPromotion, CustPromotionRequest>(apiUrl, req).Result;
+                    result = await _courierAdapter.MyPostAsync<PopUpPromotion, CustPromotionRequest>(apiUrl, req);
                 }
             }
             catch (Exception e)
@@ -611,7 +612,7 @@ namespace MemberSite.Controllers.Api
 
         [Authorize]
         [HttpPost]
-        public ApiResult<PopUpPromotion> GetRetentionPromotion(PromotionDeviceReq data)
+        public async Task<ApiResult<PopUpPromotion>> GetRetentionPromotion(PromotionDeviceReq data)
         {
             var result = new ApiResult<PopUpPromotion>();
             try
@@ -635,7 +636,7 @@ namespace MemberSite.Controllers.Api
                         IsLogin = true
                     };
 
-                    result = _courierAdapter.MyPostAsync<PopUpPromotion, CustPromotionRequest>(apiUrl, req).Result;
+                    result = await _courierAdapter.MyPostAsync<PopUpPromotion, CustPromotionRequest>(apiUrl, req);
                 }
             }
             catch (Exception e)
@@ -647,7 +648,7 @@ namespace MemberSite.Controllers.Api
 
         [Authorize]
         [HttpPost]
-        public ApiResult<List<CustPromotion>> GetCustPrivatePromotionList(CustPrivatePromotionReq data)
+        public async Task<ApiResult<List<CustPromotion>>> GetCustPrivatePromotionList(CustPrivatePromotionReq data)
         {
             var result = new ApiResult<List<CustPromotion>>();
             try
@@ -671,7 +672,7 @@ namespace MemberSite.Controllers.Api
                         DefLang = serverInfo.DefLang
                     };
 
-                    result = _courierAdapter.MyPostAsync<List<CustPromotion>, CustPromotionRequest>(apiUrl, req).Result;
+                    result = await _courierAdapter.MyPostAsync<List<CustPromotion>, CustPromotionRequest>(apiUrl, req);
                 }
             }
             catch (Exception e)
