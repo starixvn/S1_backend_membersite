@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace MemberSite.Controllers.Api
 {
@@ -157,6 +158,7 @@ namespace MemberSite.Controllers.Api
                 request.LineLoginResponse.errorMessage,
                 redirectUri);
 
+            SentrySdk.CaptureMessage($"Line login {JsonConvert.SerializeObject(result)}");
             if (result.ErrorCode != LineLoginErrorCode.Success)
             {
                 var data = new { Type = result.Type, UserId = result.UserId };

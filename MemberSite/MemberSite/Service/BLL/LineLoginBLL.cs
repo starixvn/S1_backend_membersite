@@ -286,6 +286,7 @@ namespace MemberSite.Service.BLL
                 var tokenResponse = client.SendAsync(tokenRequestMessage).Result;
 
                 var tokenResponseContent = tokenResponse.Content.ReadAsStringAsync().Result;
+                SentrySdk.CaptureMessage($"tokenResponseContent {tokenResponseContent}");
                 _logger.LogInformation($"GetLineUserId LineTokenApi Response StatusCode = {(int)tokenResponse.StatusCode}-{tokenResponse.StatusCode}.\n"
                     + $"Content:{tokenResponseContent}");
 
@@ -306,6 +307,7 @@ namespace MemberSite.Service.BLL
                 var profileResponse = client.SendAsync(profileRequestMessage).Result;
 
                 var profileResponseContent = profileResponse.Content.ReadAsStringAsync().Result;
+                SentrySdk.CaptureMessage($"profileResponseContent {profileResponseContent}");
                 _logger.LogInformation($"GetLineUserId LineProfileApi  Response StatusCode = {(int)profileResponse.StatusCode}-{profileResponse.StatusCode}.\n"
                     + $"Content:{profileResponseContent}");
 
