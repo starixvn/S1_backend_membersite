@@ -31,7 +31,6 @@ public class PredictionPromotionBLL
                     {
                         BonusCode = r.Key,
                         MatchId = y.MatchId,
-                        Title = y.Title,
                         Banner = y.Banner,
                         Description = y.Description,
                         RollOver = y.RollOver,
@@ -55,6 +54,13 @@ public class PredictionPromotionBLL
                         TpId = y.TpId,
                     })
             });
+        
+        return result;
+    }
+    
+    public async Task<IEnumerable<PredictScoreModel>> GetPredictScoreList(Customer cust ,string landId)
+    {
+        var result = await _eventsService.GetPredictScoreList(cust.CustId, cust.SiteId, cust.CurrencyId, landId);
         
         return result;
     }

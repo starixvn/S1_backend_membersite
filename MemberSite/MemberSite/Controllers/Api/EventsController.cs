@@ -950,6 +950,25 @@ namespace MemberSite.Controllers.Api
         
         [HttpPost]
         [Authorize]
+        public async Task<ApiResult<IEnumerable<PredictScoreModel>>> GetPredictScoreList()
+        {
+            var apiResult = new ApiResult<IEnumerable<PredictScoreModel>>();
+            var authData = _authorizeBll.GetAuthData();
+            
+            if (authData is { CustId: > 0 })
+            {
+                var landId = _selLangBll.GetLangId();
+                var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                apiResult.Data = await _predictionPromotionBll.GetPredictScoreList(custInfo, landId);
+            } 
+            
+            apiResult.ErrorCode = (int) ErrorCode.Success;
+            
+            return apiResult;
+        }
+        
+        [HttpPost]
+        [Authorize]
         public async Task<ApiResult> PromotionPredictScore(PredictScoreRequest request)
         {
             var apiResult = new ApiResult();
