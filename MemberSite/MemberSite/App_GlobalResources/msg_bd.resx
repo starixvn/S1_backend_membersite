@@ -222,4 +222,6 @@
   <data name="msg_AffCodeNotFound"><value>এফিলিয়েট আইডি পাওয়া যাচ্ছে না</value></data>
   <data name="msg_WrongAmountFormat"><value>ত্রুটি &gt; পরিমাণের বিন্যাস ভুল</value></data>
   <data name="msg_RecaptchaError"><value>নিবন্ধন ব্যর্থ, যাচাইকরণ অতিক্রম হয়নি।</value></data>
+  <data name="msg_WithdrawalRestrictionsBankCardWithdrawals" xml:space="preserve"><value>অর্থ উত্তোলন চ্যানেল নিষেধাজ্ঞা</value></data>
+  <data name="msg_WithdrawalRestrictionsBankCardWithdrawals_Detail" xml:space="preserve"><value>আপনার তোলার আবেদন প্রত্যাখ্যাত হয়েছে। দয়া করে ব্যাংক কার্ড চ্যানেলের মাধ্যমে তোলার চেষ্টা করুন অথবা সহায়তার জন্য গ্রাহক পরিষেবায় যোগাযোগ করুন।</value></data>
   </root>

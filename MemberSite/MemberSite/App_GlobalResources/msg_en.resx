@@ -239,4 +239,6 @@
   <data name="msg_WrongAmountFormat"><value>Amount format is wrong</value></data>
   <data name="msg_QuestionnaireFailed"><value>You have reached the maximum feedback submissions for today.</value></data>
   <data name="msg_RecaptchaError"><value>Registration unsuccessful, verification failed.</value></data>
+  <data name="msg_WithdrawalRestrictionsBankCardWithdrawals" xml:space="preserve"><value>Withdrawal channel restrictions</value></data>
+  <data name="msg_WithdrawalRestrictionsBankCardWithdrawals_Detail" xml:space="preserve"><value>Your withdrawal request has been rejected. Please withdraw through the local bank method or contact customer service for assistance.</value></data>
   </root>

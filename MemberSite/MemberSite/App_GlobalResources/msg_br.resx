@@ -237,4 +237,6 @@
   <data name="msg_AffCodeNotFound"><value>O ID do afiliado não pode ser encontrado</value></data>
   <data name="msg_WrongAmountFormat"><value>Erro &gt; O formato do valor está incorreto</value></data>
   <data name="msg_RecaptchaError"><value>Registro falhou, verificação não aprovada</value></data>
+  <data name="msg_WithdrawalRestrictionsBankCardWithdrawals" xml:space="preserve"><value>Restrições de canais de retirada</value></data>
+  <data name="msg_WithdrawalRestrictionsBankCardWithdrawals_Detail" xml:space="preserve"><value>Seu pedido de retirada foi negado. Por favor, faça a retirada através do canal do cartão bancário ou entre em contato com o serviço de atendimento ao cliente para obter assistência.</value></data>
   </root>

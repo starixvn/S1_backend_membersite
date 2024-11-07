@@ -7,6 +7,7 @@
         WithdrawalAccountAannotReceiveMoney = 2,
         BeneficiarysAccountMaintenance = 3,
         BankSystemUnstable = 4,
-        WithdrawalLimitExceededINR = 5
+        WithdrawalLimitExceededINR = 5,
+        WithdrawalRestrictionsBankCardWithdrawals = 6
     }
 }

@@ -223,4 +223,6 @@
   <data name="msg_WrongAmountFormat"><value>Kesalahan &gt; Format jumlah salah</value></data>
   <data name="msg_QuestionnaireFailed"><value>Anda telah mencapai batas maksimal pengajuan umpan balik untuk hari ini</value></data>
   <data name="msg_RecaptchaError"><value>Pendaftaran gagal, verifikasi gagal.</value></data>
+  <data name="msg_WithdrawalRestrictionsBankCardWithdrawals" xml:space="preserve"><value>Pembatasan saluran penarikan</value></data>
+  <data name="msg_WithdrawalRestrictionsBankCardWithdrawals_Detail" xml:space="preserve"><value>Permintaan penarikan Anda telah ditolak. Silakan lakukan penarikan melalui metode bank transfer atau hubungi layanan pelanggan untuk bantuan.</value></data>
   </root>

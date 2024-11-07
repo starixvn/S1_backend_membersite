@@ -231,4 +231,6 @@
   <data name="msg_WrongAmountFormat"><value>金额格式错误</value></data>
   <data name="msg_QuestionnaireFailed"><value>今日反馈次数已达上限。</value></data>
   <data name="msg_RecaptchaError"><value>注册失败，验证未通过</value></data>
+  <data name="msg_WithdrawalRestrictionsBankCardWithdrawals" xml:space="preserve"><value>提款渠道限制</value></data>
+  <data name="msg_WithdrawalRestrictionsBankCardWithdrawals_Detail" xml:space="preserve"><value>您的提款申请被拒，请通过银行卡提款渠道提款或联系客服寻求协助。</value></data>
   </root>
