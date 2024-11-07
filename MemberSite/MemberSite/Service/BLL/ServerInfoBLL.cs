@@ -298,7 +298,8 @@ namespace MemberSite.Service.BLL
 
         public async Task<StaticFileDomain> GetStaticFileDomain(int siteId)
         {
-            return _staticFileDomainConfins[siteId];
+            var result = _staticFileDomainConfins[siteId];
+            return result;
         }
     }
 }

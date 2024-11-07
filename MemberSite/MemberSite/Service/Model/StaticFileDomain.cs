@@ -6,5 +6,6 @@
         public string PaymentDomain { get; set; }
         public string ImgDomain { get; set; }
         public string SportImgDomain { get; set; }
+        public string StoreImgDomain { get; set; }
     }
 }
