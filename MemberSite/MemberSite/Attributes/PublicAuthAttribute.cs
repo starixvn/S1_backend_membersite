@@ -3,6 +3,7 @@
 using MemberSite.Service.BLL;
 
 using Microsoft.AspNetCore.Http.Extensions;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -26,6 +27,12 @@ public class PublicAuthAttribute : Attribute, IAuthorizationFilter
         var requestBodyStream = new MemoryStream();
         var content = string.Empty;
         var fromUrl = context.HttpContext.Request.GetDisplayUrl();
+
+        var syncIOFeature = context.HttpContext.Features.Get<IHttpBodyControlFeature>();
+        if (syncIOFeature != null)
+        {
+            syncIOFeature.AllowSynchronousIO = true;
+        }
 
         if (context.HttpContext.Request.ContentType?.StartsWith("application/x-www-form-urlencoded") ?? false)
         {

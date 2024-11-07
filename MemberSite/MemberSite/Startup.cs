@@ -10,6 +10,7 @@ using MemberSite.Service.Model.Mapping;
 using MemberSite.Service.Model.Options;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.WebEncoders;
 using Prometheus;
 using StackExchange.Redis;
@@ -49,6 +50,11 @@ namespace MemberSite
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<KestrelServerOptions>(options =>
+            {
+                options.AllowSynchronousIO = true;
+            });
+
             services.AddMemoryCache();
             services.AddDatabaseConnection(_configuration);
 
