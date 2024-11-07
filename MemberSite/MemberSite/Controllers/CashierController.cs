@@ -50,13 +50,13 @@ namespace MemberSite.Controllers
 
             _logger.LogInformation("---- CONFIG SERVICE HOST ----");
             _logger.LogInformation(JsonConvert.SerializeObject(configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost")));
-            
+
         }
 
         [HttpGet]
         public async Task<IActionResult> DepositReqOnlineBankingAsync(int sysId, int payId, int ChannelId, decimal Amount, string BonusCode, string ErrorUrl)
         {
-            
+
             var model = new ErrorData();
             var authData = _authorizeBll.GetAuthData();
 
@@ -335,7 +335,7 @@ namespace MemberSite.Controllers
                 _logger.LogError(ex.Message, ex);
                 return RedirectErrorPage(errorUrl, new ErrorData(ex.Message));
             }
-            
+
         }
 
         private async Task<IActionResult> DepositCryptoWalletAsync(int custId, int channelId, decimal amount, string bonusCode, string errorUrl)
@@ -413,7 +413,7 @@ namespace MemberSite.Controllers
             int custId, int sysId, int channelId, decimal amount, string bonusCode,
             IDictionary<string, string> extraData, string errorUrl, DepositType depositType = DepositType.OnlineBanking)
         {
-            var result = _paymentBll.DepositReqOnlineBanking(custId, sysId, channelId, amount, depositType, extraData, 
+            var result = _paymentBll.DepositReqOnlineBanking(custId, sysId, channelId, amount, depositType, extraData,
                 out var transId);
 
             if (result != (int)ErrorCode.Success)
@@ -429,7 +429,7 @@ namespace MemberSite.Controllers
         {
             switch (apiResult.Data.Mode)
             {
-                case  (int)PayChannelMode.OpenView when apiResult.ErrorCode == (int)ErrorCode.Success:
+                case (int)PayChannelMode.OpenView when apiResult.ErrorCode == (int)ErrorCode.Success:
                     {
 
                         if (paymentView == PaymentView.DepositReqOnlineBanking &&
@@ -464,7 +464,7 @@ namespace MemberSite.Controllers
         private IActionResult RedirectErrorPage(string errorUrl, ErrorData model)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
-            if (serverInfo.SiteId is 1 or 2 or 3 or 5) //Nova88,Goal123,Bwing
+            if (serverInfo.SiteId > 0)
             {
                 return View($"~/Views/entPage/{serverInfo.SiteName}PaymentErrorPage.cshtml", model);
             }

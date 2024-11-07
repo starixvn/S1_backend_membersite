@@ -502,7 +502,7 @@ namespace MemberSite.Controllers.Api
                     return apiResult;
                 }
 
-                if (!string.IsNullOrEmpty(email) && custInfo.SiteId == 1 && !_regexEmail.IsMatch(email))
+                if (!string.IsNullOrEmpty(email) && !_regexEmail.IsMatch(email))
                 {
                     apiResult.ErrorCode = -10;
                     apiResult.Message = _selLangBll.GetMsg("msg_EmailFormatVerify");

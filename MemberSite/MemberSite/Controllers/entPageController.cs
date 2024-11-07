@@ -191,7 +191,7 @@ namespace MemberSite.Controllers
         private IActionResult RedirectErrorPage(string errorUrl, ErrorData model)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
-            if (serverInfo.SiteId is 1 or 2 or 3 or 5) //Nova88,Goal123,Bwing
+            if (serverInfo.SiteId > 0)
             {
                 return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
             }
