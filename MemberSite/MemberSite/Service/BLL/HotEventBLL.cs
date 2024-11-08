@@ -7,14 +7,14 @@ namespace MemberSite.Service.BLL
     public class HotEventBLL
     {
         private readonly IHotEventService _hotEventService;
-        private readonly Dictionary<string, SiteCloudFrontImageInfo> _siteCloudFrontImageInfo;
+        private readonly SiteCloudFrontImageInfo _siteCloudFrontImageInfo;
         private readonly ICacheHelper _redisHelper;
 
         public HotEventBLL(IServiceProvider provider)
         {
             _hotEventService = provider.GetRequiredService<IHotEventService>();
             var configBll = provider.GetRequiredService<ConfigBLL>();
-            _siteCloudFrontImageInfo = configBll.GetConfigValuesBySiteName<SiteCloudFrontImageInfo>("SiteCloudFrontImageInfo");
+            _siteCloudFrontImageInfo = configBll.GetConfigValue<SiteCloudFrontImageInfo>("SiteCloudFrontImageInfo");
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
         }
 
@@ -55,17 +55,17 @@ namespace MemberSite.Service.BLL
 
         public string GetBackgroundPic(ServerInfo serverInfo, IEnumerable<SportLeaguesInfoDto> sportLeaguesInfo, HotEventDto hotEvent)
         {
-            return $"{_siteCloudFrontImageInfo[serverInfo.SiteName].HotEventImageUrl}/{MapSportLeaguesName(sportLeaguesInfo, hotEvent.HomeTeamLeaguesId)}/{serverInfo.SiteName}/Background.jpg";
+            return $"{_siteCloudFrontImageInfo.HotEventImageUrl}/{MapSportLeaguesName(sportLeaguesInfo, hotEvent.HomeTeamLeaguesId)}/{serverInfo.SiteName}/Background.jpg";
         }
 
         public string GetHomeTeamPic(ServerInfo serverInfo, IEnumerable<SportLeaguesInfoDto> sportLeaguesInfo, HotEventDto r, IEnumerable<SportTeamsInfoDto> sportTeamsInfo)
         {
-            return $"{_siteCloudFrontImageInfo[serverInfo.SiteName].HotEventImageUrl}/{MapSportLeaguesName(sportLeaguesInfo, r.HomeTeamLeaguesId)}/{MapSportTeamName(sportTeamsInfo, r.HomeTeamLeaguesId, r.HomeTeamId)}.png";
+            return $"{_siteCloudFrontImageInfo.HotEventImageUrl}/{MapSportLeaguesName(sportLeaguesInfo, r.HomeTeamLeaguesId)}/{MapSportTeamName(sportTeamsInfo, r.HomeTeamLeaguesId, r.HomeTeamId)}.png";
         }
 
         public string GetAwayTeamPic(ServerInfo serverInfo, IEnumerable<SportLeaguesInfoDto> sportLeaguesInfo, HotEventDto r, IEnumerable<SportTeamsInfoDto> sportTeamsInfo)
         {
-            return $"{_siteCloudFrontImageInfo[serverInfo.SiteName].HotEventImageUrl}/{MapSportLeaguesName(sportLeaguesInfo, r.AwayTeamLeaguesId)}/{MapSportTeamName(sportTeamsInfo, r.AwayTeamLeaguesId, r.AwayTeamId)}.png";
+            return $"{_siteCloudFrontImageInfo.HotEventImageUrl}/{MapSportLeaguesName(sportLeaguesInfo, r.AwayTeamLeaguesId)}/{MapSportTeamName(sportTeamsInfo, r.AwayTeamLeaguesId, r.AwayTeamId)}.png";
         }
 
         private static string MapSportLeaguesName(IEnumerable<SportLeaguesInfoDto> leaguesList, int sportLeaguesId)

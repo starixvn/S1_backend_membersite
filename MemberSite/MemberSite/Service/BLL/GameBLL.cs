@@ -1,10 +1,10 @@
-﻿using System.Web;
-using MemberSite.Service.DAL;
+﻿using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Game;
 using Newtonsoft.Json;
+using System.Web;
 
 namespace MemberSite.Service.BLL
 {
@@ -16,7 +16,7 @@ namespace MemberSite.Service.BLL
         private readonly StatementService _statementService;
         private readonly GameService _gameService;
         private readonly ThirdPartyBll _thirdPartyBll;
-        private readonly Dictionary<string, SiteCloudFrontImageInfo> _siteCloudFrontImageInfo;
+        private readonly SiteCloudFrontImageInfo _siteCloudFrontImageInfo;
         private readonly Dictionary<string, string> _changeTpName;
         private readonly int _isStage;
         private readonly Tools _tools;
@@ -33,7 +33,7 @@ namespace MemberSite.Service.BLL
             _gameService = provider.GetRequiredService<GameService>();
             _thirdPartyBll = provider.GetRequiredService<ThirdPartyBll>();
             var configBll = provider.GetRequiredService<ConfigBLL>();
-            _siteCloudFrontImageInfo = configBll.GetConfigValuesBySiteName<SiteCloudFrontImageInfo>("SiteCloudFrontImageInfo");
+            _siteCloudFrontImageInfo = configBll.GetConfigValue<SiteCloudFrontImageInfo>("SiteCloudFrontImageInfo");
             _changeTpName = new Dictionary<string, string>()
             {
                 {"END","ES" },
@@ -130,37 +130,37 @@ namespace MemberSite.Service.BLL
                 });
             return result.ToList();
         }
-        
-        public async Task<IEnumerable<LobbyHeaderResponse>> GetLobbyHeader(GetLobbyHeaderRequest req ,ServerInfo serverInfo)
+
+        public async Task<IEnumerable<LobbyHeaderResponse>> GetLobbyHeader(GetLobbyHeaderRequest req, ServerInfo serverInfo)
         {
             var deviceType = _tools.GetDeviceId(_tools.GetFromUrl());
-            
+
             var key = $"GetLobbyHeader:{_isStage}:{deviceType}:{req.SiteId}:{req.CurrencyId}";
             var result = await _cacheHelper.TryGetOrCreateAsync(key,
                 TimeSpan.FromMinutes(5),
                 async () =>
                 {
-                    var result = await GetLobbyHeaderDetail(req, serverInfo ,deviceType);
+                    var result = await GetLobbyHeaderDetail(req, serverInfo, deviceType);
                     return result;
                 });
-            
+
             return result;
         }
-        
-        private async Task<IEnumerable<LobbyHeaderResponse>> GetLobbyHeaderDetail(GetLobbyHeaderRequest req ,ServerInfo serverInfo ,DeviceId deviceType)
+
+        private async Task<IEnumerable<LobbyHeaderResponse>> GetLobbyHeaderDetail(GetLobbyHeaderRequest req, ServerInfo serverInfo, DeviceId deviceType)
         {
             var statusList = new List<int> { 1 };
             if (_isStage == 1)
             {
                 statusList.Add(3);
             }
-            
-            var resultData = await _gameService.GetLobbyHeader(req ,statusList);
-            
+
+            var resultData = await _gameService.GetLobbyHeader(req, statusList);
+
             // app的wrapper無法開啟PlayTech，後端寫死移除PlayTech的Casino
             if (deviceType == DeviceId.APP)
             {
-                resultData = resultData.Where(i =>!( i.TpId == 51 && i.LobbyCategoryId == 3) ).ToList();
+                resultData = resultData.Where(i => !(i.TpId == 51 && i.LobbyCategoryId == 3)).ToList();
             }
 
             var sequence = new List<int>();
@@ -169,11 +169,11 @@ namespace MemberSite.Service.BLL
             {
                 sequence = JsonConvert.DeserializeObject<List<int>>(headerSequence.LobbyCategoryList);
             }
-            
-            var imgDomain = _siteCloudFrontImageInfo[serverInfo.SiteName].BannerImageUrl;
-            
+
+            var imgDomain = _siteCloudFrontImageInfo.BannerImageUrl;
+
             var groupedData = resultData.GroupBy(item => item.LobbyCategoryId);
-            var result = groupedData.Select(group => 
+            var result = groupedData.Select(group =>
             {
                 var response = new LobbyHeaderResponse
                 {
@@ -196,10 +196,10 @@ namespace MemberSite.Service.BLL
                             CurrencyGameName = string.IsNullOrEmpty(item.CurrencyGameName) ? null : JsonConvert.DeserializeObject<Dictionary<string, string>>(item.CurrencyGameName),
                             RwdHeaderPicUrl = JsonConvert.SerializeObject(new List<string> { $"{imgDomain}/img/Header/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.png" }),
                             RwdLobbyPicUrl = JsonConvert.SerializeObject(new List<string> { $"{imgDomain}/img/LobbyHeader/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.png" }),
-                            PcHeaderPicUrl = JsonConvert.SerializeObject(new List<string> {$"{imgDomain}/desktop/img/Header/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.png"}),
-                            PcLobbyPicUrl = JsonConvert.SerializeObject(new List<string> {$"{imgDomain}/desktop/img/LobbyHeader/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.png"}),
-                            MobileHeaderPicUrl = JsonConvert.SerializeObject(new List<string> {$"{imgDomain}/h5/img/Header/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.png"}),
-                            MobileLobbyPicUrl = JsonConvert.SerializeObject(new List<string> {$"{imgDomain}/h5/img/LobbyHeader/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.png"}),
+                            PcHeaderPicUrl = JsonConvert.SerializeObject(new List<string> { $"{imgDomain}/desktop/img/Header/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.png" }),
+                            PcLobbyPicUrl = JsonConvert.SerializeObject(new List<string> { $"{imgDomain}/desktop/img/LobbyHeader/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.png" }),
+                            MobileHeaderPicUrl = JsonConvert.SerializeObject(new List<string> { $"{imgDomain}/h5/img/Header/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.png" }),
+                            MobileLobbyPicUrl = JsonConvert.SerializeObject(new List<string> { $"{imgDomain}/h5/img/LobbyHeader/{item.TpName}/{item.LobbyCategory}/{item.ImgProductName}.png" }),
                             Sort = item.Sort
                         };
                         return responseDetail;
@@ -207,8 +207,8 @@ namespace MemberSite.Service.BLL
                 };
                 return response;
             }).OrderBy(r => sequence.IndexOf(r.LobbyCategoryId));  // 排序header Category
-            
-            return result; 
+
+            return result;
         }
     }
 }

@@ -1,13 +1,9 @@
-﻿using System.Net;
-
-using Amazon;
-using Amazon.S3;
+﻿using Amazon.S3;
 using Amazon.S3.Model;
-
 using MemberSite.Service.BLL;
 using MemberSite.Service.Model;
-
 using Newtonsoft.Json;
+using System.Net;
 
 namespace MemberSite.Service.Library;
 
@@ -27,7 +23,7 @@ public class AWSS3Helper
 
         var _amazonS3Config = new AmazonS3Config
         {
-            ServiceURL = _publicServiceUrl.ExternalServiceUrl,
+            ServiceURL = _publicServiceUrl.InternalServiceUrl,
             ForcePathStyle = true,
             UseHttp = true
         };

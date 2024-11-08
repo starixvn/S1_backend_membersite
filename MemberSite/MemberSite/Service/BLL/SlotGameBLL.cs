@@ -1,12 +1,11 @@
-﻿using System.Security.Claims;
-using MemberSite.Service.DAL;
+﻿using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Game;
 using MemberSite.Service.Model.Lobby;
-
 using Newtonsoft.Json;
+using System.Security.Claims;
 
 namespace MemberSite.Service.BLL
 {
@@ -15,7 +14,7 @@ namespace MemberSite.Service.BLL
         private readonly ILogger<SlotGameBLL> _logger;
         private readonly MySqlClient _reportDbClient;
         private readonly ICacheHelper _cacheHelper;
-        private readonly Dictionary<string, SiteCloudFrontImageInfo> _siteCloudFrontImageInfo;
+        private readonly SiteCloudFrontImageInfo _siteCloudFrontImageInfo;
 
         private readonly AuthorizeBLL _authorizeBll;
         private readonly ServerInfoBll _serverInfoBll;
@@ -38,7 +37,7 @@ namespace MemberSite.Service.BLL
             _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
             _cacheHelper = provider.GetRequiredService<ICacheHelper>();
             var configBll = provider.GetRequiredService<ConfigBLL>();
-            _siteCloudFrontImageInfo = configBll.GetConfigValuesBySiteName<SiteCloudFrontImageInfo>("SiteCloudFrontImageInfo");
+            _siteCloudFrontImageInfo = configBll.GetConfigValue<SiteCloudFrontImageInfo>("SiteCloudFrontImageInfo");
             _isStage = configBll.GetConfigValueByEnvironment<int>("IsStage");
             _authorizeBll = provider.GetRequiredService<AuthorizeBLL>();
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
@@ -74,8 +73,8 @@ namespace MemberSite.Service.BLL
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
             var (siteId, currencyId, custId) = GetUserInfo(request.CurrencyId, user, serverInfo);
-            var imgUrl = _siteCloudFrontImageInfo[serverInfo.SiteName].OldImageUrl;
-             
+            var imgUrl = _siteCloudFrontImageInfo.OldImageUrl;
+
             // 取得SlotGame相關資料，同時執行所有需要的非同步操作
             var providerTask = GetSlotGameProviderList(siteId, currencyId, TpCategory.Casino);
             var gameListTask = GetSlotGameList(siteId, currencyId, request.DeviceType);
@@ -219,8 +218,8 @@ namespace MemberSite.Service.BLL
 
             var serverInfo = _serverInfoBll.GetServerInfo();
             var (siteId, currencyId, custId) = GetUserInfo(request.CurrencyId, user, serverInfo);
-            var imgUrl = _siteCloudFrontImageInfo[serverInfo.SiteName].OldImageUrl;
-            var bannerUrl = _siteCloudFrontImageInfo[serverInfo.SiteName].BannerImageUrl;
+            var imgUrl = _siteCloudFrontImageInfo.OldImageUrl;
+            var bannerUrl = _siteCloudFrontImageInfo.BannerImageUrl;
             var deviceType = request.DeviceType;
             var devicePath = deviceType == (int)HotGameDeviceType.Pc ? "desktop" : "h5";
             // 未登入狀態直接回傳

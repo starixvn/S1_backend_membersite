@@ -10,7 +10,7 @@ namespace MemberSite.Service.BLL
     {
         private readonly IHotGameService _hotGameService;
         private readonly ICacheHelper _redisHelper;
-        private readonly Dictionary<string, SiteCloudFrontImageInfo> _siteCloudFrontImageInfo;
+        private readonly SiteCloudFrontImageInfo _siteCloudFrontImageInfo;
         private readonly SlotGameBLL _slotGameBLL;
         private readonly GameBLL _gameBll;
         private readonly ServerInfoBll _serverInfoBll;
@@ -22,7 +22,7 @@ namespace MemberSite.Service.BLL
             this._hotGameService = hotGameService;
             this._redisHelper = redisHelper;
             var configBll = provider.GetRequiredService<ConfigBLL>();
-            _siteCloudFrontImageInfo = configBll.GetConfigValuesBySiteName<SiteCloudFrontImageInfo>("SiteCloudFrontImageInfo");
+            _siteCloudFrontImageInfo = configBll.GetConfigValue<SiteCloudFrontImageInfo>("SiteCloudFrontImageInfo");
             _slotGameBLL = provider.GetRequiredService<SlotGameBLL>();
             _gameBll = provider.GetRequiredService<GameBLL>();
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
@@ -44,8 +44,8 @@ namespace MemberSite.Service.BLL
         public async Task<Dictionary<string, IEnumerable<HotGameResponse>>> GetHotGames(int siteId, int currencyId, HotGameDeviceType deviceType, string langId)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
-            var imgUrl = _siteCloudFrontImageInfo[serverInfo.SiteName].OldImageUrl;
-            var bannerUrl = _siteCloudFrontImageInfo[serverInfo.SiteName].BannerImageUrl;
+            var imgUrl = _siteCloudFrontImageInfo.OldImageUrl;
+            var bannerUrl = _siteCloudFrontImageInfo.BannerImageUrl;
             var devicePath = deviceType == HotGameDeviceType.Pc ? "desktop" : "h5";
             var key = $"GetHotGamesV2:{siteId}:{currencyId}";
             var hotGames = await _redisHelper.TryGetOrCreateAsync(key, null,
