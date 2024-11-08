@@ -83,7 +83,9 @@ namespace MemberSite.Service.BLL
                                 BankName = y.BankName,
                                 SysId = y.SysId,
                                 BankCode = y.BankCode
-                            }) : Array.Empty<BankInfoSys>()
+                            }) : Array.Empty<BankInfoSys>(),
+                        AmountRule = item.AmountRule,
+                        AmountShow = item.AmountShow
                     };
 
                     if (depositLimitInfo != null)

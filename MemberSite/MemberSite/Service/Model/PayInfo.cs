@@ -1,5 +1,5 @@
 using System.Text.Json.Serialization;
-
+using MemberSite.Attributes;
 using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.Model
@@ -49,6 +49,10 @@ namespace MemberSite.Service.Model
     {
         public bool SelectBank { get; set; }
         public IEnumerable<BankInfo> SupportBanks { get; set; }
+
+        [DicIgnore]
+        [JsonIgnore]
+        public string AmountShow { get; set; }
     }
 
     public class GenericPayGroup : IPaymentLimit

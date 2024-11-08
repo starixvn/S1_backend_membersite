@@ -153,8 +153,8 @@ namespace MemberSite.Service.BLL
                     ExtraDataType = x.ExtraDataType,
                     MaxAmount = x.MaxAmount,
                     MinAmount = x.MinAmount,
-                    AmountRule = 1,
-                    AmountList = Array.Empty<decimal>(),
+                    AmountRule = x.AmountRule,
+                    AmountList = x.AmountList,
                     SupportBanks = x.BankList.Select(y => new BankInfo
                     {
                         BankLogo = y.BankLogo,

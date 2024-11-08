@@ -1,4 +1,5 @@
-﻿using MemberSite.Service.Model.enums;
+﻿using MemberSite.Attributes;
+using MemberSite.Service.Model.enums;
 
 using Newtonsoft.Json;
 
@@ -34,6 +35,15 @@ namespace MemberSite.Service.Model
         public int AmountRule { get; set; }
         [JsonIgnore]
         public IEnumerable<BankInfoSys> BankList { get; set; }
+        
+        [DicIgnore]
+        [JsonIgnore]
+        public string AmountShow { get; set; }
+
+        [DicIgnore]
+        public IEnumerable<decimal> AmountList => string.IsNullOrEmpty(AmountShow) 
+            ? Array.Empty<decimal>()
+            : JsonConvert.DeserializeObject<IEnumerable<decimal>>(AmountShow);
     }
 
     public class SysBankInfoFront : IPaymentLimit

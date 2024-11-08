@@ -31,6 +31,8 @@ namespace MemberSite.Service.Model
         public string PayCurrencyId { get; set; }
         public decimal MinAmount { get; set; }
         public decimal MaxAmount { get; set; }
+        public string AmountShow { get; set; }
+        public int AmountRule { get; set; }
     }
 
     public class BankInfoPayFront : IPaymentLimit
