@@ -502,4 +502,10 @@
   <data name="msg_WithdrawalRestrictionsBankCardWithdrawals_Detail" xml:space="preserve">
     <value>Permohonan pengeluaran anda telah ditolak. Sila keluarkan melalui cara local bank atau hubungi perkhidmatan pelanggan untuk mendapatkan bantuan.</value>
   </data>
+  <data name="BankSystemUnstable" xml:space="preserve">
+    <value>Sistem Bank Tidak Stabil</value>
+  </data>
+  <data name="BankSystemUnstable_Detail" xml:space="preserve">
+    <value>Sistem bank tidak dapat mendapatkan butiran</value>
+  </data>
 </root>

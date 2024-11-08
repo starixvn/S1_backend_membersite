@@ -516,4 +516,10 @@
   <data name="msg_WithdrawalRestrictionsBankCardWithdrawals_Detail" xml:space="preserve">
     <value>Seu pedido de retirada foi negado. Por favor, faça a retirada através do canal do cartão bancário ou entre em contato com o serviço de atendimento ao cliente para obter assistência.</value>
   </data>
+  <data name="BankSystemUnstable" xml:space="preserve">
+    <value>Sistema bancário instável</value>
+  </data>
+  <data name="BankSystemUnstable_Detail" xml:space="preserve">
+    <value>O sistema não consegue recuperar os detalhes.</value>
+  </data>
 </root>

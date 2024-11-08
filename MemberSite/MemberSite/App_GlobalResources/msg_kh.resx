@@ -510,4 +510,10 @@
   <data name="msg_WithdrawalRestrictionsBankCardWithdrawals_Detail" xml:space="preserve">
     <value>សំណើដកប្រាក់របស់អ្នកត្រូវបានបដិសេធ។ ដកប្រាក់តាមធនាគារក្នុងស្រុក ឬទាក់ទងសេវាបម្រើអតិថិជនសម្រាប់ជំនួយ។</value>
   </data>
+  <data name="BankSystemUnstable" xml:space="preserve">
+    <value>ប្រព័ន្ធធនាគារមិនស្រស់</value>
+  </data>
+  <data name="BankSystemUnstable_Detail" xml:space="preserve">
+    <value>ប្រព័ន្ធធនាគារមិនអាចរកទិន្នន័យលើកម្មវិធីបានទេ។</value>
+  </data>
 </root>

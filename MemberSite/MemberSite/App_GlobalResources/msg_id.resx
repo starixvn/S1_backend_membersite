@@ -474,4 +474,10 @@
   <data name="msg_WithdrawalRestrictionsBankCardWithdrawals_Detail" xml:space="preserve">
     <value>Permintaan penarikan Anda telah ditolak. Silakan lakukan penarikan melalui metode bank transfer atau hubungi layanan pelanggan untuk bantuan.</value>
   </data>
+  <data name="BankSystemUnstable" xml:space="preserve">
+    <value>Sistem Bank Tidak Stabil</value>
+  </data>
+  <data name="BankSystemUnstable_Detail" xml:space="preserve">
+    <value>Sistem bank tidak dapat mendapatkan butiran</value>
+  </data>
 </root>

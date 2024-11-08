@@ -474,4 +474,16 @@
   <data name="msg_WithdrawalRestrictionsBankCardWithdrawals_Detail" xml:space="preserve">
     <value>आपका निकासी अनुरोध अस्वीकृत कर दिया गया है। कृपया बैंक कार्ड चैनल के माध्यम से निकासी करें या सहायता के लिए ग्राहक सेवा से संपर्क करें।</value>
   </data>
+  <data name="BankSystemUnstable" xml:space="preserve">
+    <value>बैंक सिस्टम अस्थिर</value>
+  </data>
+  <data name="BankSystemUnstable_Detail" xml:space="preserve">
+    <value>बैंकिंग प्रणाली विवरण पुनर्प्राप्त करने में असमर्थ थी।</value>
+  </data>
+  <data name="WithdrawalLimitExceededINR" xml:space="preserve">
+    <value>निकासी राशि पारित की गई</value>
+  </data>
+  <data name="WithdrawalLimitExceededINR_Detail" xml:space="preserve">
+    <value>वर्तमान भुगतान प्रणाली की प्रति लेनदेन 50,000 रुपये की अधिकतम सीमा के कारण, हमें आपको यह बताते हुए खेद है कि हम आपके भुगतान अनुरोध को संसाधित करने में असमर्थ हैं। कृपया 50,000 रुपये से कम की निकासी का अनुरोध पुनः सबमिट करें।</value>
+  </data>
 </root>
