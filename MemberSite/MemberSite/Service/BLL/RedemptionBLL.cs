@@ -13,6 +13,7 @@ public class RedemptionBLL
     private readonly string _tpServiceUrl;
     private readonly RedemptionService _redemptionService;
     private readonly ServerInfoBll _serverInfoBll;
+    private readonly Dictionary<int, string> _siteStoreImageUrl;
 
     public RedemptionBLL(IServiceProvider provider)
     {
@@ -23,6 +24,7 @@ public class RedemptionBLL
         _courierAdapter = provider.GetRequiredService<CourierAdapter>();
         _redemptionService = provider.GetRequiredService<RedemptionService>();
         _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
+        _siteStoreImageUrl = configBll.GetConfigValuesBySiteId<string>("StoreImageUrl");
     }
 
     public async Task<ApiResult> CreateRedemptionAsync(CreateRedemptionRequest req)
@@ -42,7 +44,13 @@ public class RedemptionBLL
     public async Task<object> SetShoppingCartAsync(SetShoppingCartRequest req)
     {
         var url = _storeSiteUrl + "GiftManagement/SetShoppingCart";
-        var result = await _courierAdapter.PostAsync(url, req);
+        var result = await _courierAdapter.MyPostAsync<IEnumerable<Gift>, SetShoppingCartRequest>(url, req);
+
+        foreach (var item in result.Data)
+        {
+            var storeImageUrl = _siteStoreImageUrl[item.SiteId];
+            item.PictureUrl = $"{storeImageUrl}{item.PictureUrl}";
+        }
 
         return result;
     }
