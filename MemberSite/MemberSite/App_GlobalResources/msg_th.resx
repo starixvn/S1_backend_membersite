@@ -234,4 +234,6 @@
   <data name="msg_RecaptchaError"><value>ลงทะเบียนไม่สำเร็จ การตรวจสอบล้มเหลว</value></data>
   <data name="msg_WithdrawalRestrictionsBankCardWithdrawals" xml:space="preserve"><value>ข้อจำกัดช่องทางการถอน</value></data>
   <data name="msg_WithdrawalRestrictionsBankCardWithdrawals_Detail" xml:space="preserve"><value>คำขอถอนเงินของคุณถูกปฏิเสธ โปรดถอนเงินผ่านช่องทางธนาคารหรือติดต่อฝ่ายบริการลูกค้าเพื่อขอความช่วยเหลือเพิ่มเติม</value></data>
+  <data name="BankSystemUnstable" xml:space="preserve"><value>ระบบธนาคารไม่เสถียร</value></data>
+  <data name="BankSystemUnstable_Detail" xml:space="preserve"><value>ระบบของธนาคารไม่สามารถตรวจสอบข้อมูลได้</value></data>
   </root>

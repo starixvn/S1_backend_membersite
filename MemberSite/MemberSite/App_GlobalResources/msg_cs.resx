@@ -233,4 +233,6 @@
   <data name="msg_RecaptchaError"><value>注册失败，验证未通过</value></data>
   <data name="msg_WithdrawalRestrictionsBankCardWithdrawals" xml:space="preserve"><value>提款渠道限制</value></data>
   <data name="msg_WithdrawalRestrictionsBankCardWithdrawals_Detail" xml:space="preserve"><value>您的提款申请被拒，请通过银行卡提款渠道提款或联系客服寻求协助。</value></data>
+  <data name="BankSystemUnstable" xml:space="preserve"><value>银行系统不稳定</value></data>
+  <data name="BankSystemUnstable_Detail" xml:space="preserve"><value>银行系统无法查询明细</value></data>
   </root>
