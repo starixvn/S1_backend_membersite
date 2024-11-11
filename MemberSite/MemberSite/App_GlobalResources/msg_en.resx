@@ -522,10 +522,10 @@
   <data name="msg_WithdrawalRestrictionsBankCardWithdrawals_Detail" xml:space="preserve">
     <value>Your withdrawal request has been rejected. Please withdraw through the local bank method or contact customer service for assistance.</value>
   </data>
-  <data name="BankSystemUnstable" xml:space="preserve">
+  <data name="msg_BankSystemUnstable" xml:space="preserve">
     <value>Bank system unstable</value>
   </data>
-  <data name="BankSystemUnstable_Detail" xml:space="preserve">
+  <data name="msg_BankSystemUnstable_Detail" xml:space="preserve">
     <value>银行系统无法查询明细</value>
   </data>
 </root>
