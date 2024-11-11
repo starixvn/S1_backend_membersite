@@ -50,6 +50,28 @@ namespace MemberSite.Service.BLL
             return response;
         }
 
+        public async Task<IEnumerable<HotEventResponse>> GetHotMatchDataList(int siteId, string langId, ServerInfo serverInfo)
+        {
+            var hotEventList = await _hotEventService.GetHotMatchDataList();
+
+            var response = hotEventList.Select(r => new HotEventResponse
+            {
+                SportLeaguesTitle = r.SportLeaguesTitle,
+                MatchId = r.MatchId,
+                HomeTeamName = r.HomeTeamName,
+                AwayTeamName = r.AwayTeamName,
+                BattleTime = r.BattleTime,
+                HomeOdds = r.HomeOdds,
+                AwayOdds = r.AwayOdds,
+                Handicap = r.Handicap,
+                //BackgroundPic = GetBackgroundPic(serverInfo, sportLeaguesInfo, r),
+                HomeTeamPic = r.HomeIconUrl,
+                AwayTeamPic = r.AwayIconUrl
+            });
+
+            return response;
+        }
+
         #region private method
 
 

@@ -24,6 +24,12 @@ namespace MemberSite.Service.DAL
             return _reportDbClient.QueryAsync<HotEventDto>("Member_HotEventDataList_Get", p);
         }
 
+
+        public Task<IEnumerable<HotMatchDto>> GetHotMatchDataList()
+        {
+            return _reportDbClient.QueryAsync<HotMatchDto>("Member_HotMatchDataList_Get", null);
+        }
+
         public Task<IEnumerable<SportTeamsInfoDto>> GetSportTeamsInfoList()
         {
             return _reportDbClient.QueryAsync<SportTeamsInfoDto>("Member_SportTeamsInfo_Get", null);

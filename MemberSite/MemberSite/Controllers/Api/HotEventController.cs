@@ -1,12 +1,10 @@
-﻿using System.Net;
-using MemberSite.Service.BLL;
+﻿using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
+using System.Net;
 using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
@@ -53,7 +51,7 @@ namespace MemberSite.Controllers.Api
                     Message = "GetHotEvent request exceeds the limit count."
                 };
             }
-            
+
             try
             {
                 var serverInfo = _serverInfoBll.GetServerInfo();
@@ -82,7 +80,7 @@ namespace MemberSite.Controllers.Api
                 }
 
                 apiResult.ErrorCode = (int)ErrorCode.Success;
-                apiResult.Data = await _hotEventBll.GetHotEventDataList(siteId, langId, serverInfo);
+                apiResult.Data = await _hotEventBll.GetHotMatchDataList(siteId, langId, serverInfo);
 
                 // 新增未登入快取
                 if (!isLogin && apiResult.Data != null)

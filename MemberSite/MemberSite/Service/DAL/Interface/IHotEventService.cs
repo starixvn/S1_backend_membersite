@@ -12,6 +12,8 @@ namespace MemberSite.Service.DAL.Interface
         /// <returns></returns>
         Task<IEnumerable<HotEventDto>> GetHotEventDataList(int siteId, string langId);
 
+        Task<IEnumerable<HotMatchDto>> GetHotMatchDataList();
+
         /// <summary>
         /// 取得聯賽隊伍資訊，langId = 'en'
         /// </summary>
