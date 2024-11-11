@@ -507,4 +507,16 @@
   <data name="msg_RecaptchaError" xml:space="preserve">
     <value>Registration unsuccessful, verification failed.</value>
   </data>
+  <data name="msg_WithdrawalRestrictionsBankCardWithdrawals" xml:space="preserve">
+    <value>Withdrawal channel restrictions</value>
+  </data>
+  <data name="msg_WithdrawalRestrictionsBankCardWithdrawals_Detail" xml:space="preserve">
+    <value>Your withdrawal request has been rejected. Please withdraw through the local bank method or contact customer service for assistance.</value>
+  </data>
+  <data name="msg_BankSystemUnstable" xml:space="preserve">
+    <value>Bank system unstable</value>
+  </data>
+  <data name="msg_BankSystemUnstable_Detail" xml:space="preserve">
+    <value>System is unable to retrieve details.</value>
+  </data>
 </root>
