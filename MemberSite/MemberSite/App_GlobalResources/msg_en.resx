@@ -526,6 +526,6 @@
     <value>Bank system unstable</value>
   </data>
   <data name="msg_BankSystemUnstable_Detail" xml:space="preserve">
-    <value>银行系统无法查询明细</value>
+    <value>System is unable to retrieve details.</value>
   </data>
 </root>
