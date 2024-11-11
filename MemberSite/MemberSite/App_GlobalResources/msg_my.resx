@@ -235,6 +235,6 @@
   <data name="msg_RecaptchaError"><value>Pendaftaran tidak berjaya, pengesahan gagal.</value></data>
   <data name="msg_WithdrawalRestrictionsBankCardWithdrawals" xml:space="preserve"><value>Sekatan saluran pengeluaran</value></data>
   <data name="msg_WithdrawalRestrictionsBankCardWithdrawals_Detail" xml:space="preserve"><value>Permohonan pengeluaran anda telah ditolak. Sila keluarkan melalui cara local bank atau hubungi perkhidmatan pelanggan untuk mendapatkan bantuan.</value></data>
-  <data name="BankSystemUnstable" xml:space="preserve"><value>Sistem Bank Tidak Stabil</value></data>
-  <data name="BankSystemUnstable_Detail" xml:space="preserve"><value>Sistem bank tidak dapat mendapatkan butiran</value></data>
+  <data name="msg_BankSystemUnstable" xml:space="preserve"><value>Sistem Bank Tidak Stabil</value></data>
+  <data name="msg_BankSystemUnstable_Detail" xml:space="preserve"><value>Sistem bank tidak dapat mendapatkan butiran</value></data>
   </root>

@@ -224,6 +224,6 @@
   <data name="msg_RecaptchaError"><value>নিবন্ধন ব্যর্থ, যাচাইকরণ অতিক্রম হয়নি।</value></data>
   <data name="msg_WithdrawalRestrictionsBankCardWithdrawals" xml:space="preserve"><value>অর্থ উত্তোলন চ্যানেল নিষেধাজ্ঞা</value></data>
   <data name="msg_WithdrawalRestrictionsBankCardWithdrawals_Detail" xml:space="preserve"><value>আপনার তোলার আবেদন প্রত্যাখ্যাত হয়েছে। দয়া করে ব্যাংক কার্ড চ্যানেলের মাধ্যমে তোলার চেষ্টা করুন অথবা সহায়তার জন্য গ্রাহক পরিষেবায় যোগাযোগ করুন।</value></data>
-  <data name="BankSystemUnstable" xml:space="preserve"><value>ব্যাংক সিস্টেম অস্থির</value></data>
-  <data name="BankSystemUnstable_Detail" xml:space="preserve"><value>ব্যাংকের সিস্টেম বিশদগতি পুনরুদ্ধার করতে অক্ষম।</value></data>
+  <data name="msg_BankSystemUnstable" xml:space="preserve"><value>ব্যাংক সিস্টেম অস্থির</value></data>
+  <data name="msg_BankSystemUnstable_Detail" xml:space="preserve"><value>ব্যাংকের সিস্টেম বিশদগতি পুনরুদ্ধার করতে অক্ষম।</value></data>
   </root>
