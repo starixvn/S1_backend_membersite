@@ -25,6 +25,10 @@ namespace MemberSite.Extensions.Middlewares
             {
                 await _next(context);
             }
+            else if (path.Contains("health"))
+            {
+                await _next(context);
+            }
             else
             {
                 var bodyStream = context.Response.Body;
@@ -45,10 +49,8 @@ namespace MemberSite.Extensions.Middlewares
                     recordContent = $"{(length > 5000 ? recordContent[..5000] : recordContent[..length])} || api/Game/GetSlotGamePage Content exceeds the length limit.";
                 }
 
-                using (LogContext.PushProperty("ElapsedMilliseconds", sw.Elapsed.TotalMilliseconds))
-                {
-                    _logger.LogInformation($"StatusCode: {context.Response.StatusCode}, RESPONSE: {recordContent}");
-                }
+
+                SentrySdk.CaptureMessage($"StatusCode: {context.Response.StatusCode}, RESPONSE: {recordContent}, ElapsedMilliseconds: {sw.Elapsed.TotalMilliseconds}");
 
                 responseBodyStream.Seek(0, SeekOrigin.Begin);
                 await responseBodyStream.CopyToAsync(bodyStream);

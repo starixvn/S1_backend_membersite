@@ -50,6 +50,10 @@ namespace MemberSite.Extensions.Middlewares
             {
                 await _next(context);
             }
+            else if (path.Contains("health"))
+            {
+                await _next(context);
+            }
             else
             {
                 var requestBodyStream = new MemoryStream();
@@ -95,7 +99,7 @@ namespace MemberSite.Extensions.Middlewares
                     var log = new StringBuilder();
                     log.AppendLine($"REQUEST URL: {url}, Method: {context.Request.Method}, CodePage: {codePage},");
                     log.AppendLine($"REQUEST BODY: {content}");
-                    _logger.LogInformation(log.ToString());
+                    SentrySdk.CaptureMessage(log.ToString());
                     
                 }
 
