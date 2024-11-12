@@ -3,6 +3,7 @@ using MemberSite.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.WebHost.UseSentry();
+SentrySdk.CaptureMessage("Member_site_api started");
 
 var environmentName = builder.Configuration.GetValue<string>("Environment");
 if (!string.IsNullOrEmpty(environmentName))
@@ -24,7 +25,6 @@ var minWorkers = 96;
 var minIOCPs = 4;
 ThreadPool.SetMinThreads(minWorkers, minIOCPs);
 app.Run();
-SentrySdk.CaptureMessage("Member_site_api started");
 return;
 
 string[] GetRemoteUrls()
