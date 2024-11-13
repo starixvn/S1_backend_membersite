@@ -466,7 +466,7 @@ namespace MemberSite.Controllers
             var serverInfo = _serverInfoBll.GetServerInfo();
             if (serverInfo.SiteId > 0)
             {
-                return View($"~/Views/entPage/{serverInfo.SiteName}PaymentErrorPage.cshtml", model);
+                return View($"~/Views/entPage/PaymentErrorPage.cshtml", model);
             }
             else
             {

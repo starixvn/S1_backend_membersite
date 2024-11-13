@@ -193,7 +193,7 @@ namespace MemberSite.Controllers
             var serverInfo = _serverInfoBll.GetServerInfo();
             if (serverInfo.SiteId > 0)
             {
-                return View($"~/Views/entPage/{serverInfo.SiteName}ErrorPage.cshtml", model);
+                return View($"~/Views/entPage/ErrorPage.cshtml", model);
             }
             else
             {
