@@ -204,14 +204,14 @@ namespace MemberSite.Service.BLL
             return restrictionList;
         }
         
-        public async Task<int> BuyChineseZodiacSticker(Customer custInfo,int roundId,ChineseZodiacStickerId stickerId,decimal stickerPrize)
+        public async Task<bool> BuyChineseZodiacSticker(Customer custInfo,int roundId,int stickerId,decimal stickerPrize)
         {
             var custLotteryTicketRequest = new CustLotteryTicketInsertRequest
             {
                 CustId = custInfo.CustId,
                 TicketNo = "",
                 RoundId = roundId,
-                StickerId = stickerId,
+                StickerId = (ChineseZodiacStickerId) stickerId,
                 Type = 2
             };
             
@@ -219,7 +219,7 @@ namespace MemberSite.Service.BLL
 
             if (insertResult != 1)
             {
-                return 997;
+                return false;
             }
             
             var balanceMemo = $"Buy ChineseZodiacSticker - StickerId : {stickerId}, Prize : {stickerPrize:#,##0.##}.";
@@ -234,12 +234,9 @@ namespace MemberSite.Service.BLL
                 Memo = balanceMemo
             };
             
-
             var buyResult = await _eventsService.BuyChineseZodiacSticker(buyStickerRequest);
-
-            buyResult = buyResult == 1 ? 0 : 998;
             
-            return buyResult;
+            return buyResult == 1;
         }
         
     }
