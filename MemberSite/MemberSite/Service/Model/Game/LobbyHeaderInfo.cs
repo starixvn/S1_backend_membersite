@@ -7,13 +7,13 @@ namespace MemberSite.Service.Model.Game
         public int SiteId { get; set; }
         public int CurrencyId { get; set; }
     }
-    
+
     public class LobbyHeaderResponse
     {
         public int LobbyCategoryId { get; set; }
         public IEnumerable<LobbyHeaderDetail> Data { get; set; }
     }
-    
+
     public class LobbyHeaderDetail
     {
         public string LobbyCategory { get; set; }
@@ -23,7 +23,8 @@ namespace MemberSite.Service.Model.Game
         public int TpGameIdNo { get; set; }
         public string GameId { get; set; }
         public int TpGameType { get; set; }
-        public Dictionary<string,string> CurrencyGameName { get; set; }
+        public string BetType { get; set; }
+        public Dictionary<string, string> CurrencyGameName { get; set; }
         public HeaderIconTypeEnum IconType { get; set; }
         public DateTime IconStartTime { get; set; }
         public DateTime IconEndTime { get; set; }
@@ -35,7 +36,7 @@ namespace MemberSite.Service.Model.Game
         public string MobileLobbyPicUrl { get; set; }
         public int Sort { get; set; }
     }
-    
+
     public class LobbyHeaderData
     {
         public int LobbyCategoryId { get; set; }
@@ -47,13 +48,14 @@ namespace MemberSite.Service.Model.Game
         public string CurrencyGameName { get; set; }
         public string GameId { get; set; }
         public int TpGameType { get; set; }
+        public string BetType { get; set; }
         public HeaderIconTypeEnum IconType { get; set; }
         public DateTime IconStartTime { get; set; }
         public DateTime IconEndTime { get; set; }
         public int Sort { get; set; }
-        public string ImgProductName => ProductName.ToLower().Replace(" ","-");
+        public string ImgProductName => ProductName.ToLower().Replace(" ", "-");
     }
-    
+
     public class LobbyHeaderSequenceData
     {
         public int SiteId { get; set; }
@@ -61,4 +63,3 @@ namespace MemberSite.Service.Model.Game
         public string LobbyCategoryList { get; set; }
     }
 }
-

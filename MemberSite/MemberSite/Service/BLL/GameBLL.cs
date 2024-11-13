@@ -190,6 +190,7 @@ namespace MemberSite.Service.BLL
                             TpGameIdNo = item.TpGameIdNo,
                             GameId = item.GameId,
                             TpGameType = item.TpGameType,
+                            BetType = item.BetType,
                             IconType = item.IconType,
                             IconStartTime = item.IconStartTime,
                             IconEndTime = item.IconEndTime,
