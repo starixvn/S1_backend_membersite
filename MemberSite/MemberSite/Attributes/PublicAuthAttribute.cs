@@ -28,12 +28,6 @@ public class PublicAuthAttribute : Attribute, IAuthorizationFilter
         var content = string.Empty;
         var fromUrl = context.HttpContext.Request.GetDisplayUrl();
 
-        var syncIOFeature = context.HttpContext.Features.Get<IHttpBodyControlFeature>();
-        if (syncIOFeature != null)
-        {
-            syncIOFeature.AllowSynchronousIO = true;
-        }
-
         if (context.HttpContext.Request.ContentType?.StartsWith("application/x-www-form-urlencoded") ?? false)
         {
             var formData = context.HttpContext.Request.ReadFormAsync().Result;

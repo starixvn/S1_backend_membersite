@@ -98,7 +98,7 @@ namespace MemberSite.Controllers.Api
         }
         
         [HttpPost]
-        [TypeFilter(typeof(PublicAuthAttribute))]
+        //[TypeFilter(typeof(PublicAuthAttribute))]
         public async Task<ApiResult> SignIn(LoginModel loginModel)
         {
             var apiResult = new ApiResult(_selLangBll);
@@ -123,7 +123,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        [TypeFilter(typeof(PublicAuthAttribute))]
+        //[TypeFilter(typeof(PublicAuthAttribute))]
         public async Task<ApiResult<JwtAuthData>> SignInApp(LoginModel loginModel)
         {
             var apiResult = new ApiResult<JwtAuthData>(_selLangBll);
@@ -215,7 +215,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        [TypeFilter(typeof(PublicAuthAttribute))]
+        //[TypeFilter(typeof(PublicAuthAttribute))]
         public async Task<ApiResult> SignInPhone(LoginPhoneModel loginModel)
         {
             var apiResult = new ApiResult(_selLangBll);   
