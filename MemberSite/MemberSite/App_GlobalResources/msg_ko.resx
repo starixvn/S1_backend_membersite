@@ -237,4 +237,8 @@
   <data name="msg_AffCodeNotFound"><value>제휴 ID를 찾을 수 없습니다</value></data>
   <data name="msg_WrongAmountFormat"><value>오류 &gt; 금액 형식이 잘못되었습니다</value></data>
   <data name="msg_RecaptchaError"><value>등록 실패, 인증 통과하지 못함</value></data>
+  <data name="msg_WithdrawalRestrictionsBankCardWithdrawals" xml:space="preserve"><value>출금 채널 제한</value></data>
+  <data name="msg_WithdrawalRestrictionsBankCardWithdrawals_Detail" xml:space="preserve"><value>귀하의 출금 요청이 거부되었습니다. 은행 카드 채널을 통해 출금하시거나 고객 서비스에 연락하여 도움을 요청하시기 바랍니다.</value></data>
+  <data name="msg_BankSystemUnstable" xml:space="preserve"><value>은행 시스템 불안정</value></data>
+  <data name="msg_BankSystemUnstable_Detail" xml:space="preserve"><value>시스템이 세부 정보를 검색할 수 없습니다.</value></data>
   </root>

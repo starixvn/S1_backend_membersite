@@ -1,12 +1,9 @@
 ﻿using System.Data;
-
 using Dapper;
-
 using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
-
 using Newtonsoft.Json;
 
 namespace MemberSite.Service.DAL
@@ -621,6 +618,18 @@ namespace MemberSite.Service.DAL
             p.Add("_LangId", langId);
             var result = _reportDbClient.QueryAsync<PromotionPrediction>("Member_PromotionPrediction_Get", p);
             
+            return result;
+        }
+        
+        public Task<IEnumerable<PredictScoreModel>> GetPredictScoreList(int custId ,int siteId, int currencyId ,string langId)
+        {
+            var p = new DynamicParameters();
+            p.Add("_CustId", custId);
+            p.Add("_SiteId", siteId);
+            p.Add("_CurrencyId", currencyId);
+            p.Add("_LangId", langId);
+            var result = _reportDbClient.QueryAsync<PredictScoreModel>("Member_PredictScoreList_Get", p);
+
             return result;
         }
         

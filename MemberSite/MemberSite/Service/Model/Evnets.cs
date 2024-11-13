@@ -506,7 +506,6 @@ namespace MemberSite.Service.Model
     public class PromotionPrediction : HotEventDto
     {
         public string BonusCode { get; set; }
-        public string Title { get; set; }
         public string Banner { get; set; }
         public string Description { get; set; }
         public DateTime StartTime { get; set; }
@@ -542,6 +541,19 @@ namespace MemberSite.Service.Model
         /// 充值金額
         /// </summary>
         public decimal DepositAmount { get; set; }
+    }
+    
+    public class PredictScoreModel : HotEventDto
+    {
+        public decimal Bonus { get; set; }
+        public int CustHomeScore { get; set; }
+        public int CustAwayScore { get; set; }
+        public int HomeScore { get; set; }
+        public int AwayScore { get; set; }
+        /// <summary>
+        /// 0 : running , 1 :win , 2: lose
+        /// </summary>
+        public int PredictStatus { get; set; }
     }
     
     #endregion
