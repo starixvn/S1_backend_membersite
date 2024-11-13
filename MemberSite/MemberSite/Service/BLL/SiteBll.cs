@@ -528,7 +528,7 @@ public class SiteBll
                         var serverInfo = _serverInfoBll.GetServerInfo();
                         var config = _welComeMailConfig[serverInfo.SiteId];
 
-                        if (config == 1)
+                        if (!string.IsNullOrWhiteSpace(signupModel.Email) && config == 1)
                         {
                             _ = Task.Run(async () =>
                             {
