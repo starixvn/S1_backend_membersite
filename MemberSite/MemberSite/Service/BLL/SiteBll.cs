@@ -27,6 +27,7 @@ public class SiteBll
     private readonly ILogger<SiteBll> _logger;
     private readonly IWebHostEnvironment _environment;
     private readonly IEnumerable<int> _reCaptchaSiteConfig;
+    private readonly Dictionary<int, int> _welComeMailConfig;
 
     public SiteBll(IServiceProvider provider)
     {
@@ -44,6 +45,7 @@ public class SiteBll
         _environment = provider.GetRequiredService<IWebHostEnvironment>();
         var configBll = provider.GetRequiredService<ConfigBLL>();
         _reCaptchaSiteConfig = configBll.GetConfigValue<IEnumerable<int>>("ReCaptchaSite");
+        _welComeMailConfig = provider.GetRequiredService<ConfigBLL>().GetConfigValuesBySiteId<int>("WelcomeEmail");
     }
 
     public Customer Signup(SiteController.SignupModel signupModel, ApiResult apiResult, bool isAuthenticated,
@@ -248,7 +250,7 @@ public class SiteBll
             if (!verifyResult.success)
             {
                 apiResult.ErrorCode = -1;
-                apiResult.Message = $"{_selLangBll.GetMsg("msg_RecaptchaError")}"; 
+                apiResult.Message = $"{_selLangBll.GetMsg("msg_RecaptchaError")}";
                 return false;
             }
         }
@@ -465,10 +467,11 @@ public class SiteBll
                     else
                     {
                         var serverInfo = _serverInfoBll.GetServerInfo();
+                        var config = _welComeMailConfig[serverInfo.SiteId];
 
-                        _ = Task.Run(async () =>
+                        if (config == 1)
                         {
-                            if (serverInfo.SiteId == 5)
+                            _ = Task.Run(async () =>
                             {
                                 _commonBll.SendWelcomeMail(custId);
 
@@ -480,8 +483,8 @@ public class SiteBll
                                 //    if (apiResultIovation.ErrorCode == 0 & apiResultIovation.Data != null)
                                 //        _iovationBll.SetIovation(custId, IovationType.registration, apiResultIovation.Data);
                                 //}
-                            }
-                        });
+                            });
+                        }
 
                         _ = Task.Run(() =>
                         {
