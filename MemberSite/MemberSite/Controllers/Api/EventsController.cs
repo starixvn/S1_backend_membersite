@@ -1063,7 +1063,7 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public async Task<ApiResult<GetChineseZodiacStickerResponse>> GetChineseZodiacStickerList()
         {
-            var apiResult = new ApiResult<GetChineseZodiacStickerResponse>()
+            var apiResult = new ApiResult<GetChineseZodiacStickerResponse>
             {
                 Data = new GetChineseZodiacStickerResponse()
             };
@@ -1076,26 +1076,21 @@ namespace MemberSite.Controllers.Api
                 var getLotteryDrawSetting = _lotteryBll.GetLotteryRoundInfo(custInfo.SiteId, DateTimeOffset.UtcNow.ToOffset(TimeSpan.FromHours(8)).DateTime);
                 //檢查是否買過本期貼紙
                 var getCustLotteryTicket = _lotteryBll.GetCustLotteryTicket(custInfo.CustId, getLotteryDrawSetting.RoundId, (int)LotteryTicketEnum.Sticker).ToList();
-
-                if (!getCustLotteryTicket.Any())
+                if (getCustLotteryTicket.Any())
+                {
+                    apiResult.Data.StickerIds = getCustLotteryTicket.Select(x=>x.StickerId).ToList();
+                }
+                
+                var stickerInfoList = _lotteryBll.GetRaffleTicketStickerSetting(custInfo.SiteId);
+                var stickerInfo = stickerInfoList.FirstOrDefault(x => x.CurrencyId == custInfo.CurrencyId && x.SiteId == custInfo.SiteId);
+               
+                if (getCustLotteryTicket.Count < stickerInfo.StickerCount)
                 {
                     apiResult.Data.CanBuy = true;
-                    apiResult.Data.StickerId = 0;
                 }
                 else
                 {
-                    var checkBoughtTicket = getCustLotteryTicket.FirstOrDefault(x => x.Type == (int)LotteryTicketEnum.Sticker);
-    
-                    if (checkBoughtTicket?.StickerId != 0)
-                    {
-                        apiResult.Data.CanBuy = false;
-                        apiResult.Data.StickerId = checkBoughtTicket.StickerId;
-                    }
-                    else
-                    {
-                        apiResult.Data.CanBuy = true;
-                        apiResult.Data.StickerId = 0;
-                    }
+                    apiResult.Data.CanBuy = false;
                 }
                 
                 //索取貼紙價格 因為要立即生效 不能放Redis(再討論看看)
@@ -1124,62 +1119,74 @@ namespace MemberSite.Controllers.Api
         {
             var apiResult = new ApiResult();
             var authData = _authorizeBll.GetAuthData();
-            var stickerId = (ChineseZodiacStickerId)stickerReq.StickerId;
 
             if (authData is not { CustId: > 0 }) return apiResult;
             try
             {
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-                //取當期資料
-                var getLotteryDrawSetting = _lotteryBll.GetLotteryRoundInfo(custInfo.SiteId, DateTimeOffset.UtcNow.ToOffset(TimeSpan.FromHours(8)).DateTime);
-                
-                //檢查是否買過本期貼紙
-                var getCustLotteryTicket = _lotteryBll.GetCustLotteryTicket(custInfo.CustId, getLotteryDrawSetting.RoundId, (int)LotteryTicketEnum.Sticker).ToList();
-                if (getCustLotteryTicket.Any())
-                {
-                    var checkBoughtTicket = getCustLotteryTicket.Any(x => x.Type == (int)LotteryTicketEnum.Sticker);
-                    if (checkBoughtTicket)
-                    {
-                        apiResult.ErrorCode = 123;
-                        apiResult.Message = "The zodiac stickers have already been purchased for this period";
-                        return apiResult;
-                    }
-                }
-                
-                //取貼紙價格
-                var stickerPrizeList = _lotteryBll.GetRaffleTicketStickerSetting(custInfo.SiteId);
-                var stickerPrize = stickerPrizeList.FirstOrDefault(x => x.CurrencyId == custInfo.CurrencyId && x.SiteId == custInfo.SiteId);
-
-                if (stickerPrize == null)
+              
+                var stickerInfoList = _lotteryBll.GetRaffleTicketStickerSetting(custInfo.SiteId);
+                var stickerInfo = stickerInfoList.FirstOrDefault(x => x.CurrencyId == custInfo.CurrencyId && x.SiteId == custInfo.SiteId);
+                if (stickerInfo == null)
                 {
                     apiResult.ErrorCode = 9000;
                     apiResult.Message = _selLangBll.GetMsg("msg_ApiServerError");
                     return apiResult;
                 }
                 
+                //取當期資料
+                var getLotteryDrawSetting = _lotteryBll.GetLotteryRoundInfo(custInfo.SiteId, DateTimeOffset.UtcNow.ToOffset(TimeSpan.FromHours(8)).DateTime);
+
+                #region CheckTicket
+                
+                //檢查是否買過本期貼紙
+                var getCustStickerTicket = _lotteryBll.GetCustLotteryTicket(custInfo.CustId, getLotteryDrawSetting.RoundId, (int)LotteryTicketEnum.Sticker).ToList();
+                if (getCustStickerTicket.Count + stickerReq.StickerIds.Count > stickerInfo.StickerCount)
+                {
+                    apiResult.ErrorCode = -1;
+                    apiResult.Message = "Purchase limit exceeded";
+                    return apiResult;
+                }
+                if (getCustStickerTicket.Any())
+                {
+                    var custStickerTicket = getCustStickerTicket.Select(x => (int)x.StickerId).ToList();
+                    var checkBoughtTicket = custStickerTicket.Intersect(stickerReq.StickerIds);
+                    if (checkBoughtTicket.Any())
+                    {
+                        apiResult.ErrorCode = -2;
+                        apiResult.Message = "The zodiac stickers have already been purchased for this period";
+                        return apiResult;
+                    }
+                }
+                
+                #endregion
+
+                #region CheckBalance
+
                 //取用戶當下餘額
                 var custBalance = _walletBll.GetBalance(authData.CustId);
-
-                //餘額不足回傳 3 會依照當下用戶langId回傳相對應訊息
-                var checkBalance = custBalance - Math.Abs(stickerPrize.StickerPrize);
+                var ticketPrize = Math.Abs(stickerInfo.StickerPrize) * stickerReq.StickerIds.Count;
+                var checkBalance = custBalance - ticketPrize;
                 if (checkBalance < 0)
                 {
-                    apiResult.ErrorCode = 3;
+                    apiResult.ErrorCode = -3;
                     apiResult.Message = _selLangBll.GetMsg("msg_InsufficientFund");
                     return apiResult;
                 }
-                
-                var result = await _lotteryBll.BuyChineseZodiacSticker(custInfo,getLotteryDrawSetting.RoundId,stickerId,stickerPrize.StickerPrize);
-                
-                apiResult.ErrorCode = result == 0 ? (int)ErrorCode.Success : result;
-                apiResult.Message = apiResult.ErrorCode switch
+
+                #endregion
+
+                var buyResult = true; 
+                foreach (var stickerId in stickerReq.StickerIds)
                 {
-                    0 => "Success",
-                    997 => "Insert failed, Please contact the operator.",
-                    998 => "Purchase failed, Please contact the operator.",
-                    999 => "Purchase failed, Please contact the operator.",
-                    _ => _selLangBll.GetMsg("msg_ApiServerError"),
-                };
+                    var result = await _lotteryBll.BuyChineseZodiacSticker(custInfo, getLotteryDrawSetting.RoundId, stickerId, stickerInfo.StickerPrize);
+                    if (!result)
+                    {
+                        buyResult = false;
+                    }
+                }
+                
+                apiResult.ErrorCode = buyResult ? (int)ErrorCode.Success : (int)ErrorCode.Fail;
                 return apiResult;
 
             }
