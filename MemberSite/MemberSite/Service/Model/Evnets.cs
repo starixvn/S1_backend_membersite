@@ -281,7 +281,7 @@ namespace MemberSite.Service.Model
     
     public class GetChineseZodiacStickerResponse
     {
-        public ChineseZodiacStickerId StickerId { get; set; }
+        public List<ChineseZodiacStickerId> StickerIds { get; set; }
         public decimal StickerPrize { get; set; }
         public bool CanBuy { get; set; }
     }
@@ -291,6 +291,10 @@ namespace MemberSite.Service.Model
         public int SiteId { get; set; }
         public int CurrencyId { get; set; }
         public decimal StickerPrize { get; set; }
+        /// <summary>
+        /// 可購買上限張數
+        /// </summary>
+        public decimal StickerCount { get; set; }
         public decimal TurnOver { get; set; }
     }
 
@@ -333,8 +337,8 @@ namespace MemberSite.Service.Model
     
     public class BuyChineseZodiacStickerReq
     {
-        [JsonPropertyName("stickerid")]
-        public int StickerId { get; set; }
+        [JsonPropertyName("StickerIds")]
+        public List<int> StickerIds { get; set; }
     }
     
     public class BuyChineseZodiacStickerResponse
