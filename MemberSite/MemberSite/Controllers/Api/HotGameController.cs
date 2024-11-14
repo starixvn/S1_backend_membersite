@@ -48,7 +48,7 @@ namespace MemberSite.Controllers.Api
                     Message = "GetHotGame request exceeds the limit count."
                 };
             }
-            
+
             int currencyId;
             int siteId;
             var authData = _authorizeBll.GetAuthData();
@@ -80,7 +80,7 @@ namespace MemberSite.Controllers.Api
 
             try
             {
-                var data = await _hotGameBll.GetHotGames(siteId, currencyId, request.DeviceType, langId);
+                var data = await _hotGameBll.GetHotGames(siteId, currencyId, request.DeviceType, langId, request);
                 apiResult.Data = data;
                 apiResult.ErrorCode = (int)ErrorCode.Success;
                 // 新增未登入快取

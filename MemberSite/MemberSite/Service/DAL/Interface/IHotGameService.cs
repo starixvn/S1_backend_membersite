@@ -10,6 +10,6 @@ namespace MemberSite.Service.DAL.Interface
         /// <param name="siteId"></param>
         /// <param name="currencyId"></param>
         /// <returns></returns>
-        Task<IEnumerable<HotGameDto>> GetHotGames(int siteId, int currencyId);
+        Task<IEnumerable<HotGameDto>> GetHotGames(int siteId, int currencyId, GetHotGameDataListRequest request);
     }
 }

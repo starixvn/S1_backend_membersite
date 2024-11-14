@@ -41,7 +41,7 @@ namespace MemberSite.Service.BLL
             };
         }
 
-        public async Task<Dictionary<string, IEnumerable<HotGameResponse>>> GetHotGames(int siteId, int currencyId, HotGameDeviceType deviceType, string langId)
+        public async Task<Dictionary<string, IEnumerable<HotGameResponse>>> GetHotGames(int siteId, int currencyId, HotGameDeviceType deviceType, string langId, GetHotGameDataListRequest request)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
             var imgUrl = _siteCloudFrontImageInfo.OldImageUrl;
@@ -49,7 +49,7 @@ namespace MemberSite.Service.BLL
             var devicePath = deviceType == HotGameDeviceType.Pc ? "desktop" : "h5";
             var key = $"GetHotGamesV2:{siteId}:{currencyId}";
             var hotGames = await _redisHelper.TryGetOrCreateAsync(key, null,
-                async () => await _hotGameService.GetHotGames(siteId, currencyId));
+                async () => await _hotGameService.GetHotGames(siteId, currencyId, request));
 
             // 取出Slot的遊戲資訊
             var slotGameList = await _slotGameBLL.GetSlotGameList(siteId, currencyId, (int)deviceType);

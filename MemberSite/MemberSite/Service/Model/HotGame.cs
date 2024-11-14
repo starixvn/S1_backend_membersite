@@ -36,6 +36,8 @@ namespace MemberSite.Service.Model
     public class GetHotGameDataListRequest
     {
         public HotGameDeviceType DeviceType { get; set; }
+        public int? Top { get; set; }
+        public string TpCategory { get; set; }
         public int? CurrencyId { get; set; }
     }
 
