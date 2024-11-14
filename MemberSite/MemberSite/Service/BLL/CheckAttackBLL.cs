@@ -11,6 +11,7 @@ namespace MemberSite.Service.BLL
         private readonly IpHelper _ipHelper;
         private readonly ICacheHelper _cacheHelper;
         private readonly IPBLL _iPBll;
+        private readonly IWebHostEnvironment _environment;
 
         public CheckAttackBLL(IServiceProvider provider)
         {
@@ -19,11 +20,16 @@ namespace MemberSite.Service.BLL
             _ipHelper = provider.GetRequiredService<IpHelper>();
             _cacheHelper = provider.GetRequiredService<ICacheHelper>();
             _iPBll = provider.GetRequiredService<IPBLL>();
+            _environment = provider.GetRequiredService<IWebHostEnvironment>();
         }
 
         public async Task<bool> CheckAttackIp(HttpRequest Request, int limitCount)
         {
-            return false; // should remove after testing
+            if (_environment.EnvironmentName is "LOCAL")
+            {
+                return false;
+            }
+
             var clientIp = _tools.GetClientIP();
             if (_cacheHelper.KeyExists($"AllowedIp:{clientIp}", RedisDataBase.IP))
             {
