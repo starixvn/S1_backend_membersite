@@ -7,11 +7,13 @@ public class PredictionPromotionBLL
 {
     private readonly IEventsService _eventsService;
     private readonly HotEventBLL _hotEventBll;
+    private readonly EventsBLL _eventsBll;
     
     public PredictionPromotionBLL(IServiceProvider provider)
     {
         _eventsService = provider.GetRequiredService<IEventsService>();
         _hotEventBll = provider.GetRequiredService<HotEventBLL>();
+        _eventsBll = provider.GetRequiredService<EventsBLL>();
     }
     
     public async Task<IEnumerable<GetPredictionTeamInfoResp>> GetPredictionTeamInfo(int custId ,ServerInfo serverInfo, int currency ,string landId)
@@ -63,6 +65,30 @@ public class PredictionPromotionBLL
         var result = await _eventsService.GetPredictScoreList(cust.CustId, cust.SiteId, cust.CurrencyId, landId);
         
         return result;
+    }
+    
+    public async Task<PredictionWinnerListResponse> GetPredictionResultTeamInfo(int siteId, int currencyId ,string langId)
+    {
+        var promotionPrediction = await _eventsService.GetPredictionResultTeamInfo(siteId, currencyId, langId);
+        var winnerList = await _eventsService.GetPromotionPredictionWinnerList(siteId, promotionPrediction.MatchId);
+        
+        var response = new PredictionWinnerListResponse
+        {
+            SportLeaguesTitle = promotionPrediction.SportLeaguesTitle,
+            MatchId = promotionPrediction.MatchId,
+            HomeTeamLeaguesId = promotionPrediction.HomeTeamLeaguesId,
+            HomeTeamId = promotionPrediction.HomeTeamId,
+            HomeTeamName = promotionPrediction.HomeTeamName,
+            AwayTeamLeaguesId = promotionPrediction.AwayTeamLeaguesId,
+            AwayTeamId = promotionPrediction.AwayTeamId,
+            AwayTeamName = promotionPrediction.AwayTeamName,
+            BattleTime = promotionPrediction.BattleTime,
+            Bonus = promotionPrediction.Bonus,
+            IsoCode = promotionPrediction.IsoCode,
+            Winners = winnerList.Any() ? winnerList.Select(x=>_eventsBll.MaskName(x.UserName)).ToList() : new List<string>()
+        };
+        
+        return response;
     }
     
     public async Task<PromotionPrediction> GetPromotionPredictionByMatchId(int siteId, int matchId)

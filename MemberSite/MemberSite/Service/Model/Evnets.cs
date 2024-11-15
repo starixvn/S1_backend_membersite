@@ -289,6 +289,7 @@ namespace MemberSite.Service.Model
     public class PromotionPrediction : HotEventDto
     {
         public string BonusCode { get; set; }
+        public string IsoCode { get; set; }
         public string Banner { get; set; }
         public string Description { get; set; }
         public DateTime StartTime { get; set; }
@@ -311,6 +312,12 @@ namespace MemberSite.Service.Model
         public int MatchId { get; set; }
         public int HomeTeamScore { get; set; }
         public int AwayTeamScore { get; set; }
+    }
+    
+    public class GetPredictionWinnerListRequest
+    {
+        public int SiteId { get; set; }
+        public int CurrencyId { get; set; }
     }
     
     public class PredictionDepositDto
@@ -337,6 +344,19 @@ namespace MemberSite.Service.Model
         /// 0 : running , 1 :win , 2: lose
         /// </summary>
         public int PredictStatus { get; set; }
+    }
+    
+    public class PredictionWinnerListResponse : HotEventDto
+    {
+        public decimal Bonus { get; set; }
+        public string IsoCode { get; set; }
+        public List<string> Winners { get; set; }
+    }
+    
+    public class PredictionWinnerModel
+    {
+        public int CustId { get; set; }
+        public string UserName { get; set; }
     }
     
     #endregion
