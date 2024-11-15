@@ -283,6 +283,7 @@ namespace MemberSite.Service.Model
     {
         public List<ChineseZodiacStickerId> StickerIds { get; set; }
         public decimal StickerPrize { get; set; }
+        public int StickerCount { get; set; }
         public bool CanBuy { get; set; }
     }
     
@@ -294,7 +295,7 @@ namespace MemberSite.Service.Model
         /// <summary>
         /// 可購買上限張數
         /// </summary>
-        public decimal StickerCount { get; set; }
+        public int StickerCount { get; set; }
         public decimal TurnOver { get; set; }
     }
 
