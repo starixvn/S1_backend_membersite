@@ -1232,6 +1232,10 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
         
+        /// <summary>
+        /// 歷史預測紀錄 (前台無使用)
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         [Authorize]
         public async Task<ApiResult<IEnumerable<PredictScoreModel>>> GetPredictScoreList()
@@ -1252,6 +1256,19 @@ namespace MemberSite.Controllers.Api
         }
         
         [HttpPost]
+        public async Task<ApiResult<PredictionWinnerListResponse>> GetPredictionWinnerList(GetPredictionWinnerListRequest request)
+        {
+            var apiResult = new ApiResult<PredictionWinnerListResponse>();
+            var landId = _selLangBll.GetLangId();
+            var result =  await _predictionPromotionBll.GetPredictionResultTeamInfo(request.SiteId, request.CurrencyId, landId);
+            
+            apiResult.Data = result;
+            apiResult.ErrorCode = (int) ErrorCode.Success;
+            
+            return apiResult;
+        }
+        
+        [HttpPost]
         [Authorize]
         public async Task<ApiResult> PromotionPredictScore(PredictScoreRequest request)
         {
@@ -1264,9 +1281,9 @@ namespace MemberSite.Controllers.Api
                 
                 #region check Time
                 
-                var endTimeTimezone = matchInfo.EndTime.AddHours(8);
-                var endTime = new DateTimeOffset(endTimeTimezone.Year, endTimeTimezone.Month, endTimeTimezone.Day, 0, 0, 0, TimeSpan.FromHours(8)).AddSeconds(-1);
-                if (DateTime.UtcNow < matchInfo.StartTime || DateTime.UtcNow > endTime.UtcDateTime )
+                var battleTimeZone = matchInfo.BattleTime.AddHours(8);
+                var battleTimeOffset = new DateTimeOffset(battleTimeZone.Year, battleTimeZone.Month, battleTimeZone.Day, 0, 0, 0, TimeSpan.FromHours(8));
+                if (DateTime.UtcNow < matchInfo.StartTime || DateTime.UtcNow > battleTimeOffset.UtcDateTime )
                 {
                     apiResult.ErrorCode = -2;
                     apiResult.Message = "Predict time has expired";
@@ -1277,8 +1294,8 @@ namespace MemberSite.Controllers.Api
 
                 #region Check Depsoit
                 
-                var battleTimeZone = matchInfo.BattleTime.AddHours(8);
-                var depositStartTime = new DateTimeOffset(battleTimeZone.Year ,battleTimeZone.Month ,battleTimeZone.Day ,0,0,0, TimeSpan.FromHours(8)) .AddDays(- matchInfo.DepositTermPeriodDays);
+                
+                var depositStartTime = battleTimeOffset.AddDays(- matchInfo.DepositTermPeriodDays);
                 var depositEndTime =  new DateTimeOffset(battleTimeZone.Year, battleTimeZone.Month, battleTimeZone.Day, 23, 59, 59, TimeSpan.FromHours(8)).AddSeconds(-1);
                 var depositList = await _predictionPromotionBll.GetMemberDeposit(custInfo.CustId, depositStartTime.UtcDateTime, depositEndTime.UtcDateTime);
 

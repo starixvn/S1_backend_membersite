@@ -633,6 +633,25 @@ namespace MemberSite.Service.DAL
             return result;
         }
         
+        public Task<PromotionPrediction> GetPredictionResultTeamInfo(int siteId, int currencyId ,string langId)
+        {
+            var p = new DynamicParameters();
+            p.Add("_SiteId", siteId);
+            p.Add("_CurrencyId", currencyId);
+            p.Add("_LangId", langId);
+            
+            return _reportDbClient.QueryFirstAsync<PromotionPrediction>("Member_PredictionResultTeamInfo_Get", p);
+        }
+
+        public Task<IEnumerable<PredictionWinnerModel>> GetPromotionPredictionWinnerList(int siteId, int matchId)
+        {
+            var p = new DynamicParameters();
+            p.Add("_SiteId", siteId, dbType: DbType.Int64);
+            p.Add("_MatchId", matchId, dbType: DbType.Int64);
+
+            return _reportDbClient.QueryAsync<PredictionWinnerModel>("Service_PromotionPredictionWinnerList_Get", p);
+        }
+        
         public Task<PromotionPrediction> GetPromotionPredictionByMatchId(int siteId, int matchId)
         {
             var p = new DynamicParameters();
