@@ -1082,23 +1082,25 @@ namespace MemberSite.Controllers.Api
                 
                 var stickerInfoList = _lotteryBll.GetRaffleTicketStickerSetting(custInfo.SiteId);
                 var stickerInfo = stickerInfoList.FirstOrDefault(x => x.CurrencyId == custInfo.CurrencyId && x.SiteId == custInfo.SiteId);
-               
-                if (getCustLotteryTicket.Count < stickerInfo.StickerCount)
+                if (stickerInfo is null)
                 {
-                    apiResult.Data.CanBuy = true;
-                }
-                else
-                {
-                    apiResult.Data.CanBuy = false;
+                    apiResult.ErrorCode = 998;
+                    apiResult.Message = _selLangBll.GetMsg("msg_ApiServerError"); 
+                    return apiResult;
                 }
                 
-                //索取貼紙價格 因為要立即生效 不能放Redis(再討論看看)
-                var result = _lotteryBll.GetRaffleTicketStickerSetting(custInfo.SiteId);
-                var mappingData = result.FirstOrDefault(x => x.CurrencyId == custInfo.CurrencyId && x.SiteId == custInfo.SiteId);
-                
-                if (mappingData != null && mappingData.StickerPrize != 0.00m)
+                if (stickerInfo.StickerPrize != 0.00m)
                 {
-                    apiResult.Data.StickerPrize = mappingData.StickerPrize;
+                    if (getCustLotteryTicket.Count < stickerInfo.StickerCount)
+                    {
+                        apiResult.Data.CanBuy = true;
+                    }
+                    else
+                    {
+                        apiResult.Data.CanBuy = false;
+                    }
+                    apiResult.Data.StickerCount = stickerInfo.StickerCount;
+                    apiResult.Data.StickerPrize = stickerInfo.StickerPrize;
                 }
                 else
                 {
