@@ -508,4 +508,16 @@
   <data name="msg_RecaptchaError" xml:space="preserve">
     <value>Đăng ký không thành công, xác minh không thành công.</value>
   </data>
+  <data name="msg_WithdrawalRestrictionsBankCardWithdrawals" xml:space="preserve">
+    <value>Giới hạn cổng rút tiền</value>
+  </data>
+  <data name="msg_WithdrawalRestrictionsBankCardWithdrawals_Detail" xml:space="preserve">
+    <value>Yêu cầu rút tiền của bạn đã bị từ chối. Vui lòng rút tiền qua phương thức ngân hàng địa phương hoặc liên hệ với dịch vụ CSKH 24/7 để được hỗ trợ.</value>
+  </data>
+  <data name="msg_BankSystemUnstable" xml:space="preserve">
+    <value>Hệ thống ngân hàng không ổn định</value>
+  </data>
+  <data name="msg_BankSystemUnstable_Detail" xml:space="preserve">
+    <value>Không thể lấy được chi tiết từ hệ thống ngân hàng</value>
+  </data>
 </root>

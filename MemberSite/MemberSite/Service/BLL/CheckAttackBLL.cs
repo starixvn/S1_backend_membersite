@@ -65,17 +65,17 @@ namespace MemberSite.Service.BLL
                 return false;
             }
 
-            // 10分鐘相同IP註冊超過20次阻擋一小時
+            // 10分鐘相同IP註冊超過10次阻擋一小時
             var checkCountForShortTime = await _cacheHelper.StringIncrementAsync($"IP:Signup:{clientIp}", TimeSpan.FromMinutes(10));      
-            if (checkCountForShortTime >= 20)
+            if (checkCountForShortTime >= 10)
             {
                 _logger.LogWarning($"auto block {clientIp} for 20 minutes.");
                 _ = _cacheHelper.StringFireAndForgetSetAsync($"block:Signup:{clientIp}", string.Empty, TimeSpan.FromHours(1));
             }
 
-            // 一小時相同IP註冊超過60次，自動封鎖IP，需要從後台手動解鎖
+            // 一小時相同IP註冊超過30次，自動封鎖IP，需要從後台手動解鎖
             var checkCountForBlock = await _cacheHelper.StringIncrementAsync($"IP:Signup:long:{clientIp}", TimeSpan.FromHours(1));
-            if (checkCountForBlock >= 60)
+            if (checkCountForBlock >= 30)
             {
                 _logger.LogWarning($"auto block {clientIp}, Please go to the backoffice to unlock it.");
                 var memo = $"Auto Deny (/Site/Signup) - Attack: try Auto Signup, reason is too many requests";
