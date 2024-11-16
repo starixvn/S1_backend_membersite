@@ -20,6 +20,7 @@ namespace MemberSite.Service.BLL
 
         private readonly GoogleCredential _credential;
         private readonly ReCaptchaEnterpriseSetting _reCaptchaEnterpriseSetting;
+        private readonly Dictionary<int, ReCaptchaHighRiskDomainSetting> _reCaptchaHighRiskDomainSetting;
 
         public RecaptchaBLL(IServiceProvider provider)
         {
@@ -33,6 +34,7 @@ namespace MemberSite.Service.BLL
             var configBll = provider.GetRequiredService<ConfigBLL>();
             _credential = GoogleCredential.FromJson(configBll.GetConfigValue("ReCaptchaEnterprise"));
             _reCaptchaEnterpriseSetting = configBll.GetConfigValue<ReCaptchaEnterpriseSetting>("ReCaptchaEnterpriseSetting");
+            _reCaptchaHighRiskDomainSetting = configBll.GetConfigValuesBySiteId<ReCaptchaHighRiskDomainSetting>("ReCaptchaHighRiskDomainSetting");
         }
 
         #region ReCaptcha Free Policy
@@ -129,6 +131,13 @@ namespace MemberSite.Service.BLL
                     $"RiskAnalysisReasons = {string.Join("/", response.RiskAnalysis.Reasons.Select(x => x.ToString()))}";
 
             _logger.LogInformation(message);
+
+            var highRiskConfig = _reCaptchaHighRiskDomainSetting[request.SiteId];
+            if (highRiskConfig is not null && highRiskConfig.DomainList.Contains(request.MainDomain))
+            {
+                _logger.LogInformation($"This Domain Use HighRisk Check.Domain={request.MainDomain}  RiskLimit={highRiskConfig.RiskLimit}");
+                return new AssessmentResult((decimal)response.RiskAnalysis.Score, highRiskConfig.RiskLimit);
+            }
             return new AssessmentResult((decimal)response.RiskAnalysis.Score, _reCaptchaEnterpriseSetting.RiskLimit);
         }
 

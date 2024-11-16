@@ -57,4 +57,11 @@
 
         public decimal RiskLimit { get; set; }
     }
+
+    public class ReCaptchaHighRiskDomainSetting
+    {
+        public IEnumerable<string> DomainList { get; set; }
+
+        public decimal RiskLimit { get; set; }
+    }
 }
