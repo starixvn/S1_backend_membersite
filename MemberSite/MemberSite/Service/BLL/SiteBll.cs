@@ -152,7 +152,7 @@ public class SiteBll
             apiResult.Message = _selLangBll.GetMsg("msg_EmailFormatVerify");
             return null;
         }
-        
+
         #endregion
 
         var result = _custInfoBll.IvorysportAddCustInfo(signupModel.UserName, signupModel.Userpwd, signupModel.Email,
@@ -173,7 +173,7 @@ public class SiteBll
         deviceType = 0;
         signupIp = null;
         affCodeObj = null;
-        
+
         var serverInfo = _serverInfoBll.GetServerInfo();
 
         if (isAuthenticated)
@@ -182,7 +182,7 @@ public class SiteBll
             apiResult.ErrorCode = 9000;
             return false;
         }
-        
+
         var check = CheckSignUpDataBySiteId(serverInfo.SiteId, signupModel, apiResult);
 
         if (!check)
@@ -206,7 +206,7 @@ public class SiteBll
             apiResult.Message = _selLangBll.GetMsg("msg_UsernameValidate");
             return false;
         }
-        
+
         if (!_stringVaildHelper.VaildUserName(signupModel.UserName))
         {
             apiResult.ErrorCode = -8;
@@ -225,7 +225,7 @@ public class SiteBll
                 apiResult.Message = $"missing. {_selLangBll.GetMsg("msg_RecaptchaError")}";
                 return false;
             }
-            var verifyResult = _recaptcha.CreateAssessmentAsync(new AssessmentRequest(signupModel.ReCaptchaToken, signupModel.ReCaptchaAction)).Result;
+            var verifyResult = _recaptcha.CreateAssessmentAsync(new AssessmentRequest(serverInfo.SiteId, _serverInfoBll.GetMainDomain(), signupModel.ReCaptchaToken, signupModel.ReCaptchaAction)).Result;
             _logger.LogInformation($"reCaptcha verify result={JsonConvert.SerializeObject(verifyResult)}");
             if (!verifyResult.success)
             {
@@ -377,7 +377,7 @@ public class SiteBll
         return true;
     }
 
-    private bool CheckSignUpDataBySiteId(int siteId ,SiteController.SignupModel signupModel, ApiResult apiResult)
+    private bool CheckSignUpDataBySiteId(int siteId, SiteController.SignupModel signupModel, ApiResult apiResult)
     {
         switch (siteId)
         {
@@ -388,7 +388,7 @@ public class SiteBll
                     apiResult.Message = $"{_selLangBll.GetMsg("msg_EnterPhoneNumberOrEmail")}";
                     return false;
                 }
-                
+
                 if (!string.IsNullOrEmpty(signupModel.PhoneNo))
                 {
                     if (string.IsNullOrEmpty(signupModel.AreaCode))
@@ -397,7 +397,7 @@ public class SiteBll
                         apiResult.ErrorCode = 9000;
                         return false;
                     }
-                    
+
                     if (long.TryParse(signupModel.PhoneNo, out var phoneNumber))
                     {
                         signupModel.PhoneNo = phoneNumber.ToString();
@@ -416,9 +416,9 @@ public class SiteBll
                     }
                 }
                 break;
-            
+
             default:
-                
+
                 if (string.IsNullOrEmpty(signupModel.PhoneNo) || string.IsNullOrEmpty(signupModel.AreaCode))
                 {
                     apiResult.ErrorCode = -18;
@@ -426,7 +426,7 @@ public class SiteBll
                     _logger.LogError($"PhoneNo={signupModel.PhoneNo} ,AreaCode={signupModel.AreaCode}");
                     return false;
                 }
-                
+
                 if (long.TryParse(signupModel.PhoneNo, out var phoneNo))
                 {
                     signupModel.PhoneNo = phoneNo.ToString();
@@ -443,14 +443,14 @@ public class SiteBll
                     apiResult.Message = $"{_selLangBll.GetResourceValue("lbl_Phone")} {_selLangBll.GetMsg("msg_PhoneWrongFormat")}";
                     return false;
                 }
-                
+
                 if (string.IsNullOrWhiteSpace(signupModel.RealName) || !_stringVaildHelper.VaildAccountNameForSetProfile(signupModel.RealName))
                 {
                     apiResult.ErrorCode = 21;
                     apiResult.Message = $"{_selLangBll.GetMsg("msg_RealNameWrongFormat")}";
                     return false;
                 }
-                
+
                 if (siteId is 1 or 5)
                 {
                     switch (signupModel.AreaCode)
@@ -465,8 +465,8 @@ public class SiteBll
                         case "+84":
                         case "+82":
                         case "+81":
-                        case "+55": 
-                            if (!_stringVaildHelper.VaildAreaCodePhoneNo(signupModel.AreaCode , signupModel.PhoneNo))
+                        case "+55":
+                            if (!_stringVaildHelper.VaildAreaCodePhoneNo(signupModel.AreaCode, signupModel.PhoneNo))
                             {
                                 var message = signupModel.AreaCode switch
                                 {
@@ -490,14 +490,14 @@ public class SiteBll
                             break;
                     }
                 }
-                
+
                 break;
         }
-        
+
         return true;
     }
-     
-    private void AfterSignUp(SiteController.SignupModel signupModel ,string fromUrl, string userAgent, int deviceType, int result , int custId ,ApiResult apiResult ,out Customer customer)
+
+    private void AfterSignUp(SiteController.SignupModel signupModel, string fromUrl, string userAgent, int deviceType, int result, int custId, ApiResult apiResult, out Customer customer)
     {
         customer = null;
 
@@ -599,6 +599,6 @@ public class SiteBll
                 }
         }
     }
-    
-   
+
+
 }

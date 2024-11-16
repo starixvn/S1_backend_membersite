@@ -31,11 +31,15 @@ namespace MemberSite.Service.Model
 
     public class AssessmentRequest
     {
+        public int SiteId { get; set; }
+        public string MainDomain { get; set; } = string.Empty;
         public string Token { get; set; } = string.Empty;
         public string Action { get; set; } = string.Empty;
 
-        public AssessmentRequest(string token, string action)
+        public AssessmentRequest(int siteId, string mainDomain, string token, string action)
         {
+            SiteId = siteId;
+            MainDomain = mainDomain;
             Token = token;
             Action = action;
         }
