@@ -243,12 +243,12 @@ public class SiteBll
                 apiResult.Message = $"missing. {_selLangBll.GetMsg("msg_RecaptchaError")}";
                 return false;
             }
-            var verifyResult = _recaptcha.CreateAssessmentAsync(new AssessmentRequest(signupModel.ReCaptchaToken, signupModel.ReCaptchaAction)).Result;
+            var verifyResult = _recaptcha.CreateAssessmentAsync(new AssessmentRequest(serverInfo.SiteId, _serverInfoBll.GetMainDomain(), signupModel.ReCaptchaToken, signupModel.ReCaptchaAction)).Result;
             _logger.LogInformation($"reCaptcha verify result={JsonConvert.SerializeObject(verifyResult)}");
             if (!verifyResult.success)
             {
                 apiResult.ErrorCode = -1;
-                apiResult.Message = $"{_selLangBll.GetMsg("msg_RecaptchaError")}"; 
+                apiResult.Message = $"{_selLangBll.GetMsg("msg_RecaptchaError")}";
                 return false;
             }
         }
