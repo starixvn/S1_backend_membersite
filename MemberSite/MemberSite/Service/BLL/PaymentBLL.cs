@@ -686,13 +686,7 @@ namespace MemberSite.Service.BLL
             using var client = new HttpClient();
             var url = $"{_awsDepositUrl}deposit/{transId}_{receiptNo}.png";
             var picUrl = new RedirectResult(url).Url;
-            var picRsp = client.GetAsync(picUrl).Result;
-            if (picRsp.StatusCode == HttpStatusCode.OK)
-            {
-                return picUrl;
-            }
-
-            return null;
+            return picUrl;
         }
 
         public decimal GetWithdrawalAvailableBalance(int custId)
