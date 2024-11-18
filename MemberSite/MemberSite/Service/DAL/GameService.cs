@@ -19,17 +19,29 @@ namespace MemberSite.Service.DAL
         {
             return _reportDbClient.QueryAsync<TpGameIdListData>("Member_TpGameId_Get", null);
         }
-        
-        public Task<IEnumerable<LobbyHeaderData>> GetLobbyHeader(GetLobbyHeaderRequest req , List<int> statusList)
+
+        public Task<IEnumerable<LobbyHeaderData>> GetLobbyHeader(GetLobbyHeaderRequest req, List<int> statusList)
         {
-            return _reportDbClient.QueryAsync<LobbyHeaderData>("Member_HeaderMenu_Get", 
-                new { 
-                    _SiteId = req.SiteId, 
+            return _reportDbClient.QueryAsync<LobbyHeaderData>("Member_HeaderMenu_Get",
+                new
+                {
+                    _SiteId = req.SiteId,
                     _CurrencyId = req.CurrencyId,
                     StatusJson = JsonConvert.SerializeObject(statusList)
                 });
         }
-        
+
+        public Task<IEnumerable<LobbyHeaderData>> GetLobbyGame(GetLobbyGameRequest req)
+        {
+            return _reportDbClient.QueryAsync<LobbyHeaderData>("Member_LobbyGames_Get",
+                new
+                {
+                    _SiteId = req.SiteId,
+                    _CurrencyId = req.CurrencyId,
+                    _LobbyCategoryIds = req.LobbyCategoryIds
+                });
+        }
+
         public Task<LobbyHeaderSequenceData> GetLobbyHeaderSequence(GetLobbyHeaderRequest req)
         {
             return _reportDbClient.QueryFirstAsync<LobbyHeaderSequenceData>("Member_LobbyHeaderSequence_Get", new { _SiteId = req.SiteId, _CurrencyId = req.CurrencyId });

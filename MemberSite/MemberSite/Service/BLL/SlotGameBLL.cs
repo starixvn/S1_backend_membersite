@@ -1,11 +1,11 @@
-﻿using MemberSite.Service.DAL;
+﻿using System.Security.Claims;
+using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Game;
 using MemberSite.Service.Model.Lobby;
 using Newtonsoft.Json;
-using System.Security.Claims;
 
 namespace MemberSite.Service.BLL
 {
@@ -125,22 +125,30 @@ namespace MemberSite.Service.BLL
                 statusList.Add(3);
             }
 
-            var key = $"GetSlotGameListV2:{_isStage}:{currencyId}:{siteId}:{deviceType}";
-            var result = await _cacheHelper.TryGetOrCreateAsync(key,
-                TimeSpan.FromMinutes(15), //設定過期15分鐘，
-                async () =>
-                {
-                    // PRD環境由Hangfire每五分鐘定期更新
-                    // 此部分預防Redis異常，與處理RLS環境的快取
-                    var result = await _reportDbClient.QueryAsync<SlotGameInfo>("Service_SlotGame_Get", new
-                    {
-                        CurrencyId = currencyId,
-                        SiteId = siteId,
-                        DeviceType = deviceType,
-                        StatusJson = JsonConvert.SerializeObject(statusList)
-                    });
-                    return result;
-                });
+            //var key = $"GetSlotGameListV2:{_isStage}:{currencyId}:{siteId}:{deviceType}";
+            //var result = await _cacheHelper.TryGetOrCreateAsync(key,
+            //    TimeSpan.FromMinutes(15), //設定過期15分鐘，
+            //    async () =>
+            //    {
+            //        // PRD環境由Hangfire每五分鐘定期更新
+            //        // 此部分預防Redis異常，與處理RLS環境的快取
+            //        var result = await _reportDbClient.QueryAsync<SlotGameInfo>("Service_SlotGame_Get", new
+            //        {
+            //            CurrencyId = currencyId,
+            //            SiteId = siteId,
+            //            DeviceType = deviceType,
+            //            StatusJson = JsonConvert.SerializeObject(statusList)
+            //        });
+            //        return result;
+            //    });
+
+            var result = await _reportDbClient.QueryAsync<SlotGameInfo>("Service_SlotGame_Get", new
+            {
+                CurrencyId = currencyId,
+                SiteId = siteId,
+                DeviceType = deviceType,
+                StatusJson = JsonConvert.SerializeObject(statusList)
+            });
             return result.ToList();
         }
 

@@ -1,10 +1,10 @@
-﻿using MemberSite.Service.DAL;
+﻿using System.Web;
+using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Game;
 using Newtonsoft.Json;
-using System.Web;
 
 namespace MemberSite.Service.BLL
 {
@@ -135,16 +135,48 @@ namespace MemberSite.Service.BLL
         {
             var deviceType = _tools.GetDeviceId(_tools.GetFromUrl());
 
-            var key = $"GetLobbyHeader:{_isStage}:{deviceType}:{req.SiteId}:{req.CurrencyId}";
-            var result = await _cacheHelper.TryGetOrCreateAsync(key,
-                TimeSpan.FromMinutes(5),
-                async () =>
-                {
-                    var result = await GetLobbyHeaderDetail(req, serverInfo, deviceType);
-                    return result;
-                });
+            //var key = $"GetLobbyHeader:{_isStage}:{deviceType}:{req.SiteId}:{req.CurrencyId}";
+            //var result = await _cacheHelper.TryGetOrCreateAsync(key,
+            //    TimeSpan.FromMinutes(5),
+            //    async () =>
+            //    {
+            //        var result = await GetLobbyHeaderDetail(req, serverInfo, deviceType);
+            //        return result;
+            //    });
+            var result = await GetLobbyHeaderDetail(req, serverInfo, deviceType);
 
             return result;
+        }
+
+        public async Task<LobbyGameResponse> GetLobbyGame(GetLobbyGameRequest req, ServerInfo serverInfo)
+        {
+            var deviceType = _tools.GetDeviceId(_tools.GetFromUrl());
+
+            //var key = $"GetLobbyGame:{_isStage}:{deviceType}:{req.SiteId}:{req.CurrencyId}:{req.LobbyCategoryIds}";
+            //var result = await _cacheHelper.TryGetOrCreateAsync(key,
+            //    TimeSpan.FromMinutes(5),
+            //    async () =>
+            //    {
+            //        var result = await _gameService.GetLobbyGame(req);
+            //        return result;
+            //    });
+            var result = await _gameService.GetLobbyGame(req);
+            var resultVendor = result.GroupBy(test => test.TpId).Select(grp => grp.First());
+            var providerList = resultVendor.Select(item => new GameProvider
+            {
+                TpId = item.TpId,
+                TpName = item.TpName,
+                TpGameType = item.TpGameType,
+                DisplayText = item.DisplayText,
+                OpenPath = _openPathList.TryGetValue(item.TpId, out var openPath) ? openPath : null,
+                ImgName = $"{item.TpCategory}_{item.TpName}".ToLower()
+            });
+
+            return new LobbyGameResponse
+            {
+                ProviderList = providerList.ToList(),
+                Data = result
+            };
         }
 
         private async Task<IEnumerable<LobbyHeaderResponse>> GetLobbyHeaderDetail(GetLobbyHeaderRequest req, ServerInfo serverInfo, DeviceId deviceType)

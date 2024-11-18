@@ -77,7 +77,7 @@ namespace MemberSite.Controllers.Api
                 };
             }
         }
-        
+
         [HttpPost]
         public async Task<ApiResult<IEnumerable<LobbyHeaderResponse>>> GetLobbyHeader(GetLobbyHeaderRequest request)
         {
@@ -85,7 +85,7 @@ namespace MemberSite.Controllers.Api
             {
                 var serverInfo = _serverInfoBll.GetServerInfo();
                 var data = await _gameBll.GetLobbyHeader(request, serverInfo);
-                
+
                 return new ApiResult<IEnumerable<LobbyHeaderResponse>>
                 {
                     ErrorCode = (int)ErrorCode.Success,
@@ -96,6 +96,32 @@ namespace MemberSite.Controllers.Api
             {
                 _logger.LogError(ex, ex.Message);
                 return new ApiResult<IEnumerable<LobbyHeaderResponse>>
+                {
+                    ErrorCode = (int)ErrorCode.SystemException,
+                    Message = ex.Message,
+                };
+            }
+        }
+
+        [HttpPost]
+        public async Task<ApiResult<LobbyGameResponse>> GetLobbyGame(GetLobbyGameRequest request)
+        {
+            try
+            {
+                request.LobbyCategoryIds = "7";
+                var serverInfo = _serverInfoBll.GetServerInfo();
+                var data = await _gameBll.GetLobbyGame(request, serverInfo);
+
+                return new ApiResult<LobbyGameResponse>
+                {
+                    ErrorCode = (int)ErrorCode.Success,
+                    Data = data
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                return new ApiResult<LobbyGameResponse>
                 {
                     ErrorCode = (int)ErrorCode.SystemException,
                     Message = ex.Message,

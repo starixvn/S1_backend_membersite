@@ -8,10 +8,23 @@ namespace MemberSite.Service.Model.Game
         public int CurrencyId { get; set; }
     }
 
+    public class GetLobbyGameRequest
+    {
+        public int SiteId { get; set; }
+        public int CurrencyId { get; set; }
+        public string LobbyCategoryIds { get; set; }
+    }
+
     public class LobbyHeaderResponse
     {
         public int LobbyCategoryId { get; set; }
         public IEnumerable<LobbyHeaderDetail> Data { get; set; }
+    }
+
+    public class LobbyGameResponse
+    {
+        public List<GameProvider> ProviderList { get; set; } = new List<GameProvider>();
+        public IEnumerable<LobbyHeaderData> Data { get; set; }
     }
 
     public class LobbyHeaderDetail
@@ -48,6 +61,8 @@ namespace MemberSite.Service.Model.Game
         public string CurrencyGameName { get; set; }
         public string GameId { get; set; }
         public int TpGameType { get; set; }
+        public string TpCategory { get; set; }
+        public string DisplayText { get; set; }
         public string BetType { get; set; }
         public HeaderIconTypeEnum IconType { get; set; }
         public DateTime IconStartTime { get; set; }
