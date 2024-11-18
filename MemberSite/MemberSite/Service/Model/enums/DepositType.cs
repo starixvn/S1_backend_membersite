@@ -24,6 +24,9 @@ namespace MemberSite.Service.Model.enums
         [Description("ChatTransfer")]
         ChatTransfer = 10,
         [Description("DigitalWallet")]
-        DigitalWallet = 11
+        DigitalWallet = 11,
+        // 假的Type，只有MemberSite顯示連結用
+        [Description("LinePay")]
+        LinePay = 99
     }
 }

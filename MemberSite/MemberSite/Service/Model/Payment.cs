@@ -71,8 +71,16 @@ namespace MemberSite.Service.Model
         [DicIgnore]
         public string AmountShow { get; set; }
         [DicIgnore]
-        public IEnumerable<decimal> AmountList => AmountShow == null
-            ? null : JsonConvert.DeserializeObject<IEnumerable<decimal>>(AmountShow);
+        public IEnumerable<decimal> AmountList
+        {
+            get
+            {
+                if (AmountShow == null)
+                    return null;
+                
+                return JsonConvert.DeserializeObject<IEnumerable<decimal>>(AmountShow);
+            }
+        }
         [DicIgnore]
         public int GSort { get; set; }
         [DicIgnore]

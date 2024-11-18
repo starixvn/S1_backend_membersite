@@ -50,6 +50,46 @@ namespace MemberSite.Service.BLL
             
             return _payInfoLocalizeBll.PayChannelNameLocalization(dbData, lang);
         }
+
+        public IDictionary<string, PayMethod> GetBankTransferMethods(int custId)
+        {
+            var code = CommonExtension.GenerateRandomNumber();
+            var data = _bankInfoOffBll.GetBankInfoOffListWithCache(custId)
+            .Select(x => new OfflineBankInfo
+            {
+                SysId = x.SysId,
+                BankName = x.BankName,
+                BankCode = x.BankCode,
+                BankLogo = x.BankLogo,
+                MaxAmount = x.MaxAmount,
+                MinAmount = x.MinAmount,
+                CanSubmit = x.CanSubmit,
+                BankAccountInfo = new OfflineBankAccount
+                {
+                    BankId = x.BankId,
+                    AccountNo = x.AccountNo,
+                    AccountName = x.AccountName,
+                    QrCodeUrl = x.QRCodeUrl,
+                    Code = code
+                },
+                DepositType = DepositType.LocalBank
+            });
+
+            return new Dictionary<string, PayMethod>
+            {
+                { DepositType.LocalBank.GetDescription(), new PayMethod(data) }
+            };
+        }
+
+        public IDictionary<string, PayMethod> GetLinePayMethods(int siteId, int currencyId)
+        {
+            var line = _bankInfoBll.GetLineChannel(siteId, currencyId);
+            
+            return new Dictionary<string, PayMethod>
+            {
+                { DepositType.LinePay.GetDescription(), new PayMethod(new LinePay(line?.Link)) }
+            };
+        }
         
         private readonly Dictionary<DepositType, OfflineBankAccountSupportChannelEnum> _dicSupportChannelMapper
             = new()
@@ -64,28 +104,8 @@ namespace MemberSite.Service.BLL
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var result = new Dictionary<string, PayMethod>();
 
-            var code = CommonExtension.GenerateRandomNumber();
-            var bankTransferData = _bankInfoOffBll.GetBankInfoOffListWithCache(custInfo.CustId)
-                .Select(x => new OfflineBankInfo
-                {
-                    SysId = x.SysId,
-                    BankName = x.BankName,
-                    BankCode = x.BankCode,
-                    BankLogo = x.BankLogo,
-                    MaxAmount = x.MaxAmount,
-                    MinAmount = x.MinAmount,
-                    CanSubmit = x.CanSubmit,
-                    BankAccountInfo = new OfflineBankAccount
-                    {
-                        BankId = x.BankId,
-                        AccountNo = x.AccountNo,
-                        AccountName = x.AccountName,
-                        QrCodeUrl = x.QRCodeUrl,
-                        Code = code
-                    },
-                    DepositType = DepositType.LocalBank
-                });
-            result.Add("BankTransfer", new PayMethod(bankTransferData));
+            var bankTransferData = GetBankTransferMethods(custInfo.CustId);
+            result.AddRange(bankTransferData);
 
             var depositTypes = new[]
             {
@@ -97,15 +117,16 @@ namespace MemberSite.Service.BLL
 
             result.AddRange(GetOnlineBankMethods(depositTypes, custId));
 
-            var line = _bankInfoBll.GetLineChannel(custInfo.SiteId, custInfo.CurrencyId);
-            result.Add("LinePay", new PayMethod(new LinePay(line?.Link)));
+            var lineData = GetLinePayMethods(custInfo.SiteId, custInfo.CurrencyId);
+            result.AddRange(lineData);
 
             depositTypes = new[]
                 {
                     DepositType.MobilePayment,
                     DepositType.LoadCardPayment,
                     DepositType.CryptoPayment,
-                    DepositType.QrPayPayment
+                    DepositType.QrPayPayment,
+                    DepositType.DigitalWallet
                 };
 
             result.AddRange(GetGenericPayMethods(depositTypes, custId));
