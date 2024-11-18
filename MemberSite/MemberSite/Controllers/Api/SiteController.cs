@@ -1,10 +1,3 @@
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Net;
-using System.Net.Sockets;
-using System.Security.Claims;
-using System.Text.RegularExpressions;
-using MemberSite.Attributes;
 using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
@@ -12,10 +5,13 @@ using MemberSite.Service.Model.enums;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using static MemberSite.Controllers.Api.SiteController;
+using System.IdentityModel.Tokens.Jwt;
+using System.Net;
+using System.Net.Sockets;
+using System.Security.Claims;
+using System.Text.RegularExpressions;
 using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
@@ -94,9 +90,9 @@ namespace MemberSite.Controllers.Api
         {
             public string AreaCode { get; set; }
             public string PhoneNo { get; set; }
-            public string AreaPhoneNo  =>  $"{AreaCode}{PhoneNo}";
+            public string AreaPhoneNo => $"{AreaCode}{PhoneNo}";
         }
-        
+
         [HttpPost]
         //[TypeFilter(typeof(PublicAuthAttribute))]
         public async Task<ApiResult> SignIn(LoginModel loginModel)
@@ -118,7 +114,7 @@ namespace MemberSite.Controllers.Api
                 Request.Headers["User-Agent"], deviceType, ref customer, out var token);
 
             await AfterLogin(userLoginResult, loginModel, ip, customer, token, apiResult);
-            
+
             return apiResult;
         }
 
@@ -218,7 +214,7 @@ namespace MemberSite.Controllers.Api
         //[TypeFilter(typeof(PublicAuthAttribute))]
         public async Task<ApiResult> SignInPhone(LoginPhoneModel loginModel)
         {
-            var apiResult = new ApiResult(_selLangBll);   
+            var apiResult = new ApiResult(_selLangBll);
 
             loginModel.UserName = $"P{loginModel.AreaPhoneNo.Trim('+')}";
             if (!_regexUserName.IsMatch(loginModel.UserName))
@@ -236,7 +232,7 @@ namespace MemberSite.Controllers.Api
                 Request.Headers["User-Agent"], deviceType, ref customer, out var token);
 
             await AfterLogin(userLoginResult, loginModel, ip, customer, token, apiResult);
-            
+
             return apiResult;
         }
 
@@ -272,7 +268,7 @@ namespace MemberSite.Controllers.Api
                 return;
             }
 
-            var claims = new List<Claim> 
+            var claims = new List<Claim>
             {
                 new(ClaimTypes.Name,customer.UserName ),
                 new(ClaimTypes.NameIdentifier,customer.CustId.ToString() ),
@@ -329,7 +325,7 @@ namespace MemberSite.Controllers.Api
             apiResult.Message = Url.RouteUrl("desktop", new { action = Request.RouteValues["action"], controller = Request.RouteValues["controller"], LangId = _selLangBll.GetLangId() });
             apiResult.ErrorCode = 0;
         }
-        
+
         public class RegisteredModel
         {
             public string UserName { get; set; }
@@ -352,7 +348,7 @@ namespace MemberSite.Controllers.Api
             public string ReferralUrl { get; set; }
             public string PhoneNo { get; set; }
             public string AreaCode { get; set; }
-            public string AreaPhoneNo  =>  $"{AreaCode}{PhoneNo}";
+            public string AreaPhoneNo => $"{AreaCode}{PhoneNo}";
             public string Nationality { get; set; }
             public string RealName { get; set; }
             public string PromoCode { get; set; }
@@ -406,7 +402,7 @@ namespace MemberSite.Controllers.Api
             public string AreaCode { get; set; }
             public string PhoneNo { get; set; }
         }
-        
+
         [HttpPost]
         public async Task<ApiResult> SignupAsync(SignupModel signupModel)
         {
@@ -517,9 +513,9 @@ namespace MemberSite.Controllers.Api
                 AccountNo = signupRequest.AccountNo,
                 IFSCCode = signupRequest.IFSCCode,
             };
-            
-            var customer = _siteBll.SignupPhone(signupRequest.OtpNum ,signupModel, apiResult, isAuthenticated, _tools.GetFromUrl(), Request.Headers["User-Agent"], false);
-            
+
+            var customer = _siteBll.SignupPhone(signupRequest.OtpNum, signupModel, apiResult, isAuthenticated, _tools.GetFromUrl(), Request.Headers["User-Agent"], false);
+
             if (apiResult.ErrorCode == (int)ErrorCode.Attack)
             {
                 Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
@@ -541,7 +537,7 @@ namespace MemberSite.Controllers.Api
             await _cacheHelper.StringFireAndForgetSetAsync(customer.CustId.ToString(), customer.Token, TimeSpan.FromMinutes(1), RedisDataBase.Token);
             return apiResult;
         }
-        
+
         [HttpPost]
         //只給Ivorysport使用
         public async Task<ApiResult> IvorysportSignupAsync([FromForm] IvorysportSignupModel signupModel)
@@ -568,7 +564,7 @@ namespace MemberSite.Controllers.Api
             }
 
             if (apiResult.ErrorCode != 0 || customer == null) return apiResult;
-            
+
             var claims = new List<Claim>
             {
                 new(ClaimTypes.Name, customer.UserName),
@@ -583,15 +579,15 @@ namespace MemberSite.Controllers.Api
             await _cacheHelper.StringFireAndForgetSetAsync(customer.CustId.ToString(), customer.Token, TimeSpan.FromMinutes(30), RedisDataBase.Token);
             return apiResult;
         }
-        
+
         [HttpPost]
         public async Task<ApiResult<SendOTPSMSResult>> SendSignUpOTPSMSAsync(SendSignUpOTPRequest request)
         {
-            var apiResult = await _commonBll.SendSignUpOTPSMSAsync(request.SiteId ,request.CurrencyId ,request.UserLang ,request.AreaCode ,request.PhoneNo);
-            
+            var apiResult = await _commonBll.SendSignUpOTPSMSAsync(request.SiteId, request.CurrencyId, request.UserLang, request.AreaCode, request.PhoneNo);
+
             return apiResult;
         }
-        
+
         [HttpPost]
         public ApiResult<bool> ExistsUserName(RegisteredModel registeredModel)
         {
@@ -902,7 +898,7 @@ namespace MemberSite.Controllers.Api
                 result.Data = datas;
                 result.ErrorCode = 0;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 result.ErrorCode = 999;
             }
@@ -1504,7 +1500,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        [EnableCors("SocialChannel")]
+        //[EnableCors("SocialChannel")]
         public async Task<ApiResult<IEnumerable<SocialChannelResponse>>> GetSocialChannel(SocialChannelRequest request,
             [FromRoute] string langId = "en")
         {
