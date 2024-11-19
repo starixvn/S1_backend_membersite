@@ -14,9 +14,9 @@ namespace MemberSite.Service.BLL
             _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
         }
 
-        public async Task<IEnumerable<string>> GetCustNotification(int NotificationType, int CustId)
+        public async Task<IEnumerable<CustNotificationModel>> GetCustNotification(int NotificationType, int CustId)
         {
-            return await _reportDbClient.QueryAsync<string>("Service_CustNotification_Check", new { NotificationType , CustId });
+            return await _reportDbClient.QueryAsync<CustNotificationModel>("Service_CustNotification_Check_V2", new { NotificationType , CustId });
         }
 
         public async Task<int> SetCustNotification(int NotificationType, int CustId, string TransId)
