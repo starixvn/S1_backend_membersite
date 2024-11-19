@@ -295,6 +295,7 @@ namespace MemberSite.Service.Model
     }
     public class DepositReferralDao
     {
+        public int Id { get; set; }
         public DateTime SettledDate { get; set; }
         public string UserName { get; set; }
         public string CurrencyName { get; set; }
