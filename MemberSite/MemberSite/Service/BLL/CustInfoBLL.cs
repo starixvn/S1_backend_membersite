@@ -380,6 +380,12 @@ namespace MemberSite.Service.BLL
             return _custInfoService.InsertCustBankInfo(custId, custInfo.SiteId, accountName, sysId, accountNum, iFSCCode, status) ? 0 : -1;
         }
 
+        public int SetCustSetting(int custId,int financeNotification,int soundEffects)
+        {
+            var custInfo = GetCustInfoWithCache(custId);
+            return _custInfoService.SetCustSetting(custId, custInfo.SiteId, financeNotification, soundEffects) ? 0 : -1;
+        }
+
         public int SetCustUSDTInfo(int custId, string accountName, IEnumerable<CryptoWalletDetail> uSDTInfo, IEnumerable<CryptoWalletDetailLog> uSDTInfoLog)
         {
             var custInfo = GetCustInfoWithCache(custId);
