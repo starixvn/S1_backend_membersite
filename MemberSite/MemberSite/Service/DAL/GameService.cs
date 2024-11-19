@@ -38,7 +38,8 @@ namespace MemberSite.Service.DAL
                 {
                     _SiteId = req.SiteId,
                     _CurrencyId = req.CurrencyId,
-                    _LobbyCategoryIds = req.LobbyCategoryIds
+                    _LobbyCategoryIds = req.LobbyCategoryIds,
+                    _LangId = req.LangId
                 });
         }
 

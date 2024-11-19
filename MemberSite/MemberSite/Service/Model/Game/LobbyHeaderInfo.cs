@@ -13,6 +13,7 @@ namespace MemberSite.Service.Model.Game
         public int SiteId { get; set; }
         public int CurrencyId { get; set; }
         public string LobbyCategoryIds { get; set; }
+        public string LangId { get; set; }
     }
 
     public class LobbyHeaderResponse
@@ -24,7 +25,37 @@ namespace MemberSite.Service.Model.Game
     public class LobbyGameResponse
     {
         public List<GameProvider> ProviderList { get; set; } = new List<GameProvider>();
-        public IEnumerable<LobbyHeaderData> Data { get; set; }
+        public List<LobbyHeaderData> All { get; set; } = new List<LobbyHeaderData>();
+        public List<LobbyHeaderData> RecentlyPlayed { get; set; } = new List<LobbyHeaderData>();
+        public List<LobbyHeaderData> New { get; set; } = new List<LobbyHeaderData>();
+        public List<LobbyHeaderData> MyFavorite { get; set; } = new List<LobbyHeaderData>();
+
+        public void SetSlotGameCategory(List<LobbyHeaderData> slotGameList, List<UserGameInfo> favorite, List<UserGameInfo> recentlyPlayed)
+        {
+            var checkTime = DateTime.UtcNow.AddMonths(-1);
+            All = slotGameList;
+
+            foreach (var game in slotGameList)
+            {
+                if (game.LaunchDate > checkTime)
+                {
+                    New.Add(game);
+                }
+
+                // MyFavorite
+                if (favorite != null && favorite.Exists(i => i.TpId == game.TpId && i.GameId == game.GameId))
+                {
+                    MyFavorite.Add(game);
+                }
+
+                // RecentlyPlayed
+                if (recentlyPlayed != null && recentlyPlayed.Exists(i => i.TpId == game.TpId && i.GameId == game.GameId))
+                {
+                    RecentlyPlayed.Add(game);
+                }
+
+            }
+        }
     }
 
     public class LobbyHeaderDetail
@@ -67,6 +98,7 @@ namespace MemberSite.Service.Model.Game
         public HeaderIconTypeEnum IconType { get; set; }
         public DateTime IconStartTime { get; set; }
         public DateTime IconEndTime { get; set; }
+        public DateTime LaunchDate { get; set; }
         public int Sort { get; set; }
         public string ImgProductName => ProductName.ToLower().Replace(" ", "-");
     }

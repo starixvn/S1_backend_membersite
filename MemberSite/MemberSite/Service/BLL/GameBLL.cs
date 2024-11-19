@@ -172,11 +172,12 @@ namespace MemberSite.Service.BLL
                 ImgName = $"{item.TpCategory}_{item.TpName}".ToLower()
             });
 
-            return new LobbyGameResponse
+            var lobbyGameResponse = new LobbyGameResponse
             {
-                ProviderList = providerList.ToList(),
-                Data = result
+                ProviderList = providerList.ToList()
             };
+            lobbyGameResponse.SetSlotGameCategory(result.ToList(), new List<UserGameInfo>(), new List<UserGameInfo>());
+            return lobbyGameResponse;
         }
 
         private async Task<IEnumerable<LobbyHeaderResponse>> GetLobbyHeaderDetail(GetLobbyHeaderRequest req, ServerInfo serverInfo, DeviceId deviceType)
