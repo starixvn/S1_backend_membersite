@@ -60,6 +60,11 @@ namespace MemberSite.Service.BLL
 
         public async Task<bool> CheckAttackForSignup()
         {
+            if (_config.GetValue<bool>("DisableIpChecking"))
+            {
+                return false;
+            }
+
             var clientIp = _tools.GetClientIP();
             if (_ipHelper.IpInRange(clientIp) || clientIp == "18.139.199.197")
             {
