@@ -49,13 +49,13 @@ namespace MemberSite.Service.DAL
             p.Add("_CurrencyId", currencyId);
             return await _reportDb.QueryFirstAsync<ReferralSettingDetailData>("Member_ReferralSetting_Get_V3", p);
         }
-        public void GetReferralSummary(int custId, ReferralTypeEnum type, out int referralCount, out int conditionCount, out int amountCount, out int amountSum, out int hasReferral)
+        public void GetReferralSummary(int custId, ReferralTypeEnum type, out int referralCount, out int conditionCount, out int amountCount, out decimal amountSum, out int hasReferral)
         {
             var p = new DynamicParameters(new { CustId = custId });
             p.Add("ReferralCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
             p.Add("ConditionCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
             p.Add("AmountCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
-            p.Add("AmountSum", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            p.Add("AmountSum", dbType: DbType.Decimal, direction: ParameterDirection.Output);
             p.Add("HasReferral", dbType: DbType.Int32, direction: ParameterDirection.Output);
             if (type == ReferralTypeEnum.Referral)
                 _reportDb.Execute("Member_ReferralSummary_Get", p);
@@ -64,7 +64,7 @@ namespace MemberSite.Service.DAL
             referralCount = p.Get<int?>("ReferralCount") ?? 0;
             conditionCount = p.Get<int?>("ConditionCount") ?? 0;
             amountCount = p.Get<int?>("AmountCount") ?? 0;
-            amountSum = p.Get<int?>("AmountSum") ?? 0;
+            amountSum = p.Get<decimal?>("AmountSum") ?? 0;
             hasReferral = p.Get<int?>("HasReferral") ?? 0;
         }
         public IEnumerable<ReferralFriend> GetRefFriendList(int custId, long? StartDate, long? EndDate, int PageSize, ref int PageNumber, ref int TotalPages, ref int RowCount)

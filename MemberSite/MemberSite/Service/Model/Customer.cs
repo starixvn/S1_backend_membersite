@@ -260,7 +260,7 @@ namespace MemberSite.Service.Model
         public int ReferralCount { get; set; }
         public int ConditionCount { get; set; }
         public int AmountCount { get; set; }
-        public int AmountSum { get; set; }
+        public decimal AmountSum { get; set; }
         public bool HasReferral { get; set; }
 
     }
