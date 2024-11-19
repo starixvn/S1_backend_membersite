@@ -11,21 +11,21 @@ namespace MemberSite.Service.BLL
         private readonly IpHelper _ipHelper;
         private readonly ICacheHelper _cacheHelper;
         private readonly IPBLL _iPBll;
-        private readonly IWebHostEnvironment _environment;
+        private readonly IConfiguration _config;
 
-        public CheckAttackBLL(IServiceProvider provider)
+        public CheckAttackBLL(IServiceProvider provider, IConfiguration config)
         {
             _logger = provider.GetRequiredService<ILogger<CheckAttackBLL>>();
             _tools = provider.GetRequiredService<Tools>();
             _ipHelper = provider.GetRequiredService<IpHelper>();
             _cacheHelper = provider.GetRequiredService<ICacheHelper>();
             _iPBll = provider.GetRequiredService<IPBLL>();
-            _environment = provider.GetRequiredService<IWebHostEnvironment>();
+            _config = config;
         }
 
         public async Task<bool> CheckAttackIp(HttpRequest Request, int limitCount)
         {
-            if (_environment.EnvironmentName is "LOCAL")
+            if (_config.GetValue<bool>("DisableIpChecking"))
             {
                 return false;
             }
