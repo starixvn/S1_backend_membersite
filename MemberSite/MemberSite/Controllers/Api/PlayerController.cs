@@ -63,11 +63,11 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        public async Task<ApiResult<IEnumerable<string>>> GetCustNotification(CustNotificationReq req)
+        public async Task<ApiResult<IEnumerable<CustNotificationModel>>> GetCustNotification(CustNotificationReq req)
         {
-            var apiResult = new ApiResult<IEnumerable<string>>
+            var apiResult = new ApiResult<IEnumerable<CustNotificationModel>>
             {
-                Data = new List<string>(),
+                Data = new List<CustNotificationModel>(),
                 ErrorCode = (int)ErrorCode.Success
             };
 
