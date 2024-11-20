@@ -1,4 +1,5 @@
 ﻿using MemberSite.Service.BLL.Interface;
+using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using Newtonsoft.Json;
 
@@ -6,11 +7,11 @@ namespace MemberSite.Service.BLL;
 
 public class CloudflareTurnstileApi : IRecaptchaApi
 {
-    private readonly HttpClient _httpClient;
+    private readonly CourierAdapter _courierAdapter;
     private readonly ILogger<CloudflareTurnstileApi> _logger;
-    public CloudflareTurnstileApi(IServiceProvider provider, HttpClient httpClient)
+    public CloudflareTurnstileApi(IServiceProvider provider)
     {
-        _httpClient = httpClient;
+        _courierAdapter = provider.GetRequiredService<CourierAdapter>();
         _logger = provider.GetRequiredService<ILogger<CloudflareTurnstileApi>>();
     }
 
@@ -23,13 +24,14 @@ public class CloudflareTurnstileApi : IRecaptchaApi
         };
 
         var content = new FormUrlEncodedContent(values);
-        var response = _httpClient.PostAsync(url, content).Result;
-        var responseString = response.Content.ReadAsStringAsync().Result;
-        var responseModel = JsonConvert.DeserializeObject<TurnstileResponse>(responseString);
+        //var response = _courierAdapter.PostAsync<TurnstileResponse, FormUrlEncodedContent>(url, content).Result;
+        //var responseString = response.Content.ReadAsStringAsync().Result;
+        //var responseModel = JsonConvert.DeserializeObject<TurnstileResponse>(responseString);
 
-        _logger.LogInformation($"CloudflareTurnstile Response:{responseString}");
+        // _logger.LogInformation($"CloudflareTurnstile Response:{responseString}");
 
-        return new CaptchaCommonResponse(responseModel);
+        return null;
+        //return new CaptchaCommonResponse(responseModel);
     }
 
 }
