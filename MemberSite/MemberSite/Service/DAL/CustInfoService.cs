@@ -120,15 +120,16 @@ namespace MemberSite.Service.DAL
                         profiler.Add("Birth_y", Birth_y.ToString());
                     }
 
-                    //Customer Setting Default Open
-                    profiler.Add("CustNotification","1");
-                    profiler.Add("SoundEffects","1");
-
                     if (!string.IsNullOrEmpty(nationality))
                     {
                         profiler.Add("Nationality", nationality);
                     }
 
+                    
+                    //Customer Setting Default Open
+                    profiler.Add("CustNotification","1");
+                    profiler.Add("SoundEffects","1");
+                    
                     var profile = profiler.Count <= 0 ? null : Newtonsoft.Json.JsonConvert.SerializeObject(profiler);
                     result = _mainDbClient.Execute("Member_CustProfile_Ins", trans, new DynamicParameters(new
                     {
