@@ -17,13 +17,13 @@ public class SiteBll
     private readonly Tools _tools;
     private readonly IAffiliateService _affiliateService;
     private readonly AgentInfoService _agentInfoService;
+
     private readonly StringVaildHelper _stringVaildHelper;
-    private readonly RecaptchaBLL _recaptcha;
+    private readonly CaptchaBLL _captchaBll;
     private readonly ServerInfoBll _serverInfoBll;
     private readonly CRMBLL _cRMBll;
     private readonly ILogger<SiteBll> _logger;
     private readonly IWebHostEnvironment _environment;
-    private readonly IEnumerable<int> _reCaptchaSiteConfig;
     private readonly Dictionary<int, int> _welComeMailConfig;
 
     public SiteBll(IServiceProvider provider)
@@ -36,13 +36,12 @@ public class SiteBll
         _stringVaildHelper = provider.GetRequiredService<StringVaildHelper>();
         _affiliateService = provider.GetRequiredService<IAffiliateService>();
         _agentInfoService = provider.GetRequiredService<AgentInfoService>();
-        _recaptcha = provider.GetRequiredService<RecaptchaBLL>();
+        _captchaBll = provider.GetRequiredService<CaptchaBLL>();
         _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
         _cRMBll = provider.GetRequiredService<CRMBLL>();
         _logger = provider.GetRequiredService<ILogger<SiteBll>>();
         _environment = provider.GetRequiredService<IWebHostEnvironment>();
         var configBll = provider.GetRequiredService<ConfigBLL>();
-        _reCaptchaSiteConfig = configBll.GetConfigValue<IEnumerable<int>>("ReCaptchaSite");
         _welComeMailConfig = provider.GetRequiredService<ConfigBLL>().GetConfigValuesBySiteId<int>("WelcomeEmail");
     }
 
@@ -200,6 +199,7 @@ public class SiteBll
             }
         }
 
+
         if (!_tools.CheckUserName(signupModel.UserName))
         {
             apiResult.ErrorCode = -2;
@@ -214,7 +214,7 @@ public class SiteBll
             return false;
         }
 
-        if (_reCaptchaSiteConfig.Any() && _reCaptchaSiteConfig.Contains(serverInfo.SiteId) && !string.IsNullOrWhiteSpace(signupModel.ReCaptchaToken))
+        if (!string.IsNullOrWhiteSpace(signupModel.ReCaptchaToken))
         {
             //Recaptcha Free Policy
             //var verifyResult = _recaptcha.Verify(signupModel.ReCaptchaToken);
@@ -225,9 +225,9 @@ public class SiteBll
                 apiResult.Message = $"missing. {_selLangBll.GetMsg("msg_RecaptchaError")}";
                 return false;
             }
-            var verifyResult = _recaptcha.CreateAssessmentAsync(new AssessmentRequest(serverInfo.SiteId, _serverInfoBll.GetMainDomain(), signupModel.ReCaptchaToken, signupModel.ReCaptchaAction)).Result;
-            _logger.LogInformation($"reCaptcha verify result={JsonConvert.SerializeObject(verifyResult)}");
-            if (!verifyResult.success)
+            var verifyResult = _captchaBll.VerifyAsync(signupModel.CapType,
+                new CaptchaCommonRequest(signupModel.ReCaptchaToken, signupModel.ReCaptchaAction, Model.enums.CaptchaActionType.signup)).Result;
+            if (!verifyResult)
             {
                 apiResult.ErrorCode = -1;
                 apiResult.Message = $"{_selLangBll.GetMsg("msg_RecaptchaError")}";

@@ -35,7 +35,7 @@ namespace MemberSite.Controllers.Api
         private readonly AuthBLL _authBll;
         private readonly ThirdPartyBll _thirdPartyBll;
         private readonly SiteBll _siteBll;
-        private readonly RecaptchaBLL _recaptchaBll;
+        private readonly CaptchaBLL _captchaBll;
         private readonly ILogger<SiteController> _logger;
         private readonly ICacheHelper _cacheHelper;
         private readonly CheckAttackBLL _checkAttackBll;
@@ -65,7 +65,7 @@ namespace MemberSite.Controllers.Api
             _authBll = provider.GetRequiredService<AuthBLL>();
             _thirdPartyBll = provider.GetRequiredService<ThirdPartyBll>();
             _siteBll = provider.GetRequiredService<SiteBll>();
-            _recaptchaBll = provider.GetRequiredService<RecaptchaBLL>();
+            _captchaBll = provider.GetRequiredService<CaptchaBLL>();
             _logger = provider.GetRequiredService<ILogger<SiteController>>();
             _cacheHelper = provider.GetRequiredService<ICacheHelper>();
             _checkAttackBll = provider.GetRequiredService<CheckAttackBLL>();
@@ -217,7 +217,7 @@ namespace MemberSite.Controllers.Api
         [TypeFilter(typeof(PublicAuthAttribute))]
         public async Task<ApiResult> SignInPhone(LoginPhoneModel loginModel)
         {
-            var apiResult = new ApiResult(_selLangBll);   
+            var apiResult = new ApiResult(_selLangBll);
 
             loginModel.UserName = $"P{loginModel.AreaPhoneNo.Trim('+')}";
             if (!_stringVaildHelper.VaildUserName(loginModel.UserName))
@@ -342,6 +342,7 @@ namespace MemberSite.Controllers.Api
             public string AffCode { get; set; }
             public string blackbox { get; set; }
             public string LineUserId { get; set; }
+            public CaptchaType CapType { get; set; }
             public string ReCaptchaToken { get; set; }
             public string ReCaptchaAction { get; set; }
         }
@@ -352,7 +353,7 @@ namespace MemberSite.Controllers.Api
             public string ReferralUrl { get; set; }
             public string PhoneNo { get; set; }
             public string AreaCode { get; set; }
-            public string AreaPhoneNo  =>  $"{AreaCode}{PhoneNo}";
+            public string AreaPhoneNo => $"{AreaCode}{PhoneNo}";
             public string Nationality { get; set; }
             public string RealName { get; set; }
             public string PromoCode { get; set; }
@@ -1525,13 +1526,25 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public async Task<ApiResult<RecaptchaSiteInfo>> GetRecaptchaInfo()
         {
-            var clientIp = _tools.GetClientIP();
-            var siteInfo = await _recaptchaBll.GetInfo(clientIp);
+            var siteInfo = await _captchaBll.GetInfo();
             var apiResult = new ApiResult<RecaptchaSiteInfo>()
             {
 
                 ErrorCode = 0,
                 Data = siteInfo
+            };
+            return apiResult;
+        }
+
+        [HttpPost]
+        public ApiResult<NumberCaptchaResult> GetNumberCaptcha(string action)
+        {
+            var clientIp = _tools.GetClientIP();
+            var numberCaptchaResult = _captchaBll.GetNumberCaptcha(clientIp, action);
+            var apiResult = new ApiResult<NumberCaptchaResult>()
+            {
+                ErrorCode = numberCaptchaResult == null ? 9000 : 0,
+                Data = numberCaptchaResult
             };
             return apiResult;
         }
