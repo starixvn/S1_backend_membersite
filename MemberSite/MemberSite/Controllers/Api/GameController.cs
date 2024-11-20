@@ -108,7 +108,6 @@ namespace MemberSite.Controllers.Api
         {
             try
             {
-                request.LobbyCategoryIds = "7";
                 var serverInfo = _serverInfoBll.GetServerInfo();
                 var data = await _gameBll.GetLobbyGame(request, serverInfo);
 
