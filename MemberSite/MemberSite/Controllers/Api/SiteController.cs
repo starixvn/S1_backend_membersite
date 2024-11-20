@@ -342,7 +342,7 @@ namespace MemberSite.Controllers.Api
             public string AffCode { get; set; }
             public string blackbox { get; set; }
             public string LineUserId { get; set; }
-            public CaptchaType CapType { get; set; }
+            public CaptchaType CapType { get; set; } = CaptchaType.GoogleRecaptcha;
             public string ReCaptchaToken { get; set; }
             public string ReCaptchaAction { get; set; }
         }
