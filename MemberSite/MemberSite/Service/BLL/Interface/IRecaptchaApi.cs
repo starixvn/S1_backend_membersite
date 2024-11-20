@@ -4,7 +4,7 @@ namespace MemberSite.Service.BLL.Interface
 {
     public interface IRecaptchaApi
     {
-        RecaptchaResponse Verify(string url, string secret, string token);
+        CaptchaCommonResponse Verify(string url, string secret, string token);
     }
 }
 

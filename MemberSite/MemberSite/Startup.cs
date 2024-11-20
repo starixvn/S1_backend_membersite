@@ -160,7 +160,6 @@ namespace MemberSite
             services.AddSingleton<LiveStreamingBll>();
             services.AddSingleton<VideoDataBll>();
             services.AddSingleton<GameBLL>();
-            services.AddTransient<IRecaptchaApi, RecaptchaApi>();
             services.AddTransient<ICustPhotoIdBLL, CustPhotoIdBLL>();
             services.AddTransient<AppLinkBLL>();
             services.AddTransient<FileNameBLL>();
@@ -175,7 +174,6 @@ namespace MemberSite
             services.AddSingleton<ShieldBLL>();
             services.AddTransient<CupEventBLL>();
             services.AddSingleton<SlotGameBLL>();
-            services.AddTransient<RecaptchaBLL>();
             services.AddTransient<CheckAttackBLL>();
             services.AddTransient<DateTimeHelper>();
             services.AddTransient<IAnnouncementBLL, AnnouncementBLL>();
@@ -194,7 +192,25 @@ namespace MemberSite
             services.AddSingleton<CustNotificationBLL>();
             services.AddSingleton<QuestionnaireBLL>();
             services.AddSingleton<CRMBLL>();
-
+            #region Captcha
+            services.AddSingleton<CaptchaBLL>();
+            services.AddSingleton<CloudflareTurnstileBLL>();
+            services.AddSingleton<NumberCaptchaBLL>();
+            services.AddTransient<GoogleRecaptchaBLL>();
+            //services.AddTransient<IRecaptchaApi, GoogleRecaptchaApi>();
+            //services.AddTransient<IRecaptchaApi, CloudflareTurnstileApi>();
+            services.AddTransient<GoogleRecaptchaApi>();
+            services.AddTransient<CloudflareTurnstileApi>();
+            services.AddTransient<Func<string, IRecaptchaApi>>(serviceProvider => key =>
+            {
+                return key switch
+                {
+                    "Google" => serviceProvider.GetRequiredService<GoogleRecaptchaApi>(),
+                    "Cloudflare" => serviceProvider.GetRequiredService<CloudflareTurnstileApi>(),
+                    _ => throw new ArgumentException($"Invalid Recaptcha type: {key}")
+                };
+            });
+            #endregion
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();
 
@@ -281,7 +297,7 @@ namespace MemberSite
             app.UseCors("LeaderBoard");
             app.UseAuthentication();
             app.UseAuthorization();
-            
+
             app.UseRequestLogMiddleware();
             app.UseResponseLogMiddleware();
             app.UseBlockMiddleware();

@@ -39,7 +39,7 @@ namespace MemberSite.Controllers.Api
         private readonly ThirdPartyBll _thirdPartyBll;
         private readonly SiteBll _siteBll;
         private readonly ICacheHelper _cacheHelper;
-        private readonly RecaptchaBLL _recaptchaBll;
+        private readonly CaptchaBLL _captchaBll;
         private readonly ILogger<SiteController> _logger;
         private readonly CheckAttackBLL _checkAttackBll;
         private readonly StringVaildHelper _stringVaildHelper;
@@ -69,7 +69,7 @@ namespace MemberSite.Controllers.Api
             _thirdPartyBll = provider.GetRequiredService<ThirdPartyBll>();
             _siteBll = provider.GetRequiredService<SiteBll>();
             _cacheHelper = provider.GetRequiredService<ICacheHelper>();
-            _recaptchaBll = provider.GetRequiredService<RecaptchaBLL>();
+            _captchaBll = provider.GetRequiredService<CaptchaBLL>();
             _logger = provider.GetRequiredService<ILogger<SiteController>>();
             _checkAttackBll = provider.GetRequiredService<CheckAttackBLL>();
             _stringVaildHelper = provider.GetRequiredService<StringVaildHelper>();
@@ -96,9 +96,9 @@ namespace MemberSite.Controllers.Api
         {
             public string AreaCode { get; set; }
             public string PhoneNo { get; set; }
-            public string AreaPhoneNo  =>  $"{AreaCode}{PhoneNo}";
+            public string AreaPhoneNo => $"{AreaCode}{PhoneNo}";
         }
-        
+
         [HttpPost]
         [TypeFilter(typeof(PublicAuthAttribute))]
         public async Task<ApiResult> SignIn(LoginModel loginModel)
@@ -120,7 +120,7 @@ namespace MemberSite.Controllers.Api
                 Request.Headers["User-Agent"], deviceType, ref customer, out var token);
 
             await AfterLogin(userLoginResult, loginModel, ip, customer, token, apiResult);
-            
+
             return apiResult;
         }
 
@@ -220,7 +220,7 @@ namespace MemberSite.Controllers.Api
         [TypeFilter(typeof(PublicAuthAttribute))]
         public async Task<ApiResult> SignInPhone(LoginPhoneModel loginModel)
         {
-            var apiResult = new ApiResult(_selLangBll);   
+            var apiResult = new ApiResult(_selLangBll);
 
             loginModel.UserName = $"P{loginModel.AreaPhoneNo.Trim('+')}";
             if (!_regexUserName.IsMatch(loginModel.UserName))
@@ -238,7 +238,7 @@ namespace MemberSite.Controllers.Api
                 Request.Headers["User-Agent"], deviceType, ref customer, out var token);
 
             await AfterLogin(userLoginResult, loginModel, ip, customer, token, apiResult);
-            
+
             return apiResult;
         }
 
@@ -274,7 +274,7 @@ namespace MemberSite.Controllers.Api
                 return;
             }
 
-            var claims = new List<Claim> 
+            var claims = new List<Claim>
             {
                 new(ClaimTypes.Name,customer.UserName ),
                 new(ClaimTypes.NameIdentifier,customer.CustId.ToString() ),
@@ -331,7 +331,7 @@ namespace MemberSite.Controllers.Api
             apiResult.Message = Url.RouteUrl("desktop", new { action = Request.RouteValues["action"], controller = Request.RouteValues["controller"], LangId = _selLangBll.GetLangId() });
             apiResult.ErrorCode = 0;
         }
-        
+
         public class RegisteredModel
         {
             public string UserName { get; set; }
@@ -345,6 +345,7 @@ namespace MemberSite.Controllers.Api
             public string AffCode { get; set; }
             public string blackbox { get; set; }
             public string LineUserId { get; set; }
+            public CaptchaType CapType { get; set; }
             public string ReCaptchaToken { get; set; }
             public string ReCaptchaAction { get; set; }
         }
@@ -355,7 +356,7 @@ namespace MemberSite.Controllers.Api
             public string ReferralUrl { get; set; }
             public string PhoneNo { get; set; }
             public string AreaCode { get; set; }
-            public string AreaPhoneNo  =>  $"{AreaCode}{PhoneNo}";
+            public string AreaPhoneNo => $"{AreaCode}{PhoneNo}";
             public string Nationality { get; set; }
             public string RealName { get; set; }
             public string PromoCode { get; set; }
@@ -409,7 +410,7 @@ namespace MemberSite.Controllers.Api
             public string AreaCode { get; set; }
             public string PhoneNo { get; set; }
         }
-        
+
         [HttpPost]
         public async Task<ApiResult> SignupAsync(SignupModel signupModel)
         {
@@ -520,9 +521,9 @@ namespace MemberSite.Controllers.Api
                 AccountNo = signupRequest.AccountNo,
                 IFSCCode = signupRequest.IFSCCode,
             };
-            
-            var customer = _siteBll.SignupPhone(signupRequest.OtpNum ,signupModel, apiResult, isAuthenticated, _tools.GetFromUrl(), Request.Headers["User-Agent"], false);
-            
+
+            var customer = _siteBll.SignupPhone(signupRequest.OtpNum, signupModel, apiResult, isAuthenticated, _tools.GetFromUrl(), Request.Headers["User-Agent"], false);
+
             if (apiResult.ErrorCode == (int)ErrorCode.Attack)
             {
                 Request.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
@@ -544,7 +545,7 @@ namespace MemberSite.Controllers.Api
             await _cacheHelper.StringFireAndForgetSetAsync(customer.CustId.ToString(), customer.Token, TimeSpan.FromMinutes(30), RedisDataBase.Token);
             return apiResult;
         }
-        
+
         [HttpPost]
         //只給Ivorysport使用
         public async Task<ApiResult> IvorysportSignupAsync([FromForm] IvorysportSignupModel signupModel)
@@ -571,7 +572,7 @@ namespace MemberSite.Controllers.Api
             }
 
             if (apiResult.ErrorCode != 0 || customer == null) return apiResult;
-            
+
             var claims = new List<Claim>
             {
                 new(ClaimTypes.Name, customer.UserName),
@@ -586,15 +587,15 @@ namespace MemberSite.Controllers.Api
             await _cacheHelper.StringFireAndForgetSetAsync(customer.CustId.ToString(), customer.Token, TimeSpan.FromMinutes(30), RedisDataBase.Token);
             return apiResult;
         }
-        
+
         [HttpPost]
         public async Task<ApiResult<SendOTPSMSResult>> SendSignUpOTPSMSAsync(SendSignUpOTPRequest request)
         {
-            var apiResult = await _commonBll.SendSignUpOTPSMSAsync(request.SiteId ,request.CurrencyId ,request.UserLang ,request.AreaCode ,request.PhoneNo);
-            
+            var apiResult = await _commonBll.SendSignUpOTPSMSAsync(request.SiteId, request.CurrencyId, request.UserLang, request.AreaCode, request.PhoneNo);
+
             return apiResult;
         }
-        
+
         [HttpPost]
         public ApiResult<bool> ExistsUserName(RegisteredModel registeredModel)
         {
@@ -1545,13 +1546,25 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public async Task<ApiResult<RecaptchaSiteInfo>> GetRecaptchaInfo()
         {
-            var clientIp = _tools.GetClientIP();
-            var siteInfo = await _recaptchaBll.GetInfo(clientIp);
+            var siteInfo = await _captchaBll.GetInfo();
             var apiResult = new ApiResult<RecaptchaSiteInfo>()
             {
 
                 ErrorCode = 0,
                 Data = siteInfo
+            };
+            return apiResult;
+        }
+
+        [HttpPost]
+        public ApiResult<NumberCaptchaResult> GetNumberCaptcha(string action)
+        {
+            var clientIp = _tools.GetClientIP();
+            var numberCaptchaResult = _captchaBll.GetNumberCaptcha(clientIp, action);
+            var apiResult = new ApiResult<NumberCaptchaResult>()
+            {
+                ErrorCode = numberCaptchaResult == null ? 9000 : 0,
+                Data = numberCaptchaResult
             };
             return apiResult;
         }
