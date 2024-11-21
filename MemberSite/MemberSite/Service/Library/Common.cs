@@ -1,4 +1,6 @@
-﻿namespace MemberSite.Service.Library
+﻿using System;
+
+namespace MemberSite.Service.Library
 {
     public class Common
     {
@@ -16,15 +18,19 @@
                 case "Development":
                 case "LOCAL":
                     return "D";
-                case "Staging":
+
+                case "SIT":
                     return "S";
-                case "Production":
+
+                case "UAT":
+                    return "U";
+
+                case "PROD":
                     return "P";
-                case "QA":
-                    return "Q";
+
                 default:
-                    return "P";
+                    return "D";
             }
         }
     }
-}
+};
