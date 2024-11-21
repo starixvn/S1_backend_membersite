@@ -23,15 +23,9 @@ public class CloudflareTurnstileApi : IRecaptchaApi
             { "response", token }
         };
 
-        var content = new FormUrlEncodedContent(values);
-        //var response = _courierAdapter.PostAsync<TurnstileResponse, FormUrlEncodedContent>(url, content).Result;
-        //var responseString = response.Content.ReadAsStringAsync().Result;
-        //var responseModel = JsonConvert.DeserializeObject<TurnstileResponse>(responseString);
+        var response = _courierAdapter.PostAsync<TurnstileResponse>(url, formData: values).Result;
 
-        // _logger.LogInformation($"CloudflareTurnstile Response:{responseString}");
-
-        return null;
-        //return new CaptchaCommonResponse(responseModel);
+        return new CaptchaCommonResponse(response);
     }
 
 }
