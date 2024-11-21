@@ -1,6 +1,7 @@
 ﻿using System.Drawing.Imaging;
 using System.Drawing;
 using MemberSite.Service.Library;
+using MemberSite.Service.Model;
 
 namespace MemberSite.Service.BLL;
 
@@ -11,6 +12,7 @@ public class NumberCaptchaBLL
     private readonly ILogger<NumberCaptchaBLL> _logger;
     private readonly string _numberCaptchaPartten = "NumberCaptcha";
     private readonly int _expiredMins = 3;
+    private readonly int _length = 4;
 
     public NumberCaptchaBLL(IServiceProvider provider)
     {
@@ -20,7 +22,7 @@ public class NumberCaptchaBLL
 
     public bool GenPicture(string ip, string action, out byte[] picture, out int seconds)
     {
-        var captchaCode = CreateRandomCode(4);
+        var captchaCode = CreateRandomCode(_length);
         picture = GenerateCaptchaImageComplex(captchaCode);
         var key = $"{_numberCaptchaPartten}:{action}:{ip}";
         seconds = _expiredMins * 60;
@@ -39,15 +41,9 @@ public class NumberCaptchaBLL
     public bool Verify(string ip, string captchaCode, string action)
     {
         var key = $"{_numberCaptchaPartten}:{action}:{ip}";
-        if (!_redisHelper.KeyExists(key))
+        if (!_redisHelper.TryGetValue(key, out string redisCode))
         {
-            _logger.LogInformation($"NumberCaptcha Redis Key is not exist. RedisKey={key}.");
-            return false;
-        }
-        var redisCode = _redisHelper.StringGet(key);
-        if (captchaCode != redisCode)
-        {
-            _logger.LogInformation($"CaptchaCode Not Equal RedisCode. CaptchaCode={captchaCode}. RedisCode={redisCode}");
+            _logger.LogInformation($"NumberCaptcha Verify Fail. CaptchaCode={captchaCode}. RedisCode={redisCode}");
             return false;
         }
         return true;
