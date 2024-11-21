@@ -10,14 +10,21 @@ public class NumberCaptchaBLL
 
     private readonly ICacheHelper _redisHelper;
     private readonly ILogger<NumberCaptchaBLL> _logger;
-    private readonly string _numberCaptchaPartten = "NumberCaptcha";
-    private readonly int _expiredMins = 3;
-    private readonly int _length = 4;
+    private readonly string _numberCaptchaPartten = string.Empty;
+    private readonly int _expiredMins = 0;
+    private readonly int _length = 0;
+    private readonly NumberCaptchaSetting _recaptchaBaseSettingConfig;
 
     public NumberCaptchaBLL(IServiceProvider provider)
     {
         _redisHelper = provider.GetRequiredService<ICacheHelper>();
         _logger = provider.GetRequiredService<ILogger<NumberCaptchaBLL>>();
+        var configBll = provider.GetRequiredService<ConfigBLL>();
+        _recaptchaBaseSettingConfig = configBll.GetConfigValue<NumberCaptchaSetting>("NumberCaptchaSetting");
+
+        _numberCaptchaPartten = _recaptchaBaseSettingConfig.RedisKeyPrefix;
+        _expiredMins = _recaptchaBaseSettingConfig.ExpiredMins;
+        _length = _recaptchaBaseSettingConfig.Length;
     }
 
     public bool GenPicture(string ip, string action, out byte[] picture, out int seconds)
@@ -49,7 +56,6 @@ public class NumberCaptchaBLL
         return true;
     }
 
-    // 生成隨機數字
     private string CreateRandomCode(int codeCount)
     {
         string randomCode;
