@@ -347,7 +347,6 @@ namespace MemberSite.Controllers.Api
             public string LineUserId { get; set; }
             public CaptchaType CaptchaType { get; set; } = CaptchaType.GoogleRecaptcha;
             public string ReCaptchaToken { get; set; }
-            public string ReCaptchaAction { get; set; }
         }
 
         public class SignupModel : RegisteredModel
