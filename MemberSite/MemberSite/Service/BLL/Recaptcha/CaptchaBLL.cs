@@ -92,6 +92,9 @@ public class CaptchaBLL
         var site = _serverInfoBll.GetServerInfo();
         var recaptchaGroup = await _recaptchaSvc.GetGroup(domain);
 
+        // recaptchaGroup是turnstile的話，代表走cloudflare turnstile驗證
+        // recaptchaGroup是空白或是null的話，代表Siebog.Site沒有設定，走數字驗證碼
+        // 其他狀況屬google驗證, 會啟用google recaptcha 企業版驗證
         switch (recaptchaGroup)
         {
             case "turnstile":
