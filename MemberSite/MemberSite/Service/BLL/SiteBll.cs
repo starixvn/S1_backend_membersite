@@ -219,14 +219,8 @@ public class SiteBll
             //Recaptcha Free Policy
             //var verifyResult = _recaptcha.Verify(signupModel.ReCaptchaToken);
             //Recaptcha Enterprise
-            if (string.IsNullOrWhiteSpace(signupModel.ReCaptchaAction))
-            {
-                apiResult.ErrorCode = -1;
-                apiResult.Message = $"missing. {_selLangBll.GetMsg("msg_RecaptchaError")}";
-                return false;
-            }
             var verifyResult = _captchaBll.VerifyAsync(signupModel.CaptchaType,
-                new CaptchaCommonRequest(signupModel.ReCaptchaToken, signupModel.ReCaptchaAction, Model.enums.CaptchaActionType.signup)).Result;
+                new CaptchaCommonRequest(signupModel.ReCaptchaToken, "signup", Model.enums.CaptchaActionType.signup)).Result;
             if (!verifyResult)
             {
                 apiResult.ErrorCode = -1;

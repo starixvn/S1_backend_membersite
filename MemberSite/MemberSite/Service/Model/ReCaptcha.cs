@@ -127,6 +127,13 @@ namespace MemberSite.Service.Model
 
     #region NumberCaptcha
 
+    public class NumberCaptchaSetting
+    {
+        public int Length { get; set; }
+        public string RedisKeyPrefix { get; set; } = string.Empty;
+        public int ExpiredMins { get; set; }
+    }
+
     public class NumberCaptchaResult
     {
         public int Seconds { get; set; }
