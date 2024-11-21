@@ -165,5 +165,61 @@ namespace MemberSite.Service.Library
                 throw;
             }
         }
+
+        public async Task<TResponse> PostAsync<TResponse>(string url, Dictionary<string, string> formData = null, object jsonRequest = null, int timeout = 0)
+        {
+            try
+            {
+                TResponse result = default;
+                using var client = new HttpClient();
+
+                HttpContent content;
+
+                if (formData != null)
+                {
+                    content = new FormUrlEncodedContent(formData);
+                }
+                else if (jsonRequest != null)
+                {
+                    var jsonReq = JsonConvert.SerializeObject(jsonRequest);
+                    content = new StringContent(jsonReq, Encoding.UTF8, "application/json");
+                }
+                else
+                {
+                    throw new ArgumentException("Either formData or jsonRequest must be provided.");
+                }
+
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                if (timeout > 0)
+                {
+                    client.Timeout = TimeSpan.FromSeconds(timeout);
+                }
+
+                _logger.LogInformation($"url: {url}, content: {await content.ReadAsStringAsync()}");
+
+                using var response = await client.PostAsync(url, content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseBody = await response.Content.ReadAsStringAsync();
+                    _logger.LogInformation($"response: {responseBody}");
+                    result = JsonConvert.DeserializeObject<TResponse>(responseBody);
+                }
+                else
+                {
+                    var errorBody = await response.Content.ReadAsStringAsync();
+                    _logger.LogWarning($"Failed request. Status code: {response.StatusCode}, response: {errorBody}");
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error during POST to {url}");
+                throw;
+            }
+        }
+
     }
 }
