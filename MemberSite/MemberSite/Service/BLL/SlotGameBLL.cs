@@ -125,30 +125,22 @@ namespace MemberSite.Service.BLL
                 statusList.Add(3);
             }
 
-            //var key = $"GetSlotGameListV2:{_isStage}:{currencyId}:{siteId}:{deviceType}";
-            //var result = await _cacheHelper.TryGetOrCreateAsync(key,
-            //    TimeSpan.FromMinutes(15), //設定過期15分鐘，
-            //    async () =>
-            //    {
-            //        // PRD環境由Hangfire每五分鐘定期更新
-            //        // 此部分預防Redis異常，與處理RLS環境的快取
-            //        var result = await _reportDbClient.QueryAsync<SlotGameInfo>("Service_SlotGame_Get", new
-            //        {
-            //            CurrencyId = currencyId,
-            //            SiteId = siteId,
-            //            DeviceType = deviceType,
-            //            StatusJson = JsonConvert.SerializeObject(statusList)
-            //        });
-            //        return result;
-            //    });
-
-            var result = await _reportDbClient.QueryAsync<SlotGameInfo>("Service_SlotGame_Get", new
-            {
-                CurrencyId = currencyId,
-                SiteId = siteId,
-                DeviceType = deviceType,
-                StatusJson = JsonConvert.SerializeObject(statusList)
-            });
+            var key = $"GetSlotGameListV2:{_isStage}:{currencyId}:{siteId}:{deviceType}";
+            var result = await _cacheHelper.TryGetOrCreateAsync(key,
+                TimeSpan.FromMinutes(15), //設定過期15分鐘，
+                async () =>
+                {
+                    // PRD環境由Hangfire每五分鐘定期更新
+                    // 此部分預防Redis異常，與處理RLS環境的快取
+                    var result = await _reportDbClient.QueryAsync<SlotGameInfo>("Service_SlotGame_Get", new
+                    {
+                        CurrencyId = currencyId,
+                        SiteId = siteId,
+                        DeviceType = deviceType,
+                        StatusJson = JsonConvert.SerializeObject(statusList)
+                    });
+                    return result;
+                });
             return result.ToList();
         }
 

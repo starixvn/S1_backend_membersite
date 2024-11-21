@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using System.Security.Claims;
+using System.Web;
 using MemberSite.Service.DAL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
@@ -10,7 +11,11 @@ namespace MemberSite.Service.BLL
 {
     public class GameBLL
     {
+        private readonly AuthorizeBLL _authorizeBll;
         private readonly MySqlClient _reportDbClient;
+        private readonly CasinoService _casinoService;
+        private readonly CustInfoBll _custInfoBll;
+        private readonly SelLangBLL _selLangBll;
         private readonly ICacheHelper _cacheHelper;
         private readonly Dictionary<int, string> _openPathList;
         private readonly StatementService _statementService;
@@ -31,7 +36,11 @@ namespace MemberSite.Service.BLL
             };
             _statementService = provider.GetRequiredService<StatementService>();
             _gameService = provider.GetRequiredService<GameService>();
+            _custInfoBll = provider.GetRequiredService<CustInfoBll>();
+            _selLangBll = provider.GetRequiredService<SelLangBLL>();
             _thirdPartyBll = provider.GetRequiredService<ThirdPartyBll>();
+            _authorizeBll = provider.GetRequiredService<AuthorizeBLL>();
+            _casinoService = provider.GetRequiredService<CasinoService>();
             var configBll = provider.GetRequiredService<ConfigBLL>();
             _siteCloudFrontImageInfo = configBll.GetConfigValue<SiteCloudFrontImageInfo>("SiteCloudFrontImageInfo");
             _changeTpName = new Dictionary<string, string>()
@@ -135,49 +144,94 @@ namespace MemberSite.Service.BLL
         {
             var deviceType = _tools.GetDeviceId(_tools.GetFromUrl());
 
-            //var key = $"GetLobbyHeader:{_isStage}:{deviceType}:{req.SiteId}:{req.CurrencyId}";
-            //var result = await _cacheHelper.TryGetOrCreateAsync(key,
-            //    TimeSpan.FromMinutes(5),
-            //    async () =>
-            //    {
-            //        var result = await GetLobbyHeaderDetail(req, serverInfo, deviceType);
-            //        return result;
-            //    });
-            var result = await GetLobbyHeaderDetail(req, serverInfo, deviceType);
+            var key = $"GetLobbyHeader:{_isStage}:{deviceType}:{req.SiteId}:{req.CurrencyId}";
+            var result = await _cacheHelper.TryGetOrCreateAsync(key,
+                TimeSpan.FromMinutes(5),
+                async () =>
+                {
+                    var result = await GetLobbyHeaderDetail(req, serverInfo, deviceType);
+                    return result;
+                });
 
             return result;
         }
 
-        public async Task<LobbyGameResponse> GetLobbyGame(GetLobbyGameRequest req, ServerInfo serverInfo)
+        public async Task<LobbyGameResponse> GetLobbyGame(GetLobbyGameRequest req, ServerInfo serverInfo, ClaimsPrincipal user)
         {
             var deviceType = _tools.GetDeviceId(_tools.GetFromUrl());
 
-            //var key = $"GetLobbyGame:{_isStage}:{deviceType}:{req.SiteId}:{req.CurrencyId}:{req.LobbyCategoryIds}";
-            //var result = await _cacheHelper.TryGetOrCreateAsync(key,
-            //    TimeSpan.FromMinutes(5),
-            //    async () =>
-            //    {
-            //        var result = await _gameService.GetLobbyGame(req);
-            //        return result;
-            //    });
-            var result = await _gameService.GetLobbyGame(req);
-            var resultVendor = result.GroupBy(test => test.TpId).Select(grp => grp.First());
-            var providerList = resultVendor.Select(item => new GameProvider
-            {
-                TpId = item.TpId,
-                TpName = item.TpName,
-                TpGameType = item.TpGameType,
-                DisplayText = item.DisplayText,
-                OpenPath = _openPathList.TryGetValue(item.TpId, out var openPath) ? openPath : null,
-                ImgName = $"{item.TpCategory}_{item.TpName}".ToLower()
-            });
+            var key = $"GetLobbyGame:{_isStage}:{deviceType}:{req.SiteId}:{req.CurrencyId}:{req.LobbyCategoryIds}";
+            var result = await _cacheHelper.TryGetOrCreateAsync(key,
+                TimeSpan.FromMinutes(5),
+                async () =>
+                {
+                    var result = await _gameService.GetLobbyGame(req);
+                    var (siteId, currencyId, custId) = GetUserInfo(req.CurrencyId, user, serverInfo);
+                    var resultVendor = result.GroupBy(test => test.TpId).Select(grp => grp.First());
+                    var providerList = resultVendor.Select(item => new GameProvider
+                    {
+                        TpId = item.TpId,
+                        TpName = item.TpName,
+                        TpGameType = item.TpGameType,
+                        DisplayText = item.DisplayText,
+                        OpenPath = _openPathList.TryGetValue(item.TpId, out var openPath) ? openPath : null,
+                        ImgName = $"{item.TpCategory}_{item.TpName}".ToLower()
+                    });
+                    var favoriteAndRecentlyPlayedTask = await GetFavoriteAndRecentlyPlayed(custId);
+                    var lobbyGameResponse = new LobbyGameResponse
+                    {
+                        ProviderList = providerList.ToList()
+                    };
+                    lobbyGameResponse.SetLobbyCategory(result.ToList(), favoriteAndRecentlyPlayedTask.FavoriteList, favoriteAndRecentlyPlayedTask.RecentlyPlayedList);
+                    return lobbyGameResponse;
+                });
+            return result;
+        }
 
-            var lobbyGameResponse = new LobbyGameResponse
+        private (int SiteId, int CurrencyId, int CustId) GetUserInfo(int? inputCurrencyId, ClaimsPrincipal user, ServerInfo serverInfo)
+        {
+
+            if (user?.Identity is { IsAuthenticated: true })
             {
-                ProviderList = providerList.ToList()
-            };
-            lobbyGameResponse.SetSlotGameCategory(result.ToList(), new List<UserGameInfo>(), new List<UserGameInfo>());
-            return lobbyGameResponse;
+
+                var authData = _authorizeBll.GetAuthData();
+                if (authData != null && authData.CustId != 0)
+                {
+                    var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                    return (custInfo.SiteId, custInfo.CurrencyId, authData.CustId);
+                }
+            }
+            var currencyId = _selLangBll.GetPreferCurrencyId();
+            if (inputCurrencyId.HasValue)
+            {
+                currencyId = inputCurrencyId.Value;
+            }
+            return (serverInfo.SiteId, currencyId, 0);
+
+        }
+
+        private async Task<FavoriteAndRecentlyPlayed> GetFavoriteAndRecentlyPlayed(int custId)
+        {
+            var result = new FavoriteAndRecentlyPlayed();
+            var data = await _casinoService.GetFavoriteGamesAsync(custId);
+
+            if (data == null)
+            {
+                return result;
+            }
+
+            if (!string.IsNullOrEmpty(data.Favorite))
+            {
+                result.FavoriteList = JsonConvert.DeserializeObject<IEnumerable<string>>(data.Favorite)
+                    .Select(gameInfo => new UserGameInfo(gameInfo)).ToList();
+            }
+
+            if (!string.IsNullOrEmpty(data.RecentlyPlayed))
+            {
+                result.RecentlyPlayedList = JsonConvert.DeserializeObject<IEnumerable<string>>(data.RecentlyPlayed)
+                    .Select(gameInfo => new UserGameInfo(gameInfo)).ToList();
+            }
+            return result;
         }
 
         private async Task<IEnumerable<LobbyHeaderResponse>> GetLobbyHeaderDetail(GetLobbyHeaderRequest req, ServerInfo serverInfo, DeviceId deviceType)

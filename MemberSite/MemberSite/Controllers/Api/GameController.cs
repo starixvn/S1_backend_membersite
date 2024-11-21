@@ -109,7 +109,7 @@ namespace MemberSite.Controllers.Api
             try
             {
                 var serverInfo = _serverInfoBll.GetServerInfo();
-                var data = await _gameBll.GetLobbyGame(request, serverInfo);
+                var data = await _gameBll.GetLobbyGame(request, serverInfo, User);
 
                 return new ApiResult<LobbyGameResponse>
                 {

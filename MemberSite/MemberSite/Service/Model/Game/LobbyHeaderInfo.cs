@@ -30,7 +30,7 @@ namespace MemberSite.Service.Model.Game
         public List<LobbyHeaderData> New { get; set; } = new List<LobbyHeaderData>();
         public List<LobbyHeaderData> MyFavorite { get; set; } = new List<LobbyHeaderData>();
 
-        public void SetSlotGameCategory(List<LobbyHeaderData> slotGameList, List<UserGameInfo> favorite, List<UserGameInfo> recentlyPlayed)
+        public void SetLobbyCategory(List<LobbyHeaderData> slotGameList, List<UserGameInfo> favorite, List<UserGameInfo> recentlyPlayed)
         {
             var checkTime = DateTime.UtcNow.AddMonths(-1);
             All = slotGameList;
@@ -47,13 +47,6 @@ namespace MemberSite.Service.Model.Game
                 {
                     MyFavorite.Add(game);
                 }
-
-                // RecentlyPlayed
-                if (recentlyPlayed != null && recentlyPlayed.Exists(i => i.TpId == game.TpId && i.GameId == game.GameId))
-                {
-                    RecentlyPlayed.Add(game);
-                }
-
             }
         }
     }
