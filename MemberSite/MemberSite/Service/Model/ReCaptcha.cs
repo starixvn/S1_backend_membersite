@@ -137,7 +137,7 @@ namespace MemberSite.Service.Model
     public class NumberCaptchaResult
     {
         public int Seconds { get; set; }
-        public byte[] Picture { get; set; }
+        public string Picture { get; set; }
     }
     #endregion
 

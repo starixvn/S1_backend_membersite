@@ -46,11 +46,12 @@ public class CaptchaBLL
 
     public NumberCaptchaResult GetNumberCaptcha(string clientIp, string action)
     {
-        if (!_numberCaptchaBll.GenPicture(clientIp, action, out byte[] picture, out int seconds))
+        if (!_numberCaptchaBll.GenPicture(clientIp, action, out byte[] pictureBytes, out int seconds))
         {
             _logger.LogInformation("GenPicture Fail.");
             return null;
         }
+        var picture = Convert.ToBase64String(pictureBytes);
         return new NumberCaptchaResult() { Seconds = seconds, Picture = picture };
     }
 
