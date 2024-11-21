@@ -241,7 +241,7 @@ public class SiteBll
                 apiResult.Message = $"missing. {_selLangBll.GetMsg("msg_RecaptchaError")}";
                 return false;
             }
-            var verifyResult = _captchaBll.VerifyAsync(signupModel.CapType,
+            var verifyResult = _captchaBll.VerifyAsync(signupModel.CaptchaType,
                 new CaptchaCommonRequest(signupModel.ReCaptchaToken, signupModel.ReCaptchaAction, Model.enums.CaptchaActionType.signup)).Result;
             if (!verifyResult)
             {
