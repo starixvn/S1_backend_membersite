@@ -56,7 +56,7 @@ namespace MemberSite.Service.Model.Game
         public string LobbyCategory { get; set; }
         public int TpId { get; set; }
         public string TpName { get; set; }
-        public string ProductName { get; set; }
+        public string GameName { get; set; }
         public int TpGameIdNo { get; set; }
         public string GameId { get; set; }
         public int TpGameType { get; set; }
@@ -81,7 +81,7 @@ namespace MemberSite.Service.Model.Game
         public int TpId { get; set; }
         public string TpName { get; set; }
         public int TpGameIdNo { get; set; }
-        public string ProductName { get; set; }
+        public string GameName { get; set; }
         public string CurrencyGameName { get; set; }
         public string GameId { get; set; }
         public int TpGameType { get; set; }
@@ -93,7 +93,7 @@ namespace MemberSite.Service.Model.Game
         public DateTime IconEndTime { get; set; }
         public DateTime LaunchDate { get; set; }
         public int Sort { get; set; }
-        public string ImgProductName => ProductName.ToLower().Replace(" ", "-");
+        public string ImgGameName => GameName?.ToLower().Replace(" ", "-");
     }
 
     public class LobbyHeaderSequenceData
