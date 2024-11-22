@@ -6,6 +6,7 @@ namespace MemberSite.Service.Model.Game
     {
         public string SlotGameId { get; set; }
         public int TpId { get; set; }
+        public string TpName { get; set; }
         public string GameId { get; set; }
         public string AppId { get; set; }
         public DateTime LaunchDate { get; set; }
