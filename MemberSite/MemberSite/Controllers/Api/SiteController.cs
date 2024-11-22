@@ -1535,11 +1535,16 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
 
+        public class GetNumberCaptchaRequest
+        {
+            public string Action { get; set; }
+        }
+
         [HttpPost]
-        public ApiResult<NumberCaptchaResult> GetNumberCaptcha(string action)
+        public ApiResult<NumberCaptchaResult> GetNumberCaptcha(GetNumberCaptchaRequest request)
         {
             var clientIp = _tools.GetClientIP();
-            var numberCaptchaResult = _captchaBll.GetNumberCaptcha(clientIp, action);
+            var numberCaptchaResult = _captchaBll.GetNumberCaptcha(clientIp, request.Action);
             var apiResult = new ApiResult<NumberCaptchaResult>()
             {
                 ErrorCode = numberCaptchaResult == null ? 9000 : 0,
