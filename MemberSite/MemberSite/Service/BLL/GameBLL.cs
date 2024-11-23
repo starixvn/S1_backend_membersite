@@ -144,7 +144,7 @@ namespace MemberSite.Service.BLL
         {
             var deviceType = _tools.GetDeviceId(_tools.GetFromUrl());
 
-            var key = $"GetLobbyHeader:{_isStage}:{deviceType}:{req.SiteId}:{req.CurrencyId}";
+            var key = $"GetLobbyHeader-NewUI:{_isStage}:{deviceType}:{req.SiteId}:{req.CurrencyId}";
             var result = await _cacheHelper.TryGetOrCreateAsync(key,
                 TimeSpan.FromMinutes(5),
                 async () =>
@@ -160,7 +160,7 @@ namespace MemberSite.Service.BLL
         {
             var deviceType = _tools.GetDeviceId(_tools.GetFromUrl());
 
-            var key = $"GetLobbyGame:{_isStage}:{deviceType}:{req.SiteId}:{req.CurrencyId}:{req.LobbyCategoryIds}";
+            var key = $"GetLobbyGame-NewUI:{_isStage}:{deviceType}:{req.SiteId}:{req.CurrencyId}:{req.LobbyCategoryIds}";
             var result = await _cacheHelper.TryGetOrCreateAsync(key,
                 TimeSpan.FromMinutes(5),
                 async () =>
