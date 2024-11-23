@@ -66,7 +66,8 @@ namespace MemberSite.Service.BLL
                             TpGameType = r.TpGameType,
                             TpCategory = r.TpCategory,
                             GameName = r.GameName,
-                            GameLogo = GetGameLogo(r.TpId, r.GameId, r.TpGameType, r.TpCategory),
+                            GameLogo = $"{r.TpNameKey}/{r.GameName?.ToLower().Replace(" ", "-")}-en",
+                            TPNameKey = r.TpNameKey,
                             TpName = r.TpName,
                             TpLogo = GetTpLogo(r.TpId, r.GameId, r.TpGameType, r.TpCategory),
                             Sort = r.Sort
