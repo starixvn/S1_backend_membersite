@@ -23,7 +23,7 @@ namespace MemberSite.Service.DAL
             p.Add("_Top", request.Top);
             p.Add("_TpCategory", request.TpCategory);
             p.Add("_CurrencyId", currencyId);
-            return _reportDbClient.QueryAsync<HotGameDto>("Member_HotGames_Get_V3", p);
+            return _reportDbClient.QueryAsync<HotGameDto>("Member_HotGames_Get_V3_xtest", p);
         }
     }
 }

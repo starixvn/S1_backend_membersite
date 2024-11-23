@@ -22,7 +22,7 @@ namespace MemberSite.Service.DAL
 
         public Task<IEnumerable<LobbyHeaderData>> GetLobbyHeader(GetLobbyHeaderRequest req, List<int> statusList)
         {
-            return _reportDbClient.QueryAsync<LobbyHeaderData>("Member_HeaderMenu_Get",
+            return _reportDbClient.QueryAsync<LobbyHeaderData>("Member_HeaderMenu_Get_xtest",
                 new
                 {
                     _SiteId = req.SiteId,
@@ -33,7 +33,7 @@ namespace MemberSite.Service.DAL
 
         public Task<IEnumerable<LobbyHeaderData>> GetLobbyGame(GetLobbyGameRequest req)
         {
-            return _reportDbClient.QueryAsync<LobbyHeaderData>("Member_LobbyGames_Get",
+            return _reportDbClient.QueryAsync<LobbyHeaderData>("Member_LobbyGames_Get_xtest",
                 new
                 {
                     _SiteId = req.SiteId,
