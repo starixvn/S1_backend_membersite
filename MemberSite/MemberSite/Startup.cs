@@ -116,8 +116,7 @@ namespace MemberSite
             services.AddTransient<QustionnaireService>();
             services.AddSingleton<CommonService>();
             services.AddTransient<InternalService>();
-
-
+            services.AddTransient<FaceBookPixelService>();
             services.AddSingleton<IPService>();
             services.AddSingleton<ShieldService>();
             services.AddTransient<IHotEventService, HotEventService>();
