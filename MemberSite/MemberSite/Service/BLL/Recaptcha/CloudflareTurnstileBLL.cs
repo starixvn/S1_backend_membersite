@@ -21,7 +21,7 @@ namespace MemberSite.Service.BLL
 
             var configBll = provider.GetRequiredService<ConfigBLL>();
             _cloudflareTurnstileConfig = configBll.GetConfigValuesBySiteId<RecaptchaGroup>("CloudflareKeySetting");
-            _recaptchaBaseSettingConfig = configBll.GetConfigValue<CloudflareBaseSetting>("ReCaptchaSetting");
+            _recaptchaBaseSettingConfig = configBll.GetConfigValue<CloudflareBaseSetting>("CloudflareBaseSetting");
         }
 
         public RecaptchaGroup GetSetting(int siteId)
