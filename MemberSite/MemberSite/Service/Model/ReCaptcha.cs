@@ -171,6 +171,10 @@ namespace MemberSite.Service.Model
         // Optional field for failure response
         [JsonProperty("error-codes", NullValueHandling = NullValueHandling.Ignore)]
         public List<string> ErrorCodes { get; set; }
+
+        // Optional metadata field
+        [JsonProperty("metadata", NullValueHandling = NullValueHandling.Ignore)]
+        public object Metadata { get; set; }
     }
 
     #endregion
