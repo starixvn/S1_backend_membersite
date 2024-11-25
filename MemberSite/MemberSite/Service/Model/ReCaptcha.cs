@@ -53,8 +53,11 @@ namespace MemberSite.Service.Model
 
     public class CaptchaCommonResponse
     {
+        [JsonProperty("success")]
         public bool Success { get; set; }
+        [JsonProperty("action")]
         public string Action { get; set; }
+        [JsonProperty("error-codes")]
         public List<string> ErrorCodes { get; set; }
 
         public CaptchaCommonResponse()
@@ -64,14 +67,14 @@ namespace MemberSite.Service.Model
         public CaptchaCommonResponse(GoogleRecaptchaResponse response)
         {
             Success = response.success;
-            ErrorCodes = response.errorCodes;
+            ErrorCodes = response.errorCodes ?? new List<string>();
         }
 
         public CaptchaCommonResponse(TurnstileResponse response)
         {
             Success = response.Success;
-            ErrorCodes = response.ErrorCodes;
-            Action = response.Action;
+            ErrorCodes = response.ErrorCodes ?? new List<string>();
+            Action = response.Action ?? "none";
         }
     }
 
@@ -171,10 +174,6 @@ namespace MemberSite.Service.Model
         // Optional field for failure response
         [JsonProperty("error-codes", NullValueHandling = NullValueHandling.Ignore)]
         public List<string> ErrorCodes { get; set; }
-
-        // Optional metadata field
-        [JsonProperty("metadata", NullValueHandling = NullValueHandling.Ignore)]
-        public object Metadata { get; set; }
     }
 
     #endregion

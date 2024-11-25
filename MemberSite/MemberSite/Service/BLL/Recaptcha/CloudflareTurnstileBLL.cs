@@ -16,7 +16,7 @@ namespace MemberSite.Service.BLL
         public CloudflareTurnstileBLL(IServiceProvider provider)
         {
             var recaptchaFactory = provider.GetRequiredService<Func<string, IRecaptchaApi>>();
-            string selectedType = "Cloudflare"; 
+            string selectedType = "Cloudflare";
             _cloudflareTurnstileApi = recaptchaFactory(selectedType);
 
             var configBll = provider.GetRequiredService<ConfigBLL>();
@@ -45,7 +45,7 @@ namespace MemberSite.Service.BLL
         {
             var url = $"{_recaptchaBaseSettingConfig.ApiUrl}{_recaptchaBaseSettingConfig.SiteVerifyUrl}";
             var response = _cloudflareTurnstileApi.Verify(url, setting.Secret, request.Token);
-            _logger.LogInformation($"Turnstile verify result={JsonConvert.SerializeObject(response)}");
+            //_logger.LogInformation($"Turnstile verify result={response.ToString()}");
             if (response.Success)
             {
                 if (string.IsNullOrWhiteSpace(response.Action) && request.Action == request.ExpectedAction)
