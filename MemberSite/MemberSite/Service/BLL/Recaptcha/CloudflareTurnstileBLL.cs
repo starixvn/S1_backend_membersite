@@ -8,7 +8,7 @@ namespace MemberSite.Service.BLL
     public class CloudflareTurnstileBLL
     {
         private readonly IRecaptchaApi _cloudflareTurnstileApi;
-        private readonly ILogger<GoogleRecaptchaBLL> _logger;
+        private readonly ILogger<CloudflareTurnstileBLL> _logger;
 
         private readonly Dictionary<int, RecaptchaGroup> _cloudflareTurnstileConfig;
         private readonly CloudflareBaseSetting _recaptchaBaseSettingConfig;
@@ -22,6 +22,7 @@ namespace MemberSite.Service.BLL
             var configBll = provider.GetRequiredService<ConfigBLL>();
             _cloudflareTurnstileConfig = configBll.GetConfigValuesBySiteId<RecaptchaGroup>("CloudflareKeySetting");
             _recaptchaBaseSettingConfig = configBll.GetConfigValue<CloudflareBaseSetting>("CloudflareBaseSetting");
+            _logger = provider.GetRequiredService<ILogger<CloudflareTurnstileBLL>>();
         }
 
         public RecaptchaGroup GetSetting(int siteId)
@@ -45,7 +46,7 @@ namespace MemberSite.Service.BLL
         {
             var url = $"{_recaptchaBaseSettingConfig.ApiUrl}{_recaptchaBaseSettingConfig.SiteVerifyUrl}";
             var response = _cloudflareTurnstileApi.Verify(url, setting.Secret, request.Token);
-            //_logger.LogInformation($"Turnstile verify result={response.ToString()}");
+            _logger.LogInformation($"Turnstile verify result={JsonConvert.SerializeObject(response)}");
             if (response.Success)
             {
                 if (string.IsNullOrWhiteSpace(response.Action) && request.Action == request.ExpectedAction)
