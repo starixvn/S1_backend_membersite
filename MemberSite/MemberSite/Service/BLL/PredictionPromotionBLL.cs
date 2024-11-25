@@ -50,7 +50,9 @@ public class PredictionPromotionBLL
                         AwayTeamName =  y.AwayTeamName,
                         AwayTeamPic = _hotEventBll.GetAwayTeamPic(serverInfo, sportLeaguesInfo, y, sportTeamsInfo),
                         HomeScore =  y.HomeScore,
+                        CustHomeScore = y.CustHomeScore,
                         AwayScore =  y.AwayScore,
+                        CustAwayScore = y.CustAwayScore,
                         Result =  y.Result,
                         IsPredict =  y.IsPredict,
                         TpId = y.TpId,
@@ -70,6 +72,11 @@ public class PredictionPromotionBLL
     public async Task<PredictionWinnerListResponse> GetPredictionResultTeamInfo(int siteId, int currencyId ,string langId)
     {
         var promotionPrediction = await _eventsService.GetPredictionResultTeamInfo(siteId, currencyId, langId);
+        if (promotionPrediction is null)
+        {
+            return null;
+        }
+        
         var winnerList = await _eventsService.GetPromotionPredictionWinnerList(siteId, promotionPrediction.MatchId);
         
         var response = new PredictionWinnerListResponse
