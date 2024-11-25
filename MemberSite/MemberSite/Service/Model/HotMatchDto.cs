@@ -20,4 +20,8 @@ public class HotMatchDto
     public decimal? AwayOdds { get; set; }
 
     public decimal? Handicap { get; set; }
+
+    public string TpId { get; set; }
+
+    public string GameId { get; set; }
 }

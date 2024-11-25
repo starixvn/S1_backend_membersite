@@ -64,7 +64,8 @@ namespace MemberSite.Service.BLL
                 HomeOdds = r.HomeOdds,
                 AwayOdds = r.AwayOdds,
                 Handicap = r.Handicap,
-                //BackgroundPic = GetBackgroundPic(serverInfo, sportLeaguesInfo, r),
+                GameId = r.GameId,
+                TpId = r.TpId,
                 HomeTeamPic = r.HomeIconUrl,
                 AwayTeamPic = r.AwayIconUrl
             });
