@@ -41,6 +41,17 @@ namespace MemberSite.Service.BLL
             };
         }
 
+        public async Task<IEnumerable<ProviderResponse>> GetProvider()
+        {
+            var providers = await _hotGameService.GetProvider();
+            return providers.Select(r => new ProviderResponse()
+            {
+                Id = r.Id,
+                TpName = r.TpName,
+                DisplayName = r.DisplayName
+            });
+        }
+
         public async Task<Dictionary<string, IEnumerable<HotGameResponse>>> GetHotGames(int siteId, int currencyId, HotGameDeviceType deviceType, string langId, GetHotGameDataListRequest request)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
@@ -52,6 +63,7 @@ namespace MemberSite.Service.BLL
             //    async () => await _hotGameService.GetHotGames(siteId, currencyId, request));
 
             var hotGames = await _hotGameService.GetHotGames(siteId, currencyId, request);
+            var providers = await _hotGameService.GetProvider();
 
             // 取出Slot的遊戲資訊
             var slotGameList = await _slotGameBLL.GetSlotGameList(siteId, currencyId, (int)deviceType);
@@ -69,11 +81,18 @@ namespace MemberSite.Service.BLL
                             TpCategory = r.TpCategory,
                             GameName = r.GameName,
                             GameLogo = $"{r.TpNameKey}/{r.GameName?.ToLower().Replace(" ", "-")}-en",
-                            TPNameKey = r.TpNameKey,
+                            TpNameKey = r.TpNameKey,
                             TpName = r.TpName,
                             TpLogo = GetTpLogo(r.TpId, r.GameId, r.TpGameType, r.TpCategory),
                             Sort = r.Sort
                         }));
+
+            result.Add("Provider", providers.Select(r => new HotGameResponse()
+            {
+                TpId = r.Id,
+                TpNameKey = r.TpName,
+                TpName = r.DisplayName
+            }));
 
             return result;
 

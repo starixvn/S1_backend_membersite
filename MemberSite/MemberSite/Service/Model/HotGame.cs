@@ -41,7 +41,6 @@ namespace MemberSite.Service.Model
         public int? CurrencyId { get; set; }
     }
 
-
     public class HotGameDto
     {
         public int TpId { get; set; }
@@ -55,6 +54,13 @@ namespace MemberSite.Service.Model
         public HotGameTopCategory TopCategory { get; set; }
     }
 
+    public class ProviderDto
+    {
+        public int Id { get; set; }
+        public string TpName { get; set; }
+        public string DisplayName { get; set; }
+    }
+
 
     public class HotGameResponse
     {
@@ -65,8 +71,15 @@ namespace MemberSite.Service.Model
         public string GameName { get; set; }
         public string GameLogo { get; set; }
         public string TpName { get; set; }
-        public string TPNameKey { get; set; }
+        public string TpNameKey { get; set; }
         public string TpLogo { get; set; }
         public int Sort { get; set; }
+    }
+
+    public class ProviderResponse
+    {
+        public int Id { get; set; }
+        public string TpName { get; set; }
+        public string DisplayName { get; set; }
     }
 }

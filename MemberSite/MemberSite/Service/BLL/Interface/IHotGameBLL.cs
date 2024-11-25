@@ -13,6 +13,7 @@ namespace MemberSite.Service.BLL.Interface
         /// <param name="deviceType"></param>
         /// <returns></returns>
         Task<Dictionary<string, IEnumerable<HotGameResponse>>> GetHotGames(int siteId, int currencyId, HotGameDeviceType deviceType, string langId, GetHotGameDataListRequest request);
+        Task<IEnumerable<ProviderResponse>> GetProvider();
 
     }
 }
