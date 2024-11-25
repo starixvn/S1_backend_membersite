@@ -427,7 +427,7 @@ namespace MemberSite.Controllers
             return apiResult.Data.Mode switch
             {
                 (int)PayChannelMode.OpenView => View(paymentView.ToString(), apiResult),
-                (int)PayChannelMode.Redirect => Redirect(WebUtility.UrlEncode(apiResult.Data.Url)),
+                (int)PayChannelMode.Redirect => Redirect(apiResult.Data.Url),
                 (int)PayChannelMode.ShowQrCode => Json(apiResult),
                 _ => RedirectErrorPage(errorUrl, new ErrorData("Mode not support."))
             };
