@@ -1,4 +1,5 @@
-﻿using MemberSite.Exceptions;
+﻿using System.Net;
+using MemberSite.Exceptions;
 using MemberSite.Extensions;
 using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
@@ -435,7 +436,7 @@ namespace MemberSite.Controllers
                     return true;
                 
                 case (int)PayChannelMode.Redirect:
-                    actionResult = Redirect(apiResult.Data.Url);
+                    actionResult = Redirect(WebUtility.UrlEncode(apiResult.Data.Url));
                     return true;
                 
                 case (int)PayChannelMode.ShowQrCode:
