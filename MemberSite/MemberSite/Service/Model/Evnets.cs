@@ -525,6 +525,8 @@ namespace MemberSite.Service.Model
         public string AwayTeamPic { get; set; }
         public int HomeScore { get; set; }
         public int AwayScore { get; set; }
+        public int CustHomeScore { get; set; }
+        public int CustAwayScore { get; set; }
         public bool Result { get; set; }
         public bool IsPredict { get; set; }
     }
