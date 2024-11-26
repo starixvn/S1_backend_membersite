@@ -1,4 +1,5 @@
-﻿using MemberSite.Service.Model;
+using MemberSite.Service.BLL;
+using MemberSite.Service.Model;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,10 +17,12 @@ namespace MemberSite.Controllers.Api
     public class FrontEndLogController : ControllerBase
     {
         private readonly ILogger<FrontEndLogController> _logger;
+        private readonly CheckIpBLL _checkIpBll;
 
         public FrontEndLogController(IServiceProvider provider)
         {
             _logger = provider.GetRequiredService<ILogger<FrontEndLogController>>();
+            _checkIpBll = provider.GetRequiredService<CheckIpBLL>();
         }
 
         public class FrontEndLogDto
@@ -60,6 +63,14 @@ namespace MemberSite.Controllers.Api
             }
 
             return apiResult;
+        }
+
+        [HttpPost]
+        public ApiResult RegisterRejectClick(RegisterRejectClick inputs)
+        {
+            var apiResult = new ApiResult() { ErrorCode = 0 };
+            _ = _checkIpBll.RegisterRejectClickInsert(inputs);
+            return apiResult; 
         }
     }
 }
