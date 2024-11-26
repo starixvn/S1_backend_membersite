@@ -46,11 +46,4 @@
             Country = iPCountry.Country.Replace("-", "").Replace("\r", "");
         }
     }
-    
-    public class RegisterRejectClick
-    {
-        public int SiteId { get; set; }
-        public string Domain { get; set; }
-        public string ClickTime { get; set; }
-    }
 }

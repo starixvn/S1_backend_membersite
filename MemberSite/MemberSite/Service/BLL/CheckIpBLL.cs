@@ -121,24 +121,5 @@ namespace MemberSite.Service.BLL
                 return "";
             }
         }
-
-        public async Task<bool> RegisterRejectClickInsert(RegisterRejectClick inputs)
-        {
-            try
-            {
-                //前端打API的時間就是ClickTime
-                inputs.ClickTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                var jsonEntry = JsonConvert.SerializeObject(inputs);
-                var score = DateTime.Parse(inputs.ClickTime).ToOADate();
-                var result = await _cacheHelper.SortedSetAddAsync("RegisterRejectClickCount",jsonEntry,score,RedisDataBase.IP);
-                
-                return result;
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, e.Message);
-                return false;
-            }
-        }
     }
 }

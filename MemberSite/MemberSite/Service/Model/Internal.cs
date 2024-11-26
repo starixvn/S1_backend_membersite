@@ -38,5 +38,15 @@
     {
         public int SiteId { get; set; }
     }
-
+    
+    #region IP
+    
+    public class RegisterRejectClick
+    {
+        public int SiteId { get; set; }
+        public string Domain { get; set; }
+        public string ClickTime { get; set; }
+    }
+    
+    #endregion
 }
