@@ -80,7 +80,7 @@ namespace MemberSite.Service.BLL
                             TpGameType = r.TpGameType,
                             TpCategory = r.TpCategory,
                             GameName = r.GameName,
-                            GameLogo = $"{r.TpNameKey}/{r.GameName?.ToLower().Replace(" ", "-")}-en",
+                            GameLogo = $"{r.TpNameKey}/{r.GameName?.ToLower().Replace("\u00A0", "-").Replace(" ", "-")}-en",
                             TpNameKey = r.TpNameKey,
                             TpName = r.TpName,
                             TpLogo = GetTpLogo(r.TpId, r.GameId, r.TpGameType, r.TpCategory),
