@@ -91,7 +91,8 @@ namespace MemberSite.Service.BLL
             {
                 TpId = r.Id,
                 TpNameKey = r.TpName,
-                TpName = r.DisplayName
+                TpName = r.DisplayName,
+                TpLogo = r.DisplayName?.ToLower().Replace(" ", "-")
             }));
 
             return result;
