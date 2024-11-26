@@ -38,4 +38,10 @@ public interface ICacheHelper
     bool TryGetValue<TItem>(string key, out TItem value, RedisDataBase redisDataBase = RedisDataBase.Member);
 
     bool Create<TItem>(string key, TItem value, TimeSpan timeSpan, RedisDataBase redisDataBase = RedisDataBase.Member);
+    
+    Task<bool> SortedSetAddAsync(string key, string value,double score,RedisDataBase redisDataBase = RedisDataBase.Member);
+
+    Task<List<TItem>> SortedSetRangeByScoreAsync<TItem>(string key, double startScore, double endScore, RedisDataBase redisDataBase = RedisDataBase.Member);
+
+
 }
