@@ -120,12 +120,14 @@ namespace MemberSite.Service.BLL
 
             #region 埋點
             
-            if (result == 0 && regCustInfo.SiteId is 1 or 2 or 3 )
+            if (result == 0 && regCustInfo.SiteId is 1 or 3 )
             {
                 _ = Task.Run(() =>
                 {
+                    var transId = FaceBookPixel.completeRegistration.ToString();
+                    _ = _faceBookPixelBll.CustFaceBookDataIns(regCustInfo.CustId , transId);
                     var pixelEvent = new List<FaceBookPixel> {FaceBookPixel.completeRegistration};
-                    var pixelRequest = _faceBookPixelBll.CreatePixelRequest(regCustInfo.SiteId, regCustInfo.CustId, CurrencyId , 0 ,pixelEvent);
+                    var pixelRequest = _faceBookPixelBll.CreatePixelRequest(transId ,regCustInfo.SiteId, regCustInfo.CustId, CurrencyId , 0 ,pixelEvent);
                     _ = _faceBookPixelBll.Send(pixelRequest);
                 });
             }
