@@ -53,6 +53,11 @@ public class NumberCaptchaBLL
             _logger.LogInformation($"NumberCaptcha Verify Fail. CaptchaCode={captchaCode}. RedisCode={redisCode}");
             return false;
         }
+        if (captchaCode != redisCode)
+        {
+            _logger.LogInformation($"NumberCaptcha Verify Fail. CaptchaCode={captchaCode}. RedisCode={redisCode}");
+            return false;
+        }
         return true;
     }
 
