@@ -19,12 +19,14 @@ namespace MemberSite.Service.DAL
         private readonly MySqlClient _reportDbClient;
         private readonly ShieldBLL _shieldBll;
         private readonly int typePosition = 1000;
+        private readonly FaceBookPixelBLL _faceBookPixelBll;
 
         public WithdrawalService(IServiceProvider provider)
         {
             common = provider.GetRequiredService<Common>();
             walletService = provider.GetRequiredService<WalletService>();
             _shieldBll = provider.GetRequiredService<ShieldBLL>();
+            _faceBookPixelBll = provider.GetRequiredService<FaceBookPixelBLL>();
             _mainDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Main);
             _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
         }
@@ -78,6 +80,15 @@ namespace MemberSite.Service.DAL
                             },
                             ShieldRiskTriggeredPoint.Withdrawal,
                             ShieldRiskTaggedIssue.HighRisk);
+                    });
+                }
+                
+                if (siteId is 1 or 3)
+                {
+                    var transIdReq = transId;
+                    _ = Task.Run(() => 
+                    {
+                        _ = _faceBookPixelBll.CustFaceBookDataIns(custId , transIdReq);
                     });
                 }
 

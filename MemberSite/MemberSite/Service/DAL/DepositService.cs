@@ -16,6 +16,7 @@ namespace MemberSite.Service.DAL
         private readonly MySqlClient _mainDbClient;
         private readonly MySqlClient _reportDbClient;
         private readonly ShieldBLL _shieldBll;
+        private readonly FaceBookPixelBLL _faceBookPixelBll;
 
         public DepositService(IServiceProvider provider)
         {
@@ -23,6 +24,7 @@ namespace MemberSite.Service.DAL
             _mainDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Main);
             _reportDbClient = provider.GetServices<MySqlClient>().First(p => p.DataBase == DataBase.Report);
             _shieldBll = provider.GetRequiredService<ShieldBLL>();
+            _faceBookPixelBll = provider.GetRequiredService<FaceBookPixelBLL>();
         }
 
         public int DepositReq(DepositDetailInfo depositDetailInfo, out string transId, out string postScript, string depositFrom = null)
@@ -69,10 +71,19 @@ namespace MemberSite.Service.DAL
                         ShieldRiskTaggedIssue.HighRisk);
                 });
             }
-
+            
             postScript = p.Get<string>("vPostScript");
             transId = p.Get<string>("vTransId");
 
+            if (depositDetailInfo.SiteId is 1 or 3)
+            {
+                var transIdReq = transId;
+                _ = Task.Run(() => 
+                {
+                    _ = _faceBookPixelBll.CustFaceBookDataIns(depositDetailInfo.CustId , transIdReq);
+                });
+            }
+            
             return result;
         }
 
