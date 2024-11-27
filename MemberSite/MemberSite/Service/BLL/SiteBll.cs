@@ -230,8 +230,10 @@ public class SiteBll
             }
         }
 
-        if (!string.IsNullOrWhiteSpace(signupModel.ReCaptchaToken))
-        {
+        // 原本針對google，CNY不需要驗證碼
+        // 因現在驗證碼機制已有多種選擇(google、cloudflare、number)=>改成前端必傳且必驗
+        //if (!string.IsNullOrWhiteSpace(signupModel.ReCaptchaToken))
+        //{
             //Recaptcha Free Policy
             //var verifyResult = _recaptcha.Verify(signupModel.ReCaptchaToken);
             //Recaptcha Enterprise
@@ -243,7 +245,7 @@ public class SiteBll
                 apiResult.Message = $"{_selLangBll.GetMsg("msg_RecaptchaError")}";
                 return false;
             }
-        }
+       // }
 
         if (long.TryParse(signupModel.PhoneNo, out var phoneNo))
         {
