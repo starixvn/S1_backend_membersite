@@ -430,7 +430,7 @@ namespace MemberSite.Controllers
                     return View(paymentView.ToString(), apiResult);
                 case (int)PayChannelMode.Redirect:
                     var uri = new Uri(apiResult.Data.Url);
-                    var query = WebUtility.UrlEncode(uri.Query);
+                    var query = Uri.EscapeDataString(uri.Query);
                     var url = $"{uri.Scheme}://{uri.Host}{uri.AbsolutePath}{query}";
                     return Redirect(url);
                 case (int)PayChannelMode.ShowQrCode:
