@@ -1,4 +1,5 @@
-﻿using MemberSite.Exceptions;
+﻿using System.Net;
+using MemberSite.Exceptions;
 using MemberSite.Extensions;
 using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
@@ -370,8 +371,7 @@ namespace MemberSite.Controllers
                 ErrorCode = errorCode
             };
 
-            return ActionResult(apiResult, transId, new ErrorData(), PaymentView.DepositReqCryptoPay, out var actionResult)
-                ? actionResult : RedirectErrorPage(errorUrl, new ErrorData());
+            return ActionResult(apiResult, transId, PaymentView.DepositReqCryptoPay, errorUrl);
         }
 
         private async Task<IActionResult> DepositBankAutoSelectChannelAsync(int custId, int sysId, decimal amount, string bonusCode, string errorUrl)
@@ -395,8 +395,8 @@ namespace MemberSite.Controllers
 
                 var apiResult = await CreateDepositAndSetPromotionAsync(custId, transId, bonusCode);
 
-                if (ActionResult(apiResult, transId, new ErrorData(), PaymentView.DepositReqOnlineBanking, out var actionResult))
-                    return actionResult;
+                if (apiResult.ErrorCode == (int)ErrorCode.Success)
+                    return ActionResult(apiResult, transId, PaymentView.DepositReqOnlineBanking, errorUrl);
             }
 
             return RedirectErrorPage(errorUrl, new ErrorData($"{transId} All channel unavailable."));
@@ -414,38 +414,24 @@ namespace MemberSite.Controllers
 
             var apiResult = await CreateDepositAndSetPromotionAsync(custId, transId, bonusCode);
 
-            return ActionResult(apiResult, transId, new ErrorData(), PaymentView.DepositReqOnlineBanking, out var actionResult)
-                ? actionResult : RedirectErrorPage(errorUrl, new ErrorData());
+            return ActionResult(apiResult, transId, PaymentView.DepositReqOnlineBanking, errorUrl);
         }
 
-        private bool ActionResult(ApiResult<PayResult> apiResult, string transId, ErrorData model, PaymentView paymentView, out IActionResult actionResult)
+        private IActionResult ActionResult(ApiResult<PayResult> apiResult, string transId, PaymentView paymentView, string errorUrl)
         {
             var useJsonResp = new List<PayChannelMode> { PayChannelMode.ShowQrCode };
             
-            model.Message = $"{transId} {apiResult.Message}";
-            actionResult = null;
-            
             if (useJsonResp.All(x =>(int)x != apiResult.Data.Mode)
                 && apiResult.ErrorCode != (int)ErrorCode.Success)
-                return false;
+                return RedirectErrorPage(errorUrl, new ErrorData($"{transId} {apiResult.Message}"));
 
-            switch (apiResult.Data.Mode)
+            return apiResult.Data.Mode switch
             {
-                case (int)PayChannelMode.OpenView:
-                    actionResult = View(paymentView.ToString(), apiResult);
-                    return true;
-                
-                case (int)PayChannelMode.Redirect:
-                    actionResult = Redirect(apiResult.Data.Url);
-                    return true;
-                
-                case (int)PayChannelMode.ShowQrCode:
-                    actionResult = Json(apiResult);
-                    return true;
-                
-                default:
-                    return false;
-            }
+                (int)PayChannelMode.OpenView => View(paymentView.ToString(), apiResult),
+                (int)PayChannelMode.Redirect => Redirect(apiResult.Data.Url),
+                (int)PayChannelMode.ShowQrCode => Json(apiResult),
+                _ => RedirectErrorPage(errorUrl, new ErrorData("Mode not support."))
+            };
         }
 
         private IActionResult RedirectErrorPage(string errorUrl, ErrorData model)
@@ -493,8 +479,7 @@ namespace MemberSite.Controllers
                 var transId = await _depositBll.DepositReqAsync(input);
                 var apiResult = await CreateDepositAndSetPromotionAsync(input.CustId, transId, bonusCode);
 
-                if (ActionResult(apiResult, transId, new ErrorData(), _paymentViewMapper[input.DepositType], out var actionResult))
-                    return actionResult;
+                return ActionResult(apiResult, transId, _paymentViewMapper[input.DepositType], errorUrl);
             }
             catch (CustomException ex)
             {
