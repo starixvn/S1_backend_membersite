@@ -25,6 +25,7 @@ public class SiteBll
     private readonly ILogger<SiteBll> _logger;
     private readonly IWebHostEnvironment _environment;
     private readonly Dictionary<int, int> _welComeMailConfig;
+    private readonly IEnumerable<int> _captchaSiteConfig;
 
     public SiteBll(IServiceProvider provider)
     {
@@ -43,6 +44,7 @@ public class SiteBll
         _environment = provider.GetRequiredService<IWebHostEnvironment>();
         var configBll = provider.GetRequiredService<ConfigBLL>();
         _welComeMailConfig = provider.GetRequiredService<ConfigBLL>().GetConfigValuesBySiteId<int>("WelcomeEmail");
+        _captchaSiteConfig = configBll.GetConfigValue<IEnumerable<int>>("CaptchaSite");
     }
 
     public Customer Signup(SiteController.SignupModel signupModel, ApiResult apiResult, bool isAuthenticated,
@@ -213,22 +215,25 @@ public class SiteBll
             apiResult.Message = _selLangBll.GetMsg("msg_UsernameValidate");
             return false;
         }
-        // 原本針對google，CNY不需要驗證碼
-        // 因現在驗證碼機制已有多種選擇(google、cloudflare、number)=>改成前端必傳且必驗
-        //if (!string.IsNullOrWhiteSpace(signupModel.ReCaptchaToken))
-        //{
-        //Recaptcha Free Policy
-        //var verifyResult = _recaptcha.Verify(signupModel.ReCaptchaToken);
-        //Recaptcha Enterprise
-        var verifyResult = _captchaBll.VerifyAsync(signupModel.CaptchaType,
-                new CaptchaCommonRequest(signupModel.ReCaptchaToken, "signup", Model.enums.CaptchaActionType.signup)).Result;
+        if (_captchaSiteConfig.Any() && _captchaSiteConfig.Contains(serverInfo.SiteId))
+        {
+            // 原本針對google，CNY不需要驗證碼
+            // 因現在驗證碼機制已有多種選擇(google、cloudflare、number)=>改成前端必傳且必驗
+            //if (!string.IsNullOrWhiteSpace(signupModel.ReCaptchaToken))
+            //{
+            //Recaptcha Free Policy
+            //var verifyResult = _recaptcha.Verify(signupModel.ReCaptchaToken);
+            //Recaptcha Enterprise
+            var verifyResult = _captchaBll.VerifyAsync(signupModel.CaptchaType,
+                    new CaptchaCommonRequest(signupModel.ReCaptchaToken, "signup", Model.enums.CaptchaActionType.signup)).Result;
             if (!verifyResult)
             {
                 apiResult.ErrorCode = -1;
                 apiResult.Message = $"{_selLangBll.GetMsg("msg_RecaptchaError")}";
                 return false;
             }
-        //}
+            //}
+        }
 
         if (!string.IsNullOrWhiteSpace(signupModel.AffCode))
         {
