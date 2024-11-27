@@ -160,32 +160,53 @@ namespace MemberSite.Service.BLL
         {
             var deviceType = _tools.GetDeviceId(_tools.GetFromUrl());
 
-            var key = $"GetLobbyGame-NewUI:{_isStage}:{deviceType}:{req.SiteId}:{req.CurrencyId}:{req.LobbyCategoryIds}";
-            var result = await _cacheHelper.TryGetOrCreateAsync(key,
-                TimeSpan.FromMinutes(5),
-                async () =>
-                {
-                    var result = await _gameService.GetLobbyGame(req);
-                    var (siteId, currencyId, custId) = GetUserInfo(req.CurrencyId, user, serverInfo);
-                    var resultVendor = result.GroupBy(test => test.TpId).Select(grp => grp.First());
-                    var providerList = resultVendor.Select(item => new GameProvider
-                    {
-                        TpId = item.TpId,
-                        TpName = item.TpName,
-                        TpGameType = item.TpGameType,
-                        DisplayText = item.DisplayText,
-                        OpenPath = _openPathList.TryGetValue(item.TpId, out var openPath) ? openPath : null,
-                        ImgName = $"{item.TpName}".ToLower()
-                    });
-                    var favoriteAndRecentlyPlayedTask = await GetFavoriteAndRecentlyPlayed(custId);
-                    var lobbyGameResponse = new LobbyGameResponse
-                    {
-                        ProviderList = providerList.ToList()
-                    };
-                    lobbyGameResponse.SetLobbyCategory(result.ToList(), favoriteAndRecentlyPlayedTask.FavoriteList, favoriteAndRecentlyPlayedTask.RecentlyPlayedList);
-                    return lobbyGameResponse;
-                });
-            return result;
+            //TODO
+            //var key = $"GetLobbyGame-NewUI:{_isStage}:{deviceType}:{req.SiteId}:{req.CurrencyId}:{req.LobbyCategoryIds}";
+            //var result = await _cacheHelper.TryGetOrCreateAsync(key,
+            //    TimeSpan.FromMinutes(5),
+            //    async () =>
+            //    {
+            //        var result = await _gameService.GetLobbyGame(req);
+            //        var (siteId, currencyId, custId) = GetUserInfo(req.CurrencyId, user, serverInfo);
+            //        var resultVendor = result.GroupBy(test => test.TpId).Select(grp => grp.First());
+            //        var providerList = resultVendor.Select(item => new GameProvider
+            //        {
+            //            TpId = item.TpId,
+            //            TpName = item.TpName,
+            //            TpGameType = item.TpGameType,
+            //            DisplayText = item.DisplayText,
+            //            OpenPath = _openPathList.TryGetValue(item.TpId, out var openPath) ? openPath : null,
+            //            ImgName = $"{item.TpCategory}_{item.TpName}".ToLower()
+            //        });
+            //        var favoriteAndRecentlyPlayedTask = await GetFavoriteAndRecentlyPlayed(custId);
+            //        var lobbyGameResponse = new LobbyGameResponse
+            //        {
+            //            ProviderList = providerList.ToList()
+            //        };
+            //        lobbyGameResponse.SetLobbyCategory(result.ToList(), favoriteAndRecentlyPlayedTask.FavoriteList, favoriteAndRecentlyPlayedTask.RecentlyPlayedList);
+            //        return lobbyGameResponse;
+            //    });
+            //return result;
+
+            var result = await _gameService.GetLobbyGame(req);
+            var (siteId, currencyId, custId) = GetUserInfo(req.CurrencyId, user, serverInfo);
+            var resultVendor = result.GroupBy(test => test.TpId).Select(grp => grp.First());
+            var providerList = resultVendor.Select(item => new GameProvider
+            {
+                TpId = item.TpId,
+                TpName = item.TpName,
+                TpGameType = item.TpGameType,
+                DisplayText = item.DisplayText,
+                OpenPath = _openPathList.TryGetValue(item.TpId, out var openPath) ? openPath : null,
+                ImgName = $"{item.TpName}".ToLower()
+            });
+            var favoriteAndRecentlyPlayedTask = await GetFavoriteAndRecentlyPlayed(custId);
+            var lobbyGameResponse = new LobbyGameResponse
+            {
+                ProviderList = providerList.ToList()
+            };
+            lobbyGameResponse.SetLobbyCategory(result.ToList(), favoriteAndRecentlyPlayedTask.FavoriteList, favoriteAndRecentlyPlayedTask.RecentlyPlayedList);
+            return lobbyGameResponse;
         }
 
         private (int SiteId, int CurrencyId, int CustId) GetUserInfo(int? inputCurrencyId, ClaimsPrincipal user, ServerInfo serverInfo)
