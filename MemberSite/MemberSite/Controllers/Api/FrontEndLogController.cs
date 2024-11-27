@@ -1,4 +1,5 @@
-﻿using MemberSite.Service.Model;
+using MemberSite.Service.BLL;
+using MemberSite.Service.Model;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +17,7 @@ namespace MemberSite.Controllers.Api
     public class FrontEndLogController : ControllerBase
     {
         private readonly ILogger<FrontEndLogController> _logger;
-
+        
         public FrontEndLogController(IServiceProvider provider)
         {
             _logger = provider.GetRequiredService<ILogger<FrontEndLogController>>();
@@ -61,5 +62,6 @@ namespace MemberSite.Controllers.Api
 
             return apiResult;
         }
+        
     }
 }

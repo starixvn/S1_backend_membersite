@@ -53,6 +53,14 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
         
+        [HttpPost]
+        public ApiResult RegisterRejectClick(RegisterRejectClick inputs)
+        {
+            var apiResult = new ApiResult() { ErrorCode = 0 };
+            _ = _internalBLL.RegisterRejectClickInsert(inputs);
+            return apiResult; 
+        }
+        
         #region private
 
         private bool VerifyInternalKey(string key)
