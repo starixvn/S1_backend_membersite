@@ -424,13 +424,20 @@ namespace MemberSite.Controllers
                 && apiResult.ErrorCode != (int)ErrorCode.Success)
                 return RedirectErrorPage(errorUrl, new ErrorData($"{transId} {apiResult.Message}"));
 
-            return apiResult.Data.Mode switch
+            switch (apiResult.Data.Mode)
             {
-                (int)PayChannelMode.OpenView => View(paymentView.ToString(), apiResult),
-                (int)PayChannelMode.Redirect => Redirect(apiResult.Data.Url),
-                (int)PayChannelMode.ShowQrCode => Json(apiResult),
-                _ => RedirectErrorPage(errorUrl, new ErrorData("Mode not support."))
-            };
+                case (int)PayChannelMode.OpenView:
+                    return View(paymentView.ToString(), apiResult);
+                case (int)PayChannelMode.Redirect:
+                    var uri = new Uri(apiResult.Data.Url);
+                    var query = WebUtility.UrlEncode(uri.Query);
+                    var url = $"{uri.Scheme}://{uri.Host}{uri.AbsolutePath}{query}";
+                    return Redirect(url);
+                case (int)PayChannelMode.ShowQrCode:
+                    return Json(apiResult);
+                default:
+                    return RedirectErrorPage(errorUrl, new ErrorData("Mode not support."));
+            }
         }
 
         private IActionResult RedirectErrorPage(string errorUrl, ErrorData model)
