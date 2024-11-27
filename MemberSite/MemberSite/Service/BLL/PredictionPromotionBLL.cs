@@ -81,6 +81,7 @@ public class PredictionPromotionBLL
         
         var response = new PredictionWinnerListResponse
         {
+            BonusCode = promotionPrediction.BonusCode,
             SportLeaguesTitle = promotionPrediction.SportLeaguesTitle,
             MatchId = promotionPrediction.MatchId,
             HomeTeamLeaguesId = promotionPrediction.HomeTeamLeaguesId,

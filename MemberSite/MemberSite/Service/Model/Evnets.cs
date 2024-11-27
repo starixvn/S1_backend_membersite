@@ -350,6 +350,7 @@ namespace MemberSite.Service.Model
     
     public class PredictionWinnerListResponse : HotEventDto
     {
+        public string BonusCode { get; set; }
         public decimal Bonus { get; set; }
         public string IsoCode { get; set; }
         public List<string> Winners { get; set; }
