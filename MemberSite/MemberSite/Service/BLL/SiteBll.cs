@@ -26,6 +26,7 @@ public class SiteBll
     private readonly CRMBLL _cRMBll;
     private readonly ILogger<SiteBll> _logger;
     private readonly IWebHostEnvironment _environment;
+    private readonly IEnumerable<int> _captchaSiteConfig;
 
     public SiteBll(IServiceProvider provider)
     {
@@ -42,6 +43,7 @@ public class SiteBll
         _logger = provider.GetRequiredService<ILogger<SiteBll>>();
         _environment = provider.GetRequiredService<IWebHostEnvironment>();
         var configBll = provider.GetRequiredService<ConfigBLL>();
+        _captchaSiteConfig = configBll.GetConfigValue<IEnumerable<int>>("CaptchaSite");
     }
 
     public Customer Signup(SiteController.SignupModel signupModel, ApiResult apiResult, bool isAuthenticated,
@@ -230,10 +232,12 @@ public class SiteBll
             }
         }
 
-        // 原本針對google，CNY不需要驗證碼
-        // 因現在驗證碼機制已有多種選擇(google、cloudflare、number)=>改成前端必傳且必驗
-        //if (!string.IsNullOrWhiteSpace(signupModel.ReCaptchaToken))
-        //{
+        if (_captchaSiteConfig.Any() && _captchaSiteConfig.Contains(serverInfo.SiteId))
+        {
+            // 原本針對google，CNY不需要驗證碼
+            // 因現在驗證碼機制已有多種選擇(google、cloudflare、number)=>改成前端必傳且必驗
+            //if (!string.IsNullOrWhiteSpace(signupModel.ReCaptchaToken))
+            //{
             //Recaptcha Free Policy
             //var verifyResult = _recaptcha.Verify(signupModel.ReCaptchaToken);
             //Recaptcha Enterprise
@@ -245,7 +249,8 @@ public class SiteBll
                 apiResult.Message = $"{_selLangBll.GetMsg("msg_RecaptchaError")}";
                 return false;
             }
-       // }
+            // }
+        }
 
         if (long.TryParse(signupModel.PhoneNo, out var phoneNo))
         {
