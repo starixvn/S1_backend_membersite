@@ -2,6 +2,7 @@
 using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
+using MemberSite.Service.Model.enums;
 
 namespace MemberSite.Service.DAL
 {
@@ -18,17 +19,23 @@ namespace MemberSite.Service.DAL
 
         public async Task<ApiResult> SetVerificationReward(int custId, int verificationType)
         {
-            var apiUrl = $"{_bonusServiceUrl}SetVerificationReward";
-
-            var req = new VerificationRewardObj
-            {
-                CustId = custId,
-                OTPType = verificationType
+            // 市場目前停發驗證獎勵，直接回傳成功
+            return new ApiResult 
+            { 
+                ErrorCode = (int)ErrorCode.Success
             };
+            
+            //var apiUrl = $"{_bonusServiceUrl}SetVerificationReward";
 
-            var result = await _courierAdapter.MyPostAsync<ApiResult, VerificationRewardObj>(apiUrl, req);
+            //var req = new VerificationRewardObj
+            //{
+            //    CustId = custId,
+            //    OTPType = verificationType
+            //};
 
-            return result;
+            //var result = await _courierAdapter.MyPostAsync<ApiResult, VerificationRewardObj>(apiUrl, req);
+
+            //return result;
         }
 
         private class VerificationRewardObj
