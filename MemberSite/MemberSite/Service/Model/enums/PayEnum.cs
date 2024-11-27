@@ -3,5 +3,6 @@ namespace MemberSite.Service.Model.enums;
 public enum PayEnum
 {
     Coin2Pay = 44,
-    SDSPay = 63
+    SDSPay = 63,
+    NewXyPay = 112
 }
