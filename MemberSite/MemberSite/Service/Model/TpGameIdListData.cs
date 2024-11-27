@@ -62,6 +62,7 @@ namespace MemberSite.Service.Model
                            .Replace("™", "")
                            .Replace("---", "-")
                            .Replace("--", "-")
+                           .Replace("\u00A0", "-")
                            .Replace("\u200B", "")
                            .Replace(",", "")
                            .Replace("?", "")
