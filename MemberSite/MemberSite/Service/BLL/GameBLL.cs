@@ -175,7 +175,7 @@ namespace MemberSite.Service.BLL
                         TpGameType = item.TpGameType,
                         DisplayText = item.DisplayText,
                         OpenPath = _openPathList.TryGetValue(item.TpId, out var openPath) ? openPath : null,
-                        ImgName = $"{item.TpCategory}_{item.TpName}".ToLower()
+                        ImgName = $"{item.TpName}".ToLower()
                     });
                     var favoriteAndRecentlyPlayedTask = await GetFavoriteAndRecentlyPlayed(custId);
                     var lobbyGameResponse = new LobbyGameResponse
