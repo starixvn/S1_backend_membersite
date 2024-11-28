@@ -7,6 +7,7 @@ using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 using static MemberSite.Controllers.entPageController;
@@ -425,20 +426,13 @@ namespace MemberSite.Controllers
                 && apiResult.ErrorCode != (int)ErrorCode.Success)
                 return RedirectErrorPage(errorUrl, new ErrorData($"{transId} {apiResult.Message}"));
 
-            switch (apiResult.Data.Mode)
+            return apiResult.Data.Mode switch
             {
-                case (int)PayChannelMode.OpenView:
-                    return View(paymentView.ToString(), apiResult);
-                case (int)PayChannelMode.Redirect:
-                    var uri = new Uri(apiResult.Data.Url);
-                    var query = Uri.EscapeDataString(uri.Query);
-                    var url = $"{uri.Scheme}://{uri.Host}{uri.AbsolutePath}{query}";
-                    return Redirect(url);
-                case (int)PayChannelMode.ShowQrCode:
-                    return Json(apiResult);
-                default:
-                    return RedirectErrorPage(errorUrl, new ErrorData("Mode not support."));
-            }
+                (int)PayChannelMode.OpenView => View(paymentView.ToString(), apiResult),
+                (int)PayChannelMode.Redirect => Redirect(UriHelper.Encode(new Uri(apiResult.Data.Url))),
+                (int)PayChannelMode.ShowQrCode => Json(apiResult),
+                _ => RedirectErrorPage(errorUrl, new ErrorData("Mode not support."))
+            };
         }
 
         private IActionResult RedirectErrorPage(string errorUrl, ErrorData model)
