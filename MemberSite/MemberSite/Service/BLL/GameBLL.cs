@@ -303,12 +303,12 @@ namespace MemberSite.Service.BLL
                             IconStartTime = item.IconStartTime,
                             IconEndTime = item.IconEndTime,
                             CurrencyGameName = string.IsNullOrEmpty(item.CurrencyGameName) ? null : JsonConvert.DeserializeObject<Dictionary<string, string>>(item.CurrencyGameName),
-                            RwdHeaderPicUrl = JsonConvert.SerializeObject(new List<string> { $"{imgDomain}/img/Header/{item.TpName}/{item.LobbyCategory}/{item.ImgGameName.Replace(":", "")}.png" }),
-                            RwdLobbyPicUrl = JsonConvert.SerializeObject(new List<string> { $"{imgDomain}/img/LobbyHeader/{item.TpName}/{item.LobbyCategory}/{item.ImgGameName.Replace(":", "")}.png" }),
-                            PcHeaderPicUrl = JsonConvert.SerializeObject(new List<string> { $"{imgDomain}/desktop/img/Header/{item.TpName}/{item.LobbyCategory}/{item.ImgGameName.Replace(":", "")}.png" }),
-                            PcLobbyPicUrl = JsonConvert.SerializeObject(new List<string> { $"{imgDomain}/desktop/img/LobbyHeader/{item.TpName}/{item.LobbyCategory}/{item.ImgGameName.Replace(":", "")}.png" }),
-                            MobileHeaderPicUrl = JsonConvert.SerializeObject(new List<string> { $"{imgDomain}/h5/img/Header/{item.TpName}/{item.LobbyCategory}/{item.ImgGameName.Replace(":", "")}.png" }),
-                            MobileLobbyPicUrl = JsonConvert.SerializeObject(new List<string> { $"{imgDomain}/h5/img/LobbyHeader/{item.TpName}/{item.LobbyCategory}/{item.ImgGameName.Replace(":", "")}.png" }),
+                            RwdHeaderPicUrl = JsonConvert.SerializeObject(new List<string> { $"{imgDomain}/img/Header/{item.TpName}/{item.LobbyCategory}/{item.ImgGameName.Replace(":", "")}.webp" }),
+                            RwdLobbyPicUrl = JsonConvert.SerializeObject(new List<string> { $"{imgDomain}/img/LobbyHeader/{item.TpName}/{item.LobbyCategory}/{item.ImgGameName.Replace(":", "")}.webp" }),
+                            PcHeaderPicUrl = JsonConvert.SerializeObject(new List<string> { $"{imgDomain}/desktop/img/Header/{item.TpName}/{item.LobbyCategory}/{item.ImgGameName.Replace(":", "")}.webp" }),
+                            PcLobbyPicUrl = JsonConvert.SerializeObject(new List<string> { $"{imgDomain}/desktop/img/LobbyHeader/{item.TpName}/{item.LobbyCategory}/{item.ImgGameName.Replace(":", "")}.webp" }),
+                            MobileHeaderPicUrl = JsonConvert.SerializeObject(new List<string> { $"{imgDomain}/h5/img/Header/{item.TpName}/{item.LobbyCategory}/{item.ImgGameName.Replace(":", "")}.webp" }),
+                            MobileLobbyPicUrl = JsonConvert.SerializeObject(new List<string> { $"{imgDomain}/h5/img/LobbyHeader/{item.TpName}/{item.LobbyCategory}/{item.ImgGameName.Replace(":", "")}.webp" }),
                             Sort = item.Sort
                         };
                         return responseDetail;
