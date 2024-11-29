@@ -1,18 +1,16 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Web;
-
-using MemberSite.Service.BLL;
+﻿using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Line;
-
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Web;
 
 namespace MemberSite.Controllers.Api
 {
@@ -174,7 +172,7 @@ namespace MemberSite.Controllers.Api
                         result.ErrorCode = LineLoginErrorCode.Success;
                         break;
                     default:
-                        message = _selLangBll.GetMsg("msg_ApiServerError");
+                        message = _selLangBll.GetMsg("msg_NotBindingWithLine");
                         break;
                 }
 
