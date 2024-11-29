@@ -89,7 +89,7 @@ namespace MemberSite.Service.BLL
 
         public async Task<IEnumerable<GameProvider>> GetGameProviderByCategory(int siteId, int currencyId, TpCategory tpCategory, Dictionary<string, string> changeGameImgName)
         {
-            return await _cacheHelper.TryGetOrCreateAsync($"GetGameProviderByCategory:{currencyId}:{siteId}:{tpCategory}",
+            return await _cacheHelper.TryGetOrCreateAsync($"GetGameProviderByCategory-NewUI:{currencyId}:{siteId}:{tpCategory}",
                 TimeSpan.FromMinutes(10),
                 async () =>
                 {
@@ -102,7 +102,7 @@ namespace MemberSite.Service.BLL
                     foreach (var provider in providerList)
                     {
                         var tpName = changeGameImgName.TryGetValue(provider.TpName, out var changeName) ? changeName : provider.TpName;
-                        provider.ImgName = $"{tpCategory}_{tpName}".ToLower();
+                        provider.ImgName = $"{tpName}".ToLower();
                         provider.OpenPath = _openPathList.TryGetValue(provider.TpId, out var openPath) ? openPath : null;
                     }
                     return providerList;
