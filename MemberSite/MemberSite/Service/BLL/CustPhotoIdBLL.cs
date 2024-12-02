@@ -1,6 +1,4 @@
 using Amazon.S3.Model;
-
-using MemberSite.Extensions;
 using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Library;
@@ -14,7 +12,6 @@ public class CustPhotoIdBLL : ICustPhotoIdBLL
     private readonly AWSS3Helper _s3Helper;
     private readonly ServerInfoBll _serverInfoBll;
     private readonly ILogger<CustPhotoIdBLL> _logger;
-    private readonly string _environment;
     private readonly string _backOfficeBucketName;
 
     public CustPhotoIdBLL(ImageEditorBLL imageEditorBll,
@@ -30,7 +27,6 @@ public class CustPhotoIdBLL : ICustPhotoIdBLL
         _serverInfoBll = serverInfoBll;
         _custPhotoIdService = custPhotoIdService;
         _s3Helper = s3Helper;
-        _environment = env.IsPrd() ? "PRD" : "DEV";
         _backOfficeBucketName = configBll.GetConfigValue("AWSBackOfficeBucketName");
     }
 
@@ -50,7 +46,7 @@ public class CustPhotoIdBLL : ICustPhotoIdBLL
         var serverInfo = _serverInfoBll.GetServerInfo();
         var siteName = serverInfo.SiteName.ToUpper();
         var stream = new MemoryStream(fileBytes);
-        var key = $"{_environment}/{siteName}/CustPhotoId/{custId}/{sq}.jpeg";
+        var key = $"{siteName}/CustPhotoId/{custId}/{sq}.jpeg";
         var putRequest = new PutObjectRequest
         {
             BucketName = _backOfficeBucketName,
