@@ -1279,7 +1279,7 @@ namespace MemberSite.Controllers.Api
             {
                 var authData = _authorizeBll.GetAuthData();
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-                var matchInfo = await _predictionPromotionBll.GetPromotionPredictionByMatchId(custInfo.SiteId,request.MatchId);
+                var matchInfo = await _predictionPromotionBll.GetPromotionPredictionByMatchId(custInfo.SiteId, custInfo.CurrencyId ,request.MatchId);
                 
                 #region check Time
                 

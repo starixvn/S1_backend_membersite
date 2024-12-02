@@ -652,10 +652,11 @@ namespace MemberSite.Service.DAL
             return _reportDbClient.QueryAsync<PredictionWinnerModel>("Service_PromotionPredictionWinnerList_Get", p);
         }
         
-        public Task<PromotionPrediction> GetPromotionPredictionByMatchId(int siteId, int matchId)
+        public Task<PromotionPrediction> GetPromotionPredictionByMatchId(int siteId, int currencyId ,int matchId)
         {
             var p = new DynamicParameters();
             p.Add("_SiteId", siteId, dbType: DbType.Int64);
+            p.Add("_CurrencyId", currencyId, dbType: DbType.Int64);
             p.Add("_MatchId", matchId, dbType: DbType.Int64);
 
             return _reportDbClient.QueryFirstAsync<PromotionPrediction>("Service_PromotionPredictionByMatchId_Get", p);
