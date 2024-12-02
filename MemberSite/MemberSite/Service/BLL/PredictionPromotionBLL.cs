@@ -99,9 +99,9 @@ public class PredictionPromotionBLL
         return response;
     }
     
-    public async Task<PromotionPrediction> GetPromotionPredictionByMatchId(int siteId, int matchId)
+    public async Task<PromotionPrediction> GetPromotionPredictionByMatchId(int siteId,int currencyId, int matchId)
     {
-        var promotionPrediction = await _eventsService.GetPromotionPredictionByMatchId(siteId, matchId);
+        var promotionPrediction = await _eventsService.GetPromotionPredictionByMatchId(siteId, currencyId, matchId);
       
         return promotionPrediction;
     }
