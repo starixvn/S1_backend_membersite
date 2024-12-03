@@ -518,10 +518,11 @@ namespace MemberSite.Service.DAL
             return _reportDbClient.QueryFirstAsync<PromotionPrediction>("Member_PredictionResultTeamInfo_Get", p);
         }
 
-        public Task<IEnumerable<PredictionWinnerModel>> GetPromotionPredictionWinnerList(int siteId, int matchId)
+        public Task<IEnumerable<PredictionWinnerModel>> GetPromotionPredictionWinnerList(int siteId, int currencyId ,int matchId)
         {
             var p = new DynamicParameters();
             p.Add("_SiteId", siteId, dbType: DbType.Int64);
+            p.Add("_CurrencyId", currencyId);
             p.Add("_MatchId", matchId, dbType: DbType.Int64);
 
             return _reportDbClient.QueryAsync<PredictionWinnerModel>("Service_PromotionPredictionWinnerList_Get", p);
