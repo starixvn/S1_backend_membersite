@@ -54,7 +54,7 @@ namespace MemberSite.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> DepositReqOnlineBankingAsync(int sysId, int payId, int ChannelId, decimal Amount, string BonusCode, string ErrorUrl)
+        public async Task<IActionResult> DepositReqOnlineBankingAsync(int sysId, int payId, int ChannelId, decimal Amount, string BonusCode, string ErrorUrl, string HomeUrl)
         {
 
             var model = new ErrorData();
@@ -65,7 +65,7 @@ namespace MemberSite.Controllers
 
             try
             {
-                return await DepositOnlineBankingAsync(authData.CustId, sysId, ChannelId, Amount, BonusCode, null, ErrorUrl);
+                return await DepositOnlineBankingAsync(authData.CustId, sysId, ChannelId, Amount, BonusCode, null, ErrorUrl, HomeUrl);
             }
             catch (CustomException ex)
             {
@@ -81,7 +81,7 @@ namespace MemberSite.Controllers
             return RedirectErrorPage(ErrorUrl, model);
         }
 
-        public async Task<IActionResult> DepositReqMobilePayAsync(int ChannelId, decimal Amount, string BonusCode, string PayAccount, string ErrorUrl)
+        public async Task<IActionResult> DepositReqMobilePayAsync(int ChannelId, decimal Amount, string BonusCode, string PayAccount, string ErrorUrl, string HomeUrl)
         {
             var authData = _authorizeBll.GetAuthData();
 
@@ -98,10 +98,10 @@ namespace MemberSite.Controllers
                 {
                     {"PayAccount", PayAccount}
                 }
-            }, BonusCode, ErrorUrl);
+            }, BonusCode, ErrorUrl, HomeUrl);
         }
 
-        public async Task<IActionResult> DepositReqCryptoPayAsync(int ChannelId, decimal Amount, string BonusCode, string ErrorUrl)
+        public async Task<IActionResult> DepositReqCryptoPayAsync(int ChannelId, decimal Amount, string BonusCode, string ErrorUrl, string HomeUrl)
         {
             var authData = _authorizeBll.GetAuthData();
 
@@ -115,11 +115,11 @@ namespace MemberSite.Controllers
                 CustId = authData.CustId,
                 DepositType = DepositType.CryptoPayment,
                 ExtraData = new Dictionary<string, string>()
-            }, BonusCode, ErrorUrl);
+            }, BonusCode, ErrorUrl, HomeUrl);
         }
 
 
-        public async Task<IActionResult> DepositReqCryptoLocalPayAsync(int ChannelId, decimal Amount, string BonusCode, string ErrorUrl)
+        public async Task<IActionResult> DepositReqCryptoLocalPayAsync(int ChannelId, decimal Amount, string BonusCode, string ErrorUrl, string HomeUrl)
         {
             var authData = _authorizeBll.GetAuthData();
 
@@ -129,7 +129,7 @@ namespace MemberSite.Controllers
             return await DepositCryptoWalletAsync(authData.CustId, ChannelId, Amount, BonusCode, ErrorUrl);
         }
 
-        public async Task<IActionResult> DepositReqLoadCardPayAsync(int ChannelId, string Code, string Serial, decimal Amount, string BonusCode, string ErrorUrl)
+        public async Task<IActionResult> DepositReqLoadCardPayAsync(int ChannelId, string Code, string Serial, decimal Amount, string BonusCode, string ErrorUrl, string HomeUrl)
         {
             var authData = _authorizeBll.GetAuthData();
             if (authData is not { CustId: > 0 })
@@ -146,7 +146,7 @@ namespace MemberSite.Controllers
                     {"Code", Code},
                     {"Serial", Serial}
                 }
-            }, BonusCode, ErrorUrl);
+            }, BonusCode, ErrorUrl, HomeUrl);
         }
 
         [Route("[controller]/DepositReceip.jpg")]
@@ -208,7 +208,7 @@ namespace MemberSite.Controllers
             return result;
         }
 
-        public async Task<IActionResult> DepositReqQRPayAsync(int ChannelId, decimal Amount, string BonusCode, string ErrorUrl)
+        public async Task<IActionResult> DepositReqQRPayAsync(int ChannelId, decimal Amount, string BonusCode, string ErrorUrl, string HomeUrl)
         {
             var authData = _authorizeBll.GetAuthData();
             if (authData is not { CustId: > 0 })
@@ -221,10 +221,10 @@ namespace MemberSite.Controllers
                 CustId = authData.CustId,
                 DepositType = DepositType.QrPayPayment,
                 ExtraData = new Dictionary<string, string>()
-            }, BonusCode, ErrorUrl);
+            }, BonusCode, ErrorUrl, HomeUrl);
         }
 
-        public async Task<IActionResult> DepositReqBankAutoChannelAsync(int sysId, decimal Amount, string BonusCode, string ErrorUrl)
+        public async Task<IActionResult> DepositReqBankAutoChannelAsync(int sysId, decimal Amount, string BonusCode, string ErrorUrl,  string HomeUrl)
         {
             var model = new ErrorData();
             var authData = _authorizeBll.GetAuthData();
@@ -235,7 +235,7 @@ namespace MemberSite.Controllers
 
             try
             {
-                return await DepositBankAutoSelectChannelAsync(authData.CustId, sysId, Amount, BonusCode, ErrorUrl);
+                return await DepositBankAutoSelectChannelAsync(authData.CustId, sysId, Amount, BonusCode, ErrorUrl, HomeUrl);
             }
             catch (CustomException ex)
             {
@@ -252,7 +252,7 @@ namespace MemberSite.Controllers
         }
 
         public async Task<IActionResult> DepositReqAsync(int channelId, int sysId, decimal amount, string bonusCode,
-            string payAccount, string code, string serial, string errorUrl)
+            string payAccount, string code, string serial, string errorUrl, string homeUrl)
         {
 
             var authData = _authorizeBll.GetAuthData();
@@ -265,7 +265,7 @@ namespace MemberSite.Controllers
             {
                 if (channelId == 0 && sysId > 0)
                 {
-                    return await DepositBankAutoSelectChannelAsync(authData.CustId, sysId, amount, bonusCode, errorUrl);
+                    return await DepositBankAutoSelectChannelAsync(authData.CustId, sysId, amount, bonusCode, errorUrl, homeUrl);
                 }
 
                 var channels = _payInfoBll.GetPayChannelWithCache();
@@ -293,7 +293,7 @@ namespace MemberSite.Controllers
                         return await DepositOnlineBankingAsync(authData.CustId, sysId, channelId, amount, bonusCode, new Dictionary<string, string>
                         {
                             {"PayAccount", payAccount}
-                        }, errorUrl, channel.Type);
+                        }, errorUrl,homeUrl, channel.Type);
 
                     case DepositType.MobilePayment:
                         p.ExtraData = new Dictionary<string, string>
@@ -323,7 +323,7 @@ namespace MemberSite.Controllers
                         return RedirectErrorPage(errorUrl, new ErrorData("Not supported."));
                 }
 
-                return await CreateDeposit(p, bonusCode, errorUrl);
+                return await CreateDeposit(p, bonusCode, errorUrl, homeUrl);
             }
             catch (CustomException ex)
             {
@@ -381,7 +381,7 @@ namespace MemberSite.Controllers
                 ? actionResult : RedirectErrorPage(errorUrl, new ErrorData());
         }
 
-        private async Task<IActionResult> DepositBankAutoSelectChannelAsync(int custId, int sysId, decimal amount, string bonusCode, string errorUrl)
+        private async Task<IActionResult> DepositBankAutoSelectChannelAsync(int custId, int sysId, decimal amount, string bonusCode, string errorUrl, string homeUrl )
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
@@ -400,7 +400,7 @@ namespace MemberSite.Controllers
                     continue;
                 }
 
-                var apiResult = await CreateDepositAndSetPromotionAsync(custId, transId, bonusCode);
+                var apiResult = await CreateDepositAndSetPromotionAsync(custId, transId, bonusCode, homeUrl);
 
                 if (ActionResult(apiResult, transId, new ErrorData(), PaymentView.DepositReqOnlineBanking, out var actionResult))
                     return actionResult;
@@ -411,7 +411,7 @@ namespace MemberSite.Controllers
 
         private async Task<IActionResult> DepositOnlineBankingAsync(
             int custId, int sysId, int channelId, decimal amount, string bonusCode,
-            IDictionary<string, string> extraData, string errorUrl, DepositType depositType = DepositType.OnlineBanking)
+            IDictionary<string, string> extraData, string errorUrl, string homeUrl, DepositType depositType = DepositType.OnlineBanking)
         {
             var result = _paymentBll.DepositReqOnlineBanking(custId, sysId, channelId, amount, depositType, extraData,
                 out var transId);
@@ -419,7 +419,7 @@ namespace MemberSite.Controllers
             if (result != (int)ErrorCode.Success)
                 return RedirectErrorPage(errorUrl, new ErrorData($"Deposit{depositType.GetDescription()} Failed."));
 
-            var apiResult = await CreateDepositAndSetPromotionAsync(custId, transId, bonusCode);
+            var apiResult = await  CreateDepositAndSetPromotionAsync(custId, transId, bonusCode, homeUrl);
 
             return ActionResult(apiResult, transId, new ErrorData(), PaymentView.DepositReqOnlineBanking, out var actionResult)
                 ? actionResult : RedirectErrorPage(errorUrl, new ErrorData());
@@ -497,13 +497,13 @@ namespace MemberSite.Controllers
                 {DepositType.ChatTransfer, PaymentView.DepositReqOnlineBanking}
             };
 
-        private async Task<IActionResult> CreateDeposit(DepositReqParams input, string bonusCode, string errorUrl)
+        private async Task<IActionResult> CreateDeposit(DepositReqParams input, string bonusCode, string errorUrl, string homeUrl )
         {
             var model = new ErrorData();
             try
             {
                 var transId = await _depositBll.DepositReqAsync(input);
-                var apiResult = await CreateDepositAndSetPromotionAsync(input.CustId, transId, bonusCode);
+                var apiResult = await CreateDepositAndSetPromotionAsync(input.CustId, transId, bonusCode, homeUrl);
 
                 if (ActionResult(apiResult, transId, new ErrorData(), _paymentViewMapper[input.DepositType], out var actionResult))
                     return actionResult;
@@ -522,7 +522,7 @@ namespace MemberSite.Controllers
             return RedirectErrorPage(errorUrl, model);
         }
 
-        private async Task<ApiResult<PayResult>> CreateDepositAndSetPromotionAsync(int custId, string transId, string bonusCode)
+        private async Task<ApiResult<PayResult>> CreateDepositAndSetPromotionAsync(int custId, string transId, string bonusCode, string homeUrl)
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
 
@@ -537,10 +537,10 @@ namespace MemberSite.Controllers
                     1,
                     0);
 
-            return await CreateDeposit(transId, custInfo);
+            return await CreateDeposit(transId, custInfo, homeUrl);
         }
 
-        private async Task<ApiResult<PayResult>> CreateDeposit(string transId, Customer custInfo)
+        private async Task<ApiResult<PayResult>> CreateDeposit(string transId, Customer custInfo, string homeUrl)
         {
             var url = $"{_payApiUrl}Deposit/Create";
             var apiResult = await _courierAdapter.MyPostAsync<PayResult, DepositReq>(url, new DepositReq
@@ -548,7 +548,7 @@ namespace MemberSite.Controllers
                 TransId = transId,
                 ClientIP = _tools.GetClientIP(),
                 DeviceType = _tools.GetDeviceId(_tools.GetFromUrl()),
-                ReturnUrl = $"{Request.Scheme}://{Request.Host.Host}/{custInfo.UserLang}/deposit"
+                ReturnUrl = $"{homeUrl}/{custInfo.UserLang}/deposit"
             });
 
             return apiResult;
