@@ -77,7 +77,7 @@ public class PredictionPromotionBLL
             return null;
         }
         
-        var winnerList = await _eventsService.GetPromotionPredictionWinnerList(siteId, promotionPrediction.MatchId);
+        var winnerList = await _eventsService.GetPromotionPredictionWinnerList(siteId, currencyId ,promotionPrediction.MatchId);
         
         var response = new PredictionWinnerListResponse
         {
