@@ -13,7 +13,7 @@ public class FaceBookPixelBLL
     {
         var configBll = provider.GetRequiredService<ConfigBLL>();
         _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
-        _commonServiceUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost").CommonService;
+        _commonServiceUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("serviceHosts").CommonService;
         _courierAdapter = provider.GetRequiredService<CourierAdapter>();
     }
 

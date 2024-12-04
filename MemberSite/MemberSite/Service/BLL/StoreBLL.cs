@@ -14,7 +14,7 @@ public class StoreBLL
     {
         _logger = provider.GetRequiredService<ILogger<StoreBLL>>();
         var configBll = provider.GetRequiredService<ConfigBLL>();
-        _storeSiteUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost").StoreService;
+        _storeSiteUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("serviceHosts").StoreService;
         _courierAdapter = provider.GetRequiredService<CourierAdapter>();
     }
 

@@ -37,7 +37,7 @@ public class OlympicEventBLL : IOlympicEventBLL
         _logger = provider.GetRequiredService<ILogger<OlympicEventBLL>>();
         var configBll = provider.GetRequiredService<ConfigBLL>();
         _tools = provider.GetRequiredService<Tools>();
-        _bonusApiUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost").BonusService;
+        _bonusApiUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("serviceHosts").BonusService;
     }
     
     public async Task<OlympicMemberDepositTicketInfoResponse> GetOlympicEventTicket(int siteId, int custId, string userName, string langId,

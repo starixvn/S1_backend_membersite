@@ -24,7 +24,7 @@ namespace MemberSite.Controllers
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             var configBll = provider.GetRequiredService<ConfigBLL>();
-            _commonServiceUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost").CommonService;
+            _commonServiceUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("serviceHosts").CommonService;
         }
 
         [HttpGet]

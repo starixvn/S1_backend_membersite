@@ -29,7 +29,7 @@ namespace MemberSite.Service.BLL
             _courierAdapter = provider.GetRequiredService<CourierAdapter>();
 
             var configBll = provider.GetRequiredService<ConfigBLL>();
-            _tpServiceApiUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost").TpService;
+            _tpServiceApiUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("serviceHosts").TpService;
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
         }
 

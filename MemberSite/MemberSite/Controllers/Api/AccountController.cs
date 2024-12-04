@@ -56,7 +56,7 @@ namespace MemberSite.Controllers.Api
             _courierAdapter = provider.GetRequiredService<CourierAdapter>();
 
             _configBll = provider.GetRequiredService<ConfigBLL>();
-            _tpServiceApiUrl = _configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost").TpService;
+            _tpServiceApiUrl = _configBll.GetConfigValueByEnvironment<ServiceHostConfig>("serviceHosts").TpService;
             _jwtConfig = _configBll.GetConfigValueByEnvironment<JwtConfig>("JwtSettings");
             _messageBll = provider.GetRequiredService<MessageBll>();
             _paymentBll = provider.GetRequiredService<PaymentBLL>();

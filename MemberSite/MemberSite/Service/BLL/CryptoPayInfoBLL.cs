@@ -31,7 +31,7 @@ namespace MemberSite.Service.BLL
             _depositService = provider.GetRequiredService<DepositService>();
             _payInfoBll = provider.GetRequiredService<PayInfoBLL>();
             var configBll = provider.GetRequiredService<ConfigBLL>();
-            _payApiUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost").PayService;
+            _payApiUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("serviceHosts").PayService;
 
             _courierAdapter = provider.GetRequiredService<CourierAdapter>();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();

@@ -39,7 +39,7 @@ namespace MemberSite.Controllers
             _gameBll = provider.GetRequiredService<GameBLL>();
             _checkIpBll = provider.GetRequiredService<CheckIpBLL>();
             var configBll = provider.GetRequiredService<ConfigBLL>();
-            _tpServiceApiUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost").TpService;
+            _tpServiceApiUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("serviceHosts").TpService;
             _logger = provider.GetRequiredService<ILogger<entPageController>>();
         }
 

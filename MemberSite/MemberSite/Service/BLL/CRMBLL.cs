@@ -11,7 +11,7 @@ namespace MemberSite.Service.BLL
         public CRMBLL(IServiceProvider provider)
         {
             var configBll = provider.GetRequiredService<ConfigBLL>();
-            _commonServiceUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost").CommonService;
+            _commonServiceUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("serviceHosts").CommonService;
             _courierAdapter = provider.GetRequiredService<CourierAdapter>();
         }
 

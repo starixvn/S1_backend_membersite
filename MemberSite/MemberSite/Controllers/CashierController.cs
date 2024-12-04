@@ -46,10 +46,10 @@ namespace MemberSite.Controllers
             _payInfoBll = provider.GetRequiredService<PayInfoBLL>();
             _logger = provider.GetRequiredService<ILogger<CashierController>>();
             var configBll = provider.GetRequiredService<ConfigBLL>();
-            _payApiUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost").PayService;
+            _payApiUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("serviceHosts").PayService;
 
             _logger.LogInformation("---- CONFIG SERVICE HOST ----");
-            _logger.LogInformation(JsonConvert.SerializeObject(configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost")));
+            _logger.LogInformation(JsonConvert.SerializeObject(configBll.GetConfigValueByEnvironment<ServiceHostConfig>("serviceHosts")));
 
         }
 
