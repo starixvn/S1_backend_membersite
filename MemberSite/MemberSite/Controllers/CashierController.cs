@@ -1,4 +1,5 @@
-﻿using MemberSite.Exceptions;
+﻿using System.Net;
+using MemberSite.Exceptions;
 using MemberSite.Extensions;
 using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
@@ -6,6 +7,7 @@ using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 using static MemberSite.Controllers.entPageController;
@@ -369,8 +371,7 @@ namespace MemberSite.Controllers
                 ErrorCode = errorCode
             };
 
-            return ActionResult(apiResult, transId, new ErrorData(), PaymentView.DepositReqCryptoPay, out var actionResult)
-                ? actionResult : RedirectErrorPage(errorUrl, new ErrorData());
+            return ActionResult(apiResult, transId, PaymentView.DepositReqCryptoPay, errorUrl);
         }
 
         private async Task<IActionResult> DepositBankAutoSelectChannelAsync(int custId, int sysId, decimal amount, string bonusCode, string errorUrl)
@@ -394,8 +395,8 @@ namespace MemberSite.Controllers
 
                 var apiResult = await CreateDepositAndSetPromotionAsync(custId, transId, bonusCode);
 
-                if (ActionResult(apiResult, transId, new ErrorData(), PaymentView.DepositReqOnlineBanking, out var actionResult))
-                    return actionResult;
+                if (apiResult.ErrorCode == (int)ErrorCode.Success)
+                    return ActionResult(apiResult, transId, PaymentView.DepositReqOnlineBanking, errorUrl);
             }
 
             return RedirectErrorPage(errorUrl, new ErrorData($"{transId} All channel unavailable."));
@@ -413,44 +414,24 @@ namespace MemberSite.Controllers
 
             var apiResult = await CreateDepositAndSetPromotionAsync(custId, transId, bonusCode);
 
-            return ActionResult(apiResult, transId, new ErrorData(), PaymentView.DepositReqOnlineBanking, out var actionResult)
-                ? actionResult : RedirectErrorPage(errorUrl, new ErrorData());
+            return ActionResult(apiResult, transId, PaymentView.DepositReqOnlineBanking, errorUrl);
         }
 
-        private bool ActionResult(ApiResult<PayResult> apiResult, string transId, ErrorData model, PaymentView paymentView, out IActionResult actionResult)
+        private IActionResult ActionResult(ApiResult<PayResult> apiResult, string transId, PaymentView paymentView, string errorUrl)
         {
-            switch (apiResult.Data.Mode)
+            var useJsonResp = new List<PayChannelMode> { PayChannelMode.ShowQrCode };
+            
+            if (useJsonResp.All(x =>(int)x != apiResult.Data.Mode)
+                && apiResult.ErrorCode != (int)ErrorCode.Success)
+                return RedirectErrorPage(errorUrl, new ErrorData($"{transId} {apiResult.Message}"));
+
+            return apiResult.Data.Mode switch
             {
-                case  (int)PayChannelMode.OpenView when apiResult.ErrorCode == (int)ErrorCode.Success:
-                    {
-
-                        if (paymentView == PaymentView.DepositReqOnlineBanking &&
-                            !string.IsNullOrEmpty(apiResult.Data.Message))
-                        {
-                            actionResult = Content(apiResult.Data.Message, "text/html");
-                        }
-                        else
-                        {
-                            actionResult = View(paymentView.ToString(), apiResult);
-                        }
-
-                        return true;
-                    }
-                case (int)PayChannelMode.Redirect when apiResult.ErrorCode == (int)ErrorCode.Success:
-                    {
-                        actionResult = Redirect(apiResult.Data.Url);
-                        return true;
-                    }
-                case (int)PayChannelMode.ShowQrCode:
-                    {
-                        actionResult = Json(apiResult);
-                        return true;
-                    }
-                default:
-                    model.Message = $"{transId} {apiResult.RawMessage}";
-                    actionResult = null;
-                    return false;
-            }
+                (int)PayChannelMode.OpenView => View(paymentView.ToString(), apiResult),
+                (int)PayChannelMode.Redirect => Redirect(UriHelper.Encode(new Uri(apiResult.Data.Url))),
+                (int)PayChannelMode.ShowQrCode => Json(apiResult),
+                _ => RedirectErrorPage(errorUrl, new ErrorData("Mode not support."))
+            };
         }
 
         private IActionResult RedirectErrorPage(string errorUrl, ErrorData model)
@@ -498,8 +479,7 @@ namespace MemberSite.Controllers
                 var transId = await _depositBll.DepositReqAsync(input);
                 var apiResult = await CreateDepositAndSetPromotionAsync(input.CustId, transId, bonusCode);
 
-                if (ActionResult(apiResult, transId, new ErrorData(), _paymentViewMapper[input.DepositType], out var actionResult))
-                    return actionResult;
+                return ActionResult(apiResult, transId, _paymentViewMapper[input.DepositType], errorUrl);
             }
             catch (CustomException ex)
             {
