@@ -277,4 +277,90 @@ namespace MemberSite.Service.Model
 
     #endregion
 
+    #region Prediction
+    
+    public class GetPredictionTeamInfoResp
+    {
+        public string BonusCode { get; set; }
+        public IEnumerable<PromotionPrediction> PromotionPrediction { get; set; }
+    }
+
+  
+    public class PromotionPrediction : HotEventDto
+    {
+        public string BonusCode { get; set; }
+        public string IsoCode { get; set; }
+        public string Banner { get; set; }
+        public string Description { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public decimal RollOver { get; set; }
+        public decimal RequiredAmount { get; set; }
+        public int DepositCountAchieved { get; set; }
+        public int DepositTermPeriodDays { get; set; }
+        public decimal Bonus { get; set; }
+        public string HomeTeamPic { get; set; }
+        public string AwayTeamPic { get; set; }
+        public int HomeScore { get; set; }
+        public int AwayScore { get; set; }
+        public int CustHomeScore { get; set; }
+        public int CustAwayScore { get; set; }
+        public bool Result { get; set; }
+        public bool IsPredict { get; set; }
+    }
+
+    public class PredictScoreRequest
+    {
+        public int MatchId { get; set; }
+        public int HomeTeamScore { get; set; }
+        public int AwayTeamScore { get; set; }
+    }
+    
+    public class GetPredictionWinnerListRequest
+    {
+        public int SiteId { get; set; }
+        public int CurrencyId { get; set; }
+    }
+    
+    public class PredictionDepositDto
+    {
+        /// <summary>
+        /// 存款單
+        /// </summary>
+        public string TransId { get; set; }
+        
+        /// <summary>
+        /// 充值金額
+        /// </summary>
+        public decimal DepositAmount { get; set; }
+    }
+    
+    public class PredictScoreModel : HotEventDto
+    {
+        public decimal Bonus { get; set; }
+        public int CustHomeScore { get; set; }
+        public int CustAwayScore { get; set; }
+        public int HomeScore { get; set; }
+        public int AwayScore { get; set; }
+        /// <summary>
+        /// 0 : running , 1 :win , 2: lose
+        /// </summary>
+        public int PredictStatus { get; set; }
+    }
+    
+    public class PredictionWinnerListResponse : HotEventDto
+    {
+        public string BonusCode { get; set; }
+        public decimal Bonus { get; set; }
+        public string IsoCode { get; set; }
+        public List<string> Winners { get; set; }
+    }
+    
+    public class PredictionWinnerModel
+    {
+        public int CustId { get; set; }
+        public string UserName { get; set; }
+    }
+    
+    #endregion
 }

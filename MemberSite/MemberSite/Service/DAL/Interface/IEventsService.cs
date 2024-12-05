@@ -1,5 +1,4 @@
 ﻿using System.Data;
-
 using MemberSite.Service.Model;
 
 namespace MemberSite.Service.DAL.Interface
@@ -46,5 +45,16 @@ namespace MemberSite.Service.DAL.Interface
 
         #endregion
 
+        #region PredictionPromotion
+
+        Task<IEnumerable<PromotionPrediction>> GetPromotionPrediction(int custId ,int siteId, int currencyId, string langId);
+        Task<IEnumerable<PredictScoreModel>> GetPredictScoreList(int custId, int siteId, int currencyId, string langId);
+        Task<PromotionPrediction> GetPredictionResultTeamInfo(int siteId, int currencyId, string langId);
+        Task<IEnumerable<PredictionWinnerModel>> GetPromotionPredictionWinnerList(int siteId, int currencyId ,int matchId);
+        Task<PromotionPrediction> GetPromotionPredictionByMatchId(int siteId,int currencyId, int matchId);
+        Task<int> PromotionPredictScore(int custId, int matchId, PredictScoreRequest request);
+        Task<List<PredictionDepositDto>> GetMemberDeposit(int custId, DateTime startTime, DateTime endTime);
+
+        #endregion
     }
 }
