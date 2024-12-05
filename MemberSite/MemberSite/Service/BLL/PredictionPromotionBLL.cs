@@ -76,25 +76,28 @@ public class PredictionPromotionBLL
         {
             return null;
         }
-        
-        var winnerList = await _eventsService.GetPromotionPredictionWinnerList(siteId, currencyId ,promotionPrediction.MatchId);
-        
         var response = new PredictionWinnerListResponse
         {
             BonusCode = promotionPrediction.BonusCode,
-            SportLeaguesTitle = promotionPrediction.SportLeaguesTitle,
-            MatchId = promotionPrediction.MatchId,
-            HomeTeamLeaguesId = promotionPrediction.HomeTeamLeaguesId,
-            HomeTeamId = promotionPrediction.HomeTeamId,
-            HomeTeamName = promotionPrediction.HomeTeamName,
-            AwayTeamLeaguesId = promotionPrediction.AwayTeamLeaguesId,
-            AwayTeamId = promotionPrediction.AwayTeamId,
-            AwayTeamName = promotionPrediction.AwayTeamName,
-            BattleTime = promotionPrediction.BattleTime,
             Bonus = promotionPrediction.Bonus,
-            IsoCode = promotionPrediction.IsoCode,
-            Winners = winnerList.Any() ? winnerList.Select(x=>_eventsBll.MaskName(x.UserName)).ToList() : new List<string>()
+            IsoCode = promotionPrediction.IsoCode
         };
+        
+        if (promotionPrediction.MatchId > 0)
+        {
+            var winnerList = await _eventsService.GetPromotionPredictionWinnerList(siteId, currencyId ,promotionPrediction.MatchId);
+
+            response.SportLeaguesTitle = promotionPrediction.SportLeaguesTitle;
+            response.MatchId = promotionPrediction.MatchId;
+            response.HomeTeamLeaguesId = promotionPrediction.HomeTeamLeaguesId;
+            response.HomeTeamId = promotionPrediction.HomeTeamId;
+            response.HomeTeamName = promotionPrediction.HomeTeamName;
+            response.AwayTeamLeaguesId = promotionPrediction.AwayTeamLeaguesId;
+            response.AwayTeamId = promotionPrediction.AwayTeamId;
+            response.AwayTeamName = promotionPrediction.AwayTeamName;
+            response.BattleTime = promotionPrediction.BattleTime;
+            response.Winners = winnerList.Any() ? winnerList.Select(x=>_eventsBll.MaskName(x.UserName)).ToList() : new List<string>();
+        }
         
         return response;
     }
