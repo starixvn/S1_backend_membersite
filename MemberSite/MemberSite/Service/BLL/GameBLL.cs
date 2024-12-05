@@ -152,7 +152,6 @@ namespace MemberSite.Service.BLL
                     var result = await GetLobbyHeaderDetail(req, serverInfo, deviceType);
                     return result;
                 });
-
             return result;
         }
 
@@ -280,7 +279,7 @@ namespace MemberSite.Service.BLL
 
             var imgDomain = _siteCloudFrontImageInfo.BannerImageUrl;
 
-            var groupedData = resultData.GroupBy(item => item.LobbyCategoryId);
+            var groupedData = resultData.GroupBy(item => item.LobbyCategoryId).ToList();
             var result = groupedData.Select(group =>
             {
                 var response = new LobbyHeaderResponse
@@ -317,7 +316,17 @@ namespace MemberSite.Service.BLL
                 return response;
             }).OrderBy(r => sequence.IndexOf(r.LobbyCategoryId));  // 排序header Category
 
-            return result;
+            //Hard code menu
+            var menus = result.ToList();
+            menus.AddRange(new List<LobbyHeaderResponse>
+            {
+                new() { LobbyCategoryId = (int)LobbyCategory.Casino, Data = new List<LobbyHeaderDetail>() },
+                new() { LobbyCategoryId = (int)LobbyCategory.Slots, Data = new List<LobbyHeaderDetail>() },
+                new() { LobbyCategoryId = (int)LobbyCategory.Games, Data = new List<LobbyHeaderDetail>() },
+                new() { LobbyCategoryId = (int)LobbyCategory.Fishing, Data = new List<LobbyHeaderDetail>() }
+            });
+
+            return menus;
         }
     }
 }
