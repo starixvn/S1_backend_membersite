@@ -41,6 +41,7 @@ namespace MemberSite.Service.BLL
         private readonly ICustPhotoIdBLL _custPhoto;
         private readonly ILogger<CustInfoBll> _logger;
         private readonly FaceBookPixelBLL _faceBookPixelBll;
+        private const char MaskChar = '*';
 
         public CustInfoBll(IServiceProvider provider)
         {
@@ -956,6 +957,49 @@ namespace MemberSite.Service.BLL
         public async Task<IEnumerable<CustRealNameChangeLog>> GetCustRealNameChangeLogAsync(int custId)
         {
             return await _custInfoService.GetCustRealNameChangeLogAsync(custId);
+        }
+
+        public string MaskPhoneNumber(string phoneNumber)
+        {
+            if (string.IsNullOrEmpty(phoneNumber))
+            {
+                return string.Empty;
+            }
+
+            // EX:
+            // 0987654321 => 098765****
+            // 098765     => 09****
+            // 1234       => ****
+            // 12         => **
+            var startRemoveIndex = Math.Max(phoneNumber.Length - 4, 0);
+            return phoneNumber
+                .Remove(startRemoveIndex)
+                .PadRight(phoneNumber.Length, MaskChar);
+        }
+
+        public string MaskEmail(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+            {
+                return string.Empty;
+            }
+
+            var symbolIndex = email.IndexOf('@');
+            if (symbolIndex == -1)
+            {
+                throw new ArgumentException("Wrong email format.");
+            }
+
+            // EX:
+            // 1234567@test.com => ****567@test.com
+            //  123456@test.com =>  ****56@test.com
+            //   12345@test.com =>   ****5@test.com
+            //    1234@test.com =>    ****@test.com
+            //     123@test.com =>     ***@test.com
+            var showIndex = symbolIndex - Math.Min(Math.Max(0, symbolIndex - 4), 4);
+            return email
+                .Substring(showIndex)
+                .PadLeft(email.Length, MaskChar);
         }
     }
 }
