@@ -11,7 +11,9 @@ namespace MemberSite.Service.BLL
         private readonly Dictionary<int, SiteConfigObject> _siteIdConfigs;
         private readonly IWebHostEnvironment _environment;
         private readonly IConfiguration _configuration;
+        private readonly IConfiguration _configuration;
 
+        public ConfigBLL(IServiceProvider provider, IConfiguration configuration)
         public ConfigBLL(IServiceProvider provider, IConfiguration configuration)
         {
             var siteConfigList = provider.GetServices<SiteConfigObject>();
@@ -21,6 +23,7 @@ namespace MemberSite.Service.BLL
             _siteNameConfigs = new Dictionary<string, SiteConfigObject>(siteConfigs.ToDictionary(i => i.SiteName, i => i), StringComparer.OrdinalIgnoreCase);
             _siteIdConfigs = siteConfigs.ToDictionary(i => i.SiteId, i => i);
             _environment = provider.GetRequiredService<IWebHostEnvironment>();
+            _configuration = configuration;
             _configuration = configuration;
         }
 
@@ -106,8 +109,16 @@ namespace MemberSite.Service.BLL
 
         public TItem GetConfigValueByEnvironment<TItem>(string configKey, int siteId = 0)
         {
-            var json = GetConfigValue($"{configKey}.{_environment.EnvironmentName}.json", siteId);
-            return !string.IsNullOrEmpty(json) ? JsonConvert.DeserializeObject<TItem>(json) : default;
+            
+            var serviceHostConfig = _configuration.GetSection(configKey).Get<ServiceHostConfig>();
+
+            
+            if (serviceHostConfig != null)
+            {
+                return (TItem)(object)serviceHostConfig; 
+            }
+
+            return default;
         }
 
         public TItem GetServiceHostsConfigService<TItem>(string configKey, int siteId = 0)
