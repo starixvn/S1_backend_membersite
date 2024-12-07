@@ -18,8 +18,8 @@ public class RedemptionBLL
     {
         _logger = provider.GetRequiredService<ILogger<RedemptionBLL>>();
         var configBll = provider.GetRequiredService<ConfigBLL>();
-        _storeSiteUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("serviceHosts").StoreService;
-        _tpServiceUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("serviceHosts").TpService;
+        _storeSiteUrl = configBll.GetServiceHostsConfigService<ServiceHostConfig>("serviceHosts").StoreService;
+        _tpServiceUrl = configBll.GetServiceHostsConfigService<ServiceHostConfig>("serviceHosts").TpService;
         _courierAdapter = provider.GetRequiredService<CourierAdapter>();
         _redemptionService = provider.GetRequiredService<RedemptionService>();
         _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();

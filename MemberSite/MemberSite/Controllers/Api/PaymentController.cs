@@ -62,7 +62,7 @@ namespace MemberSite.Controllers.Api
             _cacheHelper = provider.GetRequiredService<ICacheHelper>();
 
             var configBll = provider.GetRequiredService<ConfigBLL>();
-            _bonusServiceUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("serviceHosts").BonusService;
+            _bonusServiceUrl = configBll.GetServiceHostsConfigService<ServiceHostConfig>("serviceHosts").BonusService;
             _paymentBucketName = configBll.GetConfigValue("AWSPaymentBucketName");
         }
 

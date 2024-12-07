@@ -39,7 +39,7 @@ namespace MemberSite.Controllers.Api
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _shieldBll = provider.GetRequiredService<ShieldBLL>();
             var configBll = provider.GetRequiredService<ConfigBLL>();
-            _bonusServiceUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("serviceHosts").BonusService;
+            _bonusServiceUrl = configBll.GetServiceHostsConfigService<ServiceHostConfig>("serviceHosts").BonusService;
             _courierAdapter = provider.GetRequiredService<CourierAdapter>();
             _logger = provider.GetRequiredService<ILogger<PromotionController>>();
             _tools = provider.GetRequiredService<Tools>();

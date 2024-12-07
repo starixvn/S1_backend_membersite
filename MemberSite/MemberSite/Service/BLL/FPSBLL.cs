@@ -11,7 +11,7 @@ namespace MemberSite.Service.BLL
         public FPSBLL(CourierAdapter courierAdapter, ConfigBLL configBll)
         {
             _courierAdapter = courierAdapter;
-            _commonServiceUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("serviceHosts").CommonService;
+            _commonServiceUrl = configBll.GetServiceHostsConfigService<ServiceHostConfig>("serviceHosts").CommonService;
         }
         public async Task<ApiResult> FPSChecksAsync(FPSApiRequest request)
         {

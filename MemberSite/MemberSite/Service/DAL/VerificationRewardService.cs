@@ -13,7 +13,7 @@ namespace MemberSite.Service.DAL
         {
             _courierAdapter = provider.GetService<CourierAdapter>();
             var configBll = provider.GetRequiredService<ConfigBLL>();
-            _bonusServiceUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("serviceHosts").BonusService;
+            _bonusServiceUrl = configBll.GetServiceHostsConfigService<ServiceHostConfig>("serviceHosts").BonusService;
         }
 
         public async Task<ApiResult> SetVerificationReward(int custId, int verificationType)

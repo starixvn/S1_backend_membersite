@@ -47,7 +47,7 @@ namespace MemberSite.Service.BLL
 
             var configBll = provider.GetRequiredService<ConfigBLL>();
             _awsDepositUrl = configBll.GetConfigValue("AWSPaymentBucketUrl");
-            _backendUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("serviceHosts").BackendService;
+            _backendUrl = configBll.GetServiceHostsConfigService<ServiceHostConfig>("serviceHosts").BackendService;
             singleWalletType = new Dictionary<string, string>
             {
                 {"1", "lbl_Stake"  },

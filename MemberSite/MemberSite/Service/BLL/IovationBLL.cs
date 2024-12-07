@@ -38,7 +38,7 @@ namespace MemberSite.Service.BLL
               {2,"MYR" },{3,"US" },{4,"THB" },{13,"CNY" },{15,"IDR" },{32,"JPY" },{45,"KRW" },{51,"VND" },{61,"INR" },{72,"USD" },{74,"BD" },{82,"BRL" },
             };
 
-            _commonServiceUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("serviceHosts").CommonService;
+            _commonServiceUrl = configBll.GetServiceHostsConfigService<ServiceHostConfig>("serviceHosts").CommonService;
         }
         public void SetIovation(int custId, IovationType type, IovationCheckResult iovation)
         {

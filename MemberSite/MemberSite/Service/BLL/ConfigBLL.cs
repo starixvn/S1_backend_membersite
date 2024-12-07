@@ -106,13 +106,18 @@ namespace MemberSite.Service.BLL
 
         public TItem GetConfigValueByEnvironment<TItem>(string configKey, int siteId = 0)
         {
-            
+            var json = GetConfigValue($"{configKey}.{_environment.EnvironmentName}.json", siteId);
+            return !string.IsNullOrEmpty(json) ? JsonConvert.DeserializeObject<TItem>(json) : default;
+        }
+
+        public TItem GetServiceHostsConfigService<TItem>(string configKey, int siteId = 0)
+        {
             var serviceHostConfig = _configuration.GetSection(configKey).Get<ServiceHostConfig>();
 
-            
+
             if (serviceHostConfig != null)
             {
-                return (TItem)(object)serviceHostConfig; 
+                return (TItem)(object)serviceHostConfig;
             }
 
             return default;

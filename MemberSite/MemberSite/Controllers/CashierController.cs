@@ -46,11 +46,7 @@ namespace MemberSite.Controllers
             _payInfoBll = provider.GetRequiredService<PayInfoBLL>();
             _logger = provider.GetRequiredService<ILogger<CashierController>>();
             var configBll = provider.GetRequiredService<ConfigBLL>();
-            _payApiUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("serviceHosts").PayService;
-
-            _logger.LogInformation("---- CONFIG SERVICE HOST ----");
-            _logger.LogInformation(JsonConvert.SerializeObject(configBll.GetConfigValueByEnvironment<ServiceHostConfig>("serviceHosts")));
-
+            _payApiUrl = configBll.GetServiceHostsConfigService<ServiceHostConfig>("serviceHosts").PayService;
         }
 
         [HttpGet]
