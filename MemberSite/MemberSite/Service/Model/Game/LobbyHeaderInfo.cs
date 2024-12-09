@@ -47,6 +47,12 @@ namespace MemberSite.Service.Model.Game
                 {
                     MyFavorite.Add(game);
                 }
+
+                // RecentlyPlayed
+                if (recentlyPlayed != null && recentlyPlayed.Exists(i => i.TpId == game.TpId && i.GameId == game.GameId))
+                {
+                    RecentlyPlayed.Add(game);
+                }
             }
         }
     }
