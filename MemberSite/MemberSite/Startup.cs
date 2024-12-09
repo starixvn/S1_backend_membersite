@@ -1,3 +1,6 @@
+using System.Text;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 using MemberSite.Extensions;
 using MemberSite.Service.BLL;
 using MemberSite.Service.BLL.Interface;
@@ -14,8 +17,6 @@ using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.WebEncoders;
 using Prometheus;
 using StackExchange.Redis;
-using System.Text.Encodings.Web;
-using System.Text.Unicode;
 
 namespace MemberSite
 {
@@ -35,9 +36,11 @@ namespace MemberSite
             return Task.CompletedTask;
         }
     }
+
     public class Startup
     {
         private readonly IConfiguration _configuration;
+
         private static IConfigurationRoot DomainConfiguration => new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile($"domain.json", false, true)
@@ -236,7 +239,6 @@ namespace MemberSite
                             .SetIsOriginAllowedToAllowWildcardSubdomains();
                     });
 
-
                 options.AddPolicy("LandingPage",
                     builder =>
                     {
@@ -295,11 +297,33 @@ namespace MemberSite
                 endpoints.MapMetrics();
                 endpoints.MapGet("/health", async context =>
                 {
-                    await context.Response.WriteAsync($"{env.EnvironmentName}-{DateTime.Now:yyyy/MM/dd HH:mm:ss}");
+                    var content = GetHealthCheckInfo(context, env.EnvironmentName);
+                    await context.Response.WriteAsync(content);
                 });
                 endpoints.MapControllerRoute(name: "desktop", pattern: "{LangId?}/{controller=Home}/{action=Index}");
             });
         }
+
+        private string GetHealthCheckInfo(HttpContext context, string environment)
+        {
+            var content = new StringBuilder();
+            content.Append($"Web name: {context.Request.Host.Host}{Environment.NewLine}"
+                           + $"Port: {context.Connection.LocalPort}{Environment.NewLine}"
+                           + $"Environment: {environment}-{DateTime.Now:yyyy/MM/dd HH:mm:ss}{Environment.NewLine}"
+                           + $"Server IP: {context.Connection.LocalIpAddress}{Environment.NewLine}"
+                           + $"Server Time: {DateTimeOffset.Now.DateTime}{Environment.NewLine}"
+                           + $"Client IP: {context.Connection.RemoteIpAddress}{Environment.NewLine}"
+                           + $"Request Scheme: {context.Request.Scheme}{Environment.NewLine}"
+                           + $"Request Path: {context.Request.Path}{Environment.NewLine}{Environment.NewLine}"
+                           + $"Request Headers:{Environment.NewLine}");
+
+            foreach (var header in context.Request.Headers)
+            {
+                content.Append($"- {header.Key}: " +
+                               $"{header.Value}{Environment.NewLine}");
+            }
+
+            return content.ToString();
+        }
     }
 }
-
