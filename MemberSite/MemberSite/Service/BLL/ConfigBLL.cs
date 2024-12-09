@@ -10,7 +10,6 @@ namespace MemberSite.Service.BLL
         private readonly Dictionary<string, string> _defaultSiteConfig;
         private readonly Dictionary<string, SiteConfigObject> _siteNameConfigs;
         private readonly Dictionary<int, SiteConfigObject> _siteIdConfigs;
-        private readonly IWebHostEnvironment _environment;
         private readonly IConfiguration _configuration;
 
         public ConfigBLL(IServiceProvider provider, IConfiguration configuration)
@@ -21,8 +20,6 @@ namespace MemberSite.Service.BLL
             var siteConfigs = siteConfigList.Where(i => i.SiteId != 0);
             _siteNameConfigs = new Dictionary<string, SiteConfigObject>(siteConfigs.ToDictionary(i => i.SiteName, i => i), StringComparer.OrdinalIgnoreCase);
             _siteIdConfigs = siteConfigs.ToDictionary(i => i.SiteId, i => i);
-            _environment = provider.GetRequiredService<IWebHostEnvironment>();
-            _configuration = configuration;
             _configuration = configuration;
         }
 
@@ -108,9 +105,7 @@ namespace MemberSite.Service.BLL
 
         public TItem GetConfigValueByEnvironment<TItem>(string configKey, int siteId = 0)
         {
-
             var serviceHostConfig = _configuration.GetSection(configKey).Get<ServiceHostConfig>();
-
 
             if (serviceHostConfig != null)
             {
@@ -120,18 +115,39 @@ namespace MemberSite.Service.BLL
             return default;
         }
 
-        public string GetProxyConfigService(string configKey)
+        public ProxyConfig GetProxyConfig()
         {
-            var serviceHostConfig = _configuration.GetSection(configKey).Get<string>();
+            if (!string.IsNullOrWhiteSpace(_configuration.GetValue<string>("ProxyHost")))
+            {
+                return new ProxyConfig
+                {
+                    ProxyHost = _configuration.GetValue<string>("ProxyHost"),
+                    ProxyPort = _configuration.GetValue<int>("ProxyPort")
+                };
+            }
 
-            return serviceHostConfig;
+            return null;
+        }
+
+        public string GetEnvironmentName()
+        {
+            return _configuration.GetValue<string>("Environment");
+        }
+
+        public bool IsDevEnvironment()
+        {
+            return GetEnvironmentName() == "Development";
+        }
+
+        public bool IsLocalEnvironment()
+        {
+            return GetEnvironmentName() == "LOCAL";
         }
 
         public TItem GetServiceHostsConfigService<TItem>(string configKey, int siteId = 0)
         {
             var serviceHostConfig = _configuration.GetSection(configKey).Get<ServiceHostConfig>();
 
-
             if (serviceHostConfig != null)
             {
                 return (TItem)(object)serviceHostConfig;
@@ -139,6 +155,5 @@ namespace MemberSite.Service.BLL
 
             return default;
         }
-
     }
 }

@@ -23,6 +23,7 @@ namespace MemberSite.Controllers
         private readonly ServerInfoBll _serverInfoBll;
         private readonly GameBLL _gameBll;
         private readonly CheckIpBLL _checkIpBll;
+        private readonly ConfigBLL _configBll;
         private readonly string _tpServiceApiUrl;
         private readonly ILogger _logger;
 
@@ -38,8 +39,8 @@ namespace MemberSite.Controllers
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
             _gameBll = provider.GetRequiredService<GameBLL>();
             _checkIpBll = provider.GetRequiredService<CheckIpBLL>();
-            var configBll = provider.GetRequiredService<ConfigBLL>();
-            _tpServiceApiUrl = configBll.GetServiceHostsConfigService<ServiceHostConfig>("serviceHosts").TpService;
+            _configBll = provider.GetRequiredService<ConfigBLL>();
+            _tpServiceApiUrl = _configBll.GetServiceHostsConfigService<ServiceHostConfig>("serviceHosts").TpService;
             _logger = provider.GetRequiredService<ILogger<entPageController>>();
         }
 
@@ -93,7 +94,9 @@ namespace MemberSite.Controllers
             };
 
             inputs.Add("Host", host);
-            inputs.Add("ClientIP", _tools.GetClientIP());
+
+            var clientIp = _configBll.IsDevEnvironment() || _configBll.IsLocalEnvironment() ? "60.63.62.61" : _tools.GetClientIP();
+            inputs.Add("ClientIP", clientIp);
 
             if (inputs.ContainsKey("AppType") && int.TryParse(inputs["AppType"], out var appType))
             {
@@ -178,7 +181,8 @@ namespace MemberSite.Controllers
 
         public class ErrorData
         {
-            public ErrorData() { }
+            public ErrorData()
+            { }
 
             public ErrorData(string msg)
             {

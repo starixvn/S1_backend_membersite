@@ -1,10 +1,10 @@
-﻿using MemberSite.Service.DAL;
+﻿using System.Net;
+using System.Net.Http.Headers;
+using MemberSite.Service.DAL;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Line;
 using Newtonsoft.Json;
-using System.Net;
-using System.Net.Http.Headers;
 
 namespace MemberSite.Service.BLL
 {
@@ -15,7 +15,7 @@ namespace MemberSite.Service.BLL
         private readonly AuthorizeBLL _authorizeBll;
         private readonly LineLoginChannelConfig _lineLoginChannelConfig;
         private readonly LineLoginConfig _lineLoginConfig;
-        private readonly string _proxyConfig;
+        private readonly ProxyConfig _proxyConfig;
         private readonly ILogger<LineLoginBLL> _logger;
         private HttpClient client;
 
@@ -29,18 +29,18 @@ namespace MemberSite.Service.BLL
             var configBll = provider.GetRequiredService<ConfigBLL>();
             _lineLoginChannelConfig = configBll.GetConfigValueByEnvironment<LineLoginChannelConfig>("LineLoginChannelConfig");
             _lineLoginConfig = configBll.GetConfigValue<LineLoginConfig>("LineLoginConfig");
-            _proxyConfig = configBll.GetProxyConfigService("proxyHost");
+            _proxyConfig = configBll.GetProxyConfig();
             _logger = provider.GetRequiredService<ILogger<LineLoginBLL>>();
 
             var handler = new HttpClientHandler
             {
-                UseProxy = !string.IsNullOrEmpty(_proxyConfig),
-                Proxy = string.IsNullOrEmpty(_proxyConfig) ? null : new WebProxy(_proxyConfig)
+                UseProxy = _proxyConfig != null,
+                Proxy = _proxyConfig != null ? new WebProxy(_proxyConfig.ProxyHost, _proxyConfig.ProxyPort) : null
             };
             client = new HttpClient(handler);
         }
 
-        #endregion
+        #endregion Constructor
 
         public bool IssueLineToken(FlowType type, out int errorCode, out string token)
         {
@@ -252,7 +252,6 @@ namespace MemberSite.Service.BLL
                 return false;
             }
 
-
             if (data.CreateTime <= DateTime.UtcNow.AddSeconds(0 - config.ExpiredSeconds))
             {
                 resultCode = LineLoginErrorCode.TokenExpired;
@@ -332,6 +331,5 @@ namespace MemberSite.Service.BLL
                 return false;
             }
         }
-
     }
 }
