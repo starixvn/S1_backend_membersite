@@ -58,11 +58,10 @@ namespace MemberSite.Service.BLL
             var imgUrl = _siteCloudFrontImageInfo.OldImageUrl;
             var bannerUrl = _siteCloudFrontImageInfo.BannerImageUrl;
             var devicePath = deviceType == HotGameDeviceType.Pc ? "desktop" : "h5";
-            var key = $"GetHotGamesV2-NewUI:{siteId}:{currencyId}";
-            //var hotGames = await _redisHelper.TryGetOrCreateAsync(key, null,
-            //    async () => await _hotGameService.GetHotGames(siteId, currencyId, request));
+            var key = $"GetHotGamesV2:{siteId}:{currencyId}";
+            var hotGames = await _redisHelper.TryGetOrCreateAsync(key, null,
+                async () => await _hotGameService.GetHotGames(siteId, currencyId, request));
 
-            var hotGames = await _hotGameService.GetHotGames(siteId, currencyId, request);
             var providers = await _hotGameService.GetProvider();
 
             // 取出Slot的遊戲資訊

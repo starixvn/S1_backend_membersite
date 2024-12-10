@@ -125,7 +125,7 @@ namespace MemberSite.Service.BLL
                 statusList.Add(3);
             }
 
-            var key = $"GetSlotGameListV2-NewUI:{_isStage}:{currencyId}:{siteId}:{deviceType}";
+            var key = $"GetSlotGameListV2:{_isStage}:{currencyId}:{siteId}:{deviceType}";
             var result = await _cacheHelper.TryGetOrCreateAsync(key,
                 TimeSpan.FromMinutes(15), //設定過期15分鐘，
                 async () =>
