@@ -23,13 +23,13 @@ namespace MemberSite.Service.DAL
             p.Add("_Top", request.Top);
             p.Add("_TpCategory", request.TpCategory);
             p.Add("_CurrencyId", currencyId);
-            return _reportDbClient.QueryAsync<HotGameDto>("Member_HotGames_Get_V3_xtest", p);
+            return _reportDbClient.QueryAsync<HotGameDto>("Member_HotGames_Get_V3", p);
         }
 
         public Task<IEnumerable<ProviderDto>> GetProvider()
         {
             var p = new DynamicParameters();
-            return _reportDbClient.QueryAsync<ProviderDto>("Service_Provider_Get_xtest", p);
+            return _reportDbClient.QueryAsync<ProviderDto>("Service_Provider_Get", p);
         }
     }
 }

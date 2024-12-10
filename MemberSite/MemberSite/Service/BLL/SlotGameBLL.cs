@@ -132,7 +132,7 @@ namespace MemberSite.Service.BLL
                 {
                     // PRD環境由Hangfire每五分鐘定期更新
                     // 此部分預防Redis異常，與處理RLS環境的快取
-                    var result = await _reportDbClient.QueryAsync<SlotGameInfo>("Service_SlotGame_Get_xtest", new
+                    var result = await _reportDbClient.QueryAsync<SlotGameInfo>("Service_SlotGame_Get", new
                     {
                         CurrencyId = currencyId,
                         SiteId = siteId,
