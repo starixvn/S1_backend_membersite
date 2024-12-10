@@ -1,6 +1,3 @@
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Text.Unicode;
 using MemberSite.Extensions;
 using MemberSite.Service.BLL;
 using MemberSite.Service.BLL.Interface;
@@ -17,6 +14,9 @@ using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.WebEncoders;
 using Prometheus;
 using StackExchange.Redis;
+using System.Text;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 
 namespace MemberSite
 {
@@ -261,7 +261,7 @@ namespace MemberSite
             services.AddOptionListByDB<ConfigObject>("SiteConfig_Get", new { ConfigGroup = "MemberSite" });
             services.AddSiteConfig();
             services.AddSingleton<ConfigBLL>();
-            //services.AddGoogleReCaptchaSetting();
+            services.AddGoogleReCaptchaSetting();
 
             // JWT | Cookie Auth
             services.AddAuthenticationDefinition();

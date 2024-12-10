@@ -83,8 +83,8 @@ namespace MemberSite.Extensions
         {
             var provider = services.BuildServiceProvider();
             var configBll = provider.GetRequiredService<ConfigBLL>();
-            var recaptchaSettings = configBll.GetConfigValue<RecaptchaSetting>("ReCaptchaSetting");
-            services.AddSingleton(recaptchaSettings);
+            //  var recaptchaSettings = configBll.GetConfigValue<RecaptchaSetting>("ReCaptchaSetting");
+            services.AddSingleton(new RecaptchaSetting());
             return services;
         }
 
