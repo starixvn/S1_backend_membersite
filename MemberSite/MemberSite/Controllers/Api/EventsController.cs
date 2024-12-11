@@ -688,7 +688,7 @@ namespace MemberSite.Controllers.Api
 
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                 var custPromotionMission = await _newYear2024Bll.CheckCustPromotionMission(custInfo);
-                var eggTicket = await _newYear2024Bll.GetEggTicket(custInfo.CustId);
+                var eggTicket = await _newYear2024Bll.GetEggTicket(custInfo.SiteId,custInfo.CustId,custInfo.CurrencyId);
 
                 if (custPromotionMission is not null)
                 {
@@ -727,7 +727,7 @@ namespace MemberSite.Controllers.Api
                 var data = new CheckPromotionMissionResponse();
 
                 var custPromotionMission = await _newYear2024Bll.CheckCustPromotionMission(custInfo, request.Date);
-                var eggTicket = await _newYear2024Bll.GetEggTicket(custInfo.CustId);
+                var eggTicket = await _newYear2024Bll.GetEggTicket(custInfo.SiteId,custInfo.CustId,custInfo.CurrencyId);
 
                 if (custPromotionMission is not null)
                 {
