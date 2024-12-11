@@ -1,4 +1,4 @@
-﻿using MemberSite.Service.Model.enums;
+using MemberSite.Service.Model.enums;
 
 using MySqlX.XDevAPI.Common;
 
@@ -369,6 +369,51 @@ namespace MemberSite.Service.Library
                 return default;
             }
         }
+        
+        public async Task<bool> SortedSetAddAsync(string key, string value, double score, RedisDataBase redisDataBase = RedisDataBase.Member)
+        {
+            key = $"{redisDataBase}:{RemoveSpecialChars(key)}";
+            try
+            {
+                var db = _multiplexer.GetDatabase((int)redisDataBase);
+                var result = await db.SortedSetAddAsync(key, value , score);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"{key} | {ex.Message}");
+                return false;
+            }
+        }
+
+        public async Task<List<TItem>> SortedSetRangeByScoreAsync<TItem>(string key, double startScore, double endScore,
+            RedisDataBase redisDataBase = RedisDataBase.Member)
+        {
+            key = $"{redisDataBase}:{RemoveSpecialChars(key)}";
+            try
+            {
+                var result = new List<TItem>();
+                var db = _multiplexer.GetDatabase((int)redisDataBase);
+                var list = await db.SortedSetRangeByScoreAsync(key, startScore , endScore);
+                
+                foreach (var item in list)
+                {
+                    if (item.HasValue)
+                    {
+                        var data = JsonConvert.DeserializeObject<TItem>(item);
+                        result.Add(data);
+                    }
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"{key} | {ex.Message}");
+                return default;
+            }
+        }
+        
         private string RemoveSpecialChars(string key)
         {
             foreach (var c in _charsToRemove)
@@ -378,5 +423,6 @@ namespace MemberSite.Service.Library
 
             return key;
         }
+        
     }
 }

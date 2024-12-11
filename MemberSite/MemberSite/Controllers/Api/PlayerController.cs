@@ -1,7 +1,6 @@
 ﻿using MemberSite.Service.BLL;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
-
 using Microsoft.AspNetCore.Mvc;
 
 namespace MemberSite.Controllers.Api
@@ -88,6 +87,32 @@ namespace MemberSite.Controllers.Api
             return apiResult;
         }
 
+        [HttpPost]
+        public async Task<ApiResult<IEnumerable<CustNotificationModel>>> GetCustNotificationV2(CustNotificationReq req)
+        {
+            var apiResult = new ApiResult<IEnumerable<CustNotificationModel>>
+            {
+                Data = new List<CustNotificationModel>(),
+                ErrorCode = (int)ErrorCode.Success
+            };
+
+            try
+            {
+
+                var authData = _authorizeBll.GetAuthData();
+                if (authData is { CustId: > 0 })
+                {
+                    apiResult.Data = await _custNotificationBLL.GetCustNotificationV2((int)req.NotificationType, authData.CustId);
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, e.Message);
+            }
+
+            return apiResult;
+        }
+        
         [HttpPost]
         public async Task<ApiResult<int>>SetCustNotification(CustNotificationReq req)
         {

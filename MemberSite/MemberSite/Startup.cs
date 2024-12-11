@@ -116,7 +116,8 @@ namespace MemberSite
             services.AddSingleton<CommonService>();
             services.AddTransient<InternalService>();
             services.AddTransient<QustionnaireService>();
-
+            services.AddTransient<FaceBookPixelService>();
+            
             services.AddSingleton<IPService>();
             services.AddSingleton<ShieldService>();
             services.AddTransient<IHotEventService, HotEventService>();
@@ -192,6 +193,7 @@ namespace MemberSite
             services.AddSingleton<CustNotificationBLL>();
             services.AddSingleton<QuestionnaireBLL>();
             services.AddSingleton<CRMBLL>();
+            services.AddTransient<PredictionPromotionBLL>();
             #region Captcha
             services.AddSingleton<CaptchaBLL>();
             services.AddSingleton<CloudflareTurnstileBLL>();
@@ -211,6 +213,7 @@ namespace MemberSite
                 };
             });
             #endregion
+            
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();
 
