@@ -59,8 +59,10 @@ namespace MemberSite.Service.BLL
             var bannerUrl = _siteCloudFrontImageInfo.BannerImageUrl;
             var devicePath = deviceType == HotGameDeviceType.Pc ? "desktop" : "h5";
             var key = $"GetHotGamesV2:{siteId}:{currencyId}";
-            var hotGames = await _redisHelper.TryGetOrCreateAsync(key, null,
-                async () => await _hotGameService.GetHotGames(siteId, currencyId, request));
+            //var hotGames = await _redisHelper.TryGetOrCreateAsync(key, null,
+            //    async () => await _hotGameService.GetHotGames(siteId, currencyId, request));
+
+            var hotGames = await _hotGameService.GetHotGames(siteId, currencyId, request);
 
             var providers = await _hotGameService.GetProvider();
 
