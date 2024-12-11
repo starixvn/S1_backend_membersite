@@ -44,7 +44,7 @@ public class CustPhotoIdBLL : ICustPhotoIdBLL
         }
 
         var serverInfo = _serverInfoBll.GetServerInfo();
-        var siteName = serverInfo.SiteName.ToUpper();
+        var siteName = serverInfo.SiteName;
         var stream = new MemoryStream(fileBytes);
         var key = $"{siteName}/CustPhotoId/{custId}/{sq}.jpeg";
         var putRequest = new PutObjectRequest
