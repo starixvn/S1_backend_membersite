@@ -70,13 +70,13 @@ namespace MemberSite.Controllers.Api
 
             var apiResult = new ApiResult<Dictionary<string, IEnumerable<HotGameResponse>>>();
             // 未登入檢查是否有Cache
-            var key = $"HotGame:GetDataList-NewUI:{siteId}:{currencyId}:{request.DeviceType}:{langId}";
-            if (!isLogin && _cacheHelper.TryGetValue(key, out Dictionary<string, IEnumerable<HotGameResponse>> hotGameList))
-            {
-                apiResult.Data = hotGameList;
-                apiResult.ErrorCode = (int)ErrorCode.Success;
-                return apiResult;
-            }
+            var key = $"HotGame:GetDataGameList:{siteId}:{currencyId}:{request.DeviceType}:{langId}";
+            //if (!isLogin && _cacheHelper.TryGetValue(key, out Dictionary<string, IEnumerable<HotGameResponse>> hotGameList))
+            //{
+            //    apiResult.Data = hotGameList;
+            //    apiResult.ErrorCode = (int)ErrorCode.Success;
+            //    return apiResult;
+            //}
 
             try
             {
