@@ -27,7 +27,7 @@ namespace MemberSite.Service.DAL.Interface
         public IEnumerable<PromotionMissionMessage> GetPromotionMissionMessage();
         public IEnumerable<CustPromotionMission> GetCustPromotionMission(int custId, string missionDate);
         public int ClaimPromotionMission(int custId, int siteId, int currencyId, string missionDate, IEnumerable<NewYearMission2024> mission);
-        public int GetEggTicket(int custId);
+        public int GetEggTicket(int siteId,int custId,int currencyId);
         public int GetCustBlessingsSticker(int custId);
         public IEnumerable<EggTicketData> GetEggTicketData(int custId);
 

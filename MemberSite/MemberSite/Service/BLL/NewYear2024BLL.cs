@@ -120,9 +120,9 @@ public class NewYear2024BLL
     /// <summary>
     /// 檢查目前龍蛋數量
     /// </summary>
-    public async Task<int> GetEggTicket(int custId)
+    public async Task<int> GetEggTicket(int siteId,int custId,int currencyId)
     {
-        var eggTicket = _eventsService.GetEggTicket(custId);
+        var eggTicket = _eventsService.GetEggTicket(siteId,custId,currencyId);
         return eggTicket;
     }
     
@@ -172,7 +172,7 @@ public class NewYear2024BLL
         if (string.IsNullOrEmpty(customer.AccountName) || !customer.PhoneVerified) return (104, null);
 
         //檢查有無票,是否足夠
-        var tickets = _eventsService.GetEggTicket(customer.CustId);
+        var tickets = _eventsService.GetEggTicket(customer.SiteId,customer.CustId,customer.CurrencyId);
         if (tickets == 0) return (102, null);
         if (tickets < drawTimes) return (106, null);
 
