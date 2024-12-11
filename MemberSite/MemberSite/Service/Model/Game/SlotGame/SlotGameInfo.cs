@@ -73,6 +73,7 @@ namespace MemberSite.Service.Model.Game
             return fileName.Replace(" ", "-")
                                        .Replace("&", "-")
                                        .Replace(":", "-")
+                                       .Replace("#3258", "")
                                        .Replace("'", "")
                                        .Replace("’", "")
                                        .Replace(".", "")
