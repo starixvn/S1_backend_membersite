@@ -21,12 +21,12 @@ public class SiteBll
     private readonly Regex _regexUserName = new(@"^[a-zA-Z0-9]{6,18}$");
     private readonly Regex _regexPhoneNumber = new(@"^\+60[0-9]{9,10}$|\+62[0-9]{10,13}$|\+86[0-9]{10,11}$|\+91[0-9]{10}$|\+66[0-9]{9}$|\+880[0-9]{10}$|\+855[0-9]{8,10}$|\+84[0-9]{9}|\+82[0-9]{9,10}|\+81[0-9]{10}|\+55[0-9]{10,11}$");
     private readonly Regex _regexEmail = new(@"^\w+((-\w+)|(\.\w+))*@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$");
-    private readonly RecaptchaBLL _recaptcha;
+    private readonly CaptchaBLL _captchaBll;
     private readonly ServerInfoBll _serverInfoBll;
     private readonly CRMBLL _cRMBll;
     private readonly ILogger<SiteBll> _logger;
     private readonly IWebHostEnvironment _environment;
-    private readonly IEnumerable<int> _reCaptchaSiteConfig;
+    private readonly IEnumerable<int> _captchaSiteConfig;
 
     public SiteBll(IServiceProvider provider)
     {
@@ -37,13 +37,13 @@ public class SiteBll
         _tools = provider.GetRequiredService<Tools>();
         _affiliateService = provider.GetRequiredService<IAffiliateService>();
         _agentInfoService = provider.GetRequiredService<AgentInfoService>();
-        _recaptcha = provider.GetRequiredService<RecaptchaBLL>();
+        _captchaBll = provider.GetRequiredService<CaptchaBLL>();
         _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
         _cRMBll = provider.GetRequiredService<CRMBLL>();
         _logger = provider.GetRequiredService<ILogger<SiteBll>>();
         _environment = provider.GetRequiredService<IWebHostEnvironment>();
         var configBll = provider.GetRequiredService<ConfigBLL>();
-        _reCaptchaSiteConfig = configBll.GetConfigValue<IEnumerable<int>>("ReCaptchaSite");
+        _captchaSiteConfig = configBll.GetConfigValue<IEnumerable<int>>("CaptchaSite");
     }
 
     public Customer Signup(SiteController.SignupModel signupModel, ApiResult apiResult, bool isAuthenticated,
@@ -232,25 +232,24 @@ public class SiteBll
             }
         }
 
-        if (_reCaptchaSiteConfig.Any() && _reCaptchaSiteConfig.Contains(serverInfo.SiteId) && !string.IsNullOrWhiteSpace(signupModel.ReCaptchaToken))
+        if (_captchaSiteConfig.Any() && _captchaSiteConfig.Contains(serverInfo.SiteId))
         {
+            // 原本針對google，CNY不需要驗證碼
+            // 因現在驗證碼機制已有多種選擇(google、cloudflare、number)=>改成前端必傳且必驗
+            //if (!string.IsNullOrWhiteSpace(signupModel.ReCaptchaToken))
+            //{
             //Recaptcha Free Policy
             //var verifyResult = _recaptcha.Verify(signupModel.ReCaptchaToken);
             //Recaptcha Enterprise
-            if (string.IsNullOrWhiteSpace(signupModel.ReCaptchaAction))
-            {
-                apiResult.ErrorCode = -1;
-                apiResult.Message = $"missing. {_selLangBll.GetMsg("msg_RecaptchaError")}";
-                return false;
-            }
-            var verifyResult = _recaptcha.CreateAssessmentAsync(new AssessmentRequest(serverInfo.SiteId, _serverInfoBll.GetMainDomain(), signupModel.ReCaptchaToken, signupModel.ReCaptchaAction)).Result;
-            _logger.LogInformation($"reCaptcha verify result={JsonConvert.SerializeObject(verifyResult)}");
-            if (!verifyResult.success)
+            var verifyResult = _captchaBll.VerifyAsync(signupModel.CaptchaType,
+                new CaptchaCommonRequest(signupModel.ReCaptchaToken, "signup", Model.enums.CaptchaActionType.signup)).Result;
+            if (!verifyResult)
             {
                 apiResult.ErrorCode = -1;
                 apiResult.Message = $"{_selLangBll.GetMsg("msg_RecaptchaError")}";
                 return false;
             }
+            // }
         }
 
         if (long.TryParse(signupModel.PhoneNo, out var phoneNo))

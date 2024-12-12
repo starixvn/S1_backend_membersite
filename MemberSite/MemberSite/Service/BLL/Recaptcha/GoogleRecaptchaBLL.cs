@@ -1,35 +1,24 @@
 using Google.Api.Gax.ResourceNames;
 using Google.Apis.Auth.OAuth2;
 using Google.Cloud.RecaptchaEnterprise.V1;
-using MemberSite.Service.BLL.Interface;
-using MemberSite.Service.DAL;
 using MemberSite.Service.Model;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace MemberSite.Service.BLL
 {
-    public class RecaptchaBLL
+    public class GoogleRecaptchaBLL
     {
         private readonly RecaptchaSetting _recaptcha;
-        private readonly RecaptchaService _recaptchaSvc;
-        private readonly ServerInfoBll _serverInfoBll;
-        private readonly IRecaptchaApi _recaptchaApi;
-        private readonly CheckIpBLL _checkIpBll;
-        private readonly ILogger<RecaptchaBLL> _logger;
+        private readonly ILogger<GoogleRecaptchaBLL> _logger;
 
         private readonly GoogleCredential _credential;
         private readonly ReCaptchaEnterpriseSetting _reCaptchaEnterpriseSetting;
         private readonly Dictionary<int, ReCaptchaHighRiskDomainSetting> _reCaptchaHighRiskDomainSetting;
 
-        public RecaptchaBLL(IServiceProvider provider)
+        public GoogleRecaptchaBLL(IServiceProvider provider)
         {
             _recaptcha = provider.GetRequiredService<RecaptchaSetting>();
-            _recaptchaSvc = provider.GetRequiredService<RecaptchaService>();
-            _recaptchaApi = provider.GetRequiredService<IRecaptchaApi>();
-            _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
-            _checkIpBll = provider.GetRequiredService<CheckIpBLL>();
-            _logger = provider.GetRequiredService<ILogger<RecaptchaBLL>>();
+            _logger = provider.GetRequiredService<ILogger<GoogleRecaptchaBLL>>();
 
             var configBll = provider.GetRequiredService<ConfigBLL>();
             _credential = GoogleCredential.FromJson(configBll.GetConfigValue("ReCaptchaEnterprise"));
@@ -39,44 +28,53 @@ namespace MemberSite.Service.BLL
 
         #region ReCaptcha Free Policy
 
-        public RecaptchaResponse Verify(string token)
-        {
-            var domain = _serverInfoBll.GetMainDomain();
-            var name = _recaptchaSvc.GetGroup(domain).Result;
-            var setting = _recaptcha.Groups[name];
+        //public RecaptchaResponse Verify(string token)
+        //{
+        //    var domain = _serverInfoBll.GetMainDomain();
+        //    var name = _recaptchaSvc.GetGroup(domain).Result;
+        //    var setting = _recaptcha.Groups[name];
 
-            return _recaptchaApi.Verify(_recaptcha.ApiUrl, setting.Secret, token);
-        }
+        //    return _recaptchaApi.Verify(_recaptcha.ApiUrl, setting.Secret, token);
+        //}
 
-        public async Task<RecaptchaSiteInfo> GetInfo(string clientIp)
-        {
-            var setting = await GetRecaptchaSetting();
+        //public async Task<RecaptchaSiteInfo> GetInfo(string clientIp)
+        //{
+        //    var setting = await GetRecaptchaSetting();
 
-            var country = await _checkIpBll.CheckIp(clientIp);
-            return new RecaptchaSiteInfo()
-            {
-                Country = country.Code,
-                SiteKey = setting.SiteKey
-            };
-        }
+        //    var country = await _checkIpBll.CheckIp(clientIp);
+        //    return new RecaptchaSiteInfo()
+        //    {
+        //        Country = country.Code,
+        //        SiteKey = setting.SiteKey
+        //    };
+        //}
 
         #endregion
 
-        private async Task<RecaptchaGroup> GetRecaptchaSetting()
+        public RecaptchaGroup GetSetting(string groupName)
         {
-            var domain = _serverInfoBll.GetMainDomain();
-            var name = await _recaptchaSvc.GetGroup(domain);
-            return _recaptcha.Groups[name];
+            return new RecaptchaGroup(Model.enums.CaptchaType.GoogleRecaptcha, _recaptcha.Groups[groupName]);
         }
 
         #region ReCaptcha Enterprise
-        public async Task<AssessmentResult> CreateAssessmentAsync(AssessmentRequest request)
+
+        public async Task<bool> VerifyAsync(RecaptchaGroup setting, CaptchaCommonRequest request)
+        {
+            var result = await CreateAssessmentAsync(setting, request);
+            _logger.LogInformation($"reCaptcha verify result={JsonConvert.SerializeObject(result)}");
+            if (!result.success)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private async Task<AssessmentResult> CreateAssessmentAsync(RecaptchaGroup setting, CaptchaCommonRequest request)
         {
             var message = string.Empty;
             Assessment response = null;
             try
             {
-                var setting = await GetRecaptchaSetting();
                 var client = new RecaptchaEnterpriseServiceClientBuilder
                 {
                     Credential = _credential
@@ -135,7 +133,7 @@ namespace MemberSite.Service.BLL
             var highRiskConfig = _reCaptchaHighRiskDomainSetting[request.SiteId];
             if (highRiskConfig is not null && highRiskConfig.DomainList.Contains(request.MainDomain))
             {
-                _logger.LogInformation($"This Domain Use HighRisk Check.Domain={request.MainDomain}  RiskLimit={highRiskConfig.RiskLimit}");
+                _logger.LogInformation($"This Domain Use HighRisk Check. Domain={request.MainDomain}  RiskLimit={highRiskConfig.RiskLimit}");
                 return new AssessmentResult((decimal)response.RiskAnalysis.Score, highRiskConfig.RiskLimit);
             }
             return new AssessmentResult((decimal)response.RiskAnalysis.Score, _reCaptchaEnterpriseSetting.RiskLimit);
