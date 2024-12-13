@@ -797,7 +797,10 @@ namespace MemberSite.Controllers.Api
                 if (authData is { CustId: > 0 })
                 {
                     var custInfo = _custInfoBLL.GetCustInfoProfile(authData.CustId);
+                    var customer = _custInfoBLL.GetCustInfoWithCache(authData.CustId);
                     var _perCountry = "";
+                    var _email = string.Empty;
+                    var _phoneNo = string.Empty;
                     if (custInfo != null)
                     {
                         if (custInfo.CurrencyId == 96)
@@ -807,6 +810,18 @@ namespace MemberSite.Controllers.Api
                         else
                         {
                             _perCountry = _custInfoBLL.GetCountryNameByAreaCode(custInfo.AreaCode);
+                        }
+
+                        // MaskEmail & MaskPhoneNo for onetwobet only
+                        if (customer.SiteId == 101)
+                        {
+                            _email = _custInfoBLL.MaskEmail(custInfo.Email);
+                            _phoneNo = _custInfoBLL.MaskPhoneNumber(custInfo.PhoneNo);
+                        }
+                        else
+                        {
+                            _email = custInfo.Email;
+                            _phoneNo = custInfo.PhoneNo;
                         }
                     }
 
@@ -818,7 +833,7 @@ namespace MemberSite.Controllers.Api
                     apiResult.Data = new
                     {
                         custInfo.UserName,
-                        custInfo.Email,
+                        Email = _email, 
                         custInfo.AccountName,
                         custInfo.Birth_d,
                         custInfo.Birth_m,
@@ -827,7 +842,7 @@ namespace MemberSite.Controllers.Api
                         LastLogin = custInfo.LastLoginTime,
                         Country = string.IsNullOrEmpty(custInfo.CountryCode) ? null : custInfo.CountryCode,
                         custInfo.AreaCode,
-                        custInfo.PhoneNo,
+                        PhoneNo = _phoneNo,
                         PerCountry = _perCountry,
                         custInfo.CurrencyId,
                         langId = custInfo.UserLang,
