@@ -46,6 +46,8 @@ namespace MemberSite.Service.Model
         public IEnumerable<TierAmount> TierAmountList { get; set; }
         public IEnumerable<CanJoinTierAmount> CanJoinTierAmountList { get; set; }
         public MissionBonusProgress MissionBonusProgress { get; set; }
+        public bool IsPromotionUploadCustList { get; set; } = false;
+
     }
 
     public class MissionBonusProgress
