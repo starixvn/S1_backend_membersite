@@ -217,6 +217,7 @@ namespace MemberSite
                 };
             });
             #endregion
+            
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();
 
