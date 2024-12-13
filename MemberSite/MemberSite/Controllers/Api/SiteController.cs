@@ -1579,6 +1579,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
+        [Obsolete("Use GetVipBannerV2 instead")]
         public ApiResult<VipBanner> GetVipBanner(VipBannerReq vipBannerReq)
         {
             var apiResult = new ApiResult<VipBanner>() { ErrorCode = 0 };
@@ -1601,6 +1602,32 @@ namespace MemberSite.Controllers.Api
                     siteId = serverInfo.SiteId;
                 }
                 apiResult.Data = _bannerBll.GetVipBanner(siteId, perferCurr);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, GetCurrentMethod());
+            }
+            return apiResult;
+        }
+        
+        [HttpPost]
+        public ApiResult<VipBanner> GetVipBannerV2(VipBannerReq vipBannerReq)
+        {
+            var apiResult = new ApiResult<VipBanner>() { ErrorCode = 0 };
+            try
+            {
+                var perferCurr = vipBannerReq.CurrencyId;
+                var siteId = _serverInfoBll.GetServerInfo().SiteId;
+                var authData = _authorizeBll.GetAuthData();
+
+                if (authData is { CustId: > 0 })
+                {
+                    var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                    siteId = custInfo.SiteId;
+                    perferCurr = custInfo.CurrencyId;
+                }
+                
+                apiResult.Data = _bannerBll.GetVipBannerV2(siteId, perferCurr);
             }
             catch (Exception ex)
             {

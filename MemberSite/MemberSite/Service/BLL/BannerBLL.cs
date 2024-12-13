@@ -227,5 +227,28 @@ namespace MemberSite.Service.BLL
                 LastUpdateTime = lastUpdateTimeList.Max()
             };
         }
+
+        public VipBanner GetVipBannerV2(int siteId, int currencyId)
+        {
+            var rebateCategory = bannerService.GetRebateCategory(siteId, currencyId).ToList();
+            var vipBanners = bannerService.GetVipBanner(siteId, currencyId).Select(x =>
+            {
+                x.RebateCategory = rebateCategory.FindAll(o => o.Level.Equals(x.Level));
+                return x;
+            });
+            var lastUpdateTimes = bannerService.GetVipBannerLastUpdateTime(siteId, currencyId);
+            var lastUpdateTime = new[]
+            {
+                lastUpdateTimes.RebateCategoryLastUpdateTime,
+                lastUpdateTimes.VipSystemLastUpdateTime,
+                lastUpdateTimes.WithdrawalLimitInfoLastUpdateTime
+            }.Max();
+
+            return new VipBanner()
+            {
+                VipBannerData = vipBanners,
+                LastUpdateTime = lastUpdateTime
+            };
+        }
     }
 }

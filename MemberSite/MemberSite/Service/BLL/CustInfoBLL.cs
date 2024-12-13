@@ -41,6 +41,7 @@ namespace MemberSite.Service.BLL
         private readonly ICustPhotoIdBLL _custPhoto;
         private readonly ILogger<CustInfoBll> _logger;
         private readonly FaceBookPixelBLL _faceBookPixelBll;
+        private readonly StatementService _statementService;
 
         public CustInfoBll(IServiceProvider provider)
         {
@@ -62,6 +63,7 @@ namespace MemberSite.Service.BLL
             _custPhoto = provider.GetRequiredService<ICustPhotoIdBLL>();
             _logger = provider.GetRequiredService<ILogger<CustInfoBll>>();
             _faceBookPixelBll = provider.GetRequiredService<FaceBookPixelBLL>();
+            _statementService = provider.GetRequiredService<StatementService>();
         }
         public string GetCountryNameByAreaCode(string areaCode)
         {
@@ -849,30 +851,43 @@ namespace MemberSite.Service.BLL
             var vipSystem = _vIPService.GetVipSystem(customer.SiteId).Where(x => x.CurrencyId == customer.CurrencyId).ToList();
             if (vipSystem != null)
             {
-                var upGradeData = vipSystem.Find(x => x.Level == customer.UserLevel + 1);
+                var upGradeData = vipSystem
+                    .Where(x=> x.Level > customer.UserLevel)
+                    .Where(x => x.UpDeposit > 0 || x.UpTurnover > 0)
+                    .MinBy(x => x.Level);
+                
                 var downGradeData = vipSystem.Find(x => x.Level == customer.UserLevel);
 
                 if (upGradeData != null)
+                {
                     result.UpDeposit = upGradeData.UpDeposit;
+                    result.UpTurnover = upGradeData.UpTurnover;
+                }
                 if (downGradeData != null)
                 {
                     result.DownDeposit = downGradeData.DownDeposit;
                     result.DownTurnover = downGradeData.DownTurnover;
                 }
                 result.ActualDeposit = GetActualDeposit(customer.SiteId, custId);
+                result.TurnoverSummary = GetCustTurnoverSummary(customer.SiteId, custId);
             }
             return result;
         }
         private decimal GetActualDeposit(int siteId, int custId)
         {
             var currentTime = DateTime.UtcNow.AddHours(8);
-            DateTime startTime = new DateTime(currentTime.Year, currentTime.Month, 1)
-                .Date;
-            DateTime endTime = startTime.AddMonths(1).AddTicks(-1);
-
+            var startTime = new DateTime(currentTime.Year, currentTime.Month, 1).Date;
+            var endTime = startTime.AddMonths(1).AddTicks(-1);
             var actualDepositData = _depositService.GetActualDepositData(siteId, custId, startTime, endTime);
+            return actualDepositData?.ActualDeposit ?? 0;
+        }
 
-            return actualDepositData == null ? 0 : actualDepositData.ActualDeposit;
+        private decimal GetCustTurnoverSummary(int siteId, int custId)
+        {
+            var currentTime = DateTime.UtcNow.AddHours(8);
+            var startTime = new DateTime(currentTime.Year, currentTime.Month, 1).Date;
+            var endTime = startTime.AddMonths(1).AddTicks(-1);
+            return _statementService.GetCustTpBetRecordSummary(siteId, custId, startTime, endTime);
         }
 
         //只給Ivorysport使用

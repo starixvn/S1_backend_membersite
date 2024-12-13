@@ -95,7 +95,9 @@
         public string WithdrawalMax { get; set; }
         public string Times { get; set; }
         public string UpDeposit { get; set; }
+        public decimal UpTurnover { get; set; }
         public string UpBonus { get; set; }
+        public decimal? UpRewardPoint { get; set; }
         public string DownDeposit { get; set; }
         public string DownTurnover { get; set; }
         public string RankingValidityMembershipRenewal { get; set; }
