@@ -75,6 +75,7 @@ namespace MemberSite.Service.Model.Game
                                        .Replace(":", "-")
                                        .Replace("#3258", "")
                                        .Replace("'", "")
+                                       .Replace(":", "")
                                        .Replace("’", "")
                                        .Replace(".", "")
                                        .Replace("™", "")

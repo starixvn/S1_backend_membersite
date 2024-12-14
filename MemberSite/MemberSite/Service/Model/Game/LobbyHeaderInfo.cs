@@ -99,7 +99,7 @@ namespace MemberSite.Service.Model.Game
         public DateTime IconEndTime { get; set; }
         public DateTime LaunchDate { get; set; }
         public int Sort { get; set; }
-        public string ImgGameName => GameName?.ToLower().Replace("\u00A0", "-").Replace(" ", "-");
+        public string ImgGameName => GameName?.ToLower().Replace("\u00A0", "-").Replace(" ", "-").Replace(":", "");
     }
 
     public class LobbyHeaderSequenceData
