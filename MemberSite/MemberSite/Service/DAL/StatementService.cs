@@ -126,5 +126,16 @@ namespace MemberSite.Service.DAL
 
             return result;
         }
+
+        public decimal GetCustTpBetRecordSummary(int siteId, int custId, DateTime startTime, DateTime endTime)
+        {
+            var spName = "Member_TpBetRecordSummary_Get";
+            var parameters = new DynamicParameters();
+            parameters.Add("@_siteId", dbType:DbType.Int32, value: siteId);
+            parameters.Add("@_custId", dbType:DbType.Int32, value: custId);
+            parameters.Add("@_startTime", dbType:DbType.DateTime, value: startTime);
+            parameters.Add("@_endTime", dbType:DbType.DateTime, value: endTime);
+            return _reportDb.Query<decimal>(spName, parameters).FirstOrDefault();
+        }
     }
 }

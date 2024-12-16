@@ -376,7 +376,9 @@ namespace MemberSite.Service.Model
     {
         public int CurrentVipLevel { get; set; }
         public decimal? UpDeposit { get; set; }
+        public decimal? UpTurnover { get; set; }
         public decimal ActualDeposit { get; set; }
+        public decimal TurnoverSummary { get; set; }
         public decimal? DownDeposit { get; set; }
         public decimal? DownTurnover { get; set; }
     }
