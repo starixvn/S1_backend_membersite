@@ -448,18 +448,34 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public ApiResult<TpMaintainCheckResponse> TpMaintainCheck(TpMaintainCheckRequest request)
         {
             var apiResult = new ApiResult<TpMaintainCheckResponse>();
+            var serverInfo = _serverInfoBll.GetServerInfo();
+            var isMaintain = _gameBll.IsMaintain(serverInfo.SiteId, request.TpId, request.TpGameType.ToString(), out var tpMaintain);
             var authData = _authorizeBll.GetAuthData();
             if (authData is not { CustId: > 0 })
             {
-                apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
-                return apiResult;
+                if (isMaintain)
+                {
+                    apiResult.Data = new TpMaintainCheckResponse
+                    {
+                        IsMaintain = true,
+                        MaintainEndTime = $"{tpMaintain.EndDate:u}"
+                    };
+                    apiResult.ErrorCode = 0;
+                    return apiResult;
+                }
+                else
+                {
+                    apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
+                    return apiResult;
+                }       
             }
             var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-            var serverInfo = _serverInfoBll.GetServerInfo();
-            if (custInfo.IsTest == false && _gameBll.IsMaintain(serverInfo.SiteId, request.TpId, request.TpGameType.ToString(), out var tpMaintain))
+            
+            if (!custInfo.IsTest && isMaintain)
             {
                 apiResult.Data = new TpMaintainCheckResponse
                 {

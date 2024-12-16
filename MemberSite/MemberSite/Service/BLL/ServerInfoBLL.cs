@@ -26,7 +26,7 @@ namespace MemberSite.Service.BLL
         private readonly Dictionary<int, Dictionary<string, string>> _socialChannelLogoLinks;
         private readonly Dictionary<int, StaticFileDomain> _staticFileDomainConfins;
 
-        public ServerInfoBll(IServiceProvider provider)
+        public ServerInfoBll(IServiceProvider provider, IConfiguration configuration)
         {
             _serverInfoService = provider.GetRequiredService<IServerInfoService>();
             _cache = provider.GetRequiredService<IMemoryCache>();
@@ -35,7 +35,7 @@ namespace MemberSite.Service.BLL
             _serverInfoDic = new ConcurrentDictionary<int, ServerInfo>();
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
             var configBll = provider.GetRequiredService<ConfigBLL>();
-            _fixSiteId = configBll.GetConfigValue<int>("FixSiteId");
+            _fixSiteId = configuration.GetValue<int>("FixSiteId");
             _socialChannelLogoLinks = configBll.GetConfigValuesBySiteId<Dictionary<string, string>>("SocialChannelLogoLink");
             _staticFileDomainConfins = configBll.GetConfigValuesBySiteId<StaticFileDomain>("StaticFileDomain");
         }
