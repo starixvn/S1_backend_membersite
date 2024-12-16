@@ -1,4 +1,6 @@
-﻿using MemberSite.Service.BLL.Interface;
+﻿using System.Security.Claims;
+using MemberSite.Service.BLL.Interface;
+using MemberSite.Service.DAL;
 using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
@@ -16,6 +18,10 @@ namespace MemberSite.Service.BLL
         private readonly ServerInfoBll _serverInfoBll;
         private readonly Dictionary<int, int> _specialVenderLogoTp;
         private readonly Dictionary<string, string> _changeGameImgName;
+        private readonly CasinoService _casinoService;
+        private readonly AuthorizeBLL _authorizeBll;
+        private readonly CustInfoBll _custInfoBll;
+        private readonly SelLangBLL _selLangBll;
 
         public HotGameBLL(IHotGameService hotGameService, ICacheHelper redisHelper, IServiceProvider provider)
         {
@@ -26,6 +32,10 @@ namespace MemberSite.Service.BLL
             _slotGameBLL = provider.GetRequiredService<SlotGameBLL>();
             _gameBll = provider.GetRequiredService<GameBLL>();
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
+            _casinoService = provider.GetRequiredService<CasinoService>();
+            _authorizeBll = provider.GetRequiredService<AuthorizeBLL>();
+            _custInfoBll = provider.GetRequiredService<CustInfoBll>();
+            _selLangBll = provider.GetRequiredService<SelLangBLL>();
             _specialVenderLogoTp = new Dictionary<int, int>()
             {
                 { 67, 30 },
@@ -73,19 +83,46 @@ namespace MemberSite.Service.BLL
                                        .ToLower();
         }
 
-        public async Task<Dictionary<string, IEnumerable<HotGameResponse>>> GetHotGames(int siteId, int currencyId, HotGameDeviceType deviceType, string langId, GetHotGameDataListRequest request)
+        /// <summary>
+        /// 根據登入狀態回傳SiteId、CurrencyId、CustId
+        /// </summary>
+        private (int SiteId, int CurrencyId, int CustId) GetUserInfo(int? inputCurrencyId, ClaimsPrincipal user, ServerInfo serverInfo)
+        {
+
+            if (user?.Identity is { IsAuthenticated: true })
+            {
+
+                var authData = _authorizeBll.GetAuthData();
+                if (authData != null && authData.CustId != 0)
+                {
+                    var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                    return (custInfo.SiteId, custInfo.CurrencyId, authData.CustId);
+                }
+            }
+            var currencyId = _selLangBll.GetPreferCurrencyId();
+            if (inputCurrencyId.HasValue)
+            {
+                currencyId = inputCurrencyId.Value;
+            }
+            return (serverInfo.SiteId, currencyId, 0);
+
+        }
+
+        public async Task<Dictionary<string, IEnumerable<HotGameResponse>>> GetHotGames(int siteId, int currencyId, HotGameDeviceType deviceType, string langId, GetHotGameDataListRequest request, ClaimsPrincipal user)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
+            var (defsiteId, defcurrencyId, custId) = GetUserInfo(request.CurrencyId, user, serverInfo);
             var imgUrl = _siteCloudFrontImageInfo.OldImageUrl;
             var bannerUrl = _siteCloudFrontImageInfo.BannerImageUrl;
             var devicePath = deviceType == HotGameDeviceType.Pc ? "desktop" : "h5";
-            var key = $"GetHotGamesV2:{siteId}:{currencyId}";
-            //var hotGames = await _redisHelper.TryGetOrCreateAsync(key, null,
-            //    async () => await _hotGameService.GetHotGames(siteId, currencyId, request));
-
             var hotGames = await _hotGameService.GetHotGames(siteId, currencyId, request);
-
             var providers = await _hotGameService.GetProvider();
+            var disableGame = await _casinoService.GetTpDisableUserByCustIdAsync(custId);
+
+            if (custId > 0)
+            {
+                hotGames = hotGames.Where(x => !disableGame.Any(y => y.GameList.Exists(z => z.Equals(x.GameId)) && y.TpId == x.TpId));
+            }
 
             // 取出Slot的遊戲資訊
             var slotGameList = await _slotGameBLL.GetSlotGameList(siteId, currencyId, (int)deviceType);

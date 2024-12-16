@@ -80,7 +80,7 @@ namespace MemberSite.Controllers.Api
 
             try
             {
-                var data = await _hotGameBll.GetHotGames(siteId, currencyId, request.DeviceType, langId, request);
+                var data = await _hotGameBll.GetHotGames(siteId, currencyId, request.DeviceType, langId, request, User);
                 apiResult.Data = data;
                 apiResult.ErrorCode = (int)ErrorCode.Success;
                 // 新增未登入快取

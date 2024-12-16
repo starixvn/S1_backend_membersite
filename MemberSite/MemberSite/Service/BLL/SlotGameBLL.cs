@@ -85,7 +85,6 @@ namespace MemberSite.Service.BLL
             var slotGameList = await gameListTask;
             var lobbyCategorySequence = await categorySequenceTask;
 
-
             // 整理資料與排序
             var slotGameProviderDict = slotGameList.GroupBy(i => i.TpId).ToDictionary(i => i.Key, i => i.Key);
             providerList = FilterAndSortProviderList(providerList, slotGameProviderDict, lobbyCategorySequence);
