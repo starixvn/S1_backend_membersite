@@ -7,7 +7,6 @@ using MemberSite.Service.Model.enums;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using static MemberSite.Controllers.entPageController;
 
 namespace MemberSite.Controllers
@@ -220,7 +219,7 @@ namespace MemberSite.Controllers
             }, BonusCode, ErrorUrl, HomeUrl);
         }
 
-        public async Task<IActionResult> DepositReqBankAutoChannelAsync(int sysId, decimal Amount, string BonusCode, string ErrorUrl,  string HomeUrl)
+        public async Task<IActionResult> DepositReqBankAutoChannelAsync(int sysId, decimal Amount, string BonusCode, string ErrorUrl, string HomeUrl)
         {
             var model = new ErrorData();
             var authData = _authorizeBll.GetAuthData();
@@ -250,8 +249,8 @@ namespace MemberSite.Controllers
         public async Task<IActionResult> DepositReqAsync(int channelId, int sysId, decimal amount, string bonusCode,
             string payAccount, string code, string serial, string errorUrl, string homeUrl)
         {
-
             var authData = _authorizeBll.GetAuthData();
+
             if (authData is not { CustId: > 0 })
             {
                 return RedirectErrorPage(errorUrl, new ErrorData("Not Login."));
@@ -289,7 +288,7 @@ namespace MemberSite.Controllers
                         return await DepositOnlineBankingAsync(authData.CustId, sysId, channelId, amount, bonusCode, new Dictionary<string, string>
                         {
                             {"PayAccount", payAccount}
-                        }, errorUrl,homeUrl, channel.Type);
+                        }, errorUrl, homeUrl, channel.Type);
 
                     case DepositType.MobilePayment:
                         p.ExtraData = new Dictionary<string, string>
@@ -377,7 +376,7 @@ namespace MemberSite.Controllers
                 ? actionResult : RedirectErrorPage(errorUrl, new ErrorData());
         }
 
-        private async Task<IActionResult> DepositBankAutoSelectChannelAsync(int custId, int sysId, decimal amount, string bonusCode, string errorUrl, string homeUrl )
+        private async Task<IActionResult> DepositBankAutoSelectChannelAsync(int custId, int sysId, decimal amount, string bonusCode, string errorUrl, string homeUrl)
         {
             var custInfo = _custInfoBll.GetCustInfoWithCache(custId);
             var vipLevel = _custInfoBll.GetPointLevelWithCache(custId);
@@ -415,7 +414,7 @@ namespace MemberSite.Controllers
             if (result != (int)ErrorCode.Success)
                 return RedirectErrorPage(errorUrl, new ErrorData($"Deposit{depositType.GetDescription()} Failed."));
 
-            var apiResult = await  CreateDepositAndSetPromotionAsync(custId, transId, bonusCode, homeUrl);
+            var apiResult = await CreateDepositAndSetPromotionAsync(custId, transId, bonusCode, homeUrl);
 
             return ActionResult(apiResult, transId, new ErrorData(), PaymentView.DepositReqOnlineBanking, out var actionResult)
                 ? actionResult : RedirectErrorPage(errorUrl, new ErrorData());
@@ -462,7 +461,7 @@ namespace MemberSite.Controllers
             var serverInfo = _serverInfoBll.GetServerInfo();
             if (serverInfo.SiteId > 0)
             {
-                return View($"~/Views/entPage/PaymentErrorPage.cshtml", model);
+                return Redirect($"{errorUrl}");
             }
             else
             {
@@ -493,7 +492,7 @@ namespace MemberSite.Controllers
                 {DepositType.ChatTransfer, PaymentView.DepositReqOnlineBanking}
             };
 
-        private async Task<IActionResult> CreateDeposit(DepositReqParams input, string bonusCode, string errorUrl, string homeUrl )
+        private async Task<IActionResult> CreateDeposit(DepositReqParams input, string bonusCode, string errorUrl, string homeUrl)
         {
             var model = new ErrorData();
             try
