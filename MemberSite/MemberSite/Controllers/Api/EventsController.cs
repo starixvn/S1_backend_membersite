@@ -1285,6 +1285,13 @@ namespace MemberSite.Controllers.Api
                 
                 var battleTimeZone = matchInfo.BattleTime.AddHours(8);
                 var battleTimeOffset = new DateTimeOffset(battleTimeZone.Year, battleTimeZone.Month, battleTimeZone.Day, 0, 0, 0, TimeSpan.FromHours(8));
+                // 如果是整點 , 0時0分
+                if (battleTimeZone.TimeOfDay == TimeSpan.Zero)
+                {
+                    // 前一天就不能預測了
+                    battleTimeOffset = battleTimeOffset.AddDays(-1);
+                }
+                
                 if (DateTime.UtcNow < matchInfo.StartTime || DateTime.UtcNow > battleTimeOffset.UtcDateTime )
                 {
                     apiResult.ErrorCode = -2;
@@ -1296,19 +1303,18 @@ namespace MemberSite.Controllers.Api
 
                 #region Check Depsoit
                 
-                
                 var depositStartTime = battleTimeOffset.AddDays(- matchInfo.DepositTermPeriodDays);
-                var depositEndTime =  new DateTimeOffset(battleTimeZone.Year, battleTimeZone.Month, battleTimeZone.Day, 23, 59, 59, TimeSpan.FromHours(8)).AddSeconds(-1);
+                var depositEndTime = new DateTimeOffset(battleTimeZone.Year, battleTimeZone.Month, battleTimeZone.Day, 23, 59, 59, TimeSpan.FromHours(8)).AddSeconds(-1);
                 var depositList = await _predictionPromotionBll.GetMemberDeposit(custInfo.CustId, depositStartTime.UtcDateTime, depositEndTime.UtcDateTime);
 
+                var depositRequiredAmountCheck = true;
+                var depositDepositCountAchievedCheck = true;
                 if (matchInfo.RequiredAmount > 0)
                 {
                     var depositSummary = depositList.Sum(x => x.DepositAmount);
                     if (depositSummary < matchInfo.RequiredAmount)
                     {
-                        apiResult.ErrorCode = -3;
-                        apiResult.Message = string.Format(_selLangBll.GetMsg("msg_RequiredAmountInsufficient"), matchInfo.RequiredAmount);
-                        return apiResult; 
+                        depositRequiredAmountCheck = false;
                     }
                 }
 
@@ -1317,10 +1323,33 @@ namespace MemberSite.Controllers.Api
                     var depositCount = depositList.Count;
                     if (depositCount < matchInfo.DepositCountAchieved)
                     {
-                        apiResult.ErrorCode = -4;
-                        apiResult.Message = "Deposit Count not enough";
-                        return apiResult; 
+                        depositDepositCountAchievedCheck = false;
                     }
+                }
+
+                switch (matchInfo.DepositConditionStatus)
+                {
+                    // one of following
+                    case 0 when depositRequiredAmountCheck is false && depositDepositCountAchievedCheck is false:
+                        
+                        apiResult.ErrorCode = -5;
+                        apiResult.Message = "Deposit Count or Deposit Amount not enough";
+                        return apiResult; 
+                    
+                    // Both
+                    case 1 when depositRequiredAmountCheck is false || depositDepositCountAchievedCheck is false:
+                        
+                        if (!depositRequiredAmountCheck)
+                        {
+                            apiResult.ErrorCode = -3;
+                            apiResult.Message = string.Format(_selLangBll.GetMsg("msg_RequiredAmountInsufficient"), matchInfo.RequiredAmount);
+                        }
+                        else
+                        {
+                            apiResult.ErrorCode = -4;
+                            apiResult.Message = "Deposit Count not enough";
+                        }
+                        return apiResult;
                 }
                 
                 #endregion
