@@ -1636,5 +1636,41 @@ namespace MemberSite.Controllers.Api
                 Data = data
             };
         }
+        
+        [HttpPost]
+        public async Task<ApiResult<string>> AppLogin(LoginModel loginModel)
+        {
+            var apiResult = new ApiResult<string>(_selLangBll);
+
+            if (!_stringVaildHelper.VaildUserName(loginModel.UserName))
+            {
+                apiResult.ErrorCode = 1103;
+                apiResult.Message = _selLangBll.GetMsg("msg_UsernameValidate");
+                return apiResult;
+            }
+
+            // member site login process start
+            Customer customer = null;
+            var ip = _tools.GetClientIP();
+            var fromUrl = _tools.GetFromUrl();
+            var deviceType = (int)_tools.GetDeviceId(fromUrl);
+            var userLoginResult = _custInfoBll.UserLogin(false, 0, loginModel.UserName, loginModel.Userpwd, ip, fromUrl,
+                Request.Headers["User-Agent"], deviceType, ref customer, out var token);
+
+            await AfterLogin(userLoginResult, loginModel, ip, customer, token, apiResult);
+            
+            // for test start
+            apiResult.Data = JsonConvert.SerializeObject(customer);
+            // for test end
+            // member site login process end
+
+            // if (userLoginResult == 0)
+            // {
+            //     // if login success, change the api result from third party api instead of login result
+            //     apiResult = await _thirdPartyBll.GetToken(customer);
+            // } 
+            
+            return apiResult;
+        }
     }
 }
