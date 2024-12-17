@@ -56,7 +56,10 @@ namespace MemberSite.Service.BLL
                 () => _casinoService.GetProviderIdByCurrency(currencyId, siteId));
         }
 
-
+        public async Task<IEnumerable<DisableTpGame>> GetTpDisableUserByCustIdAsync(int custId)
+        {
+            return await _casinoService.GetTpDisableUserByCustIdAsync(custId);
+        }
 
     }
 }
