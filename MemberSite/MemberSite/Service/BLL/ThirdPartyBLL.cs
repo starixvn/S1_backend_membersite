@@ -131,6 +131,31 @@ namespace MemberSite.Service.BLL
 
             return apiResult;
         }
+        
+        public async Task<ApiResult<string>> GetToken(Customer customer)
+        {
+            var url = $"{_tpServiceApiUrl}GetToken";
+            
+            var request = new GetTokenRequest
+            {
+                UserName = customer.UserName,
+                SiteId = customer.SiteId
+            };
+        
+            try
+            {
+                return await _courierAdapter.PostAsync<ApiResult<string>>(url, jsonRequest: request, timeout: 3);
+            }
+            catch (Exception ex)
+            {
+                return new ApiResult<string>
+                {
+                    ErrorCode = 9000,
+                    Message = ex.Message
+                };
+            }
+        }
+        
         public IEnumerable<TpWalletList> GetTpWalletList(int custId, int listType)
         {
             return _thirdPartyService.GetTpWalletList(custId, listType);
