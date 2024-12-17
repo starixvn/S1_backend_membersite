@@ -1658,6 +1658,10 @@ namespace MemberSite.Controllers.Api
                 Request.Headers["User-Agent"], deviceType, ref customer, out var token);
 
             await AfterLogin(userLoginResult, loginModel, ip, customer, token, apiResult);
+            
+            // for test start
+            apiResult.Data = JsonConvert.SerializeObject(customer);
+            // for test end
             // member site login process end
 
             // if (userLoginResult == 0)
