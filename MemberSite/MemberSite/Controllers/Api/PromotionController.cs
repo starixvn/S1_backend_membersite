@@ -645,7 +645,6 @@ namespace MemberSite.Controllers.Api
             return result;
         }
 
-        [Authorize]
         [HttpPost]
         public ApiResult<List<CustPromotion>> GetCustPrivatePromotionList(CustPrivatePromotionReq data)
         {
