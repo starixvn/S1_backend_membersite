@@ -31,7 +31,7 @@ namespace MemberSite.Service.BLL
             var sPermissionData = "";
             t = default;
             sPermissionData = authService.Authenticate(sToken);
-
+            _logger.LogError("[Authenticate] {Token}, sPermissionData: {PermissionData}", sToken, sPermissionData);
             if (!string.IsNullOrEmpty(sPermissionData))
             {
                 t = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(sPermissionData);
