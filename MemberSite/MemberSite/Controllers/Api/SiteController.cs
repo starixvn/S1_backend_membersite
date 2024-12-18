@@ -1137,7 +1137,6 @@ namespace MemberSite.Controllers.Api
         [HttpPost]
         public async Task<ApiResult> CheckResetPwdTokenAsync([FromForm] string key)
         {
-            _logger.LogError("CheckResetPwdToken: {Key}", key);
             var apiResult = new ApiResult(_selLangBll);
             try
             {
