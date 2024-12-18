@@ -1,4 +1,5 @@
 using MemberSite.Service.BLL;
+using MemberSite.Service.BLL.CalSystem;
 using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
@@ -20,6 +21,7 @@ namespace MemberSite.Controllers.Api
         private readonly ServerInfoBll _serverInfoBll;
         private readonly SelLangBLL _selLangBLL;
         private readonly AuthorizeBLL _authorizeBLL;
+        private readonly ICalSystemBLL _calSystemBLL;
         private readonly CustInfoBll _custInfoBLL;
         private readonly BankInfoBLL _bankInfoBLL;
         private readonly CommonBLL _commonBLL;
@@ -38,6 +40,7 @@ namespace MemberSite.Controllers.Api
             _serverInfoBll = provider.GetRequiredService<ServerInfoBll>();
             _selLangBLL = provider.GetRequiredService<SelLangBLL>();
             _authorizeBLL = provider.GetRequiredService<AuthorizeBLL>();
+            _calSystemBLL = provider.GetRequiredService<ICalSystemBLL>();
             _custInfoBLL = provider.GetRequiredService<CustInfoBll>();
             _bankInfoBLL = provider.GetRequiredService<BankInfoBLL>();
             _commonBLL = provider.GetRequiredService<CommonBLL>();
@@ -592,6 +595,35 @@ namespace MemberSite.Controllers.Api
                 if (apiResult.ErrorCode == 0)
                 {
                     apiResult.Message = _selLangBLL.GetMsg("msg_Updatesuccessful");
+                    
+                    if (custInfo.SiteId is 101)
+                    {
+                        Task.Run(() =>
+                        {
+                            try
+                            {
+                                var updatePhoneNumber = string.IsNullOrEmpty(beforeCustInfo.PhoneNo);
+                                var hasDeposit = beforeCustInfo.ActStatus == (int)ActStatus.HasDeposit;
+                                var data = new
+                                {
+                                    Username = beforeCustInfo.UserName,
+                                    Currency = ((CurrencyId)beforeCustInfo.CurrencyId).ToString(),
+                                    PhoneNumber = updatePhoneNumber ? custProfile["PhoneNo"] : string.Empty,
+                                    Status = hasDeposit ? "deposited" : "nondeposit"
+                                };
+                                var request = new CreateActivityRequest
+                                {
+                                    ActivityType = "register_promotion",
+                                    Data = JsonConvert.SerializeObject(data)
+                                };
+                                _ = _calSystemBLL.CreateActivity(request);
+                            }
+                            catch (Exception exception)
+                            {
+                                _logger.LogError(exception, exception.Message);
+                            }
+                        });
+                    }
 
                     var custInfoProfile = _custInfoBLL.GetCustInfoProfile(authData.CustId);
                     apiResult.Data = new

@@ -166,7 +166,7 @@ namespace MemberSite.Service.Library
             }
         }
 
-        public async Task<TResponse> PostAsync<TResponse>(string url, Dictionary<string, string> formData = null, object jsonRequest = null, int timeout = 0)
+        public virtual async Task<TResponse> PostAsync<TResponse>(string url, Dictionary<string, string> formData = null, object jsonRequest = null, int timeout = 0)
         {
             try
             {

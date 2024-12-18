@@ -61,7 +61,7 @@ public class SiteBll
             signupModel.CurrencyId, signupModel.UserLang, signupModel.RefId, signupModel.AffId, signupModel.Aff,
             affCodeObj, signupModel.LineUserId, deviceType, agent, out var custId, signupModel.SignupUrl, signupModel.ReferralUrl, signupModel.PhoneNo,
             signupModel.AreaCode, signupModel.Nationality, signupModel.RealName, signupModel.PromoCode, signupModel.Birth_d,
-            signupModel.Birth_m, signupModel.Birth_y, signupIp);
+            signupModel.Birth_m, signupModel.Birth_y, signupIp, joinBy: signupModel.JoinBy);
 
         AfterSignUp(signupModel, fromUrl, userAgent, deviceType, result, custId, apiResult, out var customer);
 

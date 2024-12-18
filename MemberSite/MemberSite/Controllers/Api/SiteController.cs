@@ -363,6 +363,7 @@ namespace MemberSite.Controllers.Api
             public string AccountNo { get; set; }
             public int SysId { get; set; }
             public string IFSCCode { get; set; }
+            public string JoinBy { get; set; }
         }
 
         public class SignupPhoneModel
