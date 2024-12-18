@@ -2,6 +2,7 @@ using System.Text.Encodings.Web;
 using System.Text.Unicode;
 using MemberSite.Extensions;
 using MemberSite.Service.BLL;
+using MemberSite.Service.BLL.CalSystem;
 using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.DAL;
 using MemberSite.Service.DAL.Interface;
@@ -179,6 +180,7 @@ namespace MemberSite
             services.AddTransient<IHotGameBLL, HotGameBLL>();
             services.AddTransient<CheckAttackBLL>();
             services.AddTransient<DateTimeHelper>();
+            services.AddTransient<ICalSystemBLL, CalSystemBLL>();
             services.AddTransient<IAnnouncementBLL, AnnouncementBLL>();
             services.AddTransient<IOlympicEventBLL, OlympicEventBLL>();
             services.AddTransient<InternalBLL>();

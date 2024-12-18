@@ -64,4 +64,9 @@
 
         public decimal RiskLimit { get; set; }
     }
+
+    public class CalSystemConfig
+    {
+        public string Url { get; set; }
+    }
 }
