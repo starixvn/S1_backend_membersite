@@ -448,6 +448,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public ApiResult<TpMaintainCheckResponse> TpMaintainCheck(TpMaintainCheckRequest request)
         {
             var apiResult = new ApiResult<TpMaintainCheckResponse>();
