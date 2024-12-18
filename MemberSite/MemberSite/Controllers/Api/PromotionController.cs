@@ -639,60 +639,6 @@ namespace MemberSite.Controllers.Api
             return result;
         }
 
-        [HttpPost]
-        public async Task<ApiResult<List<CustPromotion>>> GetPromotionUploadCustList(PromotionDeviceReq input)
-        {
-            try
-            {
-
-                CustPromotionRequest request;
-                var serverInfo = _serverInfoBll.GetServerInfo();
-                var authData = _authorizeBll.GetAuthData();
-                var isLogin = authData is { CustId: > 0 };
-                if (isLogin)
-                {
-                    var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
-                    request = new CustPromotionRequest
-                    {
-                        SiteId = serverInfo.SiteId,
-                        CustId = authData.CustId,
-                        CurrencyId = custInfo.CurrencyId,
-                        DeviceType = input.DeviceType,
-                        IsLogin = isLogin,
-                        LangId = _selLangBll.GetLangId(),
-                        DefLang = serverInfo.DefLang
-                    };
-                }
-                else
-                {
-                    request = new CustPromotionRequest
-                    {
-                        SiteId = serverInfo.SiteId,
-                        CustId = 0,
-                        CurrencyId = input.CurrencyId.HasValue ? input.CurrencyId.Value : _selLangBll.GetPreferCurrencyId(),
-                        DeviceType = input.DeviceType,
-                        IsLogin = isLogin,
-                        LangId = _selLangBll.GetLangId(),
-                        DefLang = serverInfo.DefLang
-                    };
-                }
-
-                var apiUrl = $"{_bonusServiceUrl}GetPromotionUploadCustList";
-                var result = await _courierAdapter.MyPostAsync<List<CustPromotion>, CustPromotionRequest>(apiUrl, request);
-
-                if(result.Data != null)
-                {
-                    result.Data.ForEach(item => item.IsPromotionUploadCustList = true);
-                }
-
-                return result;
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, e.Message);
-                return new ApiResult<List<CustPromotion>>();
-            }
-        }
         [Authorize]
         [HttpPost]
         public async Task<ApiResult> SetClaimPromotionForUploadCustListAsync(PromotionReq promotionReq)
@@ -755,6 +701,61 @@ namespace MemberSite.Controllers.Api
             }
 
             return apiResult;
+        }
+
+        [HttpPost]
+        public async Task<ApiResult<List<CustPromotion>>> GetPromotionUploadCustList(PromotionDeviceReq input)
+        {
+            try
+            {
+
+                CustPromotionRequest request;
+                var serverInfo = _serverInfoBll.GetServerInfo();
+                var authData = _authorizeBll.GetAuthData();
+                var isLogin = authData is { CustId: > 0 };
+                if (isLogin)
+                {
+                    var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
+                    request = new CustPromotionRequest
+                    {
+                        SiteId = serverInfo.SiteId,
+                        CustId = authData.CustId,
+                        CurrencyId = custInfo.CurrencyId,
+                        DeviceType = input.DeviceType,
+                        IsLogin = isLogin,
+                        LangId = _selLangBll.GetLangId(),
+                        DefLang = serverInfo.DefLang
+                    };
+                }
+                else
+                {
+                    request = new CustPromotionRequest
+                    {
+                        SiteId = serverInfo.SiteId,
+                        CustId = 0,
+                        CurrencyId = input.CurrencyId.HasValue ? input.CurrencyId.Value : _selLangBll.GetPreferCurrencyId(),
+                        DeviceType = input.DeviceType,
+                        IsLogin = isLogin,
+                        LangId = _selLangBll.GetLangId(),
+                        DefLang = serverInfo.DefLang
+                    };
+                }
+
+                var apiUrl = $"{_bonusServiceUrl}GetPromotionUploadCustList";
+                var result = await _courierAdapter.MyPostAsync<List<CustPromotion>, CustPromotionRequest>(apiUrl, request);
+
+                if (result.Data != null)
+                {
+                    result.Data.ForEach(item => item.IsPromotionUploadCustList = true);
+                }
+
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, e.Message);
+                return new ApiResult<List<CustPromotion>>();
+            }
         }
     }
 }
