@@ -645,7 +645,6 @@ namespace MemberSite.Controllers.Api
             return result;
         }
 
-        [Authorize]
         [HttpPost]
         public ApiResult<List<CustPromotion>> GetCustPrivatePromotionList(CustPrivatePromotionReq data)
         {
@@ -724,7 +723,10 @@ namespace MemberSite.Controllers.Api
                 var apiUrl = $"{_bonusServiceUrl}GetPromotionUploadCustList";
                 var result = await _courierAdapter.MyPostAsync<List<CustPromotion>, CustPromotionRequest>(apiUrl, request);
 
-                result.Data.ForEach(item => item.IsPromotionUploadCustList = true);
+                if(result.Data != null)
+                {
+                    result.Data.ForEach(item => item.IsPromotionUploadCustList = true);
+                }
 
                 return result;
             }
