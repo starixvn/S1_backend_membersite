@@ -639,7 +639,6 @@ namespace MemberSite.Controllers.Api
             return result;
         }
 
-        [Authorize]
         [HttpPost]
         public async Task<ApiResult<List<CustPromotion>>> GetPromotionUploadCustList(PromotionDeviceReq input)
         {
