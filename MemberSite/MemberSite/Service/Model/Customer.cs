@@ -374,6 +374,7 @@ namespace MemberSite.Service.Model
     public class CustVIPProgress
     {
         public int CurrentVipLevel { get; set; }
+        public int? NextVipLevel { get; set; }
         public decimal? UpDeposit { get; set; }
         public decimal? UpTurnover { get; set; }
         public decimal ActualDeposit { get; set; }
