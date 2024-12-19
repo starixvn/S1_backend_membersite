@@ -297,6 +297,8 @@ namespace MemberSite.Service.Model
         public decimal RollOver { get; set; }
         public decimal RequiredAmount { get; set; }
         public int DepositCountAchieved { get; set; }
+        // 0: one of following , 1 : Both
+        public int DepositConditionStatus { get; set; }
         public int DepositTermPeriodDays { get; set; }
         public decimal Bonus { get; set; }
         public string HomeTeamPic { get; set; }
