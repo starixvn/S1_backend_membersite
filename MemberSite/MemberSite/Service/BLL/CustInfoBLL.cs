@@ -896,6 +896,7 @@ namespace MemberSite.Service.BLL
 
                 if (upGradeData != null)
                 {
+                    result.NextVipLevel = upGradeData.Level;
                     result.UpDeposit = upGradeData.UpDeposit;
                     result.UpTurnover = upGradeData.UpTurnover;
                 }
