@@ -1,0 +1,161 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+<resheader name="resmimetype"><value>text/microsoft-resx</value></resheader><resheader name="version"><value>1.3</value></resheader><resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader><resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader><data name="msg_TransferAlert"><value>محفظة الرياضات الحالية الخاصة بك هي: &lt;span class="popup-span Js-3RdWallet-Balance"&gt;{0} {1}&lt;/span&gt;&lt;br&gt;قم بإيداع وتحويل من المحفظة الرئيسية إلى محفظة الرياضات الآن للاستمتاع بألعابنا وخدماتنا.</value></data>
+  <data name="msg_SubmitDepositTime"><value>يرجى تقديم وقت الإيداع الخاص بك.</value></data>
+  <data name="msg_ClaimCashBackBonus"><value>تهانينا، تم إضافة رصيد كاش باك {0} إلى حسابك!</value></data>
+  <data name="msg_BirthdayIsRequired"><value>يرجى ملء تاريخ الميلاد.</value></data>
+  <data name="msg_UsernameReq"><value>اسم المستخدم مطلوب.</value></data>
+  <data name="msg_ApiServerError"><value>خطأ في خادم API.</value></data>
+  <data name="msg_MustInteger"><value>يرجى ملء الرقم بالكامل، الأرقام العشرية غير مسموح بها.</value></data>
+  <data name="msg_LoginToAccess"><value>يرجى تسجيل الدخول للوصول إلى اللعبة.</value></data>
+  <data name="msg_WithdrawalAccountNumberIncorrect_Detail"><value>رقم حساب السحب غير صحيح. يرجى التحقق من رقم حساب السحب الخاص بك.</value></data>
+  <data name="msg_CreditSignUp"><value>عزيزنا العميل ، &lt;br /&gt;&lt;br /&gt;
+ مرحبًا بك في &lt;a href="https://{0}" target="_new"&gt;{0}&lt;/a&gt;، بعد التسجيل، يرجى زيارة الرابط المذكور واستمتع بألعابنا.</value></data>
+  <data name="msg_WrongAmountSubmitted_Detail"><value>مبلغ الإيداع لا يتطابق مع مبلغ تطبيق قسيمة الإيداع، يرجى إعادة التحقق أو الاتصال بدعم العملاء للحصول على المساعدة.</value></data>
+  <data name="msg_BankAccountDuplicate"><value>لا يُسمح بتكرار رقم الحساب البنكي. يرجى محاولة استخدام رقم حساب آخر.</value></data>
+  <data name="msg_WithdrawalNoFund"><value>فشل طلب السحب بسبب رصيد غير كافٍ!</value></data>
+  <data name="msg_EmailFormatVerify"><value>تنسيق عنوان البريد الإلكتروني غير صحيح.</value></data>
+  <data name="msg_loggedout"><value>لقد تم تسجيل خروجك بنجاح!!</value></data>
+  <data name="msg_PhoneFormatVerify"><value>رقم الهاتف الذي أدخلته غير صحيح، يجب أن يتكون من {0} رقمًا.</value></data>
+  <data name="msg_PhoneWrongFormat"><value>تنسيق الهاتف غير صحيح</value></data>
+  <data name="msg_Updatesuccessful"><value>تم التحديث بنجاح</value></data>
+  <data name="msg_WithdrawalFailed"><value>تم رفض طلب السحب الخاص بك. يرجى التحقق مع خدمة العملاء لمزيد من المعلومات.</value></data>
+  <data name="msg_CryptoWalletDuplicate"><value>عنوان المحفظة الرقمية قيد الاستخدام بالفعل.</value></data>
+  <data name="msg_WithdrawalExists"><value>طلب المعاملة الخاص بك قيد الانتظار. يرجى المحاولة مرة أخرى بعد اكتمال المعاملة المعلقة.</value></data>
+  <data name="msg_LessThanWithdrawalMin"><value>يجب أن يكون مبلغ السحب أكبر من {0}.</value></data>
+  <data name="msg_ReferenceNumber"><value>رقم المرجع</value></data>
+  <data name="mag_AffiliateNotExist"><value>رمز الإحالة الخاص بك غير صالح. يرجى التحقق مرة أخرى!</value></data>
+  <data name="msg_Congratulations"><value>تم إكمال تسجيلك؛ يمكنك الآن تسجيل الدخول فورًا، الإيداع، ومن ثم البدء في وضع الرهانات.</value></data>
+  <data name="msg_PaymentNotReceived"><value>لم يتم استلام الدفعه</value></data>
+  <data name="msg_DepositHint"><value>قم بالإيداع الآن للاستمتاع بألعابنا وخدماتنا.</value></data>
+  <data name="msg_WrongAmount"><value>المبلغ غير صحيح.</value></data>
+  <data name="msg_WithdrawalAccountsNameUnmatch"><value>اسم حساب السحب غير متطابق.</value></data>
+  <data name="msg_PasswordValidate"><value>يجب أن تتراوح كلمة المرور بين 6-15 حرفًا وتحتوي على أحرف وأرقام.</value></data>
+  <data name="msg_WrongAmountSubmitted"><value>مبلغ الإيداع غير صحيح.</value></data>
+  <data name="msg_UsernameNotAvailable"><value>اسم المستخدم لم يعد متاحًا.</value></data>
+  <data name="msg_WithdrawalAccountsNameUnmatch_Detail"><value>اسم حساب السحب لا يتطابق مع الاسم المسجل. يرجى التواصل مع خدمة العملاء للحصول على المساعدة.</value></data>
+  <data name="msg_NeedAccountName"><value>مطلوب اسم الحساب.</value></data>
+  <data name="msg_DrawPrizeTital"><value>هدية "أنغ باو".</value></data>
+  <data name="msg_UsernameLength"><value>يجب أن يتراوح اسم المستخدم بين 6 و18 حرفًا.</value></data>
+  <data name="msg_DepositSlipRequired_Detail"><value>يرجى إرفاق إيصال التحويل لتسريع وقت معالجة المعاملة.</value></data>
+  <data name="msg_NeedAccountNo"><value>مطلوب رقم الحساب.</value></data>
+  <data name="msg_DrawPrize"><value>تهانينا! تم إضافة هدية "أنغ باو" بقيمة {0} إلى حسابك!</value></data>
+  <data name="msg_SpecialCodeErrorForCheck"><value>رمز العرض الترويجي غير صحيح، يرجى إعادة التحقق.</value></data>
+  <data name="msg_InvalidOldPassword"><value>كلمة المرور القديمة غير صالحة!</value></data>
+  <data name="msg_WithdrawalAccountAannotReceiveMoney_Detail"><value>حساب السحب غير قادر على استلام الأموال. يرجى إعادة التحقق أو الاتصال بخدمة العملاء للحصول على المساعدة.</value></data>
+  <data name="msg_PasswordLength"><value>يجب أن تتراوح كلمة المرور بين 6 و18 حرفًا.</value></data>
+  <data name="msg_GreaterThanWithdrawalMax"><value>تم الوصول إلى الحد اليومي الخاص بك.</value></data>
+  <data name="msg_MailWrongFormat"><value>تنسيق البريد الإلكتروني غير صحيح.</value></data>
+  <data name="msg_NotInLimit"><value>خارج الحدود.</value></data>
+  <data name="msg_UsernameValidate"><value>فقط حروف وأرقام بطول يتراوح بين 6-18.</value></data>
+  <data name="msg_WrongBankSubmitted_Detail"><value>الحساب المحدد للإيداع غير صحيح، يرجى إعادة التحقق أو الاتصال بخدمة العملاء للحصول على المساعدة.</value></data>
+  <data name="msg_DepositSlipRequired"><value>مطلوب إيصال الإيداع.</value></data>
+  <data name="msg_OTPEnterCode"><value>يرجى إدخال رمز التحقق الذي تلقيته أدناه.</value></data>
+  <data name="msg_UpdateFailed"><value>فشل التحديث.</value></data>
+  <data name="msg_EnterRealName"><value>يرجى إدخال اسمك الحقيقي.</value></data>
+  <data name="msg_SelectBirthDay"><value>يرجى تحديد تاريخ ميلادك.</value></data>
+  <data name="msg_RequiredAmountInsufficient"><value>قم بالإيداع بمبلغ لا يقل عن {0} لتكون مؤهلاً للحصول على المكافأة.</value></data>
+  <data name="msg_DepositProcessLogin_LoginFailed"><value>فشل تسجيل الدخول، اسم المستخدم/كلمة المرور غير صحيحة أو اسم المستخدم غير موجود.</value></data>
+  <data name="msg_SelectFile"><value>حدد الملف.</value></data>
+  <data name="msg_DepositProcessLogin_ACLocked"><value>تم قفل حسابك؛ يرجى الاتصال بخدمة العملاء المتوفرة 24/7، شكرًا لك!</value></data>
+  <data name="msg_InactiveBankAccountSubmission"><value>إرسال حساب بنكي غير نشط.</value></data>
+  <data name="msg_ConfirmRealNameAlert"><value>لضمان صحة جميع المعاملات، يرجى التأكد من أن اسمك الحقيقي يتطابق مع اسم حسابك البنكي.</value></data>
+  <data name="msg_MustDeposit"><value>يرجى إكمال الإيداع قبل تقديم طلب السحب.</value></data>
+  <data name="msg_GoToDepositPage"><value>هل ترغب بالذهاب إلى صفحة الإيداع؟</value></data>
+  <data name="msg_PromoCodeHasBeenUsed"><value>تم استخدام رمز العرض الترويجي.</value></data>
+  <data name="msg_PaymentNotReceived_Detail"><value>لم يتم استلام الدفعة في البنك، يرجى الانتظار بصبر.</value></data>
+  <data name="msg_DrawPrize1"><value>تهانينا! تمت إضافة مكافأتك {0} بقيمة {1} {2} إلى حسابك.</value></data>
+  <data name="msg_BalanceHint"><value>رصيدك الحالي هو.</value></data>
+  <data name="msg_HasExist"><value>موجود بالفعل.</value></data>
+  <data name="msg_InsufficientFund"><value>الرصيد غير كافٍ!</value></data>
+  <data name="msg_DepositRefunded_Detail"><value>تم رد مبلغ الإيداع، يرجى التحقق من حسابك البنكي.</value></data>
+  <data name="msg_LockedAmountInsufficient"><value>يجب ألا يقل رصيد المحفظة الرئيسية عن {0}.</value></data>
+  <data name="msg_OTPSendCode"><value>تم إرسال رمز التحقق إلى رقم هاتفك المحمول المسجل. يرجى التحقق من هاتفك وإدخال رمز التحقق أدناه.</value></data>
+  <data name="msg_InactiveBankAccountSubmission_Detail"><value>تم إرسال رمز التحقق إلى رقم هاتفك المحمول المسجل. يرجى التحقق من هاتفك وإدخال رمز التحقق أدناه.</value></data>
+  <data name="msg_WithdrawalAccountAannotReceiveMoney"><value>لا يمكن للحساب المسجل لسحب الأموال استقبالها.</value></data>
+  <data name="msg_SamePassword"><value>كلمة المرور القديمة والجديدة متطابقتان!</value></data>
+  <data name="msg_BeneficiarysAccountMaintenance_Detail"><value>البنك حاليًا قيد الصيانة، سيتم معالجة طلب السحب الخاص بك بعد انتهاء الصيانة.</value></data>
+  <data name="msg_DepositorsNameUnmatch_Detail"><value>الاسم المسجل لا يتطابق مع اسم الحساب البنكي، يرجى التواصل مع خدمة العملاء للحصول على المساعدة.</value></data>
+  <data name="msg_WithdrawalAccountNumberIncorrect"><value>رقم حساب السحب غير صحيح.</value></data>
+  <data name="msg_DepositAlert"><value>رصيد محفظتك الرئيسية هو: {0} {1}قم بالإيداع الآن أو التحويل من محفظة المراهنات إلى المحفظة الرئيسية للاستمتاع بألعابنا وخدماتنا.</value></data>
+  <data name="msg_ForceLogedoutHint"><value>تم تسجيل الدخول بهذا المعرف من نافذة متصفح أخرى أو جهاز آخر. سيتم تسجيل خروجك من هذه الجلسة.</value></data>
+  <data name="msg_WithdrawalSuccessful"><value>تمت معالجة طلب السحب الخاص بك بنجاح. سيتم إخطارك عند اكتماله.</value></data>
+  <data name="msg_EnterPhoneNumber"><value>يرجى إدخال رقم الهاتف.</value></data>
+  <data name="msg_PasswordReq"><value>كلمة المرور مطلوبة.</value></data>
+  <data name="msg_NoData"><value>لا توجد بيانات.</value></data>
+  <data name="msg_ThisCurrencyNotSupport"><value>عملتك غير مدعومة.</value></data>
+  <data name="msg_InvalidCryptoWalletAddress"><value>عنوان محفظة التشفير غير صالح.</value></data>
+  <data name="msg_DrawPrizeTital1"><value>{0} صندوق الغموض.</value></data>
+  <data name="ForgetPwdSuccess"><value>تم إرسال كلمة المرور الجديدة إلى عنوان بريدك الإلكتروني المسجل.</value></data>
+  <data name="msg_BankAccountExists"><value>لقد قمت مسبقًا بتخزين هذه المعلومات.</value></data>
+  <data name="msg_Ineligible"><value>أنت غير مؤهل لهذا العرض الترويجي. يرجى الاتصال بدعم العملاء للحصول على مزيد من التفاصيل.</value></data>
+  <data name="msg_CreditSignUpHint_1"><value>عزيزي العميل</value></data>
+  <data name="msg_CreditSignUpHint_2"><value>مرحبًا بك في {0}، بعد التسجيل يرجى زيارة الرابط المقدم والاستمتاع بألعابنا.</value></data>
+  <data name="ResetPwdSuccess"><value>تم إعادة تعيين كلمة المرور الخاصة بك بنجاح!</value></data>
+  <data name="msg_DepositorsNameUnmatch"><value>اسم المودع غير مطابق.</value></data>
+  <data name="msg_PromoCodeIncorrect"><value>رمز العرض الترويجي غير صحيح.</value></data>
+  <data name="msg_SpecialCodeErr"><value>رمز العرض الترويجي غير صحيح، يرجى التحقق مرة أخرى.</value></data>
+  <data name="msg_IneligibleAngPow"><value>يرجى إجراء الإيداع الخاص بك لتكون مؤهلاً لهذا العرض الترويجي.</value></data>
+  <data name="msg_MailReq"><value>لا يمكن تغيير البريد الإلكتروني بعد الإرسال.</value></data>
+  <data name="msg_ForceLogedout"><value>لقد تم تسجيل خروجك!! يرجى تسجيل الدخول والمحاولة مرة أخرى!!</value></data>
+  <data name="msg_WrongBankSubmitted"><value>تم اختيار حساب إيداع خاطئ.</value></data>
+  <data name="msg_BeneficiarysAccountMaintenance"><value>صيانة حساب المستفيد.</value></data>
+  <data name="ForgetPwdFail"><value>عنوان البريد الإلكتروني هذا غير صالح!</value></data>
+  <data name="msg_OTPHint"><value>يرجى إكمال ملفك الشخصي والتحقق من رقم هاتفك للاستمتاع بعروضنا الترويجية.</value></data>
+  <data name="msg_MailExisted"><value>البريد الإلكتروني موجود بالفعل.</value></data>
+  <data name="msg_SpecialCodeVipLevelsOrBlockTagInvalid"><value>غير قادر على المشاركة في هذا العرض الترويجي، يرجى التواصل مع خدمة العملاء للاستفسار.</value></data>
+  <data name="msg_AffCodeValidate"><value>معرّف الشريك يسمح بـ 5-20 رقمًا فقط.</value></data>
+  <data name="msg_OTPHint2"><value>هل تريد التحقق من هاتفك الآن؟</value></data>
+  <data name="msg_OTPHint1"><value>هل تريد الاستمتاع بمنتجاتنا وخدماتنا الكاملة؟</value></data>
+  <data name="msg_DepositRefunded"><value>تم رد الإيداع.</value></data>
+  <data name="msg_DecimalOutOfRange"><value>فشل التحويل بسبب وجود أكثر من رقمين عشريين.</value></data>
+  <data name="msg_RedemptionLimitOverLimit"><value>عذرًا، لقد بلغت الحد الأقصى للاسترداد. يرجى المحاولة مرة أخرى في الشهر الميلادي الجديد.</value></data>
+  <data name="msg_times_chance"><value>لا تزال هناك {0} فرص متبقية.</value></data>
+  <data name="msg_congratulation_event_reward"><value>تهانينا! حصلت على مبلغ {0}.</value></data>
+  <data name="msg_ProfileOrPhoneNotFinish"><value>لم تكتمل معلومات الحساب، يرجى التحقق من معلومات الحساب.</value></data>
+  <data name="msg_EWalletIsMaintenance"><value>المحفظة الإلكترونية تحت الصيانة، يرجى استخدام طرق سحب أخرى.</value></data>
+  <data name="msg_turnover_not_enough"><value>لم يتم استيفاء متطلبات الرهان الصالحة، لا يمكنك المشاركة حاليًا.</value></data>
+  <data name="msg_ResubmitWithdrawal"><value>يرجى إعادة تقديم طلب السحب.</value></data>
+  <data name="msg_Event_has_not_started"><value>الحدث لم يبدأ بعد.</value></data>
+  <data name="msg_limit_has_been_reached"><value>تم الوصول إلى الحد اليومي.</value></data>
+  <data name="msg_InsufficientPoint"><value>عذرًا! ليس لديك نقاط مكافآت 88 كافية.</value></data>
+  <data name="msg_keep_up"><value>حظًا سعيدًا في المحاولة القادمة.</value></data>
+  <data name="msg_EWalletDuplicate"><value>لا يُسمح بتكرار رقم حساب المحفظة الإلكترونية، يرجى المحاولة باستخدام رقم حساب آخر.</value></data>
+  <data name="msg_CompletePhoneNumber"><value>يرجى إكمال التحقق من رقم الهاتف المحمول (OTP).</value></data>
+  <data name="msg_LineAccountAlreadyBind"><value>تم استخدام حساب LINE هذا، يرجى استخدام حساب آخر.</value></data>
+  <data name="msg_RealNameWrongFormat"><value>لا يُسمح باستخدام الأرقام أو الأحرف الخاصة في الاسم الحقيقي.</value></data>
+  <data name="msg_SystemUnstable"><value>تم الوصول إلى حد إرسال OTP، يرجى الاتصال بدعم الدردشة المباشرة.</value></data>
+  <data name="msg_SystemUnstable_Detail"><value>النظام غير قادر على استرداد التفاصيل.</value></data>
+  <data name="msg_BankUnderMaintenance"><value>نظام البنك غير قادر حاليًا على استرداد تفاصيل المعاملة ولا يمكن معالجة الإيداع في الوقت الحالي.</value></data>
+  <data name="msg_BankUnderMaintenance_Detail"><value>صيانة البنك.</value></data>
+  <data name="msg_AffCodeNotFound"><value>نظام البنك تحت الصيانة حاليًا وغير قادر على معالجة الإيداع.</value></data>
+  <data name="msg_WrongPhoneNumberAndUserName"><value>لم يتم العثور على معرف الشريك.</value></data>
+  <data name="msg_WrongAmountFormat"><value>الحساب أو رقم الهاتف غير صحيح، يرجى إدخاله مرة أخرى.</value></data>
+  </root>
