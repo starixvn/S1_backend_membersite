@@ -136,19 +136,66 @@ namespace MemberSite.Service.BLL
         {
             var url = $"{_tpServiceApiUrl}GetToken";
             
-            var request = new GetTokenRequest
+            var request = new GetThirdPartyTokenRequest
             {
-                UserName = customer.UserName,
-                SiteId = customer.SiteId
+                ThirdPartyId = 41, // saba third party id
+                CustId = customer.CustId
             };
-        
+
             try
             {
-                return await _courierAdapter.PostAsync<ApiResult<string>>(url, jsonRequest: request, timeout: 3);
+                var apiResult =
+                    await _courierAdapter.PostAsync<ApiResult<GetThirdPartyTokenResponse>>(url, jsonRequest: request,
+                        timeout: 3);
+
+                return new ApiResult<string>
+                {
+                    ErrorCode = apiResult.ErrorCode,
+                    Message = apiResult.Message,
+                    Data = apiResult.Data.Token
+                };
             }
             catch (Exception ex)
             {
                 return new ApiResult<string>
+                {
+                    ErrorCode = 9000,
+                    Message = ex.Message
+                };
+            }
+        }
+        
+        public async Task<ApiResult<bool>> VerifyToken(Customer customer, string token)
+        {
+            var url = $"{_tpServiceApiUrl}VerifyToken";
+            
+            var request = new VerifyThirdPartyTokenRequest
+            {
+                ThirdPartyId = 41, // saba third party id
+                SiteId = customer.SiteId,
+                Inputs = new TokenModel
+                {
+                    Token = token
+                }
+            };
+        
+            try
+            {
+                var apiResult =
+                    await _courierAdapter.PostAsync<ApiResult<VerifyThirdPartyTokenResponse>>(url, jsonRequest: request,
+                        timeout: 3);
+
+                return new ApiResult<bool>
+                {
+                    ErrorCode = apiResult.ErrorCode,
+                    Message = apiResult.Message,
+                    Data = customer.UserName == apiResult.Data.ThirdPartyUserName
+                };
+            }
+            catch (Exception ex)
+            {
+                
+                return new ApiResult<bool>
                 {
                     ErrorCode = 9000,
                     Message = ex.Message

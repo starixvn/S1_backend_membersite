@@ -1659,17 +1659,51 @@ namespace MemberSite.Controllers.Api
                 Request.Headers["User-Agent"], deviceType, ref customer, out var token);
 
             await AfterLogin(userLoginResult, loginModel, ip, customer, token, apiResult);
-            
-            // for test start
-            apiResult.Data = JsonConvert.SerializeObject(customer);
-            // for test end
             // member site login process end
 
-            // if (userLoginResult == 0)
-            // {
-            //     // if login success, change the api result from third party api instead of login result
-            //     apiResult = await _thirdPartyBll.GetToken(customer);
-            // } 
+            if (userLoginResult == 0)
+            {
+                // if login success, change the api result from third party api instead of login result
+                var tokenResult = await _thirdPartyBll.GetToken(customer);
+                apiResult.ErrorCode = tokenResult.ErrorCode;
+                apiResult.Message = tokenResult.Message;
+                apiResult.Data = tokenResult.Data;
+            } 
+            
+            return apiResult;
+        }
+        
+        [HttpPost]
+        public async Task<ApiResult> VerifyToken(VerifyTokenRequest request)
+        {
+            var apiResult = new ApiResult(_selLangBll);
+
+            // member site login process start
+            Customer customer = null;
+            var ip = _tools.GetClientIP();
+            var fromUrl = _tools.GetFromUrl();
+            var deviceType = (int)_tools.GetDeviceId(fromUrl);
+            
+            // use token to login, so password set empty string
+            _custInfoBll.UserLogin(false, 0, request.UserName, string.Empty, ip, fromUrl,
+                Request.Headers["User-Agent"], deviceType, ref customer, out var token);
+
+            if (customer == null)
+            {
+                apiResult.ErrorCode = 1101;
+                apiResult.Message = _selLangBll.GetMsg("msg_DepositProcessLogin_LoginFailed");
+                return apiResult;
+            }
+
+            var verifyResult = await _thirdPartyBll.VerifyToken(customer, request.Token);
+
+            if (!verifyResult.Data)
+            {
+                return verifyResult;
+            }
+            
+            // use token to login, so use empty loginModel and hard code login success code
+            await AfterLogin(0, new LoginModel(), ip, customer, token, apiResult);
             
             return apiResult;
         }
