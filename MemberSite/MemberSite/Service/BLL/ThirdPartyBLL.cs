@@ -5,6 +5,7 @@ using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 
 using Microsoft.Extensions.Caching.Memory;
+using Newtonsoft.Json;
 
 namespace MemberSite.Service.BLL
 {
@@ -18,6 +19,7 @@ namespace MemberSite.Service.BLL
         private readonly CourierAdapter _courierAdapter;
         private readonly string _tpServiceApiUrl;
         private readonly CacheHelper _cacheHelper;
+        private readonly ILogger<ThirdPartyBll> _logger;
 
         public ThirdPartyBll(IServiceProvider provider)
         {
@@ -27,6 +29,7 @@ namespace MemberSite.Service.BLL
             _thirdPartyModelContainer = new ConcurrentDictionary<string, ThirdPartyModel>();
             _custInfoBll = provider.GetRequiredService<CustInfoBll>();
             _courierAdapter = provider.GetRequiredService<CourierAdapter>();
+            _logger = provider.GetRequiredService<ILogger<ThirdPartyBll>>();
 
             var configBll = provider.GetRequiredService<ConfigBLL>();
             _tpServiceApiUrl = configBll.GetConfigValueByEnvironment<ServiceHostConfig>("ServiceHost").TpService;
@@ -169,6 +172,8 @@ namespace MemberSite.Service.BLL
         {
             var url = $"{_tpServiceApiUrl}VerifyToken";
             
+            _logger.LogDebug($"getTokenUrl: ${url}");
+            
             var request = new VerifyThirdPartyTokenRequest
             {
                 ThirdPartyId = 41, // saba third party id
@@ -185,6 +190,8 @@ namespace MemberSite.Service.BLL
                     await _courierAdapter.PostAsync<ApiResult<VerifyThirdPartyTokenResponse>>(url, jsonRequest: request,
                         timeout: 3);
 
+                
+                _logger.LogDebug($"apiResult: ${JsonConvert.SerializeObject(apiResult)}");
                 return new ApiResult<bool>
                 {
                     ErrorCode = apiResult.ErrorCode,
