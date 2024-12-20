@@ -152,7 +152,7 @@ namespace MemberSite.Service.BLL
                 {
                     ErrorCode = apiResult.ErrorCode,
                     Message = apiResult.Message,
-                    Data = apiResult.Data.Token
+                    Data = apiResult.Data?.Token
                 };
             }
             catch (Exception ex)
