@@ -172,7 +172,7 @@ namespace MemberSite.Service.BLL
         {
             var url = $"{_tpServiceApiUrl}VerifyToken";
             
-            _logger.LogDebug($"getTokenUrl: ${url}");
+            _logger.LogInformation($"getTokenUrl: ${url}");
             
             var request = new VerifyThirdPartyTokenRequest
             {
@@ -191,7 +191,7 @@ namespace MemberSite.Service.BLL
                         timeout: 3);
 
                 
-                _logger.LogDebug($"apiResult: ${JsonConvert.SerializeObject(apiResult)}");
+                _logger.LogInformation($"apiResult: ${JsonConvert.SerializeObject(apiResult)}");
                 return new ApiResult<bool>
                 {
                     ErrorCode = apiResult.ErrorCode,
