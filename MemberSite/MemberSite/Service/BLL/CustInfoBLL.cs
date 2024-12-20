@@ -13,6 +13,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
 using System.Text;
 using System.Text.RegularExpressions;
+using MemberSite.Service.BLL.CalSystem;
 
 namespace MemberSite.Service.BLL
 {
@@ -35,6 +36,7 @@ namespace MemberSite.Service.BLL
             { 15, false }
         };
         private readonly IEnumerable<AreaCodeMap> _areaCodeMap;
+        private readonly ICalSystemBLL _calSystemBll;
         private readonly ShieldBLL _shieldBll;
         private readonly VIPService _vIPService;
         private readonly DepositService _depositService;
@@ -57,6 +59,7 @@ namespace MemberSite.Service.BLL
             _cacheHelper = provider.GetRequiredService<CacheHelper>();
             _areaCodeMap = provider.GetRequiredService<IEnumerable<AreaCodeMap>>();
             _redisHelper = provider.GetRequiredService<ICacheHelper>();
+            _calSystemBll = provider.GetRequiredService<ICalSystemBLL>();
             _shieldBll = provider.GetRequiredService<ShieldBLL>();
             _affiliateService = provider.GetRequiredService<IAffiliateService>();
             _vIPService = provider.GetRequiredService<VIPService>();
@@ -86,7 +89,7 @@ namespace MemberSite.Service.BLL
         public int AddCustInfo(string UserName, string Userpwd, string Email, int CurrencyId, string UserLang,
             string refId, string affId, string aff, AffCodeObject affCode, string lineUserId, int deviceType, Customer agent, out int custId, string signupUrl = null,
             string referralUrl = null, string PhoneNo = null, string AreaCode = null,string nationality = null, string RealName = null, string promoCode = null,
-            int Birth_d = 0, int Birth_m = 0, int Birth_y = 0, string signupIp = null, string accountNo = null, string iFSCCode = null, int sysId = 0)
+            int Birth_d = 0, int Birth_m = 0, int Birth_y = 0, string signupIp = null, string accountNo = null, string iFSCCode = null, int sysId = 0, string joinBy = null)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
             
@@ -118,6 +121,32 @@ namespace MemberSite.Service.BLL
                         regCustInfo,
                         ShieldRiskTriggeredPoint.Registration,
                         ShieldRiskTaggedIssue.HighRisk);
+                });
+            }
+
+            if (result == 0 && regCustInfo.SiteId is 101 && joinBy.Equals("number", StringComparison.OrdinalIgnoreCase))
+            {
+                Task.Run(() =>
+                {
+                    try
+                    {
+                        var data = new
+                        {
+                            Username = UserName,
+                            Currency = ((CurrencyId)CurrencyId).ToString(),
+                            PhoneNumber = PhoneNo
+                        };
+                        var request = new CreateActivityRequest
+                        {
+                            ActivityType = "register_promotion",
+                            Data = JsonConvert.SerializeObject(data)
+                        };
+                        _ = _calSystemBll.CreateActivity(request);
+                    }
+                    catch (Exception exception)
+                    {
+                        _logger.LogError(exception, exception.Message);
+                    }
                 });
             }
 
@@ -867,6 +896,7 @@ namespace MemberSite.Service.BLL
 
                 if (upGradeData != null)
                 {
+                    result.NextVipLevel = upGradeData.Level;
                     result.UpDeposit = upGradeData.UpDeposit;
                     result.UpTurnover = upGradeData.UpTurnover;
                 }
