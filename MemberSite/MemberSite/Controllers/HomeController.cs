@@ -160,7 +160,7 @@ namespace MemberSite.Controllers
             {
                 return RedirectToRoute(new { action = "Index", controller = "Home" });
             }
-            else if (authBLL.Authenticate(key, out CustInfoProfile custInfoProfile))
+            else if (authBLL.Authenticate(key, nameof (ResetPasswordAsync),out CustInfoProfile custInfoProfile))
             {
                 Customer customer = null;
                 var fromUrl = tools.GetFromUrl();

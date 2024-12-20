@@ -1007,7 +1007,7 @@ namespace MemberSite.Controllers.Api
             var apiResult = new ApiResult(_selLangBll);
             try
             {
-                if (_authBll.Authenticate(req.key, out CustInfoProfile custInfoProfile))
+                if (_authBll.Authenticate(req.key, nameof(VerifyEmailAsync), out CustInfoProfile custInfoProfile))
                 {
                     Customer customer = null;
                     var result = _custInfoBLL.GetCustomer(custInfoProfile.UserName, ref customer);

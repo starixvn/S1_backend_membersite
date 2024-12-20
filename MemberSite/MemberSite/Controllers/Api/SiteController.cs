@@ -1140,7 +1140,7 @@ namespace MemberSite.Controllers.Api
             var apiResult = new ApiResult(_selLangBll);
             try
             {
-                if (_authBll.Authenticate(key, out CustInfoProfile custInfoProfile))
+                if (_authBll.Authenticate(key, "CheckResetPwdToken", out CustInfoProfile custInfoProfile))
                 {
                     Customer customer = null;
                     var fromUrl = _tools.GetFromUrl();

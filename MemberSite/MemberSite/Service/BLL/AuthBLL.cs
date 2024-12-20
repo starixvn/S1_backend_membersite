@@ -26,19 +26,29 @@ namespace MemberSite.Service.BLL
             _hostEnvironment = provider.GetRequiredService<IWebHostEnvironment>();
         }
 
-        public bool Authenticate<T>(string sToken, out T t)
+        public bool Authenticate<T>(string sToken, string action, out T t)
         {
             var sPermissionData = "";
-            t = default;
-            sPermissionData = authService.Authenticate(sToken);
-            _logger.LogError("[Authenticate] {Token}, sPermissionData: {PermissionData}", sToken, sPermissionData);
-            if (!string.IsNullOrEmpty(sPermissionData))
+            try
             {
-                t = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(sPermissionData);
-                return true;
-            }
+                t = default;
+                sPermissionData = authService.Authenticate(sToken);
 
-            return false;
+                if (!string.IsNullOrEmpty(sPermissionData))
+                {
+                    t = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(sPermissionData);
+                    return true;
+                }
+
+                return false;
+            }
+            finally
+            {
+                if (action=="CheckResetPwdToken")
+                {
+                    _logger.LogError("[Authenticate] {Token}, sPermissionData: {PermissionData}", sToken, sPermissionData);
+                }
+            }
         }
 
         public bool RequestAuth(string content)
