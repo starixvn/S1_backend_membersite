@@ -68,7 +68,8 @@ namespace MemberSite.Controllers
                 var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
                 if (custInfo.IsTest == false && _gameBll.IsMaintain(serverInfo.SiteId, tpId, inputs.GetValueOrDefault("tpGameType"), out var tpMaintainForNormalCust))
                 {
-                    var entPageUrl = new Uri($"{Request.Scheme}://{Request.Host}{Request.Path}{Request.QueryString}").AbsoluteUri;
+                    var apiPath = string.IsNullOrEmpty(inputs.GetValueOrDefault("apiPath")) ? string.Empty : $"/{inputs.GetValueOrDefault("apiPath")}";
+                    var entPageUrl = new Uri($"{Request.Scheme}://{Request.Host}{apiPath}{Request.Path}{Request.QueryString}").AbsoluteUri;
                     var maintainUrl = _gameBll.GetMaintainUrl(tpMaintainForNormalCust, host, _selLangBll.GetLangId() ?? "en", entPageUrl);
                     return Redirect(maintainUrl);
                 }
@@ -77,7 +78,8 @@ namespace MemberSite.Controllers
             {
                 if (_gameBll.IsMaintain(serverInfo.SiteId, tpId, inputs.GetValueOrDefault("tpGameType"), out var tpMaintain))
                 {
-                    var entPageUrl = new Uri($"{Request.Scheme}://{Request.Host}{Request.Path}{Request.QueryString}").AbsoluteUri;
+                    var apiPath = string.IsNullOrEmpty(inputs.GetValueOrDefault("apiPath")) ? string.Empty : $"/{inputs.GetValueOrDefault("apiPath")}";
+                    var entPageUrl = new Uri($"{Request.Scheme}://{Request.Host}{apiPath}{Request.Path}{Request.QueryString}").AbsoluteUri;
                     var maintainUrl = _gameBll.GetMaintainUrl(tpMaintain, host, _selLangBll.GetLangId() ?? "en", entPageUrl);
                     return Redirect(maintainUrl);
                 }
