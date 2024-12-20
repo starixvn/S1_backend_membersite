@@ -137,7 +137,7 @@ namespace MemberSite.Service.BLL
         
         public async Task<ApiResult<string>> GetToken(Customer customer)
         {
-            var url = $"{_tpServiceApiUrl}GetToken";
+            var url = $"{_tpServiceApiUrl}Extend/GetToken";
             
             var request = new GetThirdPartyTokenRequest
             {
@@ -155,7 +155,7 @@ namespace MemberSite.Service.BLL
                 {
                     ErrorCode = apiResult.ErrorCode,
                     Message = apiResult.Message,
-                    Data = apiResult.Data?.Token
+                    Data = apiResult.Data.Token
                 };
             }
             catch (Exception ex)
@@ -170,9 +170,7 @@ namespace MemberSite.Service.BLL
         
         public async Task<ApiResult<bool>> VerifyToken(Customer customer, string token)
         {
-            var url = $"{_tpServiceApiUrl}VerifyToken";
-            
-            _logger.LogInformation($"getTokenUrl: ${url}");
+            var url = $"{_tpServiceApiUrl}Extend/VerifyToken";
             
             var request = new VerifyThirdPartyTokenRequest
             {
@@ -190,8 +188,6 @@ namespace MemberSite.Service.BLL
                     await _courierAdapter.PostAsync<ApiResult<VerifyThirdPartyTokenResponse>>(url, jsonRequest: request,
                         timeout: 3);
 
-                
-                _logger.LogInformation($"apiResult: ${JsonConvert.SerializeObject(apiResult)}");
                 return new ApiResult<bool>
                 {
                     ErrorCode = apiResult.ErrorCode,
