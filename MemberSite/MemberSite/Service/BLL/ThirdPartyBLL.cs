@@ -147,6 +147,8 @@ namespace MemberSite.Service.BLL
 
             try
             {
+                _logger.LogInformation($"url: {url}");
+                
                 var apiResult =
                     await _courierAdapter.PostAsync<ApiResult<GetThirdPartyTokenResponse>>(url, jsonRequest: request,
                         timeout: 3);
@@ -187,6 +189,9 @@ namespace MemberSite.Service.BLL
                 var apiResult =
                     await _courierAdapter.PostAsync<ApiResult<VerifyThirdPartyTokenResponse>>(url, jsonRequest: request,
                         timeout: 3);
+                
+                
+                _logger.LogInformation($"verifyToken result: {JsonConvert.SerializeObject(apiResult)}");
 
                 return new ApiResult<bool>
                 {
