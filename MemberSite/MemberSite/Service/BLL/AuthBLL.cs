@@ -29,26 +29,16 @@ namespace MemberSite.Service.BLL
         public bool Authenticate<T>(string sToken, string action, out T t)
         {
             var sPermissionData = "";
-            try
-            {
-                t = default;
-                sPermissionData = authService.Authenticate(sToken);
+            t = default;
+            sPermissionData = authService.Authenticate(sToken);
 
-                if (!string.IsNullOrEmpty(sPermissionData))
-                {
-                    t = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(sPermissionData);
-                    return true;
-                }
-
-                return false;
-            }
-            finally
+            if (!string.IsNullOrEmpty(sPermissionData))
             {
-                if (action=="CheckResetPwdToken")
-                {
-                    _logger.LogError("[Authenticate] {Token}, sPermissionData: {PermissionData}", sToken, sPermissionData);
-                }
+                t = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(sPermissionData);
+                return true;
             }
+
+            return false;
         }
 
         public bool RequestAuth(string content)
