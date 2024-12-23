@@ -28,17 +28,26 @@ namespace MemberSite.Service.BLL
 
         public bool Authenticate<T>(string sToken, string action, out T t)
         {
-            var sPermissionData = "";
-            t = default;
-            sPermissionData = authService.Authenticate(sToken);
-
-            if (!string.IsNullOrEmpty(sPermissionData))
+            try
             {
-                t = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(sPermissionData);
-                return true;
-            }
+                var sPermissionData = "";
+                t = default;
+                sPermissionData = authService.Authenticate(sToken);
 
-            return false;
+                if (!string.IsNullOrEmpty(sPermissionData))
+                {
+                    t = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(sPermissionData);
+                    return true;
+                }
+
+                return false;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"{action} has error: {e.Message}");
+                throw;
+            }
+           
         }
 
         public bool RequestAuth(string content)
