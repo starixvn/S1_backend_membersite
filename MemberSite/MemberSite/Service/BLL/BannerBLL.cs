@@ -153,7 +153,7 @@ namespace MemberSite.Service.BLL
             };
         }
 
-        public VipBanner GetVipBanner(int siteId, int currencyId)
+        public async Task<VipBanner> GetVipBanner(int siteId, int currencyId)
         {
             var lastUpdateTimeList = new List<DateTime>();
             var membershipRenewal = new Dictionary<int, string>();
@@ -183,11 +183,11 @@ namespace MemberSite.Service.BLL
             designatedAccountManager.Add(4, true);
             designatedAccountManager.Add(5, true);
             designatedAccountManager.Add(6, true);
-            var vipBanner = bannerService.GetVipBanner(siteId, currencyId);
-            var rebateCategory = bannerService.GetRebateCategory(siteId, currencyId).ToList();
+            var vipBanner = await bannerService.GetVipBanner(siteId, currencyId);
+            var rebateCategory = await bannerService.GetRebateCategory(siteId, currencyId);
             foreach (var vip in vipBanner)
             {
-                vip.RebateCategory = rebateCategory.FindAll(x => x.Level == vip.Level);
+                vip.RebateCategory = rebateCategory.Where(x => x.Level == vip.Level);
                 vip.RankingValidityMembershipRenewal = selLangBLL.GetResourceValue(membershipRenewal[vip.Level]);
                 vip.DepositPriority = depositPriority.ContainsKey(vip.Level) ? selLangBLL.GetResourceValue(depositPriority[vip.Level]) : null;
                 vip.WithdrawalPriority = withdrawalPriority.ContainsKey(vip.Level) ? selLangBLL.GetResourceValue(withdrawalPriority[vip.Level]) : null;
@@ -216,7 +216,7 @@ namespace MemberSite.Service.BLL
                 }
             }
 
-            var lastUpdateTime = bannerService.GetVipBannerLastUpdateTime(siteId, currencyId);
+            var lastUpdateTime = await bannerService.GetVipBannerLastUpdateTime(siteId, currencyId);
             lastUpdateTimeList.Add(lastUpdateTime.RebateCategoryLastUpdateTime);
             lastUpdateTimeList.Add(lastUpdateTime.WithdrawalLimitInfoLastUpdateTime);
             lastUpdateTimeList.Add(lastUpdateTime.VipSystemLastUpdateTime);
@@ -228,26 +228,25 @@ namespace MemberSite.Service.BLL
             };
         }
 
-        public VipBanner GetVipBannerV2(int siteId, int currencyId)
+        public async Task<VipBanner> GetVipBannerV2(int siteId, int currencyId)
         {
-            var rebateCategory = bannerService.GetRebateCategory(siteId, currencyId).ToList();
-            var vipBanners = bannerService.GetVipBanner(siteId, currencyId).Select(x =>
-            {
-                x.RebateCategory = rebateCategory.FindAll(o => o.Level.Equals(x.Level));
-                return x;
-            });
-            var lastUpdateTimes = bannerService.GetVipBannerLastUpdateTime(siteId, currencyId);
-            var lastUpdateTime = new[]
-            {
-                lastUpdateTimes.RebateCategoryLastUpdateTime,
-                lastUpdateTimes.VipSystemLastUpdateTime,
-                lastUpdateTimes.WithdrawalLimitInfoLastUpdateTime
-            }.Max();
+            var rebateCategory = await bannerService.GetRebateCategory(siteId, currencyId);
+            var vipBanners = await bannerService.GetVipBanner(siteId, currencyId);
+            var lastUpdateTimes = await bannerService.GetVipBannerLastUpdateTime(siteId, currencyId);
 
             return new VipBanner()
             {
-                VipBannerData = vipBanners,
-                LastUpdateTime = lastUpdateTime
+                VipBannerData = vipBanners.Select(x =>
+                {
+                    x.RebateCategory = rebateCategory.Where(o => o.Level.Equals(x.Level));
+                    return x;
+                }),
+                LastUpdateTime = new[]
+                {
+                    lastUpdateTimes.RebateCategoryLastUpdateTime,
+                    lastUpdateTimes.VipSystemLastUpdateTime,
+                    lastUpdateTimes.WithdrawalLimitInfoLastUpdateTime
+                }.Max()
             };
         }
     }

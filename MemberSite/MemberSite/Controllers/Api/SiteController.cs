@@ -1561,7 +1561,7 @@ namespace MemberSite.Controllers.Api
 
         [HttpPost]
         [Obsolete("Use GetVipBannerV2 instead")]
-        public ApiResult<VipBanner> GetVipBanner(VipBannerReq vipBannerReq)
+        public async Task<ApiResult<VipBanner>> GetVipBanner(VipBannerReq vipBannerReq)
         {
             var apiResult = new ApiResult<VipBanner>() { ErrorCode = 0 };
             int siteId;
@@ -1582,7 +1582,7 @@ namespace MemberSite.Controllers.Api
                     perferCurr = vipBannerReq.CurrencyId;
                     siteId = serverInfo.SiteId;
                 }
-                apiResult.Data = _bannerBll.GetVipBanner(siteId, perferCurr);
+                apiResult.Data = await _bannerBll.GetVipBanner(siteId, perferCurr);
             }
             catch (Exception ex)
             {
@@ -1592,7 +1592,7 @@ namespace MemberSite.Controllers.Api
         }
         
         [HttpPost]
-        public ApiResult<VipBanner> GetVipBannerV2(VipBannerReq vipBannerReq)
+        public async Task<ApiResult<VipBanner>> GetVipBannerV2(VipBannerReq vipBannerReq)
         {
             var apiResult = new ApiResult<VipBanner>() { ErrorCode = 0 };
             try
@@ -1608,7 +1608,7 @@ namespace MemberSite.Controllers.Api
                     perferCurr = custInfo.CurrencyId;
                 }
                 
-                apiResult.Data = _bannerBll.GetVipBannerV2(siteId, perferCurr);
+                apiResult.Data = await _bannerBll.GetVipBannerV2(siteId, perferCurr);
             }
             catch (Exception ex)
             {
