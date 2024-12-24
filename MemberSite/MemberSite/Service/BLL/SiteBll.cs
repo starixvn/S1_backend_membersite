@@ -558,7 +558,7 @@ public class SiteBll
                             _ = _cRMBll.Send(para);
                         });
 
-                        var userLoginResult = _custInfoBll.UserLogin(false, 0, signupModel.UserName, signupModel.Userpwd,
+                        var userLoginResult = _custInfoBll.UserLogin(false, false, 0, signupModel.UserName, signupModel.Userpwd,
                             _tools.GetClientIP(), fromUrl, userAgent, deviceType, ref customer, out var token);
 
                         switch (userLoginResult)

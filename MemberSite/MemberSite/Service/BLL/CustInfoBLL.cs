@@ -190,13 +190,18 @@ namespace MemberSite.Service.BLL
                 new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromMinutes(1)),
                 i => _custInfoService.GetCustInfoByUserName(userName, serverInfo.SiteId));
         }
-        public int UserLogin(bool isLineLogin, int custId, string userName, string pwd, string ip, string fromUrl, string userAgent, int deviceType, ref Customer customer, out string token)
+        public int UserLogin(bool isLineLogin, bool isSabaTokenLogin, int custId, string userName, string pwd, string ip, string fromUrl, string userAgent, int deviceType, ref Customer customer, out string token)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
             token = null;
             if (isLineLogin)
             {
                 customer = _custInfoService.GetCustInfo(custId);
+                if (customer == null) return -1;
+            }
+            else if (isSabaTokenLogin)
+            {
+                customer = _custInfoService.GetCustInfoByUserName(userName, serverInfo.SiteId);
                 if (customer == null) return -1;
             }
             else

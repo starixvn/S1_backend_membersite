@@ -235,7 +235,7 @@ namespace MemberSite.Controllers.Api
             var ip = _tools.GetClientIP();
             var fromUrl = _tools.GetFromUrl();
             var deviceType = (int)_tools.GetDeviceId(fromUrl);
-            var userLoginResult = _custInfoBll.UserLogin(true, custId, null, null, ip, fromUrl,
+            var userLoginResult = _custInfoBll.UserLogin(true, false, custId, null, null, ip, fromUrl,
                 Request.Headers["User-Agent"], deviceType, ref customer, out var token);
 
             switch (userLoginResult)
