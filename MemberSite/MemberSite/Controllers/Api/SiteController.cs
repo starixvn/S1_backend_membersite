@@ -113,7 +113,7 @@ namespace MemberSite.Controllers.Api
             var ip = _tools.GetClientIP();
             var fromUrl = _tools.GetFromUrl();
             var deviceType = (int)_tools.GetDeviceId(fromUrl);
-            var userLoginResult = _custInfoBll.UserLogin(false, 0, loginModel.UserName, loginModel.Userpwd, ip, fromUrl,
+            var userLoginResult = _custInfoBll.UserLogin(false, false, 0, loginModel.UserName, loginModel.Userpwd, ip, fromUrl,
                 Request.Headers["User-Agent"], deviceType, ref customer, out var token);
 
             await AfterLogin(userLoginResult, loginModel, ip, customer, token, apiResult);
@@ -138,7 +138,7 @@ namespace MemberSite.Controllers.Api
             var ip = _tools.GetClientIP();
             var fromUrl = _tools.GetFromUrl();
             var deviceType = (int)_tools.GetDeviceId(fromUrl);
-            var userLoginResult = _custInfoBll.UserLogin(false, 0, loginModel.UserName, loginModel.Userpwd, ip, fromUrl,
+            var userLoginResult = _custInfoBll.UserLogin(false, false, 0, loginModel.UserName, loginModel.Userpwd, ip, fromUrl,
                 Request.Headers["User-Agent"], deviceType, ref customer, out var token);
 
             switch (userLoginResult)
@@ -231,7 +231,7 @@ namespace MemberSite.Controllers.Api
             var ip = _tools.GetClientIP();
             var fromUrl = _tools.GetFromUrl();
             var deviceType = (int)_tools.GetDeviceId(fromUrl);
-            var userLoginResult = _custInfoBll.UserLogin(false, 0, loginModel.UserName, loginModel.Userpwd, ip, fromUrl,
+            var userLoginResult = _custInfoBll.UserLogin(false, false, 0, loginModel.UserName, loginModel.Userpwd, ip, fromUrl,
                 Request.Headers["User-Agent"], deviceType, ref customer, out var token);
 
             await AfterLogin(userLoginResult, loginModel, ip, customer, token, apiResult);
@@ -1655,7 +1655,7 @@ namespace MemberSite.Controllers.Api
             var ip = _tools.GetClientIP();
             var fromUrl = _tools.GetFromUrl();
             var deviceType = (int)_tools.GetDeviceId(fromUrl);
-            var userLoginResult = _custInfoBll.UserLogin(false, 0, loginModel.UserName, loginModel.Userpwd, ip, fromUrl,
+            var userLoginResult = _custInfoBll.UserLogin(false, false, 0, loginModel.UserName, loginModel.Userpwd, ip, fromUrl,
                 Request.Headers["User-Agent"], deviceType, ref customer, out var token);
 
             await AfterLogin(userLoginResult, loginModel, ip, customer, token, apiResult);
@@ -1685,7 +1685,7 @@ namespace MemberSite.Controllers.Api
             var deviceType = (int)_tools.GetDeviceId(fromUrl);
             
             // use token to login, so password set empty string
-            _custInfoBll.UserLogin(false, 0, request.UserName, string.Empty, ip, fromUrl,
+            _custInfoBll.UserLogin(false, true, 0, request.UserName, string.Empty, ip, fromUrl,
                 Request.Headers["User-Agent"], deviceType, ref customer, out var token);
 
             if (customer == null)
