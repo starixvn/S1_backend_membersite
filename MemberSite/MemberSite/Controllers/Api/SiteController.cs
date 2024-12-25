@@ -1639,9 +1639,9 @@ namespace MemberSite.Controllers.Api
         }
         
         [HttpPost]
-        public async Task<ApiResult<string>> AppLogin(LoginModel loginModel)
+        public async Task<ApiResult<AppLoginData>> AppLogin(LoginModel loginModel)
         {
-            var apiResult = new ApiResult<string>(_selLangBll);
+            var apiResult = new ApiResult<AppLoginData>(_selLangBll);
 
             if (!_stringVaildHelper.VaildUserName(loginModel.UserName))
             {
@@ -1661,15 +1661,21 @@ namespace MemberSite.Controllers.Api
             await AfterLogin(userLoginResult, loginModel, ip, customer, token, apiResult);
             // member site login process end
 
-            if (userLoginResult == 0)
-            {
-                // if login success, change the api result from third party api instead of login result
-                var tokenResult = await _thirdPartyBll.GetToken(customer);
-                apiResult.ErrorCode = tokenResult.ErrorCode;
-                apiResult.Message = tokenResult.Message;
-                apiResult.Data = tokenResult.Data;
-            } 
+            if (userLoginResult != 0) return apiResult;
             
+            // if login success, change the api result from third party api instead of login result
+            var tokenResult = await _thirdPartyBll.GetToken(customer);
+            apiResult.ErrorCode = tokenResult.ErrorCode;
+            apiResult.Message = tokenResult.Message;
+            if (tokenResult.ErrorCode == 0)
+            {
+                apiResult.Data = new AppLoginData
+                {
+                    UserName = customer.UserName,
+                    Token = tokenResult.Data
+                };
+            }
+
             return apiResult;
         }
         
