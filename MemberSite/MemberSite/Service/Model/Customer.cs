@@ -1,5 +1,4 @@
 ﻿using System.Text.Json.Serialization;
-
 using MemberSite.Extensions;
 using MemberSite.Service.Model.enums;
 
@@ -153,6 +152,11 @@ namespace MemberSite.Service.Model
         public int SourceOfIncome { get; set; }
         public string FinanceNotification { get; set; }
         public string SoundEffects { get; set; }
+
+        public bool EmailMatch(string checkEmail)
+        {
+            return Email.Equals(checkEmail, StringComparison.OrdinalIgnoreCase);
+        }
     }
     public class CustRollOver
     {

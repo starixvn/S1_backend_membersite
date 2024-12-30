@@ -668,6 +668,13 @@ namespace MemberSite.Controllers.Api
                 {
                     var custInfoProfile = _custInfoBll.GetCustInfoProfile(custInfo.CustId);
 
+                    if (!custInfoProfile.EmailMatch(forgetPwdReq.Email))
+                    {
+                        apiResult.ErrorCode = -1;
+                        apiResult.Message = _selLangBll.GetMsg("msg_WrongEmailAndUserName");
+                        return apiResult;
+                    }
+
                     var pattern = @"(?<=[\w]{1})[\w-\._\+%]*(?=[\w]{1}@)";
                     var result = Regex.Replace(custInfoProfile.Email, pattern, m => new string('*', m.Length));
 
@@ -676,7 +683,7 @@ namespace MemberSite.Controllers.Api
                     {
                         if (!string.IsNullOrEmpty(forgetPwdReq.Username))
                         {
-                            apiResult.Message = $"Has send to {result}.";//selLangBLL.GetMsg("ForgetPwdSuccess");
+                            apiResult.Message = $"Has send to {result}."; //selLangBLL.GetMsg("ForgetPwdSuccess");
                         }
                         else
                         {
