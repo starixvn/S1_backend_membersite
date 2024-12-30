@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.Immutable;
-
-using MemberSite.Exceptions;
+﻿using MemberSite.Exceptions;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
@@ -16,6 +13,7 @@ namespace MemberSite.Service.BLL
         private readonly List<IPCountry> _IPCountryList;
         private readonly ICacheHelper _cacheHelper;
         public readonly List<CountryCode> CountryList;
+        private readonly IpHelper _ipHelper;
 
         public CheckIpBLL(IServiceProvider provider)
         {
@@ -29,6 +27,7 @@ namespace MemberSite.Service.BLL
                 .Where(i => !string.IsNullOrWhiteSpace(i.Country))
                 .DistinctBy(p => p.Country)
                 .OrderBy(i => i.Country).ToList();
+            _ipHelper = provider.GetRequiredService<IpHelper>();
         }
 
         public async Task<IpCountryWithAccess> CheckIp(string clientIp)
@@ -38,14 +37,14 @@ namespace MemberSite.Service.BLL
                 var uip = _tools.GetIpToLong(clientIp);
                 var ipCountry = _IPCountryList.Find(x => x.IpFrom < uip && x.IpTo > uip);
 
-                // ip異常找不到國家回傳block
+                // IP exception cannot find country, return block
                 if (ipCountry == null)
                 {
                     return new IpCountryWithAccess(clientIp, "not found in IPCountryList");
                 }
 
-                // 1.檢查白名單
-                if (await _cacheHelper.KeyExistsAsync($"AllowedIp:{clientIp}", RedisDataBase.IP))
+                // 1. Check the whitelist
+                if (await _cacheHelper.KeyExistsAsync($"AllowedIp:{clientIp}", RedisDataBase.IP) || _ipHelper.IpInRange(clientIp))
                 {
                     return new IpCountryWithAccess(clientIp, "in allow ip list.")
                     {
@@ -54,7 +53,7 @@ namespace MemberSite.Service.BLL
                     };
                 }
 
-                // 2.檢查黑名單
+                // 2. Check the blacklist
                 if (await CheckBlockIp(clientIp))
                 {
                     return new IpCountryWithAccess(clientIp, "in block ip list.")
@@ -64,7 +63,7 @@ namespace MemberSite.Service.BLL
                     };
                 }
 
-                // 3.檢查黑名單國家
+                // 3. Check blacklist countries
                 if (string.IsNullOrWhiteSpace(ipCountry.Code) || _forbiddenCountries.TryGetValue(ipCountry.Code.Trim(), out _))
                 {
                     return new IpCountryWithAccess(clientIp, $"CountryCode: [{ipCountry.Code}] is in block country list or can't recognize country code.")
@@ -90,7 +89,7 @@ namespace MemberSite.Service.BLL
                 _logger.LogError(e, e.Message);
                 return new IpCountryWithAccess(clientIp, e.Message)
                 {
-                    //發生其他例外不阻擋，避免前台無法進入
+                    //Do not block if other exceptions occur, avoid being inaccessible at the front desk
                     Forbidden = false
                 };
             }
