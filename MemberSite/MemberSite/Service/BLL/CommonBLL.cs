@@ -70,7 +70,7 @@ namespace MemberSite.Service.BLL
             var key = $"SendOTPSMS:{time:yyyyMMdd}:{custId}";
             var cnt = _redisHelper.TryGetOrCreate(key, TimeSpan.FromDays(1), () => 0, RedisDataBase.Shared);
 
-            if (cnt >= 5 && custId != 651538)
+            if (cnt >= 5)
             {
                 return new ApiResult<SendOTPSMSResult>(-1, _selLangBLL.GetMsg("msg_OTPDailyLimit"), null);
             }
@@ -90,8 +90,8 @@ namespace MemberSite.Service.BLL
 
             return apiResult;
         }
-        
-        public async Task<ApiResult<SendOTPSMSResult>> SendSignUpOTPSMSAsync(int siteId , int currencyId, string userLang , string areaCode, string phoneNo)
+
+        public async Task<ApiResult<SendOTPSMSResult>> SendSignUpOTPSMSAsync(int siteId, int currencyId, string userLang, string areaCode, string phoneNo)
         {
             var time = await _dateTimeHelper.ToCurrencyZone(DateTime.UtcNow, currencyId);
             var key = $"SendSignUpOTPSMS:{time:yyyyMMdd}:{areaCode}:{phoneNo}";
@@ -121,7 +121,7 @@ namespace MemberSite.Service.BLL
 
             return apiResult;
         }
-        
+
         public async Task<ApiResult> VerifyOTPAsync(int custId, string inputOTP)
         {
             var apiUrl = $"{_commonServiceUrl}OTPSMS/VerifyOTP";
@@ -135,7 +135,7 @@ namespace MemberSite.Service.BLL
             ApiResult apiResult = await _courierAdapter.MyPostAsync<bool, dynamic>(apiUrl, req);
             return apiResult;
         }
-        
+
         public async Task<ApiResult> SignUpVerifyOTPAsync(string areaPhoneNo, string inputOTP)
         {
             var apiUrl = $"{_commonServiceUrl}OTPSMS/SignUpVerifyOTP";
@@ -149,7 +149,7 @@ namespace MemberSite.Service.BLL
             ApiResult apiResult = await _courierAdapter.MyPostAsync<bool, dynamic>(apiUrl, req);
             return apiResult;
         }
-        
+
         public async Task<ApiResult<SendOTPSMSResult>> GetOTPVerifyInfo(int custId)
         {
             var apiUrl = $"{_commonServiceUrl}OTPSMS/GetOTPVerifyInfo";
@@ -190,10 +190,10 @@ namespace MemberSite.Service.BLL
             ApiResult apiResult = await _courierAdapter.MyPostAsync<bool, dynamic>(apiUrl, req);
             return apiResult;
         }
-        public bool SetOTPLogCustInfo(int siteId,int custId,int currencyId,string userName,string otpNum)
+        public bool SetOTPLogCustInfo(int siteId, int custId, int currencyId, string userName, string otpNum)
         {
             var result = _commonService.SetOTPLogCustInfo(siteId, custId, currencyId, userName, otpNum);
-            
+
             return result;
         }
     }
