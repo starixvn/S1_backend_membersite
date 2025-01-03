@@ -52,6 +52,7 @@ namespace MemberSite.Service.BLL
             if (checkCount >= limitCount)
             {
                 _ = await _cacheHelper.StringFireAndForgetSetAsync($"block:{clientIp}", string.Empty, TimeSpan.FromMinutes(15));
+                _logger.LogWarning($"CheckAttackIp, {Request.Path}:IP:{clientIp}, count: {checkCount}");
                 return true;
             }
 

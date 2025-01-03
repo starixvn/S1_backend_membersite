@@ -1,3 +1,4 @@
+using MemberSite.Attributes;
 using MemberSite.Service.BLL;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
@@ -95,7 +96,7 @@ namespace MemberSite.Controllers.Api
         }
 
         [HttpPost]
-        //[TypeFilter(typeof(PublicAuthAttribute))]
+        [TypeFilter(typeof(PublicAuthAttribute))]
         public async Task<ApiResult> SignIn(LoginModel loginModel)
         {
             var apiResult = new ApiResult(_selLangBll);
