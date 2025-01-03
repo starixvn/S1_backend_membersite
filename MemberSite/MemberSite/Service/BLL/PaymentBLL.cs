@@ -7,7 +7,6 @@ using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System.Net;
 using System.Text.RegularExpressions;
 
 namespace MemberSite.Service.BLL
@@ -587,7 +586,7 @@ namespace MemberSite.Service.BLL
                 RefTransId,
             };
             var data = _partitionService.MonthlyQuery<Statement>(startDate, endDate, "Service_FinancialLog_Get", parameters);
-            var list = data.OrderByDescending(i => i.CreateTime).ThenByDescending(x => x.Id).ToList();
+            var list = data.OrderByDescending(i => i.CreateTime).ThenByDescending(x => x.TransId).ToList();
 
             // Add Cache by List      
             _ = Task.Run(() =>
@@ -896,7 +895,7 @@ namespace MemberSite.Service.BLL
             //         return WithdrawalInfoAutoWayEnum.Manual;
             //     }
             // }
-            
+
             var check = CheckAutoPaymentRuleSetting(setting, custInfo.TagList, custInfo.UserLevel, withdrawalAmount, withdrawalSuccessCount);
             return check;
         }
