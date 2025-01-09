@@ -1,5 +1,4 @@
-﻿using Google.Protobuf.WellKnownTypes;
-using MemberSite.Service.BLL.Interface;
+﻿using MemberSite.Service.BLL.Interface;
 using MemberSite.Service.DAL;
 using MemberSite.Service.DAL.Interface;
 using MemberSite.Service.Domain;
@@ -82,11 +81,11 @@ namespace MemberSite.Service.BLL
 
         public int AddCustInfo(string UserName, string Userpwd, string Email, int CurrencyId, string UserLang,
             string refId, string affId, string aff, AffCodeObject affCode, string lineUserId, int deviceType, Customer agent, out int custId, string signupUrl = null,
-            string referralUrl = null, string PhoneNo = null, string AreaCode = null,string nationality = null, string RealName = null, string promoCode = null,
+            string referralUrl = null, string PhoneNo = null, string AreaCode = null, string nationality = null, string RealName = null, string promoCode = null,
             int Birth_d = 0, int Birth_m = 0, int Birth_y = 0, string signupIp = null, string accountNo = null, string iFSCCode = null, int sysId = 0)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
-            
+
             var regCustInfo = new Customer
             {
                 UserName = UserName,
@@ -102,11 +101,11 @@ namespace MemberSite.Service.BLL
                 Aff = aff,
                 AffCode = affCode?.Value
             };
-            
+
             var result = _custInfoService.AddCustInfo(regCustInfo, Email, lineUserId, deviceType, out custId, signupUrl, referralUrl, PhoneNo, AreaCode,
-                RealName, promoCode, Birth_d, Birth_m, Birth_y, nationality,signupIp, accountNo, iFSCCode, sysId);
+                RealName, promoCode, Birth_d, Birth_m, Birth_y, nationality, signupIp, accountNo, iFSCCode, sysId);
             regCustInfo.CustId = custId;
-            
+
             if (result == 0 && regCustInfo.SiteId is 2 or 3) // goal and bwing
             {
                 _ = Task.Run(() =>
@@ -132,7 +131,7 @@ namespace MemberSite.Service.BLL
             //#endregion
             return result != 0 ? result : 0;
         }
-        
+
         private string GetAllAgentByUserId(Customer agent)
         {
             if (agent.AgentId == 0 || agent.AllAgentId == null)
@@ -385,12 +384,12 @@ namespace MemberSite.Service.BLL
 
             return custBankInfo;
         }
-        
+
         public IEnumerable<BankInfoDetail> GetCustBankDetail(int custId)
         {
             return _custInfoService.GetCustBankDetail(custId);
         }
-        
+
         public string GetDefAccountNo(int custId)
         {
             var custInfo = GetCustInfoWithCache(custId);
@@ -463,13 +462,10 @@ namespace MemberSite.Service.BLL
                 () => _custInfoService.GetCustInfoProfileByUserName(siteId, userName, null));
         }
 
-        public int SubmittedCustPhotoId(int custId)
+        public int GetCustPhotoId(int custId)
         {
             var custInfo = GetCustInfoWithCache(custId);
-            return _redisHelper.TryGetOrCreate(
-                $"SubmittedCustPhotoId:{custId}",
-                TimeSpan.FromSeconds(20),
-                () => _custInfoService.SubmittedCustPhotoId(custId, custInfo.SiteId, custInfo.CurrencyId));
+            return _custInfoService.GetCustPhotoId(custId, custInfo.SiteId, custInfo.CurrencyId);
         }
 
         public int GetCustPhotoIdToKYC(int custId)
@@ -532,10 +528,10 @@ namespace MemberSite.Service.BLL
         public async Task<ApiResult> SignUpVerifyOTPAsync(string areaPhoneNo, string inputOTP)
         {
             var apiResult = await _commonBll.SignUpVerifyOTPAsync(areaPhoneNo, inputOTP);
-            
+
             return apiResult;
         }
-        
+
         public string GetAffiliateId(int custId)
         {
             var custInfo = GetCustInfoWithCache(custId);
@@ -852,13 +848,13 @@ namespace MemberSite.Service.BLL
 
         //只給Ivorysport使用
         public int IvorysportAddCustInfo(string UserName, string Userpwd, string Email, int CurrencyId, string UserLang,
-            string refId, string affId, string aff, AffCodeObject affCode, string lineUserId, int deviceType, IFormFile photoId, Customer agent, 
+            string refId, string affId, string aff, AffCodeObject affCode, string lineUserId, int deviceType, IFormFile photoId, Customer agent,
             out int custId, string signupUrl = null, string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null,
             int Birth_d = 0, int Birth_m = 0, int Birth_y = 0, string signupIp = null, string nationality = null, int cccupation = 0, int sourceOfIncome = 0, string country = null,
             string city = null, string postCode = null, string lineFirst = null)
         {
             var serverInfo = _serverInfoBll.GetServerInfo();
-            
+
             var regCustInfo = new Customer
             {
                 UserName = UserName,
@@ -914,7 +910,7 @@ namespace MemberSite.Service.BLL
 
             return result != 0 ? result : 0;
         }
-        
+
         public async Task<IEnumerable<CustRealNameChangeLog>> GetCustRealNameChangeLogAsync(int custId)
         {
             return await _custInfoService.GetCustRealNameChangeLogAsync(custId);

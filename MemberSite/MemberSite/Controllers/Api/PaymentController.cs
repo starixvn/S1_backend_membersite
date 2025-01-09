@@ -8,7 +8,6 @@ using MemberSite.Service.Model.enums;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using static MemberSite.Extensions.MethodExtension;
 
 namespace MemberSite.Controllers.Api
@@ -1019,7 +1018,7 @@ namespace MemberSite.Controllers.Api
                 result.Message = _selLangBll.GetMsg("msg_ForceLogedout");
                 return result;
             }
-            result.ErrorCode = _custInfoBll.SubmittedCustPhotoId(authData.CustId);
+            result.ErrorCode = _custInfoBll.GetCustPhotoId(authData.CustId);
 
             return result;
         }
@@ -1467,7 +1466,7 @@ namespace MemberSite.Controllers.Api
             apiResult.ErrorCode = 0;
             return apiResult;
         }
-        
+
         [HttpPost]
         public ApiResult<IEnumerable<OnlineBankChannel>> GetAutoDepositGroupList()
         {
@@ -1482,7 +1481,7 @@ namespace MemberSite.Controllers.Api
 
             apiResult.Data = result;
             apiResult.ErrorCode = 0;
-            
+
             return apiResult;
         }
 
@@ -1793,12 +1792,12 @@ namespace MemberSite.Controllers.Api
                 ErrorCode = 0
             };
         }
-        
+
         public class GetCustBankInfoReq
         {
             public int ChannelId { set; get; }
         }
-        
+
         [HttpPost]
         public ApiResult<IEnumerable<BankInfoDetailRep>> GetCustBankInfo(GetCustBankInfoReq req)
         {
@@ -1809,10 +1808,10 @@ namespace MemberSite.Controllers.Api
                 apiResult.Message = _selLangBll.GetMsg("msg_ForceLogedout");
                 return apiResult;
             }
-            
+
             var custInfo = _custInfoBll.GetCustInfoWithCache(authData.CustId);
             var bankInfoSysList = _bankInfoBll.GetBankInfoSysListByCurrency(custInfo.CurrencyId, authData.LangId).ToList();
-            
+
             var channels = _payInfoBll.GetPayChannelWithCache();
             var channel = channels.FirstOrDefault(x => x.ChannelId == req.ChannelId);
 
@@ -1829,20 +1828,20 @@ namespace MemberSite.Controllers.Api
                 {
                     if (x.Status == GeneralStatusEnum.Disable)
                         return;
-                    
+
                     if (!payBankList.Any(p => !p.SelBank || p.SysId == x.SysId))
                         x.Status = GeneralStatusEnum.Disable;
                 });
-          
+
             var custBankInfo = _custInfoBll.GetCustBankDetail(authData.CustId);
             var result = new List<BankInfoDetailRep>();
-            
+
             if (custBankInfo.Any())
             {
                 var enableBanks = bankInfoSysList
                     .Where(x => x.Status == GeneralStatusEnum.Enable)
                     .Select(x => x.SysId);
-                
+
                 foreach (var bankInfo in custBankInfo)
                 {
                     var sysInfo = bankInfoSysList.FirstOrDefault(x => x.SysId == bankInfo.SysId);

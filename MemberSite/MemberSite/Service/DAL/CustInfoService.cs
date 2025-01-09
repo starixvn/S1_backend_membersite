@@ -1,13 +1,10 @@
-﻿using System.Data;
-using Dapper;
-
+﻿using Dapper;
 using MemberSite.Service.Library;
 using MemberSite.Service.Model;
 using MemberSite.Service.Model.enums;
 using MemberSite.Service.Model.Line;
-
 using Newtonsoft.Json;
-
+using System.Data;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace MemberSite.Service.DAL
@@ -52,7 +49,7 @@ namespace MemberSite.Service.DAL
             return _reportDbClient.QueryFirst<CustInfoProfile>("Service_CustProfileByUserName_Get_V2", new { _SiteId = siteId, _UserName = userName, _CustId = custId });
         }
 
-        public int AddCustInfo(Customer customer, string Email, string lineUserId, int deviceType, out int custId, string signupUrl = null, string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null, int Birth_d = 0, int Birth_m = 0, int Birth_y = 0,string nationality = null ,string signupIp = null, string accountNo = null, string iFSCCode = null, int sysId = 0)
+        public int AddCustInfo(Customer customer, string Email, string lineUserId, int deviceType, out int custId, string signupUrl = null, string referralUrl = null, string PhoneNo = null, string AreaCode = null, string RealName = null, string promoCode = null, int Birth_d = 0, int Birth_m = 0, int Birth_y = 0, string nationality = null, string signupIp = null, string accountNo = null, string iFSCCode = null, int sysId = 0)
         {
             using var conn = _mainDbClient.GetMySqlConnection();
             conn.Open();
@@ -190,7 +187,7 @@ namespace MemberSite.Service.DAL
                     }
                 }
                 //tuk55電話註冊 要填寫銀行卡號資訊
-                if(result > 0 && !string.IsNullOrEmpty(accountNo) && sysId != 0)
+                if (result > 0 && !string.IsNullOrEmpty(accountNo) && sysId != 0)
                 {
                     var (bankDetailResult, bankLogResult, custBankInfoResult) = SetCustBank(custId, customer.SiteId, RealName, sysId, accountNo, iFSCCode, CustBankInfoLogStatus.Create, trans);
                     result = bankDetailResult && bankLogResult && custBankInfoResult ? 1 : 0;
@@ -466,7 +463,7 @@ namespace MemberSite.Service.DAL
             conn.Open();
             using var trans = conn.BeginTransaction();
 
-            var(bankDetailResult, bankLogResult, custBankInfoResult) = SetCustBank(custId, siteId, accountName, sysId, accountNum, iFSCCode, status, trans);
+            var (bankDetailResult, bankLogResult, custBankInfoResult) = SetCustBank(custId, siteId, accountName, sysId, accountNum, iFSCCode, status, trans);
             if (bankDetailResult & bankLogResult & custBankInfoResult)
             {
                 trans.Commit();
@@ -571,7 +568,7 @@ namespace MemberSite.Service.DAL
             return _reportDbClient.QueryFirst<CustInfoProfile>("Member_CustProfile_Get_V5", new { CustId = custId });
         }
 
-        public int SubmittedCustPhotoId(int custId, int siteId, int currencyId)
+        public int GetCustPhotoId(int custId, int siteId, int currencyId)
         {
             return _reportDbClient.ExecuteScalar<int>("Member_SubmittedCustPhotoId_GetV2", new { CustId = custId, SiteId = siteId, CurrencyId = currencyId });
         }
@@ -1092,7 +1089,7 @@ namespace MemberSite.Service.DAL
                 throw;
             }
         }
-        
+
         public async Task<IEnumerable<CustRealNameChangeLog>> GetCustRealNameChangeLogAsync(int custId)
         {
             var p = new DynamicParameters(new { CustId = custId });
