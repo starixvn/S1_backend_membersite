@@ -82,6 +82,11 @@ namespace MemberSite.Service.Library
 
         private int MainBannerGetTpCategoryId(BannerV3 banner, List<TpGameTypeOption> typeList)
         {
+            if (banner.CategoryId > -1)
+            {
+                return banner.CategoryId;
+            }
+
             //Get by UrlRouter
             if (banner.UrlRouter?.IndexOf("sports") > -1)
             {

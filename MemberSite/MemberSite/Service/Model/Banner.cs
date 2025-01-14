@@ -79,6 +79,7 @@
         public string BackgroundPic { get; set; }
         public int tpGameType { get; set; }
         public bool IsExclusionGame { get; set; }
+        public int CategoryId { get; set; }
     }
     public class RebateCategory
     {
